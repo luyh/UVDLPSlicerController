@@ -542,7 +542,7 @@ namespace UV_DLP_3D_Printer
 
         private void DisplayFunc() 
         {
-      
+            
           /* Clear the buffer, clear the matrix */
           GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
           GL.LoadIdentity();
@@ -555,7 +555,8 @@ namespace UV_DLP_3D_Printer
           DrawISect();
           GL.Flush();
            // glControl1.
-          glControl1.SwapBuffers();                                    
+          glControl1.SwapBuffers();
+          glControl1.Invalidate();
         }
 
         
