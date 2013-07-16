@@ -252,6 +252,10 @@ namespace Engine3D
 
         public void RenderGL(bool wireframe) 
         {
+            // clip test before rendering 
+            // use center point and radius to determine visibility (3d test)
+            // 
+            // test dot product of the transformed normal
             if (wireframe)
             {
 
