@@ -97,6 +97,7 @@
             this.Name = "frmSlice";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Slice!";
+            this.Activated += new System.EventHandler(this.frmSlice_Activated);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmSlice_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();

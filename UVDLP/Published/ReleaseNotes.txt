@@ -10,6 +10,7 @@
 	Added Coordinated Tilt / Slide support	
 	Added support for multiple slicing/building profiles
 	Changed mouse view controls for more control (pan,zoom,rotate)
+	Added Machine and profile names to slice display & Main display
 
 
 04/16/2013 Alpha 09 Release

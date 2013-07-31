@@ -176,10 +176,44 @@ namespace UV_DLP_3D_Printer
                 g.DrawLine(pen, pnt1, pnt2);       
             }
         }
+        public static Bitmap ResizeImage(Bitmap imgToResize, Size size)
+        {
+            try
+            {
+                Bitmap b = new Bitmap(size.Width, size.Height);
+                using (Graphics g = Graphics.FromImage((Image)b))
+                {
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    g.DrawImage(imgToResize, 0, 0, size.Width, size.Height);
+                }
+                return b;
+            }
+            catch { return null; }
+        }
         public Bitmap RenderSlice(SliceBuildConfig sp) 
         {
             // create a new bitmap that will be used to draw into
+            //Bitmap bmp = new Bitmap(sp.xres, sp.yres);
+
+            double scaler = 1.5; // specofy the scale factor
+            double sdpmmx = sp.dpmmX; // save the original dots per mm
+            double sdpmmy = sp.dpmmY;
+
+            sp.dpmmX *= scaler;//  scaler them up.
+            sp.dpmmY *= scaler;
+
+            //Re-sample to a higher resolution so we can smooth later
+            int ox, oy;
+            ox = sp.xres; // save the original resolution
+            oy = sp.yres;
+            double xs, ys;
+            xs = ((double)sp.xres) * scaler;  // scale them up
+            ys = ((double)sp.yres) * scaler;
+            sp.xres = (int) xs;
+            sp.yres = (int) ys;
             Bitmap bmp = new Bitmap(sp.xres, sp.yres);
+            //Bitmap bmp = new Bitmap((int)xs,(int)ys);
+
             Graphics graph = Graphics.FromImage(bmp);
             Point pnt1 = new Point(); // create some points for drawing
             Point pnt2 = new Point();
@@ -225,10 +259,17 @@ namespace UV_DLP_3D_Printer
                 }
                 else  // flag error
                 {
-                    DebugLogger.Instance().LogRecord("Row y=" + y + " odd # of points = " + points.Count);
+                    DebugLogger.Instance().LogRecord("Row y=" + y + " odd # of points = " + points.Count+ " - Model may have holes");
                 }
-            }             
-            return bmp;
+            }
+            //Rescale the image to re-sample it from a higher res to soften the lines with bicubic interpolation.
+            sp.dpmmX  = sdpmmx;
+            sp.dpmmY =  sdpmmy;
+            sp.xres = ox;
+            sp.yres = oy;
+            return ResizeImage(bmp, new Size(ox, oy));
+
+            //return bmp;
         }
         private void SortXIncreasing(ArrayList points) 
         {

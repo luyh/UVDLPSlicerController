@@ -468,6 +468,7 @@ namespace UV_DLP_3D_Printer
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            SetTitle();
             Invalidate();
             Refresh();
         }
@@ -609,7 +610,12 @@ namespace UV_DLP_3D_Printer
             }
             DisplayFunc();
         }
-
+        private void SetTitle() 
+        {
+            this.Text = "Creation Workshop - UV DLP 3D Printer Control and Slicing" + "  ( Slice Profile : ";
+            this.Text += Path.GetFileNameWithoutExtension(UVDLPApp.Instance().m_buildparms.m_filename);
+            this.Text += ", Machine : " + Path.GetFileNameWithoutExtension(UVDLPApp.Instance().m_printerinfo.m_filename) + ")";
+        }
         private void glControl1_MouseDown(object sender, MouseEventArgs e)
         {
             mdx = e.X;
@@ -1376,7 +1382,7 @@ namespace UV_DLP_3D_Printer
             UVDLPApp.Instance().Engine3D.AddPlatCube();
             DisplayFunc();
             PopulateMachinesMenu();
-            
+            SetTitle();
         }
 
         // one of the populated slice/build profiles was clicked
@@ -1570,6 +1576,7 @@ namespace UV_DLP_3D_Printer
             DisplayFunc();
             Invalidate();
             PopulateBuildProfilesMenu();
+            SetTitle();
         }
 
         private void connectionToolStripMenuItem1_Click(object sender, EventArgs e)

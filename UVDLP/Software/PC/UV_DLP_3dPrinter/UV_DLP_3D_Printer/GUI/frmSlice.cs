@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace UV_DLP_3D_Printer.GUI
 {
@@ -16,6 +17,7 @@ namespace UV_DLP_3D_Printer.GUI
             InitializeComponent();
             //UVDLPApp.Instance().m_slicer.Sliced +=new Slicer.LayerSliced(LayerSliced);
             UVDLPApp.Instance().m_slicer.Slice_Event += new Slicer.SliceEvent(SliceEv);
+            SetTitle();
         }
 
         private void SliceEv(Slicer.eSliceEvent ev, int layer, int totallayers)
@@ -52,6 +54,12 @@ namespace UV_DLP_3D_Printer.GUI
             }
         }
 
+        private void SetTitle()
+        {
+            this.Text = "Slice! " + "  ( Slice Profile : ";
+            this.Text += Path.GetFileNameWithoutExtension(UVDLPApp.Instance().m_buildparms.m_filename);
+            this.Text += ", Machine : " + Path.GetFileNameWithoutExtension(UVDLPApp.Instance().m_printerinfo.m_filename) + ")";
+        }
         private void cmdSliceOptions_Click(object sender, EventArgs e)
         {
             //frmSliceOptions m_frmsliceopt = new frmSliceOptions();
@@ -94,6 +102,11 @@ namespace UV_DLP_3D_Printer.GUI
         {
             frmFlexSliceOptions fso = new frmFlexSliceOptions();
             fso.Show();
+        }
+
+        private void frmSlice_Activated(object sender, EventArgs e)
+        {
+            SetTitle();
         }
 
 
