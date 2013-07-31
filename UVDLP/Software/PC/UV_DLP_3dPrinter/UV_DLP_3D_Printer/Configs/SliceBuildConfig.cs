@@ -13,6 +13,7 @@ namespace UV_DLP_3D_Printer
     public class SliceBuildConfig
     {
         public static int FILE_VERSION = 1;
+        public string m_filename; // for housekeeping
         public enum eBuildDirection 
         {
             Top_Down,
@@ -26,18 +27,21 @@ namespace UV_DLP_3D_Printer
         public int firstlayertime_ms; // first layer exposure time 
         public int numfirstlayers;
         public int blanktime_ms; // blanking time between layers
-        public int raise_time_ms; // time delay for the z axis to raise on a per-layer basis
+       // public int raise_time_ms; // time delay for the z axis to raise on a per-layer basis
         public int plat_temp; // desired platform temperature in celsius 
         public bool exportgcode; // export the gcode file when slicing
         public bool exportsvg; // export the svg slices when building
         public bool exportimages; // export image slices when building
         public eBuildDirection direction;
         public double liftdistance; // distance to lift and retract
+        public double slidetiltval; // a value used for slide / tilt 
 
         private String m_headercode; // inserted at beginning of file
         private String m_footercode; // inserted at end of file
         private String m_preliftcode; // inserted before each slice
         private String m_postliftcode; // inserted after each slice
+        private String m_preslicecode; // inserted before each slice
+
         public int XOffset, YOffset; // the X/Y pixel offset used 
 
         private String[] m_defheader = 
@@ -58,15 +62,23 @@ namespace UV_DLP_3D_Printer
             "(********** Footer End ********)\r\n", // 
         };
 
+        private String[] m_defprelift = 
+        {
+            "\r\n"
+        };
+
+        private String[] m_defpostlift = 
+        {
+            "\r\n"
+        };
+
         private String[] m_defpreslice = 
         {
             "\r\n"
         };
 
-        private String[] m_defpostslice = 
-        {
-            "\r\n"
-        };
+            
+
         private void SetDefaultCodes()
         {
             StringBuilder sb = new StringBuilder();
@@ -80,16 +92,21 @@ namespace UV_DLP_3D_Printer
             FooterCode = sb.ToString();
 
             sb = new StringBuilder();
-            foreach (String s in m_defpreslice)
+            foreach (String s in m_defprelift)
                 sb.Append(s);
             PreLiftCode = sb.ToString();
 
             sb = new StringBuilder();
-            foreach (String s in m_defpreslice)
+            foreach (String s in m_defpostlift)
                 sb.Append(s);
             PostLiftCode = sb.ToString();
-            
+
+            sb = new StringBuilder();
+            foreach (String s in m_defpreslice)
+                sb.Append(s);
+            PreSliceCode = sb.ToString();          
         }
+
         public String HeaderCode
         {
             get { return m_headercode; }
@@ -110,6 +127,12 @@ namespace UV_DLP_3D_Printer
         {
             get { return m_postliftcode; }
             set { m_postliftcode = value; }
+        }
+
+        public String PreSliceCode
+        {
+            get { return m_preslicecode; }
+            set { m_preslicecode = value; }
         }
 
         /*
@@ -133,12 +156,15 @@ namespace UV_DLP_3D_Printer
             m_footercode = source.m_footercode; // inserted at end of file
             m_preliftcode = source.m_preliftcode; // inserted between each slice            
             m_postliftcode = source.m_postliftcode; // inserted between each slice    
+            m_preslicecode = source.m_preslicecode; // inserted before each slice
+
             liftdistance = source.liftdistance;
             direction = source.direction;
             numfirstlayers = source.numfirstlayers;
             XOffset = source.XOffset;
             YOffset = source.YOffset;
-            raise_time_ms = source.raise_time_ms;
+            slidetiltval = source.slidetiltval;
+            //raise_time_ms = source.raise_time_ms;
         }
 
         public SliceBuildConfig() 
@@ -161,7 +187,7 @@ namespace UV_DLP_3D_Printer
             blanktime_ms = 2000; // 2 seconds blank
             xres = 1024;
             yres = 768;
-            ZThick = .025;
+            ZThick = .05;
             plat_temp = 75;
             dpmmX = 102.4;
             dpmmY = 76.8;
@@ -173,7 +199,8 @@ namespace UV_DLP_3D_Printer
             exportimages = false;
             direction = eBuildDirection.Bottom_Up;
             liftdistance = 5.0;
-            raise_time_ms = 750;
+            //raise_time_ms = 750;
+            slidetiltval = 0.0;
             SetDefaultCodes(); // set up default gcodes
         }
 
@@ -182,6 +209,7 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
+                m_filename = filename;
                 LoadGCodes();
                 XmlReader xr = (XmlReader)XmlReader.Create(filename);
                 xr.ReadStartElement("SliceBuildConfig");
@@ -207,7 +235,8 @@ namespace UV_DLP_3D_Printer
                 numfirstlayers = int.Parse(xr.ReadElementString("NumberofBottomLayers"));
                 direction = (eBuildDirection)Enum.Parse(typeof(eBuildDirection), xr.ReadElementString("Direction"));
                 liftdistance = double.Parse(xr.ReadElementString("LiftDistance"));
-                raise_time_ms = int.Parse(xr.ReadElementString("Raise_Time_Delay"));
+                slidetiltval = double.Parse(xr.ReadElementString("SlideTiltValue"));
+                //raise_time_ms = int.Parse(xr.ReadElementString("Raise_Time_Delay"));
                 xr.ReadEndElement();
                 xr.Close();
                 
@@ -223,6 +252,7 @@ namespace UV_DLP_3D_Printer
         {
             try 
             {
+                m_filename = filename;
                 XmlWriter xw =XmlWriter.Create(filename);
                 xw.WriteStartElement("SliceBuildConfig");
                 xw.WriteElementString("FileVersion",FILE_VERSION.ToString());
@@ -243,9 +273,12 @@ namespace UV_DLP_3D_Printer
                 xw.WriteElementString("NumberofBottomLayers", numfirstlayers.ToString());
                 xw.WriteElementString("Direction", direction.ToString());
                 xw.WriteElementString("LiftDistance", liftdistance.ToString());
-                xw.WriteElementString("Raise_Time_Delay",raise_time_ms.ToString());
+                xw.WriteElementString("SlideTiltValue", slidetiltval.ToString());                
+
+               // xw.WriteElementString("Raise_Time_Delay",raise_time_ms.ToString());
                 xw.WriteEndElement();
                 xw.Close();
+                SaveGCodes();
                 return true;
             }
             catch (Exception ex) 
@@ -271,10 +304,11 @@ namespace UV_DLP_3D_Printer
             sb.Append("(First Layer Time        = " + firstlayertime_ms + " ms )\r\n");
             sb.Append("(Number of Bottom Layers = " + numfirstlayers + " )\r\n");
             sb.Append("(Blanking Layer Time     = " + blanktime_ms + " ms )\r\n");
-            sb.Append("(Platform Temp           = " + plat_temp + " degrees celsius)\r\n");
+           // sb.Append("(Platform Temp           = " + plat_temp + " degrees celsius)\r\n");
             sb.Append("(Build Direction         = " + direction.ToString() + ")\r\n");
             sb.Append("(Lift Distance           = " + liftdistance.ToString() + " mm )\r\n");
-            sb.Append("(Raise Time Delay        = " + raise_time_ms.ToString() + " ms )\r\n");
+            sb.Append("(Slide/Tilt Value        = " + slidetiltval.ToString() + " mm )\r\n");
+            // sb.Append("(Raise Time Delay        = " + raise_time_ms.ToString() + " ms )\r\n");
             return sb.ToString();
         }
 
@@ -283,14 +317,16 @@ namespace UV_DLP_3D_Printer
             try
             {
 
-                String profilepath = Path.GetDirectoryName(UVDLPApp.Instance().m_appconfig.m_cursliceprofilename);
+                //String profilepath = Path.GetDirectoryName(UVDLPApp.Instance().m_appconfig.m_cursliceprofilename);
+                String profilepath = Path.GetDirectoryName(m_filename);                
                 profilepath += UVDLPApp.m_pathsep;
-                profilepath += Path.GetFileNameWithoutExtension(UVDLPApp.Instance().m_appconfig.m_cursliceprofilename);
+                //profilepath += Path.GetFileNameWithoutExtension(UVDLPApp.Instance().m_appconfig.m_cursliceprofilename);
+                profilepath += Path.GetFileNameWithoutExtension(m_filename);
                 if (!Directory.Exists(profilepath))
                 {
                     Directory.CreateDirectory(profilepath);
                     SetDefaultCodes();
-                    SaveDefaultGCodes();// save the default gcode files for this machine
+                    SaveGCodes();// save the default gcode files for this machine
                 }
                 else
                 {
@@ -299,6 +335,7 @@ namespace UV_DLP_3D_Printer
                     m_footercode = LoadFile(profilepath + UVDLPApp.m_pathsep + "end.gcode");
                     m_preliftcode = LoadFile(profilepath + UVDLPApp.m_pathsep + "prelift.gcode");
                     m_postliftcode = LoadFile(profilepath + UVDLPApp.m_pathsep + "postlift.gcode");
+                    m_preslicecode = LoadFile(profilepath + UVDLPApp.m_pathsep + "preslice.gcode");
                 }
             }
             catch (Exception ex) 
@@ -333,16 +370,29 @@ namespace UV_DLP_3D_Printer
                 return false;
             }
         }
-        public void SaveDefaultGCodes() 
+        public void SaveGCodes() 
         {
-            String profilepath = Path.GetDirectoryName(UVDLPApp.Instance().m_appconfig.m_cursliceprofilename);
-            profilepath += UVDLPApp.m_pathsep;
-            profilepath += Path.GetFileNameWithoutExtension(UVDLPApp.Instance().m_appconfig.m_cursliceprofilename);
+            try
+            {
+                String profilepath = Path.GetDirectoryName(m_filename);
+                profilepath += UVDLPApp.m_pathsep;
+                profilepath += Path.GetFileNameWithoutExtension(m_filename);
+                //create the directory if it doesn't exist
+                if (!Directory.Exists(profilepath))
+                {
+                    Directory.CreateDirectory(profilepath);
+                }
 
-            SaveFile(profilepath + UVDLPApp.m_pathsep + "start.gcode",m_headercode);
-            SaveFile(profilepath + UVDLPApp.m_pathsep + "end.gcode", m_footercode);
-            SaveFile(profilepath + UVDLPApp.m_pathsep + "prelift.gcode", m_preliftcode);
-            SaveFile(profilepath + UVDLPApp.m_pathsep + "postlift.gcode", m_postliftcode);
+                SaveFile(profilepath + UVDLPApp.m_pathsep + "start.gcode", m_headercode);
+                SaveFile(profilepath + UVDLPApp.m_pathsep + "end.gcode", m_footercode);
+                SaveFile(profilepath + UVDLPApp.m_pathsep + "prelift.gcode", m_preliftcode);
+                SaveFile(profilepath + UVDLPApp.m_pathsep + "postlift.gcode", m_postliftcode);
+                SaveFile(profilepath + UVDLPApp.m_pathsep + "preslice.gcode", m_preslicecode);
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
         }
     }
 }

@@ -92,10 +92,11 @@
             this.Controls.Add(this.prgSlice);
             this.Controls.Add(this.cmdSlice);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmSlice";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Slice!";
-            this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmSlice_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();

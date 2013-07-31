@@ -64,6 +64,7 @@
             this.cmdCopy.TabIndex = 2;
             this.cmdCopy.Text = "Copy";
             this.cmdCopy.UseVisualStyleBackColor = true;
+            this.cmdCopy.Visible = false;
             // 
             // cmdDelete
             // 

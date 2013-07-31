@@ -1,3 +1,17 @@
+07/30/2013 Alpha 10 Release
+	Fixed Localization Issues
+	Added preslice.gcode 
+	Added tabs for GCode (preslice.gcode, prelift,postlist,start,end) on Slice options screen
+	Lift fixes
+		go up lift dist
+		go back down (lift - layer height)
+
+	Added lift sequence prior to first layer
+	Added Coordinated Tilt / Slide support	
+	Added support for multiple slicing/building profiles
+	Changed mouse view controls for more control (pan,zoom,rotate)
+
+
 04/16/2013 Alpha 09 Release
 	Bug fixes
 	preliminary code support for Support generation

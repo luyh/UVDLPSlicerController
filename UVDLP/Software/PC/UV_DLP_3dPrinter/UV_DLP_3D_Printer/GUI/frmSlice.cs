@@ -54,8 +54,10 @@ namespace UV_DLP_3D_Printer.GUI
 
         private void cmdSliceOptions_Click(object sender, EventArgs e)
         {
-            frmSliceOptions m_frmsliceopt = new frmSliceOptions();
-            m_frmsliceopt.Show();
+            //frmSliceOptions m_frmsliceopt = new frmSliceOptions();
+            //m_frmsliceopt.Show();
+            frmSliceOptions m_frmsliceopt = new frmSliceOptions(ref UVDLPApp.Instance().m_buildparms);
+            m_frmsliceopt.ShowDialog(); // will modal work here?
         }
         private void frmSlice_FormClosed(object sender, FormClosedEventArgs e)
         {

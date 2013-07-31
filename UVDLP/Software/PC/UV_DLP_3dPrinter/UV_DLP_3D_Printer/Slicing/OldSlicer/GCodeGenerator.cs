@@ -24,20 +24,7 @@ namespace UV_DLP_3D_Printer
          * <Layer End>
          
          
-         Example:
-         * G1 Z0.05 F10 (move to the layer position .05 mm distance)
-         * (<Layer 0 >) (show the slice image layer)
-         * (<Delay 1000 >) (pause to expose the layer, first layer time is longer)
-         * (<Layer Blank >) (show the blank image layer now)
-         * (pre- lift gcode goes here)
-         * G1 Z5 F10    (Move up (or down) for the lift sequence)
-         * G1 X20 F20   (Move the wiper)
-         * G1 X-20 F20  (Move the wiper back)
-         * G1 Z5 F10    (Move down (or up) for the lift sequence)
-         * (post - lift gcode goes here)
-         * (<Delay blanktime >) (the previous commands will all be run, this command will cause the build manager to delay before moving to the next layer)
-         
-         */
+        */
 
         /*
          This is the main function to generate gcode files for the 
@@ -66,36 +53,56 @@ namespace UV_DLP_3D_Printer
             String firstlayerdelay = "(<Delay> " + sf.m_config.firstlayertime_ms + " )\r\n";
             String layerdelay = "(<Delay> " + sf.m_config.layertime_ms + " )\r\n";
             String blankdelay = "(<Delay> " + sf.m_config.blanktime_ms + " )\r\n";
-            String raisetime = "(<Delay> " + sf.m_config.raise_time_ms + " )\r\n";
-            zdist = sf.m_config.ZThick;
 
-            for (int c = 0; c < sf.m_slices.Count; c++ )
-            {               
-                //move the z axis to the right layer position
-              //  sb.Append("G1 Z" + String.Format("{0:0.00000}", (zdist * zdir)) + " F" + feedrate + "\r\n");
+            zdist = sf.m_config.ZThick;
+            // the first thing that needs to happen is a lift sequence to set up the first layer
+            // there is no tilt/slide for the initial layer lift 
+            sb.Append(sf.m_config.PreLiftCode); // append the pre-lift codes
+            //do the lift
+            sb.Append("G1 Z" + String.Format("{0:0.00000}", (sf.m_config.liftdistance * zdir)).Replace(',','.') + " F" + feedrate + " (Lift) \r\n");
+            // move back from the lift
+            sb.Append("G1 Z" + String.Format("{0:0.00000}", ((sf.m_config.liftdistance - zdist  ) * zdir * -1)).Replace(',', '.') + " F" + feedrate + " (End Lift) \r\n");
+
+            // append the post-lift codes
+            sb.Append(sf.m_config.PostLiftCode);
+
+            for (int c = 0; c < sf.m_slices.Count; c++)
+            {
+                sb.Append(sf.m_config.PreSliceCode);//add in the pre-slice code
                 // this is the marker the BuildManager uses to display the correct slice
-                sb.Append( "(<Slice> " + c + " )\r\n");
+                sb.Append("(<Slice> " + c + " )\r\n");
                 // add a pause for the UV resin to be set using this image
                 if (c < numbottom)// check for the bottom layers
                 {
-                    sb.Append(firstlayerdelay);               
+                    sb.Append(firstlayerdelay);
                 }
-                else 
+                else
                 {
-                    sb.Append(layerdelay);         
+                    sb.Append(layerdelay);
                 }
                 sb.Append("(<Slice> Blank )\r\n"); // show the blank layer
                 sb.Append(sf.m_config.PreLiftCode); // append the pre-lift codes
-                //do the lift
-                sb.Append("G1 Z" + String.Format("{0:0.00000}", (sf.m_config.liftdistance * zdir)) + " F" + feedrate + " (Lift) \r\n");
-                sb.Append(sf.m_config.PostLiftCode); // append the post-lift codes
-                // move back from the lift
-                sb.Append("G1 Z" + String.Format("{0:0.00000}", (sf.m_config.liftdistance * zdir * -1)) + " F" + feedrate + " (End Lift) \r\n");
+                String tmpZU = String.Format("{0:0.00000}", (sf.m_config.liftdistance * zdir)).Replace(',', '.');
+                String tmpZD = String.Format("{0:0.00000}", ((sf.m_config.liftdistance - zdist) * zdir * -1)).Replace(',', '.');
+
+                if (sf.m_config.slidetiltval == 0.0) // tilt/slide is not used here
+                {
+                    sb.Append("G1 Z" + tmpZU + " F" + feedrate + " (Lift) \r\n");
+                    sb.Append("G1 Z" + tmpZD + " F" + feedrate + " (End Lift) \r\n");
+
+                }
+                else // tilt/slide has a value, so it is used
+                {
+                    // format the X slide/tilt value
+                    String tmpX1 = String.Format("{0:0.00000}", (sf.m_config.slidetiltval)).Replace(',', '.');
+                    String tmpX2 = String.Format("{0:0.00000}", (sf.m_config.slidetiltval * -1)).Replace(',', '.');
+                    sb.Append("G1 X" + tmpX1 + " Z" + tmpZU + " F" + feedrate + " (Lift) \r\n");
+                    sb.Append("G1 X" + tmpX2 + " Z" + tmpZD + " F" + feedrate + " (End Lift) \r\n");
+                }
+                // append the post-lift codes
+                sb.Append(sf.m_config.PostLiftCode);
                 // add a delay for the lift sequence and the pre/post lift codes to execute
                 sb.Append(blankdelay);
-                // this move is moved to the end, so the first layer doesn't try to move up
-                sb.Append("G1 Z" + String.Format("{0:0.00000}", (zdist * zdir)) + " F" + feedrate + "\r\n");
-                sb.Append(raisetime);
             }
             //append the footer
             sb.Append(sf.m_config.FooterCode);

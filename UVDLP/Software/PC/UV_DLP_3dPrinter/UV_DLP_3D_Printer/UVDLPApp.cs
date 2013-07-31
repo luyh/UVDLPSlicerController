@@ -283,6 +283,29 @@ namespace UV_DLP_3D_Printer
                     return Platform.Windows;
             }
         }
+
+        /*
+         This function returns the path to the current profile terminated by pathsep
+         */
+        public String ProfilePathString()
+        {
+            String profilepath = Path.GetDirectoryName(m_appconfig.m_cursliceprofilename);
+            profilepath += m_pathsep;
+            profilepath += Path.GetFileNameWithoutExtension(m_appconfig.m_cursliceprofilename);
+            profilepath += m_pathsep;
+            return profilepath;
+        }
+        public bool LoadBuildSliceProfile(string filename) 
+        {
+            m_buildparms = new SliceBuildConfig();
+            bool ret = m_buildparms.Load(filename);
+            if (ret) 
+            {
+                m_appconfig.m_cursliceprofilename = filename;
+                m_appconfig.Save(m_appconfigname);// this name doesn't change
+            }
+            return ret;
+        }
         /*
          This function loads the machine profile and makes it current
          */

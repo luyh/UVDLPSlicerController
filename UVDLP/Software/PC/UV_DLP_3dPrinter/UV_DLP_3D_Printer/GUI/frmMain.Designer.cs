@@ -98,19 +98,21 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addManualSupportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addAutomaticSupportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.slicingOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.connectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sendGCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.machineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.propertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.manageMachinesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.connectionToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.sendGCodeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.dLPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showBlankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showCalibrationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showCurrentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buildProfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.propertiesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.manageProfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.txtLog = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
@@ -337,7 +339,7 @@
             this.tbRotate.Location = new System.Drawing.Point(4, 25);
             this.tbRotate.Name = "tbRotate";
             this.tbRotate.Padding = new System.Windows.Forms.Padding(3);
-            this.tbRotate.Size = new System.Drawing.Size(227, 416);
+            this.tbRotate.Size = new System.Drawing.Size(227, 267);
             this.tbRotate.TabIndex = 1;
             this.tbRotate.Text = "Rotate";
             this.tbRotate.UseVisualStyleBackColor = true;
@@ -408,7 +410,7 @@
             this.tbScale.Controls.Add(this.txtScale);
             this.tbScale.Location = new System.Drawing.Point(4, 25);
             this.tbScale.Name = "tbScale";
-            this.tbScale.Size = new System.Drawing.Size(227, 416);
+            this.tbScale.Size = new System.Drawing.Size(227, 267);
             this.tbScale.TabIndex = 2;
             this.tbScale.Text = "Scale";
             this.tbScale.UseVisualStyleBackColor = true;
@@ -437,7 +439,7 @@
             this.tabDebug.Controls.Add(this.chkWireframe);
             this.tabDebug.Location = new System.Drawing.Point(4, 25);
             this.tabDebug.Name = "tabDebug";
-            this.tabDebug.Size = new System.Drawing.Size(227, 416);
+            this.tabDebug.Size = new System.Drawing.Size(227, 267);
             this.tabDebug.TabIndex = 3;
             this.tabDebug.Text = "Debug";
             this.tabDebug.UseVisualStyleBackColor = true;
@@ -447,7 +449,7 @@
             this.lblDebug.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblDebug.Location = new System.Drawing.Point(0, 0);
             this.lblDebug.Name = "lblDebug";
-            this.lblDebug.Size = new System.Drawing.Size(227, 395);
+            this.lblDebug.Size = new System.Drawing.Size(227, 246);
             this.lblDebug.TabIndex = 0;
             this.lblDebug.Text = "label1";
             // 
@@ -455,7 +457,7 @@
             // 
             this.chkWireframe.AutoSize = true;
             this.chkWireframe.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.chkWireframe.Location = new System.Drawing.Point(0, 395);
+            this.chkWireframe.Location = new System.Drawing.Point(0, 246);
             this.chkWireframe.Name = "chkWireframe";
             this.chkWireframe.Size = new System.Drawing.Size(227, 21);
             this.chkWireframe.TabIndex = 0;
@@ -728,28 +730,28 @@
             // mnuView
             // 
             this.mnuView.Name = "mnuView";
-            this.mnuView.Size = new System.Drawing.Size(152, 22);
+            this.mnuView.Size = new System.Drawing.Size(119, 22);
             this.mnuView.Text = "View";
             this.mnuView.Click += new System.EventHandler(this.mnuView_Click);
             // 
             // mnuMove
             // 
             this.mnuMove.Name = "mnuMove";
-            this.mnuMove.Size = new System.Drawing.Size(152, 22);
+            this.mnuMove.Size = new System.Drawing.Size(119, 22);
             this.mnuMove.Text = "Move";
             this.mnuMove.Click += new System.EventHandler(this.mnuMove_Click);
             // 
             // mnuRotate
             // 
             this.mnuRotate.Name = "mnuRotate";
-            this.mnuRotate.Size = new System.Drawing.Size(152, 22);
+            this.mnuRotate.Size = new System.Drawing.Size(119, 22);
             this.mnuRotate.Text = "Rotate";
             this.mnuRotate.Click += new System.EventHandler(this.mnuRotate_Click);
             // 
             // mnuScale
             // 
             this.mnuScale.Name = "mnuScale";
-            this.mnuScale.Size = new System.Drawing.Size(152, 22);
+            this.mnuScale.Size = new System.Drawing.Size(119, 22);
             this.mnuScale.Text = "Scale";
             this.mnuScale.Click += new System.EventHandler(this.mnuScale_Click);
             // 
@@ -769,9 +771,9 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.viewToolStripMenuItem,
             this.machineToolStripMenuItem,
-            this.dLPToolStripMenuItem});
+            this.dLPToolStripMenuItem,
+            this.buildProfilesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1457, 26);
@@ -836,42 +838,13 @@
             this.addAutomaticSupportsToolStripMenuItem.Text = "Add Automatic Supports";
             this.addAutomaticSupportsToolStripMenuItem.Click += new System.EventHandler(this.addAutomaticSupportsToolStripMenuItem_Click);
             // 
-            // viewToolStripMenuItem
-            // 
-            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.slicingOptionsToolStripMenuItem,
-            this.connectionToolStripMenuItem,
-            this.sendGCodeToolStripMenuItem});
-            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(49, 22);
-            this.viewToolStripMenuItem.Text = "View";
-            // 
-            // slicingOptionsToolStripMenuItem
-            // 
-            this.slicingOptionsToolStripMenuItem.Name = "slicingOptionsToolStripMenuItem";
-            this.slicingOptionsToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
-            this.slicingOptionsToolStripMenuItem.Text = "Slicing Options";
-            this.slicingOptionsToolStripMenuItem.Click += new System.EventHandler(this.slicingOptionsToolStripMenuItem_Click);
-            // 
-            // connectionToolStripMenuItem
-            // 
-            this.connectionToolStripMenuItem.Name = "connectionToolStripMenuItem";
-            this.connectionToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
-            this.connectionToolStripMenuItem.Text = "Connection";
-            this.connectionToolStripMenuItem.Click += new System.EventHandler(this.connectionToolStripMenuItem_Click);
-            // 
-            // sendGCodeToolStripMenuItem
-            // 
-            this.sendGCodeToolStripMenuItem.Name = "sendGCodeToolStripMenuItem";
-            this.sendGCodeToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
-            this.sendGCodeToolStripMenuItem.Text = "Send GCode";
-            this.sendGCodeToolStripMenuItem.Click += new System.EventHandler(this.sendGCodeToolStripMenuItem_Click);
-            // 
             // machineToolStripMenuItem
             // 
             this.machineToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.propertiesToolStripMenuItem,
             this.manageMachinesToolStripMenuItem1,
+            this.connectionToolStripMenuItem1,
+            this.sendGCodeToolStripMenuItem1,
             this.toolStripSeparator5});
             this.machineToolStripMenuItem.Name = "machineToolStripMenuItem";
             this.machineToolStripMenuItem.Size = new System.Drawing.Size(73, 22);
@@ -890,6 +863,20 @@
             this.manageMachinesToolStripMenuItem1.Size = new System.Drawing.Size(193, 22);
             this.manageMachinesToolStripMenuItem1.Text = "Manage Machines";
             this.manageMachinesToolStripMenuItem1.Click += new System.EventHandler(this.manageMachinesToolStripMenuItem_Click);
+            // 
+            // connectionToolStripMenuItem1
+            // 
+            this.connectionToolStripMenuItem1.Name = "connectionToolStripMenuItem1";
+            this.connectionToolStripMenuItem1.Size = new System.Drawing.Size(193, 22);
+            this.connectionToolStripMenuItem1.Text = "Connection";
+            this.connectionToolStripMenuItem1.Click += new System.EventHandler(this.connectionToolStripMenuItem1_Click);
+            // 
+            // sendGCodeToolStripMenuItem1
+            // 
+            this.sendGCodeToolStripMenuItem1.Name = "sendGCodeToolStripMenuItem1";
+            this.sendGCodeToolStripMenuItem1.Size = new System.Drawing.Size(193, 22);
+            this.sendGCodeToolStripMenuItem1.Text = "Send GCode";
+            this.sendGCodeToolStripMenuItem1.Click += new System.EventHandler(this.sendGCodeToolStripMenuItem1_Click);
             // 
             // toolStripSeparator5
             // 
@@ -934,6 +921,35 @@
             this.hideToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hideToolStripMenuItem.Text = "Hide";
             this.hideToolStripMenuItem.Click += new System.EventHandler(this.hideToolStripMenuItem_Click);
+            // 
+            // buildProfilesToolStripMenuItem
+            // 
+            this.buildProfilesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.propertiesToolStripMenuItem1,
+            this.manageProfilesToolStripMenuItem,
+            this.toolStripSeparator6});
+            this.buildProfilesToolStripMenuItem.Name = "buildProfilesToolStripMenuItem";
+            this.buildProfilesToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.buildProfilesToolStripMenuItem.Text = "Build Profiles";
+            // 
+            // propertiesToolStripMenuItem1
+            // 
+            this.propertiesToolStripMenuItem1.Name = "propertiesToolStripMenuItem1";
+            this.propertiesToolStripMenuItem1.Size = new System.Drawing.Size(178, 22);
+            this.propertiesToolStripMenuItem1.Text = "Properties";
+            this.propertiesToolStripMenuItem1.Click += new System.EventHandler(this.propertiesToolStripMenuItem1_Click);
+            // 
+            // manageProfilesToolStripMenuItem
+            // 
+            this.manageProfilesToolStripMenuItem.Name = "manageProfilesToolStripMenuItem";
+            this.manageProfilesToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.manageProfilesToolStripMenuItem.Text = "Manage Profiles";
+            this.manageProfilesToolStripMenuItem.Click += new System.EventHandler(this.manageProfilesToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(175, 6);
             // 
             // splitContainer2
             // 
@@ -996,6 +1012,7 @@
             this.Text = "Creation Workshop - UV DLP 3D Printer Control and Slicing";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Resize += new System.EventHandler(this.frmMain_Resize);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
@@ -1048,9 +1065,6 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadBinarySTLToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem slicingOptionsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem connectionToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton cmdBuild;
         private System.Windows.Forms.ToolStripButton cmdStop;
@@ -1067,7 +1081,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.VScrollBar vScrollBar1;
-        private System.Windows.Forms.ToolStripMenuItem sendGCodeToolStripMenuItem;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button cmdReloadGCode;
         private System.Windows.Forms.Button cmdSaveGCode;
@@ -1120,6 +1133,12 @@
         private System.Windows.Forms.ToolStripMenuItem addAutomaticSupportsToolStripMenuItem;
         private System.Windows.Forms.TabPage tabDebug;
         private System.Windows.Forms.Label lblDebug;
+        private System.Windows.Forms.ToolStripMenuItem buildProfilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem propertiesToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem manageProfilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem connectionToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem sendGCodeToolStripMenuItem1;
     }
 }
 

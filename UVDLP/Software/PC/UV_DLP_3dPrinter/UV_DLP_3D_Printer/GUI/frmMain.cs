@@ -31,12 +31,13 @@ namespace UV_DLP_3D_Printer
         bool loaded = false;               
         //Engine3d UVDLPApp.Instance().Engine3D = new Engine3d();              
         frmDLP m_frmdlp = new frmDLP();
-        frmSliceOptions m_frmsliceopt = new frmSliceOptions();
+        //frmSliceOptions m_frmsliceopt = new frmSliceOptions();
         frmControl m_frmcontrol = new frmControl();
         frm3DLPrinterControl m_frm3DLPControl = new frm3DLPrinterControl();
         frmSlice m_frmSlice = new frmSlice();
         frmGCodeRaw m_sendgcode = new frmGCodeRaw();
         frmMachineProfileManager m_machineprofilemanager = new frmMachineProfileManager();
+        frmBuildProfilesManager m_buildprofilesmanager = new frmBuildProfilesManager();
         eMOUSEMODE m_mousemode = eMOUSEMODE.eView;
         Bitmap m_curslice = null; // this is used only for re-displaying the current slice.
 
@@ -65,8 +66,10 @@ namespace UV_DLP_3D_Printer
             SetButtonStatuses();            
             SetMouseModeChecks();
             PopulateMachinesMenu();
+            PopulateBuildProfilesMenu();
             SetupSceneTree();
             printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(printDocument1_PrintPage);
+            Invalidate();
         }
 
         void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
@@ -78,7 +81,7 @@ namespace UV_DLP_3D_Printer
         private void PopulateMachinesMenu() 
         {
             //remove all items except the first 2
-            for (int c = machineToolStripMenuItem.DropDownItems.Count; c > 3; c--) 
+            for (int c = machineToolStripMenuItem.DropDownItems.Count; c > 5; c--) 
             {
                 machineToolStripMenuItem.DropDownItems.RemoveAt(c-1);
             }
@@ -96,6 +99,30 @@ namespace UV_DLP_3D_Printer
                     it.Checked = true;
                 }
 
+            }
+        }
+
+        private void PopulateBuildProfilesMenu()
+        {
+            //remove all items except the first 2
+            for (int c = buildProfilesToolStripMenuItem.DropDownItems.Count; c > 3; c--)
+            {
+                buildProfilesToolStripMenuItem.DropDownItems.RemoveAt(c - 1);
+            }
+
+            string[] filePaths = Directory.GetFiles(UVDLPApp.Instance().m_PathProfiles, "*.slicing");
+            string curprof = Path.GetFileNameWithoutExtension(UVDLPApp.Instance().m_buildparms.m_filename);
+            //create a new menu item for all build/slice profiles
+            foreach (String profile in filePaths)
+            {
+                String pn = Path.GetFileNameWithoutExtension(profile);
+                ToolStripMenuItem it = new ToolStripMenuItem(pn);
+                it.Click += new EventHandler(mnuBuildProfile_Click);
+                buildProfilesToolStripMenuItem.DropDownItems.Add(it);
+                if (curprof.Equals(pn)) // if this is the current profile, show as checked
+                {
+                    it.Checked = true;
+                }
             }
         }
 
@@ -441,7 +468,8 @@ namespace UV_DLP_3D_Printer
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            Invalidate();
+            Refresh();
         }
 
         private void glControl1_Resize(object sender, EventArgs e)
@@ -645,6 +673,7 @@ namespace UV_DLP_3D_Printer
         }
         private void TestHitTest(int X, int Y)
         {
+            return; // comment out for now
             // show 2d coords
             // convert from screen 2d to     
             lblDebug.Text = "Screen X,Y = (" + X.ToString() + "," + Y.ToString() + ")\r\n";
@@ -904,10 +933,9 @@ namespace UV_DLP_3D_Printer
             }
         }
 
-
-
         private void cmdSliceOptions_Click(object sender, EventArgs e)
         {
+            frmSliceOptions m_frmsliceopt = new frmSliceOptions(ref UVDLPApp.Instance().m_buildparms);
             m_frmsliceopt.ShowDialog();
         }
 
@@ -921,10 +949,6 @@ namespace UV_DLP_3D_Printer
             LoadSTLModel_Click(this, null);
         }
 
-        private void slicingOptionsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            cmdSliceOptions_Click(this, null);
-        }
 
         private void machinePropertiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1011,7 +1035,7 @@ namespace UV_DLP_3D_Printer
             }
             m_frmSlice.Show();
         }
-
+/*
         private void sendGCodeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (m_sendgcode.IsDisposed) 
@@ -1020,6 +1044,7 @@ namespace UV_DLP_3D_Printer
             }
             m_sendgcode.Show();
         }
+ * */
         #region Save/Load GCode
         private void cmdSaveGCode_Click(object sender, EventArgs e)
         {
@@ -1351,6 +1376,27 @@ namespace UV_DLP_3D_Printer
             UVDLPApp.Instance().Engine3D.AddPlatCube();
             DisplayFunc();
             PopulateMachinesMenu();
+            
+        }
+
+        // one of the populated slice/build profiles was clicked
+        private void mnuBuildProfile_Click(object sender, EventArgs e)
+        {
+            String newprof = sender.ToString();
+            
+            string[] filePaths = Directory.GetFiles(UVDLPApp.Instance().m_PathMachines, "*.slicing");
+            int idx = 0;
+            foreach (String profile in filePaths)
+            {
+                String pn = Path.GetFileNameWithoutExtension(profile);
+                if (pn.Equals(newprof))
+                {
+                    UVDLPApp.Instance().LoadBuildSliceProfile(filePaths[idx]);
+                    PopulateMachinesMenu();
+                    break;
+                }
+                idx++;
+            }             
         }
 
         // one of the populated machines in the machine menu was clicked
@@ -1506,6 +1552,47 @@ namespace UV_DLP_3D_Printer
         private void treeScene_AfterSelect(object sender, TreeViewEventArgs e)
         {
 
+        }
+
+        private void propertiesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            cmdSliceOptions_Click(this, null);
+        }
+
+        private void manageProfilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (m_buildprofilesmanager.IsDisposed)
+            {
+                m_buildprofilesmanager = new frmBuildProfilesManager();
+            }
+            m_buildprofilesmanager.ShowDialog();
+            // update just in case.
+            DisplayFunc();
+            Invalidate();
+            PopulateBuildProfilesMenu();
+        }
+
+        private void connectionToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            // show connection screen
+            frmConnection fconnect = new frmConnection();
+            fconnect.ShowDialog();
+        }
+
+        private void sendGCodeToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (m_sendgcode.IsDisposed)
+            {
+                m_sendgcode = new frmGCodeRaw();
+            }
+            m_sendgcode.Show();
+        }
+
+        private void frmMain_Resize(object sender, EventArgs e)
+        {
+            //Invalidate();
+            //toolStrip1.Invalidate();
+            Refresh();
         }
     }
 }

@@ -1,9 +1,39 @@
 
-support generation
-	2d/3d
-SVG import
+* Fix localization
+
+* Add preslice.gcode 
+
+* Add screen for GCode (preslice.gcode, prelift,postlist,start,end)
+
+* Lift fixes
+	go up lift dist
+	go back down (lift - layer height)
+
+* Add lift sequence prior to first layer
+
+* Add Coordinated Tilt / Slide support
+
+Shutter Control (maybe example in preslice or postlift)
+
 multiple config support
 	slice profiles
+
+Image Anti-Aliasing
+	render image at 150% value and rescale to 100%
+
+Update Documentation
+
+Add better controls on control panel
+
+Add optional homing commands for axises
+	this would help with shutter controls, as well as initial machine start
+
+
+support generation
+	2d/3d
+
+
+SVG import
 
 support for powder based printers
 
@@ -14,3 +44,4 @@ show selected in different color
 GCode interpreter for 3DLPrinter
 
 additional controls for dlprinter
+
