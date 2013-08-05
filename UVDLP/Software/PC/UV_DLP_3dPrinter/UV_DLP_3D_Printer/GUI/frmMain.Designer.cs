@@ -70,6 +70,8 @@
             this.tabSliceView = new System.Windows.Forms.TabPage();
             this.picSlice = new System.Windows.Forms.PictureBox();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.lblSliceNum = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.cmdLoad = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -107,7 +109,6 @@
             this.dLPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showBlankToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showCalibrationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showCurrentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buildProfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.propertiesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -135,6 +136,7 @@
             this.panel1.SuspendLayout();
             this.tabSliceView.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picSlice)).BeginInit();
+            this.panel2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -154,7 +156,7 @@
             this.glControl1.Location = new System.Drawing.Point(3, 3);
             this.glControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.glControl1.Name = "glControl1";
-            this.glControl1.Size = new System.Drawing.Size(1164, 572);
+            this.glControl1.Size = new System.Drawing.Size(1194, 572);
             this.glControl1.TabIndex = 15;
             this.glControl1.VSync = false;
             this.glControl1.Load += new System.EventHandler(this.glControl1_Load);
@@ -180,7 +182,6 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabMain);
-            this.splitContainer1.Panel2.Controls.Add(this.vScrollBar1);
             this.splitContainer1.Panel2.Controls.Add(this.toolStrip1);
             this.splitContainer1.Size = new System.Drawing.Size(1457, 666);
             this.splitContainer1.SplitterDistance = 239;
@@ -481,10 +482,10 @@
             this.tabMain.Controls.Add(this.tabGCode);
             this.tabMain.Controls.Add(this.tabSliceView);
             this.tabMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabMain.Location = new System.Drawing.Point(30, 55);
+            this.tabMain.Location = new System.Drawing.Point(0, 55);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(1178, 607);
+            this.tabMain.Size = new System.Drawing.Size(1208, 607);
             this.tabMain.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabMain.TabIndex = 18;
             // 
@@ -494,7 +495,7 @@
             this.tabModel1.Location = new System.Drawing.Point(4, 25);
             this.tabModel1.Name = "tabModel1";
             this.tabModel1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabModel1.Size = new System.Drawing.Size(1170, 578);
+            this.tabModel1.Size = new System.Drawing.Size(1200, 578);
             this.tabModel1.TabIndex = 0;
             this.tabModel1.Text = "Model View";
             this.tabModel1.UseVisualStyleBackColor = true;
@@ -506,7 +507,7 @@
             this.tabGCode.Location = new System.Drawing.Point(4, 25);
             this.tabGCode.Name = "tabGCode";
             this.tabGCode.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGCode.Size = new System.Drawing.Size(1170, 578);
+            this.tabGCode.Size = new System.Drawing.Size(1200, 578);
             this.tabGCode.TabIndex = 1;
             this.tabGCode.Text = "GCode";
             this.tabGCode.UseVisualStyleBackColor = true;
@@ -521,7 +522,7 @@
             this.txtGCode.Multiline = true;
             this.txtGCode.Name = "txtGCode";
             this.txtGCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtGCode.Size = new System.Drawing.Size(1164, 494);
+            this.txtGCode.Size = new System.Drawing.Size(1194, 494);
             this.txtGCode.TabIndex = 0;
             this.txtGCode.WordWrap = false;
             // 
@@ -532,7 +533,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(3, 497);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1164, 78);
+            this.panel1.Size = new System.Drawing.Size(1194, 78);
             this.panel1.TabIndex = 1;
             // 
             // cmdReloadGCode
@@ -558,9 +559,11 @@
             // tabSliceView
             // 
             this.tabSliceView.Controls.Add(this.picSlice);
+            this.tabSliceView.Controls.Add(this.vScrollBar1);
+            this.tabSliceView.Controls.Add(this.panel2);
             this.tabSliceView.Location = new System.Drawing.Point(4, 25);
             this.tabSliceView.Name = "tabSliceView";
-            this.tabSliceView.Size = new System.Drawing.Size(1170, 578);
+            this.tabSliceView.Size = new System.Drawing.Size(1200, 578);
             this.tabSliceView.TabIndex = 2;
             this.tabSliceView.Text = "Slice Viewer";
             this.tabSliceView.UseVisualStyleBackColor = true;
@@ -569,9 +572,9 @@
             // 
             this.picSlice.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.picSlice.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picSlice.Location = new System.Drawing.Point(0, 0);
+            this.picSlice.Location = new System.Drawing.Point(30, 35);
             this.picSlice.Name = "picSlice";
-            this.picSlice.Size = new System.Drawing.Size(1170, 578);
+            this.picSlice.Size = new System.Drawing.Size(1170, 543);
             this.picSlice.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picSlice.TabIndex = 17;
             this.picSlice.TabStop = false;
@@ -579,12 +582,31 @@
             // vScrollBar1
             // 
             this.vScrollBar1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.vScrollBar1.Location = new System.Drawing.Point(0, 55);
+            this.vScrollBar1.Location = new System.Drawing.Point(0, 35);
             this.vScrollBar1.Maximum = 1000;
             this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(30, 607);
-            this.vScrollBar1.TabIndex = 19;
+            this.vScrollBar1.Size = new System.Drawing.Size(30, 543);
+            this.vScrollBar1.TabIndex = 20;
             this.vScrollBar1.ValueChanged += new System.EventHandler(this.vScrollBar1_ValueChanged);
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.lblSliceNum);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1200, 35);
+            this.panel2.TabIndex = 18;
+            // 
+            // lblSliceNum
+            // 
+            this.lblSliceNum.AutoSize = true;
+            this.lblSliceNum.Font = new System.Drawing.Font("Courier New", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSliceNum.Location = new System.Drawing.Point(4, 4);
+            this.lblSliceNum.Name = "lblSliceNum";
+            this.lblSliceNum.Size = new System.Drawing.Size(180, 27);
+            this.lblSliceNum.TabIndex = 0;
+            this.lblSliceNum.Text = "Slice 0 of 0";
             // 
             // toolStrip1
             // 
@@ -888,7 +910,6 @@
             this.dLPToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showBlankToolStripMenuItem,
             this.showCalibrationToolStripMenuItem,
-            this.showCurrentToolStripMenuItem,
             this.hideToolStripMenuItem});
             this.dLPToolStripMenuItem.Name = "dLPToolStripMenuItem";
             this.dLPToolStripMenuItem.Size = new System.Drawing.Size(45, 22);
@@ -907,13 +928,6 @@
             this.showCalibrationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showCalibrationToolStripMenuItem.Text = "Show Calibration";
             this.showCalibrationToolStripMenuItem.Click += new System.EventHandler(this.showCalibrationToolStripMenuItem_Click);
-            // 
-            // showCurrentToolStripMenuItem
-            // 
-            this.showCurrentToolStripMenuItem.Name = "showCurrentToolStripMenuItem";
-            this.showCurrentToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.showCurrentToolStripMenuItem.Text = "Show Current";
-            this.showCurrentToolStripMenuItem.Click += new System.EventHandler(this.showCurrentToolStripMenuItem_Click);
             // 
             // hideToolStripMenuItem
             // 
@@ -1032,6 +1046,8 @@
             this.panel1.ResumeLayout(false);
             this.tabSliceView.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picSlice)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
@@ -1080,7 +1096,6 @@
         private System.Windows.Forms.ToolStripButton cmdLoad;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button cmdReloadGCode;
         private System.Windows.Forms.Button cmdSaveGCode;
@@ -1122,7 +1137,6 @@
         private System.Windows.Forms.ToolStripMenuItem showBlankToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showCalibrationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hideToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem showCurrentToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton cmdPause;
         private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
         private System.Windows.Forms.PrintDialog printDialog1;
@@ -1139,6 +1153,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem connectionToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem sendGCodeToolStripMenuItem1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label lblSliceNum;
+        private System.Windows.Forms.VScrollBar vScrollBar1;
     }
 }
 

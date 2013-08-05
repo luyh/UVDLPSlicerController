@@ -35,7 +35,8 @@ namespace UV_DLP_3D_Printer
         public eBuildDirection direction;
         public double liftdistance; // distance to lift and retract
         public double slidetiltval; // a value used for slide / tilt 
-
+        public bool antialiasing; // should we use anti-aliasing
+        public double aaval; // anti-aliasing scaler value - How much to upsample the image values between 1.0 - 3.0 should be fine
         private String m_headercode; // inserted at beginning of file
         private String m_footercode; // inserted at end of file
         private String m_preliftcode; // inserted before each slice
@@ -164,14 +165,18 @@ namespace UV_DLP_3D_Printer
             XOffset = source.XOffset;
             YOffset = source.YOffset;
             slidetiltval = source.slidetiltval;
+            antialiasing = source.antialiasing;
+            aaval = source.aaval;//
             //raise_time_ms = source.raise_time_ms;
         }
 
         public SliceBuildConfig() 
-        {
-            layertime_ms = 5000;// 5 seconds default
-            numfirstlayers = 3;
-            CreateDefault();
+        {           
+            // every new config will be set to default settings,
+            // if the load fails for some reason (such as a previous version)
+            // then whatever information that has already been loaded will stay
+            // the rest will have been set up to the default values
+            CreateDefault(); 
         }
         public void UpdateFrom(MachineConfig mf)
         {
@@ -182,6 +187,7 @@ namespace UV_DLP_3D_Printer
         }
         public void CreateDefault() 
         {
+            numfirstlayers = 3;
             layertime_ms = 1000;// 1 second default
             firstlayertime_ms = 5000;
             blanktime_ms = 2000; // 2 seconds blank
@@ -201,6 +207,8 @@ namespace UV_DLP_3D_Printer
             liftdistance = 5.0;
             //raise_time_ms = 750;
             slidetiltval = 0.0;
+            antialiasing = false;
+            aaval = 1.5;
             SetDefaultCodes(); // set up default gcodes
         }
 
@@ -236,7 +244,8 @@ namespace UV_DLP_3D_Printer
                 direction = (eBuildDirection)Enum.Parse(typeof(eBuildDirection), xr.ReadElementString("Direction"));
                 liftdistance = double.Parse(xr.ReadElementString("LiftDistance"));
                 slidetiltval = double.Parse(xr.ReadElementString("SlideTiltValue"));
-                //raise_time_ms = int.Parse(xr.ReadElementString("Raise_Time_Delay"));
+                antialiasing = bool.Parse(xr.ReadElementString("AntiAliasing"));
+                aaval = double.Parse(xr.ReadElementString("AntiAliasingValue"));
                 xr.ReadEndElement();
                 xr.Close();
                 
@@ -273,7 +282,9 @@ namespace UV_DLP_3D_Printer
                 xw.WriteElementString("NumberofBottomLayers", numfirstlayers.ToString());
                 xw.WriteElementString("Direction", direction.ToString());
                 xw.WriteElementString("LiftDistance", liftdistance.ToString());
-                xw.WriteElementString("SlideTiltValue", slidetiltval.ToString());                
+                xw.WriteElementString("SlideTiltValue", slidetiltval.ToString());
+                xw.WriteElementString("AntiAliasing", antialiasing.ToString());
+                xw.WriteElementString("AntiAliasingValue", aaval.ToString());
 
                // xw.WriteElementString("Raise_Time_Delay",raise_time_ms.ToString());
                 xw.WriteEndElement();
@@ -304,11 +315,11 @@ namespace UV_DLP_3D_Printer
             sb.Append("(First Layer Time        = " + firstlayertime_ms + " ms )\r\n");
             sb.Append("(Number of Bottom Layers = " + numfirstlayers + " )\r\n");
             sb.Append("(Blanking Layer Time     = " + blanktime_ms + " ms )\r\n");
-           // sb.Append("(Platform Temp           = " + plat_temp + " degrees celsius)\r\n");
             sb.Append("(Build Direction         = " + direction.ToString() + ")\r\n");
             sb.Append("(Lift Distance           = " + liftdistance.ToString() + " mm )\r\n");
-            sb.Append("(Slide/Tilt Value        = " + slidetiltval.ToString() + " mm )\r\n");
-            // sb.Append("(Raise Time Delay        = " + raise_time_ms.ToString() + " ms )\r\n");
+            sb.Append("(Slide/Tilt Value        = " + slidetiltval.ToString() + ")\r\n");
+            sb.Append("(Anti Aliasing           = " + antialiasing.ToString() + ")\r\n");
+            sb.Append("(Anti Aliasing Value     = " + aaval.ToString() + " )\r\n");
             return sb.ToString();
         }
 
@@ -317,10 +328,8 @@ namespace UV_DLP_3D_Printer
             try
             {
 
-                //String profilepath = Path.GetDirectoryName(UVDLPApp.Instance().m_appconfig.m_cursliceprofilename);
                 String profilepath = Path.GetDirectoryName(m_filename);                
                 profilepath += UVDLPApp.m_pathsep;
-                //profilepath += Path.GetFileNameWithoutExtension(UVDLPApp.Instance().m_appconfig.m_cursliceprofilename);
                 profilepath += Path.GetFileNameWithoutExtension(m_filename);
                 if (!Directory.Exists(profilepath))
                 {

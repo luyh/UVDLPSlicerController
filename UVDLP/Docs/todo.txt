@@ -13,17 +13,28 @@
 
 * Add Coordinated Tilt / Slide support
 
+* Add Machine and profile names to:
+	slice display
+	main display
+
+* Add a control to show current slice # of total slice numbers
+
+
 Shutter Control (maybe example in preslice or postlift)
 
-multiple config support
+*multiple config support
 	slice profiles
 
-Image Anti-Aliasing
+*Image Anti-Aliasing
 	render image at 150% value and rescale to 100%
 
-Update Documentation
+*Update Documentation
 
 Add better controls on control panel
+
+
+Add Better messages for user events
+	Build started, stopped, layer, completed, etc...
 
 Add optional homing commands for axises
 	this would help with shutter controls, as well as initial machine start

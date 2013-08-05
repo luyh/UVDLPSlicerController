@@ -39,7 +39,6 @@ namespace UV_DLP_3D_Printer
         frmMachineProfileManager m_machineprofilemanager = new frmMachineProfileManager();
         frmBuildProfilesManager m_buildprofilesmanager = new frmBuildProfilesManager();
         eMOUSEMODE m_mousemode = eMOUSEMODE.eView;
-        Bitmap m_curslice = null; // this is used only for re-displaying the current slice.
 
         private bool lmdown, rmdown, mmdown;
         private int mdx, mdy;
@@ -397,6 +396,7 @@ namespace UV_DLP_3D_Printer
          */
         private void LoadSTLModel_Click(object sender, EventArgs e)
         {
+            openFileDialog1.FileName = "";
             if (openFileDialog1.ShowDialog() == DialogResult.OK) 
             {
                 if (UVDLPApp.Instance().LoadModel(openFileDialog1.FileName) == false)
@@ -434,6 +434,7 @@ namespace UV_DLP_3D_Printer
                         UVDLPApp.Instance().Engine3D.AddLine(ln);
                     }
                     DisplayFunc();
+                    lblSliceNum.Text = "Slice " + layer + " of " + UVDLPApp.Instance().m_slicefile.m_slices.Count;
                 }
                 //render the 2d slice
                 Bitmap bmp = null;
@@ -444,11 +445,6 @@ namespace UV_DLP_3D_Printer
                 else // the image was specified from the build manager
                 {
                     bmp = image;
-                }
-
-                if (layertype == BuildManager.SLICE_NORMAL)
-                {
-                    m_curslice = bmp;
                 }
 
                 //this bmp could be a normal, blank, or calibration image
@@ -915,8 +911,9 @@ namespace UV_DLP_3D_Printer
             Point3d center = UVDLPApp.Instance().m_selectedobject.CalcCenter();
             UVDLPApp.Instance().m_selectedobject.FindMinMax();
             float zlev = (float)UVDLPApp.Instance().m_selectedobject.m_min.z;
-
+            float epsilon = .05f; // add in a the level of 1 slice 
             UVDLPApp.Instance().m_selectedobject.Translate((float)0, (float)0, (float)-zlev);
+            UVDLPApp.Instance().m_selectedobject.Translate((float)0, (float)0, (float)-epsilon);
             ShowObjectInfo();
             DisplayFunc();
         }
@@ -1485,16 +1482,8 @@ namespace UV_DLP_3D_Printer
                 return false;
             }
         }
+        
         #endregion DLP screen controls
-
-        private void showCurrentToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (m_curslice != null) 
-            {
-                ShowDLPScreen();
-                m_frmdlp.ShowImage(m_curslice);
-            }
-        }
 
         private void cmdPause_Click_1(object sender, EventArgs e)
         {
@@ -1532,6 +1521,7 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
+                saveFileDialog1.FileName = "";
                 if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     //save the scene object

@@ -196,6 +196,14 @@ namespace UV_DLP_3D_Printer
             //Bitmap bmp = new Bitmap(sp.xres, sp.yres);
 
             double scaler = 1.5; // specofy the scale factor
+            if (sp.antialiasing == true)
+            {
+                scaler = sp.aaval;
+            }
+            else 
+            {
+                scaler = 1.0; // no scaling
+            }
             double sdpmmx = sp.dpmmX; // save the original dots per mm
             double sdpmmy = sp.dpmmY;
 
@@ -267,7 +275,15 @@ namespace UV_DLP_3D_Printer
             sp.dpmmY =  sdpmmy;
             sp.xres = ox;
             sp.yres = oy;
-            return ResizeImage(bmp, new Size(ox, oy));
+
+            if (sp.antialiasing == true) // we're using anti-aliasing here, so resize the image
+            {
+                return ResizeImage(bmp, new Size(ox, oy));
+            }
+            else 
+            {
+                return bmp;
+            }
 
             //return bmp;
         }

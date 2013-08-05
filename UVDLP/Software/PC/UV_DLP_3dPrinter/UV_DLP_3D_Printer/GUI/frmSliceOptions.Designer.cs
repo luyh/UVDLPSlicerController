@@ -77,6 +77,7 @@
             this.cmdendgcode = new System.Windows.Forms.Button();
             this.txtsaveendgcode = new System.Windows.Forms.Button();
             this.txtendgcode = new System.Windows.Forms.TextBox();
+            this.chkantialiasing = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.tabOptions.SuspendLayout();
             this.tbOptions.SuspendLayout();
@@ -321,6 +322,7 @@
             // 
             // tbOptions
             // 
+            this.tbOptions.Controls.Add(this.chkantialiasing);
             this.tbOptions.Controls.Add(this.label9);
             this.tbOptions.Controls.Add(this.txtSlideTilt);
             this.tbOptions.Controls.Add(this.label1);
@@ -574,6 +576,16 @@
             this.txtendgcode.Size = new System.Drawing.Size(722, 298);
             this.txtendgcode.TabIndex = 3;
             // 
+            // chkantialiasing
+            // 
+            this.chkantialiasing.AutoSize = true;
+            this.chkantialiasing.Location = new System.Drawing.Point(28, 241);
+            this.chkantialiasing.Name = "chkantialiasing";
+            this.chkantialiasing.Size = new System.Drawing.Size(156, 21);
+            this.chkantialiasing.TabIndex = 45;
+            this.chkantialiasing.Text = "Enable Anti-Aliasing";
+            this.chkantialiasing.UseVisualStyleBackColor = true;
+            // 
             // frmSliceOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -657,5 +669,6 @@
         private System.Windows.Forms.TextBox txtendgcode;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox txtSlideTilt;
+        private System.Windows.Forms.CheckBox chkantialiasing;
     }
 }

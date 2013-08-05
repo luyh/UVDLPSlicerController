@@ -44,6 +44,7 @@ namespace UV_DLP_3D_Printer
             txtLiftDistance.Text = m_config.liftdistance.ToString();
             txtnumbottom.Text = m_config.numfirstlayers.ToString();
             txtSlideTilt.Text = m_config.slidetiltval.ToString();
+            chkantialiasing.Checked = m_config.antialiasing;
            // txtRaiseTime.Text = m_config.raise_time_ms.ToString();
 
             foreach(String name in Enum.GetNames(typeof(SliceBuildConfig.eBuildDirection)))
@@ -74,6 +75,7 @@ namespace UV_DLP_3D_Printer
                 m_config.liftdistance = double.Parse(txtLiftDistance.Text);
                 m_config.numfirstlayers = int.Parse(txtnumbottom.Text);
                 m_config.slidetiltval = double.Parse(txtSlideTilt.Text);
+                m_config.antialiasing = chkantialiasing.Checked;
               //  m_config.raise_time_ms = int.Parse(txtRaiseTime.Text);
 
                 m_config.direction = (SliceBuildConfig.eBuildDirection)Enum.Parse(typeof(SliceBuildConfig.eBuildDirection), cmbBuildDirection.SelectedItem.ToString());
