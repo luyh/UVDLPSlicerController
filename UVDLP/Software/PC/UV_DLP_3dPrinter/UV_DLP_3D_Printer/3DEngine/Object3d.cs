@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Collections;
@@ -329,15 +329,15 @@ namespace Engine3D
          * LoadSTL_Binary
          * This function loads a binary STL file
          * File Format:
-            UINT8[80] � Header
-            UINT32 � Number of triangles
+            UINT8[80] – Header
+            UINT32 – Number of triangles
 
             foreach triangle
-            REAL32[3] � Normal vector
-            REAL32[3] � Vertex 1
-            REAL32[3] � Vertex 2
-            REAL32[3] � Vertex 3
-            UINT16 � Attribute byte count
+            REAL32[3] – Normal vector
+            REAL32[3] – Vertex 1
+            REAL32[3] – Vertex 2
+            REAL32[3] – Vertex 3
+            UINT16 – Attribute byte count
             end         
              */
         public bool SaveSTL_Binary(string filename) 
@@ -417,6 +417,23 @@ namespace Engine3D
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
+        /*Example:
+ solid Calibration_Cube
+ facet normal 0.000000 0.000000 -1.000000
+  outer loop
+   vertex 0.000000 20.000000 0.000000
+   vertex 3.797659 5.962276 0.000000
+   vertex 0.000000 0.000000 0.000000
+  endloop
+ endfacet
+ facet normal 0.000000 0.000000 -1.000000
+  outer loop
+   vertex 3.797659 5.962276 0.000000
+   vertex 0.000000 20.000000 0.000000
+   vertex 4.087683 6.240676 0.000000
+  endloop
+ endfacet
+*/
         public bool LoadSTL_ASCII(string filename) 
         {
             try
@@ -431,38 +448,57 @@ namespace Engine3D
                     return false; // does not start with "solid"
                 while (!sr.EndOfStream)
                 {
-                    line = sr.ReadLine().Trim();
+                    line = sr.ReadLine().Trim();//facet
                     if (line.ToLower().StartsWith("facet"))
                     {
                         line = sr.ReadLine().Trim();//outerloop
-                        Polygon poly = new Polygon();//create a new polygon
-                        m_lstpolys.Add(poly); // add it to the polygon list
+                        if (!line.ToLower().StartsWith("outer loop")) 
+                        {
+                            return false;
+                        }
+                        Polygon poly = new Polygon();//create a new polygon                        
                         poly.m_points = new Point3d[3]; // create the storage
-                        
+                        m_lstpolys.Add(poly); // add it to the polygon list
+
                         for (int idx = 0; idx < 3; idx++)//read the point
                         {
-                            Point3d tmp = new Point3d(); // create a temp point
-                            char[] delimiters = new char[] {' '};
-                            line = sr.ReadLine().Trim();//outerloop
-                            toks = line.Split(delimiters,StringSplitOptions.RemoveEmptyEntries);
-                           // tmp.x = float.Parse(toks[1].Trim());
-                           // tmp.y = float.Parse(toks[2].Trim());
-                           // tmp.z = float.Parse(toks[3].Trim());
-                            float tf = 0.0f;
-                             Single.TryParse(toks[1],out tf);
-                             tmp.x = tf;
-                             Single.TryParse(toks[2], out tf);
-                             tmp.y = tf;
-                             Single.TryParse(toks[3], out tf);
-                             tmp.z = tf;
-                            poly.m_points[idx] = AddUniqueVert(tmp);
+                            poly.m_points[idx] = new Point3d(); // create storage for this point
+                            char[] delimiters = new char[] { ' ' };
+                            line = sr.ReadLine().Trim(); // vertex
+                            toks = line.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+                            if (!toks[0].ToLower().Equals("vertex")) 
+                            {
+                                return false;
+                            }
+                            poly.m_points[idx].x = double.Parse(toks[1].Trim());
+                            poly.m_points[idx].y = double.Parse(toks[2].Trim());
+                            poly.m_points[idx].z = double.Parse(toks[3].Trim());
+                            m_lstpoints.Add(poly.m_points[idx]);
+                        }
+                        line = sr.ReadLine().Trim();//endloop
+                        if (!line.Equals("endloop")) 
+                        {
+                            return false;
+                        }
+                        line = sr.ReadLine().Trim().ToLower(); // endfacet
+                        if (!line.Equals("endfacet"))
+                        {
+                            return false;
                         }
 
-                        poly.CalcNormal();
-                        poly.CalcCenter();
-                        line = sr.ReadLine().Trim();//endloop
+                    } // endfacet
+                    else if (line.ToLower().StartsWith("endsolid"))
+                    {
+                        //end of model defintion
+                        Update(); // initial positions please...
                     }
-                }
+                    else 
+                    {
+                        DebugLogger.Instance().LogError("Error in LoadSTL ASCII, facet expected");
+                    }
+                } // end of input stream
+                
+                
                 sr.Close();
             }
             catch (Exception ) 
@@ -472,7 +508,213 @@ namespace Engine3D
             FindMinMax();
             return true;
         }
-        public bool LoadDXF(string filename) 
+        #region 3DSLoader
+        public bool Load3ds(string filename) 
+        {
+            BinaryReader br = null;
+            try
+            {
+                br = new BinaryReader(File.Open(filename, FileMode.Open));
+                m_fullname = filename;
+                m_name = Path.GetFileName(filename);
+                
+                int code = br.ReadInt16();
+                while (br.PeekChar() != -1)
+                {
+                    switch (code)
+                    {
+                        case 0x4D4D: // Main Chunk
+                            break;
+                        case 0xB000: // Keyframer Chunk - Ignore for now
+                            break;
+                    }
+                }
+                return true;
+            }   
+            catch (Exception e) 
+            {
+                DebugLogger.Instance().LogError(e.Message);
+                return false;
+            }
+        }
+        #endregion
+
+        #region OBJ FILE LOADER
+        public bool LoadObjFile(string fileName)
+﻿      ﻿  {
+          try
+          {
+        ﻿  ﻿  ﻿  if (string.IsNullOrEmpty(fileName))
+        ﻿  ﻿  ﻿  {
+                     return false;           
+        ﻿  ﻿  ﻿  }
+        ﻿  ﻿  ﻿  
+        ﻿  ﻿  ﻿  if (!File.Exists(fileName))
+        ﻿  ﻿  ﻿  {
+                     DebugLogger.Instance().LogError("3ds file could not be found " + fileName);
+                     return false;
+                     //﻿  ﻿  ﻿  ﻿  throw new ArgumentException("3ds file could not be found", "fileName");
+        ﻿  ﻿  ﻿  }
+                 this.m_fullname = fileName;
+                 this.m_name = Path.GetFileNameWithoutExtension(fileName);
+        ﻿  ﻿  ﻿  using (StreamReader sr = File.OpenText(fileName))
+        ﻿  ﻿  ﻿  {
+        ﻿  ﻿  ﻿  ﻿  
+              ﻿  ﻿  ﻿  int curLineNo = 0;﻿  ﻿  ﻿  ﻿  ﻿  ﻿  
+                   ﻿  ﻿  ﻿  ﻿  
+              ﻿  ﻿  ﻿  string line = null;
+              ﻿  ﻿  ﻿  bool done = false;
+                    //ArrayList lclpoints = new ArrayList();
+                    ArrayList lclply = new ArrayList();
+                    ArrayList lclnrm = new ArrayList();
+
+        ﻿  ﻿  ﻿  ﻿  while ((line = sr.ReadLine()) != null)
+        ﻿  ﻿  ﻿  ﻿  {
+        ﻿  ﻿  ﻿  ﻿  ﻿  curLineNo++;
+        ﻿  ﻿  ﻿  ﻿  ﻿  
+        ﻿  ﻿  ﻿  ﻿  ﻿  if (done || line.Trim() == string.Empty || line.StartsWith("#"))
+        ﻿  ﻿  ﻿  ﻿  ﻿  {
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  continue;
+        ﻿  ﻿  ﻿  ﻿  ﻿  }
+        ﻿  ﻿  ﻿  ﻿  ﻿  
+        ﻿  ﻿  ﻿  ﻿  ﻿  string[] parts = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        ﻿  ﻿  ﻿  ﻿  ﻿  
+        ﻿  ﻿  ﻿  ﻿  ﻿  switch (parts[0])
+        ﻿  ﻿  ﻿  ﻿  ﻿  {
+        ﻿  ﻿  ﻿  ﻿  ﻿  case "v": // vertex         ﻿  ﻿  ﻿  ﻿
+                        Point3d pnt = new Point3d();
+                        double[] v = ParseVector(parts);
+                        pnt.x = v[0];
+                        pnt.y = v[1];
+                        pnt.z = v[2];
+              ﻿  ﻿  ﻿  ﻿  ﻿  m_lstpoints.Add(pnt);
+                        break;
+        ﻿  ﻿  ﻿  ﻿  ﻿  case "vn": // vertex normal
+            ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  lclnrm.Add(ParseVector(parts));
+            ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  break;
+        ﻿  ﻿  ﻿  ﻿  ﻿  //case "g":
+        ﻿  ﻿  ﻿  ﻿  //﻿  ﻿  done = true;
+        ﻿  ﻿  ﻿  ﻿  //﻿  ﻿  break;
+        ﻿  ﻿  ﻿  ﻿  ﻿  case "f":
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  // a face
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿                 
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  if (parts.Length > 5)
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  {
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  throw new NotSupportedException(string.Format("Face found with more than four indices (line {0})", curLineNo));
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  }
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  if (parts.Length < 3)
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  {
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  throw new FormatException(string.Format("Face found with less three indices (line {0})", curLineNo));﻿  ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  }
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿          ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿          ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  Polygon ply;
+                    int fp1, fp2, fp3;
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  if (parts.Length == 4) // a triangle
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  {
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  ﻿         // tris.Add(new Triangle(ParseFacePart(parts[1]), ParseFacePart(parts[2]), ParseFacePart(parts[3])));
+                              ply = new Polygon();
+                              m_lstpolys.Add(ply);
+                      
+                              try
+                              {
+                                  ply.m_points = new Point3d[3];
+                                  fp1 = ParseFacePart(parts[1]) - 1;
+                                  fp2 = ParseFacePart(parts[2]) - 1;
+                                  fp3 = ParseFacePart(parts[3]) - 1;
+                                  ply.m_points[0] = (Point3d)m_lstpoints[fp1];
+                                  ply.m_points[1] = (Point3d)m_lstpoints[fp2];
+                                  ply.m_points[2] = (Point3d)m_lstpoints[fp3];
+                                  ply.CalcCenter();
+                                  ply.CalcMinMax();
+                                  ply.CalcNormal();
+                                  ply.CalcRadius();
+                              }
+                              catch (Exception ex) 
+                              {
+                                  DebugLogger.Instance().LogError(ex.Message);
+                                  return false;
+
+                              }
+                      
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  }
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  else if ( parts.Length == 5) // a quad
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  {
+                              //﻿  ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  quads.Add(new Quad(ParseFacePart(parts[1]), ParseFacePart(parts[2]), ParseFacePart(parts[3]), ParseFacePart(parts[4])));
+
+                              ply = new Polygon();
+                              m_lstpolys.Add(ply);
+                              ply.m_points = new Point3d[3];
+                              fp1 = ParseFacePart(parts[1]) - 1;
+                              fp2 = ParseFacePart(parts[2]) - 1;
+                              fp3 = ParseFacePart(parts[3]) - 1;
+                              ply.m_points[0] = (Point3d)m_lstpoints[fp1];
+                              ply.m_points[1] = (Point3d)m_lstpoints[fp2];
+                              ply.m_points[2] = (Point3d)m_lstpoints[fp3];  ﻿  ﻿  
+                             ply.CalcCenter();
+                             ply.CalcMinMax();
+                             ply.CalcNormal();
+                             ply.CalcRadius();
+
+                             ply = new Polygon();
+                             m_lstpolys.Add(ply);
+                             ply.m_points = new Point3d[3];
+                             fp1 = ParseFacePart(parts[2]) - 1;
+                             fp2 = ParseFacePart(parts[3]) - 1;
+                             fp3 = ParseFacePart(parts[4]) - 1;
+                             ply.m_points[0] = (Point3d)m_lstpoints[fp1];
+                             ply.m_points[1] = (Point3d)m_lstpoints[fp2];
+                             ply.m_points[2] = (Point3d)m_lstpoints[fp3]; 
+                             ply.CalcCenter();
+                             ply.CalcMinMax();
+                             ply.CalcNormal();
+                             ply.CalcRadius();
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  }
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  break;
+        ﻿  ﻿  ﻿  ﻿  ﻿  }
+        ﻿  ﻿  ﻿  ﻿  ﻿  
+        ﻿  ﻿  ﻿  ﻿  }
+        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  ﻿ // Console.WriteLine("v: {0} n: {1} q:{2}", vectors.Count,normals.Count, quads.Count);
+        ﻿  ﻿  ﻿  ﻿  
+        ﻿  ﻿  ﻿  }
+    ﻿     ﻿  ﻿  ﻿ return true;
+          }
+          catch (Exception ex) 
+          {
+              DebugLogger.Instance().LogError(ex.Message);
+              return false;
+          }
+﻿  ﻿  }
+﻿  ﻿  
+﻿  ﻿  static double[] ParseVector(string[] parts)
+﻿  ﻿  {﻿  ﻿  ﻿  
+          double []dv = new double[3];
+          dv[0] = Double.Parse(parts[1]);
+          dv[1] = Double.Parse(parts[2]);
+          dv[2] = Double.Parse(parts[3]);
+
+    ﻿  ﻿  ﻿  return dv;
+﻿  ﻿  }                     
+﻿  ﻿  
+﻿  ﻿  ﻿  ﻿  
+﻿  ﻿  static int ParseFacePart(string part)
+﻿  ﻿  {
+          try
+          {
+        ﻿  ﻿  ﻿  string[] pieces = part.Split('/');
+        ﻿  ﻿  ﻿  return int.Parse(pieces[0]); // piece 0 is the vertex index
+          }
+          catch (Exception ex) 
+          {
+              return -1;
+          }
+﻿  ﻿  }
+#endregion OBJ FILE LOADER﻿
+      #region DXFLoader
+      public bool LoadDXF(string filename) 
         {
             try
             {
@@ -483,8 +725,8 @@ namespace Engine3D
                 {
                     string line = sr.ReadLine();
                     line = line.Trim();
-                    if (line == "3DFACE") 
-                    {                        
+                    if (line.ToUpper() == "3DFACE") 
+                    {
                         Polygon poly = new Polygon();//create a new polygon
                         m_lstpolys.Add(poly); // add it to the polygon list
                         Point3d []pnts;
@@ -497,14 +739,25 @@ namespace Engine3D
                         }
                         poly.CalcNormal();
                         poly.CalcCenter();
+                        FindMinMax();
                     }
                 }
                 sr.Close();
-                return true;
+                if (NumPolys > 0)
+                {
+                    return true;
+                }
+                else 
+                {
+                    return false;
+                }
+                
             }catch( Exception)
             {
                 return false;            
             }
         }
+      #endregion dxfloader
     }
+
 }

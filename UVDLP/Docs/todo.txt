@@ -1,58 +1,49 @@
+Add PLY support
+Add 3ds file support
+Add ASCII support?
+Add 3d polygon backplane clipping via normal and dp to view vector
+Add 3d view frustrum clipping
+Add Triangulate function
+Shutter Control (maybe example in preslice or postlift)
+Add better controls on control panel
+Add Better messages for user events
+	Build started, stopped, layer, completed, etc...
+Add optional homing commands for axises
+	this would help with shutter controls, as well as initial machine start
+support generation
+	2d/3d
+Skirt/Brim/Raft functionality
 
+SVG import/export
+support for powder based printers
+click on objects to select
+show selected in different color
+GCode interpreter for 3DLPrinter
+additional controls for dlprinter
+Add Generic variables for XML & Slicing!!
+
+Bugs**************************************
+Can't select other build/slice profile - Fixed
+
+
+Completed**********************************
+*multiple config support
+	slice profiles
+*Image Anti-Aliasing
+	render image at 150% value and rescale to 100%
+*Update Documentation
 * Fix localization
-
 * Add preslice.gcode 
-
 * Add screen for GCode (preslice.gcode, prelift,postlist,start,end)
-
 * Lift fixes
 	go up lift dist
 	go back down (lift - layer height)
-
 * Add lift sequence prior to first layer
-
 * Add Coordinated Tilt / Slide support
-
 * Add Machine and profile names to:
 	slice display
 	main display
-
 * Add a control to show current slice # of total slice numbers
-
-
-Shutter Control (maybe example in preslice or postlift)
-
-*multiple config support
-	slice profiles
-
-*Image Anti-Aliasing
-	render image at 150% value and rescale to 100%
-
-*Update Documentation
-
-Add better controls on control panel
-
-
-Add Better messages for user events
-	Build started, stopped, layer, completed, etc...
-
-Add optional homing commands for axises
-	this would help with shutter controls, as well as initial machine start
-
-
-support generation
-	2d/3d
-
-
-SVG import
-
-support for powder based printers
-
-click on objects to select
-
-show selected in different color
-
-GCode interpreter for 3DLPrinter
-
-additional controls for dlprinter
+*Add dxf file support
+*Add obj file support
 

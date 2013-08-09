@@ -304,13 +304,13 @@ namespace UV_DLP_3D_Printer
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("(****Build and Slicing Parameters****)\r\n");
-            sb.Append("(pix per mm X           = " + dpmmX + " px/mm )\r\n");
-            sb.Append("(pix per mm Y           = " + dpmmY + " px/mm )\r\n");
+            sb.Append("(pix per mm X           = " + String.Format("{0:0.00000}", dpmmX) + " px/mm )\r\n");
+            sb.Append("(pix per mm Y           = " + String.Format("{0:0.00000}", dpmmY) + " px/mm )\r\n");
             sb.Append("(X resolution            = " + xres + " px )\r\n");
             sb.Append("(Y resolution            = " + yres + " px )\r\n");
             sb.Append("(X Pixel Offset          = " + XOffset + " px )\r\n");
             sb.Append("(Y Pixel Offset          = " + YOffset + " px )\r\n");
-            sb.Append("(Layer thickness         = " + ZThick + " mm )\r\n");
+            sb.Append("(Layer thickness         = " + String.Format("{0:0.00000}", ZThick) + " mm )\r\n");
             sb.Append("(Layer Time              = " + layertime_ms + " ms )\r\n");
             sb.Append("(First Layer Time        = " + firstlayertime_ms + " ms )\r\n");
             sb.Append("(Number of Bottom Layers = " + numfirstlayers + " )\r\n");

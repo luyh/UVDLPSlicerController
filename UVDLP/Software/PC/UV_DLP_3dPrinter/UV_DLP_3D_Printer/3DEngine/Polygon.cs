@@ -205,6 +205,10 @@ namespace Engine3D
         public void CalcCenter() 
         {
             m_center.Set(0, 0, 0,0);
+            if (m_points.Length != 3) 
+            {
+                int a = 1;
+            }
             foreach (Point3d pnt in m_points)
             {
                 m_center.x += pnt.x;
@@ -256,6 +260,7 @@ namespace Engine3D
             // use center point and radius to determine visibility (3d test)
             // 
             // test dot product of the transformed normal
+
             if (wireframe)
             {
 

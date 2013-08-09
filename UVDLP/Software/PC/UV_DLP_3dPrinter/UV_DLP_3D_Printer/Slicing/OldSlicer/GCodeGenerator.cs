@@ -55,6 +55,7 @@ namespace UV_DLP_3D_Printer
             String blankdelay = "(<Delay> " + sf.m_config.blanktime_ms + " )\r\n";
 
             zdist = sf.m_config.ZThick;
+            /*
             // the first thing that needs to happen is a lift sequence to set up the first layer
             // there is no tilt/slide for the initial layer lift 
             sb.Append(sf.m_config.PreLiftCode); // append the pre-lift codes
@@ -65,7 +66,7 @@ namespace UV_DLP_3D_Printer
 
             // append the post-lift codes
             sb.Append(sf.m_config.PostLiftCode);
-
+            */
             for (int c = 0; c < sf.m_slices.Count; c++)
             {
                 sb.Append(sf.m_config.PreSliceCode);//add in the pre-slice code
@@ -87,7 +88,7 @@ namespace UV_DLP_3D_Printer
 
                 if (sf.m_config.slidetiltval == 0.0) // tilt/slide is not used here
                 {
-                    sb.Append("G1 Z" + tmpZU + " F" + feedrate + " (Lift) \r\n");
+                    sb.Append("G1 Z" + tmpZU + " F" + feedrate + "\r\n");//" + " (Lift) \r\n");
                     sb.Append("G1 Z" + tmpZD + " F" + feedrate + " (End Lift) \r\n");
 
                 }

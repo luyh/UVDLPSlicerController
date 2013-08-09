@@ -17,6 +17,7 @@ namespace UV_DLP_3D_Printer
     public enum eAppEvent 
     {
         eModelLoaded,
+        eModelNotLoaded,
         eModelRemoved,
         eGCodeLoaded,
         eGCodeSaved
@@ -140,18 +141,35 @@ namespace UV_DLP_3D_Printer
             {
                 Object3d obj = new Object3d();
 
-                if (obj.LoadSTL(filename) == false)
+                string ext = Path.GetExtension(filename);
+                bool ret = false;
+                ext = ext.ToLower();
+                if (ext.Equals(".dxf")) 
                 {
-                    return false;
+                    ret = obj.LoadDXF(filename);
                 }
-                else
+                if (ext.Equals(".stl"))
+                {    
+                    ret = obj.LoadSTL(filename);               
+                }
+                if (ext.Equals(".obj")) 
+                {
+                    ret = obj.LoadObjFile(filename);
+                }
+                if (ret == true)
                 {
                     m_engine3d.AddObject(obj);
                     m_selectedobject = obj;
                     m_slicefile = null; // the slice file is not longer current
+                    RaiseAppEvent(eAppEvent.eModelLoaded, "Model Loaded");
+
                 }
-                RaiseAppEvent(eAppEvent.eModelLoaded, "Model Loaded");
-                return true;
+                else 
+                {
+                    RaiseAppEvent(eAppEvent.eModelNotLoaded, "Model " + filename + " Failed to load");
+                }
+
+                return ret;
             }
             catch (Exception ex) 
             {

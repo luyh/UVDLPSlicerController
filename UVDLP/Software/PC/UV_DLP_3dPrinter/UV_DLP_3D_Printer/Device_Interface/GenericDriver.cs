@@ -44,6 +44,7 @@ namespace UV_DLP_3D_Printer.Drivers
             }
             
         }
+        
         public override int Write(byte[] data, int len) 
         {
             m_serialport.Write(data, 0, len);
@@ -51,8 +52,33 @@ namespace UV_DLP_3D_Printer.Drivers
         }
         public override int Write(String line) 
         {
-            m_serialport.Write(line);
-            return line.Length; 
+            int len = -1;
+            len = line.Length;
+            string newln = "";
+            //check to see if the line is blank, or starts with a comment
+            // if it does, don't send the comment to the firmware
+            if (line.StartsWith("(")) 
+            {
+                return len;
+            }
+            else if (line.Contains('('))
+            {
+                // this line does not start with a comment, but contains a comment,
+                // split the line and give only the first portion
+                String[] Lines = line.Split('(');
+                if (Lines.Length > 0)
+                {
+                    newln = Lines[0];
+                    newln += "\r\n"; // make sure to capp it off
+                    m_serialport.Write(newln); // write the portion without the comment                    
+                }
+            }
+            else // write the line as normal
+            {
+                m_serialport.Write(line);                
+                return line.Length;
+            }
+            return len;
         }
     }
 }

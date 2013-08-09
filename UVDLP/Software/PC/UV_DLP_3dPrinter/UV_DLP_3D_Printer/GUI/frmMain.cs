@@ -68,7 +68,8 @@ namespace UV_DLP_3D_Printer
             PopulateBuildProfilesMenu();
             SetupSceneTree();
             printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(printDocument1_PrintPage);
-            Invalidate();
+            //Invalidate();
+            Refresh();
         }
 
         void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
@@ -146,21 +147,30 @@ namespace UV_DLP_3D_Printer
             {
                 switch (ev) 
                 {
+                    case eAppEvent.eModelNotLoaded:
+                        DebugLogger.Instance().LogRecord(Message);
+                        break;
+
                     case eAppEvent.eModelRemoved: 
                         //the current model was removed
+                        DebugLogger.Instance().LogRecord(Message);
                         ShowObjectInfo();
                         DisplayFunc();
                         break;
                     case eAppEvent.eGCodeLoaded:
+                        DebugLogger.Instance().LogRecord(Message);
                         break;
                     case eAppEvent.eGCodeSaved:
+                        DebugLogger.Instance().LogRecord(Message);
                         break;
                     case eAppEvent.eModelLoaded:
                         ShowObjectInfo();
                         DisplayFunc();
+                        DebugLogger.Instance().LogRecord(Message);
                         break;
                 }
             }
+            Refresh();
         }
         private void SetButtonStatuses() 
         {
@@ -203,6 +213,7 @@ namespace UV_DLP_3D_Printer
                 cmdPause.Enabled = false; // disable
 
             }
+            Refresh();
         }
 
         private void SetupSceneTree() 
@@ -248,22 +259,29 @@ namespace UV_DLP_3D_Printer
          */
         void DeviceStatusEvent(ePIStatus status, String Command) 
         {
-            switch (status) 
+            if (InvokeRequired)
             {
-                case ePIStatus.eConnected:
-                    SetButtonStatuses();
-                    DebugLogger.Instance().LogRecord("Device Connected");
-                    break;
-                case ePIStatus.eDisconnected:
-                    SetButtonStatuses();
-                    DebugLogger.Instance().LogRecord("Device Disconnected");
-                    break;
-                case ePIStatus.eError:
-                    break;
-                case ePIStatus.eReady:
-                    break;
-                case ePIStatus.eTimedout:
-                    break;
+                BeginInvoke(new MethodInvoker(delegate() { DeviceStatusEvent(status, Command); }));
+            }
+            else
+            {
+                switch (status)
+                {
+                    case ePIStatus.eConnected:
+                        SetButtonStatuses();
+                        DebugLogger.Instance().LogRecord("Device Connected");
+                        break;
+                    case ePIStatus.eDisconnected:
+                        SetButtonStatuses();
+                        DebugLogger.Instance().LogRecord("Device Disconnected");
+                        break;
+                    case ePIStatus.eError:
+                        break;
+                    case ePIStatus.eReady:
+                        break;
+                    case ePIStatus.eTimedout:
+                        break;
+                }
             }
         }
 
@@ -375,6 +393,8 @@ namespace UV_DLP_3D_Printer
                         SetMainMessage("Slicing Completed");
                         String timeest = BuildManager.EstimateBuildTime(UVDLPApp.Instance().m_gcode);
                         SetTimeMessage("Estimated Build Time: " + timeest);
+                        //show the slice in the slice view
+                        ViewLayer(0, null,BuildManager.SLICE_NORMAL);
                         break;
                 }
             }
@@ -397,11 +417,12 @@ namespace UV_DLP_3D_Printer
         private void LoadSTLModel_Click(object sender, EventArgs e)
         {
             openFileDialog1.FileName = "";
+            openFileDialog1.Filter = "3D Model Files(*.stl;*.obj;*.dxf)|*.stl;*.obj;*.dxf|All files (*.*)|*.*";
             if (openFileDialog1.ShowDialog() == DialogResult.OK) 
             {
                 if (UVDLPApp.Instance().LoadModel(openFileDialog1.FileName) == false)
                 {
-                    MessageBox.Show("Error loading file " + openFileDialog1.FileName);
+                   // MessageBox.Show("Error loading file " + openFileDialog1.FileName);
                 }
                 else 
                 {
@@ -465,7 +486,7 @@ namespace UV_DLP_3D_Printer
         private void Form1_Load(object sender, EventArgs e)
         {
             SetTitle();
-            Invalidate();
+            //Invalidate();
             Refresh();
         }
 
@@ -495,6 +516,7 @@ namespace UV_DLP_3D_Printer
 
                 //GL.Matr
                 GL.Enable(EnableCap.DepthTest); // for z buffer
+                GL.Enable(EnableCap.CullFace);
                 OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(0.55f, aspect, 1,2000);
                 //GL.DepthRange(0, 2000);
                 OpenTK.Matrix4 modelView = OpenTK.Matrix4.LookAt(new OpenTK.Vector3(5, 0, -5), new OpenTK.Vector3(0, 0, 0), new OpenTK.Vector3(0, 0, 1));
@@ -581,7 +603,8 @@ namespace UV_DLP_3D_Printer
           GL.Flush();
            // glControl1.
           glControl1.SwapBuffers();
-          glControl1.Invalidate();
+          //glControl1.Invalidate();
+          glControl1.Refresh();
         }
 
         
@@ -1387,7 +1410,7 @@ namespace UV_DLP_3D_Printer
         {
             String newprof = sender.ToString();
             
-            string[] filePaths = Directory.GetFiles(UVDLPApp.Instance().m_PathMachines, "*.slicing");
+            string[] filePaths = Directory.GetFiles(UVDLPApp.Instance().m_PathProfiles, "*.slicing");
             int idx = 0;
             foreach (String profile in filePaths)
             {
@@ -1395,7 +1418,8 @@ namespace UV_DLP_3D_Printer
                 if (pn.Equals(newprof))
                 {
                     UVDLPApp.Instance().LoadBuildSliceProfile(filePaths[idx]);
-                    PopulateMachinesMenu();
+                    //PopulateMachinesMenu();
+                    PopulateBuildProfilesMenu();
                     break;
                 }
                 idx++;
@@ -1564,9 +1588,10 @@ namespace UV_DLP_3D_Printer
             m_buildprofilesmanager.ShowDialog();
             // update just in case.
             DisplayFunc();
-            Invalidate();
+            //Invalidate();
             PopulateBuildProfilesMenu();
             SetTitle();
+            Refresh();
         }
 
         private void connectionToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -1589,6 +1614,11 @@ namespace UV_DLP_3D_Printer
         {
             //Invalidate();
             //toolStrip1.Invalidate();
+            Refresh();
+        }
+
+        private void frmMain_Activated(object sender, EventArgs e)
+        {
             Refresh();
         }
     }

@@ -469,6 +469,7 @@
             // treeScene
             // 
             this.treeScene.Dock = System.Windows.Forms.DockStyle.Top;
+            this.treeScene.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeScene.Location = new System.Drawing.Point(0, 0);
             this.treeScene.Name = "treeScene";
             this.treeScene.Size = new System.Drawing.Size(235, 366);
@@ -1025,6 +1026,7 @@
             this.Name = "frmMain";
             this.Text = "Creation Workshop - UV DLP 3D Printer Control and Slicing";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Activated += new System.EventHandler(this.frmMain_Activated);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Resize += new System.EventHandler(this.frmMain_Resize);
             this.splitContainer1.Panel1.ResumeLayout(false);
