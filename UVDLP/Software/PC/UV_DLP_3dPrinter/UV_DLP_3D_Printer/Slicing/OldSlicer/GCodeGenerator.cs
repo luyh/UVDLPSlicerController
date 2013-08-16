@@ -35,7 +35,9 @@ namespace UV_DLP_3D_Printer
             String gcode;
             StringBuilder sb = new StringBuilder();
             double zdist = 0.0;
-            double feedrate = pi.ZMaxFeedrate; // 10mm/min
+           // double feedrate = pi.ZMaxFeedrate; // 10mm/min
+            double liftfeed = sf.m_config.liftfeedrate;
+            double retractfeed = sf.m_config.liftretractrate;
             double zdir = 1.0; // assume a bottom up machine
             int numbottom = sf.m_config.numfirstlayers;
 
@@ -55,18 +57,7 @@ namespace UV_DLP_3D_Printer
             String blankdelay = "(<Delay> " + sf.m_config.blanktime_ms + " )\r\n";
 
             zdist = sf.m_config.ZThick;
-            /*
-            // the first thing that needs to happen is a lift sequence to set up the first layer
-            // there is no tilt/slide for the initial layer lift 
-            sb.Append(sf.m_config.PreLiftCode); // append the pre-lift codes
-            //do the lift
-            sb.Append("G1 Z" + String.Format("{0:0.00000}", (sf.m_config.liftdistance * zdir)).Replace(',','.') + " F" + feedrate + " (Lift) \r\n");
-            // move back from the lift
-            sb.Append("G1 Z" + String.Format("{0:0.00000}", ((sf.m_config.liftdistance - zdist  ) * zdir * -1)).Replace(',', '.') + " F" + feedrate + " (End Lift) \r\n");
 
-            // append the post-lift codes
-            sb.Append(sf.m_config.PostLiftCode);
-            */
             for (int c = 0; c < sf.m_slices.Count; c++)
             {
                 sb.Append(sf.m_config.PreSliceCode);//add in the pre-slice code
@@ -88,8 +79,8 @@ namespace UV_DLP_3D_Printer
 
                 if (sf.m_config.slidetiltval == 0.0) // tilt/slide is not used here
                 {
-                    sb.Append("G1 Z" + tmpZU + " F" + feedrate + "\r\n");//" + " (Lift) \r\n");
-                    sb.Append("G1 Z" + tmpZD + " F" + feedrate + " (End Lift) \r\n");
+                    sb.Append("G1 Z" + tmpZU + " F" + liftfeed + " (Lift) \r\n");
+                    sb.Append("G1 Z" + tmpZD + " F" + retractfeed + " (End Lift) \r\n");
 
                 }
                 else // tilt/slide has a value, so it is used
@@ -97,8 +88,8 @@ namespace UV_DLP_3D_Printer
                     // format the X slide/tilt value
                     String tmpX1 = String.Format("{0:0.00000}", (sf.m_config.slidetiltval)).Replace(',', '.');
                     String tmpX2 = String.Format("{0:0.00000}", (sf.m_config.slidetiltval * -1)).Replace(',', '.');
-                    sb.Append("G1 X" + tmpX1 + " Z" + tmpZU + " F" + feedrate + " (Lift) \r\n");
-                    sb.Append("G1 X" + tmpX2 + " Z" + tmpZD + " F" + feedrate + " (End Lift) \r\n");
+                    sb.Append("G1 X" + tmpX1 + " Z" + tmpZU + " F" + liftfeed + " (Lift) \r\n");
+                    sb.Append("G1 X" + tmpX2 + " Z" + tmpZD + " F" + retractfeed + " (End Lift) \r\n");
                 }
                 // append the post-lift codes
                 sb.Append(sf.m_config.PostLiftCode);

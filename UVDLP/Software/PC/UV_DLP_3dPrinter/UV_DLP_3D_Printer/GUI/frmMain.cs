@@ -11,7 +11,6 @@ using OpenTK.Graphics;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform.Windows;
-//using OpenTK.Graphics.OpenGL;
 using System.IO.Ports;
 using System.IO;
 using System.Collections;
@@ -216,42 +215,7 @@ namespace UV_DLP_3D_Printer
             Refresh();
         }
 
-        private void SetupSceneTree() 
-        {
-            treeScene.Nodes.Clear();//clear the old
 
-            TreeNode scenenode = new TreeNode("Scene");
-            treeScene.Nodes.Add(scenenode);
-            foreach (Object3d obj in UVDLPApp.Instance().Engine3D.m_objects) 
-            {
-                obj.FindMinMax();
-                TreeNode objnode = new TreeNode(obj.Name);
-                objnode.Tag = obj;
-                scenenode.Nodes.Add(objnode);
-                //String minmax = "Nu
-                String Numpoints = "Num Points = " + obj.NumPoints.ToString();
-                objnode.Nodes.Add(Numpoints);
-                String Numpolys = "Num Polys = " + obj.NumPolys.ToString();
-                objnode.Nodes.Add(Numpolys);
-                objnode.Nodes.Add("Min points = (" + String.Format("{0:0.00}", obj.m_min.x) + "," + String.Format("{0:0.00}", obj.m_min.y) + "," + String.Format("{0:0.00}", obj.m_min.z) + ")");
-                objnode.Nodes.Add("Max points = (" + String.Format("{0:0.00}", obj.m_max.x) + "," + String.Format("{0:0.00}", obj.m_max.y) + "," + String.Format("{0:0.00}", obj.m_max.z) + ")");
-                double xs, ys, zs;
-                xs = obj.m_max.x - obj.m_min.x;
-                ys = obj.m_max.y - obj.m_min.y;
-                zs = obj.m_max.z - obj.m_min.z;                
-                objnode.Nodes.Add("Size = (" + String.Format("{0:0.00}", xs) + "," + String.Format("{0:0.00}", ys) + "," + String.Format("{0:0.00}", zs) + ")");
-                objnode.Nodes.Add("Wireframe = " + obj.m_wireframe.ToString());
-                if (obj == UVDLPApp.Instance().m_selectedobject)  // expand this node
-                {
-                    objnode.Expand();
-                    objnode.BackColor = Color.LightBlue;
-                    treeScene.SelectedNode = objnode;
-                }
-
-            }
-            scenenode.Expand();
-             
-        }
         /*
          This function is called when the device status changes
          * most of this is for display purposes only,
@@ -517,6 +481,10 @@ namespace UV_DLP_3D_Printer
                 //GL.Matr
                 GL.Enable(EnableCap.DepthTest); // for z buffer
                 GL.Enable(EnableCap.CullFace);
+                GL.CullFace(CullFaceMode.Back); // specify culling backfaces
+                
+                //GL_POLYGON_SMOOTH
+
                 OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(0.55f, aspect, 1,2000);
                 //GL.DepthRange(0, 2000);
                 OpenTK.Matrix4 modelView = OpenTK.Matrix4.LookAt(new OpenTK.Vector3(5, 0, -5), new OpenTK.Vector3(0, 0, 0), new OpenTK.Vector3(0, 0, 1));
@@ -533,8 +501,9 @@ namespace UV_DLP_3D_Printer
                 GL.Material(MaterialFace.Front, MaterialParameter.Specular, mat_specular);
                 GL.Material(MaterialFace.Front, MaterialParameter.Shininess, mat_shininess);
 
-               // GL.Enable(EnableCap.Blend); // alpha blending
-                //GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+                GL.Enable(EnableCap.Blend); // alpha blending
+                GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+                //GL.ClearColor(Color.FromArgb(20, Color.LightGray));
                 
                 float[] lightpos = new float[4];
                 lightpos[0] = 5.0f;
@@ -543,11 +512,11 @@ namespace UV_DLP_3D_Printer
                 lightpos[3] = 1.0f;
                 float []light_position = { 1.0f, 1.0f, 1.0f, 0.0f };
                 GL.Light(LightName.Light0, LightParameter.Position, light_position);
-                
-                
-                GL.Enable(EnableCap.LineSmooth);
-//glEnable(GL_LINE_SMOOTH);
 
+                GL.Enable(EnableCap.PolygonSmooth);
+                GL.Enable(EnableCap.LineSmooth);
+                GL.Enable(EnableCap.AlphaTest);
+             //  GL.Enable(EnableCap.s
 
                 GL.MatrixMode(MatrixMode.Modelview);
                 GL.LoadIdentity();
@@ -599,12 +568,9 @@ namespace UV_DLP_3D_Printer
           GL.Rotate(orbitxpos, 1, 0, 0);
 
           UVDLPApp.Instance().Engine3D.RenderGL();
-          DrawISect();
+         // DrawISect();
           GL.Flush();
-           // glControl1.
           glControl1.SwapBuffers();
-          //glControl1.Invalidate();
-          glControl1.Refresh();
         }
 
         
@@ -826,6 +792,7 @@ namespace UV_DLP_3D_Printer
                 dy = e.Y - mdy;
                 mdx = e.X;
                 mdy = e.Y;
+
             }
             dx /= 2;
             dy /= 2;
@@ -1061,16 +1028,7 @@ namespace UV_DLP_3D_Printer
             }
             m_frmSlice.Show();
         }
-/*
-        private void sendGCodeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (m_sendgcode.IsDisposed) 
-            {
-                m_sendgcode = new frmGCodeRaw();
-            }
-            m_sendgcode.Show();
-        }
- * */
+
         #region Save/Load GCode
         private void cmdSaveGCode_Click(object sender, EventArgs e)
         {
@@ -1099,6 +1057,44 @@ namespace UV_DLP_3D_Printer
             }
         }
         #endregion Save/ Load GCode
+
+        #region Scene Tree Functionality
+        private void SetupSceneTree()
+        {
+            treeScene.Nodes.Clear();//clear the old
+
+            TreeNode scenenode = new TreeNode("Scene");
+            treeScene.Nodes.Add(scenenode);
+            foreach (Object3d obj in UVDLPApp.Instance().Engine3D.m_objects)
+            {
+                obj.FindMinMax();
+                TreeNode objnode = new TreeNode(obj.Name);
+                objnode.Tag = obj;
+                scenenode.Nodes.Add(objnode);
+                //String minmax = "Nu
+                String Numpoints = "Num Points = " + obj.NumPoints.ToString();
+                objnode.Nodes.Add(Numpoints);
+                String Numpolys = "Num Polys = " + obj.NumPolys.ToString();
+                objnode.Nodes.Add(Numpolys);
+                objnode.Nodes.Add("Min points = (" + String.Format("{0:0.00}", obj.m_min.x) + "," + String.Format("{0:0.00}", obj.m_min.y) + "," + String.Format("{0:0.00}", obj.m_min.z) + ")");
+                objnode.Nodes.Add("Max points = (" + String.Format("{0:0.00}", obj.m_max.x) + "," + String.Format("{0:0.00}", obj.m_max.y) + "," + String.Format("{0:0.00}", obj.m_max.z) + ")");
+                double xs, ys, zs;
+                xs = obj.m_max.x - obj.m_min.x;
+                ys = obj.m_max.y - obj.m_min.y;
+                zs = obj.m_max.z - obj.m_min.z;
+                objnode.Nodes.Add("Size = (" + String.Format("{0:0.00}", xs) + "," + String.Format("{0:0.00}", ys) + "," + String.Format("{0:0.00}", zs) + ")");
+                objnode.Nodes.Add("Wireframe = " + obj.m_wireframe.ToString());
+                if (obj == UVDLPApp.Instance().m_selectedobject)  // expand this node
+                {
+                    objnode.Expand();
+                    objnode.BackColor = Color.LightBlue;
+                    treeScene.SelectedNode = objnode;
+                }
+
+            }
+            scenenode.Expand();
+
+        }
         /*
          This function does 2 things,
          * when a node is click that is an object node, it sets
@@ -1132,6 +1128,8 @@ namespace UV_DLP_3D_Printer
             }
 
         }
+        #endregion
+
         #region Move functions
         private void cmdXDec_Click(object sender, EventArgs e)
         {
@@ -1569,11 +1567,6 @@ namespace UV_DLP_3D_Printer
             UVDLPApp.Instance().AddAutoSupports();
         }
 
-        private void treeScene_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-
-        }
-
         private void propertiesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             cmdSliceOptions_Click(this, null);
@@ -1612,8 +1605,6 @@ namespace UV_DLP_3D_Printer
 
         private void frmMain_Resize(object sender, EventArgs e)
         {
-            //Invalidate();
-            //toolStrip1.Invalidate();
             Refresh();
         }
 

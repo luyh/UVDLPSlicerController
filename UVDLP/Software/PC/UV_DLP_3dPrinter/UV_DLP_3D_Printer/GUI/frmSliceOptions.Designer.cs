@@ -47,16 +47,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.txtBlankTime = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtLiftDistance = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.cmbBuildDirection = new System.Windows.Forms.ComboBox();
             this.txtnumbottom = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.tabOptions = new System.Windows.Forms.TabControl();
             this.tbOptions = new System.Windows.Forms.TabPage();
-            this.label9 = new System.Windows.Forms.Label();
-            this.txtSlideTilt = new System.Windows.Forms.TextBox();
+            this.chkantialiasing = new System.Windows.Forms.CheckBox();
             this.tbStart = new System.Windows.Forms.TabPage();
             this.cmdreloadstartgcode = new System.Windows.Forms.Button();
             this.cmdsavestartgcode = new System.Windows.Forms.Button();
@@ -77,7 +72,18 @@
             this.cmdendgcode = new System.Windows.Forms.Button();
             this.txtsaveendgcode = new System.Windows.Forms.Button();
             this.txtendgcode = new System.Windows.Forms.TextBox();
-            this.chkantialiasing = new System.Windows.Forms.CheckBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txtLiftDistance = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.txtSlideTilt = new System.Windows.Forms.TextBox();
+            this.cmbBuildDirection = new System.Windows.Forms.ComboBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtretractfeed = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.txtliftfeed = new System.Windows.Forms.TextBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.tabOptions.SuspendLayout();
             this.tbOptions.SuspendLayout();
@@ -86,6 +92,7 @@
             this.tbPreLift.SuspendLayout();
             this.tbPostLift.SuspendLayout();
             this.tbEnd.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // chkExportSlices
@@ -100,7 +107,7 @@
             // 
             // cmdOK
             // 
-            this.cmdOK.Location = new System.Drawing.Point(43, 358);
+            this.cmdOK.Location = new System.Drawing.Point(28, 406);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(129, 41);
             this.cmdOK.TabIndex = 24;
@@ -165,7 +172,7 @@
             // 
             // cmdCancel
             // 
-            this.cmdCancel.Location = new System.Drawing.Point(178, 358);
+            this.cmdCancel.Location = new System.Drawing.Point(163, 406);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(129, 41);
             this.cmdCancel.TabIndex = 31;
@@ -240,53 +247,19 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(27, 158);
+            this.label5.Location = new System.Drawing.Point(27, 167);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(234, 17);
+            this.label5.Size = new System.Drawing.Size(190, 17);
             this.label5.TabIndex = 36;
-            this.label5.Text = "Blanking Time Between Layers (ms)";
+            this.label5.Text = "Lift and Sequence Time (ms)";
             // 
             // txtBlankTime
             // 
-            this.txtBlankTime.Location = new System.Drawing.Point(28, 180);
+            this.txtBlankTime.Location = new System.Drawing.Point(28, 189);
             this.txtBlankTime.Name = "txtBlankTime";
             this.txtBlankTime.Size = new System.Drawing.Size(56, 22);
             this.txtBlankTime.TabIndex = 35;
             this.txtBlankTime.Text = "5000";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(303, 158);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(122, 17);
-            this.label6.TabIndex = 38;
-            this.label6.Text = "Lift Distance (mm)";
-            // 
-            // txtLiftDistance
-            // 
-            this.txtLiftDistance.Location = new System.Drawing.Point(304, 178);
-            this.txtLiftDistance.Name = "txtLiftDistance";
-            this.txtLiftDistance.Size = new System.Drawing.Size(100, 22);
-            this.txtLiftDistance.TabIndex = 37;
-            this.txtLiftDistance.Text = "5";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(436, 158);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(99, 17);
-            this.label7.TabIndex = 39;
-            this.label7.Text = "Build Direction";
-            // 
-            // cmbBuildDirection
-            // 
-            this.cmbBuildDirection.FormattingEnabled = true;
-            this.cmbBuildDirection.Location = new System.Drawing.Point(439, 178);
-            this.cmbBuildDirection.Name = "cmbBuildDirection";
-            this.cmbBuildDirection.Size = new System.Drawing.Size(121, 24);
-            this.cmbBuildDirection.TabIndex = 40;
             // 
             // txtnumbottom
             // 
@@ -317,14 +290,14 @@
             this.tabOptions.Location = new System.Drawing.Point(0, 0);
             this.tabOptions.Name = "tabOptions";
             this.tabOptions.SelectedIndex = 0;
-            this.tabOptions.Size = new System.Drawing.Size(740, 474);
+            this.tabOptions.Size = new System.Drawing.Size(670, 484);
             this.tabOptions.TabIndex = 45;
             // 
             // tbOptions
             // 
+            this.tbOptions.Controls.Add(this.checkBox1);
+            this.tbOptions.Controls.Add(this.groupBox3);
             this.tbOptions.Controls.Add(this.chkantialiasing);
-            this.tbOptions.Controls.Add(this.label9);
-            this.tbOptions.Controls.Add(this.txtSlideTilt);
             this.tbOptions.Controls.Add(this.label1);
             this.tbOptions.Controls.Add(this.chkExportSlices);
             this.tbOptions.Controls.Add(this.cmdOK);
@@ -332,13 +305,9 @@
             this.tbOptions.Controls.Add(this.chkgengcode);
             this.tbOptions.Controls.Add(this.txtnumbottom);
             this.tbOptions.Controls.Add(this.txtLayerTime);
-            this.tbOptions.Controls.Add(this.cmbBuildDirection);
             this.tbOptions.Controls.Add(this.lblLayerTime);
-            this.tbOptions.Controls.Add(this.label7);
             this.tbOptions.Controls.Add(this.txtZThick);
-            this.tbOptions.Controls.Add(this.label6);
             this.tbOptions.Controls.Add(this.chkexportsvg);
-            this.tbOptions.Controls.Add(this.txtLiftDistance);
             this.tbOptions.Controls.Add(this.cmdCancel);
             this.tbOptions.Controls.Add(this.label5);
             this.tbOptions.Controls.Add(this.txtFirstLayerTime);
@@ -348,27 +317,20 @@
             this.tbOptions.Location = new System.Drawing.Point(4, 25);
             this.tbOptions.Name = "tbOptions";
             this.tbOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tbOptions.Size = new System.Drawing.Size(732, 445);
+            this.tbOptions.Size = new System.Drawing.Size(662, 455);
             this.tbOptions.TabIndex = 0;
             this.tbOptions.Text = "Options";
             this.tbOptions.UseVisualStyleBackColor = true;
             // 
-            // label9
+            // chkantialiasing
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(304, 201);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(110, 17);
-            this.label9.TabIndex = 44;
-            this.label9.Text = "Slide / Tilt Value";
-            // 
-            // txtSlideTilt
-            // 
-            this.txtSlideTilt.Location = new System.Drawing.Point(305, 221);
-            this.txtSlideTilt.Name = "txtSlideTilt";
-            this.txtSlideTilt.Size = new System.Drawing.Size(100, 22);
-            this.txtSlideTilt.TabIndex = 43;
-            this.txtSlideTilt.Text = "0";
+            this.chkantialiasing.AutoSize = true;
+            this.chkantialiasing.Location = new System.Drawing.Point(28, 241);
+            this.chkantialiasing.Name = "chkantialiasing";
+            this.chkantialiasing.Size = new System.Drawing.Size(156, 21);
+            this.chkantialiasing.TabIndex = 45;
+            this.chkantialiasing.Text = "Enable Anti-Aliasing";
+            this.chkantialiasing.UseVisualStyleBackColor = true;
             // 
             // tbStart
             // 
@@ -377,7 +339,7 @@
             this.tbStart.Controls.Add(this.txtstartgcode);
             this.tbStart.Location = new System.Drawing.Point(4, 25);
             this.tbStart.Name = "tbStart";
-            this.tbStart.Size = new System.Drawing.Size(732, 445);
+            this.tbStart.Size = new System.Drawing.Size(662, 455);
             this.tbStart.TabIndex = 3;
             this.tbStart.Text = "Start GCode";
             this.tbStart.UseVisualStyleBackColor = true;
@@ -418,7 +380,7 @@
             this.tbPreSlice.Controls.Add(this.txtpreslicegcode);
             this.tbPreSlice.Location = new System.Drawing.Point(4, 25);
             this.tbPreSlice.Name = "tbPreSlice";
-            this.tbPreSlice.Size = new System.Drawing.Size(732, 445);
+            this.tbPreSlice.Size = new System.Drawing.Size(662, 455);
             this.tbPreSlice.TabIndex = 5;
             this.tbPreSlice.Text = "Pre-Slice GCode";
             this.tbPreSlice.UseVisualStyleBackColor = true;
@@ -460,7 +422,7 @@
             this.tbPreLift.Location = new System.Drawing.Point(4, 25);
             this.tbPreLift.Name = "tbPreLift";
             this.tbPreLift.Padding = new System.Windows.Forms.Padding(3);
-            this.tbPreLift.Size = new System.Drawing.Size(732, 445);
+            this.tbPreLift.Size = new System.Drawing.Size(662, 455);
             this.tbPreLift.TabIndex = 1;
             this.tbPreLift.Text = "Pre-Lift GCode";
             this.tbPreLift.UseVisualStyleBackColor = true;
@@ -501,7 +463,7 @@
             this.tbPostLift.Controls.Add(this.txtpostliftgcode);
             this.tbPostLift.Location = new System.Drawing.Point(4, 25);
             this.tbPostLift.Name = "tbPostLift";
-            this.tbPostLift.Size = new System.Drawing.Size(732, 445);
+            this.tbPostLift.Size = new System.Drawing.Size(662, 455);
             this.tbPostLift.TabIndex = 2;
             this.tbPostLift.Text = "Post-Lift GCode";
             this.tbPostLift.UseVisualStyleBackColor = true;
@@ -542,7 +504,7 @@
             this.tbEnd.Controls.Add(this.txtendgcode);
             this.tbEnd.Location = new System.Drawing.Point(4, 25);
             this.tbEnd.Name = "tbEnd";
-            this.tbEnd.Size = new System.Drawing.Size(732, 445);
+            this.tbEnd.Size = new System.Drawing.Size(662, 455);
             this.tbEnd.TabIndex = 4;
             this.tbEnd.Text = "End GCode";
             this.tbEnd.UseVisualStyleBackColor = true;
@@ -576,21 +538,131 @@
             this.txtendgcode.Size = new System.Drawing.Size(722, 298);
             this.txtendgcode.TabIndex = 3;
             // 
-            // chkantialiasing
+            // groupBox3
             // 
-            this.chkantialiasing.AutoSize = true;
-            this.chkantialiasing.Location = new System.Drawing.Point(28, 241);
-            this.chkantialiasing.Name = "chkantialiasing";
-            this.chkantialiasing.Size = new System.Drawing.Size(156, 21);
-            this.chkantialiasing.TabIndex = 45;
-            this.chkantialiasing.Text = "Enable Anti-Aliasing";
-            this.chkantialiasing.UseVisualStyleBackColor = true;
+            this.groupBox3.Controls.Add(this.label14);
+            this.groupBox3.Controls.Add(this.txtliftfeed);
+            this.groupBox3.Controls.Add(this.label13);
+            this.groupBox3.Controls.Add(this.txtretractfeed);
+            this.groupBox3.Controls.Add(this.txtLiftDistance);
+            this.groupBox3.Controls.Add(this.label10);
+            this.groupBox3.Controls.Add(this.label11);
+            this.groupBox3.Controls.Add(this.label12);
+            this.groupBox3.Controls.Add(this.txtSlideTilt);
+            this.groupBox3.Controls.Add(this.cmbBuildDirection);
+            this.groupBox3.Location = new System.Drawing.Point(305, 141);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(349, 177);
+            this.groupBox3.TabIndex = 46;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Lift and Sequence";
+            // 
+            // txtLiftDistance
+            // 
+            this.txtLiftDistance.Location = new System.Drawing.Point(25, 46);
+            this.txtLiftDistance.Name = "txtLiftDistance";
+            this.txtLiftDistance.Size = new System.Drawing.Size(100, 22);
+            this.txtLiftDistance.TabIndex = 37;
+            this.txtLiftDistance.Text = "5";
+            this.txtLiftDistance.TextChanged += new System.EventHandler(this.txtLiftDistance_TextChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(24, 26);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(135, 17);
+            this.label10.TabIndex = 38;
+            this.label10.Text = "Z Lift Distance (mm)";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(24, 129);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(110, 17);
+            this.label11.TabIndex = 44;
+            this.label11.Text = "Slide / Tilt Value";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(157, 26);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(99, 17);
+            this.label12.TabIndex = 39;
+            this.label12.Text = "Build Direction";
+            // 
+            // txtSlideTilt
+            // 
+            this.txtSlideTilt.Location = new System.Drawing.Point(25, 149);
+            this.txtSlideTilt.Name = "txtSlideTilt";
+            this.txtSlideTilt.Size = new System.Drawing.Size(100, 22);
+            this.txtSlideTilt.TabIndex = 43;
+            this.txtSlideTilt.Text = "0";
+            // 
+            // cmbBuildDirection
+            // 
+            this.cmbBuildDirection.FormattingEnabled = true;
+            this.cmbBuildDirection.Location = new System.Drawing.Point(160, 46);
+            this.cmbBuildDirection.Name = "cmbBuildDirection";
+            this.cmbBuildDirection.Size = new System.Drawing.Size(121, 24);
+            this.cmbBuildDirection.TabIndex = 40;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(159, 75);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(182, 17);
+            this.label13.TabIndex = 46;
+            this.label13.Text = "Z Lift Retract Speed (mm/s)";
+            // 
+            // txtretractfeed
+            // 
+            this.txtretractfeed.Location = new System.Drawing.Point(160, 95);
+            this.txtretractfeed.Name = "txtretractfeed";
+            this.txtretractfeed.Size = new System.Drawing.Size(100, 22);
+            this.txtretractfeed.TabIndex = 45;
+            this.txtretractfeed.Text = "0";
+            this.txtretractfeed.TextChanged += new System.EventHandler(this.txtretractfeed_TextChanged);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(24, 75);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(132, 17);
+            this.label14.TabIndex = 48;
+            this.label14.Text = "Z Lift Speed (mm/s)";
+            // 
+            // txtliftfeed
+            // 
+            this.txtliftfeed.Location = new System.Drawing.Point(25, 95);
+            this.txtliftfeed.Name = "txtliftfeed";
+            this.txtliftfeed.Size = new System.Drawing.Size(100, 22);
+            this.txtliftfeed.TabIndex = 47;
+            this.txtliftfeed.Text = "0";
+            this.txtliftfeed.TextChanged += new System.EventHandler(this.txtliftfeed_TextChanged);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.Location = new System.Drawing.Point(106, 190);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(121, 21);
+            this.checkBox1.TabIndex = 47;
+            this.checkBox1.Text = "Auto Calculate";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // frmSliceOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(740, 474);
+            this.ClientSize = new System.Drawing.Size(670, 484);
             this.Controls.Add(this.tabOptions);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -614,6 +686,8 @@
             this.tbPostLift.PerformLayout();
             this.tbEnd.ResumeLayout(false);
             this.tbEnd.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -639,10 +713,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtBlankTime;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtLiftDistance;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ComboBox cmbBuildDirection;
         private System.Windows.Forms.TextBox txtnumbottom;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TabControl tabOptions;
@@ -667,8 +737,18 @@
         private System.Windows.Forms.Button cmdendgcode;
         private System.Windows.Forms.Button txtsaveendgcode;
         private System.Windows.Forms.TextBox txtendgcode;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox txtSlideTilt;
         private System.Windows.Forms.CheckBox chkantialiasing;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox txtliftfeed;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox txtretractfeed;
+        private System.Windows.Forms.TextBox txtLiftDistance;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox txtSlideTilt;
+        private System.Windows.Forms.ComboBox cmbBuildDirection;
     }
 }

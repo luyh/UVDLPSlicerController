@@ -45,6 +45,9 @@ namespace UV_DLP_3D_Printer
             txtnumbottom.Text = m_config.numfirstlayers.ToString();
             txtSlideTilt.Text = m_config.slidetiltval.ToString();
             chkantialiasing.Checked = m_config.antialiasing;
+            txtliftfeed.Text = m_config.liftfeedrate.ToString();
+            txtretractfeed.Text = m_config.liftretractrate.ToString();
+
            // txtRaiseTime.Text = m_config.raise_time_ms.ToString();
 
             foreach(String name in Enum.GetNames(typeof(SliceBuildConfig.eBuildDirection)))
@@ -76,7 +79,9 @@ namespace UV_DLP_3D_Printer
                 m_config.numfirstlayers = int.Parse(txtnumbottom.Text);
                 m_config.slidetiltval = double.Parse(txtSlideTilt.Text);
                 m_config.antialiasing = chkantialiasing.Checked;
-              //  m_config.raise_time_ms = int.Parse(txtRaiseTime.Text);
+                m_config.liftfeedrate = double.Parse(txtliftfeed.Text);
+                m_config.liftretractrate = double.Parse(txtretractfeed.Text);
+                //  m_config.raise_time_ms = int.Parse(txtRaiseTime.Text);
 
                 m_config.direction = (SliceBuildConfig.eBuildDirection)Enum.Parse(typeof(SliceBuildConfig.eBuildDirection), cmbBuildDirection.SelectedItem.ToString());
                 return true;
@@ -152,6 +157,56 @@ namespace UV_DLP_3D_Printer
         {
             m_config.FooterCode = txtendgcode.Text;
             m_config.SaveFile(UVDLPApp.Instance().ProfilePathString() + "end.gcode", txtendgcode.Text);
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            CalcBlankTime();
+        }
+
+        private void txtliftfeed_TextChanged(object sender, EventArgs e)
+        {
+            CalcBlankTime();
+        }
+
+        private void txtretractfeed_TextChanged(object sender, EventArgs e)
+        {
+            //auto calculate the zlift and zretract times
+            CalcBlankTime();
+        }
+        private void CalcBlankTime() 
+        {
+            if (checkBox1.Checked == false)
+            {
+                return;
+            }
+            try
+            {
+                double blanktime = 0.0d;
+                //blanktime is the lift time plus the lift retract time
+                //distance/distance per sec
+                
+                // now the retract time
+                double liftdist = double.Parse(txtLiftDistance.Text);
+                double retractdist = liftdist - double.Parse(txtZThick.Text);
+                double liftfeed = double.Parse(txtliftfeed.Text);
+                double retractfeed = double.Parse(txtretractfeed.Text);
+                blanktime = liftdist / liftfeed;
+                blanktime += retractdist / retractfeed;
+                blanktime *= 1000.0;
+                int iblanktime = (int)blanktime; // cast to int
+                txtBlankTime.Text = iblanktime.ToString();// String.Format("{0.00000}", blanktime);
+
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
+        }
+
+        private void txtLiftDistance_TextChanged(object sender, EventArgs e)
+        {
+            CalcBlankTime();
         }
     }
 }

@@ -37,6 +37,8 @@ namespace UV_DLP_3D_Printer
         public double slidetiltval; // a value used for slide / tilt 
         public bool antialiasing; // should we use anti-aliasing
         public double aaval; // anti-aliasing scaler value - How much to upsample the image values between 1.0 - 3.0 should be fine
+        public double liftfeedrate; // initial lift may cause a lot of suction. To maximize lift power, we slow the steppers down to maximize stepper motor torque.
+        public double liftretractrate; // the feedrate that this lowers(for bottom-up) or raises(top-down) the build platform, this is the retraction rate of the lift.
         private String m_headercode; // inserted at beginning of file
         private String m_footercode; // inserted at end of file
         private String m_preliftcode; // inserted before each slice
@@ -166,6 +168,8 @@ namespace UV_DLP_3D_Printer
             YOffset = source.YOffset;
             slidetiltval = source.slidetiltval;
             antialiasing = source.antialiasing;
+            liftfeedrate = source.liftfeedrate;
+            liftretractrate = source.liftretractrate;
             aaval = source.aaval;//
             //raise_time_ms = source.raise_time_ms;
         }
@@ -209,6 +213,8 @@ namespace UV_DLP_3D_Printer
             slidetiltval = 0.0;
             antialiasing = false;
             aaval = 1.5;
+            liftfeedrate = 50.0;// 50mm/s
+            liftretractrate = 100.0;// 100mm/s
             SetDefaultCodes(); // set up default gcodes
         }
 
@@ -246,6 +252,9 @@ namespace UV_DLP_3D_Printer
                 slidetiltval = double.Parse(xr.ReadElementString("SlideTiltValue"));
                 antialiasing = bool.Parse(xr.ReadElementString("AntiAliasing"));
                 aaval = double.Parse(xr.ReadElementString("AntiAliasingValue"));
+                liftfeedrate = double.Parse(xr.ReadElementString("LiftFeedRate"));
+                liftretractrate = double.Parse(xr.ReadElementString("LiftRetractRate"));
+
                 xr.ReadEndElement();
                 xr.Close();
                 
@@ -285,6 +294,8 @@ namespace UV_DLP_3D_Printer
                 xw.WriteElementString("SlideTiltValue", slidetiltval.ToString());
                 xw.WriteElementString("AntiAliasing", antialiasing.ToString());
                 xw.WriteElementString("AntiAliasingValue", aaval.ToString());
+                xw.WriteElementString("LiftFeedRate", liftfeedrate.ToString());
+                xw.WriteElementString("LiftRetractRate", liftretractrate.ToString());
 
                // xw.WriteElementString("Raise_Time_Delay",raise_time_ms.ToString());
                 xw.WriteEndElement();
@@ -304,15 +315,15 @@ namespace UV_DLP_3D_Printer
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("(****Build and Slicing Parameters****)\r\n");
-            sb.Append("(pix per mm X           = " + String.Format("{0:0.00000}", dpmmX) + " px/mm )\r\n");
-            sb.Append("(pix per mm Y           = " + String.Format("{0:0.00000}", dpmmY) + " px/mm )\r\n");
+            sb.Append("(pix per mm X            = " + String.Format("{0:0.00000}", dpmmX) + " px/mm )\r\n");
+            sb.Append("(pix per mm Y            = " + String.Format("{0:0.00000}", dpmmY) + " px/mm )\r\n");
             sb.Append("(X resolution            = " + xres + " px )\r\n");
             sb.Append("(Y resolution            = " + yres + " px )\r\n");
             sb.Append("(X Pixel Offset          = " + XOffset + " px )\r\n");
             sb.Append("(Y Pixel Offset          = " + YOffset + " px )\r\n");
             sb.Append("(Layer thickness         = " + String.Format("{0:0.00000}", ZThick) + " mm )\r\n");
             sb.Append("(Layer Time              = " + layertime_ms + " ms )\r\n");
-            sb.Append("(First Layer Time        = " + firstlayertime_ms + " ms )\r\n");
+            sb.Append("(Bottom Layers Time        = " + firstlayertime_ms + " ms )\r\n");
             sb.Append("(Number of Bottom Layers = " + numfirstlayers + " )\r\n");
             sb.Append("(Blanking Layer Time     = " + blanktime_ms + " ms )\r\n");
             sb.Append("(Build Direction         = " + direction.ToString() + ")\r\n");
@@ -320,6 +331,8 @@ namespace UV_DLP_3D_Printer
             sb.Append("(Slide/Tilt Value        = " + slidetiltval.ToString() + ")\r\n");
             sb.Append("(Anti Aliasing           = " + antialiasing.ToString() + ")\r\n");
             sb.Append("(Anti Aliasing Value     = " + aaval.ToString() + " )\r\n");
+            sb.Append("(Z Lift Feed Rate        = " + String.Format("{0:0.00000}", liftfeedrate) + " mm/s )\r\n");
+            sb.Append("(Z Lift Retract Rate     = " + String.Format("{0:0.00000}", liftretractrate) + " mm/s )\r\n");
             return sb.ToString();
         }
 

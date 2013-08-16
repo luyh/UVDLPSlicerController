@@ -474,7 +474,6 @@
             this.treeScene.Name = "treeScene";
             this.treeScene.Size = new System.Drawing.Size(235, 366);
             this.treeScene.TabIndex = 6;
-            this.treeScene.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeScene_AfterSelect);
             this.treeScene.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeScene_NodeMouseClick);
             // 
             // tabMain
