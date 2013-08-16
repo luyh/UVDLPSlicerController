@@ -10,6 +10,9 @@ Add Better messages for user events
 	Build started, stopped, layer, completed, etc...
 Add optional homing commands for axises
 	this would help with shutter controls, as well as initial machine start
+Change Lift up to be different feedrate
+Support automatic time delay calculation in GUI for layer time
+
 support generation
 	2d/3d
 Skirt/Brim/Raft functionality
@@ -23,7 +26,17 @@ additional controls for dlprinter
 Add Generic variables for XML & Slicing!!
 
 Bugs**************************************
-Can't select other build/slice profile - Fixed
+*Can't select other build/slice profile - Fixed
+Remove the comments being sent to the Firmware
+
+
+Improvement Requests:***************************
+
+FEATURE-REQUESTS may be:
+1.
+A function to IMPORT Pictures and a coresponding  G-Codegenerator that creates the GCode for the number of Pictures Imported.
+This would give people the possibility to use Other slicers like "VISCam RP" an others!!!!!!!!!
+
 
 
 Completed**********************************
