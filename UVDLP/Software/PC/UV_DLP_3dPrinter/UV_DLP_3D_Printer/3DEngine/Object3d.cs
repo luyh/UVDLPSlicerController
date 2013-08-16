@@ -282,13 +282,21 @@ namespace Engine3D
          */
         public void Update() 
         {
-            //Update
-            CalcCenter();
-            CalcRadius();
-            FindMinMax();
-            foreach (Polygon p in m_lstpolys) 
+            try
             {
-                p.Update();
+                //Update
+                CalcCenter();
+                CalcRadius();
+                FindMinMax();
+                foreach (Polygon p in m_lstpolys)
+                {
+                    p.Update();
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+                DebugLogger.Instance().LogError(ex.StackTrace);
             }
         }
         /*This cuntion adds the objects points and polygons to this one*/
@@ -462,7 +470,8 @@ namespace Engine3D
 
                         for (int idx = 0; idx < 3; idx++)//read the point
                         {
-                            poly.m_points[idx] = new Point3d(); // create storage for this point
+                            Point3d pnt = new Point3d();
+                            poly.m_points[idx] = pnt;// new Point3d(); // create storage for this point
                             char[] delimiters = new char[] { ' ' };
                             line = sr.ReadLine().Trim(); // vertex
                             toks = line.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
@@ -470,10 +479,25 @@ namespace Engine3D
                             {
                                 return false;
                             }
-                            poly.m_points[idx].x = double.Parse(toks[1].Trim());
-                            poly.m_points[idx].y = double.Parse(toks[2].Trim());
-                            poly.m_points[idx].z = double.Parse(toks[3].Trim());
-                            m_lstpoints.Add(poly.m_points[idx]);
+                           // pnt.x = double.Parse(toks[1].Trim(), System.Globalization.NumberStyles.AllowExponent | System.Globalization.NumberStyles.Float);
+                           // pnt.y = double.Parse(toks[2].Trim(), System.Globalization.NumberStyles.AllowExponent | System.Globalization.NumberStyles.Float);
+                           // pnt.z = double.Parse(toks[3].Trim(), System.Globalization.NumberStyles.AllowExponent | System.Globalization.NumberStyles.Float);
+                            pnt.x = (double) Double.Parse(toks[1].Trim(), System.Globalization.NumberStyles.Any);
+                            pnt.y = (double)Double.Parse(toks[2].Trim(), System.Globalization.NumberStyles.Any);
+                            pnt.z = (double)Double.Parse(toks[3].Trim(), System.Globalization.NumberStyles.Any);
+                            if (pnt.x > 100.0 || pnt.x < -100)
+                            {
+                                pnt.x = pnt.x;
+                            }
+                            if (pnt.y > 100.0 || pnt.y < -100)
+                            {
+                                pnt.y = pnt.y;
+                            }
+                            if (pnt.x > 100.0 || pnt.z < -100)
+                            {
+                                pnt.y = pnt.y;
+                            }
+                            m_lstpoints.Add(pnt);
                         }
                         line = sr.ReadLine().Trim();//endloop
                         if (!line.Equals("endloop")) 
@@ -490,6 +514,11 @@ namespace Engine3D
                     else if (line.ToLower().StartsWith("endsolid"))
                     {
                         //end of model defintion
+                        foreach (Point3d pnt in this.m_lstpoints) 
+                        {
+                            String s = String.Format("{0},{1},{2}",pnt.x,pnt.y,pnt.z);
+                            DebugLogger.Instance().LogRecord(s);
+                        }
                         Update(); // initial positions please...
                     }
                     else 
@@ -501,8 +530,10 @@ namespace Engine3D
                 
                 sr.Close();
             }
-            catch (Exception ) 
+            catch (Exception ex ) 
             {
+                DebugLogger.Instance().LogError(ex.StackTrace);
+                DebugLogger.Instance().LogError(ex.Message);
                 return false;
             }
             FindMinMax();
