@@ -72,8 +72,10 @@
   <ItemGroup>
     <Compile Include="3DEngine\Camera.cs" />
     <Compile Include="3DEngine\Cylinder3d.cs" />
+    <Compile Include="3DEngine\Material.cs" />
     <Compile Include="3DEngine\Plane.cs" />
     <Compile Include="3DEngine\RTUtils.cs" />
+    <Compile Include="3DEngine\ThreeDSFile.cs" />
     <Compile Include="Configs\AppConfig.cs" />
     <Compile Include="Configs\ConnectionConfig.cs" />
     <Compile Include="Configs\DeviceDriverConfig.cs" />

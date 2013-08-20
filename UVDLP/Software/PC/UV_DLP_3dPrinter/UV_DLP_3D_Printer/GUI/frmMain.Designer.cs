@@ -641,7 +641,7 @@
             this.cmdLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.cmdLoad.Name = "cmdLoad";
             this.cmdLoad.Size = new System.Drawing.Size(52, 52);
-            this.cmdLoad.Text = "Load Binary STL Model";
+            this.cmdLoad.Text = "Load Model";
             this.cmdLoad.Click += new System.EventHandler(this.LoadSTLModel_Click);
             // 
             // toolStripSeparator3
@@ -819,7 +819,7 @@
             // 
             this.loadBinarySTLToolStripMenuItem.Name = "loadBinarySTLToolStripMenuItem";
             this.loadBinarySTLToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
-            this.loadBinarySTLToolStripMenuItem.Text = "Load Binary STL";
+            this.loadBinarySTLToolStripMenuItem.Text = "Load Model";
             this.loadBinarySTLToolStripMenuItem.Click += new System.EventHandler(this.loadBinarySTLToolStripMenuItem_Click);
             // 
             // saveSceneSTLToolStripMenuItem

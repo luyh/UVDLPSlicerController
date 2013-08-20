@@ -156,6 +156,10 @@ namespace UV_DLP_3D_Printer
                 {
                     ret = obj.LoadObjFile(filename);
                 }
+                if (ext.Equals(".3ds")) 
+                {
+                    ret = obj.Load3ds(filename);
+                }
                 if (ret == true)
                 {
                     m_engine3d.AddObject(obj);

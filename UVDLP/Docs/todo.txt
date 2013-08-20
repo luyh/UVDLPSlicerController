@@ -1,7 +1,5 @@
 Add PLY support
-Add 3ds file support
 Add ASCII support?
-Add 3d polygon backplane clipping via normal and dp to view vector
 Add 3d view frustrum clipping
 Add Triangulate function
 Shutter Control (maybe example in preslice or postlift)
@@ -40,6 +38,9 @@ This would give people the possibility to use Other slicers like "VISCam RP" an 
 
 
 Completed**********************************
+*Add 3ds file support
+*Add 3d polygon backplane clipping via normal and dp to view vector
+
 *multiple config support
 	slice profiles
 *Image Anti-Aliasing

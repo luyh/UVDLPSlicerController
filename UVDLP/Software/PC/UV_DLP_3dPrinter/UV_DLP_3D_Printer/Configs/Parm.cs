@@ -31,7 +31,7 @@ namespace UV_DLP_3D_Printer.Slicing.Modules
         public double   m_dval; // the double value (if used)
         public string m_sval;   // the string value (if used)
         public bool m_bval; // boolean value (if used)
-        public string m_help;
+        public string m_help; // description of this variable
         public eParm m_parmtype; // the type of paramter this is
 
         /*define some constructors here so the individual modules can define arrays of these */

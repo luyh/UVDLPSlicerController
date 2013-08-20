@@ -23,6 +23,8 @@ namespace Engine3D
         public Point3d m_min, m_max,m_center;
         public bool m_wireframe = false;
         public double m_radius;
+        public Material material;// = new Material();
+
         public Object3d() 
         {
             m_lstpolys = new ArrayList();
@@ -34,6 +36,7 @@ namespace Engine3D
             m_max = new Point3d();
             m_visible = true;
             m_radius = 0.0;
+            material = new Material();
         }
         public string Name { get { return m_name; } }
         public int NumPolys { get { return m_lstpolys.Count; } }
@@ -542,24 +545,15 @@ namespace Engine3D
         #region 3DSLoader
         public bool Load3ds(string filename) 
         {
-            BinaryReader br = null;
+           
             try
             {
-                br = new BinaryReader(File.Open(filename, FileMode.Open));
-                m_fullname = filename;
-                m_name = Path.GetFileName(filename);
-                
-                int code = br.ReadInt16();
-                while (br.PeekChar() != -1)
+                ThreeDSFile tds = new ThreeDSFile(filename);
+                foreach (Object3d obj in tds.ThreeDSModel) 
                 {
-                    switch (code)
-                    {
-                        case 0x4D4D: // Main Chunk
-                            break;
-                        case 0xB000: // Keyframer Chunk - Ignore for now
-                            break;
-                    }
+                    this.Add(obj);
                 }
+                Update();
                 return true;
             }   
             catch (Exception e) 

@@ -1,3 +1,10 @@
+	Added 3d polygon backface clipping
+	Beta 11 Release Notes
+	Fixed 3d viewing slowdown issue
+	Added Wavefront OBJ Model Loading
+	Added 3D Studio Max 3DS Model Loading
+	Fixed Slicing Profile Accessor bug.
+
 07/30/2013 Beta 10 Release
 	Fixed Localization Issues
 	Added preslice.gcode 
