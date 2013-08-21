@@ -391,10 +391,8 @@ namespace UV_DLP_3D_Printer
                 else 
                 {
                     chkWireframe.Checked = false;
-                    //DisplayFunc();
                     vScrollBar1.Maximum = 1;
                     vScrollBar1.Value = 0;
-                    //ShowObjectInfo();
                 }
             }
         }
@@ -450,7 +448,6 @@ namespace UV_DLP_3D_Printer
         private void Form1_Load(object sender, EventArgs e)
         {
             SetTitle();
-            //Invalidate();
             Refresh();
         }
 
@@ -504,6 +501,7 @@ namespace UV_DLP_3D_Printer
                 GL.Enable(EnableCap.Blend); // alpha blending
                 GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                 //GL.ClearColor(Color.FromArgb(20, Color.LightGray));
+                GL.ClearColor(Color.FromArgb(20, Color.LightBlue));
                 
                 float[] lightpos = new float[4];
                 lightpos[0] = 5.0f;
@@ -578,9 +576,9 @@ namespace UV_DLP_3D_Printer
         {
             loaded = true;
 
-            GL.ClearColor(Color.FromArgb(20, Color.LightBlue));
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            //GL.ClearColor(Color.FromArgb(20, Color.LightBlue));
+            //GL.Enable(EnableCap.Blend);
+            //GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
             glControl1.MouseWheel += new MouseEventHandler(glControl1_MouseWheel);
             SetupViewport();
         }
@@ -1246,8 +1244,9 @@ namespace UV_DLP_3D_Printer
             {
                 if (UVDLPApp.Instance().m_selectedobject == null)
                     return;
-                
-                UVDLPApp.Instance().m_selectedobject.Rotate(-(90 * 0.0174532925f), 0, 0);
+                float dx = 90.0f;
+                Single.TryParse(txtRx.Text, out dx);                
+                UVDLPApp.Instance().m_selectedobject.Rotate(-(dx * 0.0174532925f), 0, 0);
                 ShowObjectInfo();
                 DisplayFunc();
             }
@@ -1261,9 +1260,13 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
+
                 if (UVDLPApp.Instance().m_selectedobject == null)
                     return;
-                UVDLPApp.Instance().m_selectedobject.Rotate((90 * 0.0174532925f), 0, 0);
+                //get R-x val
+                float dx=90.0f;
+                Single.TryParse(txtRx.Text, out dx);
+                UVDLPApp.Instance().m_selectedobject.Rotate((dx * 0.0174532925f), 0, 0);
                 ShowObjectInfo();
                 DisplayFunc();
             }
@@ -1279,7 +1282,9 @@ namespace UV_DLP_3D_Printer
             {
                 if (UVDLPApp.Instance().m_selectedobject == null)
                     return;
-                UVDLPApp.Instance().m_selectedobject.Rotate(0,-(90*0.0174532925f), 0);
+                float dy = 90.0f;
+                Single.TryParse(txtRy.Text, out dy);
+                UVDLPApp.Instance().m_selectedobject.Rotate(0,-(dy*0.0174532925f), 0);
                 ShowObjectInfo();
                 DisplayFunc();
             }
@@ -1295,7 +1300,9 @@ namespace UV_DLP_3D_Printer
             {
                 if (UVDLPApp.Instance().m_selectedobject == null)
                     return;
-                UVDLPApp.Instance().m_selectedobject.Rotate(0, 90 * 0.0174532925f, 0);
+                float dy = 90.0f;
+                Single.TryParse(txtRy.Text, out dy);
+                UVDLPApp.Instance().m_selectedobject.Rotate(0, dy * 0.0174532925f, 0);
                 ShowObjectInfo();
                 DisplayFunc();
             }
@@ -1311,7 +1318,10 @@ namespace UV_DLP_3D_Printer
             {
                 if (UVDLPApp.Instance().m_selectedobject == null)
                     return;
-                UVDLPApp.Instance().m_selectedobject.Rotate(0, 0, -(90*0.0174532925f));
+                float dz = 90.0f;
+                Single.TryParse(txtRz.Text, out dz);
+
+                UVDLPApp.Instance().m_selectedobject.Rotate(0, 0, -(dz*0.0174532925f));
                 ShowObjectInfo();
                 DisplayFunc();
             }
@@ -1327,7 +1337,9 @@ namespace UV_DLP_3D_Printer
             {
                 if (UVDLPApp.Instance().m_selectedobject == null)
                     return;
-                UVDLPApp.Instance().m_selectedobject.Rotate(0, 0, 90 * 0.0174532925f);
+                float dz = 90.0f;
+                Single.TryParse(txtRz.Text, out dz);
+                UVDLPApp.Instance().m_selectedobject.Rotate(0, 0, dz * 0.0174532925f);
                 ShowObjectInfo();
                 DisplayFunc();
             }

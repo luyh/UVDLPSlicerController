@@ -49,6 +49,8 @@ namespace UV_DLP_3D_Printer
             // append the build parameters as reference
             sb.Append(sf.m_config.ToString());
             
+            sb.Append(pi.ToString());//add the machine build parameters string
+
             // append the header
             sb.Append(sf.m_config.HeaderCode);
 

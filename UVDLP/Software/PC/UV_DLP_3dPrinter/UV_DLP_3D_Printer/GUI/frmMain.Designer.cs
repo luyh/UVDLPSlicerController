@@ -59,7 +59,6 @@
             this.tabDebug = new System.Windows.Forms.TabPage();
             this.lblDebug = new System.Windows.Forms.Label();
             this.chkWireframe = new System.Windows.Forms.CheckBox();
-            this.treeScene = new System.Windows.Forms.TreeView();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.tabModel1 = new System.Windows.Forms.TabPage();
             this.tabGCode = new System.Windows.Forms.TabPage();
@@ -92,6 +91,7 @@
             this.mnuScale = new System.Windows.Forms.ToolStripMenuItem();
             this.lblMainMessage = new System.Windows.Forms.ToolStripLabel();
             this.lblTime = new System.Windows.Forms.ToolStripLabel();
+            this.treeScene = new System.Windows.Forms.TreeView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadBinarySTLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -122,6 +122,9 @@
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.txtRx = new System.Windows.Forms.TextBox();
+            this.txtRy = new System.Windows.Forms.TextBox();
+            this.txtRz = new System.Windows.Forms.TextBox();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -195,10 +198,10 @@
             this.tabControl1.Controls.Add(this.tbScale);
             this.tabControl1.Controls.Add(this.tabDebug);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 366);
+            this.tabControl1.Location = new System.Drawing.Point(0, 414);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(235, 296);
+            this.tabControl1.Size = new System.Drawing.Size(235, 248);
             this.tabControl1.TabIndex = 7;
             // 
             // tbMove
@@ -331,6 +334,9 @@
             // 
             // tbRotate
             // 
+            this.tbRotate.Controls.Add(this.txtRz);
+            this.tbRotate.Controls.Add(this.txtRy);
+            this.tbRotate.Controls.Add(this.txtRx);
             this.tbRotate.Controls.Add(this.cmdYRInc);
             this.tbRotate.Controls.Add(this.cmdYRDec);
             this.tbRotate.Controls.Add(this.cmdZRInc);
@@ -340,14 +346,14 @@
             this.tbRotate.Location = new System.Drawing.Point(4, 25);
             this.tbRotate.Name = "tbRotate";
             this.tbRotate.Padding = new System.Windows.Forms.Padding(3);
-            this.tbRotate.Size = new System.Drawing.Size(227, 267);
+            this.tbRotate.Size = new System.Drawing.Size(227, 219);
             this.tbRotate.TabIndex = 1;
             this.tbRotate.Text = "Rotate";
             this.tbRotate.UseVisualStyleBackColor = true;
             // 
             // cmdYRInc
             // 
-            this.cmdYRInc.Location = new System.Drawing.Point(113, 87);
+            this.cmdYRInc.Location = new System.Drawing.Point(146, 87);
             this.cmdYRInc.Name = "cmdYRInc";
             this.cmdYRInc.Size = new System.Drawing.Size(75, 39);
             this.cmdYRInc.TabIndex = 5;
@@ -367,7 +373,7 @@
             // 
             // cmdZRInc
             // 
-            this.cmdZRInc.Location = new System.Drawing.Point(113, 132);
+            this.cmdZRInc.Location = new System.Drawing.Point(146, 132);
             this.cmdZRInc.Name = "cmdZRInc";
             this.cmdZRInc.Size = new System.Drawing.Size(75, 39);
             this.cmdZRInc.TabIndex = 3;
@@ -387,7 +393,7 @@
             // 
             // cmdXRInc
             // 
-            this.cmdXRInc.Location = new System.Drawing.Point(113, 42);
+            this.cmdXRInc.Location = new System.Drawing.Point(146, 42);
             this.cmdXRInc.Name = "cmdXRInc";
             this.cmdXRInc.Size = new System.Drawing.Size(75, 39);
             this.cmdXRInc.TabIndex = 1;
@@ -465,16 +471,6 @@
             this.chkWireframe.Text = "Wireframe";
             this.chkWireframe.UseVisualStyleBackColor = true;
             this.chkWireframe.CheckedChanged += new System.EventHandler(this.chkWireframe_CheckedChanged);
-            // 
-            // treeScene
-            // 
-            this.treeScene.Dock = System.Windows.Forms.DockStyle.Top;
-            this.treeScene.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeScene.Location = new System.Drawing.Point(0, 0);
-            this.treeScene.Name = "treeScene";
-            this.treeScene.Size = new System.Drawing.Size(235, 366);
-            this.treeScene.TabIndex = 6;
-            this.treeScene.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeScene_NodeMouseClick);
             // 
             // tabMain
             // 
@@ -789,6 +785,16 @@
             this.lblTime.Name = "lblTime";
             this.lblTime.Size = new System.Drawing.Size(0, 52);
             // 
+            // treeScene
+            // 
+            this.treeScene.Dock = System.Windows.Forms.DockStyle.Top;
+            this.treeScene.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.treeScene.Location = new System.Drawing.Point(0, 0);
+            this.treeScene.Name = "treeScene";
+            this.treeScene.Size = new System.Drawing.Size(235, 414);
+            this.treeScene.TabIndex = 6;
+            this.treeScene.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeScene_NodeMouseClick);
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1015,6 +1021,33 @@
             // 
             this.printDialog1.UseEXDialog = true;
             // 
+            // txtRx
+            // 
+            this.txtRx.Location = new System.Drawing.Point(92, 50);
+            this.txtRx.Name = "txtRx";
+            this.txtRx.Size = new System.Drawing.Size(48, 22);
+            this.txtRx.TabIndex = 7;
+            this.txtRx.Text = "90";
+            this.txtRx.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtRy
+            // 
+            this.txtRy.Location = new System.Drawing.Point(92, 95);
+            this.txtRy.Name = "txtRy";
+            this.txtRy.Size = new System.Drawing.Size(48, 22);
+            this.txtRy.TabIndex = 8;
+            this.txtRy.Text = "90";
+            this.txtRy.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtRz
+            // 
+            this.txtRz.Location = new System.Drawing.Point(92, 140);
+            this.txtRz.Name = "txtRz";
+            this.txtRz.Size = new System.Drawing.Size(48, 22);
+            this.txtRz.TabIndex = 9;
+            this.txtRz.Text = "90";
+            this.txtRz.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1036,6 +1069,7 @@
             this.tbMove.ResumeLayout(false);
             this.tbMove.PerformLayout();
             this.tbRotate.ResumeLayout(false);
+            this.tbRotate.PerformLayout();
             this.tbScale.ResumeLayout(false);
             this.tbScale.PerformLayout();
             this.tabDebug.ResumeLayout(false);
@@ -1157,6 +1191,9 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label lblSliceNum;
         private System.Windows.Forms.VScrollBar vScrollBar1;
+        private System.Windows.Forms.TextBox txtRz;
+        private System.Windows.Forms.TextBox txtRy;
+        private System.Windows.Forms.TextBox txtRx;
     }
 }
 

@@ -52,16 +52,16 @@ namespace UV_DLP_3D_Printer
         }
         public void LogInfo(string message) 
         {
-        
+            LogRecord("Info:"+message);
         }
         public void LogWarning(string message)
         {
-
+            LogRecord("Warn:" + message);
         }
 
         public void LogError(string message)
         {
-
+            LogRecord("Err :" + message);
         }
 
     }

@@ -4,6 +4,7 @@
 	Added Wavefront OBJ Model Loading
 	Added 3D Studio Max 3DS Model Loading
 	Fixed Slicing Profile Accessor bug.
+	Added machine config to GCode header.
 
 07/30/2013 Beta 10 Release
 	Fixed Localization Issues

@@ -15,7 +15,16 @@ support generation
 	2d/3d
 Skirt/Brim/Raft functionality
 
+Better Exports/Imports of Slicing Data
 SVG import/export
+SLI Slice Layer Interface export
+CLI Common Layer Interface export <- http://www.forwiss.uni-passau.de/~welisch/papers/cli_format.html
+USF Universal Slice File
+SLC File
+SSL Statasys Layer File
+
+Firmware upload via AVRDude
+
 support for powder based printers
 click on objects to select
 show selected in different color

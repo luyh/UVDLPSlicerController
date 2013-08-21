@@ -65,7 +65,7 @@ namespace UV_DLP_3D_Printer.Slicing.Modules
             m_name = name;
             m_bval = bval;
             m_help = help;
-            m_parmtype = eParm.eString;
+            m_parmtype = eParm.eBool;
         }
         public bool SetFromString(string value) 
         {

@@ -543,6 +543,8 @@ namespace Engine3D
             return true;
         }
         #region 3DSLoader
+        // Most of the code for the 3ds loader is in the ThreeDSFile.cs
+        // This function is just the entry point for it all
         public bool Load3ds(string filename) 
         {
            
@@ -554,6 +556,8 @@ namespace Engine3D
                     this.Add(obj);
                 }
                 Update();
+                m_fullname = filename;
+                m_name = Path.GetFileNameWithoutExtension(filename);
                 return true;
             }   
             catch (Exception e) 
@@ -620,84 +624,39 @@ namespace Engine3D
         ﻿  ﻿  ﻿  ﻿  ﻿  //case "g":
         ﻿  ﻿  ﻿  ﻿  //﻿  ﻿  done = true;
         ﻿  ﻿  ﻿  ﻿  //﻿  ﻿  break;
-        ﻿  ﻿  ﻿  ﻿  ﻿  case "f":
-        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  // a face
-        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿                 
-        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  
-        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  if (parts.Length > 5)
-        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  {
-        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  throw new NotSupportedException(string.Format("Face found with more than four indices (line {0})", curLineNo));
-        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  }
-        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  
+        ﻿  ﻿  ﻿  ﻿  ﻿  case "f":﻿  ﻿  ﻿  ﻿  ﻿  ﻿  // a face              ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  
         ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  if (parts.Length < 3)
         ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  {
         ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  throw new FormatException(string.Format("Face found with less three indices (line {0})", curLineNo));﻿  ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  
         ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  }
-        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿          ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  
-        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿          ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  
+ ﻿  ﻿  ﻿  
         ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  Polygon ply;
                     int fp1, fp2, fp3;
-        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  if (parts.Length == 4) // a triangle
-        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  {
-        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  ﻿         // tris.Add(new Triangle(ParseFacePart(parts[1]), ParseFacePart(parts[2]), ParseFacePart(parts[3])));
-                              ply = new Polygon();
-                              m_lstpolys.Add(ply);
-                      
-                              try
-                              {
-                                  ply.m_points = new Point3d[3];
-                                  fp1 = ParseFacePart(parts[1]) - 1;
-                                  fp2 = ParseFacePart(parts[2]) - 1;
-                                  fp3 = ParseFacePart(parts[3]) - 1;
-                                  ply.m_points[0] = (Point3d)m_lstpoints[fp1];
-                                  ply.m_points[1] = (Point3d)m_lstpoints[fp2];
-                                  ply.m_points[2] = (Point3d)m_lstpoints[fp3];
-                                  ply.CalcCenter();
-                                  ply.CalcMinMax();
-                                  ply.CalcNormal();
-                                  ply.CalcRadius();
-                              }
-                              catch (Exception ex) 
-                              {
-                                  DebugLogger.Instance().LogError(ex.Message);
-                                  return false;
+                    // 4 pointed poly becomes 2 tris
+                    // 5 pointed poly becomes 3 tris
+                    // 6 pointed poly becomes 4 tris
+                    int numpnts = parts.Length - 1; // take off one 
+                    int numpoly = numpnts - 2;
+                    int partidx = 1;
+                    fp1 = ParseFacePart(parts[partidx]) - 1; // point 0 is common to all polygons
+                    partidx++;
+                    for (int c = 0; c < numpoly; c++) 
+                    {
+                        ply = new Polygon(); // create a new poly
+                        m_lstpolys.Add(ply); // add it to this object
+                        ply.m_points = new Point3d[3]; // create point storage
+                        //set the points
+                        fp2 = ParseFacePart(parts[partidx]) - 1;
+                        fp3 = ParseFacePart(parts[partidx+1]) - 1;
 
-                              }
-                      
-        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  }
-        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  else if ( parts.Length == 5) // a quad
-        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  {
-                              //﻿  ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  quads.Add(new Quad(ParseFacePart(parts[1]), ParseFacePart(parts[2]), ParseFacePart(parts[3]), ParseFacePart(parts[4])));
+                        ply.m_points[0] = (Point3d)m_lstpoints[fp1];
+                        ply.m_points[1] = (Point3d)m_lstpoints[fp2];
+                        ply.m_points[2] = (Point3d)m_lstpoints[fp3];
 
-                              ply = new Polygon();
-                              m_lstpolys.Add(ply);
-                              ply.m_points = new Point3d[3];
-                              fp1 = ParseFacePart(parts[1]) - 1;
-                              fp2 = ParseFacePart(parts[2]) - 1;
-                              fp3 = ParseFacePart(parts[3]) - 1;
-                              ply.m_points[0] = (Point3d)m_lstpoints[fp1];
-                              ply.m_points[1] = (Point3d)m_lstpoints[fp2];
-                              ply.m_points[2] = (Point3d)m_lstpoints[fp3];  ﻿  ﻿  
-                             ply.CalcCenter();
-                             ply.CalcMinMax();
-                             ply.CalcNormal();
-                             ply.CalcRadius();
-
-                             ply = new Polygon();
-                             m_lstpolys.Add(ply);
-                             ply.m_points = new Point3d[3];
-                             fp1 = ParseFacePart(parts[2]) - 1;
-                             fp2 = ParseFacePart(parts[3]) - 1;
-                             fp3 = ParseFacePart(parts[4]) - 1;
-                             ply.m_points[0] = (Point3d)m_lstpoints[fp1];
-                             ply.m_points[1] = (Point3d)m_lstpoints[fp2];
-                             ply.m_points[2] = (Point3d)m_lstpoints[fp3]; 
-                             ply.CalcCenter();
-                             ply.CalcMinMax();
-                             ply.CalcNormal();
-                             ply.CalcRadius();
-        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  }
-        ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  
+                        partidx++;
+                        ply.Update(); // update all the info
+                    }
+                    
         ﻿  ﻿  ﻿  ﻿  ﻿  ﻿  break;
         ﻿  ﻿  ﻿  ﻿  ﻿  }
         ﻿  ﻿  ﻿  ﻿  ﻿  

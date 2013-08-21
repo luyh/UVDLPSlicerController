@@ -8,6 +8,12 @@ using UV_DLP_3D_Printer.Slicing.Modules;
 
 namespace UV_DLP_3D_Printer.Configs
 {
+    /*
+     What I'm trying to do with this parm list is to create a storage for 
+     * program parameters, there can be multiple parmlists, each acts as it's own
+     * config file, my plan is to replace the slicing and machine profiles with this.
+     
+     */
     public class ParmList
     {
         protected ArrayList m_parms = null;
@@ -21,6 +27,28 @@ namespace UV_DLP_3D_Printer.Configs
                 }
             }
             return null;
+        }
+
+        //define an indexer to get access to the vars
+        public Parm this[string name]
+        {
+            get
+            {
+                return null;
+            }
+            set 
+            {
+                
+            }
+        }
+        public bool Save(string filename) 
+        {
+            return false;
+        }
+
+        public bool Load(string filename) 
+        {
+            return false;
         }
         public double GetDouble(string name)
         {

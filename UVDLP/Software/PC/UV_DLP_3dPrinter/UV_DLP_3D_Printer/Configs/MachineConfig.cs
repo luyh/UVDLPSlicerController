@@ -132,6 +132,22 @@ namespace UV_DLP_3D_Printer
             m_driverconfig = new DeviceDriverConfig();
             
         }
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("(****Machine Configuration ******)\r\n");
+            sb.Append("(Projector X Res         = " + m_XDLPRes + ")\r\n");
+            sb.Append("(Projector Y Res         = " + m_YDLPRes + ")\r\n");
+            sb.Append("(Platform X Size         = " + m_PlatXSize + "mm )\r\n");
+            sb.Append("(Platform Y Size         = " + m_PlatYSize + "mm )\r\n");
+            sb.Append("(Platform Z Size         = " + m_PlatZSize + "mm )\r\n");
+
+            sb.Append("(Max X Feedrate          = " + m_XMaxFeedrate + "mm/s )\r\n");
+            sb.Append("(Max Y Feedrate          = " + m_YMaxFeedrate + "mm/s )\r\n");
+            sb.Append("(Max Z Feedrate          = " + m_ZMaxFeedrate + "mm/s )\r\n");
+            sb.Append("(Monitor ID              = " + m_monitorid + ")\r\n");
+            return sb.ToString();
+        }
 
         public void CalcPixPerMM() 
         {
