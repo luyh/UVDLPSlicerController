@@ -45,6 +45,8 @@ namespace UV_DLP_3D_Printer
             txtnumbottom.Text = m_config.numfirstlayers.ToString();
             txtSlideTilt.Text = m_config.slidetiltval.ToString();
             chkantialiasing.Checked = m_config.antialiasing;
+            chkmainliftgcode.Checked = m_config.usemainliftgcode;
+            chkautocalcdelay.Checked = m_config.autocalcdelay;
             txtliftfeed.Text = m_config.liftfeedrate.ToString();
             txtretractfeed.Text = m_config.liftretractrate.ToString();
 
@@ -61,6 +63,7 @@ namespace UV_DLP_3D_Printer
             txtpreliftgcode.Text = m_config.PreLiftCode;
             txtpostliftgcode.Text = m_config.PostLiftCode;
             txtendgcode.Text = m_config.FooterCode;
+            txtmainliftgcode.Text = m_config.MainLiftCode;
         }
         private bool GetValues() 
         {
@@ -79,6 +82,8 @@ namespace UV_DLP_3D_Printer
                 m_config.numfirstlayers = int.Parse(txtnumbottom.Text);
                 m_config.slidetiltval = double.Parse(txtSlideTilt.Text);
                 m_config.antialiasing = chkantialiasing.Checked;
+                m_config.usemainliftgcode = chkmainliftgcode.Checked;
+                m_config.autocalcdelay = chkautocalcdelay.Checked;
                 m_config.liftfeedrate = double.Parse(txtliftfeed.Text);
                 m_config.liftretractrate = double.Parse(txtretractfeed.Text);
                 //  m_config.raise_time_ms = int.Parse(txtRaiseTime.Text);
@@ -128,6 +133,11 @@ namespace UV_DLP_3D_Printer
             txtendgcode.Text = m_config.FooterCode;
         }
 
+        private void cmdreloadmainliftgcode_Click(object sender, EventArgs e)
+        {
+            txtmainliftgcode.Text = m_config.MainLiftCode;
+        }
+
         
         private void cmdsavestartgcode_Click(object sender, EventArgs e)
         {
@@ -159,7 +169,13 @@ namespace UV_DLP_3D_Printer
             m_config.SaveFile(UVDLPApp.Instance().ProfilePathString() + "end.gcode", txtendgcode.Text);
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void cmdsavemainliftgcode_Click(object sender, EventArgs e)
+        {
+            m_config.MainLiftCode = txtmainliftgcode.Text;
+            m_config.SaveFile(UVDLPApp.Instance().ProfilePathString() + "mainlift.gcode", txtmainliftgcode.Text);
+        }
+
+        private void chkautocalcdelay_CheckedChanged(object sender, EventArgs e)
         {
             CalcBlankTime();
         }
@@ -176,7 +192,7 @@ namespace UV_DLP_3D_Printer
         }
         private void CalcBlankTime() 
         {
-            if (checkBox1.Checked == false)
+            if (chkautocalcdelay.Checked == false)
             {
                 return;
             }
@@ -191,9 +207,12 @@ namespace UV_DLP_3D_Printer
                 double retractdist = liftdist - double.Parse(txtZThick.Text);
                 double liftfeed = double.Parse(txtliftfeed.Text);
                 double retractfeed = double.Parse(txtretractfeed.Text);
-                blanktime = liftdist / liftfeed;
-                blanktime += retractdist / retractfeed;
+                blanktime = (60 / liftfeed) * liftdist;
+                blanktime += (60 / retractfeed) * retractdist;
                 blanktime *= 1000.0;
+                //blanktime = liftdist / liftfeed;
+                //blanktime += retractdist / retractfeed;
+                //blanktime *= 1000.0;
                 int iblanktime = (int)blanktime; // cast to int
                 txtBlankTime.Text = iblanktime.ToString();// String.Format("{0.00000}", blanktime);
 

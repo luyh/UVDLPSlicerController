@@ -36,6 +36,8 @@ namespace UV_DLP_3D_Printer
         public double liftdistance; // distance to lift and retract
         public double slidetiltval; // a value used for slide / tilt 
         public bool antialiasing; // should we use anti-aliasing
+        public bool usemainliftgcode; // should we use mainliftgcode-tab instead of generating the gcode
+        public bool autocalcdelay; // should we calculate the delay automatically
         public double aaval; // anti-aliasing scaler value - How much to upsample the image values between 1.0 - 3.0 should be fine
         public double liftfeedrate; // initial lift may cause a lot of suction. To maximize lift power, we slow the steppers down to maximize stepper motor torque.
         public double liftretractrate; // the feedrate that this lowers(for bottom-up) or raises(top-down) the build platform, this is the retraction rate of the lift.
@@ -44,7 +46,7 @@ namespace UV_DLP_3D_Printer
         private String m_preliftcode; // inserted before each slice
         private String m_postliftcode; // inserted after each slice
         private String m_preslicecode; // inserted before each slice
-
+        private String m_mainliftcode; // inserted before each slice
         public int XOffset, YOffset; // the X/Y pixel offset used 
 
         private String[] m_defheader = 
@@ -79,6 +81,15 @@ namespace UV_DLP_3D_Printer
         {
             "\r\n"
         };
+        private String[] m_defmainlift = 
+        {
+            "(********** Main Lift Sequence ********)\r\n", // 
+            "G1 Z 1.5 F21\r\n", 
+            "G1 Z 1.5 F210\r\n",
+            "G1 Z -2.9 F210\r\n",
+            "(********** Main Lift Sequence **********)\r\n", // 
+            //"()\r\n"
+        };
 
             
 
@@ -107,7 +118,12 @@ namespace UV_DLP_3D_Printer
             sb = new StringBuilder();
             foreach (String s in m_defpreslice)
                 sb.Append(s);
-            PreSliceCode = sb.ToString();          
+            PreSliceCode = sb.ToString();
+
+            sb = new StringBuilder();
+            foreach (String s in m_defmainlift)
+                sb.Append(s);
+            MainLiftCode = sb.ToString();
         }
 
         public String HeaderCode
@@ -138,6 +154,12 @@ namespace UV_DLP_3D_Printer
             set { m_preslicecode = value; }
         }
 
+        public String MainLiftCode
+        {
+            get { return m_mainliftcode; }
+            set { m_mainliftcode = value; }
+        }
+
         /*
          Copy constructor
          */
@@ -160,6 +182,7 @@ namespace UV_DLP_3D_Printer
             m_preliftcode = source.m_preliftcode; // inserted between each slice            
             m_postliftcode = source.m_postliftcode; // inserted between each slice    
             m_preslicecode = source.m_preslicecode; // inserted before each slice
+            m_mainliftcode = source.m_mainliftcode; // inserted before postlift and after prelift. its the main lift code
 
             liftdistance = source.liftdistance;
             direction = source.direction;
@@ -168,6 +191,8 @@ namespace UV_DLP_3D_Printer
             YOffset = source.YOffset;
             slidetiltval = source.slidetiltval;
             antialiasing = source.antialiasing;
+            usemainliftgcode = source.usemainliftgcode;
+            autocalcdelay = source.autocalcdelay;
             liftfeedrate = source.liftfeedrate;
             liftretractrate = source.liftretractrate;
             aaval = source.aaval;//
@@ -212,6 +237,8 @@ namespace UV_DLP_3D_Printer
             //raise_time_ms = 750;
             slidetiltval = 0.0;
             antialiasing = false;
+            usemainliftgcode = false;
+            autocalcdelay = false;
             aaval = 1.5;
             liftfeedrate = 50.0;// 50mm/s
             liftretractrate = 100.0;// 100mm/s
@@ -251,6 +278,7 @@ namespace UV_DLP_3D_Printer
                 liftdistance = double.Parse(xr.ReadElementString("LiftDistance"));
                 slidetiltval = double.Parse(xr.ReadElementString("SlideTiltValue"));
                 antialiasing = bool.Parse(xr.ReadElementString("AntiAliasing"));
+                usemainliftgcode = bool.Parse(xr.ReadElementString("UseMainLiftGCode"));
                 aaval = double.Parse(xr.ReadElementString("AntiAliasingValue"));
                 liftfeedrate = double.Parse(xr.ReadElementString("LiftFeedRate"));
                 liftretractrate = double.Parse(xr.ReadElementString("LiftRetractRate"));
@@ -293,6 +321,7 @@ namespace UV_DLP_3D_Printer
                 xw.WriteElementString("LiftDistance", liftdistance.ToString());
                 xw.WriteElementString("SlideTiltValue", slidetiltval.ToString());
                 xw.WriteElementString("AntiAliasing", antialiasing.ToString());
+                xw.WriteElementString("UseMainLiftGCode", usemainliftgcode.ToString());
                 xw.WriteElementString("AntiAliasingValue", aaval.ToString());
                 xw.WriteElementString("LiftFeedRate", liftfeedrate.ToString());
                 xw.WriteElementString("LiftRetractRate", liftretractrate.ToString());
@@ -330,6 +359,7 @@ namespace UV_DLP_3D_Printer
             sb.Append("(Lift Distance           = " + liftdistance.ToString() + " mm )\r\n");
             sb.Append("(Slide/Tilt Value        = " + slidetiltval.ToString() + ")\r\n");
             sb.Append("(Anti Aliasing           = " + antialiasing.ToString() + ")\r\n");
+            sb.Append("(Use Mainlift GCode Tab  = " + usemainliftgcode.ToString() + ")\r\n");
             sb.Append("(Anti Aliasing Value     = " + aaval.ToString() + " )\r\n");
             sb.Append("(Z Lift Feed Rate        = " + String.Format("{0:0.00000}", liftfeedrate) + " mm/s )\r\n");
             sb.Append("(Z Lift Retract Rate     = " + String.Format("{0:0.00000}", liftretractrate) + " mm/s )\r\n");
@@ -358,6 +388,7 @@ namespace UV_DLP_3D_Printer
                     m_preliftcode = LoadFile(profilepath + UVDLPApp.m_pathsep + "prelift.gcode");
                     m_postliftcode = LoadFile(profilepath + UVDLPApp.m_pathsep + "postlift.gcode");
                     m_preslicecode = LoadFile(profilepath + UVDLPApp.m_pathsep + "preslice.gcode");
+                    m_mainliftcode = LoadFile(profilepath + UVDLPApp.m_pathsep + "mainlift.gcode");
                 }
             }
             catch (Exception ex) 
@@ -410,6 +441,7 @@ namespace UV_DLP_3D_Printer
                 SaveFile(profilepath + UVDLPApp.m_pathsep + "prelift.gcode", m_preliftcode);
                 SaveFile(profilepath + UVDLPApp.m_pathsep + "postlift.gcode", m_postliftcode);
                 SaveFile(profilepath + UVDLPApp.m_pathsep + "preslice.gcode", m_preslicecode);
+                SaveFile(profilepath + UVDLPApp.m_pathsep + "mainlift.gcode", m_mainliftcode);
             }
             catch (Exception ex) 
             {
