@@ -1,6 +1,5 @@
 Add PLY support
 Add ASCII support?
-Add 3d view frustrum clipping
 Add Triangulate function
 Shutter Control (maybe example in preslice or postlift)
 Add better controls on control panel
@@ -15,7 +14,7 @@ support generation
 	2d/3d
 Skirt/Brim/Raft functionality
 
-Better Exports/Imports of Slicing Data
+Better Exports/Imports of Slicing Data through one or more of the following:
 SVG import/export
 SLI Slice Layer Interface export
 CLI Common Layer Interface export <- http://www.forwiss.uni-passau.de/~welisch/papers/cli_format.html
@@ -47,6 +46,8 @@ This would give people the possibility to use Other slicers like "VISCam RP" an 
 
 
 Completed**********************************
+*Fixed ASCII STL Loading
+*Added 3d view frustrum clipping
 *Add 3ds file support
 *Add 3d polygon backplane clipping via normal and dp to view vector
 

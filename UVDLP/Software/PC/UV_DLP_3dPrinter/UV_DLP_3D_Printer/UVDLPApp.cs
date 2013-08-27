@@ -272,7 +272,7 @@ namespace UV_DLP_3D_Printer
                 {
                     DebugLogger.Instance().LogRecord("Cannot save GCode File " + path + m_pathsep + fn + ".gcode");
                 }
-                RaiseAppEvent(eAppEvent.eGCodeSaved, "");
+               // RaiseAppEvent(eAppEvent.eGCodeSaved, "");
             }
             catch (Exception ex) 
             {

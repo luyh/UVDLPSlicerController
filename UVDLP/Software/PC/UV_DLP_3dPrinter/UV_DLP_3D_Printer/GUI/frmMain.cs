@@ -336,31 +336,38 @@ namespace UV_DLP_3D_Printer
 
         private void SliceEv(Slicer.eSliceEvent ev, int layer, int totallayers)
         {
-            if (InvokeRequired)
+            try
             {
-                BeginInvoke(new MethodInvoker(delegate() { SliceEv(ev,layer, totallayers); }));
-            }
-            else
-            {
-                switch (ev)
+                if (InvokeRequired)
                 {
-                    case Slicer.eSliceEvent.eSliceStarted:
-                        SetMainMessage("Slicing Started");
-                        break;
-                    case Slicer.eSliceEvent.eLayerSliced:
-                        break;
-                    case Slicer.eSliceEvent.eSliceCompleted:
-                        //show the gcode
-                        txtGCode.Text = UVDLPApp.Instance().m_gcode.RawGCode;
-                        vScrollBar1.Maximum = totallayers;
-                        vScrollBar1.Value = 0;
-                        SetMainMessage("Slicing Completed");
-                        String timeest = BuildManager.EstimateBuildTime(UVDLPApp.Instance().m_gcode);
-                        SetTimeMessage("Estimated Build Time: " + timeest);
-                        //show the slice in the slice view
-                        ViewLayer(0, null,BuildManager.SLICE_NORMAL);
-                        break;
+                    BeginInvoke(new MethodInvoker(delegate() { SliceEv(ev, layer, totallayers); }));
                 }
+                else
+                {
+                    switch (ev)
+                    {
+                        case Slicer.eSliceEvent.eSliceStarted:
+                            SetMainMessage("Slicing Started");
+                            break;
+                        case Slicer.eSliceEvent.eLayerSliced:
+                            break;
+                        case Slicer.eSliceEvent.eSliceCompleted:
+                            //show the gcode
+                            txtGCode.Text = UVDLPApp.Instance().m_gcode.RawGCode;
+                            vScrollBar1.Maximum = totallayers;
+                            vScrollBar1.Value = 0;
+                            SetMainMessage("Slicing Completed");
+                            String timeest = BuildManager.EstimateBuildTime(UVDLPApp.Instance().m_gcode);
+                            SetTimeMessage("Estimated Build Time: " + timeest);
+                            //show the slice in the slice view
+                            ViewLayer(0, null, BuildManager.SLICE_NORMAL);
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
             }
         }
 
