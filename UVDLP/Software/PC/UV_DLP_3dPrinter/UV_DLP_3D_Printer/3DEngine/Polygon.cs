@@ -204,6 +204,8 @@ namespace Engine3D
         }
         public void CalcCenter() 
         {
+            try
+            {
             m_center.Set(0, 0, 0,0);
             if (m_points.Length != 3) 
             {
@@ -218,6 +220,10 @@ namespace Engine3D
             m_center.x /= m_points.Length; // number of points
             m_center.y /= m_points.Length; // number of points
             m_center.z /= m_points.Length; // number of points
+            }catch(Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
         }
         /*
          The update function should be called after the containing object

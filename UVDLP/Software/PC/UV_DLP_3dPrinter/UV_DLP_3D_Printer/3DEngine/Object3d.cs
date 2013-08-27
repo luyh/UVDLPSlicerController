@@ -27,6 +27,10 @@ namespace Engine3D
 
         public Object3d() 
         {
+            Init();
+        }
+        public void Init() 
+        {
             m_lstpolys = new ArrayList();
             m_lstpoints = new ArrayList();
             m_center = new Point3d();
@@ -329,9 +333,15 @@ namespace Engine3D
         }
         public bool LoadSTL(string filename) 
         {
+            // only binary stl for now
             bool val = LoadSTL_Binary(filename);
+
             if (!val)
+            {
+                Init();// re-init the object
                 return LoadSTL_ASCII(filename);
+            }
+            
             return val;
         }
 
@@ -408,10 +418,11 @@ namespace Engine3D
                         
                     }
                     uint attr = br.ReadUInt16(); // not used attribute
-                    p.CalcNormal();
+                    //p.CalcNormal();
                 }
                 
-                FindMinMax();
+                //FindMinMax();
+                Update(); // initial positions please...
                 br.Close();
                 return true;
             }
@@ -468,13 +479,14 @@ namespace Engine3D
                             return false;
                         }
                         Polygon poly = new Polygon();//create a new polygon                        
-                        poly.m_points = new Point3d[3]; // create the storage
-                        m_lstpolys.Add(poly); // add it to the polygon list
-
+                        m_lstpolys.Add(poly); // add it to the object's polygon list
+                        poly.m_points = new Point3d[3]; // create the storage for 3 points 
+                        
                         for (int idx = 0; idx < 3; idx++)//read the point
                         {
-                            Point3d pnt = new Point3d();
-                            poly.m_points[idx] = pnt;// new Point3d(); // create storage for this point
+                            poly.m_points[idx] = new Point3d(); // create a new point at the poly's indexed point list
+                            m_lstpoints.Add(poly.m_points[idx]); // add this point to the object's list of point
+
                             char[] delimiters = new char[] { ' ' };
                             line = sr.ReadLine().Trim(); // vertex
                             toks = line.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
@@ -485,23 +497,12 @@ namespace Engine3D
                            // pnt.x = double.Parse(toks[1].Trim(), System.Globalization.NumberStyles.AllowExponent | System.Globalization.NumberStyles.Float);
                            // pnt.y = double.Parse(toks[2].Trim(), System.Globalization.NumberStyles.AllowExponent | System.Globalization.NumberStyles.Float);
                            // pnt.z = double.Parse(toks[3].Trim(), System.Globalization.NumberStyles.AllowExponent | System.Globalization.NumberStyles.Float);
-                            pnt.x = (double) Double.Parse(toks[1].Trim(), System.Globalization.NumberStyles.Any);
-                            pnt.y = (double)Double.Parse(toks[2].Trim(), System.Globalization.NumberStyles.Any);
-                            pnt.z = (double)Double.Parse(toks[3].Trim(), System.Globalization.NumberStyles.Any);
-                            if (pnt.x > 100.0 || pnt.x < -100)
-                            {
-                                pnt.x = pnt.x;
-                            }
-                            if (pnt.y > 100.0 || pnt.y < -100)
-                            {
-                                pnt.y = pnt.y;
-                            }
-                            if (pnt.x > 100.0 || pnt.z < -100)
-                            {
-                                pnt.y = pnt.y;
-                            }
-                            m_lstpoints.Add(pnt);
+                            poly.m_points[idx].x = (double)Double.Parse(toks[1].Trim(), System.Globalization.NumberStyles.Any);
+                            poly.m_points[idx].y = (double)Double.Parse(toks[2].Trim(), System.Globalization.NumberStyles.Any);
+                            poly.m_points[idx].z = (double)Double.Parse(toks[3].Trim(), System.Globalization.NumberStyles.Any);
+                           
                         }
+
                         line = sr.ReadLine().Trim();//endloop
                         if (!line.Equals("endloop")) 
                         {
@@ -516,12 +517,7 @@ namespace Engine3D
                     } // endfacet
                     else if (line.ToLower().StartsWith("endsolid"))
                     {
-                        //end of model defintion
-                        foreach (Point3d pnt in this.m_lstpoints) 
-                        {
-                            String s = String.Format("{0},{1},{2}",pnt.x,pnt.y,pnt.z);
-                            DebugLogger.Instance().LogRecord(s);
-                        }
+
                         Update(); // initial positions please...
                     }
                     else 
