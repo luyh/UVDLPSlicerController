@@ -11,7 +11,7 @@ using UV_DLP_3D_Printer.Drivers;
 using UV_DLP_3D_Printer.Slicing;
 using UV_DLP_3D_Printer;
 using System.Drawing;
-
+using UV_DLP_3D_Printer.Configs;
 namespace UV_DLP_3D_Printer
 {
     public enum eAppEvent 
@@ -46,6 +46,8 @@ namespace UV_DLP_3D_Printer
         public MachineConfig m_printerinfo = new MachineConfig();
         // the current building / slicing profile
         public SliceBuildConfig m_buildparms;
+
+        public SupportConfig m_supportconfig;
         // the interface to the printer
         public DeviceInterface m_deviceinterface;// = new PrinterInterface();
         // the generated or loaded GCode File;
@@ -80,6 +82,7 @@ namespace UV_DLP_3D_Printer
             m_slicer.Slice_Event += new Slicer.SliceEvent(SliceEv);
             m_flexslice = new FlexSlice();
             m_gcode = null;
+            m_supportconfig = new SupportConfig();
         }
         public enum Platform
         {
@@ -114,7 +117,8 @@ namespace UV_DLP_3D_Printer
 
         public void AddAutoSupports()
         {
-            SupportGenerator.GenerateSupportObjects(5, 5);
+            SupportGenerator.GenerateSupportObjects(m_supportconfig);
+            RaiseAppEvent(eAppEvent.eModelLoaded, "Model Created");
         }
         public void AddSupport() 
         {

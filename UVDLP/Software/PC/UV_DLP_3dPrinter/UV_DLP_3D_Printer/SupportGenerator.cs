@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections;
 using UV_DLP_3D_Printer._3DEngine;
 using Engine3D;
+using UV_DLP_3D_Printer.Configs;
 
 namespace UV_DLP_3D_Printer
 {
@@ -93,7 +94,7 @@ namespace UV_DLP_3D_Printer
          To start, we're going to intersect the entire scene and generate support objects
          * we can change this to generate support for individual objects if needed.
          */
-        public static void GenerateSupportObjects(double xstep, double ystep) 
+        public static void GenerateSupportObjects(SupportConfig sc) 
         {
            // ArrayList objects = new ArrayList();
             // iterate over the platform size by indicated mm step; // projected resolution in x,y
@@ -110,22 +111,23 @@ namespace UV_DLP_3D_Printer
             double ZVal = UVDLPApp.Instance().m_printerinfo.m_PlatZSize;
             UVDLPApp.Instance().CalcScene();
             bool intersected = false;
+            int scnt = 0; // support count
             // iterate from -HX to HX step xtep;
-            for(double x = -HX; x < HX; x += xstep)
+            for (double x = -HX; x < HX; x += sc.xspace)
             {
-                for(double y = -HY; y <  0 /*HY*/; y += ystep)
+                for (double y = -HY; y < HY; y += sc.yspace)
                 {
                     Point3d bpoint,tpoint;
                     Point3d lowest = new Point3d(); // the lowest point of intersection on the z axis
 
                     bpoint = new Point3d(); // bottom point
                     tpoint = new Point3d(); // top point
-                    bpoint.Set(x,y,0.0,1);
+                    bpoint.Set(x, y, 0.0 , 1);
                     tpoint.Set(x, y, ZVal, 1); // set to the max height
                     //intersect the scene with a ray
 
                     lowest.Set(0, 0, ZVal, 0);
-                    intersected = false;
+                    intersected = false; // reset the intersected flag to be false
                     foreach(Polygon p in UVDLPApp.Instance().Scene.m_lstpolys)
                     {
                         Point3d intersect = new Point3d();
@@ -154,8 +156,11 @@ namespace UV_DLP_3D_Printer
                     {
                         // now, generate and add a cylinder here
                         Cylinder3d cyl = new Cylinder3d();
-                        cyl.Create(1, .5, lowest.z, 20, 1);
+                        cyl.Create(sc.brad, sc.trad, lowest.z, 20, sc.vdivs);
                         cyl.Translate((float)x,(float)y,0);
+                        cyl.Name = "Support " + scnt;
+                        cyl.IsSupport = true;
+                        scnt++;
                         UVDLPApp.Instance().Engine3D.AddObject(cyl);
                     }      
                 }

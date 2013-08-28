@@ -569,9 +569,10 @@ namespace UV_DLP_3D_Printer
           GL.LoadIdentity();
 
           GL.Translate(xoffset, yoffset, orbitdist);
-          GL.Rotate(orbitypos, 0, 1, 0);
+          
+          GL.Rotate(orbitypos, 0, 1, 0); // transform first
           GL.Rotate(orbitxpos, 1, 0, 0);
-
+          
           UVDLPApp.Instance().Engine3D.RenderGL();
          // DrawISect();
           GL.Flush();
@@ -614,7 +615,7 @@ namespace UV_DLP_3D_Printer
             {
                 mmdown = true;
                 // try to hit-test objects in scene here.
-                HitTestScene(mdx, mdy);
+                //HitTestScene(mdx, mdy);
             }
             
             if (e.Button == MouseButtons.Left)
@@ -669,16 +670,25 @@ namespace UV_DLP_3D_Printer
         }
         private void TestHitTest(int X, int Y)
         {
-            return; // comment out for now
+            return;
+            //
             // show 2d coords
             // convert from screen 2d to     
-            lblDebug.Text = "Screen X,Y = (" + X.ToString() + "," + Y.ToString() + ")\r\n";
+            String mess = "";
+            mess = "Screen X,Y = (" + X.ToString() + "," + Y.ToString() + ")\r\n";
             
             int w = glControl1.Width;
             int h = glControl1.Height;
-            lblDebug.Text += "Screen Width/Height = " + w.ToString() + "," + h.ToString() + "\r\n";
+            mess += "Screen Width/Height = " + w.ToString() + "," + h.ToString() + "\r\n";
             float aspect = ((float)glControl1.Width) / ((float)glControl1.Height);
-            lblDebug.Text += "Screen Aspect = " + aspect.ToString() + "\r\n";
+            mess += "Screen Aspect = " + aspect.ToString() + "\r\n";
+
+
+            lblDebug.Text = mess;
+            lblDebug.Refresh();
+
+            //return;
+
             int window_y = (h - Y) - h/2;
             double norm_y = (double)(window_y)/(double)(h/2);
             int window_x = X - w/2;
@@ -725,6 +735,8 @@ namespace UV_DLP_3D_Printer
             ipy = vecpnt.Y;
             ipz = vecpnt.Z;
             */
+
+            
             Point3d origin = new Point3d();
             Point3d intersect = new Point3d();
             Engine3D.Vector3d dir = new Engine3D.Vector3d();
@@ -1070,30 +1082,42 @@ namespace UV_DLP_3D_Printer
 
             TreeNode scenenode = new TreeNode("Scene");
             treeScene.Nodes.Add(scenenode);
+            TreeNode support3d = new TreeNode("3d Supports");
+            treeScene.Nodes.Add(support3d);
+
             foreach (Object3d obj in UVDLPApp.Instance().Engine3D.m_objects)
             {
-                obj.FindMinMax();
-                TreeNode objnode = new TreeNode(obj.Name);
-                objnode.Tag = obj;
-                scenenode.Nodes.Add(objnode);
-                //String minmax = "Nu
-                String Numpoints = "Num Points = " + obj.NumPoints.ToString();
-                objnode.Nodes.Add(Numpoints);
-                String Numpolys = "Num Polys = " + obj.NumPolys.ToString();
-                objnode.Nodes.Add(Numpolys);
-                objnode.Nodes.Add("Min points = (" + String.Format("{0:0.00}", obj.m_min.x) + "," + String.Format("{0:0.00}", obj.m_min.y) + "," + String.Format("{0:0.00}", obj.m_min.z) + ")");
-                objnode.Nodes.Add("Max points = (" + String.Format("{0:0.00}", obj.m_max.x) + "," + String.Format("{0:0.00}", obj.m_max.y) + "," + String.Format("{0:0.00}", obj.m_max.z) + ")");
-                double xs, ys, zs;
-                xs = obj.m_max.x - obj.m_min.x;
-                ys = obj.m_max.y - obj.m_min.y;
-                zs = obj.m_max.z - obj.m_min.z;
-                objnode.Nodes.Add("Size = (" + String.Format("{0:0.00}", xs) + "," + String.Format("{0:0.00}", ys) + "," + String.Format("{0:0.00}", zs) + ")");
-                objnode.Nodes.Add("Wireframe = " + obj.m_wireframe.ToString());
-                if (obj == UVDLPApp.Instance().m_selectedobject)  // expand this node
+                if (obj.IsSupport)
                 {
-                    objnode.Expand();
-                    objnode.BackColor = Color.LightBlue;
-                    treeScene.SelectedNode = objnode;
+                    TreeNode objnode = new TreeNode(obj.Name);
+                    objnode.Tag = obj;
+                    support3d.Nodes.Add(objnode);
+                }
+                else
+                {
+                    obj.FindMinMax();
+                    TreeNode objnode = new TreeNode(obj.Name);
+                    objnode.Tag = obj;
+                    scenenode.Nodes.Add(objnode);
+                    //String minmax = "Nu
+                    String Numpoints = "Num Points = " + obj.NumPoints.ToString();
+                    objnode.Nodes.Add(Numpoints);
+                    String Numpolys = "Num Polys = " + obj.NumPolys.ToString();
+                    objnode.Nodes.Add(Numpolys);
+                    objnode.Nodes.Add("Min points = (" + String.Format("{0:0.00}", obj.m_min.x) + "," + String.Format("{0:0.00}", obj.m_min.y) + "," + String.Format("{0:0.00}", obj.m_min.z) + ")");
+                    objnode.Nodes.Add("Max points = (" + String.Format("{0:0.00}", obj.m_max.x) + "," + String.Format("{0:0.00}", obj.m_max.y) + "," + String.Format("{0:0.00}", obj.m_max.z) + ")");
+                    double xs, ys, zs;
+                    xs = obj.m_max.x - obj.m_min.x;
+                    ys = obj.m_max.y - obj.m_min.y;
+                    zs = obj.m_max.z - obj.m_min.z;
+                    objnode.Nodes.Add("Size = (" + String.Format("{0:0.00}", xs) + "," + String.Format("{0:0.00}", ys) + "," + String.Format("{0:0.00}", zs) + ")");
+                    objnode.Nodes.Add("Wireframe = " + obj.m_wireframe.ToString());
+                    if (obj == UVDLPApp.Instance().m_selectedobject)  // expand this node
+                    {
+                        objnode.Expand();
+                        objnode.BackColor = Color.LightBlue;
+                        treeScene.SelectedNode = objnode;
+                    }
                 }
 
             }
@@ -1583,7 +1607,11 @@ namespace UV_DLP_3D_Printer
 
         private void addAutomaticSupportsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UVDLPApp.Instance().AddAutoSupports();
+            frmAuto3dSupport frmsupport = new frmAuto3dSupport(ref UVDLPApp.Instance().m_supportconfig);
+            if (frmsupport.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                UVDLPApp.Instance().AddAutoSupports();
+            }
         }
 
         private void propertiesToolStripMenuItem1_Click(object sender, EventArgs e)

@@ -22,6 +22,7 @@ namespace Engine3D
         private bool m_visible;
         public Point3d m_min, m_max,m_center;
         public bool m_wireframe = false;
+        private bool m_support = false; // is this a 3d support object?
         public double m_radius;
         public Material material;// = new Material();
 
@@ -40,9 +41,19 @@ namespace Engine3D
             m_max = new Point3d();
             m_visible = true;
             m_radius = 0.0;
+            m_support = false;
             material = new Material();
         }
-        public string Name { get { return m_name; } }
+        public string Name 
+        { 
+            get { return m_name; }
+            set { m_name = value; }
+        }
+        public bool IsSupport 
+        {
+            get { return m_support; }
+            set { m_support = value; }
+        }
         public int NumPolys { get { return m_lstpolys.Count; } }
         public int NumPoints { get { return m_lstpoints.Count; } }
         public bool Visible 
