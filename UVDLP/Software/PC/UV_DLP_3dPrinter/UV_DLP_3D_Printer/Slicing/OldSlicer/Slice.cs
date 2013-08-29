@@ -6,6 +6,8 @@ using System.Text;
 using System.Collections;
 using Engine3D;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
 using System.IO;
 
 namespace UV_DLP_3D_Printer
@@ -176,6 +178,21 @@ namespace UV_DLP_3D_Printer
                 g.DrawLine(pen, pnt1, pnt2);       
             }
         }
+        public static Bitmap ReflectY(Bitmap source) 
+        {
+            try
+            {
+                source.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                Bitmap b = new Bitmap(source.Width, source.Height);
+                using (Graphics g = Graphics.FromImage((Image)b))
+                {
+                    g.DrawImage(source, 0, 0, source.Width, source.Height);
+                }
+                return b;
+            }
+            catch { return null; }
+        
+        }
         public static Bitmap ResizeImage(Bitmap imgToResize, Size size)
         {
             try
@@ -278,11 +295,11 @@ namespace UV_DLP_3D_Printer
 
             if (sp.antialiasing == true) // we're using anti-aliasing here, so resize the image
             {
-                return ResizeImage(bmp, new Size(ox, oy));
+                return ReflectY(ResizeImage(bmp, new Size(ox, oy)));
             }
             else 
             {
-                return bmp;
+                return ReflectY(bmp);
             }
 
             //return bmp;

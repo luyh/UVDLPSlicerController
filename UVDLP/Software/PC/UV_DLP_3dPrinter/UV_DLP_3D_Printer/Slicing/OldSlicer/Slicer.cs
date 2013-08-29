@@ -81,8 +81,9 @@ namespace UV_DLP_3D_Printer
 
                 //determine the number of slices
                 m_obj.FindMinMax();
+                // I think I should calculate the number of slices from the world 0 position, not just the bottom of the object
                 int numslices = (int)((m_obj.m_max.z - m_obj.m_min.z) / m_sf.m_config.ZThick);
-
+                // I should start slicing at Wz 0, not Oz 0
                 double curz = (double)m_obj.m_min.z;
                 RaiseSliceEvent(eSliceEvent.eSliceStarted, 0, numslices);
                 DebugLogger.Instance().LogRecord("Slicing started");
@@ -91,6 +92,7 @@ namespace UV_DLP_3D_Printer
                 m_obj.ClearCached();
                 for (c = 0; c < numslices; c++)
                 {
+                    // check for cancelation
                     if (m_cancel) 
                     {
                         isslicing = false;

@@ -206,20 +206,17 @@ namespace Engine3D
         {
             try
             {
-            m_center.Set(0, 0, 0,0);
-            if (m_points.Length != 3) 
-            {
-                int a = 1;
-            }
-            foreach (Point3d pnt in m_points)
-            {
-                m_center.x += pnt.x;
-                m_center.y += pnt.y;
-                m_center.z += pnt.z;
-            }
-            m_center.x /= m_points.Length; // number of points
-            m_center.y /= m_points.Length; // number of points
-            m_center.z /= m_points.Length; // number of points
+                m_center.Set(0, 0, 0,0);
+
+                foreach (Point3d pnt in m_points)
+                {
+                    m_center.x += pnt.x;
+                    m_center.y += pnt.y;
+                    m_center.z += pnt.z;
+                }
+                m_center.x /= m_points.Length; // number of points
+                m_center.y /= m_points.Length; // number of points
+                m_center.z /= m_points.Length; // number of points
             }catch(Exception ex)
             {
                 DebugLogger.Instance().LogError(ex.Message);
@@ -270,7 +267,7 @@ namespace Engine3D
             if (wireframe)
             {
 
-                GL.Begin(BeginMode.LineStrip);
+                GL.Begin(BeginMode.LineLoop);//.LineStrip);
                 GL.LineWidth(1);
             }else
             {
@@ -279,7 +276,8 @@ namespace Engine3D
             //GL.Color3(m_color);
             //GL.Color4((byte)m_color.R, (byte)m_color.G, (byte)m_color.B, (byte)128);
             //GL.Color4((byte)m_color.R, (byte)m_color.G, (byte)m_color.B, (byte)128);
-            GL.Color4(Color.FromArgb(50, 128, 128, 128));
+            GL.Color3(m_color);
+            //GL.Color4(Color.FromArgb(50, 128, 128, 128));
             GL.Normal3(m_normal.x, m_normal.y, m_normal.z);
             foreach (Point3d p in this.m_points)
             {               

@@ -12,6 +12,8 @@ using UV_DLP_3D_Printer.Slicing;
 using UV_DLP_3D_Printer;
 using System.Drawing;
 using UV_DLP_3D_Printer.Configs;
+using System.Collections;
+
 namespace UV_DLP_3D_Printer
 {
     public enum eAppEvent 
@@ -120,6 +122,24 @@ namespace UV_DLP_3D_Printer
             SupportGenerator.GenerateSupportObjects(m_supportconfig);
             RaiseAppEvent(eAppEvent.eModelLoaded, "Model Created");
         }
+
+        public void RemoveAllSupports() 
+        {
+            ArrayList lst = new ArrayList();
+
+            foreach (Object3d obj in m_engine3d.m_objects) 
+            {
+                if (obj.IsSupport) 
+                {
+                    lst.Add(obj);
+                }
+            }
+            foreach (Object3d obj in lst) 
+            {
+                m_engine3d.RemoveObject(obj);
+            }
+        }
+        
         public void AddSupport() 
         {
             Cylinder3d cyl = new Cylinder3d();

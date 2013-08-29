@@ -42,7 +42,7 @@
             // 
             // cmdOK
             // 
-            this.cmdOK.Location = new System.Drawing.Point(157, 327);
+            this.cmdOK.Location = new System.Drawing.Point(101, 223);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(101, 35);
             this.cmdOK.TabIndex = 0;
@@ -52,7 +52,7 @@
             // 
             // cmdCancel
             // 
-            this.cmdCancel.Location = new System.Drawing.Point(264, 327);
+            this.cmdCancel.Location = new System.Drawing.Point(208, 223);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(101, 35);
             this.cmdCancel.TabIndex = 1;
@@ -128,7 +128,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(603, 374);
+            this.ClientSize = new System.Drawing.Size(460, 270);
             this.Controls.Add(this.txtTRad);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtBRad);
@@ -139,7 +139,10 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdOK);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmAuto3dSupport";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Auto 3d Support Generation";
             this.ResumeLayout(false);
             this.PerformLayout();

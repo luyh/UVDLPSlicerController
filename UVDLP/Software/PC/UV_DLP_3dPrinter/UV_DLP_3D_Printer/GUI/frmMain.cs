@@ -1132,19 +1132,28 @@ namespace UV_DLP_3D_Printer
          */
         private void treeScene_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (e.Node.Tag != null)
+            //if (e.Node.Tag != null)            
+            if (e.Button == System.Windows.Forms.MouseButtons.Left && e.Node.Tag != null)
             {
-                if (e.Button == System.Windows.Forms.MouseButtons.Left)
-                {
-                    UVDLPApp.Instance().m_selectedobject = (Object3d)e.Node.Tag;
-                    SetupSceneTree();
-                }
-                
-                if (e.Button == System.Windows.Forms.MouseButtons.Right)  // we right clicked a menu item, check and see if it has a tag
-                {
-                    contextMenuStrip1.Show(treeScene,e.Node.Bounds.Left, e.Node.Bounds.Top);
-                }            
+                UVDLPApp.Instance().m_selectedobject = (Object3d)e.Node.Tag;
+                SetupSceneTree();
             }
+                
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)  // we right clicked a menu item, check and see if it has a tag
+            {
+                if (e.Node.Text.Equals("3d Supports"))
+                {
+                    contextMenuStrip2.Show(treeScene, e.Node.Bounds.Left, e.Node.Bounds.Top);
+                }
+                else
+                {
+                    if (e.Node.Tag != null)
+                    {
+                        contextMenuStrip1.Show(treeScene, e.Node.Bounds.Left, e.Node.Bounds.Top);
+                    }
+                }
+            }            
+            
         }
 
         private void cmdRemoveObject_Click(object sender, EventArgs e)
@@ -1658,6 +1667,14 @@ namespace UV_DLP_3D_Printer
         private void frmMain_Activated(object sender, EventArgs e)
         {
             Refresh();
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            // remove all supports
+            //iterate through objects, remove all supports
+            UVDLPApp.Instance().RemoveAllSupports();
+            SetupSceneTree();
         }
     }
 }
