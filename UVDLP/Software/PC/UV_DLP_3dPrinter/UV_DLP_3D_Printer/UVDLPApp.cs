@@ -18,11 +18,13 @@ namespace UV_DLP_3D_Printer
 {
     public enum eAppEvent 
     {
-        eModelLoaded,
+        eModelAdded,
         eModelNotLoaded,
         eModelRemoved,
         eGCodeLoaded,
-        eGCodeSaved
+        eGCodeSaved,
+        eSupportGenerated,
+
     }
     public delegate void AppEventDelegate(eAppEvent ev, String Message);
     /*
@@ -50,6 +52,7 @@ namespace UV_DLP_3D_Printer
         public SliceBuildConfig m_buildparms;
 
         public SupportConfig m_supportconfig;
+        public SupportGenerator m_supportgenerator;
         // the interface to the printer
         public DeviceInterface m_deviceinterface;// = new PrinterInterface();
         // the generated or loaded GCode File;
@@ -83,8 +86,11 @@ namespace UV_DLP_3D_Printer
             m_slicer = new Slicer();
             m_slicer.Slice_Event += new Slicer.SliceEvent(SliceEv);
             m_flexslice = new FlexSlice();
-            m_gcode = null;
+            m_gcode = new GCodeFile(""); // create a blank gcode to start with
             m_supportconfig = new SupportConfig();
+            m_supportgenerator = new SupportGenerator();
+            m_supportgenerator.SupportEvent+= new SupportGeneratorEvent(SupEvent);
+
         }
         public enum Platform
         {
@@ -92,7 +98,33 @@ namespace UV_DLP_3D_Printer
             Linux,
             Mac
         }
+        public void SupEvent(SupportEvent ev, string message, Object obj) 
+        {
 
+            try
+            {
+                switch (ev)
+                {
+                    case SupportEvent.eCompleted:
+                        break;
+                    case SupportEvent.eCancel:
+                        break;
+                    case SupportEvent.eProgress:
+                        break;
+                    case SupportEvent.eStarted:
+                        break;
+                    case SupportEvent.eSupportGenerated:
+                        m_engine3d.AddObject((Object3d)obj);
+                      //  RaiseAppEvent(eAppEvent.eModelAdded, message);
+                            //add the model to the scene
+                        break;
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);      
+            }
+        }
         public void RaiseAppEvent(eAppEvent ev, String message) 
         {
             if (AppEvent != null) 
@@ -117,10 +149,12 @@ namespace UV_DLP_3D_Printer
             }
         }
 
-        public void AddAutoSupports()
+        public void StartAddSupports()
         {
-            SupportGenerator.GenerateSupportObjects(m_supportconfig);
-            RaiseAppEvent(eAppEvent.eModelLoaded, "Model Created");
+
+            CalcScene(); // do it for the scene
+            m_supportgenerator.Start(m_supportconfig, m_sceneobject);
+
         }
 
         public void RemoveAllSupports() 
@@ -139,26 +173,28 @@ namespace UV_DLP_3D_Printer
                 m_engine3d.RemoveObject(obj);
             }
         }
-        
+        /// <summary>
+        /// Adds a new dummy support
+        /// </summary>
         public void AddSupport() 
         {
             Cylinder3d cyl = new Cylinder3d();
             cyl.Create(2.5, 1.5, 10, 15, 2);
             m_engine3d.AddObject(cyl);
-            RaiseAppEvent(eAppEvent.eModelLoaded, "Model Created");
+            RaiseAppEvent(eAppEvent.eModelAdded, "Model Created");
         }
 
-        public void MakeCurrent(Object3d obj)         
-        {
-        
-        }
         public void RemoveCurrentModel() 
         {
             m_engine3d.RemoveObject(m_selectedobject);
             m_selectedobject = null;
             RaiseAppEvent(eAppEvent.eModelRemoved, "model removed");
-
         }
+        /// <summary>
+        /// Loads a model, adds it to the 3d engine to be shown, and raises an app event
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public bool LoadModel(String filename) 
         {
             try
@@ -189,7 +225,7 @@ namespace UV_DLP_3D_Printer
                     m_engine3d.AddObject(obj);
                     m_selectedobject = obj;
                     m_slicefile = null; // the slice file is not longer current
-                    RaiseAppEvent(eAppEvent.eModelLoaded, "Model Loaded");
+                    RaiseAppEvent(eAppEvent.eModelAdded, "Model Loaded");
 
                 }
                 else 
@@ -247,22 +283,38 @@ namespace UV_DLP_3D_Printer
                     break;
                 case Slicer.eSliceEvent.eSliceCompleted:
                     m_gcode = GCodeGenerator.Generate(m_slicefile, m_printerinfo);
-                    /*
+                    
                     //get the path of the current object file
-                    path = Path.GetDirectoryName(m_obj.m_fullname);
-                    string fn = Path.GetFileNameWithoutExtension(m_obj.m_fullname);
+                    path = Path.GetDirectoryName(m_selectedobject.m_fullname);                    
+                    string fn = Path.GetFileNameWithoutExtension(m_selectedobject.m_fullname);
+                    /*
                     if (!UVDLPApp.Instance().m_gcode.Save(path + UVDLPApp.m_pathsep + fn + ".gcode")) 
                     {
                         DebugLogger.Instance().LogRecord("Cannot save GCode File " + path + m_pathsep + fn + ".gcode");
                     }
-                     * */
-                    SaveGCode();
+                    */
+                    SaveGCode(path + UVDLPApp.m_pathsep + fn + ".gcode");
                     break;
                 case Slicer.eSliceEvent.eSliceCancelled:
                     DebugLogger.Instance().LogRecord("Slicing Cancelled");
                     break;
 
 
+            }
+        }
+        public void LoadGCode(String filename)
+        {
+            try
+            {
+                if (!UVDLPApp.Instance().m_gcode.Load(filename))
+                {
+                    DebugLogger.Instance().LogRecord("Cannot load GCode File " + filename);
+                }
+                RaiseAppEvent(eAppEvent.eGCodeLoaded, "");
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogRecord(ex.Message);
             }
         }
 
@@ -285,16 +337,16 @@ namespace UV_DLP_3D_Printer
             }
         }
 
-        public void SaveGCode() 
+        public void SaveGCode(String filename) 
         {
             try
             {
                 //get the path of the current object file
-                String path = Path.GetDirectoryName(m_selectedobject.m_fullname); // change to scene object name
-                string fn = Path.GetFileNameWithoutExtension(m_selectedobject.m_fullname);
-                if (!UVDLPApp.Instance().m_gcode.Save(path + UVDLPApp.m_pathsep + fn + ".gcode"))
+                //String path = Path.GetDirectoryName(m_selectedobject.m_fullname); // change to scene object name
+                //string fn = Path.GetFileNameWithoutExtension(m_selectedobject.m_fullname);
+                if (!UVDLPApp.Instance().m_gcode.Save(filename))
                 {
-                    DebugLogger.Instance().LogRecord("Cannot save GCode File " + path + m_pathsep + fn + ".gcode");
+                    DebugLogger.Instance().LogRecord("Cannot save GCode File " + filename);
                 }
                // RaiseAppEvent(eAppEvent.eGCodeSaved, "");
             }

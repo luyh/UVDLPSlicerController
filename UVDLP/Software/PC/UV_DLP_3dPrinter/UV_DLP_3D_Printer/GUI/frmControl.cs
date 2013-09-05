@@ -49,7 +49,7 @@ namespace UV_DLP_3D_Printer.GUI
         {
             try
             {
-                double dist = double.Parse(txtdistX.Text);
+                double dist = double.Parse(txtdistXY.Text);
                 UVDLPApp.Instance().m_deviceinterface.MoveX(dist, UVDLPApp.Instance().m_printerinfo.XMaxFeedrate); //
             }
             catch (Exception ex)
@@ -63,7 +63,7 @@ namespace UV_DLP_3D_Printer.GUI
         {
             try
             {
-                double dist = double.Parse(txtdistX.Text);
+                double dist = double.Parse(txtdistXY.Text);
                 dist = dist * -1.0;
                 UVDLPApp.Instance().m_deviceinterface.MoveX(dist, UVDLPApp.Instance().m_printerinfo.XMaxFeedrate); //
             }
@@ -78,7 +78,7 @@ namespace UV_DLP_3D_Printer.GUI
         {
             try
             {
-                double dist = double.Parse(txtdistY.Text);
+                double dist = double.Parse(txtdistXY.Text);
                 UVDLPApp.Instance().m_deviceinterface.MoveY(dist, UVDLPApp.Instance().m_printerinfo.YMaxFeedrate); //
             }
             catch (Exception ex)
@@ -93,7 +93,7 @@ namespace UV_DLP_3D_Printer.GUI
         {
             try
             {
-                double dist = double.Parse(txtdistY.Text);
+                double dist = double.Parse(txtdistXY.Text);
                 dist = dist * -1.0;
                 UVDLPApp.Instance().m_deviceinterface.MoveY(dist, UVDLPApp.Instance().m_printerinfo.YMaxFeedrate); //
             }

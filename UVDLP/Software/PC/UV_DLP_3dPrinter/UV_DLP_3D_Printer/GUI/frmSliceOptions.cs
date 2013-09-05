@@ -87,6 +87,7 @@ namespace UV_DLP_3D_Printer
                 m_config.liftfeedrate = double.Parse(txtliftfeed.Text);
                 m_config.liftretractrate = double.Parse(txtretractfeed.Text);
                 //  m_config.raise_time_ms = int.Parse(txtRaiseTime.Text);
+                grpLift.Enabled = !chkmainliftgcode.Checked;
 
                 m_config.direction = (SliceBuildConfig.eBuildDirection)Enum.Parse(typeof(SliceBuildConfig.eBuildDirection), cmbBuildDirection.SelectedItem.ToString());
                 return true;
@@ -226,6 +227,11 @@ namespace UV_DLP_3D_Printer
         private void txtLiftDistance_TextChanged(object sender, EventArgs e)
         {
             CalcBlankTime();
+        }
+
+        private void chkmainliftgcode_CheckedChanged(object sender, EventArgs e)
+        {
+            grpLift.Enabled = !chkmainliftgcode.Checked;
         }
     }
 }

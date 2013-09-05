@@ -18,6 +18,52 @@ namespace UV_DLP_3D_Printer.GUI
             m_sc = sc;
             InitializeComponent();
             SetData();
+            UVDLPApp.Instance().m_supportgenerator.SupportEvent += new SupportGeneratorEvent(SupEvent);
+        }
+        public void SupEvent(SupportEvent ev, string message, Object obj)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new MethodInvoker(delegate() { SupEvent(ev, message,obj); }));
+            }
+            else
+            {
+                try
+                {
+                    switch (ev)
+                    {
+                        case SupportEvent.eCompleted:
+                            //close this dialog
+                            DialogResult = System.Windows.Forms.DialogResult.OK;
+                            Close();
+                            break;
+                        case SupportEvent.eCancel:
+                            break;
+                        case SupportEvent.eProgress:
+                            // P
+                            string[] toks = message.Split('/');
+                            int cs = int.Parse(toks[0]);
+                            int ts = int.Parse(toks[1]);
+                            if (cs == 0) // set up the prog bar on the first step
+                            {
+                                progressBar1.Maximum = ts;
+                            }
+                            else
+                            {
+                                progressBar1.Value = cs;
+                            }
+                            break;
+                        case SupportEvent.eStarted:
+                            break;
+                        case SupportEvent.eSupportGenerated:
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    DebugLogger.Instance().LogError(ex.Message);
+                }
+            }
         }
         private void SetData() 
         {
@@ -37,16 +83,20 @@ namespace UV_DLP_3D_Printer.GUI
                 return true;
             }catch(Exception ex)
             {
+                DebugLogger.Instance().LogError(ex.Message);
                 return false;
             }
         }
 
         private void cmdOK_Click(object sender, EventArgs e)
         {
+           // progressBar1.Value = 0;
             if (GetData())
             {
-                DialogResult = System.Windows.Forms.DialogResult.OK;
-                Close();
+                cmdOK.Enabled = false;
+                //DialogResult = System.Windows.Forms.DialogResult.OK;
+               // Close();
+                UVDLPApp.Instance().StartAddSupports(); // start the support generation
             }
             else 
             {

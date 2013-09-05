@@ -6,7 +6,8 @@ using System.Collections;
 using UV_DLP_3D_Printer._3DEngine;
 using Engine3D;
 using UV_DLP_3D_Printer.Configs;
-
+using System.Drawing;
+using System.Threading;
 namespace UV_DLP_3D_Printer
 {
     /*
@@ -27,39 +28,53 @@ namespace UV_DLP_3D_Printer
      * surface triangulation may not always work.
      * we can use circle/shape funtions to generate segments/slices
      */
+    public enum SupportEvent 
+    {
+        eStarted, // the support generatation just started
+        eCompleted, // the support generation completed
+        eCancel, // the suport generator is in a cancelled state
+        eProgress, // we've move 1 across the x plane 
+        eSupportGenerated, // used to add a model
+    }
+    public delegate void SupportGeneratorEvent(SupportEvent evnt, string message, Object obj);
+
     public class SupportGenerator
     {
-        /*
-        public class Config 
-        {
-            int xres, yres;
-           // double 
-        }
-         * */
+        private SupportConfig m_sc;
+        private Object3d m_model;
+        private bool m_cancel;
+        private bool m_generating; // true while this is running
+        public SupportGeneratorEvent SupportEvent;
 
+        public void RaiseSupportEvent(SupportEvent evnt, string message, Object obj) 
+        {
+            if (SupportEvent != null) 
+            {
+                SupportEvent(evnt, message, obj);
+            }
+        }
+
+        public bool Generating 
+        {
+            get { return m_generating; }
+        }
+
+        /// <summary>
+        /// This will return an intersection, not necessarily the closest one.
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <param name="origin"></param>
+        /// <param name="intersect"></param>
+        /// <returns></returns>
         public static bool FindIntersection(Vector3d direction, Point3d origin, ref Point3d intersect)
         {
-            UVDLPApp.Instance().CalcScene();
-            //bool intersected = false;
-
-          //  Point3d bpoint, tpoint;
-          //  Point3d lowest = new Point3d(); // the lowest point of intersection on the z axis
             direction.Normalize();
-            direction.Scale(100.0);
+            direction.Scale(10000.0);
             Point3d endp = new Point3d();
             endp.Set(origin);
             endp.x += direction.x;
             endp.y += direction.y;
             endp.z += direction.z;
-            /*
-            intersect = new Point3d();
-            intersect.x = 0.0d;
-            intersect.y = 0.0d;
-            intersect.z = 0.0d;
-            */
-            //intersect the scene with a ray
-
-           // intersected = false;
             foreach (Polygon p in UVDLPApp.Instance().Scene.m_lstpolys)
             {
                 intersect = new Point3d();
@@ -88,13 +103,37 @@ namespace UV_DLP_3D_Printer
         }
         public SupportGenerator() 
         {
+            m_cancel = false;
         }
-
+        /// <summary>
+        /// Start the support generation
+        /// </summary>
+        public void Start(SupportConfig sc, Object3d model)
+        {
+            Thread m_thread = new Thread(new ThreadStart(StartGenerating));
+            m_sc = sc;
+            m_model = model;
+            m_cancel = false;
+            m_generating = true;
+            m_thread.Start();
+        }
+        /// <summary>
+        /// Cancel the support generation
+        /// </summary>
+        public void Cancel() 
+        {
+            m_cancel = true;
+            m_generating = false;
+        }
+        private void StartGenerating() 
+        {
+            GenerateSupportObjects();
+        }
         /*
          To start, we're going to intersect the entire scene and generate support objects
          * we can change this to generate support for individual objects if needed.
          */
-        public static void GenerateSupportObjects(SupportConfig sc) 
+        public ArrayList GenerateSupportObjects() 
         {
            // ArrayList objects = new ArrayList();
             // iterate over the platform size by indicated mm step; // projected resolution in x,y
@@ -105,17 +144,33 @@ namespace UV_DLP_3D_Printer
             // we gott make sure supports don't collide
             // I also have to take into account the 
             // interface between the support and the model
-            
-            double HX =  UVDLPApp.Instance().m_printerinfo.m_PlatXSize / 2; // half X size
-            double HY =  UVDLPApp.Instance().m_printerinfo.m_PlatYSize / 2; // half Y size
+            ArrayList lstsupports = new ArrayList();
+
+           // double HX =  UVDLPApp.Instance().m_printerinfo.m_PlatXSize / 2; // half X size
+          //  double HY =  UVDLPApp.Instance().m_printerinfo.m_PlatYSize / 2; // half Y size
             double ZVal = UVDLPApp.Instance().m_printerinfo.m_PlatZSize;
-            UVDLPApp.Instance().CalcScene();
+
+            
+            //UVDLPApp.Instance().CalcScene();
+            m_model.Update();
+            double MinX = m_model.m_min.x;
+            double MaxX = m_model.m_max.x;
+            double MinY = m_model.m_min.y;
+            double MaxY = m_model.m_max.y;
+
             bool intersected = false;
             int scnt = 0; // support count
             // iterate from -HX to HX step xtep;
-            for (double x = -HX; x < HX; x += sc.xspace)
+            double dts = (MaxX - MinX) / m_sc.xspace;
+            int its = (int)dts;
+            int curstep = 0;
+
+            for (double x = (MinX + (m_sc.xspace/2)); x < MaxX; x += m_sc.xspace)
             {
-                for (double y = -HY; y < HY; y += sc.yspace)
+                
+                RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eProgress, "" + curstep + "/" + its, null);
+                curstep++;
+                for (double y = (MinY + (m_sc.yspace / 2)); y < MaxY; y += m_sc.yspace)
                 {
                     Point3d bpoint,tpoint;
                     Point3d lowest = new Point3d(); // the lowest point of intersection on the z axis
@@ -128,7 +183,7 @@ namespace UV_DLP_3D_Printer
 
                     lowest.Set(0, 0, ZVal, 0);
                     intersected = false; // reset the intersected flag to be false
-                    foreach(Polygon p in UVDLPApp.Instance().Scene.m_lstpolys)
+                    foreach (Polygon p in m_model.m_lstpolys)
                     {
                         Point3d intersect = new Point3d();
                         // try a less- costly sphere intersect here   
@@ -156,16 +211,21 @@ namespace UV_DLP_3D_Printer
                     {
                         // now, generate and add a cylinder here
                         Cylinder3d cyl = new Cylinder3d();
-                        cyl.Create(sc.brad, sc.trad, lowest.z, 20, sc.vdivs);
+                        cyl.Create(m_sc.brad, m_sc.trad, lowest.z, 20, m_sc.vdivs);
                         cyl.Translate((float)x,(float)y,0);
                         cyl.Name = "Support " + scnt;
                         cyl.IsSupport = true;
-                        scnt++;
-                        UVDLPApp.Instance().Engine3D.AddObject(cyl);
+                        cyl.SetColor(Color.Yellow);
+                        scnt++;                       
+                        lstsupports.Add(cyl);
+                        RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eSupportGenerated, cyl.Name, cyl);
                     }      
                 }
             }
            // return objects;
+            RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eCompleted, "Support Generation Completed", null);
+            m_generating = false;
+            return lstsupports;
         }
     }
 }

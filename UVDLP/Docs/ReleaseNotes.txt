@@ -1,3 +1,8 @@
+	Fixed Y-Axis reflection on Slices
+	Fixed Wireframe drawing of models
+	added in dialog for 3d support generation
+	Changed Lift up to be different feedrate
+
 08/27/2013 Beta 11 Release
 	Fixed ASCII STL Loading
 	Added 3d polygon backface clipping

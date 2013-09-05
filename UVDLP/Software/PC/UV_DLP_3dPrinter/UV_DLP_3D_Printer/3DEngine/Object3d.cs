@@ -25,6 +25,7 @@ namespace Engine3D
         private bool m_support = false; // is this a 3d support object?
         public double m_radius;
         public Material material;// = new Material();
+        public bool m_showalpha;
 
         public Object3d() 
         {
@@ -43,6 +44,7 @@ namespace Engine3D
             m_radius = 0.0;
             m_support = false;
             material = new Material();
+            m_showalpha = false;
         }
         public string Name 
         { 
@@ -60,6 +62,15 @@ namespace Engine3D
         {
             get { return m_visible; }
             set {  m_visible = value; }
+        }
+
+        public void SetColor(Color color)
+        {
+            foreach (Polygon p in m_lstpolys)
+            {
+                p.m_color = color;
+            }
+               
         }
         public void CalcMinMaxes() 
         {
@@ -110,11 +121,11 @@ namespace Engine3D
             
         }
         
-        public void RenderGL() 
+        public void RenderGL(bool showalpha) 
         {
             foreach (Polygon poly in m_lstpolys)
             {
-                poly.RenderGL(this.m_wireframe);
+                poly.RenderGL(this.m_wireframe, showalpha);
             }        
         }
 
@@ -450,23 +461,6 @@ namespace Engine3D
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        /*Example:
- solid Calibration_Cube
- facet normal 0.000000 0.000000 -1.000000
-  outer loop
-   vertex 0.000000 20.000000 0.000000
-   vertex 3.797659 5.962276 0.000000
-   vertex 0.000000 0.000000 0.000000
-  endloop
- endfacet
- facet normal 0.000000 0.000000 -1.000000
-  outer loop
-   vertex 3.797659 5.962276 0.000000
-   vertex 0.000000 20.000000 0.000000
-   vertex 4.087683 6.240676 0.000000
-  endloop
- endfacet
-*/
         public bool LoadSTL_ASCII(string filename) 
         {
             try
@@ -493,7 +487,7 @@ namespace Engine3D
                         m_lstpolys.Add(poly); // add it to the object's polygon list
                         poly.m_points = new Point3d[3]; // create the storage for 3 points 
                         
-                        for (int idx = 0; idx < 3; idx++)//read the point
+                        for (int idx = 0; idx < 3; idx++)//read the point, will break somehow on bad 4 vertext faces.
                         {
                             poly.m_points[idx] = new Point3d(); // create a new point at the poly's indexed point list
                             m_lstpoints.Add(poly.m_points[idx]); // add this point to the object's list of point
@@ -505,13 +499,9 @@ namespace Engine3D
                             {
                                 return false;
                             }
-                           // pnt.x = double.Parse(toks[1].Trim(), System.Globalization.NumberStyles.AllowExponent | System.Globalization.NumberStyles.Float);
-                           // pnt.y = double.Parse(toks[2].Trim(), System.Globalization.NumberStyles.AllowExponent | System.Globalization.NumberStyles.Float);
-                           // pnt.z = double.Parse(toks[3].Trim(), System.Globalization.NumberStyles.AllowExponent | System.Globalization.NumberStyles.Float);
                             poly.m_points[idx].x = (double)Double.Parse(toks[1].Trim(), System.Globalization.NumberStyles.Any);
                             poly.m_points[idx].y = (double)Double.Parse(toks[2].Trim(), System.Globalization.NumberStyles.Any);
-                            poly.m_points[idx].z = (double)Double.Parse(toks[3].Trim(), System.Globalization.NumberStyles.Any);
-                           
+                            poly.m_points[idx].z = (double)Double.Parse(toks[3].Trim(), System.Globalization.NumberStyles.Any);                           
                         }
 
                         line = sr.ReadLine().Trim();//endloop
@@ -700,6 +690,7 @@ namespace Engine3D
           }
           catch (Exception ex) 
           {
+              DebugLogger.Instance().LogError(ex.Message);
               return -1;
           }
 ﻿  ﻿  }
@@ -728,14 +719,12 @@ namespace Engine3D
                         {
                             poly.m_points[idx++] = AddUniqueVert(p);
                         }
-                        poly.CalcNormal();
-                        poly.CalcCenter();
-                        FindMinMax();
                     }
                 }
                 sr.Close();
                 if (NumPolys > 0)
                 {
+                    Update();
                     return true;
                 }
                 else 

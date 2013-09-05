@@ -122,7 +122,7 @@ namespace Engine3D
             m_lines = new ArrayList();
         }
 
-        public void RenderGL() 
+        public void RenderGL(bool alpha) 
         {
             try
             {
@@ -131,7 +131,7 @@ namespace Engine3D
                     GL.Enable(EnableCap.Lighting);
                     GL.Enable(EnableCap.Light0);
                     GL.Disable(EnableCap.LineSmooth);
-                    obj.RenderGL();
+                    obj.RenderGL(alpha);
                 }
                 foreach (PolyLine3d ply in m_lines)
                 {

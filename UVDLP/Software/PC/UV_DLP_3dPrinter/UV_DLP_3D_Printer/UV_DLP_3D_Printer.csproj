@@ -269,6 +269,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Notes.txt" />
+    <None Include="resources\IconsLandVistaArrowIconsDemo\PNG\64x64\Left1Blue.png" />
+    <None Include="resources\IconsLandVistaArrowIconsDemo\PNG\64x64\Right1Blue.png" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />
     <None Include="resources\slice.jpg" />

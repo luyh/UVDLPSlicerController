@@ -71,7 +71,7 @@ namespace UV_DLP_3D_Printer
         public DeviceDataReceived DataEvent;
         private DeviceDriver m_driver;
         protected Timer m_timeouttimer;
-        private const int DEF_TIMEOUT = 500;// 1 second default timeout
+        private const int DEF_TIMEOUT = 500;// 500 millisecond default timeout
         protected int m_timeoutms; 
 
         public DeviceInterface() 
@@ -270,7 +270,7 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                if (m_driver.Write(command) > 0) 
+                if (m_driver.Write(command) > -1) 
                 {
                     //start a timer                    
                     m_timeouttimer.Enabled = true;

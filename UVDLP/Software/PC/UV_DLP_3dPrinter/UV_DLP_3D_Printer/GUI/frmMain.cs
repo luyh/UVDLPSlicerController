@@ -27,7 +27,8 @@ namespace UV_DLP_3D_Printer
             eModelRotate,
             eModelScale
         }
-        bool loaded = false;               
+        bool loaded = false;
+        bool m_showalpha = false;
         //Engine3d UVDLPApp.Instance().Engine3D = new Engine3d();              
         frmDLP m_frmdlp = new frmDLP();
         //frmSliceOptions m_frmsliceopt = new frmSliceOptions();
@@ -61,6 +62,7 @@ namespace UV_DLP_3D_Printer
             UVDLPApp.Instance().m_buildmgr.PrintLayer += new delPrinterLayer(PrintLayer);
             DebugLogger.Instance().LoggerStatusEvent += new LoggerStatusHandler(LoggerStatusEvent);
             UVDLPApp.Instance().m_deviceinterface.StatusEvent += new DeviceInterface.DeviceInterfaceStatus(DeviceStatusEvent);
+            UVDLPApp.Instance().m_supportgenerator.SupportEvent += new SupportGeneratorEvent(SupEvent);
             SetButtonStatuses();            
             SetMouseModeChecks();
             PopulateMachinesMenu();
@@ -70,7 +72,39 @@ namespace UV_DLP_3D_Printer
             //Invalidate();
             Refresh();
         }
-
+        public void SupEvent(SupportEvent ev, string message, Object obj)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new MethodInvoker(delegate() { SupEvent(ev, message, obj); }));
+            }
+            else
+            {
+                try
+                {
+                    switch (ev)
+                    {
+                        case SupportEvent.eCompleted:
+                            SetupSceneTree();
+                            break;
+                        case SupportEvent.eCancel:
+                            break;
+                        case SupportEvent.eProgress:
+                            break;
+                        case SupportEvent.eStarted:
+                            break;
+                        case SupportEvent.eSupportGenerated:
+                            //
+                           // SetupSceneTree();
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    DebugLogger.Instance().LogError(ex.Message);
+                }
+            }
+        }
         void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
             //throw new NotImplementedException();
@@ -162,7 +196,7 @@ namespace UV_DLP_3D_Printer
                     case eAppEvent.eGCodeSaved:
                         DebugLogger.Instance().LogRecord(Message);
                         break;
-                    case eAppEvent.eModelLoaded:
+                    case eAppEvent.eModelAdded:
                         ShowObjectInfo();
                         DisplayFunc();
                         DebugLogger.Instance().LogRecord(Message);
@@ -484,32 +518,37 @@ namespace UV_DLP_3D_Printer
 
                 //GL.Matr
                 GL.Enable(EnableCap.DepthTest); // for z buffer
-                GL.Enable(EnableCap.CullFace);
-                GL.CullFace(CullFaceMode.Back); // specify culling backfaces
-                
-                //GL_POLYGON_SMOOTH
+                SetAlpha(false); // start off with alpha off
+
+                GL.Enable(EnableCap.CullFace); // enable culling of faces
+                GL.CullFace(CullFaceMode.Back); // specify culling backfaces               
 
                 OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(0.55f, aspect, 1,2000);
-                //GL.DepthRange(0, 2000);
+                //OpenTK.Matrix4 projection = OpenTK.Matrix4.CreateOrthographic(w/8,h/8,1,2000);
                 OpenTK.Matrix4 modelView = OpenTK.Matrix4.LookAt(new OpenTK.Vector3(5, 0, -5), new OpenTK.Vector3(0, 0, 0), new OpenTK.Vector3(0, 0, 1));
 
                 GL.MatrixMode(MatrixMode.Projection);
                 GL.LoadIdentity();
                 GL.LoadMatrix(ref projection);
 
-                GL.ShadeModel(ShadingModel.Smooth);
-                GL.Enable(EnableCap.Lighting);
-                GL.Enable(EnableCap.Light0);
-                float []mat_specular = { 1.0f, 1.0f, 1.0f, 1.0f };
+                GL.ShadeModel(ShadingModel.Smooth); // tell it to shade smoothly
+
+                
+                // properties of materials
+                GL.Enable(EnableCap.ColorMaterial); // allow polys to have color
+                float[] mat_specular = { 1.0f, 1.0f, 1.0f, 1.0f };
                 float []mat_shininess = { 50.0f };
                 GL.Material(MaterialFace.Front, MaterialParameter.Specular, mat_specular);
                 GL.Material(MaterialFace.Front, MaterialParameter.Shininess, mat_shininess);
-
-                GL.Enable(EnableCap.Blend); // alpha blending
-                GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-                //GL.ClearColor(Color.FromArgb(20, Color.LightGray));
-                GL.ClearColor(Color.FromArgb(20, Color.LightBlue));
                 
+
+                
+                //set a color to clear the background
+                GL.ClearColor(Color.LightBlue);
+
+                // lighting
+                GL.Enable(EnableCap.Lighting);
+                GL.Enable(EnableCap.Light0);
                 float[] lightpos = new float[4];
                 lightpos[0] = 5.0f;
                 lightpos[1] = 15.0f;
@@ -518,10 +557,10 @@ namespace UV_DLP_3D_Printer
                 float []light_position = { 1.0f, 1.0f, 1.0f, 0.0f };
                 GL.Light(LightName.Light0, LightParameter.Position, light_position);
 
-                GL.Enable(EnableCap.PolygonSmooth);
-                GL.Enable(EnableCap.LineSmooth);
-                GL.Enable(EnableCap.AlphaTest);
-             //  GL.Enable(EnableCap.s
+                //GL.Enable(EnableCap.PolygonSmooth);
+                //GL.Enable(EnableCap.LineSmooth);
+                
+
 
                 GL.MatrixMode(MatrixMode.Modelview);
                 GL.LoadIdentity();
@@ -533,7 +572,22 @@ namespace UV_DLP_3D_Printer
                 // the create perspective function blows up on certain ratios
             }
         }
-
+        private void SetAlpha(bool val) 
+        {
+            m_showalpha = val;
+            if (val == true)
+            {
+                GL.Disable(EnableCap.DepthTest); // need to disable z buffering for proper display
+                //alpha blending
+                GL.Enable(EnableCap.Blend); // alpha blending
+                GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+                GL.Enable(EnableCap.AlphaTest);
+            }
+            else 
+            {
+                GL.Enable(EnableCap.DepthTest); // for z buffer        
+            }
+        }
         private void glControl1_Paint(object sender, PaintEventArgs e)
         {
             if (!loaded)
@@ -573,7 +627,7 @@ namespace UV_DLP_3D_Printer
           GL.Rotate(orbitypos, 0, 1, 0); // transform first
           GL.Rotate(orbitxpos, 1, 0, 0);
           
-          UVDLPApp.Instance().Engine3D.RenderGL();
+          UVDLPApp.Instance().Engine3D.RenderGL(m_showalpha);
          // DrawISect();
           GL.Flush();
           glControl1.SwapBuffers();
@@ -1051,9 +1105,12 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                // get the gcode from the textbox, save it...
-                UVDLPApp.Instance().m_gcode.RawGCode = txtGCode.Text;
-                UVDLPApp.Instance().SaveGCode();
+                if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    // get the gcode from the textbox, save it...
+                    UVDLPApp.Instance().m_gcode.RawGCode = txtGCode.Text;
+                    UVDLPApp.Instance().SaveGCode(saveFileDialog1.FileName);
+                }
             }
             catch (Exception ex) 
             {
@@ -1061,18 +1118,7 @@ namespace UV_DLP_3D_Printer
             }
         }
 
-        private void cmdReloadGCode_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                UVDLPApp.Instance().LoadGCode();
-                txtGCode.Text = UVDLPApp.Instance().m_gcode.RawGCode;                
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogRecord(ex.Message);
-            }
-        }
+        
         #endregion Save/ Load GCode
 
         #region Scene Tree Functionality
@@ -1619,7 +1665,7 @@ namespace UV_DLP_3D_Printer
             frmAuto3dSupport frmsupport = new frmAuto3dSupport(ref UVDLPApp.Instance().m_supportconfig);
             if (frmsupport.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                UVDLPApp.Instance().AddAutoSupports();
+               
             }
         }
 
@@ -1675,6 +1721,32 @@ namespace UV_DLP_3D_Printer
             //iterate through objects, remove all supports
             UVDLPApp.Instance().RemoveAllSupports();
             SetupSceneTree();
+        }
+
+        private void chkAlpha_CheckedChanged(object sender, EventArgs e)
+        {
+            if (UVDLPApp.Instance().m_selectedobject == null) return;
+            UVDLPApp.Instance().m_selectedobject.m_showalpha = chkAlpha.Checked;
+            SetAlpha(chkAlpha.Checked);
+            DisplayFunc();
+        }
+
+        private void cmdLoadGCode_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                openFileDialog1.FileName = "";
+                openFileDialog1.Filter = "GCode Files(*.gcode)|*.gcode|All files (*.*)|*.*";
+                if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    UVDLPApp.Instance().LoadGCode(openFileDialog1.FileName);
+                    txtGCode.Text = UVDLPApp.Instance().m_gcode.RawGCode;
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogRecord(ex.Message);
+            }
         }
     }
 }

@@ -59,6 +59,7 @@ namespace UV_DLP_3D_Printer.Drivers
             // if it does, don't send the comment to the firmware
             if (line.StartsWith("(")) 
             {
+                len = 0; // nothing to write
                 return len;
             }
             else if (line.Contains('('))
@@ -70,6 +71,7 @@ namespace UV_DLP_3D_Printer.Drivers
                 {
                     newln = Lines[0];
                     newln += "\r\n"; // make sure to capp it off
+                    len = newln.Length;
                     m_serialport.Write(newln); // write the portion without the comment                    
                 }
             }

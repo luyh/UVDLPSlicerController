@@ -52,7 +52,7 @@
             this.tabOptions = new System.Windows.Forms.TabControl();
             this.tbOptions = new System.Windows.Forms.TabPage();
             this.chkautocalcdelay = new System.Windows.Forms.CheckBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.grpLift = new System.Windows.Forms.GroupBox();
             this.chkmainliftgcode = new System.Windows.Forms.CheckBox();
             this.label14 = new System.Windows.Forms.Label();
             this.txtliftfeed = new System.Windows.Forms.TextBox();
@@ -92,7 +92,7 @@
             this.groupBox1.SuspendLayout();
             this.tabOptions.SuspendLayout();
             this.tbOptions.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.grpLift.SuspendLayout();
             this.tbStart.SuspendLayout();
             this.tbPreSlice.SuspendLayout();
             this.tbPreLift.SuspendLayout();
@@ -265,7 +265,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 56);
+            this.label5.Location = new System.Drawing.Point(9, 24);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(190, 17);
             this.label5.TabIndex = 36;
@@ -273,7 +273,7 @@
             // 
             // txtBlankTime
             // 
-            this.txtBlankTime.Location = new System.Drawing.Point(9, 76);
+            this.txtBlankTime.Location = new System.Drawing.Point(9, 44);
             this.txtBlankTime.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtBlankTime.Name = "txtBlankTime";
             this.txtBlankTime.Size = new System.Drawing.Size(56, 22);
@@ -317,8 +317,9 @@
             // 
             // tbOptions
             // 
+            this.tbOptions.Controls.Add(this.chkmainliftgcode);
             this.tbOptions.Controls.Add(this.chkautocalcdelay);
-            this.tbOptions.Controls.Add(this.groupBox3);
+            this.tbOptions.Controls.Add(this.grpLift);
             this.tbOptions.Controls.Add(this.chkantialiasing);
             this.tbOptions.Controls.Add(this.label1);
             this.tbOptions.Controls.Add(this.chkExportSlices);
@@ -356,45 +357,45 @@
             this.chkautocalcdelay.Visible = false;
             this.chkautocalcdelay.CheckedChanged += new System.EventHandler(this.chkautocalcdelay_CheckedChanged);
             // 
-            // groupBox3
+            // grpLift
             // 
-            this.groupBox3.Controls.Add(this.chkmainliftgcode);
-            this.groupBox3.Controls.Add(this.label14);
-            this.groupBox3.Controls.Add(this.txtliftfeed);
-            this.groupBox3.Controls.Add(this.label13);
-            this.groupBox3.Controls.Add(this.txtretractfeed);
-            this.groupBox3.Controls.Add(this.txtLiftDistance);
-            this.groupBox3.Controls.Add(this.label10);
-            this.groupBox3.Controls.Add(this.label11);
-            this.groupBox3.Controls.Add(this.label12);
-            this.groupBox3.Controls.Add(this.txtSlideTilt);
-            this.groupBox3.Controls.Add(this.cmbBuildDirection);
-            this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Controls.Add(this.txtBlankTime);
-            this.groupBox3.Location = new System.Drawing.Point(305, 142);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox3.Size = new System.Drawing.Size(395, 258);
-            this.groupBox3.TabIndex = 46;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Lift and Sequence";
+            this.grpLift.Controls.Add(this.label14);
+            this.grpLift.Controls.Add(this.txtliftfeed);
+            this.grpLift.Controls.Add(this.label13);
+            this.grpLift.Controls.Add(this.txtretractfeed);
+            this.grpLift.Controls.Add(this.txtLiftDistance);
+            this.grpLift.Controls.Add(this.label10);
+            this.grpLift.Controls.Add(this.label11);
+            this.grpLift.Controls.Add(this.label12);
+            this.grpLift.Controls.Add(this.txtSlideTilt);
+            this.grpLift.Controls.Add(this.cmbBuildDirection);
+            this.grpLift.Controls.Add(this.label5);
+            this.grpLift.Controls.Add(this.txtBlankTime);
+            this.grpLift.Location = new System.Drawing.Point(307, 177);
+            this.grpLift.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grpLift.Name = "grpLift";
+            this.grpLift.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grpLift.Size = new System.Drawing.Size(395, 226);
+            this.grpLift.TabIndex = 46;
+            this.grpLift.TabStop = false;
+            this.grpLift.Text = "Lift and Sequence";
             // 
             // chkmainliftgcode
             // 
             this.chkmainliftgcode.AutoSize = true;
-            this.chkmainliftgcode.Location = new System.Drawing.Point(9, 28);
+            this.chkmainliftgcode.Location = new System.Drawing.Point(307, 152);
             this.chkmainliftgcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkmainliftgcode.Name = "chkmainliftgcode";
             this.chkmainliftgcode.Size = new System.Drawing.Size(346, 21);
             this.chkmainliftgcode.TabIndex = 49;
             this.chkmainliftgcode.Text = "Use Main-Lift GCode instead of Lift and Sequence";
             this.chkmainliftgcode.UseVisualStyleBackColor = true;
+            this.chkmainliftgcode.CheckedChanged += new System.EventHandler(this.chkmainliftgcode_CheckedChanged);
             // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(8, 155);
+            this.label14.Location = new System.Drawing.Point(8, 123);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(132, 17);
             this.label14.TabIndex = 48;
@@ -402,7 +403,7 @@
             // 
             // txtliftfeed
             // 
-            this.txtliftfeed.Location = new System.Drawing.Point(9, 175);
+            this.txtliftfeed.Location = new System.Drawing.Point(9, 143);
             this.txtliftfeed.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtliftfeed.Name = "txtliftfeed";
             this.txtliftfeed.Size = new System.Drawing.Size(100, 22);
@@ -413,7 +414,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(143, 155);
+            this.label13.Location = new System.Drawing.Point(143, 123);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(182, 17);
             this.label13.TabIndex = 46;
@@ -421,7 +422,7 @@
             // 
             // txtretractfeed
             // 
-            this.txtretractfeed.Location = new System.Drawing.Point(144, 175);
+            this.txtretractfeed.Location = new System.Drawing.Point(144, 143);
             this.txtretractfeed.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtretractfeed.Name = "txtretractfeed";
             this.txtretractfeed.Size = new System.Drawing.Size(100, 22);
@@ -431,7 +432,7 @@
             // 
             // txtLiftDistance
             // 
-            this.txtLiftDistance.Location = new System.Drawing.Point(9, 125);
+            this.txtLiftDistance.Location = new System.Drawing.Point(9, 93);
             this.txtLiftDistance.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtLiftDistance.Name = "txtLiftDistance";
             this.txtLiftDistance.Size = new System.Drawing.Size(100, 22);
@@ -442,7 +443,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(8, 106);
+            this.label10.Location = new System.Drawing.Point(8, 74);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(135, 17);
             this.label10.TabIndex = 38;
@@ -451,7 +452,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(8, 203);
+            this.label11.Location = new System.Drawing.Point(8, 171);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(110, 17);
             this.label11.TabIndex = 44;
@@ -460,7 +461,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(141, 106);
+            this.label12.Location = new System.Drawing.Point(141, 74);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(99, 17);
             this.label12.TabIndex = 39;
@@ -468,7 +469,7 @@
             // 
             // txtSlideTilt
             // 
-            this.txtSlideTilt.Location = new System.Drawing.Point(9, 223);
+            this.txtSlideTilt.Location = new System.Drawing.Point(9, 191);
             this.txtSlideTilt.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtSlideTilt.Name = "txtSlideTilt";
             this.txtSlideTilt.Size = new System.Drawing.Size(100, 22);
@@ -478,7 +479,7 @@
             // cmbBuildDirection
             // 
             this.cmbBuildDirection.FormattingEnabled = true;
-            this.cmbBuildDirection.Location = new System.Drawing.Point(144, 125);
+            this.cmbBuildDirection.Location = new System.Drawing.Point(144, 93);
             this.cmbBuildDirection.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbBuildDirection.Name = "cmbBuildDirection";
             this.cmbBuildDirection.Size = new System.Drawing.Size(121, 24);
@@ -637,9 +638,9 @@
             this.tbMainlift.Controls.Add(this.cmdsavemainliftgcode);
             this.tbMainlift.Controls.Add(this.txtmainliftgcode);
             this.tbMainlift.Location = new System.Drawing.Point(4, 25);
-            this.tbMainlift.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbMainlift.Margin = new System.Windows.Forms.Padding(4);
             this.tbMainlift.Name = "tbMainlift";
-            this.tbMainlift.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbMainlift.Padding = new System.Windows.Forms.Padding(4);
             this.tbMainlift.Size = new System.Drawing.Size(737, 455);
             this.tbMainlift.TabIndex = 6;
             this.tbMainlift.Text = "Main-Lift GCode";
@@ -786,8 +787,8 @@
             this.tabOptions.ResumeLayout(false);
             this.tbOptions.ResumeLayout(false);
             this.tbOptions.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.grpLift.ResumeLayout(false);
+            this.grpLift.PerformLayout();
             this.tbStart.ResumeLayout(false);
             this.tbStart.PerformLayout();
             this.tbPreSlice.ResumeLayout(false);
@@ -851,7 +852,7 @@
         private System.Windows.Forms.TextBox txtendgcode;
         private System.Windows.Forms.CheckBox chkantialiasing;
         private System.Windows.Forms.CheckBox chkautocalcdelay;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox grpLift;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox txtliftfeed;
         private System.Windows.Forms.Label label13;

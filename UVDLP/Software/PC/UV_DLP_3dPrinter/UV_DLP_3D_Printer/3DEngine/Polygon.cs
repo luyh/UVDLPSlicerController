@@ -257,7 +257,7 @@ namespace Engine3D
             return 0;
         }
 
-        public void RenderGL(bool wireframe) 
+        public void RenderGL(bool wireframe,bool alpha) 
         {
             // clip test before rendering 
             // use center point and radius to determine visibility (3d test)
@@ -273,11 +273,15 @@ namespace Engine3D
             {
                 GL.Begin(BeginMode.Triangles);
             }
-            //GL.Color3(m_color);
-            //GL.Color4((byte)m_color.R, (byte)m_color.G, (byte)m_color.B, (byte)128);
-            //GL.Color4((byte)m_color.R, (byte)m_color.G, (byte)m_color.B, (byte)128);
-            GL.Color3(m_color);
-            //GL.Color4(Color.FromArgb(50, 128, 128, 128));
+            
+            if (alpha)
+            {
+                GL.Color4((byte)m_color.R, (byte)m_color.G, (byte)m_color.B, (byte)128);
+            }
+            else 
+            {
+                GL.Color3(m_color);
+            }
             GL.Normal3(m_normal.x, m_normal.y, m_normal.z);
             foreach (Point3d p in this.m_points)
             {               

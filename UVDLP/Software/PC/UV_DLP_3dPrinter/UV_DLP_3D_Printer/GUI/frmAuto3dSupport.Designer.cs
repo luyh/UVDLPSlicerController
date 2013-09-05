@@ -38,6 +38,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtTRad = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // cmdOK
@@ -124,11 +125,19 @@
             this.label4.TabIndex = 8;
             this.label4.Text = "Top Radius (mm)";
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(13, 177);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(435, 23);
+            this.progressBar1.TabIndex = 10;
+            // 
             // frmAuto3dSupport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(460, 270);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.txtTRad);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtBRad);
@@ -161,5 +170,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtTRad;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
