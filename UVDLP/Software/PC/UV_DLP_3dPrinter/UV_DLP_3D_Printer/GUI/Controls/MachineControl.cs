@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using UV_DLP_3D_Printer.Drivers;
 
-namespace UV_DLP_3D_Printer.GUI
+namespace UV_DLP_3D_Printer.GUI.Controls
 {
-    public partial class frmControl : Form
+    public partial class MachineControl : UserControl
     {
-        public frmControl()
+        StringBuilder sb;
+        public MachineControl()
         {
             InitializeComponent();
+            //UVDLPApp.Instance().m_deviceinterface.DataEvent += new DeviceInterface.DeviceDataReceived(DataReceived);
+            UVDLPApp.Instance().m_deviceinterface.LineDataEvent += new DeviceInterface.DeviceLineReceived(LineDataReceived);
+            sb = new StringBuilder();
         }
-
         private void cmdUp_Click(object sender, EventArgs e)
         {
             try
@@ -23,7 +27,7 @@ namespace UV_DLP_3D_Printer.GUI
                 double dist = double.Parse(txtdist.Text);
                 UVDLPApp.Instance().m_deviceinterface.Move(dist, GetZFeed()); // (movecommand);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 DebugLogger.Instance().LogRecord(ex.Message);
                 MessageBox.Show("Please check input parameters\r\n" + ex.Message, "Input Error");
@@ -35,8 +39,8 @@ namespace UV_DLP_3D_Printer.GUI
             try
             {
                 double dist = double.Parse(txtdist.Text);
-                dist = dist * -1.0;
-                UVDLPApp.Instance().m_deviceinterface.Move(dist, GetZFeed()); //
+                dist *= -1.0;
+                UVDLPApp.Instance().m_deviceinterface.Move(dist, GetZFeed()); // (movecommand);
             }
             catch (Exception ex)
             {
@@ -87,14 +91,14 @@ namespace UV_DLP_3D_Printer.GUI
             }
         }
 
-        private double GetXYFeed() 
+        private double GetXYFeed()
         {
             try
             {
                 double rate = double.Parse(txtRateXY.Text);
                 return rate;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return 100.0;
             }
@@ -155,10 +159,10 @@ namespace UV_DLP_3D_Printer.GUI
             try
             {
                 int len = int.Parse(txtExtrudeLen.Text);
-                string cmd = "G1 E" + len;
+                string cmd = "G1 E" + len + "\r\n";
                 UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(cmd);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 DebugLogger.Instance().LogError(ex.Message);
             }
@@ -170,7 +174,7 @@ namespace UV_DLP_3D_Printer.GUI
             {
                 int len = int.Parse(txtExtrudeLen.Text);
                 len *= -1;
-                string cmd = "G1 E" + len;
+                string cmd = "G1 E" + len + "\r\n"; 
                 UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(cmd);
             }
             catch (Exception ex)
@@ -182,7 +186,7 @@ namespace UV_DLP_3D_Printer.GUI
         private void cmdXHome_Click(object sender, EventArgs e)
         {
             //UVDLPApp.Instance().m_deviceinterface.HomeAxis(DeviceInterface.eHomeAxis.eX);
-            String command = "G28X0\r\n";
+            String command = "G28 X0\r\n";
             UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(command);
         }
 
@@ -191,6 +195,54 @@ namespace UV_DLP_3D_Printer.GUI
             //UVDLPApp.Instance().m_deviceinterface.HomeAxis(DeviceInterface.eHomeAxis.eY);
             String command = "G28 Y0\r\n";
             UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(command);
+        }
+        void LineDataReceived(DeviceDriver driver, string line)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new MethodInvoker(delegate() { LineDataReceived(driver, line); }));
+            }
+            else
+            {
+                line = line.Trim();
+                //sb.Insert(0, line);
+                txtReceived.Text += line + "\r\n";
+                //txtReceived.Refresh();
+            }
+
+        }
+        void DataReceived(DeviceDriver driver, byte[] data, int len)
+        {
+            /*
+            if (InvokeRequired)
+            {
+                BeginInvoke(new MethodInvoker(delegate() { DataReceived(driver, data, len); }));
+            }
+            else
+            {
+                String s = ASCIIEncoding.ASCII.GetString(data);
+                String rec = txtReceived.Text;
+                txtReceived.Text = s + "\r\n" + rec;
+            }
+             * */
+        }
+        private void cmdSendGCode_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(txtGCode.Text + "\r\n"))
+                {
+                    txtSent.Text = txtGCode.Text + "\r\n" + txtSent.Text;
+                }
+                else
+                {
+                    DebugLogger.Instance().LogRecord("Could Not Send Raw GCode Command");
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogRecord(ex.Message);
+            }
         }
     }
 }

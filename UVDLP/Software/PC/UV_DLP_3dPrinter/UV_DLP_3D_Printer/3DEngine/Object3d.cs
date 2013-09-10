@@ -104,6 +104,18 @@ namespace Engine3D
             }
             Translate((float)center.x, (float)center.y, (float)center.z);
         }
+        public void Scale(float sfx,float sfy, float sfz)
+        {
+            Point3d center = CalcCenter();
+            Translate((float)-center.x, (float)-center.y, 0);
+            foreach (Point3d p in m_lstpoints)
+            {
+                p.x *= sfx;
+                p.y *= sfy;
+                p.z *= sfz;
+            }
+            Translate((float)center.x, (float)center.y, 0);
+        }
         public void Scale(float sf) 
         {
             Point3d center = CalcCenter();

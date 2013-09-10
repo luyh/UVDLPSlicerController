@@ -15,30 +15,24 @@ using System.IO.Ports;
 using System.IO;
 using System.Collections;
 using UV_DLP_3D_Printer.GUI;
+using UV_DLP_3D_Printer.GUI.Controls;
 
 namespace UV_DLP_3D_Printer
 {
     public partial class frmMain : Form
     {
-        private enum eMOUSEMODE 
-        {
-            eView,
-            eModelMove,
-            eModelRotate,
-            eModelScale
-        }
+
         bool loaded = false;
         bool m_showalpha = false;
-        //Engine3d UVDLPApp.Instance().Engine3D = new Engine3d();              
-        frmDLP m_frmdlp = new frmDLP();
-        //frmSliceOptions m_frmsliceopt = new frmSliceOptions();
+         
+        frmDLP m_frmdlp = new frmDLP();        
         frmControl m_frmcontrol = new frmControl();
         frm3DLPrinterControl m_frm3DLPControl = new frm3DLPrinterControl();
         frmSlice m_frmSlice = new frmSlice();
-        frmGCodeRaw m_sendgcode = new frmGCodeRaw();
+        
         frmMachineProfileManager m_machineprofilemanager = new frmMachineProfileManager();
         frmBuildProfilesManager m_buildprofilesmanager = new frmBuildProfilesManager();
-        eMOUSEMODE m_mousemode = eMOUSEMODE.eView;
+        
 
         private bool lmdown, rmdown, mmdown;
         private int mdx, mdy;
@@ -63,8 +57,9 @@ namespace UV_DLP_3D_Printer
             DebugLogger.Instance().LoggerStatusEvent += new LoggerStatusHandler(LoggerStatusEvent);
             UVDLPApp.Instance().m_deviceinterface.StatusEvent += new DeviceInterface.DeviceInterfaceStatus(DeviceStatusEvent);
             UVDLPApp.Instance().m_supportgenerator.SupportEvent += new SupportGeneratorEvent(SupEvent);
+            heatTempCtl1.HTEvent += new HeatTempCtl.HTEventDel(HTEventDel);
             SetButtonStatuses();            
-            SetMouseModeChecks();
+            
             PopulateMachinesMenu();
             PopulateBuildProfilesMenu();
             SetupSceneTree();
@@ -72,6 +67,79 @@ namespace UV_DLP_3D_Printer
             //Invalidate();
             Refresh();
         }
+        #region heater control event handler
+        /// <summary>
+        /// This delegate is called when the heat/temperature control has an event that needs to be handled
+        /// </summary>
+        /// <param name="ev"></param>
+        /// <param name="val"></param>
+        public void HTEventDel(GUI.Controls.eHTEvent ev, int val,int temp)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new MethodInvoker(delegate() { HTEventDel(ev,val,temp); }));
+            }
+            else
+            {
+                try
+                {
+                    string cmd = "";
+                    switch (ev)
+                    {
+                        case GUI.Controls.eHTEvent.eMonitor:
+                            if (val == 1)
+                            {
+                                UVDLPApp.Instance().m_deviceinterface.MonitorTemps = true;
+                            }
+                            else 
+                            {
+                                UVDLPApp.Instance().m_deviceinterface.MonitorTemps = false;
+                            }
+                            break;
+                        case GUI.Controls.eHTEvent.eOff: // turn off the specified heater
+                            
+                            switch (val) 
+                            {
+                                case 1: // extruder
+                                    cmd = "M104 S0\r\n";
+                                    UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(cmd);
+                                    break;
+                                case 2: // HBP
+                                    cmd = "M140 S0\r\n";
+                                    UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(cmd);
+                                    break;
+                            }
+                            break;
+                        case GUI.Controls.eHTEvent.eSet: // set temperature and return immediately command
+                            
+                            switch (val) 
+                            {
+                                case 1: // extruder
+                                    cmd = "M104 S" + temp + "\r\n";
+                                    UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(cmd);
+                                    break;
+                                case 2: // HBP
+                                    cmd = "M140 S" + temp + "\r\n";
+                                    UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(cmd);
+                                    break;
+                            }
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    DebugLogger.Instance().LogError(ex.Message);
+                }
+            }    
+        }
+        #endregion heater control event handler
+        #region Support Event Handler
+        /// <summary>
+        /// Support Event handler
+        /// </summary>
+        /// <param name="ev"></param>
+        /// <param name="message"></param>
+        /// <param name="obj"></param>
         public void SupEvent(SupportEvent ev, string message, Object obj)
         {
             if (InvokeRequired)
@@ -105,6 +173,8 @@ namespace UV_DLP_3D_Printer
                 }
             }
         }
+        #endregion Support event handler
+
         void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
             //throw new NotImplementedException();
@@ -211,7 +281,8 @@ namespace UV_DLP_3D_Printer
             {
                 cmdConnect.Enabled = false;
                 cmdDisconnect.Enabled = true;
-                cmdControl.Enabled = true;
+                //cmdControl.Enabled = true;
+                //tabMachineControl.
 
 
                 if (UVDLPApp.Instance().m_buildmgr.IsPrinting)
@@ -240,7 +311,7 @@ namespace UV_DLP_3D_Printer
             {
                 cmdConnect.Enabled = true;
                 cmdDisconnect.Enabled = false;
-                cmdControl.Enabled = false;
+               // cmdControl.Enabled = false;
                 cmdBuild.Enabled = false;
                 cmdStop.Enabled = false;
                 cmdPause.Enabled = false; // disable
@@ -278,6 +349,12 @@ namespace UV_DLP_3D_Printer
                     case ePIStatus.eReady:
                         break;
                     case ePIStatus.eTimedout:
+                        break;
+                    case ePIStatus.eTemperatureData:
+                        //set the control
+                        heatTempCtl1.SetHBPTemp(UVDLPApp.Instance().m_deviceinterface.HBP_Temp);
+                        heatTempCtl1.SetEXT0Temp(UVDLPApp.Instance().m_deviceinterface.Ext0_Temp);
+
                         break;
                 }
             }
@@ -456,6 +533,7 @@ namespace UV_DLP_3D_Printer
                     {
                         ln.m_color = Color.Red;
                         UVDLPApp.Instance().Engine3D.AddLine(ln);
+
                     }
                     DisplayFunc();
                     lblSliceNum.Text = "Slice " + layer + " of " + UVDLPApp.Instance().m_slicefile.m_slices.Count;
@@ -647,12 +725,7 @@ namespace UV_DLP_3D_Printer
 
         void glControl1_MouseWheel(object sender, MouseEventArgs e)
         {
-            switch (m_mousemode) 
-            {
-                case eMOUSEMODE.eView:
-                    orbitdist += e.Delta/10;
-                    break;
-            }
+            orbitdist += e.Delta / 10;
             DisplayFunc();
         }
         private void SetTitle() 
@@ -868,64 +941,20 @@ namespace UV_DLP_3D_Printer
             dx /= 2;
             dy /= 2;
 
-            switch (m_mousemode) 
+            if (lmdown)
             {
-                case eMOUSEMODE.eView:
-                    if (lmdown)
-                    {
-                        orbitypos += (float)dx;
-                        orbitxpos += (float)dy;
-                    }else if (mmdown)
-                    {
-                        orbitdist += (float)dy;                        
-                    }
-                    else if (rmdown)
-                    {
-                        yoffset += (float)dy/2;
-                        xoffset += (float)dx/2;
-                    }
-                    break;
-                case eMOUSEMODE.eModelMove:
-                    dx /= 3;
-                    dy /= 3;
-                    Object3d obj = UVDLPApp.Instance().m_selectedobject;
-                    if (obj != null) 
-                    {
-                        obj.Translate((float)dx, (float)-dy, 0);                     
-                    }
-                    break;
-                case eMOUSEMODE.eModelScale:
-                    dx /= 20;
-                    dy /= 6;
-                    dx += 1.0;
-                    Object3d obj3 = UVDLPApp.Instance().m_selectedobject;                   
-                    if (obj3 != null && dx != 0.0)
-                    {
-                        obj3.Scale((float)dx);
-                    }
-                    break;
-                case eMOUSEMODE.eModelRotate:
-                    dx /= 3;
-                    dy /= 3;
-                    Object3d obj2 = UVDLPApp.Instance().m_selectedobject;
-                    if (obj2 != null) 
-                    {
-                        if (lmdown)
-                        {
-                            obj2.Rotate((float)dx * 0.0174532925f, 0, 0);
-                        }
-                        else if (mmdown)
-                        {
-                            obj2.Rotate(0,(float)dx * 0.0174532925f, 0);
-                        }
-                        else if (rmdown)
-                        {
-                            obj2.Rotate(0,0,(float)dx * 0.0174532925f);
-                        }
-
-                    }
-                    break;
+                orbitypos += (float)dx;
+                orbitxpos += (float)dy;
             }
+            else if (mmdown)
+            {
+                orbitdist += (float)dy;
+            }
+            else if (rmdown)
+            {
+                yoffset += (float)dy / 2;
+                xoffset += (float)dx / 2;
+            } 
             DisplayFunc();
         }
 
@@ -1138,6 +1167,11 @@ namespace UV_DLP_3D_Printer
                     TreeNode objnode = new TreeNode(obj.Name);
                     objnode.Tag = obj;
                     support3d.Nodes.Add(objnode);
+                    if (obj == UVDLPApp.Instance().m_selectedobject)  // expand this node
+                    {
+                        objnode.BackColor = Color.LightBlue;
+                        treeScene.SelectedNode = objnode;
+                    }
                 }
                 else
                 {
@@ -1157,7 +1191,6 @@ namespace UV_DLP_3D_Printer
                     ys = obj.m_max.y - obj.m_min.y;
                     zs = obj.m_max.z - obj.m_min.z;
                     objnode.Nodes.Add("Size = (" + String.Format("{0:0.00}", xs) + "," + String.Format("{0:0.00}", ys) + "," + String.Format("{0:0.00}", zs) + ")");
-                    objnode.Nodes.Add("Wireframe = " + obj.m_wireframe.ToString());
                     if (obj == UVDLPApp.Instance().m_selectedobject)  // expand this node
                     {
                         objnode.Expand();
@@ -1168,7 +1201,6 @@ namespace UV_DLP_3D_Printer
 
             }
             scenenode.Expand();
-
         }
         /*
          This function does 2 things,
@@ -1437,6 +1469,7 @@ namespace UV_DLP_3D_Printer
         #endregion
 
         #region Mouse Move/Scale/Rotate/View
+        /*
         private void mnuView_Click(object sender, EventArgs e)
         {
             m_mousemode = eMOUSEMODE.eView;
@@ -1483,6 +1516,7 @@ namespace UV_DLP_3D_Printer
             }
 
         }
+         * */
         #endregion 
 
         private void manageMachinesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1683,7 +1717,6 @@ namespace UV_DLP_3D_Printer
             m_buildprofilesmanager.ShowDialog();
             // update just in case.
             DisplayFunc();
-            //Invalidate();
             PopulateBuildProfilesMenu();
             SetTitle();
             Refresh();
@@ -1692,18 +1725,12 @@ namespace UV_DLP_3D_Printer
         private void connectionToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             // show connection screen
+            // this is the one in use...
             frmConnection fconnect = new frmConnection();
             fconnect.ShowDialog();
         }
 
-        private void sendGCodeToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            if (m_sendgcode.IsDisposed)
-            {
-                m_sendgcode = new frmGCodeRaw();
-            }
-            m_sendgcode.Show();
-        }
+
 
         private void frmMain_Resize(object sender, EventArgs e)
         {
@@ -1746,6 +1773,57 @@ namespace UV_DLP_3D_Printer
             catch (Exception ex)
             {
                 DebugLogger.Instance().LogRecord(ex.Message);
+            }
+        }
+
+        private void cmdScaleX_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (UVDLPApp.Instance().m_selectedobject == null)
+                    return;
+                float sfx = Single.Parse(txtScaleX.Text);
+                UVDLPApp.Instance().m_selectedobject.Scale(sfx,1,1);
+                ShowObjectInfo();
+                DisplayFunc();
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void cmdScaleY_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (UVDLPApp.Instance().m_selectedobject == null)
+                    return;
+                float sfy = Single.Parse(txtScaleY.Text);
+                UVDLPApp.Instance().m_selectedobject.Scale(1, sfy, 1);
+                ShowObjectInfo();
+                DisplayFunc();
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void cmdScaleZ_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (UVDLPApp.Instance().m_selectedobject == null)
+                    return;
+                float sfz = Single.Parse(txtScaleZ.Text);
+                UVDLPApp.Instance().m_selectedobject.Scale( 1, 1, sfz);
+                ShowObjectInfo();
+                DisplayFunc();
+            }
+            catch (Exception)
+            {
+
             }
         }
     }

@@ -51,6 +51,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip">
+      <HintPath>.\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4" />
     <Reference Include="OpenTK.GLControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -86,6 +89,18 @@
     <Compile Include="Device_Interface\DriverFactory.cs" />
     <Compile Include="Device_Interface\GenericDriver.cs" />
     <Compile Include="Device_Interface\RobotFactorySRL_3DLPrinter.cs" />
+    <Compile Include="GUI\Controls\HeatTempCtl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\HeatTempCtl.Designer.cs">
+      <DependentUpon>HeatTempCtl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\MachineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\MachineControl.Designer.cs">
+      <DependentUpon>MachineControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frm3DLPrinterControl.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,12 +137,6 @@
     <Compile Include="GUI\frmFlexSliceOptions.Designer.cs">
       <DependentUpon>frmFlexSliceOptions.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\frmGCodeRaw.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\frmGCodeRaw.Designer.cs">
-      <DependentUpon>frmGCodeRaw.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\frmMachineProfileManager.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,6 +154,12 @@
     </Compile>
     <Compile Include="GUI\frmSlice.Designer.cs">
       <DependentUpon>frmSlice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmSplash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmSplash.Designer.cs">
+      <DependentUpon>frmSplash.cs</DependentUpon>
     </Compile>
     <Compile Include="Slicing\FlexSlice.cs" />
     <Compile Include="Slicing\Modules\Carve.cs" />
@@ -199,6 +214,12 @@
     <Compile Include="BuildManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GUI\Controls\HeatTempCtl.resx">
+      <DependentUpon>HeatTempCtl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\MachineControl.resx">
+      <DependentUpon>MachineControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\frm3DLPrinterControl.resx">
       <DependentUpon>frm3DLPrinterControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -216,9 +237,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmFlexSliceOptions.resx">
       <DependentUpon>frmFlexSliceOptions.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\frmGCodeRaw.resx">
-      <DependentUpon>frmGCodeRaw.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmMachineConfig.resx">
       <DependentUpon>frmMachineConfig.cs</DependentUpon>
@@ -240,6 +258,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmSliceOptions.resx">
       <DependentUpon>frmSliceOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmSplash.resx">
+      <DependentUpon>frmSplash.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -271,6 +292,10 @@
     <Content Include="Notes.txt" />
     <None Include="resources\IconsLandVistaArrowIconsDemo\PNG\64x64\Left1Blue.png" />
     <None Include="resources\IconsLandVistaArrowIconsDemo\PNG\64x64\Right1Blue.png" />
+    <None Include="resources\9-4-2013 12-40-20 PM.png" />
+    <None Include="resources\9-6-2013 12-05-11 AM.png" />
+    <None Include="resources\9-6-2013 12-05-50 AM.png" />
+    <None Include="resources\rounded_blue_home_button_4805.jpg" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />
     <None Include="resources\slice.jpg" />
@@ -301,6 +326,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

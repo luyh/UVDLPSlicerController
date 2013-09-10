@@ -37,7 +37,7 @@ namespace UV_DLP_3D_Printer
 
     public class BuildManager
     {
-        private  const int STATE_START                =0;
+        private  const int STATE_START                = 0;
         private  const int STATE_DO_NEXT_LAYER        = 1;
         private  const int STATE_WAITING_FOR_LAYER    = 2;
         private  const int STATE_CANCELLED            = 3;
@@ -267,9 +267,10 @@ namespace UV_DLP_3D_Printer
                         // go through the gcode, line by line
                         string line = m_gcode.Lines[m_gcodeline++];
                         line = line.Trim();
-                        if (line.Length > 0)
+                        if (line.Length > 0) // if the line is not blank
                         {
                             // send  the line, whether or not it's a comment
+                            // should check to see if the firmware is ready for another line
                             UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(line + "\r\n");
                             // if the line is a comment, parse it to see if we need to take action
                             if (line.Contains("(<Delay> "))// get the delay
@@ -302,7 +303,7 @@ namespace UV_DLP_3D_Printer
                                 else 
                                 {
                                     m_curlayer = layer;
-                                    bmp = m_sf.RenderSlice(m_curlayer); // get the rendered image slice
+                                    bmp = m_sf.RenderSlice(m_curlayer); // get the rendered image slice or load it if already rendered                                    
                                 }
                                 
                                 //raise a delegate so the main form can catch it and display layer information.

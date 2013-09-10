@@ -13,6 +13,9 @@ using UV_DLP_3D_Printer;
 using System.Drawing;
 using UV_DLP_3D_Printer.Configs;
 using System.Collections;
+using Ionic.Zip;
+using System.Drawing.Imaging;
+
 
 namespace UV_DLP_3D_Printer
 {
@@ -63,7 +66,7 @@ namespace UV_DLP_3D_Printer
         //current slice file
         public SliceFile m_slicefile;
         public BuildManager m_buildmgr;
-
+        private ZipFile m_zip; // for storing image slices
 
         private static String m_appconfigname = "CreationConfig.xml";
         public static String m_pathsep = "\\";
@@ -242,6 +245,20 @@ namespace UV_DLP_3D_Printer
             }
         }
 
+        private ImageCodecInfo GetEncoder(ImageFormat format)
+        {
+
+            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
+
+            foreach (ImageCodecInfo codec in codecs)
+            {
+                if (codec.FormatID == format.Guid)
+                {
+                    return codec;
+                }
+            }
+            return null;
+        }
         void SliceEv(Slicer.eSliceEvent ev, int layer, int totallayers) 
         {
             String path = "";
@@ -251,7 +268,8 @@ namespace UV_DLP_3D_Printer
                     // if we're exporting images
                     if (m_buildparms.exportimages) 
                     {
-                        // get the model name
+                        m_zip = new ZipFile();
+                        // get the model name, could be scene....
                         String modelname = m_selectedobject.m_fullname;
                         // strip off the file extension
                         path = Path.GetDirectoryName(modelname);
@@ -276,12 +294,34 @@ namespace UV_DLP_3D_Printer
                         path += UVDLPApp.m_pathsep;
                         path += Path.GetFileNameWithoutExtension(modelname);// strip off the file extension
                         Bitmap bmp = null;
-                        String imagename = path + m_pathsep + Path.GetFileNameWithoutExtension(modelname) + String.Format("{0:0000}",layer) + ".png";
+                        String imname = Path.GetFileNameWithoutExtension(modelname) + String.Format("{0:0000}",layer) + ".png";
+                        String imagename = path + m_pathsep + imname;
                         bmp = UVDLPApp.Instance().m_slicefile.RenderSlice(layer);
-                        bmp.Save(imagename);
+                       // bmp.Save(imagename);
+                        // create a memory stream for this to save into
+                        MemoryStream ms = new MemoryStream();
+                        bmp.Save(ms, ImageFormat.Png);
+                        ms.Seek(0, SeekOrigin.Begin); // seek back to beginning
+                        m_zip.AddEntry(imname, ms);
                     }
+
+
+                  
                     break;
                 case Slicer.eSliceEvent.eSliceCompleted:
+
+                    // save the zip file full of images
+                    if (m_buildparms.exportimages)
+                    {
+                        String modelname = m_selectedobject.m_fullname;
+                        // strip off the file extension
+                        path = Path.GetDirectoryName(modelname);
+                        path += UVDLPApp.m_pathsep;
+                        path += Path.GetFileNameWithoutExtension(modelname);// strip off the file extension
+                        path += ".zip";
+                        m_zip.Save(path);
+                    }
+
                     m_gcode = GCodeGenerator.Generate(m_slicefile, m_printerinfo);
                     
                     //get the path of the current object file

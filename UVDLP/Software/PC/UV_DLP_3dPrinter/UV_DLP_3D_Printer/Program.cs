@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Globalization;
 using System.Reflection;
-
+using UV_DLP_3D_Printer.GUI;
 
 namespace UV_DLP_3D_Printer
 {
@@ -21,8 +21,11 @@ namespace UV_DLP_3D_Printer
             SetDefaultCulture(System.Globalization.CultureInfo.InvariantCulture); 
             Application.SetCompatibleTextRenderingDefault(false);
             //init the app object
+            frmSplash splash = new frmSplash();
+            splash.Show();
             UVDLPApp.Instance().DoAppStartup();
             Application.Run(new frmMain());
+
         }
         /*Set up a methoid to use reflection to set the culture information*/
         static void SetDefaultCulture(CultureInfo culture)

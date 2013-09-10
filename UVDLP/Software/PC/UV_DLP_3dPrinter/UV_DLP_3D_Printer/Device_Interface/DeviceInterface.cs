@@ -57,20 +57,26 @@ namespace UV_DLP_3D_Printer
         eReady, // ready for next command
         eError, // something went wrong
         eConnected, // device is now connected
-        eDisconnected // device disconnected
+        eDisconnected, // device disconnected
+        eTemperatureData // Temperature data was received
     }
 
     public class DeviceInterface
     {
         //declare a delegate for the outside world to listen in
         public delegate void DeviceInterfaceStatus(ePIStatus status, String Command);
-        public delegate void DeviceDataReceived(DeviceDriver device, byte[] data, int length);
+        public delegate void DeviceDataReceived(DeviceDriver device, byte[] data, int length); // raw data
+        public delegate void DeviceLineReceived(DeviceDriver device, string line); // line of data terminated by a \r\n
 
-        private int m_HBPtemp = -1;
+        private double m_HBPtemp = -1; // heated platform be temperature
+        private double m_Ext0Temp = -1; // extruder 0 temperature
         public DeviceInterfaceStatus StatusEvent;
         public DeviceDataReceived DataEvent;
-        private DeviceDriver m_driver;
+        public DeviceLineReceived LineDataEvent;
+        private DeviceDriver m_driver; //support for a single device driver 
         protected Timer m_timeouttimer;
+        protected Timer m_tempchecktimer;
+        private const int DEF_TEMPCHECK = 3000;// 3 seconds
         private const int DEF_TIMEOUT = 500;// 500 millisecond default timeout
         protected int m_timeoutms; 
 
@@ -80,8 +86,51 @@ namespace UV_DLP_3D_Printer
             m_timeouttimer = new Timer();
             m_timeouttimer.Elapsed += new ElapsedEventHandler(m_timeouttimer_Elapsed);
             m_timeouttimer.Interval = m_timeoutms;
+            m_tempchecktimer = new Timer();
+            m_tempchecktimer.Elapsed += new ElapsedEventHandler(m_tempchecktimer_Elapsed);
+            m_tempchecktimer.Interval = DEF_TEMPCHECK;
             m_driver = null;
             
+        }
+        /// <summary>
+        /// Return the temperature of the HBP
+        /// </summary>
+        public double HBP_Temp 
+        {
+            get { return m_HBPtemp; }
+        }
+        /// <summary>
+        /// return the temperature of Extruder 0
+        /// </summary>
+        public double Ext0_Temp 
+        {
+            get { return m_Ext0Temp; }
+        }
+
+        public bool MonitorTemps 
+        {
+            get 
+            {
+                return false;
+                
+            }
+            set 
+            {
+                if (value == true)
+                {
+                    m_tempchecktimer.Start();
+                }
+                else 
+                {
+                    m_tempchecktimer.Stop();
+                }
+            }
+        }
+        void m_tempchecktimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            //throw new NotImplementedException();
+            //send a gcode to query temps
+            SendCommandToDevice("M105\r\n");
         }
 
         void m_timeouttimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -147,19 +196,77 @@ namespace UV_DLP_3D_Printer
             }
         }
         // this is called when we receive data from the device driver
+        // one or more full lines can be received here
         void DriverDataReceivedEvent(DeviceDriver device, byte[] data, int length) 
         {
-            // stop the watchdog timer
-            m_timeouttimer.Enabled = false;
-            // raise the data event
-            if (DataEvent != null) 
+            try
             {
-                DataEvent(device, data, length);
+                // stop the watchdog timer
+                m_timeouttimer.Enabled = false; // disable the timer
+                // raise the data event
+                if (DataEvent != null)
+                {
+                    DataEvent(device, data, length);
+                }
+                //raise a data event notifying that we're ready for the next command
+                if (StatusEvent != null)
+                {
+                    StatusEvent(ePIStatus.eReady, "Ready");
+                }
+
+                string result = System.Text.Encoding.UTF8.GetString(data);
+                // split it into multiple lines
+                string[] lines = result.Split('\n');
+                foreach (string line in lines)
+                {
+                    if (LineDataEvent != null) 
+                    {
+                        LineDataEvent(device, line);
+                    }
+                    //now parse the response to look for temperature reporting events
+
+                    //convert to string
+                    string ln = line.Trim();
+                    
+                    //ok T:201 B:117 
+                    String[] parts = line.Split(' '); // split on spaces
+                    bool temp = false;
+                    if (parts.Length > 1)  // if this is more than just an 'ok'
+                    {
+                        try
+                        {
+                            foreach (string part in parts)
+                            {
+                                if (part.StartsWith("T"))
+                                {
+                                    string[] tmp = part.Split(':');
+                                    m_Ext0Temp = double.Parse(tmp[1]);
+                                    temp = true;
+                                }
+                                if (part.StartsWith("B"))
+                                {
+                                    string[] tmp = part.Split(':');
+                                    m_HBPtemp = double.Parse(tmp[1]);
+                                    temp = true;
+                                }
+
+                            }
+                        }
+                        catch (Exception ex) { }
+
+                    }
+                    if (temp)
+                    {
+                        if (StatusEvent != null)
+                        {
+                            StatusEvent(ePIStatus.eTemperatureData, "Temperatures read");
+                        }
+                    }
+                }
             }
-            //raise a data event notifying that we're ready for the next command
-            if (StatusEvent != null)
+            catch (Exception ex) 
             {
-                StatusEvent(ePIStatus.eReady, "Ready");
+            
             }
         }
 
@@ -169,7 +276,13 @@ namespace UV_DLP_3D_Printer
             set { m_timeoutms = value; }
         }
 
-        public int GetHBPTemp { get { return m_HBPtemp; } }
+        //Sends the GCode command for recieving current position
+        public void SendGetPosition() 
+        {
+            String command = "M114\r\n";
+            SendCommandToDevice(command);
+        }
+       // public int GetHBPTemp { get { return m_HBPtemp; } }
 
         public bool Connected { get { return m_driver.Connected; } }
 
@@ -182,6 +295,7 @@ namespace UV_DLP_3D_Printer
             String command = "G1 Z"  + zpos + " F" + rate + "\r\n";
             SendCommandToDevice(command);
         }
+
         /*
          This function moves the Z axis to by the distance in mm 
          * at the specified feed rate

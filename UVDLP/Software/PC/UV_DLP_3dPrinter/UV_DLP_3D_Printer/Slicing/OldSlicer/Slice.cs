@@ -174,11 +174,11 @@ namespace UV_DLP_3D_Printer
                 pnt1.Y = (int)(p1.y ) + sp.YOffset + hyres;
                 pnt2.X = (int)(p2.x ) + sp.XOffset + hxres;
                 pnt2.Y = (int)(p2.y ) + sp.YOffset + hyres;
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                //g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                 g.DrawLine(pen, pnt1, pnt2);       
             }
         }
-        public static Bitmap ReflectY(Bitmap source) 
+        private static Bitmap ReflectY(Bitmap source) 
         {
             try
             {
@@ -193,13 +193,14 @@ namespace UV_DLP_3D_Printer
             catch { return null; }
         
         }
-        public static Bitmap ResizeImage(Bitmap imgToResize, Size size)
+        private static Bitmap ResizeImage(Bitmap imgToResize, Size size)
         {
             try
             {
                 Bitmap b = new Bitmap(size.Width, size.Height);
                 using (Graphics g = Graphics.FromImage((Image)b))
                 {
+                    //g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
                     g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
                     g.DrawImage(imgToResize, 0, 0, size.Width, size.Height);
                 }
@@ -278,7 +279,7 @@ namespace UV_DLP_3D_Printer
                         pnt1.Y = (int)(p1.y + sp.YOffset + hyres);
                         pnt2.X = (int)(p2.x + sp.XOffset + hxres);
                         pnt2.Y = (int)(p2.y + sp.YOffset + hyres);
-                        graph.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                        //graph.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                         graph.DrawLine(pen, pnt1.X,pnt1.Y, pnt2.X,pnt2.Y);
                     }
                 }

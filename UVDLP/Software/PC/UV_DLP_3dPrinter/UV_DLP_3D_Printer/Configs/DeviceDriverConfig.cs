@@ -15,7 +15,7 @@ namespace UV_DLP_3D_Printer.Configs
 
         public DeviceDriverConfig() 
         {
-            m_drivertype = eDriverType.eNULL_DRIVER; // default to a null driver
+            m_drivertype = eDriverType.eGENERIC; // default to a null driver
             m_connection = new ConnectionConfig();
             m_connection.CreateDefault();
         }
