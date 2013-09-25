@@ -1,6 +1,6 @@
 ﻿namespace UV_DLP_3D_Printer.GUI.Controls
 {
-    partial class HeatTempCtl
+    partial class ctlHeatTemp
     {
         /// <summary> 
         /// Required designer variable.
@@ -87,9 +87,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 8);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 17);
+            this.label1.Size = new System.Drawing.Size(108, 17);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Heater 1:";
+            this.label1.Text = "Heater 1: (Ext0)";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // cmdOff2
@@ -134,9 +134,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(6, 65);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(67, 17);
+            this.label3.Size = new System.Drawing.Size(109, 17);
             this.label3.TabIndex = 9;
-            this.label3.Text = "Heater 2:";
+            this.label3.Text = "Heater 2: (HBP)";
             // 
             // pictureBox1
             // 
@@ -161,7 +161,7 @@
             // lblHBP
             // 
             this.lblHBP.AutoSize = true;
-            this.lblHBP.Location = new System.Drawing.Point(286, 33);
+            this.lblHBP.Location = new System.Drawing.Point(288, 89);
             this.lblHBP.Name = "lblHBP";
             this.lblHBP.Size = new System.Drawing.Size(17, 17);
             this.lblHBP.TabIndex = 12;
@@ -170,7 +170,7 @@
             // lblEXT0
             // 
             this.lblEXT0.AutoSize = true;
-            this.lblEXT0.Location = new System.Drawing.Point(286, 91);
+            this.lblEXT0.Location = new System.Drawing.Point(288, 34);
             this.lblEXT0.Name = "lblEXT0";
             this.lblEXT0.Size = new System.Drawing.Size(17, 17);
             this.lblEXT0.TabIndex = 13;

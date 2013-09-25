@@ -27,6 +27,7 @@ namespace UV_DLP_3D_Printer
         eGCodeLoaded,
         eGCodeSaved,
         eSupportGenerated,
+        eSlicedLoaded,
 
     }
     public delegate void AppEventDelegate(eAppEvent ev, String Message);
@@ -67,6 +68,7 @@ namespace UV_DLP_3D_Printer
         public SliceFile m_slicefile;
         public BuildManager m_buildmgr;
         private ZipFile m_zip; // for storing image slices
+        public GCodeInterpreter gci = null;
 
         private static String m_appconfigname = "CreationConfig.xml";
         public static String m_pathsep = "\\";
@@ -93,7 +95,7 @@ namespace UV_DLP_3D_Printer
             m_supportconfig = new SupportConfig();
             m_supportgenerator = new SupportGenerator();
             m_supportgenerator.SupportEvent+= new SupportGeneratorEvent(SupEvent);
-
+            
         }
         public enum Platform
         {
@@ -139,9 +141,24 @@ namespace UV_DLP_3D_Printer
         public void CalcScene() 
         {
             m_sceneobject = new Object3d();
+            int idx = 0;
             foreach(Object3d obj in m_engine3d.m_objects)
             {
                 m_sceneobject.Add(obj);
+                if (idx == 0) // if this is the first object
+                {
+                    if (m_engine3d.m_objects.Count > 1)// if there is more than one object in the scene, generate a unique name                      
+                    {
+                        string scenename = obj.m_fullname;
+                        scenename = Path.GetDirectoryName(obj.m_fullname) + m_pathsep + Path.GetFileNameWithoutExtension(obj.m_fullname) + "_scene.stl";
+                        m_sceneobject.m_fullname = scenename;
+                    }
+                    else 
+                    {
+                        m_sceneobject.m_fullname = obj.m_fullname;
+                    }
+                }
+                idx++;
             }
         }
         public Object3d Scene 
@@ -228,8 +245,21 @@ namespace UV_DLP_3D_Printer
                     m_engine3d.AddObject(obj);
                     m_selectedobject = obj;
                     m_slicefile = null; // the slice file is not longer current
-                    RaiseAppEvent(eAppEvent.eModelAdded, "Model Loaded");
+                    RaiseAppEvent(eAppEvent.eModelAdded, "Model Loaded " + filename);
+                    //now try to load the gcode file
+                    string gcodefile = "";
+                    gcodefile = Path.GetDirectoryName(filename) + m_pathsep + Path.GetFileNameWithoutExtension(filename) + ".gcode";
+                    if (File.Exists(gcodefile)) 
+                    {
+                        LoadGCode(gcodefile);
+                    }
 
+                    string slicedfile = "";
+                    slicedfile = Path.GetDirectoryName(filename) + m_pathsep + Path.GetFileNameWithoutExtension(filename) + ".sliced";
+                    if (File.Exists(slicedfile))
+                    {
+                        LoadSlicedFile(slicedfile);
+                    }
                 }
                 else 
                 {
@@ -244,7 +274,16 @@ namespace UV_DLP_3D_Printer
                 return false;
             }
         }
-
+        public void LoadSlicedFile(string fname) 
+        {
+            m_slicefile = new SliceFile();
+            m_slicefile.Load(fname);
+            if (AppEvent != null) 
+            {
+                AppEvent(eAppEvent.eSlicedLoaded, "Sliced Data Loaded " + fname );
+            }
+        
+        }
         private ImageCodecInfo GetEncoder(ImageFormat format)
         {
 
@@ -325,15 +364,15 @@ namespace UV_DLP_3D_Printer
                     m_gcode = GCodeGenerator.Generate(m_slicefile, m_printerinfo);
                     
                     //get the path of the current object file
+                    //string slicername = "";
                     path = Path.GetDirectoryName(m_selectedobject.m_fullname);                    
                     string fn = Path.GetFileNameWithoutExtension(m_selectedobject.m_fullname);
-                    /*
-                    if (!UVDLPApp.Instance().m_gcode.Save(path + UVDLPApp.m_pathsep + fn + ".gcode")) 
-                    {
-                        DebugLogger.Instance().LogRecord("Cannot save GCode File " + path + m_pathsep + fn + ".gcode");
-                    }
-                    */
                     SaveGCode(path + UVDLPApp.m_pathsep + fn + ".gcode");
+                    //save the slicer object for later too
+                    
+                    //save the slice file
+
+                    UVDLPApp.Instance().m_slicefile.Save(path + UVDLPApp.m_pathsep + fn + ".sliced");
                     break;
                 case Slicer.eSliceEvent.eSliceCancelled:
                     DebugLogger.Instance().LogRecord("Slicing Cancelled");
@@ -342,15 +381,27 @@ namespace UV_DLP_3D_Printer
 
             }
         }
+
+        private void StartGCodeInterpret() 
+        {
+            if (gci == null) 
+            {
+                gci = new GCodeInterpreter();
+            }
+            gci.GCode = m_gcode.Lines;
+            gci.StartInterpret();
+        
+        }
         public void LoadGCode(String filename)
         {
             try
             {
-                if (!UVDLPApp.Instance().m_gcode.Load(filename))
+                if (!m_gcode.Load(filename))
                 {
                     DebugLogger.Instance().LogRecord("Cannot load GCode File " + filename);
                 }
-                RaiseAppEvent(eAppEvent.eGCodeLoaded, "");
+                StartGCodeInterpret();
+                RaiseAppEvent(eAppEvent.eGCodeLoaded, "GCode Loaded " + filename);
             }
             catch (Exception ex)
             {
@@ -369,6 +420,7 @@ namespace UV_DLP_3D_Printer
                 {
                     DebugLogger.Instance().LogRecord("Cannot load GCode File " + path + m_pathsep + fn + ".gcode");
                 }
+                StartGCodeInterpret();
                 RaiseAppEvent(eAppEvent.eGCodeLoaded, "");
             }
             catch (Exception ex) 
@@ -444,6 +496,8 @@ namespace UV_DLP_3D_Printer
             }
             return ret;
         }
+
+
         /*
          This function loads the machine profile and makes it current
          */
@@ -458,6 +512,7 @@ namespace UV_DLP_3D_Printer
             }
             return ret;
         }
+
         public void SaveCurrentMachineConfig() 
         {
             try
@@ -494,7 +549,10 @@ namespace UV_DLP_3D_Printer
             }
             m_deviceinterface.Driver = DriverFactory.Create(m_printerinfo.m_driverconfig.m_drivertype);
         }
-
+        public void SaveAppConfig() 
+        {
+            m_appconfig.Save("." + m_pathsep + m_appconfigname);
+        }
         public void DoAppStartup() 
         {
             //m_apppath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
@@ -522,14 +580,7 @@ namespace UV_DLP_3D_Printer
             {
                 Utility.CreateDirectory(m_PathProfiles);
             }
-            // load the current application configuration
-            /*
-            if (!m_appconfig.Load(m_apppath + m_pathsep + m_appconfigname))
-            {
-                m_appconfig.CreateDefault();
-                m_appconfig.Save(m_apppath + m_pathsep + m_appconfigname);
-            }
-            */
+
             if (!m_appconfig.Load("." + m_pathsep + m_appconfigname))
             {
                 m_appconfig.CreateDefault();

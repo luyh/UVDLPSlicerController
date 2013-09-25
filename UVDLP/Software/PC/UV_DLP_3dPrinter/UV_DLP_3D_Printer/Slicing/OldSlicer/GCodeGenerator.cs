@@ -56,9 +56,9 @@ namespace UV_DLP_3D_Printer
 
             zdist = sf.m_config.ZThick;
 
-            String firstlayerdelay = "(<Delay> " + sf.m_config.firstlayertime_ms + " )\r\n";
-            String layerdelay = "(<Delay> " + sf.m_config.layertime_ms + " )\r\n";
-            String blankdelay = "(<Delay> " + sf.m_config.blanktime_ms + " )\r\n";
+            String firstlayerdelay = ";(<Delay> " + sf.m_config.firstlayertime_ms + " )\r\n";
+            String layerdelay = ";(<Delay> " + sf.m_config.layertime_ms + " )\r\n";
+            String blankdelay = ";(<Delay> " + sf.m_config.blanktime_ms + " )\r\n";
             String tmpZU = String.Format("{0:0.00000}", (sf.m_config.liftdistance * zdir)).Replace(',', '.');
             String tmpZD = String.Format("{0:0.00000}", ((sf.m_config.liftdistance - zdist) * zdir * -1)).Replace(',', '.');
             String tmpX1 = String.Format("{0:0.00000}", (sf.m_config.slidetiltval)).Replace(',', '.');
@@ -68,7 +68,7 @@ namespace UV_DLP_3D_Printer
             {
                 sb.Append(sf.m_config.PreSliceCode);//add in the pre-slice code
                 // this is the marker the BuildManager uses to display the correct slice
-                sb.Append("(<Slice> " + c + " )\r\n");
+                sb.Append(";(<Slice> " + c + " )\r\n");
                 // add a pause for the UV resin to be set using this image
                 if (c < numbottom)// check for the bottom layers
                 {
@@ -78,7 +78,7 @@ namespace UV_DLP_3D_Printer
                 {
                     sb.Append(layerdelay);
                 }
-                sb.Append("(<Slice> Blank )\r\n"); // show the blank layer
+                sb.Append(";(<Slice> Blank )\r\n"); // show the blank layer
                 sb.Append(sf.m_config.PreLiftCode); // append the pre-lift codes
                 // I put the following two lines out of the loop to reduce calculationTime
                 //String tmpZU = String.Format("{0:0.00000}", (sf.m_config.liftdistance * zdir)).Replace(',', '.');
@@ -89,8 +89,8 @@ namespace UV_DLP_3D_Printer
                 }
                 else if (sf.m_config.slidetiltval == 0.0) // tilt/slide is not used here
                 {
-                    sb.Append("G1 Z" + tmpZU + " F" + liftfeed + " (Lift) \r\n");
-                    sb.Append("G1 Z" + tmpZD + " F" + retractfeed + " (End Lift) \r\n");
+                    sb.Append("G1 Z" + tmpZU + " F" + liftfeed + " ;(Lift) \r\n");
+                    sb.Append("G1 Z" + tmpZD + " F" + retractfeed + " ;(End Lift) \r\n");
                 }
                 else // tilt/slide has a value, so it is used
                 {
@@ -98,8 +98,8 @@ namespace UV_DLP_3D_Printer
                     // format the X slide/tilt value
                     //String tmpX1 = String.Format("{0:0.00000}", (sf.m_config.slidetiltval)).Replace(',', '.');
                     //String tmpX2 = String.Format("{0:0.00000}", (sf.m_config.slidetiltval * -1)).Replace(',', '.');
-                    sb.Append("G1 X" + tmpX1 + " Z" + tmpZU + " F" + liftfeed + " (Lift) \r\n");
-                    sb.Append("G1 X" + tmpX2 + " Z" + tmpZD + " F" + retractfeed + " (End Lift) \r\n");
+                    sb.Append("G1 X" + tmpX1 + " Z" + tmpZU + " F" + liftfeed + " ;(Lift) \r\n");
+                    sb.Append("G1 X" + tmpX2 + " Z" + tmpZD + " F" + retractfeed + " ;(End Lift) \r\n");
                 }
                 // add a delay for the lift sequence and the pre/post lift codes to execute
                 sb.Append(blankdelay);

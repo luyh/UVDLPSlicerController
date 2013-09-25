@@ -16,6 +16,7 @@ namespace UV_DLP_3D_Printer
         public string m_curmachineeprofilename; // machine profile
         bool m_autoconnect; // autoconnect to the machine
         bool m_loadlastmodel; // load and display the last model
+        public string m_slic3rloc; // location of slicer exetutable- shouldn't be here?
 
         public void CreateDefault() 
         {
@@ -23,6 +24,7 @@ namespace UV_DLP_3D_Printer
             m_curmachineeprofilename = UVDLPApp.Instance().m_PathMachines + UVDLPApp.m_pathsep + "NullMachine.machine";
             m_LastModelFilename = "";
             m_loadlastmodel = true;
+            m_autoconnect = false;
            // m_drivertype = eDriverType.eNULL_DRIVER;
         }
 
@@ -38,6 +40,7 @@ namespace UV_DLP_3D_Printer
                 m_curmachineeprofilename = xr.ReadElementString("MachineProfileName");
                 m_autoconnect = bool.Parse(xr.ReadElementString("AutoConnect"));
                 m_loadlastmodel = bool.Parse(xr.ReadElementString("LoadLastModel"));
+                m_slic3rloc = xr.ReadElementString("Slic3rLocation");
                 xr.ReadEndElement();
                 xr.Close();
                 return true;
@@ -59,6 +62,7 @@ namespace UV_DLP_3D_Printer
                 xw.WriteElementString("MachineProfileName", m_curmachineeprofilename);
                 xw.WriteElementString("AutoConnect", m_autoconnect?"True":"False");
                 xw.WriteElementString("LoadLastModel", m_loadlastmodel ? "True" : "False");
+                xw.WriteElementString("Slic3rLocation", m_slic3rloc);
                 xw.WriteEndElement();
                 xw.Close(); // close the file
                 return true;

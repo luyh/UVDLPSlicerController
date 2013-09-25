@@ -1,6 +1,6 @@
 ﻿namespace UV_DLP_3D_Printer.GUI.Controls
 {
-    partial class MachineControl
+    partial class ctlMachineControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -35,6 +35,8 @@
             this.txtRateXY = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.grpHoming = new System.Windows.Forms.GroupBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.cmdHomeAll = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.lblX = new System.Windows.Forms.Label();
@@ -45,10 +47,10 @@
             this.cmdMotorsOn = new System.Windows.Forms.Button();
             this.cmdMotorsOff = new System.Windows.Forms.Button();
             this.grpExtrudeControls = new System.Windows.Forms.GroupBox();
+            this.label16 = new System.Windows.Forms.Label();
             this.cmdExtrude1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.cmdReverse = new System.Windows.Forms.Button();
-            this.txtExtrudeLen = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtdistXY = new System.Windows.Forms.TextBox();
             this.cmdYDown = new System.Windows.Forms.Button();
@@ -67,23 +69,40 @@
             this.label13 = new System.Windows.Forms.Label();
             this.cmdSendGCode = new System.Windows.Forms.Button();
             this.txtGCode = new System.Windows.Forms.TextBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.cmdExtrude2 = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
+            this.cmdReverse2 = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.cmdClear = new System.Windows.Forms.Button();
+            this.udext0len = new System.Windows.Forms.NumericUpDown();
+            this.udext1len = new System.Windows.Forms.NumericUpDown();
+            this.udTool0Rate = new System.Windows.Forms.NumericUpDown();
+            this.udTool1Rate = new System.Windows.Forms.NumericUpDown();
             this.grpHoming.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.grpExtrudeControls.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.udext0len)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.udext1len)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.udTool0Rate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.udTool1Rate)).BeginInit();
             this.SuspendLayout();
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(452, 125);
+            this.label9.Location = new System.Drawing.Point(77, 102);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(41, 17);
+            this.label9.Size = new System.Drawing.Size(56, 17);
             this.label9.TabIndex = 49;
-            this.label9.Text = "mm/s";
+            this.label9.Text = "mm/min";
             // 
             // txtRateZ
             // 
-            this.txtRateZ.Location = new System.Drawing.Point(383, 120);
+            this.txtRateZ.Location = new System.Drawing.Point(8, 97);
             this.txtRateZ.Name = "txtRateZ";
             this.txtRateZ.Size = new System.Drawing.Size(66, 22);
             this.txtRateZ.TabIndex = 48;
@@ -92,7 +111,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(383, 99);
+            this.label10.Location = new System.Drawing.Point(8, 76);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(51, 17);
             this.label10.TabIndex = 47;
@@ -101,15 +120,15 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(452, 67);
+            this.label8.Location = new System.Drawing.Point(77, 44);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(41, 17);
+            this.label8.Size = new System.Drawing.Size(56, 17);
             this.label8.TabIndex = 46;
-            this.label8.Text = "mm/s";
+            this.label8.Text = "mm/min";
             // 
             // txtRateXY
             // 
-            this.txtRateXY.Location = new System.Drawing.Point(383, 62);
+            this.txtRateXY.Location = new System.Drawing.Point(8, 39);
             this.txtRateXY.Name = "txtRateXY";
             this.txtRateXY.Size = new System.Drawing.Size(66, 22);
             this.txtRateXY.TabIndex = 45;
@@ -118,7 +137,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(383, 41);
+            this.label7.Location = new System.Drawing.Point(8, 18);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(64, 17);
             this.label7.TabIndex = 44;
@@ -126,6 +145,8 @@
             // 
             // grpHoming
             // 
+            this.grpHoming.Controls.Add(this.label15);
+            this.grpHoming.Controls.Add(this.cmdHomeAll);
             this.grpHoming.Controls.Add(this.label5);
             this.grpHoming.Controls.Add(this.label4);
             this.grpHoming.Controls.Add(this.lblX);
@@ -134,10 +155,30 @@
             this.grpHoming.Controls.Add(this.cmdZHome);
             this.grpHoming.Location = new System.Drawing.Point(249, 249);
             this.grpHoming.Name = "grpHoming";
-            this.grpHoming.Size = new System.Drawing.Size(200, 127);
+            this.grpHoming.Size = new System.Drawing.Size(258, 127);
             this.grpHoming.TabIndex = 43;
             this.grpHoming.TabStop = false;
             this.grpHoming.Text = "Homing";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(196, 91);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(46, 23);
+            this.label15.TabIndex = 23;
+            this.label15.Text = "All";
+            // 
+            // cmdHomeAll
+            // 
+            this.cmdHomeAll.Image = global::UV_DLP_3D_Printer.Properties.Resources.rounded_blue_home_button_4805;
+            this.cmdHomeAll.Location = new System.Drawing.Point(194, 32);
+            this.cmdHomeAll.Name = "cmdHomeAll";
+            this.cmdHomeAll.Size = new System.Drawing.Size(48, 52);
+            this.cmdHomeAll.TabIndex = 22;
+            this.cmdHomeAll.UseVisualStyleBackColor = true;
+            this.cmdHomeAll.Click += new System.EventHandler(this.cmdHomeAll_Click);
             // 
             // label5
             // 
@@ -203,9 +244,9 @@
             // 
             this.groupBox1.Controls.Add(this.cmdMotorsOn);
             this.groupBox1.Controls.Add(this.cmdMotorsOff);
-            this.groupBox1.Location = new System.Drawing.Point(14, 382);
+            this.groupBox1.Location = new System.Drawing.Point(369, 166);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(211, 78);
+            this.groupBox1.Size = new System.Drawing.Size(180, 78);
             this.groupBox1.TabIndex = 42;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Motor Control";
@@ -232,16 +273,27 @@
             // 
             // grpExtrudeControls
             // 
+            this.grpExtrudeControls.Controls.Add(this.udTool0Rate);
+            this.grpExtrudeControls.Controls.Add(this.udext0len);
+            this.grpExtrudeControls.Controls.Add(this.label16);
             this.grpExtrudeControls.Controls.Add(this.cmdExtrude1);
             this.grpExtrudeControls.Controls.Add(this.label2);
             this.grpExtrudeControls.Controls.Add(this.cmdReverse);
-            this.grpExtrudeControls.Controls.Add(this.txtExtrudeLen);
             this.grpExtrudeControls.Location = new System.Drawing.Point(14, 249);
             this.grpExtrudeControls.Name = "grpExtrudeControls";
-            this.grpExtrudeControls.Size = new System.Drawing.Size(211, 127);
+            this.grpExtrudeControls.Size = new System.Drawing.Size(229, 127);
             this.grpExtrudeControls.TabIndex = 41;
             this.grpExtrudeControls.TabStop = false;
-            this.grpExtrudeControls.Text = "Extruder";
+            this.grpExtrudeControls.Text = "Toolhead 0 (Extruder)";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(167, 85);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(56, 17);
+            this.label16.TabIndex = 22;
+            this.label16.Text = "mm/min";
             // 
             // cmdExtrude1
             // 
@@ -256,7 +308,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(160, 62);
+            this.label2.Location = new System.Drawing.Point(175, 38);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(30, 17);
             this.label2.TabIndex = 20;
@@ -271,15 +323,6 @@
             this.cmdReverse.Text = "Reverse";
             this.cmdReverse.UseVisualStyleBackColor = true;
             this.cmdReverse.Click += new System.EventHandler(this.cmdReverse_Click);
-            // 
-            // txtExtrudeLen
-            // 
-            this.txtExtrudeLen.Location = new System.Drawing.Point(98, 58);
-            this.txtExtrudeLen.Name = "txtExtrudeLen";
-            this.txtExtrudeLen.Size = new System.Drawing.Size(56, 22);
-            this.txtExtrudeLen.TabIndex = 19;
-            this.txtExtrudeLen.Text = "10";
-            this.txtExtrudeLen.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label6
             // 
@@ -389,7 +432,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(571, 202);
+            this.label11.Location = new System.Drawing.Point(696, 198);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(71, 17);
             this.label11.TabIndex = 56;
@@ -398,7 +441,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(571, 66);
+            this.label12.Location = new System.Drawing.Point(696, 63);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(41, 17);
             this.label12.TabIndex = 55;
@@ -407,29 +450,29 @@
             // txtReceived
             // 
             this.txtReceived.BackColor = System.Drawing.Color.White;
-            this.txtReceived.Location = new System.Drawing.Point(574, 222);
+            this.txtReceived.Location = new System.Drawing.Point(699, 222);
             this.txtReceived.Multiline = true;
             this.txtReceived.Name = "txtReceived";
             this.txtReceived.ReadOnly = true;
             this.txtReceived.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtReceived.Size = new System.Drawing.Size(456, 225);
+            this.txtReceived.Size = new System.Drawing.Size(331, 225);
             this.txtReceived.TabIndex = 54;
             // 
             // txtSent
             // 
             this.txtSent.BackColor = System.Drawing.Color.White;
-            this.txtSent.Location = new System.Drawing.Point(571, 86);
+            this.txtSent.Location = new System.Drawing.Point(699, 86);
             this.txtSent.Multiline = true;
             this.txtSent.Name = "txtSent";
             this.txtSent.ReadOnly = true;
             this.txtSent.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtSent.Size = new System.Drawing.Size(447, 96);
+            this.txtSent.Size = new System.Drawing.Size(319, 96);
             this.txtSent.TabIndex = 53;
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(571, 15);
+            this.label13.Location = new System.Drawing.Point(696, 18);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(103, 17);
             this.label13.TabIndex = 52;
@@ -447,15 +490,175 @@
             // 
             // txtGCode
             // 
-            this.txtGCode.Location = new System.Drawing.Point(571, 38);
+            this.txtGCode.Location = new System.Drawing.Point(699, 38);
             this.txtGCode.Name = "txtGCode";
-            this.txtGCode.Size = new System.Drawing.Size(357, 22);
+            this.txtGCode.Size = new System.Drawing.Size(229, 22);
             this.txtGCode.TabIndex = 50;
             // 
-            // MachineControl
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.udTool1Rate);
+            this.groupBox2.Controls.Add(this.udext1len);
+            this.groupBox2.Controls.Add(this.label17);
+            this.groupBox2.Controls.Add(this.cmdExtrude2);
+            this.groupBox2.Controls.Add(this.label14);
+            this.groupBox2.Controls.Add(this.cmdReverse2);
+            this.groupBox2.Location = new System.Drawing.Point(14, 382);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(229, 127);
+            this.groupBox2.TabIndex = 57;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Toolhead 1 (Extruder)";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(167, 83);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(56, 17);
+            this.label17.TabIndex = 22;
+            this.label17.Text = "mm/min";
+            // 
+            // cmdExtrude2
+            // 
+            this.cmdExtrude2.Location = new System.Drawing.Point(6, 21);
+            this.cmdExtrude2.Name = "cmdExtrude2";
+            this.cmdExtrude2.Size = new System.Drawing.Size(75, 44);
+            this.cmdExtrude2.TabIndex = 14;
+            this.cmdExtrude2.Text = "Extrude";
+            this.cmdExtrude2.UseVisualStyleBackColor = true;
+            this.cmdExtrude2.Click += new System.EventHandler(this.cmdExtrude2_Click);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(176, 33);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(30, 17);
+            this.label14.TabIndex = 20;
+            this.label14.Text = "mm";
+            this.label14.Click += new System.EventHandler(this.label14_Click);
+            // 
+            // cmdReverse2
+            // 
+            this.cmdReverse2.Location = new System.Drawing.Point(6, 71);
+            this.cmdReverse2.Name = "cmdReverse2";
+            this.cmdReverse2.Size = new System.Drawing.Size(75, 44);
+            this.cmdReverse2.TabIndex = 15;
+            this.cmdReverse2.Text = "Reverse";
+            this.cmdReverse2.UseVisualStyleBackColor = true;
+            this.cmdReverse2.Click += new System.EventHandler(this.cmdReverse2_Click);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label7);
+            this.groupBox3.Controls.Add(this.txtRateXY);
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Controls.Add(this.label10);
+            this.groupBox3.Controls.Add(this.txtRateZ);
+            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Location = new System.Drawing.Point(369, 7);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(180, 143);
+            this.groupBox3.TabIndex = 58;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Axis Rates";
+            // 
+            // cmdClear
+            // 
+            this.cmdClear.Location = new System.Drawing.Point(699, 464);
+            this.cmdClear.Name = "cmdClear";
+            this.cmdClear.Size = new System.Drawing.Size(75, 33);
+            this.cmdClear.TabIndex = 59;
+            this.cmdClear.Text = "Clear";
+            this.cmdClear.UseVisualStyleBackColor = true;
+            this.cmdClear.Click += new System.EventHandler(this.cmdClear_Click);
+            // 
+            // udext0len
+            // 
+            this.udext0len.Location = new System.Drawing.Point(87, 33);
+            this.udext0len.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.udext0len.Name = "udext0len";
+            this.udext0len.Size = new System.Drawing.Size(71, 22);
+            this.udext0len.TabIndex = 23;
+            this.udext0len.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // udext1len
+            // 
+            this.udext1len.Location = new System.Drawing.Point(87, 33);
+            this.udext1len.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.udext1len.Name = "udext1len";
+            this.udext1len.Size = new System.Drawing.Size(71, 22);
+            this.udext1len.TabIndex = 24;
+            this.udext1len.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // udTool0Rate
+            // 
+            this.udTool0Rate.Location = new System.Drawing.Point(87, 80);
+            this.udTool0Rate.Maximum = new decimal(new int[] {
+            5000,
+            0,
+            0,
+            0});
+            this.udTool0Rate.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.udTool0Rate.Name = "udTool0Rate";
+            this.udTool0Rate.Size = new System.Drawing.Size(71, 22);
+            this.udTool0Rate.TabIndex = 24;
+            this.udTool0Rate.Value = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            // 
+            // udTool1Rate
+            // 
+            this.udTool1Rate.Location = new System.Drawing.Point(87, 81);
+            this.udTool1Rate.Maximum = new decimal(new int[] {
+            5000,
+            0,
+            0,
+            0});
+            this.udTool1Rate.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.udTool1Rate.Name = "udTool1Rate";
+            this.udTool1Rate.Size = new System.Drawing.Size(71, 22);
+            this.udTool1Rate.TabIndex = 25;
+            this.udTool1Rate.Value = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            // 
+            // ctlMachineControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.cmdClear);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.txtReceived);
@@ -463,12 +666,6 @@
             this.Controls.Add(this.label13);
             this.Controls.Add(this.cmdSendGCode);
             this.Controls.Add(this.txtGCode);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.txtRateZ);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.txtRateXY);
-            this.Controls.Add(this.label7);
             this.Controls.Add(this.grpHoming);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.grpExtrudeControls);
@@ -483,13 +680,21 @@
             this.Controls.Add(this.txtdist);
             this.Controls.Add(this.cmdDown);
             this.Controls.Add(this.cmdUp);
-            this.Name = "MachineControl";
+            this.Name = "ctlMachineControl";
             this.Size = new System.Drawing.Size(1184, 557);
             this.grpHoming.ResumeLayout(false);
             this.grpHoming.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.grpExtrudeControls.ResumeLayout(false);
             this.grpExtrudeControls.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.udext0len)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.udext1len)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.udTool0Rate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.udTool1Rate)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -517,7 +722,6 @@
         private System.Windows.Forms.Button cmdExtrude1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button cmdReverse;
-        private System.Windows.Forms.TextBox txtExtrudeLen;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtdistXY;
         private System.Windows.Forms.Button cmdYDown;
@@ -536,5 +740,19 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Button cmdSendGCode;
         private System.Windows.Forms.TextBox txtGCode;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button cmdExtrude2;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button cmdReverse2;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Button cmdHomeAll;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button cmdClear;
+        private System.Windows.Forms.NumericUpDown udext0len;
+        private System.Windows.Forms.NumericUpDown udext1len;
+        private System.Windows.Forms.NumericUpDown udTool0Rate;
+        private System.Windows.Forms.NumericUpDown udTool1Rate;
     }
 }

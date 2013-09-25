@@ -81,6 +81,13 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap animatedTurningHelix {
+            get {
+                object obj = ResourceManager.GetObject("animatedTurningHelix", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap bfzn_003 {
             get {
                 object obj = ResourceManager.GetObject("bfzn_003", resourceCulture);
@@ -144,6 +151,13 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap niceAnimatedTriangles {
+            get {
+                object obj = ResourceManager.GetObject("niceAnimatedTriangles", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap Refresh_icon {
             get {
                 object obj = ResourceManager.GetObject("Refresh-icon", resourceCulture);
@@ -168,6 +182,13 @@ namespace UV_DLP_3D_Printer.Properties {
         public static System.Drawing.Bitmap slice {
             get {
                 object obj = ResourceManager.GetObject("slice", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap turningGear {
+            get {
+                object obj = ResourceManager.GetObject("turningGear", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

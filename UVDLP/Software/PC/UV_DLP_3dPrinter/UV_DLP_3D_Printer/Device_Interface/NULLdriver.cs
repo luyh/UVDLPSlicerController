@@ -31,7 +31,7 @@ namespace UV_DLP_3D_Printer.Drivers
 
         public override int Write(string line)
         {
-            SendFakeResponse("OK\r\n");
+            SendFakeResponse("ok\n");
             return line.Length;
         }
 
@@ -41,7 +41,7 @@ namespace UV_DLP_3D_Printer.Drivers
             // we received after the "write" is complete
             // we may need to look for specific commands such as get HBP temp
             // to send back better fake data
-            SendFakeResponse("OK\r\n");
+            SendFakeResponse("ok\n");
             return len;
         }
 
@@ -74,9 +74,12 @@ namespace UV_DLP_3D_Printer.Drivers
         }
         private static byte[] GetBytes(string str)
         {
-            byte[] bytes = new byte[str.Length * sizeof(char)];
-            System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
-            return bytes;
+            //byte[] bytes = new byte[str.Length * sizeof(char)];
+            //System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
+            //return bytes;
+            byte[] b2 = System.Text.Encoding.ASCII.GetBytes (str);
+            //byte[] b2 = System.Text.Encoding.UTF8.GetBytes(str);
+            return b2;
         }
 
     }

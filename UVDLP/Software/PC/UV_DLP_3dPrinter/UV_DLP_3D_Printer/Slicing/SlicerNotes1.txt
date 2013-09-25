@@ -33,3 +33,9 @@ Must create FDM GCode for a variety of printers
 		?
 	Makerbot firmware (Serial GCode + Commands?)
 	
+
+Loading and Saving of Slicing files
+The goal is to be able to load an stl file and have it produce the folowing:
+-png image slices
+-a slice file (is this really necessary if image slices are generated?) 
+	still need to be able to read/write CLI or similar files

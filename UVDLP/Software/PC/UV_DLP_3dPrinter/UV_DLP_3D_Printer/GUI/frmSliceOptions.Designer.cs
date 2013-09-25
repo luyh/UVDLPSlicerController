@@ -51,9 +51,9 @@
             this.label8 = new System.Windows.Forms.Label();
             this.tabOptions = new System.Windows.Forms.TabControl();
             this.tbOptions = new System.Windows.Forms.TabPage();
+            this.chkmainliftgcode = new System.Windows.Forms.CheckBox();
             this.chkautocalcdelay = new System.Windows.Forms.CheckBox();
             this.grpLift = new System.Windows.Forms.GroupBox();
-            this.chkmainliftgcode = new System.Windows.Forms.CheckBox();
             this.label14 = new System.Windows.Forms.Label();
             this.txtliftfeed = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
@@ -344,6 +344,18 @@
             this.tbOptions.Text = "Options";
             this.tbOptions.UseVisualStyleBackColor = true;
             // 
+            // chkmainliftgcode
+            // 
+            this.chkmainliftgcode.AutoSize = true;
+            this.chkmainliftgcode.Location = new System.Drawing.Point(307, 152);
+            this.chkmainliftgcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkmainliftgcode.Name = "chkmainliftgcode";
+            this.chkmainliftgcode.Size = new System.Drawing.Size(346, 21);
+            this.chkmainliftgcode.TabIndex = 49;
+            this.chkmainliftgcode.Text = "Use Main-Lift GCode instead of Lift and Sequence";
+            this.chkmainliftgcode.UseVisualStyleBackColor = true;
+            this.chkmainliftgcode.CheckedChanged += new System.EventHandler(this.chkmainliftgcode_CheckedChanged);
+            // 
             // chkautocalcdelay
             // 
             this.chkautocalcdelay.AutoSize = true;
@@ -379,18 +391,6 @@
             this.grpLift.TabIndex = 46;
             this.grpLift.TabStop = false;
             this.grpLift.Text = "Lift and Sequence";
-            // 
-            // chkmainliftgcode
-            // 
-            this.chkmainliftgcode.AutoSize = true;
-            this.chkmainliftgcode.Location = new System.Drawing.Point(307, 152);
-            this.chkmainliftgcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.chkmainliftgcode.Name = "chkmainliftgcode";
-            this.chkmainliftgcode.Size = new System.Drawing.Size(346, 21);
-            this.chkmainliftgcode.TabIndex = 49;
-            this.chkmainliftgcode.Text = "Use Main-Lift GCode instead of Lift and Sequence";
-            this.chkmainliftgcode.UseVisualStyleBackColor = true;
-            this.chkmainliftgcode.CheckedChanged += new System.EventHandler(this.chkmainliftgcode_CheckedChanged);
             // 
             // label14
             // 
@@ -780,7 +780,7 @@
             this.MinimizeBox = false;
             this.Name = "frmSliceOptions";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Slicing and Building Profile Options";
+            this.Text = "UV DLP Slicing and Building Profile Options";
             this.Load += new System.EventHandler(this.frmSliceOptions_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

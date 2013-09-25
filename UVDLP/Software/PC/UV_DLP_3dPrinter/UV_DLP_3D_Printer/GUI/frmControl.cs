@@ -83,6 +83,8 @@ namespace UV_DLP_3D_Printer.GUI
             }
             catch (Exception ex)
             {
+                DebugLogger.Instance().LogError(ex.Message);
+                MessageBox.Show(ex.Message);
                 return 100.0;
             }
         }
@@ -96,6 +98,8 @@ namespace UV_DLP_3D_Printer.GUI
             }
             catch (Exception ex) 
             {
+                DebugLogger.Instance().LogError(ex.Message);
+                MessageBox.Show(ex.Message);
                 return 100.0;
             }
         }

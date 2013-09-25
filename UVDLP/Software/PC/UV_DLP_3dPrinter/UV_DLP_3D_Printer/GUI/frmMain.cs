@@ -16,6 +16,7 @@ using System.IO;
 using System.Collections;
 using UV_DLP_3D_Printer.GUI;
 using UV_DLP_3D_Printer.GUI.Controls;
+using UV_DLP_3D_Printer._3DEngine;
 
 namespace UV_DLP_3D_Printer
 {
@@ -30,8 +31,9 @@ namespace UV_DLP_3D_Printer
         frm3DLPrinterControl m_frm3DLPControl = new frm3DLPrinterControl();
         frmSlice m_frmSlice = new frmSlice();
         
-        frmMachineProfileManager m_machineprofilemanager = new frmMachineProfileManager();
         frmBuildProfilesManager m_buildprofilesmanager = new frmBuildProfilesManager();
+        ArcBall arcball;// = new ArcBall();
+        Quaternion m_quat;
         
 
         private bool lmdown, rmdown, mmdown;
@@ -43,7 +45,7 @@ namespace UV_DLP_3D_Printer
         float xoffset = 0.0f;
 
         float ix = 0.0f, iy = 0.0f, iz = 2.0f;
-        float ipx = 0.0f, ipy = 0.0f, ipz = 2.0f;
+        //float ipx = 0.0f, ipy = 0.0f, ipz = 2.0f;
         public frmMain()
         {
             InitializeComponent();
@@ -52,87 +54,23 @@ namespace UV_DLP_3D_Printer
             UVDLPApp.Instance().Engine3D.AddPlatCube();
             UVDLPApp.Instance().Engine3D.CameraReset();
             UVDLPApp.Instance().m_slicer.Slice_Event += new Slicer.SliceEvent(SliceEv);
-            UVDLPApp.Instance().m_buildmgr.PrintStatus += new delPrintStatus(PrintStatus);
+            UVDLPApp.Instance().m_buildmgr.BuildStatus += new delBuildStatus(BuildStatus);
             UVDLPApp.Instance().m_buildmgr.PrintLayer += new delPrinterLayer(PrintLayer);
             DebugLogger.Instance().LoggerStatusEvent += new LoggerStatusHandler(LoggerStatusEvent);
             UVDLPApp.Instance().m_deviceinterface.StatusEvent += new DeviceInterface.DeviceInterfaceStatus(DeviceStatusEvent);
             UVDLPApp.Instance().m_supportgenerator.SupportEvent += new SupportGeneratorEvent(SupEvent);
-            heatTempCtl1.HTEvent += new HeatTempCtl.HTEventDel(HTEventDel);
-            SetButtonStatuses();            
+
             
-            PopulateMachinesMenu();
+            arcball = new ArcBall();
+            m_quat = new Quaternion();
+
+            SetButtonStatuses();                        
             PopulateBuildProfilesMenu();
             SetupSceneTree();
             printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(printDocument1_PrintPage);
-            //Invalidate();
             Refresh();
         }
-        #region heater control event handler
-        /// <summary>
-        /// This delegate is called when the heat/temperature control has an event that needs to be handled
-        /// </summary>
-        /// <param name="ev"></param>
-        /// <param name="val"></param>
-        public void HTEventDel(GUI.Controls.eHTEvent ev, int val,int temp)
-        {
-            if (InvokeRequired)
-            {
-                BeginInvoke(new MethodInvoker(delegate() { HTEventDel(ev,val,temp); }));
-            }
-            else
-            {
-                try
-                {
-                    string cmd = "";
-                    switch (ev)
-                    {
-                        case GUI.Controls.eHTEvent.eMonitor:
-                            if (val == 1)
-                            {
-                                UVDLPApp.Instance().m_deviceinterface.MonitorTemps = true;
-                            }
-                            else 
-                            {
-                                UVDLPApp.Instance().m_deviceinterface.MonitorTemps = false;
-                            }
-                            break;
-                        case GUI.Controls.eHTEvent.eOff: // turn off the specified heater
-                            
-                            switch (val) 
-                            {
-                                case 1: // extruder
-                                    cmd = "M104 S0\r\n";
-                                    UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(cmd);
-                                    break;
-                                case 2: // HBP
-                                    cmd = "M140 S0\r\n";
-                                    UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(cmd);
-                                    break;
-                            }
-                            break;
-                        case GUI.Controls.eHTEvent.eSet: // set temperature and return immediately command
-                            
-                            switch (val) 
-                            {
-                                case 1: // extruder
-                                    cmd = "M104 S" + temp + "\r\n";
-                                    UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(cmd);
-                                    break;
-                                case 2: // HBP
-                                    cmd = "M140 S" + temp + "\r\n";
-                                    UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(cmd);
-                                    break;
-                            }
-                            break;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    DebugLogger.Instance().LogError(ex.Message);
-                }
-            }    
-        }
-        #endregion heater control event handler
+        
         #region Support Event Handler
         /// <summary>
         /// Support Event handler
@@ -180,31 +118,6 @@ namespace UV_DLP_3D_Printer
             //throw new NotImplementedException();
             // e.Graphics =  current slice graphics
         }
-
-        private void PopulateMachinesMenu() 
-        {
-            //remove all items except the first 2
-            for (int c = machineToolStripMenuItem.DropDownItems.Count; c > 5; c--) 
-            {
-                machineToolStripMenuItem.DropDownItems.RemoveAt(c-1);
-            }
-            string[] filePaths = Directory.GetFiles(UVDLPApp.Instance().m_PathMachines, "*.machine");
-            string curprof = Path.GetFileNameWithoutExtension(UVDLPApp.Instance().m_printerinfo.m_filename);
-            //create a new menu item for all machine profiles
-            foreach (String profile in filePaths)
-            {
-                String pn = Path.GetFileNameWithoutExtension(profile);
-                ToolStripMenuItem it = new ToolStripMenuItem(pn);
-                it.Click += new EventHandler(mnuMachine_Click);
-                machineToolStripMenuItem.DropDownItems.Add(it);
-                if (curprof.Equals(pn)) // if this is the current profile, show as checked
-                {
-                    it.Checked = true;
-                }
-
-            }
-        }
-
         private void PopulateBuildProfilesMenu()
         {
             //remove all items except the first 2
@@ -260,8 +173,16 @@ namespace UV_DLP_3D_Printer
                         ShowObjectInfo();
                         DisplayFunc();
                         break;
+                    case eAppEvent.eSlicedLoaded: // update the gui to view
+                        DebugLogger.Instance().LogRecord(Message);
+                        int totallayers = UVDLPApp.Instance().m_slicefile.m_slices.Count;
+                        SetVScrollMax(totallayers);
+                        //show the slice in the slice view
+                        ViewLayer(0, null, BuildManager.SLICE_NORMAL);
+                        break;
                     case eAppEvent.eGCodeLoaded:
                         DebugLogger.Instance().LogRecord(Message);
+                        txtGCode.Text = UVDLPApp.Instance().m_gcode.RawGCode;
                         break;
                     case eAppEvent.eGCodeSaved:
                         DebugLogger.Instance().LogRecord(Message);
@@ -275,15 +196,17 @@ namespace UV_DLP_3D_Printer
             }
             Refresh();
         }
+        private void SetVScrollMax(int val) 
+        {
+            vScrollBar1.Maximum = val + vScrollBar1.LargeChange +1;
+            vScrollBar1.Value = 0;
+        }
         private void SetButtonStatuses() 
         {
             if (UVDLPApp.Instance().m_deviceinterface.Connected)
             {
                 cmdConnect.Enabled = false;
                 cmdDisconnect.Enabled = true;
-                //cmdControl.Enabled = true;
-                //tabMachineControl.
-
 
                 if (UVDLPApp.Instance().m_buildmgr.IsPrinting)
                 {
@@ -350,12 +273,6 @@ namespace UV_DLP_3D_Printer
                         break;
                     case ePIStatus.eTimedout:
                         break;
-                    case ePIStatus.eTemperatureData:
-                        //set the control
-                        heatTempCtl1.SetHBPTemp(UVDLPApp.Instance().m_deviceinterface.HBP_Temp);
-                        heatTempCtl1.SetEXT0Temp(UVDLPApp.Instance().m_deviceinterface.Ext0_Temp);
-
-                        break;
                 }
             }
         }
@@ -377,50 +294,72 @@ namespace UV_DLP_3D_Printer
             }
         }
 
-        void PrintStatus(ePrintStat printstat) 
+        void BuildStatus(eBuildStatus printstat, string mess) 
         {
          // displays the print status
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate() { PrintStatus(printstat); }));
+                BeginInvoke(new MethodInvoker(delegate() { BuildStatus(printstat,mess); }));
             }
             else
             {
                 String message = "";
                 switch (printstat)
                 {
-                    case ePrintStat.ePrintPaused:
+                    case eBuildStatus.eBuildPaused:
                         message = "Print Paused";
                         SetButtonStatuses();
+                        SetMainMessage(message);
+                        DebugLogger.Instance().LogRecord(message);
+
                         break;
-                    case ePrintStat.ePrintResumed:
+                    case eBuildStatus.eBuildResumed:
                         message = "Print Resumed";
                         SetButtonStatuses();
+                        SetMainMessage(message);
+                        DebugLogger.Instance().LogRecord(message);
+
                         break;
-                    case ePrintStat.ePrintCancelled:
+                    case eBuildStatus.eBuildCancelled:
                         message = "Print Cancelled";
                         SetButtonStatuses();
+                        machineControl1.BuildStopped();
+                        SetMainMessage(message);
+                        DebugLogger.Instance().LogRecord(message);
+
                         break;
-                    case ePrintStat.eLayerCompleted:
+                    case eBuildStatus.eLayerCompleted:
                         message = "Layer Completed";
                         break;
-                    case ePrintStat.ePrintCompleted:
+                    case eBuildStatus.eBuildCompleted:
                         message = "Print Completed";
                         SetButtonStatuses();
+                        machineControl1.BuildStopped();
                         MessageBox.Show("Build Completed");
+                        SetMainMessage(message);
+                        DebugLogger.Instance().LogRecord(message);
                         break;
-                    case ePrintStat.ePrintStarted:
+                    case eBuildStatus.eBuildStarted:
                         message = "Print Started";
                         SetButtonStatuses();
-                        if (!ShowDLPScreen()) 
+                        machineControl1.BuildStarted();
+                        // if the current machine type is a UVDLP printer, make sure we can show the screen
+                        if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
                         {
-                            MessageBox.Show("Monitor " + UVDLPApp.Instance().m_printerinfo.Monitorid + " not found, cancelling build","Error");
-                            UVDLPApp.Instance().m_buildmgr.CancelPrint();
+                            if (!ShowDLPScreen())
+                            {
+                                MessageBox.Show("Monitor " + UVDLPApp.Instance().m_printerinfo.Monitorid + " not found, cancelling build", "Error");
+                                UVDLPApp.Instance().m_buildmgr.CancelPrint();
+                            }
                         }
+                        SetMainMessage(message);
+                        DebugLogger.Instance().LogRecord(message);
+                        break;
+                    case eBuildStatus.eBuildStatusUpdate:
+                        // a message from the build manager has arrived
+                        this.SetTimeMessage(mess);
                         break;
                 }
-                SetMainMessage(message);
-                DebugLogger.Instance().LogRecord(message);
             }
         }
 
@@ -465,8 +404,7 @@ namespace UV_DLP_3D_Printer
                         case Slicer.eSliceEvent.eSliceCompleted:
                             //show the gcode
                             txtGCode.Text = UVDLPApp.Instance().m_gcode.RawGCode;
-                            vScrollBar1.Maximum = totallayers;
-                            vScrollBar1.Value = 0;
+                            SetVScrollMax(totallayers);
                             SetMainMessage("Slicing Completed");
                             String timeest = BuildManager.EstimateBuildTime(UVDLPApp.Instance().m_gcode);
                             SetTimeMessage("Estimated Build Time: " + timeest);
@@ -509,8 +447,7 @@ namespace UV_DLP_3D_Printer
                 else 
                 {
                     chkWireframe.Checked = false;
-                    vScrollBar1.Maximum = 1;
-                    vScrollBar1.Value = 0;
+
                 }
             }
         }
@@ -528,15 +465,37 @@ namespace UV_DLP_3D_Printer
                     UVDLPApp.Instance().Engine3D.RemoveAllLines();
                     UVDLPApp.Instance().Engine3D.AddGrid();
                     UVDLPApp.Instance().Engine3D.AddPlatCube();
-
-                    foreach (PolyLine3d ln in sl.m_segments)
+                    // we should check here to see what the machine type is first
+                    // for FDM machines, we show the gcode paths
+                    // for UV DLP machines, we show the image slice.
+                    if (UVDLPApp.Instance().gci != null)
                     {
-                        ln.m_color = Color.Red;
-                        UVDLPApp.Instance().Engine3D.AddLine(ln);
+                        //UVDLPApp.Instance().gci.AddLinesToEngine(.25);
+                        UVDLPApp.Instance().gci.AddLinesToEngine(-9999);
+                    }
+                    if (chkSliceHeight.Checked == true)
+                    {
+                        foreach (PolyLine3d ln in sl.m_segments)
+                        {
+                            ln.m_color = Color.Red;
+                            UVDLPApp.Instance().Engine3D.AddLine(ln);
+                            Point3d p = (Point3d)ln.m_points[0];
+                            PolyLine3d pln = new PolyLine3d(ln);
+                            pln.SetZ(p.z + UVDLPApp.Instance().m_buildparms.ZThick);
+                            UVDLPApp.Instance().Engine3D.AddLine(pln);
+                        }
+                    }
+                    else
+                    {
+                        foreach (PolyLine3d ln in sl.m_segments)
+                        {
+                            ln.m_color = Color.Red;
+                            UVDLPApp.Instance().Engine3D.AddLine(ln);
 
+                        }
                     }
                     DisplayFunc();
-                    lblSliceNum.Text = "Slice " + layer + " of " + UVDLPApp.Instance().m_slicefile.m_slices.Count;
+                    lblSliceNum.Text = "Slice " + (layer+1) + " of " + UVDLPApp.Instance().m_slicefile.m_slices.Count;
                 }
                 //render the 2d slice
                 Bitmap bmp = null;
@@ -551,7 +510,11 @@ namespace UV_DLP_3D_Printer
 
                 //this bmp could be a normal, blank, or calibration image
                 picSlice.Image = bmp;//now show the 2d slice
-                m_frmdlp.ShowImage(bmp);
+                // if we're a UV DLP printer, show on the frmDLP
+                if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
+                {
+                    m_frmdlp.ShowImage(bmp);
+                }
                 
                 //lblCurSlice.Text = "Layer = " +layer;
             }
@@ -560,8 +523,21 @@ namespace UV_DLP_3D_Printer
         }
         private void vScrollBar1_ValueChanged(object sender, EventArgs e)
         {
-            int vscrollval = vScrollBar1.Value;
-            ViewLayer(vscrollval,null,BuildManager.SLICE_NORMAL);
+            try
+            {
+                int vscrollval = vScrollBar1.Value;
+                if (UVDLPApp.Instance().m_slicefile != null) 
+                {
+                    int t =UVDLPApp.Instance().m_slicefile.m_slices.Count-1;
+                    if (vscrollval > t) vscrollval = t;
+                    ViewLayer(vscrollval, null, BuildManager.SLICE_NORMAL);
+                }
+                
+            }
+            catch (Exception) 
+            {
+                // probably past the max.
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -586,6 +562,7 @@ namespace UV_DLP_3D_Printer
             {
                 int w = glControl1.Width;
                 int h = glControl1.Height;
+                arcball.Resize(w, h);
                 GL.MatrixMode(MatrixMode.Projection);
                 GL.LoadIdentity();
                 // Glu
@@ -698,20 +675,45 @@ namespace UV_DLP_3D_Printer
             
           /* Clear the buffer, clear the matrix */
           GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-          GL.LoadIdentity();
-
-          GL.Translate(xoffset, yoffset, orbitdist);
+    
+          GL.LoadIdentity(); // tmp
+            
           
-          GL.Rotate(orbitypos, 0, 1, 0); // transform first
-          GL.Rotate(orbitxpos, 1, 0, 0);
+          GL.Translate(xoffset, yoffset, orbitdist); // tmp          
+          GL.Rotate(orbitypos, 0, 1, 0); // transform first // tmp
+          GL.Rotate(orbitxpos, 1, 0, 0); // tmp
+            
           
+          //Matrix4.CreateFromAxisAngle(new Vector3(1,0,0),m_quat.X);         
+          /*
+          GL.Translate(xoffset, yoffset, orbitdist); // tmp
+          GL.Rotate(m_quat.X * 100, 1, 0, 0); //
+          GL.Rotate(m_quat.Y * 100, 0, 1, 0); //          
+          GL.Rotate(m_quat.Z * 100, 0, 0, 1); //
+            */
+          /*
+            Matrix3fSetRotationFromQuat4f(&ThisRot, &ThisQuat);         // Convert Quaternion Into Matrix3fT
+          Matrix3fMulMatrix3f(&ThisRot, &LastRot);                // Accumulate Last Rotation Into This One
+          Matrix4fSetRotationFromMatrix3f(&Transform, &ThisRot);          // Set Our Final          
+           */
           UVDLPApp.Instance().Engine3D.RenderGL(m_showalpha);
          // DrawISect();
           GL.Flush();
           glControl1.SwapBuffers();
         }
 
-        
+        /*
+Hi, rakkarage. To get a final matrix you need to make some multiplies. I mean translate to center and translate to distance where you camera stand.
+public override Matrix4 GetMatrix()
+{
+       return Matrix4.CreateTranslate(0, 0, -_distance) *
+                Matrix4.CreateFromQuaternion(getRotation()) *
+                Matrix4.CreateTranslate(-_center);
+}
+Where _center is the vector loocking at the point arround wich you are rotating.
+_distance - I think it's clear)
+If I understood correctly, you want to rotate camera arround the point. Did I?         
+         */
         private void glControl1_Load(object sender, EventArgs e)
         {
             loaded = true;
@@ -748,7 +750,8 @@ namespace UV_DLP_3D_Printer
             if (e.Button == MouseButtons.Left)
             {
                 lmdown = true;
-
+                Vector2 vec = new Vector2(mdx,mdy);
+                arcball.Click(vec);
             }
             if (e.Button == MouseButtons.Right)
             {
@@ -943,8 +946,13 @@ namespace UV_DLP_3D_Printer
 
             if (lmdown)
             {
-                orbitypos += (float)dx;
+                orbitypos += (float)dx;                
                 orbitxpos += (float)dy;
+                Vector2 vec = new Vector2(mdx,mdy);
+                m_quat += arcball.Drag(vec);
+                arcball.Click(vec);
+
+                // do the rotation
             }
             else if (mmdown)
             {
@@ -968,6 +976,7 @@ namespace UV_DLP_3D_Printer
             if (UVDLPApp.Instance().m_selectedobject == null) return;
             UVDLPApp.Instance().m_selectedobject.m_wireframe = chkWireframe.Checked;
             DisplayFunc();
+            Refresh();
         }
 
         private void cmdCenter_Click(object sender, EventArgs e)
@@ -987,7 +996,46 @@ namespace UV_DLP_3D_Printer
             }
             else
             {
-                UVDLPApp.Instance().m_buildmgr.StartPrint(UVDLPApp.Instance().m_slicefile, UVDLPApp.Instance().m_gcode);
+                //check the machine type here
+                if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
+                {
+                    //check to see if there is a slice file
+                    if (UVDLPApp.Instance().m_slicefile == null)
+                    {
+                        MessageBox.Show("No Slicing file, cannot begin build");
+                        return;
+                    }
+                    // check for gcode
+                    if (UVDLPApp.Instance().m_gcode == null)
+                    {
+                        MessageBox.Show("No GCode file, cannot begin build");
+                        return;
+                    }
+                    // not a UV DLP GCode file
+                    if (UVDLPApp.Instance().m_gcode.IsUVDLPGCode() == false) 
+                    {
+                        MessageBox.Show("Not a UV DLP GCode file\r\nCannot begin build\r\nPossibly wrong slicer used");
+                        return;                    
+                    }
+                    UVDLPApp.Instance().m_buildmgr.StartPrint(UVDLPApp.Instance().m_slicefile, UVDLPApp.Instance().m_gcode);
+
+                }
+                else  // assume FDM or similar
+                {
+                    if (UVDLPApp.Instance().m_gcode == null)
+                    {
+                        MessageBox.Show("No GCode file, cannot begin build");
+                        return;
+                    }
+                    //  a UV DLP GCode file is being used for some reason
+                    if (UVDLPApp.Instance().m_gcode.IsUVDLPGCode() == true)
+                    {
+                        MessageBox.Show("UV DLP GCode file commands detected\r\nCannot begin build\r\nPossibly wrong slicer used");
+                        return;
+                    }
+                    UVDLPApp.Instance().m_buildmgr.StartPrint(null, UVDLPApp.Instance().m_gcode);
+                }
+                
             }
         }
         private void cmdPause_Click(object sender, EventArgs e)
@@ -1040,18 +1088,6 @@ namespace UV_DLP_3D_Printer
         private void loadBinarySTLToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoadSTLModel_Click(this, null);
-        }
-
-
-        private void machinePropertiesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmMachineConfig mf = new frmMachineConfig(ref UVDLPApp.Instance().m_printerinfo);
-            mf.ShowDialog();
-            UVDLPApp.Instance().Engine3D.RemoveAllLines();
-            UVDLPApp.Instance().Engine3D.AddGrid();
-            UVDLPApp.Instance().Engine3D.AddPlatCube();
-            DisplayFunc();
-            //
         }
 
         private void cmdStop_Click(object sender, EventArgs e)
@@ -1114,12 +1150,6 @@ namespace UV_DLP_3D_Printer
 
         }
 
-        private void connectionToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmConnection frmconnect = new frmConnection();
-            frmconnect.ShowDialog();
-        }
-
         private void cmdSlice1_Click(object sender, EventArgs e)
         {
             if (m_frmSlice.IsDisposed) 
@@ -1180,17 +1210,17 @@ namespace UV_DLP_3D_Printer
                     objnode.Tag = obj;
                     scenenode.Nodes.Add(objnode);
                     //String minmax = "Nu
-                    String Numpoints = "Num Points = " + obj.NumPoints.ToString();
+                    String Numpoints = "# Points = " + obj.NumPoints.ToString();
                     objnode.Nodes.Add(Numpoints);
-                    String Numpolys = "Num Polys = " + obj.NumPolys.ToString();
+                    String Numpolys  = "# Polys  = " + obj.NumPolys.ToString();
                     objnode.Nodes.Add(Numpolys);
-                    objnode.Nodes.Add("Min points = (" + String.Format("{0:0.00}", obj.m_min.x) + "," + String.Format("{0:0.00}", obj.m_min.y) + "," + String.Format("{0:0.00}", obj.m_min.z) + ")");
-                    objnode.Nodes.Add("Max points = (" + String.Format("{0:0.00}", obj.m_max.x) + "," + String.Format("{0:0.00}", obj.m_max.y) + "," + String.Format("{0:0.00}", obj.m_max.z) + ")");
+                    objnode.Nodes.Add("Min= (" + String.Format("{0:0.00}", obj.m_min.x) + "," + String.Format("{0:0.00}", obj.m_min.y) + "," + String.Format("{0:0.00}", obj.m_min.z) + ")");
+                    objnode.Nodes.Add("Max= (" + String.Format("{0:0.00}", obj.m_max.x) + "," + String.Format("{0:0.00}", obj.m_max.y) + "," + String.Format("{0:0.00}", obj.m_max.z) + ")");
                     double xs, ys, zs;
                     xs = obj.m_max.x - obj.m_min.x;
                     ys = obj.m_max.y - obj.m_min.y;
                     zs = obj.m_max.z - obj.m_min.z;
-                    objnode.Nodes.Add("Size = (" + String.Format("{0:0.00}", xs) + "," + String.Format("{0:0.00}", ys) + "," + String.Format("{0:0.00}", zs) + ")");
+                    objnode.Nodes.Add("Size= (" + String.Format("{0:0.00}", xs) + "," + String.Format("{0:0.00}", ys) + "," + String.Format("{0:0.00}", zs) + ")");
                     if (obj == UVDLPApp.Instance().m_selectedobject)  // expand this node
                     {
                         objnode.Expand();
@@ -1518,23 +1548,6 @@ namespace UV_DLP_3D_Printer
         }
          * */
         #endregion 
-
-        private void manageMachinesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (m_machineprofilemanager.IsDisposed) 
-            {
-                m_machineprofilemanager = new frmMachineProfileManager();
-            }
-            m_machineprofilemanager.ShowDialog();
-            // update just in case.
-            UVDLPApp.Instance().Engine3D.RemoveAllLines();
-            UVDLPApp.Instance().Engine3D.AddGrid();
-            UVDLPApp.Instance().Engine3D.AddPlatCube();
-            DisplayFunc();
-            PopulateMachinesMenu();
-            SetTitle();
-        }
-
         // one of the populated slice/build profiles was clicked
         private void mnuBuildProfile_Click(object sender, EventArgs e)
         {
@@ -1548,7 +1561,6 @@ namespace UV_DLP_3D_Printer
                 if (pn.Equals(newprof))
                 {
                     UVDLPApp.Instance().LoadBuildSliceProfile(filePaths[idx]);
-                    //PopulateMachinesMenu();
                     PopulateBuildProfilesMenu();
                     break;
                 }
@@ -1556,26 +1568,6 @@ namespace UV_DLP_3D_Printer
             }             
         }
 
-        // one of the populated machines in the machine menu was clicked
-        private void mnuMachine_Click(object sender, EventArgs e)
-        {
-            String newprof = sender.ToString();
-
-            string[] filePaths = Directory.GetFiles(UVDLPApp.Instance().m_PathMachines, "*.machine");
-            int idx = 0;
-            foreach (String profile in filePaths)
-            {
-                String pn = Path.GetFileNameWithoutExtension(profile);
-                if (pn.Equals(newprof)) 
-                {
-                    UVDLPApp.Instance().LoadMachineConfig(filePaths[idx]);
-                    UVDLPApp.Instance().SetupDriver();
-                    PopulateMachinesMenu();
-                    break;
-                }
-                idx++;
-            }
-        }
         #region DLP Screen Controls
         private void showBlankToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1722,16 +1714,6 @@ namespace UV_DLP_3D_Printer
             Refresh();
         }
 
-        private void connectionToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            // show connection screen
-            // this is the one in use...
-            frmConnection fconnect = new frmConnection();
-            fconnect.ShowDialog();
-        }
-
-
-
         private void frmMain_Resize(object sender, EventArgs e)
         {
             Refresh();
@@ -1756,6 +1738,7 @@ namespace UV_DLP_3D_Printer
             UVDLPApp.Instance().m_selectedobject.m_showalpha = chkAlpha.Checked;
             SetAlpha(chkAlpha.Checked);
             DisplayFunc();
+            Refresh();
         }
 
         private void cmdLoadGCode_Click(object sender, EventArgs e)
@@ -1767,7 +1750,7 @@ namespace UV_DLP_3D_Printer
                 if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     UVDLPApp.Instance().LoadGCode(openFileDialog1.FileName);
-                    txtGCode.Text = UVDLPApp.Instance().m_gcode.RawGCode;
+                   // txtGCode.Text = UVDLPApp.Instance().m_gcode.RawGCode;
                 }
             }
             catch (Exception ex)
@@ -1825,6 +1808,48 @@ namespace UV_DLP_3D_Printer
             {
 
             }
+        }
+
+        private void chkSliceHeight_CheckedChanged(object sender, EventArgs e)
+        {
+            int vscrollval = vScrollBar1.Value;
+            ViewLayer(vscrollval, null, BuildManager.SLICE_NORMAL);
+            Refresh();
+        }
+
+        private void cmdDonate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string url = "";
+
+                string business = "pacmanfan321@gmail.com";  // your paypal email
+                string description = "Donation";            // '%20' represents a space. remember HTML!
+                string country = "US";                  // AU, US, etc.
+                string currency = "USD";                 // AUD, USD, etc.
+
+                url += "https://www.paypal.com/cgi-bin/webscr" +
+                    "?cmd=" + "_donations" +
+                    "&business=" + business +
+                    "&lc=" + country +
+                    "&item_name=" + description +
+                    "&currency_code=" + currency +
+                    "&bn=" + "PP%2dDonationsBF";
+
+                System.Diagnostics.Process.Start(url);
+                //System.Diagnostics.Process.Start(target);
+            }
+            catch(Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
+        }
+
+        private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmPrefs prefs = new frmPrefs();
+            prefs.ShowDialog();
+
         }
     }
 }

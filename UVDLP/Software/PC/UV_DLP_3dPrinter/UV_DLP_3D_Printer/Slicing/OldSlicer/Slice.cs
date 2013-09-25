@@ -10,6 +10,7 @@ using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using System.IO;
 
+
 namespace UV_DLP_3D_Printer
 {
     public class Point2d : IComparable
@@ -225,7 +226,7 @@ namespace UV_DLP_3D_Printer
             double sdpmmx = sp.dpmmX; // save the original dots per mm
             double sdpmmy = sp.dpmmY;
 
-            sp.dpmmX *= scaler;//  scaler them up.
+            sp.dpmmX *= scaler;//  scale them up.
             sp.dpmmY *= scaler;
 
             //Re-sample to a higher resolution so we can smooth later

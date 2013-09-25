@@ -35,26 +35,24 @@ namespace UV_DLP_3D_Printer.GUI
         {
             try
             {                
-                if (m_total >= max)
+                if (m_total >= max) // check for closing
                 {
                     m_timer.Stop();
                     Close();
                     return;
                 }
                 
-                if (m_total > (max - 5))
+                if (m_total > (max - 10)) // fade out
                 {
-                    this.Opacity -= .2;
+                    this.Opacity -= .1;
                 }
 
-                if (m_total < 6)
+                if (m_total < 10) // fade in 
                 {
-                    this.Opacity += .2;
+                    this.Opacity += .1;
                 }
                 m_total++;
-                progressBar1.Value++;
-                //throw new NotImplementedException();
-                //move the progress bsar
+                
             }
             catch (Exception ex) 
             {

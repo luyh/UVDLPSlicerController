@@ -73,6 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="3DEngine\ArcBall.cs" />
     <Compile Include="3DEngine\Camera.cs" />
     <Compile Include="3DEngine\Cylinder3d.cs" />
     <Compile Include="3DEngine\Material.cs" />
@@ -89,17 +90,24 @@
     <Compile Include="Device_Interface\DriverFactory.cs" />
     <Compile Include="Device_Interface\GenericDriver.cs" />
     <Compile Include="Device_Interface\RobotFactorySRL_3DLPrinter.cs" />
-    <Compile Include="GUI\Controls\HeatTempCtl.cs">
+    <Compile Include="GCodeInterpreter.cs" />
+    <Compile Include="GUI\Controls\ctlHeatTemp.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\Controls\HeatTempCtl.Designer.cs">
-      <DependentUpon>HeatTempCtl.cs</DependentUpon>
+    <Compile Include="GUI\Controls\ctlHeatTemp.Designer.cs">
+      <DependentUpon>ctlHeatTemp.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Controls\MachineControl.cs">
+    <Compile Include="GUI\Controls\ctlMachineConfig.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\Controls\MachineControl.Designer.cs">
-      <DependentUpon>MachineControl.cs</DependentUpon>
+    <Compile Include="GUI\Controls\ctlMachineConfig.Designer.cs">
+      <DependentUpon>ctlMachineConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\ctlMachineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\ctlMachineControl.Designer.cs">
+      <DependentUpon>ctlMachineControl.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\frm3DLPrinterControl.cs">
       <SubType>Form</SubType>
@@ -137,11 +145,11 @@
     <Compile Include="GUI\frmFlexSliceOptions.Designer.cs">
       <DependentUpon>frmFlexSliceOptions.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\frmMachineProfileManager.cs">
+    <Compile Include="GUI\frmPrefs.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\frmMachineProfileManager.Designer.cs">
-      <DependentUpon>frmMachineProfileManager.cs</DependentUpon>
+    <Compile Include="GUI\frmPrefs.Designer.cs">
+      <DependentUpon>frmPrefs.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\frmProfileName.cs">
       <SubType>Form</SubType>
@@ -180,12 +188,6 @@
     <Compile Include="GUI\frmDLP.Designer.cs">
       <DependentUpon>frmDLP.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\frmMachineConfig.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\frmMachineConfig.Designer.cs">
-      <DependentUpon>frmMachineConfig.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\frmSliceOptions.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -214,11 +216,14 @@
     <Compile Include="BuildManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="GUI\Controls\HeatTempCtl.resx">
-      <DependentUpon>HeatTempCtl.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\Controls\ctlHeatTemp.resx">
+      <DependentUpon>ctlHeatTemp.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Controls\MachineControl.resx">
-      <DependentUpon>MachineControl.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\Controls\ctlMachineConfig.resx">
+      <DependentUpon>ctlMachineConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\ctlMachineControl.resx">
+      <DependentUpon>ctlMachineControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frm3DLPrinterControl.resx">
       <DependentUpon>frm3DLPrinterControl.cs</DependentUpon>
@@ -238,17 +243,14 @@
     <EmbeddedResource Include="GUI\frmFlexSliceOptions.resx">
       <DependentUpon>frmFlexSliceOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\frmMachineConfig.resx">
-      <DependentUpon>frmMachineConfig.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\frmMachineProfileManager.resx">
-      <DependentUpon>frmMachineProfileManager.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmDLP.resx">
       <DependentUpon>frmDLP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmPrefs.resx">
+      <DependentUpon>frmPrefs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmProfileName.resx">
       <DependentUpon>frmProfileName.cs</DependentUpon>
@@ -296,6 +298,10 @@
     <None Include="resources\9-6-2013 12-05-11 AM.png" />
     <None Include="resources\9-6-2013 12-05-50 AM.png" />
     <None Include="resources\rounded_blue_home_button_4805.jpg" />
+    <None Include="resources\animatedTurningHelix.gif" />
+    <None Include="resources\niceAnimatedTriangles.gif" />
+    <None Include="resources\turningGear.gif" />
+    <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />
     <None Include="resources\slice.jpg" />

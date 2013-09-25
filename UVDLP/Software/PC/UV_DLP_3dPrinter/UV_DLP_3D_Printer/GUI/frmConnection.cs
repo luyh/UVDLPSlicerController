@@ -13,8 +13,10 @@ namespace UV_DLP_3D_Printer.GUI
 {
     public partial class frmConnection : Form
     {
-        public frmConnection()
+        ConnectionConfig m_config;
+        public frmConnection(ref ConnectionConfig config)
         {
+            m_config = config;
             InitializeComponent();
             SetData();
         }
@@ -23,9 +25,9 @@ namespace UV_DLP_3D_Printer.GUI
         {
             try
             {
-                UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_connection.comname = cmbPorts.SelectedItem.ToString();
-                UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_connection.speed = int.Parse(cmbSpeed.SelectedItem.ToString());
-                UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_connection.databits = int.Parse(txtDataBits.Text);
+                m_config.comname = cmbPorts.SelectedItem.ToString();
+                m_config.speed = int.Parse(cmbSpeed.SelectedItem.ToString());
+                m_config.databits = int.Parse(txtDataBits.Text);
 
 
                 return true;
@@ -39,7 +41,7 @@ namespace UV_DLP_3D_Printer.GUI
 
         private void SetData() 
         {
-            ConnectionConfig cc = UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_connection;
+            ConnectionConfig cc = m_config;
             cmbPorts.Items.Clear();
             //set all available port names
             foreach (String s in SerialPort.GetPortNames()) 
@@ -62,7 +64,7 @@ namespace UV_DLP_3D_Printer.GUI
         {
             if (GetData()) 
             {
-                UVDLPApp.Instance().SaveCurrentMachineConfig();//save machine config                
+                //UVDLPApp.Instance().SaveCurrentMachineConfig();//save machine config                
                 Close();
             }
         }

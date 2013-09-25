@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using UV_DLP_3D_Printer.Configs;
+using System.IO;
 
 namespace UV_DLP_3D_Printer
 {
@@ -17,6 +18,11 @@ namespace UV_DLP_3D_Printer
      */
     public class MachineConfig
     {
+        public enum eMachineType          // indicates the major machine type
+        {
+            FDM,
+            UV_DLP
+        }
         public const int FILE_VERSION = 1; // this should change every time the format changes
         public  double m_XDLPRes; // the X resolution of the DLP projector in pixels
         public  double m_YDLPRes; // the Y resolution of the DLP projector in pixels
@@ -28,24 +34,21 @@ namespace UV_DLP_3D_Printer
         private double m_XMaxFeedrate;// in mm/min 
         private double m_YMaxFeedrate;// in mm/min 
         private double m_ZMaxFeedrate;// in mm/min 
-
-
         private string m_monitorid; // which monitor we're using
-
+        public eMachineType m_machinetype;
 
         public String m_description; // a description
         public String m_name; // the profile name
         public String m_filename;// the filename of this profile. (not saved)
         public DeviceDriverConfig m_driverconfig;
 
-
-        
-        
+               
         public bool Load(string filename) 
         {
             try
             {
                 m_filename = filename;
+                m_name = Path.GetFileNameWithoutExtension(filename);
                 bool retval = false;
                 XmlReader xr = XmlReader.Create(filename);
                 xr.ReadStartElement("MachineConfig");
@@ -65,6 +68,7 @@ namespace UV_DLP_3D_Printer
                 m_YMaxFeedrate = double.Parse(xr.ReadElementString("MaxYFeedRate"));
                 m_ZMaxFeedrate = double.Parse(xr.ReadElementString("MaxZFeedRate"));
                 m_monitorid = xr.ReadElementString("MonitorID");
+                m_machinetype = (eMachineType)Enum.Parse(typeof(eMachineType), xr.ReadElementString("MachineType"));
                 CalcPixPerMM();
 
                 if (m_driverconfig.Load(xr))
@@ -88,6 +92,7 @@ namespace UV_DLP_3D_Printer
                 bool retval = false;
                 XmlWriter xw = XmlWriter.Create(filename);
                 m_filename = filename;
+                m_name = Path.GetFileNameWithoutExtension(filename);
                 xw.WriteStartDocument();
                     xw.WriteStartElement("MachineConfig");
                         xw.WriteElementString("FileVersion", FILE_VERSION.ToString());
@@ -102,6 +107,7 @@ namespace UV_DLP_3D_Printer
                         xw.WriteElementString("MaxYFeedRate", m_YMaxFeedrate.ToString());
                         xw.WriteElementString("MaxZFeedRate", m_ZMaxFeedrate.ToString());
                         xw.WriteElementString("MonitorID", m_monitorid.ToString());
+                        xw.WriteElementString("MachineType", m_machinetype.ToString());
                         if (m_driverconfig.Save(xw))
                         {
                             retval = true;
@@ -130,22 +136,24 @@ namespace UV_DLP_3D_Printer
             m_monitorid = "";
             CalcPixPerMM();
             m_driverconfig = new DeviceDriverConfig();
+            m_machinetype = eMachineType.UV_DLP;
             
         }
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("(****Machine Configuration ******)\r\n");
-            sb.Append("(Projector X Res         = " + m_XDLPRes + ")\r\n");
-            sb.Append("(Projector Y Res         = " + m_YDLPRes + ")\r\n");
-            sb.Append("(Platform X Size         = " + m_PlatXSize + "mm )\r\n");
-            sb.Append("(Platform Y Size         = " + m_PlatYSize + "mm )\r\n");
-            sb.Append("(Platform Z Size         = " + m_PlatZSize + "mm )\r\n");
+            sb.Append(";(****Machine Configuration ******)\r\n");
+            sb.Append(";(Projector X Res         = " + m_XDLPRes + ")\r\n");
+            sb.Append(";(Projector Y Res         = " + m_YDLPRes + ")\r\n");
+            sb.Append(";(Platform X Size         = " + m_PlatXSize + "mm )\r\n");
+            sb.Append(";(Platform Y Size         = " + m_PlatYSize + "mm )\r\n");
+            sb.Append(";(Platform Z Size         = " + m_PlatZSize + "mm )\r\n");
 
-            sb.Append("(Max X Feedrate          = " + m_XMaxFeedrate + "mm/s )\r\n");
-            sb.Append("(Max Y Feedrate          = " + m_YMaxFeedrate + "mm/s )\r\n");
-            sb.Append("(Max Z Feedrate          = " + m_ZMaxFeedrate + "mm/s )\r\n");
-            sb.Append("(Monitor ID              = " + m_monitorid + ")\r\n");
+            sb.Append(";(Max X Feedrate          = " + m_XMaxFeedrate + "mm/s )\r\n");
+            sb.Append(";(Max Y Feedrate          = " + m_YMaxFeedrate + "mm/s )\r\n");
+            sb.Append(";(Max Z Feedrate          = " + m_ZMaxFeedrate + "mm/s )\r\n");
+            sb.Append(";(Monitor ID              = " + m_monitorid + ")\r\n");
+            sb.Append(";(Machine Type            = " + m_machinetype.ToString() + ")\r\n");
             return sb.ToString();
         }
 

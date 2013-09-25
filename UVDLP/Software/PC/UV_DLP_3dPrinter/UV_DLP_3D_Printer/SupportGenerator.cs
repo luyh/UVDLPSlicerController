@@ -17,6 +17,16 @@ namespace UV_DLP_3D_Printer
      * generate a ray from the z=0 to the zMax build size and test the scene for intersection,
      * at intersection points, we can generate cylinders
      * 
+     * 
+     * On thing that I need to fix/add with the support generator is the ability to generate supports for
+     * overhangs, one method that I could potentially use to detect overhangs or islands is to examine the generated 
+     * 2d slices.
+     * I can iterate through the vertical z slices, and identify regions where new material appears. from comparing previous frames,
+     * I can determine the slope, and where new supports may be needed.
+     * I think I can do this in 2d, I can then generated supports either in 2d or 3d
+     * 
+     * 
+     * 
      * This first implementation is a simple x/y scan,
      * further implementations can use more than a cylinder object, or 
      * modify the class to generate new sements on demand
@@ -200,6 +210,11 @@ namespace UV_DLP_3D_Printer
                                     lowest.Set(intersect);
                                 }
                             }
+                        }
+                        if (m_cancel) 
+                        {
+                            RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eCancel, "Support Generation Cancelled", null);
+                            return lstsupports;
                         }
                     }
                     // for some reason, we're getting negatively generating cylinders

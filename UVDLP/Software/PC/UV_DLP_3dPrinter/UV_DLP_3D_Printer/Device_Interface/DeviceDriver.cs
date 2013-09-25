@@ -50,7 +50,12 @@ namespace UV_DLP_3D_Printer.Drivers
         void m_serialport_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             int read = m_serialport.Read(m_buffer, 0, m_serialport.BytesToRead);
-            RaiseDataReceivedEvent(this, m_buffer, read);
+            byte []data = new byte[read];
+            for (int c = 0; c < read; c++) 
+            {
+                data[c] = m_buffer[c];
+            }
+            RaiseDataReceivedEvent(this, data, read);
         }
 
         public bool Connected { get { return m_connected; } }

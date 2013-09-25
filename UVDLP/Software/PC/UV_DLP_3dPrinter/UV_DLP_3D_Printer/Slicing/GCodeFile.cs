@@ -75,5 +75,20 @@ namespace UV_DLP_3D_Printer
                 m_lines = null; // clear it so it will be re-generated when needed
             }
         }
+        /// <summary>
+        /// returns true if this file 'looks' like it contains markers for UV DLP slicing
+        /// </summary>
+        /// <returns></returns>
+        public bool IsUVDLPGCode() 
+        {
+            foreach (string ln in Lines) 
+            {
+                if (ln.Contains("(<Slice> ")) 
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

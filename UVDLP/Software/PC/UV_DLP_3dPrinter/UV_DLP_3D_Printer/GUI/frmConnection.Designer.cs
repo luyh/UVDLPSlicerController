@@ -144,6 +144,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmConnection";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Connection Setup";
             this.ResumeLayout(false);
             this.PerformLayout();

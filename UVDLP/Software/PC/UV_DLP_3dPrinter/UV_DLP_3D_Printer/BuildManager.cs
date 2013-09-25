@@ -12,6 +12,7 @@ namespace UV_DLP_3D_Printer
     /*
      * This class controls print jobs from start to finish. It feeds the generated sliced images
      * one at a time, along with control information and GCode over the PrinterInterface
+     * it can now also control FDM builds
      * 
      */
     /*
@@ -20,20 +21,20 @@ namespace UV_DLP_3D_Printer
      * when it's cancelled 
      * and each time the layer changes
      */
-    public enum ePrintStat
+    public enum eBuildStatus
     {
-        ePrintStarted,
-        ePrintCancelled,
-        ePrintPaused,
-        ePrintResumed,
+        eBuildStarted,
+        eBuildCancelled,
+        eBuildPaused,
+        eBuildResumed,
         eLayerCompleted,
-        ePrintCompleted
+        eBuildCompleted,
+        eBuildStatusUpdate
     }
-
     
 
-    public delegate void delPrintStatus(ePrintStat printstat);
-    public delegate void delPrinterLayer(Bitmap bmplayer, int layernum, int layertype); // this is raised to display the next layer
+    public delegate void delBuildStatus(eBuildStatus printstat,string message);
+    public delegate void delPrinterLayer(Bitmap bmplayer, int layernum, int layertype); // this is raised to display the next layer, mainly for UV DLP
 
     public class BuildManager
     {
@@ -50,25 +51,61 @@ namespace UV_DLP_3D_Printer
 
         
 
-        public delPrintStatus PrintStatus; // the delegate to let the rest of the world know
-        public delPrinterLayer PrintLayer; // the delegate to show a new layer
+        public delBuildStatus BuildStatus; // the delegate to let the rest of the world know
+        public delPrinterLayer PrintLayer; // the delegate to show a new layer (UV DLP Printers)
         private bool m_printing = false;
         private bool m_paused = false;
         private int m_curlayer = 0; // the current visible slice layer index #
         SliceFile m_sf = null; // current file we're building
-        GCodeFile m_gcode = null; // a reference from the zactive gcode file
+        GCodeFile m_gcode = null; // a reference from the active gcode file
         int m_gcodeline = 0; // which line of GCode are we currently on.
         int m_state = STATE_IDLE; // the state machine variable
         private Thread m_runthread; // a thread to run all this..
         private bool m_running; // a var to control thread life
-
+        private DateTime m_printstarttime;
+        private System.Timers.Timer m_buildtimer;
+        private const int BUILD_TIMER_INTERVAL = 1000; // 1 second updates
         Bitmap m_blankimage = null; // a blank image to display
         Bitmap m_calibimage = null; // a calibration image to display
 
         public BuildManager() 
         {
-        
+            m_buildtimer = new System.Timers.Timer();
+            m_buildtimer.Elapsed += new ElapsedEventHandler(m_buildtimer_Elapsed);
+            m_buildtimer.Interval = BUILD_TIMER_INTERVAL;
         }
+        private void StartBuildTimer() 
+        {
+            m_buildtimer.Start();
+        }
+        private void StopBuildTimer() 
+        {
+            m_buildtimer.Stop();
+        }
+        void m_buildtimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                double percentdone = 0.0;
+                if (m_gcode != null)
+                {
+                    double totallines = m_gcode.Lines.Length;
+                    double curline = m_gcodeline;
+                    percentdone = (curline / totallines) * 100.0;
+                    string mess = "Build " + string.Format("{0:0.00}",percentdone) + "% Completed";
+                    RaiseStatusEvent(eBuildStatus.eBuildStatusUpdate,mess);
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
+        }
+        /// <summary>
+        /// This function will return the estimated build time for UV DLP print Jobs
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         public static String EstimateBuildTime(GCodeFile file) 
         {
             int bt = 0; // in milliseconds
@@ -95,9 +132,7 @@ namespace UV_DLP_3D_Printer
             }
             TimeSpan ts = new TimeSpan();
             ts = TimeSpan.FromMilliseconds(bt);
-            //String tms = ts.Hours.ToString() + ":" + ts.Minutes.ToString() + ":" + ts.Seconds.ToString();
             return String.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
-            //return tms;
         }
         public void ShowCalibration(int xres, int yres, SliceBuildConfig sc) 
         {
@@ -144,11 +179,11 @@ namespace UV_DLP_3D_Printer
         }
         public bool IsPrinting { get { return m_printing; } }
 
-        private void RaiseStatusEvent(ePrintStat status) 
+        private void RaiseStatusEvent(eBuildStatus status,string message) 
         {
-            if (PrintStatus != null) 
+            if (BuildStatus != null) 
             {
-                PrintStatus(status);
+                BuildStatus(status,message);
             }
         }
         public bool IsPaused() 
@@ -159,13 +194,15 @@ namespace UV_DLP_3D_Printer
         {
             m_paused = true;
             m_state = STATE_IDLE;
-            RaiseStatusEvent(ePrintStat.ePrintPaused);
+            StopBuildTimer();
+            RaiseStatusEvent(eBuildStatus.eBuildPaused,"Print Paused");
         }
         public void ResumePrint() 
         {
             m_paused = false;
             m_state = BuildManager.STATE_DO_NEXT_LAYER;
-            RaiseStatusEvent(ePrintStat.ePrintResumed);
+            StartBuildTimer();
+            RaiseStatusEvent(eBuildStatus.eBuildResumed,"Next Layer");
         }
 
         // This function is called to start the print job
@@ -173,21 +210,9 @@ namespace UV_DLP_3D_Printer
         {
             if (m_printing)  // already printing
                 return;
-            if (sf == null) 
-            {
-                DebugLogger.Instance().LogRecord("No slice file, build cannot start");
-                RaiseStatusEvent(ePrintStat.ePrintCancelled);
-                return;
-            }
-            if (gcode == null)
-            {
-                DebugLogger.Instance().LogRecord("No gcode file, build cannot start");
-                RaiseStatusEvent(ePrintStat.ePrintCancelled);
-                return;
-            }
-            // we really need to map onto the events of the PrinterInterface to determine
-            // important stuff like current z position, HBP temp, etc...
+
             m_printing = true;
+            StartBuildTimer();
             m_sf = sf; // set the slicefile for rendering
             m_gcode = gcode; // set the file 
             m_state = STATE_START; // set the state machine as started
@@ -237,14 +262,11 @@ namespace UV_DLP_3D_Printer
                 {
                     case BuildManager.STATE_START:
                         //start things off, reset some variables
-                        if (PrintStatus != null)
-                        {
-                            PrintStatus(ePrintStat.ePrintStarted);
-                        }
+                        RaiseStatusEvent(eBuildStatus.eBuildStarted,"Build Started");
                         m_state = BuildManager.STATE_DO_NEXT_LAYER; // go to the first layer
                         m_gcodeline = 0; // set the start line
                         m_curlayer = 0;
-
+                        m_printstarttime = new DateTime();
                         break;
                     case BuildManager.STATE_WAITING_FOR_LAYER:
                         //check time var
@@ -264,13 +286,22 @@ namespace UV_DLP_3D_Printer
                             m_state = BuildManager.STATE_DONE;
                             continue;
                         }
-                        // go through the gcode, line by line
-                        string line = m_gcode.Lines[m_gcodeline++];
+                        string line = "";
+                        if (UVDLPApp.Instance().m_deviceinterface.ReadyForCommand())
+                        {
+                            // go through the gcode, line by line
+                            line = m_gcode.Lines[m_gcodeline++];
+                        }
+                        else 
+                        {
+                            continue; // device is not ready
+                        }
                         line = line.Trim();
                         if (line.Length > 0) // if the line is not blank
                         {
                             // send  the line, whether or not it's a comment
                             // should check to see if the firmware is ready for another line
+
                             UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(line + "\r\n");
                             // if the line is a comment, parse it to see if we need to take action
                             if (line.Contains("(<Delay> "))// get the delay
@@ -317,11 +348,14 @@ namespace UV_DLP_3D_Printer
                     case BuildManager.STATE_DONE:
                         m_running = false;
                         m_state = BuildManager.STATE_IDLE;
+                        StopBuildTimer();
+                        DateTime endtime = new DateTime();
+                        double totalminutes = (endtime - m_printstarttime).TotalMinutes;
+                        
+                        m_printing = false; // mark printing doe
                         //raise done message
-                        if (PrintStatus != null)
-                        {
-                            PrintStatus(ePrintStat.ePrintCompleted);
-                        }             
+                        RaiseStatusEvent(eBuildStatus.eBuildStatusUpdate, "Build 100% Completed");
+                        RaiseStatusEvent(eBuildStatus.eBuildCompleted, "Build Completed");
                         break;
                 }
                 Thread.Sleep(0);
@@ -340,13 +374,12 @@ namespace UV_DLP_3D_Printer
             if (m_printing) // only if we're already printing
             {
                 m_printing = false;
+                StopBuildTimer();
                 m_curlayer = 0;
                 m_state = BuildManager.STATE_IDLE;
                 m_running = false;
-                if (PrintStatus != null)
-                {
-                    PrintStatus(ePrintStat.ePrintCancelled);
-                }
+                RaiseStatusEvent(eBuildStatus.eBuildCancelled, "Build Cancelled");
+
             }
             m_paused = false;
         }

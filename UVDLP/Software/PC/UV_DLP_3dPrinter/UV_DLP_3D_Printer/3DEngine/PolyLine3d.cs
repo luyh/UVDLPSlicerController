@@ -21,19 +21,51 @@ namespace Engine3D
         double miny, maxy;
         double minz, maxz;
         Point3d pmin, pmax;
-
         bool cached = false;
+        public int linewidth;
+        public bool visible;
+
+        public PolyLine3d(PolyLine3d src) 
+        {
+            m_color = src.m_color;
+            minx = src.minx;
+            miny = src.miny;
+            minz = src.minz;
+            maxx = src.maxx;
+            maxy = src.maxy;
+            maxz = src.maxz;
+            linewidth = 1;
+            visible = true;
+            m_points = new ArrayList();
+            foreach (Point3d pnt in src.m_points) 
+            {
+                Point3d p = new Point3d(pnt.x, pnt.y, pnt.z, pnt.a);
+                m_points.Add(p);
+            }
+        }
+        public void SetZ(double z) 
+        {
+            //sets the z val of all the points
+            foreach (Point3d pnt in m_points)
+            {
+                pnt.z = z;
+            }
+        }
         public PolyLine3d(Point3d p1, Point3d p2, Color clr) 
         {
             m_points = new ArrayList();
+            linewidth = 1;
             m_color = clr;
+            visible = true;
             m_points.Add(p1);
             m_points.Add(p2);
         }
         public PolyLine3d() 
         {
             m_points = new ArrayList();
-            m_color = Color.Blue;
+            m_color = Color.Green;
+            linewidth = 1;
+            visible = true;
         }
         /*
          This function assumes that the polyline consists of 2 points
@@ -122,9 +154,11 @@ namespace Engine3D
 
         public void RenderGL() 
         {
-            GL.Begin(BeginMode.Lines);
+            if (!visible)
+                return;
+            GL.Begin(BeginMode.LineStrip);//.Lines);
             GL.Color3(m_color);
-            GL.LineWidth(50);
+            GL.LineWidth(linewidth);
             foreach (Point3d p in this.m_points) 
             {
                 GL.Vertex3(p.x, p.y, p.z);
