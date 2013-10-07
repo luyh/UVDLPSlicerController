@@ -124,6 +124,7 @@ namespace Engine3D
 
         public void RenderGL(bool alpha) 
         {
+
             try
             {
                 foreach (Object3d obj in m_objects)
@@ -131,7 +132,14 @@ namespace Engine3D
                     GL.Enable(EnableCap.Lighting);
                     GL.Enable(EnableCap.Light0);
                     GL.Disable(EnableCap.LineSmooth);
-                    obj.RenderGL(alpha);
+                    if (UVDLPApp.Instance().m_selectedobject == obj)
+                    {
+                        obj.RenderGL(alpha,true);
+                    }
+                    else 
+                    {
+                        obj.RenderGL(alpha, false);
+                    }
                 }
                 foreach (PolyLine3d ply in m_lines)
                 {

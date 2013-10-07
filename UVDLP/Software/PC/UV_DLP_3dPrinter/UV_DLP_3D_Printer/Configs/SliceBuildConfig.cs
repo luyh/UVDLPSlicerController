@@ -49,6 +49,10 @@ namespace UV_DLP_3D_Printer
         private String m_preslicecode; // inserted before each slice
         private String m_mainliftcode; // inserted before each slice
         public int XOffset, YOffset; // the X/Y pixel offset used 
+        public String m_exportopt; // export sliced images in ZIP or SUBDIR
+
+        public bool m_generateautosupports; // automatic support generation
+        //need some parms here for auto support
 
         private String[] m_defheader = 
         {
@@ -78,21 +82,15 @@ namespace UV_DLP_3D_Printer
         private String[] m_defpostlift = 
         {
             ";(********** Post-Lift Start ********)\r\n", //
-            ";(Here you can set any G or M-Code)\r\n",
-            ";(which should be executed directly)\r\n",
-            ";(AFTER the Main-Lift Sequence.)\r\n",
-            ";(E.g. G1 E 5 F200 to pump some resin)\r\n",
-            ";(or M117 'text' to be shown on Display)'\r\n",
+            ";(Set up any GCode here to be executed AFTER a lift)\r\n",
+            ";(E.g. M117 'text' to be shown on Display)\r\n",
             ";(********** Post-Lift End **********)\r\n",
         };
 
         private String[] m_defpreslice = 
         {
             ";(********** Pre-Slice Start ********)\r\n", //
-            ";(Here you can set any G or M-Code)\r\n",
-            ";(which should be executed directly)\r\n",
-            ";(BEFORE a Slice is shown.)\r\n",
-            ";(E.g. G1 Y 20 F5000 to open the Shutter)\r\n",
+            ";(Set up any GCode here to be executed BERFORE a lift)\r\n",
             ";(********** Pre-Slice End **********)\r\n",
         };
         private String[] m_defmainlift = 
@@ -215,6 +213,8 @@ namespace UV_DLP_3D_Printer
             liftfeedrate = source.liftfeedrate;
             liftretractrate = source.liftretractrate;
             aaval = source.aaval;//
+            m_generateautosupports = source.m_generateautosupports;
+            m_exportopt = source.m_exportopt;
             //raise_time_ms = source.raise_time_ms;
         }
 
@@ -261,20 +261,21 @@ namespace UV_DLP_3D_Printer
             aaval = 1.5;
             liftfeedrate = 50.0;// 50mm/s
             liftretractrate = 100.0;// 100mm/s
+            m_generateautosupports = false; // for testing
+            m_exportopt = "SUBDIR"; // default to saving in subdirectory
             SetDefaultCodes(); // set up default gcodes
         }
-
-        /*This is used to serialize to the GCode post-header info*/
-        public bool Load(String filename) 
+        public bool Load(Stream stream) 
         {
             try
             {
-                m_filename = filename;
+               // m_filename = filename;
+
                 LoadGCodes();
-                XmlReader xr = (XmlReader)XmlReader.Create(filename);
+                XmlReader xr = (XmlReader)XmlReader.Create(stream);
                 xr.ReadStartElement("SliceBuildConfig");
                 int ver = int.Parse(xr.ReadElementString("FileVersion"));
-                if (ver != FILE_VERSION) 
+                if (ver != FILE_VERSION)
                 {
                     return false; // I may try to implement some backward compatibility here...
                 }
@@ -302,10 +303,11 @@ namespace UV_DLP_3D_Printer
                 aaval = double.Parse(xr.ReadElementString("AntiAliasingValue"));
                 liftfeedrate = double.Parse(xr.ReadElementString("LiftFeedRate"));
                 liftretractrate = double.Parse(xr.ReadElementString("LiftRetractRate"));
+                m_exportopt = xr.ReadElementString("ExportOption");
 
                 xr.ReadEndElement();
                 xr.Close();
-                
+
                 return true;
             }
             catch (Exception ex)
@@ -313,15 +315,33 @@ namespace UV_DLP_3D_Printer
                 DebugLogger.Instance().LogRecord(ex.Message);
                 return false;
             }       
+        
         }
-        public bool Save(String filename)
+        /*This is used to serialize to the GCode post-header info*/
+        public bool Load(String filename) 
         {
-            try 
+            try
             {
                 m_filename = filename;
-                XmlWriter xw =XmlWriter.Create(filename);
+                Stream stream = new FileStream(filename, FileMode.Open);
+                if (Load(stream))
+                {
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogRecord(ex.Message);                
+            }
+            return false;
+        }
+        public bool Save(Stream stream) 
+        {
+            try
+            {
+                XmlWriter xw = XmlWriter.Create(stream);
                 xw.WriteStartElement("SliceBuildConfig");
-                xw.WriteElementString("FileVersion",FILE_VERSION.ToString());
+                xw.WriteElementString("FileVersion", FILE_VERSION.ToString());
                 xw.WriteElementString("DotsPermmX", dpmmX.ToString());
                 xw.WriteElementString("DotsPermmY", dpmmY.ToString());
                 xw.WriteElementString("XResolution", xres.ToString());
@@ -329,7 +349,7 @@ namespace UV_DLP_3D_Printer
                 xw.WriteElementString("SliceHeight", ZThick.ToString());
                 xw.WriteElementString("LayerTime", layertime_ms.ToString());
                 xw.WriteElementString("FirstLayerTime", firstlayertime_ms.ToString());
-                xw.WriteElementString("BlankTime", blanktime_ms.ToString());                
+                xw.WriteElementString("BlankTime", blanktime_ms.ToString());
                 xw.WriteElementString("PlatformTemp", plat_temp.ToString());
                 xw.WriteElementString("ExportGCode", exportgcode.ToString());
                 xw.WriteElementString("ExportSVG", exportsvg.ToString());
@@ -346,8 +366,8 @@ namespace UV_DLP_3D_Printer
                 xw.WriteElementString("AntiAliasingValue", aaval.ToString());
                 xw.WriteElementString("LiftFeedRate", liftfeedrate.ToString());
                 xw.WriteElementString("LiftRetractRate", liftretractrate.ToString());
-
-               // xw.WriteElementString("Raise_Time_Delay",raise_time_ms.ToString());
+                xw.WriteElementString("ExportOption", m_exportopt);
+                // xw.WriteElementString("Raise_Time_Delay",raise_time_ms.ToString());
                 xw.WriteEndElement();
                 xw.Close();
                 SaveGCodes();
@@ -356,8 +376,27 @@ namespace UV_DLP_3D_Printer
             catch (Exception ex) 
             {
                 DebugLogger.Instance().LogRecord(ex.Message);
-                return false;
-            }            
+                return false;            
+            }
+        }
+
+        public bool Save(String filename)
+        {
+            try 
+            {
+                m_filename = filename;
+                Stream stream = new FileStream(filename, FileMode.Create);
+                if (Save(stream))
+                {
+                    stream.Close();
+                    return true;
+                }                
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);                
+            }
+            return false;
         }
 
         // these get stored to the gcode file as a reference

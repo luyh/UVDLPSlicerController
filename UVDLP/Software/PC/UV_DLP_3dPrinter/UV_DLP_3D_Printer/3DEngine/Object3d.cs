@@ -25,7 +25,8 @@ namespace Engine3D
         private bool m_support = false; // is this a 3d support object?
         public double m_radius;
         public Material material;// = new Material();
-        public bool m_showalpha;
+        public int tag = -1; // acting as an object ID
+        //public bool m_showalpha;
 
         public Object3d() 
         {
@@ -44,7 +45,7 @@ namespace Engine3D
             m_radius = 0.0;
             m_support = false;
             material = new Material();
-            m_showalpha = false;
+            //m_showalpha = false;
         }
         public string Name 
         { 
@@ -132,13 +133,62 @@ namespace Engine3D
         {
             
         }
-        
-        public void RenderGL(bool showalpha) 
+
+        /*
+        // Push the GL attribute bits so that we don't wreck any settings
+        glPushAttrib( GL_ALL_ATTRIB_BITS );
+        // Enable polygon offsets, and offset filled polygons forward by 2.5
+        glEnable( GL_POLYGON_OFFSET_FILL );
+        glPolygonOffset( -2.5f, -2.5f );
+        // Set the render mode to be line rendering with a thick line width
+        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+        glLineWidth( 3.0f );
+        // Set the colour to be white
+        glColor3f( 1.0f, 1.0f, 1.0f );
+        // Render the object
+        RenderMesh3();
+        // Set the polygon mode to be filled triangles 
+        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+        glEnable( GL_LIGHTING );
+        // Set the colour to the background
+        glColor3f( 0.0f, 0.0f, 0.0f );
+        // Render the object
+        RenderMesh3();
+        // Pop the state changes off the attribute stack
+        // to set things back how they were
+        glPopAttrib();         
+         */
+
+        public virtual void RenderGL(bool showalpha, bool selected) 
         {
+            /*
+            if (selected) 
+            {
+                GL.PushAttrib(AttribMask.AllAttribBits);
+                GL.Enable(EnableCap.PolygonOffsetFill);
+                GL.PolygonOffset(-2.5f, -2.5f);
+                GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+                GL.LineWidth(10);
+                GL.Color3(1.0, 0.0, 0.0);
+            }
+             * */
             foreach (Polygon poly in m_lstpolys)
             {
-                poly.RenderGL(this.m_wireframe, showalpha);
-            }        
+                poly.RenderGL(this.m_wireframe, showalpha, selected);
+            }
+            /*
+            if (selected)
+            {
+                GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+                GL.Enable(EnableCap.Lighting);
+                GL.Color3(0.0, 0.0, 0.0); // should be background color
+                foreach (Polygon poly in m_lstpolys)
+                {
+                    poly.RenderGL(this.m_wireframe, showalpha, false);
+                }
+                GL.PopAttrib();
+            }
+            */
         }
 
         public void Render(Camera cam, PaintEventArgs ev, int wid, int hei)
@@ -308,7 +358,6 @@ namespace Engine3D
                 center.x += p.x;
                 center.y += p.y;
                 center.z += p.z;
-
             }
 
             center.x /= m_lstpoints.Count;
@@ -318,6 +367,30 @@ namespace Engine3D
             m_center.Set(center.x, center.y, center.z, 1.0);
             return center;
         }
+
+        /*
+         Test function to mark polygons facing doward a different color         
+         */
+        private void MarkPolysDown() 
+        {
+            Vector3d upvec = new Vector3d();
+            double angle = -.9;
+            upvec.Set(new Point3d(0,0,1,1));
+            foreach (Polygon p in this.m_lstpolys) 
+            {
+                p.CalcNormal();
+                double d = p.m_normal.Dot(upvec);
+                if (d <= angle)  // facing down
+                {
+                    p.m_color = Color.Red;
+                }
+                else 
+                {
+                    p.m_color = Color.Gray;
+                }
+            }
+        }
+
         /*
          This function should be called after a move,scale,rotate
          */
@@ -333,6 +406,7 @@ namespace Engine3D
                 {
                     p.Update();
                 }
+               // MarkPolysDown();
             }
             catch (Exception ex) 
             {

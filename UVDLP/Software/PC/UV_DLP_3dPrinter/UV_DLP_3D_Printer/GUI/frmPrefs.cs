@@ -27,10 +27,14 @@ namespace UV_DLP_3D_Printer.GUI
         private void SetData() 
         {
             lblSlic3rlocation.Text = UVDLPApp.Instance().m_appconfig.m_slic3rloc;
+            panelback.BackColor = UVDLPApp.Instance().m_appconfig.m_backgroundcolor;
+            panelfore.BackColor = UVDLPApp.Instance().m_appconfig.m_foregroundcolor;
         }
         private void GetData() 
         {
             UVDLPApp.Instance().m_appconfig.m_slic3rloc = lblSlic3rlocation.Text;
+            UVDLPApp.Instance().m_appconfig.m_backgroundcolor = panelback.BackColor;
+            UVDLPApp.Instance().m_appconfig.m_foregroundcolor = panelfore.BackColor;
             UVDLPApp.Instance().SaveAppConfig();
         }
 
@@ -43,6 +47,24 @@ namespace UV_DLP_3D_Printer.GUI
         private void cmdCancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void cmdselectfore_Click(object sender, EventArgs e)
+        {
+            colorDialog1.Color = panelfore.BackColor;
+            if (colorDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) 
+            {
+                panelfore.BackColor = colorDialog1.Color;
+            }
+        }
+
+        private void cmdselectback_Click(object sender, EventArgs e)
+        {
+            colorDialog1.Color = panelback.BackColor;
+            if (colorDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                panelback.BackColor = colorDialog1.Color;
+            }
         }
     }
 }

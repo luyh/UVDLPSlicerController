@@ -17,14 +17,21 @@ using System.Collections;
 using UV_DLP_3D_Printer.GUI;
 using UV_DLP_3D_Printer.GUI.Controls;
 using UV_DLP_3D_Printer._3DEngine;
+using UV_DLP_3D_Printer.Slicing;
+
+using UV_DLP_3D_Printer._3DEngine.CSG;
 
 namespace UV_DLP_3D_Printer
 {
     public partial class frmMain : Form
     {
-
+//        private ISectData m_currentisect = null; // test /
+//        private ISectData m_lastisect = null; // test /
+//        private Color m_savedcol;
+        private bool m_movingobjectmode = false; // for moving objects while the shift key is held down
         bool loaded = false;
         bool m_showalpha = false;
+      //  bool lightingsetup = false;
          
         frmDLP m_frmdlp = new frmDLP();        
         frmControl m_frmcontrol = new frmControl();
@@ -175,7 +182,7 @@ namespace UV_DLP_3D_Printer
                         break;
                     case eAppEvent.eSlicedLoaded: // update the gui to view
                         DebugLogger.Instance().LogRecord(Message);
-                        int totallayers = UVDLPApp.Instance().m_slicefile.m_slices.Count;
+                        int totallayers = UVDLPApp.Instance().m_slicefile.NumSlices;
                         SetVScrollMax(totallayers);
                         //show the slice in the slice view
                         ViewLayer(0, null, BuildManager.SLICE_NORMAL);
@@ -192,13 +199,28 @@ namespace UV_DLP_3D_Printer
                         DisplayFunc();
                         DebugLogger.Instance().LogRecord(Message);
                         break;
+                    case eAppEvent.eMachineTypeChanged:
+                        SetupForMachineType();
+                        break;
                 }
             }
             Refresh();
         }
+        private void SetupForMachineType() 
+        {
+            if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
+            {
+                heatTempCtl1.Enabled = false;
+            }
+            else if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.FDM)
+            {
+                heatTempCtl1.Enabled = true;
+            }
+                    
+        }
         private void SetVScrollMax(int val) 
         {
-            vScrollBar1.Maximum = val + vScrollBar1.LargeChange +1;
+            vScrollBar1.Maximum = val;// +vScrollBar1.LargeChange + 1;
             vScrollBar1.Value = 0;
         }
         private void SetButtonStatuses() 
@@ -377,20 +399,20 @@ namespace UV_DLP_3D_Printer
                 if (layertype == BuildManager.SLICE_NORMAL)
                 {
                     
-                    String txt = "Printing layer " + (layer + 1) + " of " + UVDLPApp.Instance().m_slicefile.m_slices.Count;
+                    String txt = "Printing layer " + (layer + 1) + " of " + UVDLPApp.Instance().m_slicefile.NumSlices;
                     DebugLogger.Instance().LogRecord(txt);
                 }
 
             }
         }
 
-        private void SliceEv(Slicer.eSliceEvent ev, int layer, int totallayers)
+        private void SliceEv(Slicer.eSliceEvent ev, int layer, int totallayers,SliceFile sf)
         {
             try
             {
                 if (InvokeRequired)
                 {
-                    BeginInvoke(new MethodInvoker(delegate() { SliceEv(ev, layer, totallayers); }));
+                    BeginInvoke(new MethodInvoker(delegate() { SliceEv(ev, layer, totallayers,sf); }));
                 }
                 else
                 {
@@ -461,47 +483,15 @@ namespace UV_DLP_3D_Printer
                 // otherwise, keep showing the current 3d layer
                 if (layertype == BuildManager.SLICE_NORMAL)
                 {
-                    Slice sl = (Slice)UVDLPApp.Instance().m_slicefile.m_slices[layer];
-                    UVDLPApp.Instance().Engine3D.RemoveAllLines();
-                    UVDLPApp.Instance().Engine3D.AddGrid();
-                    UVDLPApp.Instance().Engine3D.AddPlatCube();
-                    // we should check here to see what the machine type is first
-                    // for FDM machines, we show the gcode paths
-                    // for UV DLP machines, we show the image slice.
-                    if (UVDLPApp.Instance().gci != null)
-                    {
-                        //UVDLPApp.Instance().gci.AddLinesToEngine(.25);
-                        UVDLPApp.Instance().gci.AddLinesToEngine(-9999);
-                    }
-                    if (chkSliceHeight.Checked == true)
-                    {
-                        foreach (PolyLine3d ln in sl.m_segments)
-                        {
-                            ln.m_color = Color.Red;
-                            UVDLPApp.Instance().Engine3D.AddLine(ln);
-                            Point3d p = (Point3d)ln.m_points[0];
-                            PolyLine3d pln = new PolyLine3d(ln);
-                            pln.SetZ(p.z + UVDLPApp.Instance().m_buildparms.ZThick);
-                            UVDLPApp.Instance().Engine3D.AddLine(pln);
-                        }
-                    }
-                    else
-                    {
-                        foreach (PolyLine3d ln in sl.m_segments)
-                        {
-                            ln.m_color = Color.Red;
-                            UVDLPApp.Instance().Engine3D.AddLine(ln);
-
-                        }
-                    }
                     DisplayFunc();
-                    lblSliceNum.Text = "Slice " + (layer+1) + " of " + UVDLPApp.Instance().m_slicefile.m_slices.Count;
+                    SliceFile sf = UVDLPApp.Instance().m_slicefile;
+                    lblSliceNum.Text = "Slice " + (layer+1) + " of " + sf.NumSlices;
                 }
                 //render the 2d slice
                 Bitmap bmp = null;
                 if (image == null) // we're here because of the scroll bar in the gui
                 {
-                    bmp = UVDLPApp.Instance().m_slicefile.RenderSlice(layer);
+                    bmp = UVDLPApp.Instance().m_slicefile.GetSlice(layer);
                 }
                 else // the image was specified from the build manager
                 {
@@ -526,13 +516,7 @@ namespace UV_DLP_3D_Printer
             try
             {
                 int vscrollval = vScrollBar1.Value;
-                if (UVDLPApp.Instance().m_slicefile != null) 
-                {
-                    int t =UVDLPApp.Instance().m_slicefile.m_slices.Count-1;
-                    if (vscrollval > t) vscrollval = t;
-                    ViewLayer(vscrollval, null, BuildManager.SLICE_NORMAL);
-                }
-                
+                ViewLayer(vscrollval, null, BuildManager.SLICE_NORMAL);
             }
             catch (Exception) 
             {
@@ -543,6 +527,7 @@ namespace UV_DLP_3D_Printer
         private void Form1_Load(object sender, EventArgs e)
         {
             SetTitle();
+            SetupForMachineType();
             Refresh();
         }
 
@@ -563,16 +548,16 @@ namespace UV_DLP_3D_Printer
                 int w = glControl1.Width;
                 int h = glControl1.Height;
                 arcball.Resize(w, h);
+
                 GL.MatrixMode(MatrixMode.Projection);
                 GL.LoadIdentity();
-                // Glu
-                //GL.Ortho(0, w, 0, h, -1, 1); // Bottom-left corner pixel has coordinate (0, 0)
                 GL.Ortho(0, w, 0, h, 1, 2000); // Bottom-left corner pixel has coordinate (0, 0)
+
                 GL.Viewport(0, 0, w, h); // Use all of the glControl painting area
                 aspect = ((float)glControl1.Width) / ((float)glControl1.Height);
 
                 //GL.Matr
-                GL.Enable(EnableCap.DepthTest); // for z buffer
+                //GL.Enable(EnableCap.DepthTest); // for z buffer
                 SetAlpha(false); // start off with alpha off
 
                 GL.Enable(EnableCap.CullFace); // enable culling of faces
@@ -587,17 +572,13 @@ namespace UV_DLP_3D_Printer
                 GL.LoadMatrix(ref projection);
 
                 GL.ShadeModel(ShadingModel.Smooth); // tell it to shade smoothly
-
-                
                 // properties of materials
                 GL.Enable(EnableCap.ColorMaterial); // allow polys to have color
                 float[] mat_specular = { 1.0f, 1.0f, 1.0f, 1.0f };
                 float []mat_shininess = { 50.0f };
                 GL.Material(MaterialFace.Front, MaterialParameter.Specular, mat_specular);
                 GL.Material(MaterialFace.Front, MaterialParameter.Shininess, mat_shininess);
-                
-
-                
+                                
                 //set a color to clear the background
                 GL.ClearColor(Color.LightBlue);
 
@@ -612,11 +593,6 @@ namespace UV_DLP_3D_Printer
                 float []light_position = { 1.0f, 1.0f, 1.0f, 0.0f };
                 GL.Light(LightName.Light0, LightParameter.Position, light_position);
 
-                //GL.Enable(EnableCap.PolygonSmooth);
-                //GL.Enable(EnableCap.LineSmooth);
-                
-
-
                 GL.MatrixMode(MatrixMode.Modelview);
                 GL.LoadIdentity();
                 GL.LoadMatrix(ref modelView);
@@ -627,6 +603,19 @@ namespace UV_DLP_3D_Printer
                 // the create perspective function blows up on certain ratios
             }
         }
+        private void Reset() 
+        {
+           // OpenTK.
+            
+        }
+        /*
+        private void SetupLights() 
+        {
+            if (lightingsetup)
+                return;
+            lightingsetup = true;
+        }
+         * */
         private void SetAlpha(bool val) 
         {
             m_showalpha = val;
@@ -640,7 +629,9 @@ namespace UV_DLP_3D_Printer
             }
             else 
             {
+                GL.Disable(EnableCap.AlphaTest);
                 GL.Enable(EnableCap.DepthTest); // for z buffer        
+                GL.Disable(EnableCap.Blend); // alpha blending
             }
         }
         private void glControl1_Paint(object sender, PaintEventArgs e)
@@ -675,52 +666,46 @@ namespace UV_DLP_3D_Printer
             
           /* Clear the buffer, clear the matrix */
           GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-    
-          GL.LoadIdentity(); // tmp
-            
-          
+     
+          GL.LoadIdentity(); // assuming we're in the model matrix still
+                      
           GL.Translate(xoffset, yoffset, orbitdist); // tmp          
           GL.Rotate(orbitypos, 0, 1, 0); // transform first // tmp
           GL.Rotate(orbitxpos, 1, 0, 0); // tmp
             
-          
-          //Matrix4.CreateFromAxisAngle(new Vector3(1,0,0),m_quat.X);         
+            /*
+          OpenTK.Matrix4 modelView = OpenTK.Matrix4.LookAt(new OpenTK.Vector3(0, 0, 0), new OpenTK.Vector3(0, 0, 0), new OpenTK.Vector3(0, 0, 1));
+
+          GL.MatrixMode(MatrixMode.Modelview);
+          GL.Translate(xoffset, yoffset, orbitdist); // tmp  
+          GL.LoadMatrix(ref modelView);
+             * */
           /*
+          Matrix4.CreateFromAxisAngle(new Vector3(1,0,0),m_quat.X);         
+          
           GL.Translate(xoffset, yoffset, orbitdist); // tmp
+          //GL.Rotate(m_quat.Y * 100, 0, 1, 0); //          
+          //GL.Rotate(m_quat.Z * 100, 0, 0, 1); //
           GL.Rotate(m_quat.X * 100, 1, 0, 0); //
           GL.Rotate(m_quat.Y * 100, 0, 1, 0); //          
           GL.Rotate(m_quat.Z * 100, 0, 0, 1); //
-            */
+           * */
+//          GL.Translate(xoffset, yoffset, orbitdist); // tmp
           /*
             Matrix3fSetRotationFromQuat4f(&ThisRot, &ThisQuat);         // Convert Quaternion Into Matrix3fT
           Matrix3fMulMatrix3f(&ThisRot, &LastRot);                // Accumulate Last Rotation Into This One
           Matrix4fSetRotationFromMatrix3f(&Transform, &ThisRot);          // Set Our Final          
            */
           UVDLPApp.Instance().Engine3D.RenderGL(m_showalpha);
-         // DrawISect();
+          DrawISect();          
           GL.Flush();
           glControl1.SwapBuffers();
         }
 
-        /*
-Hi, rakkarage. To get a final matrix you need to make some multiplies. I mean translate to center and translate to distance where you camera stand.
-public override Matrix4 GetMatrix()
-{
-       return Matrix4.CreateTranslate(0, 0, -_distance) *
-                Matrix4.CreateFromQuaternion(getRotation()) *
-                Matrix4.CreateTranslate(-_center);
-}
-Where _center is the vector loocking at the point arround wich you are rotating.
-_distance - I think it's clear)
-If I understood correctly, you want to rotate camera arround the point. Did I?         
-         */
+
         private void glControl1_Load(object sender, EventArgs e)
         {
             loaded = true;
-
-            //GL.ClearColor(Color.FromArgb(20, Color.LightBlue));
-            //GL.Enable(EnableCap.Blend);
-            //GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
             glControl1.MouseWheel += new MouseEventHandler(glControl1_MouseWheel);
             SetupViewport();
         }
@@ -743,8 +728,6 @@ If I understood correctly, you want to rotate camera arround the point. Did I?
             if (e.Button == MouseButtons.Middle)
             {
                 mmdown = true;
-                // try to hit-test objects in scene here.
-                //HitTestScene(mdx, mdy);
             }
             
             if (e.Button == MouseButtons.Left)
@@ -758,131 +741,12 @@ If I understood correctly, you want to rotate camera arround the point. Did I?
                 rmdown = true;
             }
         }
-        // functions:
-        public Point convertScreenToWorldCoords(int x, int y)
+
+        private ArrayList TestHitTest(int X, int Y)
         {
-            int[] viewport = new int[4];
-            Matrix4 modelViewMatrix, projectionMatrix;
-            GL.GetFloat(GetPName.ModelviewMatrix, out modelViewMatrix);
-            GL.GetFloat(GetPName.ProjectionMatrix, out projectionMatrix);
-            GL.GetInteger(GetPName.Viewport, viewport);
-            Vector2 mouse;
-            mouse.X = x;
-            //mouse.Y = viewport[3] - y;
-            mouse.Y = y + (ClientRectangle.Height - glControl1.Size.Height);
-            Vector4 vector = UnProject(ref projectionMatrix, modelViewMatrix, new Size(viewport[2], viewport[3]), mouse);
-            Point coords = new Point((int)vector.X, (int)vector.Y);
-            return coords;
-        }
-        public Vector4 UnProject(ref Matrix4 projection, Matrix4 view, Size viewport, Vector2 mouse)
-        {
-            Vector4 vec;
-
-            vec.X = 2.0f * mouse.X / (float)viewport.Width - 1;
-            vec.Y = -(2.0f * mouse.Y / (float)viewport.Height - 1);
-            vec.Z = 0;
-            vec.W = 1.0f;
-
-            Matrix4 viewInv = Matrix4.Invert(view);
-            Matrix4 projInv = Matrix4.Invert(projection);
-
-            Vector4.Transform(ref vec, ref projInv, out vec);
-            Vector4.Transform(ref vec, ref viewInv, out vec);
-
-            if (vec.W > float.Epsilon || vec.W < float.Epsilon)
-            {
-                vec.X /= vec.W;
-                vec.Y /= vec.W;
-                vec.Z /= vec.W;
-            }
-
-            return vec;
-        }
-        private void TestHitTest(int X, int Y)
-        {
-            return;
-            //
-            // show 2d coords
-            // convert from screen 2d to     
             String mess = "";
             mess = "Screen X,Y = (" + X.ToString() + "," + Y.ToString() + ")\r\n";
             
-            int w = glControl1.Width;
-            int h = glControl1.Height;
-            mess += "Screen Width/Height = " + w.ToString() + "," + h.ToString() + "\r\n";
-            float aspect = ((float)glControl1.Width) / ((float)glControl1.Height);
-            mess += "Screen Aspect = " + aspect.ToString() + "\r\n";
-
-
-            lblDebug.Text = mess;
-            lblDebug.Refresh();
-
-            //return;
-
-            int window_y = (h - Y) - h/2;
-            double norm_y = (double)(window_y)/(double)(h/2);
-            int window_x = X - w/2;
-            double norm_x = (double)(window_x)/(double)(w/2);
-            // the x/y coordinate is now un-projected from screen to camara space
-            //lblDebug.Text += "Normalized X/Y = (" + String.Format("{0:0.00}", norm_x) + "," + String.Format("{0:0.00}", norm_y) + ")\r\n";
-            lblDebug.Text += "Eye Pick Vec =  (" + String.Format("{0:0.00}", norm_x) + ", " + String.Format("{0:0.00}", norm_y) + ", -1 )\r\n";
-            // now multiply it by the inverse of the projection matrix
-            // to get it into world space.
-            Matrix4 modelViewMatrix;//, projectionMatrix;
-            GL.GetFloat(GetPName.ModelviewMatrix, out modelViewMatrix);
-            Vector4 vec,vecpnt;
-
-            vec.X = (float)norm_x;
-            vec.Y = (float)norm_y;
-            vec.Z = -1.0f;
-            vec.W = 0.0f;// 1.0f;
-
-            //vec.Normalize();
-           // vecpnt.X = 0.0f;
-           // vecpnt.Y = 0.0f;
-            vecpnt.X = (float)norm_x;
-            vecpnt.Y = (float)norm_y;
-            vecpnt.Z = 0.0f;
-            vecpnt.W = 1.0f;
-
-            Matrix4 viewInv = Matrix4.Invert(modelViewMatrix);
-            //Matrix4 projInv = Matrix4.Invert(projection);
-            //Vector4.Transform(ref vec, ref projInv, out vec);
-            //vec.Normalize();
-            //vec.Scale(.5f, .5f, .5f, .5f);
-            Vector4.Transform(ref vec, ref viewInv, out vec);
-            Vector4.Transform(ref vecpnt, ref viewInv, out vecpnt);
-            
-            lblDebug.Text += "World Pick Vec =  (" + String.Format("{0:0.00}", vec.X) + ", " + String.Format("{0:0.00}", vec.Y) + "," + String.Format("{0:0.00}", vec.Z) + ")\r\n";
-            lblDebug.Text += "World Pick Pnt =  (" + String.Format("{0:0.00}", vecpnt.X) + ", " + String.Format("{0:0.00}", vecpnt.Y) + "," + String.Format("{0:0.00}", vecpnt.Z) + ")\r\n";
-            // ray vector
-            /*
-            ix = vec.X + vecpnt.X ;
-            iy = vec.Y + vecpnt.Y ;
-            iz = vec.Z + vecpnt.Z;
-
-            ipx = vecpnt.X;
-            ipy = vecpnt.Y;
-            ipz = vecpnt.Z;
-            */
-
-            
-            Point3d origin = new Point3d();
-            Point3d intersect = new Point3d();
-            Engine3D.Vector3d dir = new Engine3D.Vector3d();
-
-            origin.Set(vecpnt.X, vecpnt.Y, vecpnt.Z,0);
-            dir.Set(vec.X, vec.Y, vec.Z, 0);
-
-            if (SupportGenerator.FindIntersection(dir, origin, ref intersect)) 
-            {
-                lblDebug.Text += "Intersection @ =  (" + String.Format("{0:0.00}", intersect.x) + ", " + String.Format("{0:0.00}", intersect.y) + "," + String.Format("{0:0.00}", intersect.z) + ")\r\n";
-                ix = (float)intersect.x;
-                iy = (float)intersect.y;
-                iz = (float)intersect.z;
-            }
-            //ray point 
-            //GL.GetFloat(GetPName.ProjectionMatrix, out projectionMatrix);
             /*
             (Note that most window systems place the mouse coordinate origin in the upper left of the window instead of the lower left. 
             That's why window_y is calculated the way it is in the above code. When using a glViewport() that doesn't match the window height,
@@ -892,8 +756,24 @@ If I understood correctly, you want to rotate camera arround the point. Did I?
 
             float y = near_height * norm_y;
             float x = near_height * aspect * norm_x;
-            Now your pick ray vector is (x, y, -zNear).
+            Now your pick ray vector is (x, y, -zNear).             
+             */
+            int w = glControl1.Width;
+            int h = glControl1.Height;
+            mess += "Screen Width/Height = " + w.ToString() + "," + h.ToString() + "\r\n";
+            float aspect = ((float)glControl1.Width) / ((float)glControl1.Height);
+            //mess += "Screen Aspect = " + aspect.ToString() + "\r\n";
 
+            int window_y = (h - Y) - h/2;
+            double norm_y = (double)(window_y)/(double)(h/2);
+            int window_x = X - w/2;
+            double norm_x = (double)(window_x)/(double)(w/2);
+            float near_height = .2825f; // no detectable error
+
+            float y = (float)(near_height * norm_y);
+            float x = (float)(near_height * aspect * norm_x);
+
+            /*
             To transform this eye coordinate pick ray into object coordinates, multiply it by the inverse of the ModelView matrix in use 
             when the scene was rendered. When performing this multiplication, remember that the pick ray is made up of a vector and a point, 
             and that vectors and points transform differently. You can translate and rotate points, but vectors only rotate. 
@@ -904,13 +784,55 @@ If I understood correctly, you want to rotate camera arround the point. Did I?
             float ray_vec[4] = {x, y, -near_distance, 0.f};
             The one and zero in the last element determines whether an array transforms as a point or a vector when multiplied by the 
             inverse of the ModelView matrix.*/
-        }
-        private void HitTestScene(int x, int y) 
-        {
-            //GL.u
-            Point pnt = convertScreenToWorldCoords(x, y);
+            Vector4 ray_pnt = new Vector4(0.0f, 0.0f, 0.0f, 1.0f);
+            //Vector4 ray_vec = new Vector4((float)norm_x, (float)norm_y, -1.0f, 0);
+            Vector4 ray_vec = new Vector4((float)x, (float)y, -1f, 0);
+            ray_vec.Normalize();
 
+            mess += "Eye Pick Vec =  (" + String.Format("{0:0.00}", ray_vec.X) + ", " + String.Format("{0:0.00}", ray_vec.Y) + "," + String.Format("{0:0.00}", ray_vec.Z) + ")\r\n";
+
+            Matrix4 modelViewMatrix;
+            GL.GetFloat(GetPName.ModelviewMatrix, out modelViewMatrix);
+            Matrix4 viewInv = Matrix4.Invert(modelViewMatrix);
+
+            Vector4 t_ray_pnt = new Vector4();
+            Vector4 t_ray_vec = new Vector4();
+
+            Vector4.Transform(ref ray_vec, ref viewInv, out t_ray_vec);
+            Vector4.Transform(ref ray_pnt, ref viewInv, out t_ray_pnt);
+            mess += "World Pick Vec =  (" + String.Format("{0:0.00}", t_ray_vec.X) + ", " + String.Format("{0:0.00}", t_ray_vec.Y) + "," + String.Format("{0:0.00}", t_ray_vec.Z) + ")\r\n";
+            mess += "World Pick Pnt =  (" + String.Format("{0:0.00}", t_ray_pnt.X) + ", " + String.Format("{0:0.00}", t_ray_pnt.Y) + "," + String.Format("{0:0.00}", t_ray_pnt.Z) + ")\r\n";
+            
+            Point3d origin = new Point3d();
+            Point3d intersect = new Point3d();
+            Engine3D.Vector3d dir = new Engine3D.Vector3d();
+
+            origin.Set(t_ray_pnt.X, t_ray_pnt.Y, t_ray_pnt.Z, 1.0);
+            dir.Set(t_ray_vec.X, t_ray_vec.Y, t_ray_vec.Z, 0); // should this be scaled?
+            //dir.Scale(1);
+            
+            //UVDLPApp.Instance().Engine3D.m_objects
+
+            ArrayList isects = RTUtils.IntersectObjects(dir, origin, UVDLPApp.Instance().Engine3D.m_objects);
+            if (isects.Count > 0) 
+            {
+                ISectData isect = (ISectData)isects[0]; // get the first
+          //      SetISect(isect);
+               // mess += "Intersection @ =  (" + String.Format("{0:0.00}", isect.intersect.x) + ", " + String.Format("{0:0.00}", isect.intersect.y) + "," + String.Format("{0:0.00}", isect.intersect.z) + ")\r\n";
+                ix = (float)isect.intersect.x; // show the closest
+                iy = (float)isect.intersect.y;
+                iz = (float)isect.intersect.z;
+            }
+            
+            return isects;
         }
+        /*
+        private void SetISect(ISectData dat) 
+        {         
+            m_lastisect = m_currentisect;
+            m_currentisect = dat;
+        }
+        */
         private void glControl1_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Middle)
@@ -931,7 +853,7 @@ If I understood correctly, you want to rotate camera arround the point. Did I?
 
         private void glControl1_MouseMove(object sender, MouseEventArgs e)
         {
-            TestHitTest(e.X,e.Y);
+            ArrayList hits = TestHitTest(e.X,e.Y);
             double dx = 0, dy = 0;
             if (lmdown || rmdown || mmdown)
             {
@@ -962,7 +884,59 @@ If I understood correctly, you want to rotate camera arround the point. Did I?
             {
                 yoffset += (float)dy / 2;
                 xoffset += (float)dx / 2;
-            } 
+            }
+
+            if (UVDLPApp.Instance().m_selectedobject != null)
+            {
+                if (m_movingobjectmode) // if we're moving an object
+                {
+                    // examine the last isect data
+                    foreach (ISectData dat in hits)
+                    {
+                        if (dat.obj.tag == 9999) //found the ground plane
+                        {
+
+                            UVDLPApp.Instance().m_selectedobject.Translate(
+                                (float)(dat.intersect.x - UVDLPApp.Instance().m_selectedobject.m_center.x),
+                                (float)(dat.intersect.y - UVDLPApp.Instance().m_selectedobject.m_center.y),
+                                0.0f);
+                        }
+                        
+                    }
+                    if (UVDLPApp.Instance().m_selectedobject.tag == 500)  // if the current selected object is a support
+                    {
+                        Support tmpsup = (Support)UVDLPApp.Instance().m_selectedobject;
+                        Point3d pnt = new Point3d();
+                        pnt.Set(tmpsup.m_center.x, tmpsup.m_center.y, 0, 0);
+                        Engine3D.Vector3d vec = new Engine3D.Vector3d();
+                        vec.Set(0, 0, 1, 0); // create a vector striaght up
+                        // hit test from the selected objects center x/y/0 position straight up
+                        //see if it hits any object in the scene,
+                        // if it does, scale the object from the ground plane to the closest intersection point
+                        ArrayList iss = RTUtils.IntersectObjects(vec, pnt, UVDLPApp.Instance().Engine3D.m_objects);
+                        foreach (ISectData htd in iss) 
+                        {
+                            if (htd.obj.tag != 500 )  // if this is not another support or the ground
+                            {
+                                if (htd.obj.tag != 9999)
+                                {
+                                    // this should be it...
+                                    tmpsup.ScaleToHeight(htd.intersect.z);
+                                    break;
+                                }
+                            }
+                        }
+                        /*
+                        if (iss.Count > 0)
+                        {
+                            ISectData isdat = (ISectData)iss[0]; // closest intersection
+                            //isdat.intersect.z // this should be the distance away, but later, we'll really need to calc distance                                
+                            tmpsup.ScaleToHeight(isdat.intersect.z);
+                        }
+                         * */
+                    }
+                }
+            }
             DisplayFunc();
         }
 
@@ -1734,8 +1708,8 @@ If I understood correctly, you want to rotate camera arround the point. Did I?
 
         private void chkAlpha_CheckedChanged(object sender, EventArgs e)
         {
-            if (UVDLPApp.Instance().m_selectedobject == null) return;
-            UVDLPApp.Instance().m_selectedobject.m_showalpha = chkAlpha.Checked;
+            //if (UVDLPApp.Instance().m_selectedobject == null) return;
+            //UVDLPApp.Instance().m_selectedobject.m_showalpha = chkAlpha.Checked;
             SetAlpha(chkAlpha.Checked);
             DisplayFunc();
             Refresh();
@@ -1850,6 +1824,97 @@ If I understood correctly, you want to rotate camera arround the point. Did I?
             frmPrefs prefs = new frmPrefs();
             prefs.ShowDialog();
 
+        }
+
+        private void glControl1_DoubleClick(object sender, EventArgs e)
+        {
+            // the screen was double clicked
+            // do object selection
+               MouseEventArgs me = e as MouseEventArgs;
+               MouseButtons buttonPushed = me.Button;
+               int xPos = me.X;
+               int yPos = me.Y;
+               ArrayList isects = TestHitTest(xPos, yPos);
+               if (isects.Count > 0) 
+               {
+                   ISectData i = (ISectData)isects[0];
+                   UVDLPApp.Instance().m_selectedobject = i.obj;
+                   //show the object is selected
+                   /*
+                   foreach (Polygon p in UVDLPApp.Instance().m_selectedobject.m_lstpolys) 
+                   {
+                       p.m_color = Color.Green;
+                   }
+                    * */
+               }
+        }
+
+        private void glControl1_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+
+        }
+
+        private void glControl1_KeyDown(object sender, KeyEventArgs e)
+        {
+            // if the delete key is pressed, deleted the currently selected object 
+            if (e.KeyCode == Keys.Delete)
+            {
+                UVDLPApp.Instance().RemoveCurrentModel();
+            }
+            if (e.KeyCode == Keys.ShiftKey) 
+            {
+                m_movingobjectmode = true;
+            }
+        }
+
+        private void glControl1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ShiftKey)
+            {
+                m_movingobjectmode = false;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Object3d obj1;
+            Object3d obj2;
+            Object3d obj3;
+            if (UVDLPApp.Instance().m_engine3d.m_objects.Count > 1) 
+            {
+                obj1 = (Object3d)UVDLPApp.Instance().m_engine3d.m_objects[0];
+                obj2 = (Object3d)UVDLPApp.Instance().m_engine3d.m_objects[1];
+                obj3 = CSG.Union(obj1, obj2);
+                UVDLPApp.Instance().m_engine3d.m_objects.Add(obj3);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Object3d obj1;
+            Object3d obj2;
+            Object3d obj3;
+            if (UVDLPApp.Instance().m_engine3d.m_objects.Count > 1)
+            {
+                obj1 = (Object3d)UVDLPApp.Instance().m_engine3d.m_objects[0];
+                obj2 = (Object3d)UVDLPApp.Instance().m_engine3d.m_objects[1];
+                obj3 = CSG.Subtract(obj1, obj2);
+                UVDLPApp.Instance().m_engine3d.m_objects.Add(obj3);
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Object3d obj1;
+            Object3d obj2;
+            Object3d obj3;
+            if (UVDLPApp.Instance().m_engine3d.m_objects.Count > 1)
+            {
+                obj1 = (Object3d)UVDLPApp.Instance().m_engine3d.m_objects[0];
+                obj2 = (Object3d)UVDLPApp.Instance().m_engine3d.m_objects[1];
+                obj3 = CSG.Intersect(obj1, obj2);
+                UVDLPApp.Instance().m_engine3d.m_objects.Add(obj3);
+            }
         }
     }
 }

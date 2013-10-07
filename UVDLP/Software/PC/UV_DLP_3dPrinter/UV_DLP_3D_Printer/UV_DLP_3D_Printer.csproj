@@ -75,10 +75,19 @@
   <ItemGroup>
     <Compile Include="3DEngine\ArcBall.cs" />
     <Compile Include="3DEngine\Camera.cs" />
+    <Compile Include="3DEngine\CSG\CSG.cs" />
+    <Compile Include="3DEngine\CSG\csgjs_csnode.cs" />
+    <Compile Include="3DEngine\CSG\csgjs_model.cs" />
+    <Compile Include="3DEngine\CSG\csgjs_plane.cs" />
+    <Compile Include="3DEngine\CSG\csgjs_polygon.cs" />
+    <Compile Include="3DEngine\CSG\csgjs_vector.cs" />
+    <Compile Include="3DEngine\CSG\csgjs_vertex.cs" />
     <Compile Include="3DEngine\Cylinder3d.cs" />
+    <Compile Include="3DEngine\ISectData.cs" />
     <Compile Include="3DEngine\Material.cs" />
     <Compile Include="3DEngine\Plane.cs" />
     <Compile Include="3DEngine\RTUtils.cs" />
+    <Compile Include="3DEngine\Support.cs" />
     <Compile Include="3DEngine\ThreeDSFile.cs" />
     <Compile Include="Configs\AppConfig.cs" />
     <Compile Include="Configs\ConnectionConfig.cs" />
@@ -196,6 +205,7 @@
     </Compile>
     <Compile Include="Slicing\GCodeFile.cs" />
     <Compile Include="Slicing\OldSlicer\GCodeGenerator.cs" />
+    <Compile Include="Utility\LockBitmap.cs" />
     <Compile Include="Utility\Logger.cs" />
     <Compile Include="Configs\MachineConfig.cs" />
     <Compile Include="Configs\Settings.cs" />

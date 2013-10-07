@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
 using System.Threading;
+using UV_DLP_3D_Printer.Slicing;
 
 namespace UV_DLP_3D_Printer.GUI
 {
@@ -35,11 +36,11 @@ namespace UV_DLP_3D_Printer.GUI
             }
         }
 
-        private void SliceEv(Slicer.eSliceEvent ev, int layer, int totallayers)
+        private void SliceEv(Slicer.eSliceEvent ev, int layer, int totallayers, SliceFile sf)
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate() { SliceEv(ev, layer, totallayers); }));
+                BeginInvoke(new MethodInvoker(delegate() { SliceEv(ev, layer, totallayers,sf); }));
             }
             else
             {
@@ -104,8 +105,8 @@ namespace UV_DLP_3D_Printer.GUI
                         SliceBuildConfig sp = UVDLPApp.Instance().m_buildparms;
                         sp.UpdateFrom(UVDLPApp.Instance().m_printerinfo);
                         UVDLPApp.Instance().CalcScene();
-                        int numslices = UVDLPApp.Instance().m_slicer.GetNumberOfSlices(sp, UVDLPApp.Instance().Scene);
-                        UVDLPApp.Instance().m_slicefile = UVDLPApp.Instance().m_slicer.Slice(sp, UVDLPApp.Instance().Scene);
+                        int numslices = UVDLPApp.Instance().m_slicer.GetNumberOfSlices(sp);
+                        UVDLPApp.Instance().m_slicefile = UVDLPApp.Instance().m_slicer.Slice(sp);
 
                     }
                 }

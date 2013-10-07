@@ -24,8 +24,14 @@ namespace UV_DLP_3D_Printer
      * I can iterate through the vertical z slices, and identify regions where new material appears. from comparing previous frames,
      * I can determine the slope, and where new supports may be needed.
      * I think I can do this in 2d, I can then generated supports either in 2d or 3d
-     * 
-     * 
+     * // the model can be treated as volumetric data
+     * foreach slice z
+     *      foreach pixel y
+     *          foreach pixel x
+     *              if(pixel color is black)
+     *              {
+     *                  
+     *              }
      * 
      * This first implementation is a simple x/y scan,
      * further implementations can use more than a cylinder object, or 
@@ -64,6 +70,20 @@ namespace UV_DLP_3D_Printer
             }
         }
 
+        void GenerateSupport2d() 
+        {
+            /*
+             * // the model can be treated as volumetric data
+             * foreach slice z
+             *      foreach pixel y
+             *          foreach pixel x
+             *              if(pixel color is black)
+             *              {
+             *                  
+             *              }
+             */
+        }
+
         public bool Generating 
         {
             get { return m_generating; }
@@ -78,6 +98,9 @@ namespace UV_DLP_3D_Printer
         /// <returns></returns>
         public static bool FindIntersection(Vector3d direction, Point3d origin, ref Point3d intersect)
         {
+            if (UVDLPApp.Instance().Scene == null) return false;
+            if (UVDLPApp.Instance().Scene.m_lstpolys == null) return false;
+
             direction.Normalize();
             direction.Scale(10000.0);
             Point3d endp = new Point3d();
@@ -225,15 +248,20 @@ namespace UV_DLP_3D_Printer
                     if ((lowest.z < ZVal) && intersected && (lowest.z >= 0)) 
                     {
                         // now, generate and add a cylinder here
-                        Cylinder3d cyl = new Cylinder3d();
-                        cyl.Create(m_sc.brad, m_sc.trad, lowest.z, 20, m_sc.vdivs);
-                        cyl.Translate((float)x,(float)y,0);
-                        cyl.Name = "Support " + scnt;
-                        cyl.IsSupport = true;
-                        cyl.SetColor(Color.Yellow);
+
+                        Support s = new Support();
+                        float lz = (float)lowest.z;
+                        s.Create(2.5f, 1.5f, 1.5f, .75f, lz*.2f, lz*.6f, lz*.2f, 20);
+
+                        //Cylinder3d cyl = new Cylinder3d();
+                        //cyl.Create(m_sc.brad, m_sc.trad, lowest.z, 20, m_sc.vdivs);
+                        s.Translate((float)x,(float)y,0);
+                        s.Name = "Support " + scnt;
+                        s.IsSupport = true;
+                        s.SetColor(Color.Yellow);
                         scnt++;                       
-                        lstsupports.Add(cyl);
-                        RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eSupportGenerated, cyl.Name, cyl);
+                        lstsupports.Add(s);
+                        RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eSupportGenerated, s.Name, s);
                     }      
                 }
             }

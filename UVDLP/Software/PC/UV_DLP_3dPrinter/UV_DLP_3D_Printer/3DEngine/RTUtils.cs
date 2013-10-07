@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Engine3D;
+using System.Collections;
 
 namespace UV_DLP_3D_Printer._3DEngine
 {
@@ -14,7 +15,8 @@ namespace UV_DLP_3D_Printer._3DEngine
         // 
         class TestPoint { public double X, Y;};
         static TestPoint[] TstPnt = new TestPoint[4]; //for the crossing test
-        static int numTstPnt = 0;//for the crossing test
+        static int numTstPnt = 0;//for the crossing test        
+        static Object3d m_gp = null;
 
         public static int CrossingsTest(double PntX, double PntY)
         {
@@ -181,6 +183,129 @@ namespace UV_DLP_3D_Printer._3DEngine
 		        intersect.z = start.z + ((v-d)*V.z);
 	        }
 	        return retval;
+        }
+
+        private static void CreateGroundPlane()
+        {
+            m_gp = new Object3d();
+            m_gp.Name = "GroundPlane";
+            Point3d p0=new Point3d(-500,-500,0,0);
+            Point3d p1=new Point3d(500,-500,0,0);
+            Point3d p2=new Point3d(500,500,0,0);
+            Point3d p3=new Point3d(-500,500,0,0);
+            m_gp.m_lstpoints.Add(p0);
+            m_gp.m_lstpoints.Add(p1);
+            m_gp.m_lstpoints.Add(p2);
+            m_gp.m_lstpoints.Add(p3);
+
+            Polygon ply0 = new Polygon();
+            ply0.m_points = new Point3d[3];
+            ply0.m_points[0] = p0;
+            ply0.m_points[1] = p1;
+            ply0.m_points[2] = p2;
+
+            Polygon ply1 = new Polygon();
+            ply1.m_points = new Point3d[3];
+            ply1.m_points[0] = p0;
+            ply1.m_points[1] = p2;
+            ply1.m_points[2] = p3;
+            m_gp.m_lstpolys.Add(ply0);
+            m_gp.m_lstpolys.Add(ply1);
+            m_gp.tag = 9999; // groundplane tag
+            m_gp.Update();
+           // p1.m
+
+        }
+
+        private static ISectData ISectGroundPlane(Vector3d direction, Point3d origin)
+        {
+            ISectData isect = null;
+            direction.Normalize();
+            direction.Scale(10000.0);
+            Point3d endp = new Point3d();
+            Point3d intersect = new Point3d();
+
+            endp.Set(origin);
+            endp.x += direction.x;
+            endp.y += direction.y;
+            endp.z += direction.z;
+            // intersect with the imaginary groundplane object;
+            if (m_gp == null) 
+            {
+                CreateGroundPlane();
+            }
+            if (IntersectSphere(origin, endp, ref intersect, m_gp.m_center, m_gp.m_radius))
+            {
+                foreach (Polygon p in m_gp.m_lstpolys)
+                {
+                    intersect = new Point3d();
+                    // try a less- costly sphere intersect here   
+                    if (IntersectSphere(origin, endp, ref intersect, p.m_center, p.m_radius))
+                    {
+                        // if it intersects,
+                        if (RTUtils.IntersectPoly(p, origin, endp, ref intersect))
+                        {
+                           isect = new ISectData(m_gp, p, intersect, origin, direction);
+                        }
+                    }
+                }
+            }
+            return isect;
+        }
+
+        /// <summary>
+        /// This function takes a list of objects and a ray and starting point.
+        /// It will return an ArrayList of ISectData,
+        /// if no intersections occur, the list will be empty,
+        /// 
+        /// Each Object should be updated before being added to the list here.
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <param name="origin"></param>
+        /// <param name="objects"></param>
+        /// <returns></returns>
+        public static ArrayList IntersectObjects(Vector3d direction, Point3d origin, ArrayList objects) 
+        {
+            ArrayList m_isectlst = new ArrayList();
+
+            direction.Normalize();
+            direction.Scale(10000.0);
+            Point3d endp = new Point3d();
+            Point3d intersect = new Point3d();
+
+            endp.Set(origin);
+            endp.x += direction.x;
+            endp.y += direction.y;
+            endp.z += direction.z;
+
+            foreach (Object3d obj in objects)
+            {
+                // try a less- costly sphere intersect here   
+                if (IntersectSphere(origin, endp, ref intersect, obj.m_center, obj.m_radius))
+                {
+                    foreach (Polygon p in obj.m_lstpolys)
+                    {
+                        intersect = new Point3d();
+                        // try a less- costly sphere intersect here   
+                        if (IntersectSphere(origin, endp, ref intersect, p.m_center, p.m_radius))
+                        {
+                            // if it intersects,
+                            if (RTUtils.IntersectPoly(p, origin, endp, ref intersect))
+                            {
+                                m_isectlst.Add(new ISectData(obj, p, intersect, origin, direction));
+                            }
+                        }
+                    }
+                }
+            }
+            ISectData gp = ISectGroundPlane(direction, origin);
+            if (gp != null) 
+            {
+                m_isectlst.Add(gp);
+            }
+            m_isectlst.Sort();
+            
+            return m_isectlst;
         }
     }
 }

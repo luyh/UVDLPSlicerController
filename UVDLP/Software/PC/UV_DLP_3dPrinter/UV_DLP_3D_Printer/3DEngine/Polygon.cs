@@ -257,16 +257,16 @@ namespace Engine3D
             return 0;
         }
 
-        public void RenderGL(bool wireframe,bool alpha) 
+        public void RenderGL(bool wireframe,bool alpha, bool selected) 
         {
             // clip test before rendering 
             // use center point and radius to determine visibility (3d test)
             // 
             // test dot product of the transformed normal
+            Color clr = m_color;
 
             if (wireframe)
             {
-
                 GL.Begin(BeginMode.LineLoop);//.LineStrip);
                 GL.LineWidth(1);
             }else
@@ -274,13 +274,21 @@ namespace Engine3D
                 GL.Begin(BeginMode.Triangles);
             }
             
-            if (alpha)
+            if (selected) 
             {
-                GL.Color4((byte)m_color.R, (byte)m_color.G, (byte)m_color.B, (byte)128);
+                clr = Color.Green;
             }
-            else 
+             
+            //if (!selected)
             {
-                GL.Color3(m_color);
+                if (alpha)
+                {
+                    GL.Color4((byte)clr.R, (byte)clr.G, (byte)clr.B, (byte)128);
+                }
+                else
+                {
+                    GL.Color3(clr);
+                }
             }
             GL.Normal3(m_normal.x, m_normal.y, m_normal.z);
             foreach (Point3d p in this.m_points)

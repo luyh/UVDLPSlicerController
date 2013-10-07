@@ -6,6 +6,7 @@ using System.Collections;
 using System.Drawing;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;//.BinaryFormatter;
+using Ionic.Zip;
 
 namespace UV_DLP_3D_Printer.Slicing
 {
@@ -18,22 +19,22 @@ namespace UV_DLP_3D_Printer.Slicing
      */
     public class SliceFile
     {
-        public SliceBuildConfig m_config; // not convinced we need to have all this, just a few parts of it
-        public ArrayList m_slices; // list of Slices
-        /*
-        public bool antialiasing;
-        public double aaval;
-        public double dpmmX; // dots per mm x
-        public double dpmmY; // dots per mm y
-        public int xres, yres; // the resolution of the output image in pixels
-        public int XOffset,YOffset;
-        */
+        public SliceBuildConfig m_config; // the slicing parameters used to create the image slices
+        public string modelname; // the fully qualified model/scene name, so we can load up the image files
+        private int m_numslices;
+        ZipFile m_zip;
         public SliceFile() 
         {
             m_config = new SliceBuildConfig(); // going to be loaded
-            m_slices = new ArrayList();
+         
         }
 
+        public int NumSlices 
+        {
+            get { return m_numslices; }
+            set { 
+                m_numslices = value; }
+        }
 
         // constructor that the slicer calls to create
         /// <summary>
@@ -43,17 +44,7 @@ namespace UV_DLP_3D_Printer.Slicing
         public SliceFile(SliceBuildConfig config) 
         {
             m_config = new SliceBuildConfig(config); // copy the source
-            /*
-            antialiasing = config.antialiasing;
-            aaval = config.aaval;
-            dpmmX = config.dpmmX;
-            dpmmY = config.dpmmY;
-            xres = config.xres;
-            yres = config.yres;
-            XOffset = config.XOffset;
-            YOffset = config.YOffset;
-             * */
-            m_slices = new ArrayList();
+            //m_slices = new ArrayList();
         }
 
         public bool Load(string filename) 
@@ -68,7 +59,7 @@ namespace UV_DLP_3D_Printer.Slicing
                 for (int c = 0; c < numslice; c++) 
                 {
                     Slice sl = new Slice();
-                    m_slices.Add(sl);
+                    //m_slices.Add(sl);
                     sl.Load(sr);
                 }
                 return true;
@@ -89,12 +80,14 @@ namespace UV_DLP_3D_Printer.Slicing
                 StreamWriter sw = new StreamWriter(FileStream); // create a filestream so this all works
                 serializer.Serialize(FileStream, m_config);
                 //save number of slices
-                sw.WriteLine(m_slices.Count.ToString());
+                //sw.WriteLine(m_slices.Count.ToString());
                 //now save the slices
+                /*
                 foreach (Slice sl in m_slices) 
                 {
                     sl.Save(sw);
                 }
+                 * */
                 FileStream.Close();
                 return true;
             }
@@ -106,15 +99,39 @@ namespace UV_DLP_3D_Printer.Slicing
         }
 
         /*
-         This function does the rasterization of the generated slice into
-         * a 2d bitmap that can be displayed and sent to the machine's DLP
+         This function get the slice from the cache/drive 
          */
-        public Bitmap RenderSlice(int layer) // 0 based index
+        public Bitmap GetSlice(int layer) // 0 based index
         {
             try
             {
-                Slice slice = (Slice)m_slices[layer];
-                return slice.RenderSlice(m_config);
+                string path = "";
+                path = Path.GetDirectoryName(modelname);
+                path += UVDLPApp.m_pathsep;
+                path += Path.GetFileNameWithoutExtension(modelname);// strip off the file extension
+
+                if (m_config.m_exportopt.ToUpper().Contains("ZIP"))
+                {
+                    // read the bitmap from the zip
+                    path += ".zip";
+                    m_zip = ZipFile.Read(path);
+                    string fname = Path.GetFileNameWithoutExtension(modelname) + String.Format("{0:0000}", layer) + ".png";
+                    ZipEntry ze = m_zip[fname];
+                    Stream stream = new MemoryStream();
+                    ze.Extract(stream);
+                    Bitmap bmp = new Bitmap(stream);
+                    return bmp;      
+                }
+                else
+                {
+                    //read bitmap from disk
+                    path += UVDLPApp.m_pathsep;
+                    path += Path.GetFileNameWithoutExtension(modelname) + String.Format("{0:0000}", layer) + ".png";
+                   
+                    Bitmap bmp = new Bitmap(path);
+                    return bmp;
+                }
+                return null;
             }
             catch (Exception ex) 
             {

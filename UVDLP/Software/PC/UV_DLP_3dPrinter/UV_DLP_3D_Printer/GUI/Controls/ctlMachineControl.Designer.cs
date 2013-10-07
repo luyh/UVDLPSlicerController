@@ -47,6 +47,8 @@
             this.cmdMotorsOn = new System.Windows.Forms.Button();
             this.cmdMotorsOff = new System.Windows.Forms.Button();
             this.grpExtrudeControls = new System.Windows.Forms.GroupBox();
+            this.udTool0Rate = new System.Windows.Forms.NumericUpDown();
+            this.udext0len = new System.Windows.Forms.NumericUpDown();
             this.label16 = new System.Windows.Forms.Label();
             this.cmdExtrude1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -70,25 +72,23 @@
             this.cmdSendGCode = new System.Windows.Forms.Button();
             this.txtGCode = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.udTool1Rate = new System.Windows.Forms.NumericUpDown();
+            this.udext1len = new System.Windows.Forms.NumericUpDown();
             this.label17 = new System.Windows.Forms.Label();
             this.cmdExtrude2 = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.cmdReverse2 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cmdClear = new System.Windows.Forms.Button();
-            this.udext0len = new System.Windows.Forms.NumericUpDown();
-            this.udext1len = new System.Windows.Forms.NumericUpDown();
-            this.udTool0Rate = new System.Windows.Forms.NumericUpDown();
-            this.udTool1Rate = new System.Windows.Forms.NumericUpDown();
             this.grpHoming.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.grpExtrudeControls.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.udext0len)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.udext1len)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.udTool0Rate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.udext0len)).BeginInit();
+            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.udTool1Rate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.udext1len)).BeginInit();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label9
@@ -106,7 +106,7 @@
             this.txtRateZ.Name = "txtRateZ";
             this.txtRateZ.Size = new System.Drawing.Size(66, 22);
             this.txtRateZ.TabIndex = 48;
-            this.txtRateZ.Text = "1000";
+            this.txtRateZ.Text = "100";
             // 
             // label10
             // 
@@ -132,7 +132,7 @@
             this.txtRateXY.Name = "txtRateXY";
             this.txtRateXY.Size = new System.Drawing.Size(66, 22);
             this.txtRateXY.TabIndex = 45;
-            this.txtRateXY.Text = "2500";
+            this.txtRateXY.Text = "3000";
             // 
             // label7
             // 
@@ -285,6 +285,45 @@
             this.grpExtrudeControls.TabIndex = 41;
             this.grpExtrudeControls.TabStop = false;
             this.grpExtrudeControls.Text = "Toolhead 0 (Extruder)";
+            // 
+            // udTool0Rate
+            // 
+            this.udTool0Rate.Location = new System.Drawing.Point(87, 80);
+            this.udTool0Rate.Maximum = new decimal(new int[] {
+            5000,
+            0,
+            0,
+            0});
+            this.udTool0Rate.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.udTool0Rate.Name = "udTool0Rate";
+            this.udTool0Rate.Size = new System.Drawing.Size(71, 22);
+            this.udTool0Rate.TabIndex = 24;
+            this.udTool0Rate.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // udext0len
+            // 
+            this.udext0len.Location = new System.Drawing.Point(87, 33);
+            this.udext0len.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.udext0len.Name = "udext0len";
+            this.udext0len.Size = new System.Drawing.Size(71, 22);
+            this.udext0len.TabIndex = 23;
+            this.udext0len.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             // 
             // label16
             // 
@@ -510,6 +549,45 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Toolhead 1 (Extruder)";
             // 
+            // udTool1Rate
+            // 
+            this.udTool1Rate.Location = new System.Drawing.Point(87, 81);
+            this.udTool1Rate.Maximum = new decimal(new int[] {
+            5000,
+            0,
+            0,
+            0});
+            this.udTool1Rate.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.udTool1Rate.Name = "udTool1Rate";
+            this.udTool1Rate.Size = new System.Drawing.Size(71, 22);
+            this.udTool1Rate.TabIndex = 25;
+            this.udTool1Rate.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // udext1len
+            // 
+            this.udext1len.Location = new System.Drawing.Point(87, 33);
+            this.udext1len.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.udext1len.Name = "udext1len";
+            this.udext1len.Size = new System.Drawing.Size(71, 22);
+            this.udext1len.TabIndex = 24;
+            this.udext1len.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
             // label17
             // 
             this.label17.AutoSize = true;
@@ -574,84 +652,6 @@
             this.cmdClear.UseVisualStyleBackColor = true;
             this.cmdClear.Click += new System.EventHandler(this.cmdClear_Click);
             // 
-            // udext0len
-            // 
-            this.udext0len.Location = new System.Drawing.Point(87, 33);
-            this.udext0len.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.udext0len.Name = "udext0len";
-            this.udext0len.Size = new System.Drawing.Size(71, 22);
-            this.udext0len.TabIndex = 23;
-            this.udext0len.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            // 
-            // udext1len
-            // 
-            this.udext1len.Location = new System.Drawing.Point(87, 33);
-            this.udext1len.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.udext1len.Name = "udext1len";
-            this.udext1len.Size = new System.Drawing.Size(71, 22);
-            this.udext1len.TabIndex = 24;
-            this.udext1len.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            // 
-            // udTool0Rate
-            // 
-            this.udTool0Rate.Location = new System.Drawing.Point(87, 80);
-            this.udTool0Rate.Maximum = new decimal(new int[] {
-            5000,
-            0,
-            0,
-            0});
-            this.udTool0Rate.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.udTool0Rate.Name = "udTool0Rate";
-            this.udTool0Rate.Size = new System.Drawing.Size(71, 22);
-            this.udTool0Rate.TabIndex = 24;
-            this.udTool0Rate.Value = new decimal(new int[] {
-            300,
-            0,
-            0,
-            0});
-            // 
-            // udTool1Rate
-            // 
-            this.udTool1Rate.Location = new System.Drawing.Point(87, 81);
-            this.udTool1Rate.Maximum = new decimal(new int[] {
-            5000,
-            0,
-            0,
-            0});
-            this.udTool1Rate.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.udTool1Rate.Name = "udTool1Rate";
-            this.udTool1Rate.Size = new System.Drawing.Size(71, 22);
-            this.udTool1Rate.TabIndex = 25;
-            this.udTool1Rate.Value = new decimal(new int[] {
-            300,
-            0,
-            0,
-            0});
-            // 
             // ctlMachineControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -687,14 +687,14 @@
             this.groupBox1.ResumeLayout(false);
             this.grpExtrudeControls.ResumeLayout(false);
             this.grpExtrudeControls.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.udTool0Rate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.udext0len)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.udTool1Rate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.udext1len)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.udext0len)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.udext1len)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.udTool0Rate)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.udTool1Rate)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

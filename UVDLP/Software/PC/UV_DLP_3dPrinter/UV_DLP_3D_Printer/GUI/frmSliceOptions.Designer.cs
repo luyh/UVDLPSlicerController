@@ -36,7 +36,6 @@
             this.txtLayerTime = new System.Windows.Forms.TextBox();
             this.txtZThick = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.chkexportsvg = new System.Windows.Forms.CheckBox();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.txtFirstLayerTime = new System.Windows.Forms.TextBox();
@@ -89,6 +88,9 @@
             this.cmdendgcode = new System.Windows.Forms.Button();
             this.txtsaveendgcode = new System.Windows.Forms.Button();
             this.txtendgcode = new System.Windows.Forms.TextBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.rbzip = new System.Windows.Forms.RadioButton();
+            this.rbsub = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.tabOptions.SuspendLayout();
             this.tbOptions.SuspendLayout();
@@ -99,18 +101,20 @@
             this.tbMainlift.SuspendLayout();
             this.tbPostLift.SuspendLayout();
             this.tbEnd.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // chkExportSlices
             // 
             this.chkExportSlices.AutoSize = true;
-            this.chkExportSlices.Location = new System.Drawing.Point(28, 297);
+            this.chkExportSlices.Location = new System.Drawing.Point(28, 283);
             this.chkExportSlices.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkExportSlices.Name = "chkExportSlices";
             this.chkExportSlices.Size = new System.Drawing.Size(153, 21);
             this.chkExportSlices.TabIndex = 21;
             this.chkExportSlices.Text = "Export Image Slices";
             this.chkExportSlices.UseVisualStyleBackColor = true;
+            this.chkExportSlices.Visible = false;
             // 
             // cmdOK
             // 
@@ -126,13 +130,14 @@
             // chkgengcode
             // 
             this.chkgengcode.AutoSize = true;
-            this.chkgengcode.Location = new System.Drawing.Point(28, 270);
+            this.chkgengcode.Location = new System.Drawing.Point(28, 256);
             this.chkgengcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkgengcode.Name = "chkgengcode";
             this.chkgengcode.Size = new System.Drawing.Size(138, 21);
             this.chkgengcode.TabIndex = 25;
             this.chkgengcode.Text = "Generate GCode";
             this.chkgengcode.UseVisualStyleBackColor = true;
+            this.chkgengcode.CheckedChanged += new System.EventHandler(this.chkgengcode_CheckedChanged);
             // 
             // lblLayerTime
             // 
@@ -169,18 +174,6 @@
             this.label1.Size = new System.Drawing.Size(142, 17);
             this.label1.TabIndex = 28;
             this.label1.Text = "Slice Thickness (mm)";
-            // 
-            // chkexportsvg
-            // 
-            this.chkexportsvg.AutoSize = true;
-            this.chkexportsvg.Enabled = false;
-            this.chkexportsvg.Location = new System.Drawing.Point(28, 324);
-            this.chkexportsvg.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.chkexportsvg.Name = "chkexportsvg";
-            this.chkexportsvg.Size = new System.Drawing.Size(144, 21);
-            this.chkexportsvg.TabIndex = 30;
-            this.chkexportsvg.Text = "Export SVG Slices";
-            this.chkexportsvg.UseVisualStyleBackColor = true;
             // 
             // cmdCancel
             // 
@@ -317,6 +310,7 @@
             // 
             // tbOptions
             // 
+            this.tbOptions.Controls.Add(this.groupBox2);
             this.tbOptions.Controls.Add(this.chkmainliftgcode);
             this.tbOptions.Controls.Add(this.chkautocalcdelay);
             this.tbOptions.Controls.Add(this.grpLift);
@@ -330,7 +324,6 @@
             this.tbOptions.Controls.Add(this.txtLayerTime);
             this.tbOptions.Controls.Add(this.lblLayerTime);
             this.tbOptions.Controls.Add(this.txtZThick);
-            this.tbOptions.Controls.Add(this.chkexportsvg);
             this.tbOptions.Controls.Add(this.cmdCancel);
             this.tbOptions.Controls.Add(this.txtFirstLayerTime);
             this.tbOptions.Controls.Add(this.label2);
@@ -488,7 +481,7 @@
             // chkantialiasing
             // 
             this.chkantialiasing.AutoSize = true;
-            this.chkantialiasing.Location = new System.Drawing.Point(28, 241);
+            this.chkantialiasing.Location = new System.Drawing.Point(28, 227);
             this.chkantialiasing.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkantialiasing.Name = "chkantialiasing";
             this.chkantialiasing.Size = new System.Drawing.Size(156, 21);
@@ -768,6 +761,39 @@
             this.txtendgcode.Size = new System.Drawing.Size(721, 298);
             this.txtendgcode.TabIndex = 3;
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.rbsub);
+            this.groupBox2.Controls.Add(this.rbzip);
+            this.groupBox2.Location = new System.Drawing.Point(28, 309);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(200, 81);
+            this.groupBox2.TabIndex = 50;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Image Slice Export Options";
+            // 
+            // rbzip
+            // 
+            this.rbzip.AutoSize = true;
+            this.rbzip.Location = new System.Drawing.Point(7, 22);
+            this.rbzip.Name = "rbzip";
+            this.rbzip.Size = new System.Drawing.Size(75, 21);
+            this.rbzip.TabIndex = 0;
+            this.rbzip.TabStop = true;
+            this.rbzip.Text = "Zip File";
+            this.rbzip.UseVisualStyleBackColor = true;
+            // 
+            // rbsub
+            // 
+            this.rbsub.AutoSize = true;
+            this.rbsub.Location = new System.Drawing.Point(7, 49);
+            this.rbsub.Name = "rbsub";
+            this.rbsub.Size = new System.Drawing.Size(109, 21);
+            this.rbsub.TabIndex = 1;
+            this.rbsub.TabStop = true;
+            this.rbsub.Text = "Subdirectory";
+            this.rbsub.UseVisualStyleBackColor = true;
+            // 
             // frmSliceOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -801,6 +827,8 @@
             this.tbPostLift.PerformLayout();
             this.tbEnd.ResumeLayout(false);
             this.tbEnd.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -815,7 +843,6 @@
         private System.Windows.Forms.TextBox txtLayerTime;
         private System.Windows.Forms.TextBox txtZThick;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox chkexportsvg;
         private System.Windows.Forms.Button cmdCancel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtFirstLayerTime;
@@ -868,5 +895,8 @@
         private System.Windows.Forms.Button cmdreloadmainliftgcode;
         private System.Windows.Forms.Button cmdsavemainliftgcode;
         private System.Windows.Forms.CheckBox chkmainliftgcode;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.RadioButton rbsub;
+        private System.Windows.Forms.RadioButton rbzip;
     }
 }

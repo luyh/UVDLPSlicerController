@@ -35,7 +35,15 @@ namespace UV_DLP_3D_Printer
             txtZThick.Text = "" + String.Format("{0:0.00000}",m_config.ZThick);
             chkgengcode.Checked = m_config.exportgcode;
             chkExportSlices.Checked = m_config.exportimages;
-            chkexportsvg.Checked = m_config.exportsvg;
+            //chkexportsvg.Checked = m_config.exportsvg;
+            if (m_config.m_exportopt.ToUpper().Contains("ZIP"))
+            {
+                rbzip.Checked = true;
+            }
+            else 
+            {
+                rbsub.Checked = true;
+            }
             txtLayerTime.Text = "" + m_config.layertime_ms;
             txtFirstLayerTime.Text = m_config.firstlayertime_ms.ToString();
             txtBlankTime.Text = m_config.blanktime_ms.ToString();
@@ -70,9 +78,17 @@ namespace UV_DLP_3D_Printer
             try
             {              
                 m_config.ZThick = Single.Parse(txtZThick.Text);
-                m_config.exportgcode = chkgengcode.Checked;
+                m_config.exportgcode = true;// chkgengcode.Checked;
                 m_config.exportimages = chkExportSlices.Checked;
-                m_config.exportsvg = chkexportsvg.Checked;
+                //m_config.exportsvg = chkexportsvg.Checked;
+                if (rbzip.Checked == true)
+                {
+                    m_config.m_exportopt = "ZIP";
+                }
+                else 
+                {
+                    m_config.m_exportopt = "SUBDIR";
+                }
                 m_config.layertime_ms = int.Parse(txtLayerTime.Text);
                 m_config.firstlayertime_ms = int.Parse(txtFirstLayerTime.Text);
                 m_config.blanktime_ms = int.Parse(txtBlankTime.Text);
@@ -232,6 +248,11 @@ namespace UV_DLP_3D_Printer
         private void chkmainliftgcode_CheckedChanged(object sender, EventArgs e)
         {
             grpLift.Enabled = !chkmainliftgcode.Checked;
+        }
+
+        private void chkgengcode_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -28,7 +28,7 @@ namespace UV_DLP_3D_Printer
         eGCodeSaved,
         eSupportGenerated,
         eSlicedLoaded,
-
+        eMachineTypeChanged,
     }
     public delegate void AppEventDelegate(eAppEvent ev, String Message);
     /*
@@ -67,7 +67,7 @@ namespace UV_DLP_3D_Printer
         //current slice file
         public SliceFile m_slicefile;
         public BuildManager m_buildmgr;
-        private ZipFile m_zip; // for storing image slices
+        
         public GCodeInterpreter gci = null;
 
         private static String m_appconfigname = "CreationConfig.xml";
@@ -198,9 +198,11 @@ namespace UV_DLP_3D_Printer
         /// </summary>
         public void AddSupport() 
         {
-            Cylinder3d cyl = new Cylinder3d();
-            cyl.Create(2.5, 1.5, 10, 15, 2);
-            m_engine3d.AddObject(cyl);
+           // Cylinder3d cyl = new Cylinder3d();
+           // cyl.Create(2.5, 1.5, 10, 15, 2);
+            Support s = new Support();
+            s.Create(2.5f, 1.5f, 1.5f, .75f, 2f, 5f, 2f, 20);
+            m_engine3d.AddObject(s);
             RaiseAppEvent(eAppEvent.eModelAdded, "Model Created");
         }
 
@@ -248,18 +250,25 @@ namespace UV_DLP_3D_Printer
                     RaiseAppEvent(eAppEvent.eModelAdded, "Model Loaded " + filename);
                     //now try to load the gcode file
                     string gcodefile = "";
-                    gcodefile = Path.GetDirectoryName(filename) + m_pathsep + Path.GetFileNameWithoutExtension(filename) + ".gcode";
-                    if (File.Exists(gcodefile)) 
+                    gcodefile = Path.GetDirectoryName(filename) + m_pathsep + Path.GetFileNameWithoutExtension(filename);// +".gcode";
+                    gcodefile += m_pathsep + Path.GetFileNameWithoutExtension(filename) + ".gcode";
+
+                    if (File.Exists(gcodefile))
                     {
                         LoadGCode(gcodefile);
                     }
-
+                    else 
+                    {
+                        //look for the zip file
+                    }
+                    /* // no loading the slice files
                     string slicedfile = "";
                     slicedfile = Path.GetDirectoryName(filename) + m_pathsep + Path.GetFileNameWithoutExtension(filename) + ".sliced";
                     if (File.Exists(slicedfile))
                     {
                         LoadSlicedFile(slicedfile);
                     }
+                     * */
                 }
                 else 
                 {
@@ -274,16 +283,7 @@ namespace UV_DLP_3D_Printer
                 return false;
             }
         }
-        public void LoadSlicedFile(string fname) 
-        {
-            m_slicefile = new SliceFile();
-            m_slicefile.Load(fname);
-            if (AppEvent != null) 
-            {
-                AppEvent(eAppEvent.eSlicedLoaded, "Sliced Data Loaded " + fname );
-            }
-        
-        }
+
         private ImageCodecInfo GetEncoder(ImageFormat format)
         {
 
@@ -298,81 +298,40 @@ namespace UV_DLP_3D_Printer
             }
             return null;
         }
-        void SliceEv(Slicer.eSliceEvent ev, int layer, int totallayers) 
+        void SliceEv(Slicer.eSliceEvent ev, int layer, int totallayers,SliceFile sf) 
         {
             String path = "";
             switch (ev) 
             {
                 case Slicer.eSliceEvent.eSliceStarted:
-                    // if we're exporting images
-                    if (m_buildparms.exportimages) 
-                    {
-                        m_zip = new ZipFile();
-                        // get the model name, could be scene....
-                        String modelname = m_selectedobject.m_fullname;
-                        // strip off the file extension
-                        path = Path.GetDirectoryName(modelname);
-                        path += UVDLPApp.m_pathsep;
-                        path += Path.GetFileNameWithoutExtension(modelname);// strip off the file extension
-                        if (!Directory.Exists(path)) // check and see if a directory of that name exists,
-                        {
-                            Directory.CreateDirectory(path);// if not, create it
-                        }
-                    }
+
                     break;
                 case Slicer.eSliceEvent.eLayerSliced:
-                    //save the rendered image slice
-                    //render the slice
-                   
-                    if (m_buildparms.exportimages)
-                    {
-                        // get the model name
-                        String modelname = m_selectedobject.m_fullname;
-                        // strip off the file extension
-                        path = Path.GetDirectoryName(modelname);
-                        path += UVDLPApp.m_pathsep;
-                        path += Path.GetFileNameWithoutExtension(modelname);// strip off the file extension
-                        Bitmap bmp = null;
-                        String imname = Path.GetFileNameWithoutExtension(modelname) + String.Format("{0:0000}",layer) + ".png";
-                        String imagename = path + m_pathsep + imname;
-                        bmp = UVDLPApp.Instance().m_slicefile.RenderSlice(layer);
-                       // bmp.Save(imagename);
-                        // create a memory stream for this to save into
-                        MemoryStream ms = new MemoryStream();
-                        bmp.Save(ms, ImageFormat.Png);
-                        ms.Seek(0, SeekOrigin.Begin); // seek back to beginning
-                        m_zip.AddEntry(imname, ms);
-                    }
-
-
                   
                     break;
                 case Slicer.eSliceEvent.eSliceCompleted:
-
-                    // save the zip file full of images
-                    if (m_buildparms.exportimages)
-                    {
-                        String modelname = m_selectedobject.m_fullname;
-                        // strip off the file extension
-                        path = Path.GetDirectoryName(modelname);
-                        path += UVDLPApp.m_pathsep;
-                        path += Path.GetFileNameWithoutExtension(modelname);// strip off the file extension
-                        path += ".zip";
-                        m_zip.Save(path);
-                    }
-
+                    m_slicefile = sf;
                     m_gcode = GCodeGenerator.Generate(m_slicefile, m_printerinfo);
                     
                     //get the path of the current object file
                     //string slicername = "";
-                    path = Path.GetDirectoryName(m_selectedobject.m_fullname);                    
-                    string fn = Path.GetFileNameWithoutExtension(m_selectedobject.m_fullname);
-                    SaveGCode(path + UVDLPApp.m_pathsep + fn + ".gcode");
-                    //save the slicer object for later too
+                    path = Path.GetDirectoryName(m_slicefile.modelname);
+                    string fn = Path.GetFileNameWithoutExtension(m_slicefile.modelname);
+                    if (sf.m_config.m_exportopt.Contains("ZIP"))
+                    {
+                        // open the existing zip file
+                        //store the gcode
+                    }
+                    else 
+                    {
+                        string sdn = path + UVDLPApp.m_pathsep + fn + UVDLPApp.m_pathsep + fn + ".gcode";
+                        SaveGCode(sdn);
+                    }
                     
+                    //save the slicer object for later too                    
                     //save the slice file
 
-                    UVDLPApp.Instance().m_slicefile.Save(path + UVDLPApp.m_pathsep + fn + ".sliced");
+                   // UVDLPApp.Instance().m_slicefile.Save(path + UVDLPApp.m_pathsep + fn + ".sliced");
                     break;
                 case Slicer.eSliceEvent.eSliceCancelled:
                     DebugLogger.Instance().LogRecord("Slicing Cancelled");
@@ -400,7 +359,7 @@ namespace UV_DLP_3D_Printer
                 {
                     DebugLogger.Instance().LogRecord("Cannot load GCode File " + filename);
                 }
-                StartGCodeInterpret();
+                //StartGCodeInterpret();
                 RaiseAppEvent(eAppEvent.eGCodeLoaded, "GCode Loaded " + filename);
             }
             catch (Exception ex)
@@ -408,39 +367,14 @@ namespace UV_DLP_3D_Printer
                 DebugLogger.Instance().LogRecord(ex.Message);
             }
         }
-
-        public void LoadGCode() 
-        {
-            try
-            {
-                //get the path of the current object file
-                String path = Path.GetDirectoryName(m_selectedobject.m_fullname);
-                string fn = Path.GetFileNameWithoutExtension(m_selectedobject.m_fullname);
-                if (!UVDLPApp.Instance().m_gcode.Load(path + UVDLPApp.m_pathsep + fn + ".gcode"))
-                {
-                    DebugLogger.Instance().LogRecord("Cannot load GCode File " + path + m_pathsep + fn + ".gcode");
-                }
-                StartGCodeInterpret();
-                RaiseAppEvent(eAppEvent.eGCodeLoaded, "");
-            }
-            catch (Exception ex) 
-            {
-                DebugLogger.Instance().LogRecord(ex.Message);
-            }
-        }
-
         public void SaveGCode(String filename) 
         {
             try
             {
-                //get the path of the current object file
-                //String path = Path.GetDirectoryName(m_selectedobject.m_fullname); // change to scene object name
-                //string fn = Path.GetFileNameWithoutExtension(m_selectedobject.m_fullname);
                 if (!UVDLPApp.Instance().m_gcode.Save(filename))
                 {
                     DebugLogger.Instance().LogRecord("Cannot save GCode File " + filename);
                 }
-               // RaiseAppEvent(eAppEvent.eGCodeSaved, "");
             }
             catch (Exception ex) 
             {
@@ -510,6 +444,7 @@ namespace UV_DLP_3D_Printer
                 //save the app config
                 m_appconfig.Save(m_appconfigname);// this name doesn't change
             }
+            RaiseAppEvent(eAppEvent.eMachineTypeChanged, "");
             return ret;
         }
 
@@ -547,7 +482,7 @@ namespace UV_DLP_3D_Printer
                     m_deviceinterface.Driver.Disconnect();
                 }
             }
-            m_deviceinterface.Driver = DriverFactory.Create(m_printerinfo.m_driverconfig.m_drivertype);
+            m_deviceinterface.Driver = DriverFactory.Create(m_printerinfo.m_driverconfig.m_drivertype);            
         }
         public void SaveAppConfig() 
         {
@@ -566,8 +501,6 @@ namespace UV_DLP_3D_Printer
                 m_pathsep = "/";
             }
             // define some default paths
-//            m_PathMachines = m_apppath + "\\Machines";
-  //          m_PathProfiles = m_apppath + "\\Profiles";
             m_PathMachines = "." + m_pathsep +  "Machines";
             m_PathProfiles = "." + m_pathsep + "Profiles";
 
@@ -592,13 +525,15 @@ namespace UV_DLP_3D_Printer
             {
                 m_printerinfo.Save(m_appconfig.m_curmachineeprofilename);
             }
+            // machine configuration was just loaded here.
+            RaiseAppEvent(eAppEvent.eMachineTypeChanged, ""); // notify the gui to set up correctly
+
             //load the current slicing profile
             if (!m_buildparms.Load(m_appconfig.m_cursliceprofilename)) 
             {
                 m_buildparms.CreateDefault();
                 m_buildparms.Save(m_appconfig.m_cursliceprofilename);
             }
-
             SetupDriver();
         }
 

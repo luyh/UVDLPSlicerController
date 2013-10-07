@@ -49,6 +49,11 @@
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.treeScene = new System.Windows.Forms.TreeView();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tbMove = new System.Windows.Forms.TabPage();
             this.txtZTrans = new System.Windows.Forms.TextBox();
@@ -90,7 +95,6 @@
             this.chkAlpha = new System.Windows.Forms.CheckBox();
             this.lblDebug = new System.Windows.Forms.Label();
             this.chkWireframe = new System.Windows.Forms.CheckBox();
-            this.treeScene = new System.Windows.Forms.TreeView();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.tabModel1 = new System.Windows.Forms.TabPage();
             this.glControl1 = new OpenTK.GLControl();
@@ -104,9 +108,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.lblSliceNum = new System.Windows.Forms.Label();
             this.tabMachineControl = new System.Windows.Forms.TabPage();
-            this.machineControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineControl();
             this.tabMachineConfig = new System.Windows.Forms.TabPage();
-            this.ctlMachineConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineConfig();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.cmdLoad = new System.Windows.Forms.ToolStripButton();
@@ -121,11 +123,11 @@
             this.cmdSlice1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.lblMainMessage = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.lblTime = new System.Windows.Forms.ToolStripLabel();
             this.cmdDonate = new System.Windows.Forms.ToolStripButton();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.txtLog = new System.Windows.Forms.TextBox();
-            this.heatTempCtl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlHeatTemp();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmdRemoveObject = new System.Windows.Forms.ToolStripMenuItem();
@@ -134,7 +136,12 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.button1 = new System.Windows.Forms.Button();
+            this.machineControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineControl();
+            this.ctlMachineConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineConfig();
+            this.heatTempCtl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlHeatTemp();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -142,6 +149,12 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tbMove.SuspendLayout();
             this.tbRotate.SuspendLayout();
@@ -210,7 +223,6 @@
             // 
             // addManualSupportToolStripMenuItem
             // 
-            this.addManualSupportToolStripMenuItem.Enabled = false;
             this.addManualSupportToolStripMenuItem.Name = "addManualSupportToolStripMenuItem";
             this.addManualSupportToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
             this.addManualSupportToolStripMenuItem.Text = "Add Manual Support";
@@ -325,8 +337,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
-            this.splitContainer1.Panel1.Controls.Add(this.treeScene);
+            this.splitContainer1.Panel1.Controls.Add(this.splitContainer4);
             // 
             // splitContainer1.Panel2
             // 
@@ -334,9 +345,72 @@
             this.splitContainer1.Panel2.Controls.Add(this.vScrollBar1);
             this.splitContainer1.Panel2.Controls.Add(this.toolStrip1);
             this.splitContainer1.Size = new System.Drawing.Size(1457, 641);
-            this.splitContainer1.SplitterDistance = 284;
+            this.splitContainer1.SplitterDistance = 285;
             this.splitContainer1.SplitterWidth = 6;
             this.splitContainer1.TabIndex = 20;
+            // 
+            // splitContainer4
+            // 
+            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer4.Name = "splitContainer4";
+            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.tabControl2);
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.tabControl1);
+            this.splitContainer4.Size = new System.Drawing.Size(281, 637);
+            this.splitContainer4.SplitterDistance = 367;
+            this.splitContainer4.TabIndex = 9;
+            // 
+            // tabControl2
+            // 
+            this.tabControl2.Controls.Add(this.tabPage1);
+            this.tabControl2.Controls.Add(this.tabPage2);
+            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl2.Location = new System.Drawing.Point(0, 0);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(281, 367);
+            this.tabControl2.TabIndex = 8;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.treeScene);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(273, 338);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Scene";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // treeScene
+            // 
+            this.treeScene.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeScene.Font = new System.Drawing.Font("Courier New", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.treeScene.Location = new System.Drawing.Point(3, 3);
+            this.treeScene.Name = "treeScene";
+            this.treeScene.Size = new System.Drawing.Size(267, 332);
+            this.treeScene.TabIndex = 6;
+            this.treeScene.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeScene_NodeMouseClick);
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.button3);
+            this.tabPage2.Controls.Add(this.button2);
+            this.tabPage2.Controls.Add(this.button1);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(273, 338);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Support Tools";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // tabControl1
             // 
@@ -346,10 +420,10 @@
             this.tabControl1.Controls.Add(this.tabView);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.tabControl1.Location = new System.Drawing.Point(0, 414);
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(280, 223);
+            this.tabControl1.Size = new System.Drawing.Size(281, 266);
             this.tabControl1.TabIndex = 7;
             // 
             // tbMove
@@ -368,7 +442,7 @@
             this.tbMove.Location = new System.Drawing.Point(4, 25);
             this.tbMove.Name = "tbMove";
             this.tbMove.Padding = new System.Windows.Forms.Padding(3);
-            this.tbMove.Size = new System.Drawing.Size(272, 194);
+            this.tbMove.Size = new System.Drawing.Size(273, 237);
             this.tbMove.TabIndex = 0;
             this.tbMove.Text = "Move";
             this.tbMove.UseVisualStyleBackColor = true;
@@ -494,7 +568,7 @@
             this.tbRotate.Location = new System.Drawing.Point(4, 25);
             this.tbRotate.Name = "tbRotate";
             this.tbRotate.Padding = new System.Windows.Forms.Padding(3);
-            this.tbRotate.Size = new System.Drawing.Size(272, 194);
+            this.tbRotate.Size = new System.Drawing.Size(273, 237);
             this.tbRotate.TabIndex = 1;
             this.tbRotate.Text = "Rotate";
             this.tbRotate.UseVisualStyleBackColor = true;
@@ -593,7 +667,7 @@
             this.tbScale.Controls.Add(this.txtScale);
             this.tbScale.Location = new System.Drawing.Point(4, 25);
             this.tbScale.Name = "tbScale";
-            this.tbScale.Size = new System.Drawing.Size(272, 194);
+            this.tbScale.Size = new System.Drawing.Size(273, 237);
             this.tbScale.TabIndex = 2;
             this.tbScale.Text = "Scale";
             this.tbScale.UseVisualStyleBackColor = true;
@@ -723,7 +797,7 @@
             this.tabView.Controls.Add(this.chkWireframe);
             this.tabView.Location = new System.Drawing.Point(4, 25);
             this.tabView.Name = "tabView";
-            this.tabView.Size = new System.Drawing.Size(272, 194);
+            this.tabView.Size = new System.Drawing.Size(273, 237);
             this.tabView.TabIndex = 3;
             this.tabView.Text = "View";
             this.tabView.UseVisualStyleBackColor = true;
@@ -731,7 +805,7 @@
             // chkSliceHeight
             // 
             this.chkSliceHeight.AutoSize = true;
-            this.chkSliceHeight.Location = new System.Drawing.Point(0, 130);
+            this.chkSliceHeight.Location = new System.Drawing.Point(0, 170);
             this.chkSliceHeight.Name = "chkSliceHeight";
             this.chkSliceHeight.Size = new System.Drawing.Size(159, 21);
             this.chkSliceHeight.TabIndex = 2;
@@ -742,7 +816,7 @@
             // chkAlpha
             // 
             this.chkAlpha.AutoSize = true;
-            this.chkAlpha.Location = new System.Drawing.Point(0, 81);
+            this.chkAlpha.Location = new System.Drawing.Point(-1, 116);
             this.chkAlpha.Name = "chkAlpha";
             this.chkAlpha.Size = new System.Drawing.Size(267, 21);
             this.chkAlpha.TabIndex = 1;
@@ -756,29 +830,19 @@
             this.lblDebug.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblDebug.Location = new System.Drawing.Point(0, 0);
             this.lblDebug.Name = "lblDebug";
-            this.lblDebug.Size = new System.Drawing.Size(272, 78);
+            this.lblDebug.Size = new System.Drawing.Size(273, 113);
             this.lblDebug.TabIndex = 0;
             // 
             // chkWireframe
             // 
             this.chkWireframe.AutoSize = true;
-            this.chkWireframe.Location = new System.Drawing.Point(0, 103);
+            this.chkWireframe.Location = new System.Drawing.Point(0, 143);
             this.chkWireframe.Name = "chkWireframe";
             this.chkWireframe.Size = new System.Drawing.Size(196, 21);
             this.chkWireframe.TabIndex = 0;
             this.chkWireframe.Text = "View Models as Wireframe";
             this.chkWireframe.UseVisualStyleBackColor = true;
             this.chkWireframe.CheckedChanged += new System.EventHandler(this.chkWireframe_CheckedChanged);
-            // 
-            // treeScene
-            // 
-            this.treeScene.Dock = System.Windows.Forms.DockStyle.Top;
-            this.treeScene.Font = new System.Drawing.Font("Courier New", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeScene.Location = new System.Drawing.Point(0, 0);
-            this.treeScene.Name = "treeScene";
-            this.treeScene.Size = new System.Drawing.Size(280, 414);
-            this.treeScene.TabIndex = 6;
-            this.treeScene.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeScene_NodeMouseClick);
             // 
             // tabMain
             // 
@@ -791,7 +855,7 @@
             this.tabMain.Location = new System.Drawing.Point(30, 55);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(1133, 582);
+            this.tabMain.Size = new System.Drawing.Size(1132, 582);
             this.tabMain.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabMain.TabIndex = 18;
             // 
@@ -801,7 +865,7 @@
             this.tabModel1.Location = new System.Drawing.Point(4, 25);
             this.tabModel1.Name = "tabModel1";
             this.tabModel1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabModel1.Size = new System.Drawing.Size(1125, 553);
+            this.tabModel1.Size = new System.Drawing.Size(1124, 553);
             this.tabModel1.TabIndex = 0;
             this.tabModel1.Text = "Model View";
             this.tabModel1.UseVisualStyleBackColor = true;
@@ -813,11 +877,15 @@
             this.glControl1.Location = new System.Drawing.Point(3, 3);
             this.glControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.glControl1.Name = "glControl1";
-            this.glControl1.Size = new System.Drawing.Size(1119, 547);
+            this.glControl1.Size = new System.Drawing.Size(1118, 547);
             this.glControl1.TabIndex = 15;
             this.glControl1.VSync = false;
             this.glControl1.Load += new System.EventHandler(this.glControl1_Load);
             this.glControl1.Paint += new System.Windows.Forms.PaintEventHandler(this.glControl1_Paint);
+            this.glControl1.DoubleClick += new System.EventHandler(this.glControl1_DoubleClick);
+            this.glControl1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.glControl1_KeyDown);
+            this.glControl1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.glControl1_KeyPress);
+            this.glControl1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.glControl1_KeyUp);
             this.glControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.glControl1_MouseDown);
             this.glControl1.MouseLeave += new System.EventHandler(this.glControl1_MouseLeave);
             this.glControl1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.glControl1_MouseMove);
@@ -831,7 +899,7 @@
             this.tabGCode.Location = new System.Drawing.Point(4, 25);
             this.tabGCode.Name = "tabGCode";
             this.tabGCode.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGCode.Size = new System.Drawing.Size(1125, 553);
+            this.tabGCode.Size = new System.Drawing.Size(1124, 553);
             this.tabGCode.TabIndex = 1;
             this.tabGCode.Text = "GCode";
             this.tabGCode.UseVisualStyleBackColor = true;
@@ -846,7 +914,7 @@
             this.txtGCode.Multiline = true;
             this.txtGCode.Name = "txtGCode";
             this.txtGCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtGCode.Size = new System.Drawing.Size(1119, 469);
+            this.txtGCode.Size = new System.Drawing.Size(1118, 469);
             this.txtGCode.TabIndex = 0;
             this.txtGCode.WordWrap = false;
             // 
@@ -857,7 +925,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(3, 472);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1119, 78);
+            this.panel1.Size = new System.Drawing.Size(1118, 78);
             this.panel1.TabIndex = 1;
             // 
             // cmdLoadGCode
@@ -886,7 +954,7 @@
             this.tabSliceView.Controls.Add(this.panel2);
             this.tabSliceView.Location = new System.Drawing.Point(4, 25);
             this.tabSliceView.Name = "tabSliceView";
-            this.tabSliceView.Size = new System.Drawing.Size(1125, 553);
+            this.tabSliceView.Size = new System.Drawing.Size(1124, 553);
             this.tabSliceView.TabIndex = 2;
             this.tabSliceView.Text = "Slice Viewer";
             this.tabSliceView.UseVisualStyleBackColor = true;
@@ -897,7 +965,7 @@
             this.picSlice.Dock = System.Windows.Forms.DockStyle.Fill;
             this.picSlice.Location = new System.Drawing.Point(0, 35);
             this.picSlice.Name = "picSlice";
-            this.picSlice.Size = new System.Drawing.Size(1125, 518);
+            this.picSlice.Size = new System.Drawing.Size(1124, 518);
             this.picSlice.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picSlice.TabIndex = 17;
             this.picSlice.TabStop = false;
@@ -908,7 +976,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1125, 35);
+            this.panel2.Size = new System.Drawing.Size(1124, 35);
             this.panel2.TabIndex = 18;
             // 
             // lblSliceNum
@@ -926,36 +994,20 @@
             this.tabMachineControl.Controls.Add(this.machineControl1);
             this.tabMachineControl.Location = new System.Drawing.Point(4, 25);
             this.tabMachineControl.Name = "tabMachineControl";
-            this.tabMachineControl.Size = new System.Drawing.Size(1125, 553);
+            this.tabMachineControl.Size = new System.Drawing.Size(1124, 553);
             this.tabMachineControl.TabIndex = 3;
             this.tabMachineControl.Text = "Machine Control";
             this.tabMachineControl.UseVisualStyleBackColor = true;
-            // 
-            // machineControl1
-            // 
-            this.machineControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.machineControl1.Location = new System.Drawing.Point(0, 0);
-            this.machineControl1.Name = "machineControl1";
-            this.machineControl1.Size = new System.Drawing.Size(1125, 553);
-            this.machineControl1.TabIndex = 0;
             // 
             // tabMachineConfig
             // 
             this.tabMachineConfig.Controls.Add(this.ctlMachineConfig1);
             this.tabMachineConfig.Location = new System.Drawing.Point(4, 25);
             this.tabMachineConfig.Name = "tabMachineConfig";
-            this.tabMachineConfig.Size = new System.Drawing.Size(1125, 553);
+            this.tabMachineConfig.Size = new System.Drawing.Size(1124, 553);
             this.tabMachineConfig.TabIndex = 4;
             this.tabMachineConfig.Text = "Machine Config";
             this.tabMachineConfig.UseVisualStyleBackColor = true;
-            // 
-            // ctlMachineConfig1
-            // 
-            this.ctlMachineConfig1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ctlMachineConfig1.Location = new System.Drawing.Point(0, 0);
-            this.ctlMachineConfig1.Name = "ctlMachineConfig1";
-            this.ctlMachineConfig1.Size = new System.Drawing.Size(1125, 553);
-            this.ctlMachineConfig1.TabIndex = 0;
             // 
             // vScrollBar1
             // 
@@ -988,7 +1040,7 @@
             this.cmdDonate});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1163, 55);
+            this.toolStrip1.Size = new System.Drawing.Size(1162, 55);
             this.toolStrip1.Stretch = true;
             this.toolStrip1.TabIndex = 17;
             this.toolStrip1.Text = "toolStrip1";
@@ -1089,6 +1141,11 @@
             this.lblMainMessage.Name = "lblMainMessage";
             this.lblMainMessage.Size = new System.Drawing.Size(0, 52);
             // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 55);
+            // 
             // lblTime
             // 
             this.lblTime.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1136,15 +1193,6 @@
             this.txtLog.Size = new System.Drawing.Size(586, 121);
             this.txtLog.TabIndex = 0;
             // 
-            // heatTempCtl1
-            // 
-            this.heatTempCtl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.heatTempCtl1.Location = new System.Drawing.Point(0, 0);
-            this.heatTempCtl1.MonitorTemps = false;
-            this.heatTempCtl1.Name = "heatTempCtl1";
-            this.heatTempCtl1.Size = new System.Drawing.Size(867, 121);
-            this.heatTempCtl1.TabIndex = 0;
-            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1177,10 +1225,60 @@
             this.toolStripMenuItem1.Text = "Remove All Supports";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
-            // toolStripSeparator5
+            // button1
             // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 55);
+            this.button1.Location = new System.Drawing.Point(89, 96);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // machineControl1
+            // 
+            this.machineControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.machineControl1.Location = new System.Drawing.Point(0, 0);
+            this.machineControl1.Name = "machineControl1";
+            this.machineControl1.Size = new System.Drawing.Size(1124, 553);
+            this.machineControl1.TabIndex = 0;
+            // 
+            // ctlMachineConfig1
+            // 
+            this.ctlMachineConfig1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctlMachineConfig1.Location = new System.Drawing.Point(0, 0);
+            this.ctlMachineConfig1.Name = "ctlMachineConfig1";
+            this.ctlMachineConfig1.Size = new System.Drawing.Size(1124, 553);
+            this.ctlMachineConfig1.TabIndex = 0;
+            // 
+            // heatTempCtl1
+            // 
+            this.heatTempCtl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.heatTempCtl1.Location = new System.Drawing.Point(0, 0);
+            this.heatTempCtl1.MonitorTemps = false;
+            this.heatTempCtl1.Name = "heatTempCtl1";
+            this.heatTempCtl1.Size = new System.Drawing.Size(867, 121);
+            this.heatTempCtl1.TabIndex = 0;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(89, 158);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(89, 212);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 2;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // frmMain
             // 
@@ -1205,6 +1303,12 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel2.ResumeLayout(false);
+            this.splitContainer4.ResumeLayout(false);
+            this.tabControl2.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tbMove.ResumeLayout(false);
             this.tbMove.PerformLayout();
@@ -1346,6 +1450,13 @@
         private System.Windows.Forms.TabPage tabMachineConfig;
         private GUI.Controls.ctlMachineConfig ctlMachineConfig1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.SplitContainer splitContainer4;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
     }
 }
 

@@ -30,9 +30,9 @@ namespace Engine3D
             //Name = "Cylinder";
            // for (int cnt = 0; cnt < numdivsheight; cnt++)
            // {
-            GenerateCirclePoints(bottomradius, numdivscirc, zlev); // bottom
+            GenerateCirclePoints(bottomradius, numdivscirc, zlev,true); // bottom
             zlev += height;
-            GenerateCirclePoints(topradius, numdivscirc, zlev); // top
+            GenerateCirclePoints(topradius, numdivscirc, zlev,true); // top
             // now generate side polygons
             for (int cnt = 0; cnt < numdivscirc; cnt++) 
             {
@@ -114,7 +114,7 @@ namespace Engine3D
          This function generates a list of points for a cirlce add a certain level,
          * and adds them to the object point list
          */
-        private void GenerateCirclePoints(double radius, int numdivscirc,double zlev)
+        protected void GenerateCirclePoints(double radius, int numdivscirc,double zlev,bool addcenter)
         {            
             double step = (double)(Math.PI * 2) / numdivscirc;
             double t = 0.0;
@@ -127,13 +127,16 @@ namespace Engine3D
                 m_lstpoints.Add(pnt);
                 t += step;
             }
-            // add another point right in the center for the triangulating the face
-            Point3d centerpnt = new Point3d(); // bottom points
-            centerpnt.x = 0;
-            centerpnt.y = 0;
-            centerpnt.z = zlev;
+            if (addcenter)
+            {
+                // add another point right in the center for the triangulating the face
+                Point3d centerpnt = new Point3d(); // bottom points
+                centerpnt.x = 0;
+                centerpnt.y = 0;
+                centerpnt.z = zlev;
 
-            m_lstpoints.Add(centerpnt);
+                m_lstpoints.Add(centerpnt);
+            }
         }
     }
 }

@@ -189,10 +189,12 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     case MachineConfig.eMachineType.FDM:
                         Monitors.Enabled = false;
                         ProjectorRes.Enabled = false;
+                        grpPrjSerial.Enabled = false;
                         break;
                     case MachineConfig.eMachineType.UV_DLP:
                         Monitors.Enabled = true;
                         ProjectorRes.Enabled = true;
+                        grpPrjSerial.Enabled = true;
                         break;
                 }
             }

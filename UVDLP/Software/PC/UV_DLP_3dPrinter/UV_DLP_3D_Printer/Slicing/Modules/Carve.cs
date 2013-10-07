@@ -62,7 +62,7 @@ namespace UV_DLP_3D_Printer.Slicing.Modules
                 // Set the list of intersections 
                 sl.m_segments = lstintersections;
                 // add the slice to slicefile
-                m_data.m_slices.m_slices.Add(sl);
+               // m_data.m_slices.m_slices.Add(sl);
                 //raise an event to say we've finished a slice
                // RaiseSliceEvent(eSliceEvent.eLayerSliced, c, numslices);
             }

@@ -48,12 +48,13 @@ namespace UV_DLP_3D_Printer
 
             // append the build parameters as reference
             sb.Append(sf.m_config.ToString());
-            
+            sb.Append(";(Number of Slices        =  " + sf.NumSlices.ToString() + ")\r\n");
+
             sb.Append(pi.ToString());//add the machine build parameters string
 
             // append the header
             sb.Append(sf.m_config.HeaderCode);
-
+            
             zdist = sf.m_config.ZThick;
 
             String firstlayerdelay = ";(<Delay> " + sf.m_config.firstlayertime_ms + " )\r\n";
@@ -64,7 +65,7 @@ namespace UV_DLP_3D_Printer
             String tmpX1 = String.Format("{0:0.00000}", (sf.m_config.slidetiltval)).Replace(',', '.');
             String tmpX2 = String.Format("{0:0.00000}", (sf.m_config.slidetiltval * -1)).Replace(',', '.');
 
-            for (int c = 0; c < sf.m_slices.Count; c++)
+            for (int c = 0; c < sf.NumSlices; c++)
             {
                 sb.Append(sf.m_config.PreSliceCode);//add in the pre-slice code
                 // this is the marker the BuildManager uses to display the correct slice

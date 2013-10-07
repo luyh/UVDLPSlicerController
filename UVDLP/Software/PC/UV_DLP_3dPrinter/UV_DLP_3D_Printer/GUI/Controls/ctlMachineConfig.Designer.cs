@@ -67,7 +67,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.cmdCfgConMch = new System.Windows.Forms.Button();
             this.lblConMachine = new System.Windows.Forms.Label();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.grpPrjSerial = new System.Windows.Forms.GroupBox();
             this.lblConDisp = new System.Windows.Forms.Label();
             this.cmdCfgConDsp = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
@@ -77,7 +77,7 @@
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.groupBox5.SuspendLayout();
+            this.grpPrjSerial.SuspendLayout();
             this.SuspendLayout();
             // 
             // label9
@@ -106,12 +106,12 @@
             this.groupBox3.Controls.Add(this.txtYFeed);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.label4);
-            this.groupBox3.Location = new System.Drawing.Point(424, 62);
+            this.groupBox3.Location = new System.Drawing.Point(416, 62);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(168, 127);
+            this.groupBox3.Size = new System.Drawing.Size(145, 127);
             this.groupBox3.TabIndex = 51;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Max Feed Rate (mm/s)";
+            this.groupBox3.Text = "Max Feed Rate (mm/m)";
             // 
             // txtXFeed
             // 
@@ -167,7 +167,7 @@
             // grpDriver
             // 
             this.grpDriver.Controls.Add(this.lstDrivers);
-            this.grpDriver.Location = new System.Drawing.Point(598, 62);
+            this.grpDriver.Location = new System.Drawing.Point(569, 62);
             this.grpDriver.Name = "grpDriver";
             this.grpDriver.Size = new System.Drawing.Size(200, 128);
             this.grpDriver.TabIndex = 50;
@@ -231,7 +231,7 @@
             this.ProjectorRes.Controls.Add(this.projwidth);
             this.ProjectorRes.Location = new System.Drawing.Point(568, 194);
             this.ProjectorRes.Name = "ProjectorRes";
-            this.ProjectorRes.Size = new System.Drawing.Size(230, 134);
+            this.ProjectorRes.Size = new System.Drawing.Size(201, 134);
             this.ProjectorRes.TabIndex = 48;
             this.ProjectorRes.TabStop = false;
             this.ProjectorRes.Text = "Display Resolution (pixels)";
@@ -280,7 +280,7 @@
             this.groupBox1.Controls.Add(this.txtPlatWidth);
             this.groupBox1.Location = new System.Drawing.Point(265, 62);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(153, 128);
+            this.groupBox1.Size = new System.Drawing.Size(145, 128);
             this.groupBox1.TabIndex = 47;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Axis Length (mm)";
@@ -386,7 +386,7 @@
             this.groupBox2.Controls.Add(this.cmdNew);
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(227, 431);
+            this.groupBox2.Size = new System.Drawing.Size(227, 390);
             this.groupBox2.TabIndex = 57;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Configured Machine Profiles";
@@ -431,9 +431,9 @@
             // 
             this.groupBox4.Controls.Add(this.cmdCfgConMch);
             this.groupBox4.Controls.Add(this.lblConMachine);
-            this.groupBox4.Location = new System.Drawing.Point(805, 62);
+            this.groupBox4.Location = new System.Drawing.Point(775, 62);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(200, 128);
+            this.groupBox4.Size = new System.Drawing.Size(170, 128);
             this.groupBox4.TabIndex = 59;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Machine Connection";
@@ -457,16 +457,16 @@
             this.lblConMachine.TabIndex = 0;
             this.lblConMachine.Text = "Port:";
             // 
-            // groupBox5
+            // grpPrjSerial
             // 
-            this.groupBox5.Controls.Add(this.lblConDisp);
-            this.groupBox5.Controls.Add(this.cmdCfgConDsp);
-            this.groupBox5.Location = new System.Drawing.Point(805, 200);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(200, 128);
-            this.groupBox5.TabIndex = 60;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Display Connection";
+            this.grpPrjSerial.Controls.Add(this.lblConDisp);
+            this.grpPrjSerial.Controls.Add(this.cmdCfgConDsp);
+            this.grpPrjSerial.Location = new System.Drawing.Point(775, 200);
+            this.grpPrjSerial.Name = "grpPrjSerial";
+            this.grpPrjSerial.Size = new System.Drawing.Size(170, 128);
+            this.grpPrjSerial.TabIndex = 60;
+            this.grpPrjSerial.TabStop = false;
+            this.grpPrjSerial.Text = "Projector Serial Control";
             // 
             // lblConDisp
             // 
@@ -490,7 +490,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.groupBox5);
+            this.Controls.Add(this.grpPrjSerial);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.lblMachineName);
             this.Controls.Add(this.groupBox2);
@@ -518,8 +518,8 @@
             this.groupBox2.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
+            this.grpPrjSerial.ResumeLayout(false);
+            this.grpPrjSerial.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -566,7 +566,7 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button cmdCfgConMch;
         private System.Windows.Forms.Label lblConMachine;
-        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.GroupBox grpPrjSerial;
         private System.Windows.Forms.Label lblConDisp;
         private System.Windows.Forms.Button cmdCfgConDsp;
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Drawing;
 
 namespace UV_DLP_3D_Printer
 {
@@ -17,6 +18,8 @@ namespace UV_DLP_3D_Printer
         bool m_autoconnect; // autoconnect to the machine
         bool m_loadlastmodel; // load and display the last model
         public string m_slic3rloc; // location of slicer exetutable- shouldn't be here?
+        public Color m_foregroundcolor;
+        public Color m_backgroundcolor; 
 
         public void CreateDefault() 
         {
@@ -25,6 +28,8 @@ namespace UV_DLP_3D_Printer
             m_LastModelFilename = "";
             m_loadlastmodel = true;
             m_autoconnect = false;
+            m_foregroundcolor = Color.White;
+            m_backgroundcolor = Color.Black;
            // m_drivertype = eDriverType.eNULL_DRIVER;
         }
 
@@ -41,6 +46,9 @@ namespace UV_DLP_3D_Printer
                 m_autoconnect = bool.Parse(xr.ReadElementString("AutoConnect"));
                 m_loadlastmodel = bool.Parse(xr.ReadElementString("LoadLastModel"));
                 m_slic3rloc = xr.ReadElementString("Slic3rLocation");
+                m_foregroundcolor =  Color.FromArgb(int.Parse(xr.ReadElementString("ForegroundColor")));
+                m_backgroundcolor = Color.FromArgb(int.Parse(xr.ReadElementString("BackgroundColor")));
+                //Color.(
                 xr.ReadEndElement();
                 xr.Close();
                 return true;
@@ -63,6 +71,8 @@ namespace UV_DLP_3D_Printer
                 xw.WriteElementString("AutoConnect", m_autoconnect?"True":"False");
                 xw.WriteElementString("LoadLastModel", m_loadlastmodel ? "True" : "False");
                 xw.WriteElementString("Slic3rLocation", m_slic3rloc);
+                xw.WriteElementString("ForegroundColor", m_foregroundcolor.ToArgb().ToString());
+                xw.WriteElementString("BackgroundColor", m_backgroundcolor.ToArgb().ToString());
                 xw.WriteEndElement();
                 xw.Close(); // close the file
                 return true;

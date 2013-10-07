@@ -158,25 +158,34 @@ namespace UV_DLP_3D_Printer
 
         private void Render2dlines(Graphics g, ArrayList lines, SliceBuildConfig sp) 
         {
-            Point pnt1 = new Point(); // create some points for drawing
-            Point pnt2 = new Point();
-            Pen pen = new Pen(Color.White, 1);
-            //Brush
-            //Pen p2 = new Pen(
-            
-            int hxres = sp.xres / 2;
-            int hyres = sp.yres / 2;
-
-            foreach(Line2d ln in lines)
+            try
             {
-                Point2d p1 = (Point2d)ln.p1;
-                Point2d p2 = (Point2d)ln.p2;
-                pnt1.X = (int)(p1.x ) + sp.XOffset + hxres;
-                pnt1.Y = (int)(p1.y ) + sp.YOffset + hyres;
-                pnt2.X = (int)(p2.x ) + sp.XOffset + hxres;
-                pnt2.Y = (int)(p2.y ) + sp.YOffset + hyres;
-                //g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                g.DrawLine(pen, pnt1, pnt2);       
+                Point pnt1 = new Point(); // create some points for drawing
+                Point pnt2 = new Point();
+                //Pen pen = new Pen(Color.White, 1);
+                Pen pen = new Pen(UVDLPApp.Instance().m_appconfig.m_foregroundcolor, 1);
+                //Brush
+                //Pen p2 = new Pen(
+
+                int hxres = sp.xres / 2;
+                int hyres = sp.yres / 2;
+
+                foreach (Line2d ln in lines)
+                {
+                    Point2d p1 = (Point2d)ln.p1;
+                    Point2d p2 = (Point2d)ln.p2;
+                    pnt1.X = (int)(p1.x) + sp.XOffset + hxres;
+                    pnt1.Y = (int)(p1.y) + sp.YOffset + hyres;
+                    pnt2.X = (int)(p2.x) + sp.XOffset + hxres;
+                    pnt2.Y = (int)(p2.y) + sp.YOffset + hyres;
+                    //g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                    g.DrawLine(pen, pnt1, pnt2);
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+
             }
         }
         private static Bitmap ReflectY(Bitmap source) 
@@ -209,6 +218,73 @@ namespace UV_DLP_3D_Printer
             }
             catch { return null; }
         }
+
+        /// <summary>
+        /// This new slicing function renders into a pre-allocated bitmap
+        /// </summary>
+        /// <param name="sp"></param>
+        /// <param name="bmp"></param>
+        public void RenderSlice(SliceBuildConfig sp, ref Bitmap bmp)
+        {
+            try
+            {
+                Graphics graph = Graphics.FromImage(bmp);
+                Point pnt1 = new Point(); // create some points for drawing
+                Point pnt2 = new Point();
+                Pen pen = new Pen(UVDLPApp.Instance().m_appconfig.m_foregroundcolor, 1);
+                //graph.Clear(UVDLPApp.Instance().m_appconfig.m_backgroundcolor);
+                //convert all to 2d lines
+                int hxres = sp.xres / 2;
+                int hyres = sp.yres / 2;
+
+                ArrayList lines2d = Get2dLines(sp);
+                if (lines2d.Count == 0) 
+                    return; 
+                Render2dlines(graph, lines2d, sp);
+
+                // find the x/y min/max
+                MinMax_XY mm = CalcMinMax_XY(lines2d);
+                // iterate from the ymin to the ymax
+                for (int y = mm.ymin; y < mm.ymax; y++) // this needs to be in scaled value 
+                {
+                    //      get a line of lines that intersect this 2d line
+                    ArrayList intersecting = GetIntersecting2dYLines(y, lines2d);
+                    //      get the list of point intersections
+                    ArrayList points = GetIntersectingPoints(y, intersecting);
+                    // sort the points in increasing x order
+                    //SortXIncreasing(points);
+                    points.Sort();
+                    //      draw the X-Spans (should be even number)    
+                    //    For a given pair of intersectin points
+                    //    (Xi, Y), (Xj, Y)
+                    //  −> Fill ceiling(Xi) to floor(Xj)
+
+                    if (points.Count % 2 == 0)  // is even
+                    {
+                        for (int cnt = 0; cnt < points.Count; cnt += 2)  // increment by 2
+                        {
+                            Point2d p1 = (Point2d)points[cnt];
+                            Point2d p2 = (Point2d)points[cnt + 1];
+                            pnt1.X = (int)(p1.x + sp.XOffset + hxres);
+                            pnt1.Y = (int)(p1.y + sp.YOffset + hyres);
+                            pnt2.X = (int)(p2.x + sp.XOffset + hxres);
+                            pnt2.Y = (int)(p2.y + sp.YOffset + hyres);
+                            //graph.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                            graph.DrawLine(pen, pnt1.X, pnt1.Y, pnt2.X, pnt2.Y);
+                        }
+                    }
+                    else  // flag error
+                    {
+                        DebugLogger.Instance().LogRecord("Row y=" + y + " odd # of points = " + points.Count + " - Model may have holes");
+                    }
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
+        }
+
         public Bitmap RenderSlice(SliceBuildConfig sp) 
         {
             // create a new bitmap that will be used to draw into
@@ -244,8 +320,8 @@ namespace UV_DLP_3D_Printer
             Graphics graph = Graphics.FromImage(bmp);
             Point pnt1 = new Point(); // create some points for drawing
             Point pnt2 = new Point();
-            Pen pen = new Pen(Color.White,1);
-            graph.Clear(Color.Black);
+            Pen pen = new Pen(UVDLPApp.Instance().m_appconfig.m_foregroundcolor, 1);
+            graph.Clear(UVDLPApp.Instance().m_appconfig.m_backgroundcolor);
             //convert all to 2d lines
             int hxres = sp.xres / 2;
             int hyres = sp.yres / 2;
