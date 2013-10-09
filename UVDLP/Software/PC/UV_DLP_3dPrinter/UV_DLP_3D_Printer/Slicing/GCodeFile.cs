@@ -53,7 +53,34 @@ namespace UV_DLP_3D_Printer
                 return false;
             }            
         }
+        /// <summary>
+        /// this is a cheat to find, parse and return the number of slices in a gcode file for UV DLP GCode
+        /// </summary>
+        /// <returns></returns>
+        public int GetVar(string var) 
+        {
+            try
+            {
+                foreach (string s in Lines)
+                {
+                    if (s.Contains(var))
+                    {
+                        String str = s;
+                        str = str.Replace('(', ' ');
+                        str = str.Replace(')', ' ');
+                        str = str.Replace(';', ' ');
+                        string[] tmp = str.Split('=');
+                        return int.Parse(tmp[1]);
 
+                    }
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.StackTrace);
+            }
+            return -1;
+        }
         public String[] Lines 
         {
             get 

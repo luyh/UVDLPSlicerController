@@ -19,83 +19,59 @@ namespace UV_DLP_3D_Printer.Slicing
      */
     public class SliceFile
     {
+        
+        public enum SFMode 
+        {
+            eLoaded, // this is a fake lice file, there is no config, pull a few parms from the gcode file
+            eSliced // this is from a slicing done this session
+        }
+         
         public SliceBuildConfig m_config; // the slicing parameters used to create the image slices
         public string modelname; // the fully qualified model/scene name, so we can load up the image files
         private int m_numslices;
+        private int m_xres, m_yres;
+        private SFMode m_mode;
+
         ZipFile m_zip;
+        /*
         public SliceFile() 
         {
-            m_config = new SliceBuildConfig(); // going to be loaded
-         
+            m_config = new SliceBuildConfig(); // going to be loaded         
+        }
+         */ 
+        public int XProjRes 
+        {
+            get { return m_xres; }
+        }
+
+        public int YProjRes
+        {
+            get { return m_yres; }
         }
 
         public int NumSlices 
         {
             get { return m_numslices; }
-            set { 
-                m_numslices = value; }
+            set { m_numslices = value; }
         }
-
-        // constructor that the slicer calls to create
+        
+        public SliceFile(int xres, int yres, int numslices) 
+        {
+            m_xres = xres;
+            m_yres = yres;
+            m_numslices = numslices;
+            m_mode = SFMode.eLoaded;
+        }
+        /// constructor that the slicer calls to create
         /// <summary>
-        /// This will copy over some sliceconfig data into class vars for easier saving and loading later
         /// </summary>
         /// <param name="config"></param>
         public SliceFile(SliceBuildConfig config) 
         {
             m_config = new SliceBuildConfig(config); // copy the source
-            //m_slices = new ArrayList();
-        }
-
-        public bool Load(string filename) 
-        {
-            try
-            {
-                Stream FileStream = File.OpenRead(filename);
-                BinaryFormatter serializer = new BinaryFormatter();
-                StreamReader sr = new StreamReader(FileStream);
-                m_config = (SliceBuildConfig)serializer.Deserialize(FileStream);
-                int numslice = int.Parse(sr.ReadLine());
-                for (int c = 0; c < numslice; c++) 
-                {
-                    Slice sl = new Slice();
-                    //m_slices.Add(sl);
-                    sl.Load(sr);
-                }
-                return true;
-            }
-            catch (Exception ex) 
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-                return false;
-            }
-        }
-        public bool Save(string filename)
-        {
-            try
-            {
-                //save the slice config first
-                Stream FileStream = File.Create(filename);
-                BinaryFormatter serializer = new BinaryFormatter();
-                StreamWriter sw = new StreamWriter(FileStream); // create a filestream so this all works
-                serializer.Serialize(FileStream, m_config);
-                //save number of slices
-                //sw.WriteLine(m_slices.Count.ToString());
-                //now save the slices
-                /*
-                foreach (Slice sl in m_slices) 
-                {
-                    sl.Save(sw);
-                }
-                 * */
-                FileStream.Close();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-                return false;
-            }
+            m_xres = config.xres;
+            m_yres = config.yres;
+            m_mode = SFMode.eSliced;
         }
 
         /*
@@ -109,9 +85,9 @@ namespace UV_DLP_3D_Printer.Slicing
                 path = Path.GetDirectoryName(modelname);
                 path += UVDLPApp.m_pathsep;
                 path += Path.GetFileNameWithoutExtension(modelname);// strip off the file extension
-
-                if (m_config.m_exportopt.ToUpper().Contains("ZIP"))
+                try
                 {
+                    // try first to load from zip
                     // read the bitmap from the zip
                     path += ".zip";
                     m_zip = ZipFile.Read(path);
@@ -121,16 +97,20 @@ namespace UV_DLP_3D_Printer.Slicing
                     ze.Extract(stream);
                     Bitmap bmp = new Bitmap(stream);
                     return bmp;      
-                }
-                else
+                }catch(Exception )
                 {
-                    //read bitmap from disk
+                
+                }
+                try
+                {
+                    //try to read bitmap from disk
                     path += UVDLPApp.m_pathsep;
                     path += Path.GetFileNameWithoutExtension(modelname) + String.Format("{0:0000}", layer) + ".png";
-                   
+
                     Bitmap bmp = new Bitmap(path);
                     return bmp;
                 }
+                catch (Exception ) { }
                 return null;
             }
             catch (Exception ex) 

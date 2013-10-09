@@ -20,8 +20,40 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             //UVDLPApp.Instance().m_deviceinterface.DataEvent += new DeviceInterface.DeviceDataReceived(DataReceived);
             UVDLPApp.Instance().m_deviceinterface.LineDataEvent += new DeviceInterface.DeviceLineReceived(LineDataReceived);
             sb = new StringBuilder();
+            UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEventDel);
+            SetupForMachineType();
         }
 
+        private void AppEventDel(eAppEvent ev, String Message)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new MethodInvoker(delegate() { AppEventDel(ev, Message); }));
+            }
+            else
+            {
+                switch (ev)
+                {
+                    case eAppEvent.eMachineTypeChanged:
+                        SetupForMachineType();
+                        break;
+                }
+            }
+        }
+        private void SetupForMachineType()
+        {
+            if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
+            {
+                grpExtrudeControls.Enabled = false;
+                groupBox2.Enabled = false;
+            }
+            else if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.FDM)
+            {
+                grpExtrudeControls.Enabled = true;
+                groupBox2.Enabled = true;
+            }
+
+        }
         #region X/Y/Z Axis Controls
         /// <summary>
         /// Z Axis Up

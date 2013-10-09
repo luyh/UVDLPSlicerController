@@ -257,18 +257,43 @@ namespace UV_DLP_3D_Printer
                     {
                         LoadGCode(gcodefile);
                     }
-                    else 
+                    else // read the gcode from the zip file 
                     {
-                        //look for the zip file
+                        string zpath = "";
+                        zpath = Path.GetDirectoryName(obj.m_fullname);
+                        zpath += UVDLPApp.m_pathsep;
+                        zpath += Path.GetFileNameWithoutExtension(obj.m_fullname);// strip off the file extension
+                        zpath += ".zip";
+                        String entryname = Path.GetFileNameWithoutExtension(obj.m_fullname) + ".gcode";
+                        if(File.Exists(zpath)) // make sure the file exists before we try to read it
+                        {
+                            Stream s = Utility.ReadFromZip(zpath,entryname);
+                            if(s  != null)
+                            {
+                                s.Seek(0, 0); // go to the beginning of the stream
+                                byte []array = Utility.ReadFully(s);
+                                string gc = System.Text.Encoding.ASCII.GetString(array);
+                                m_gcode = new GCodeFile(gc);
+                                RaiseAppEvent(eAppEvent.eGCodeLoaded, "GCode Loaded " + entryname);
+                            }
+                            else 
+                            {
+                                DebugLogger.Instance().LogError("Could not load GCode from Zip " + zpath);
+                            }
+                        }
+                        
                     }
-                    /* // no loading the slice files
-                    string slicedfile = "";
-                    slicedfile = Path.GetDirectoryName(filename) + m_pathsep + Path.GetFileNameWithoutExtension(filename) + ".sliced";
-                    if (File.Exists(slicedfile))
+                    if(m_gcode !=null)
                     {
-                        LoadSlicedFile(slicedfile);
+                        int xres, yres, numslices;
+                        xres = m_gcode.GetVar("Projector X Res");
+                        yres = m_gcode.GetVar("Projector Y Res");
+                        numslices = m_gcode.GetVar("Number of Slices");
+                        m_slicefile = new SliceFile(xres,yres,numslices);
+                        m_slicefile.modelname = obj.m_fullname;
+                        m_slicefile.m_config = null; //this can be null if we're loading it...
+                        RaiseAppEvent(eAppEvent.eSlicedLoaded, "SliceFile Created");
                     }
-                     * */
                 }
                 else 
                 {
@@ -298,6 +323,7 @@ namespace UV_DLP_3D_Printer
             }
             return null;
         }
+
         void SliceEv(Slicer.eSliceEvent ev, int layer, int totallayers,SliceFile sf) 
         {
             String path = "";
@@ -311,18 +337,28 @@ namespace UV_DLP_3D_Printer
                     break;
                 case Slicer.eSliceEvent.eSliceCompleted:
                     m_slicefile = sf;
+                    //generate the GCode
                     m_gcode = GCodeGenerator.Generate(m_slicefile, m_printerinfo);
                     
-                    //get the path of the current object file
-                    //string slicername = "";
                     path = Path.GetDirectoryName(m_slicefile.modelname);
                     string fn = Path.GetFileNameWithoutExtension(m_slicefile.modelname);
+                    //see if we're exporting this to a zip file 
                     if (sf.m_config.m_exportopt.Contains("ZIP"))
                     {
                         // open the existing zip file
                         //store the gcode
+                        Stream stream = new MemoryStream(System.Text.Encoding.ASCII.GetBytes (m_gcode.RawGCode));
+                        string zpath = "";
+                        zpath = Path.GetDirectoryName(m_slicefile.modelname);
+                        zpath += UVDLPApp.m_pathsep;
+                        zpath += Path.GetFileNameWithoutExtension(m_slicefile.modelname);// strip off the file extension
+                        zpath += ".zip";
+                        if (!Utility.StoreInZip(zpath, Path.GetFileNameWithoutExtension(m_slicefile.modelname) + ".gcode", stream)) 
+                        {
+                            DebugLogger.Instance().LogError("Could not store GCode in Zip " + zpath);
+                        }
                     }
-                    else 
+                    else  // or just to the disk
                     {
                         string sdn = path + UVDLPApp.m_pathsep + fn + UVDLPApp.m_pathsep + fn + ".gcode";
                         SaveGCode(sdn);

@@ -320,12 +320,12 @@ namespace UV_DLP_3D_Printer
                                 {
                                     if (m_blankimage == null)  // blank image is null, create it
                                     {
-                                        m_blankimage = new Bitmap(m_sf.m_config.xres, m_sf.m_config.yres);
+                                        m_blankimage = new Bitmap(m_sf.XProjRes, m_sf.YProjRes);
                                         // fill it with black
                                         using (Graphics gfx = Graphics.FromImage(m_blankimage))
                                         using (SolidBrush brush = new SolidBrush(Color.Black))
                                         {
-                                            gfx.FillRectangle(brush, 0, 0, m_sf.m_config.xres, m_sf.m_config.yres);
+                                            gfx.FillRectangle(brush, 0, 0, m_sf.XProjRes, m_sf.YProjRes);
                                         }
                                     }
                                     bmp = m_blankimage;

@@ -78,6 +78,7 @@ namespace UV_DLP_3D_Printer.Drivers
             //System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
             //return bytes;
             byte[] b2 = System.Text.Encoding.ASCII.GetBytes (str);
+            System.Text.Encoding.ASCII.GetString(b2);
             //byte[] b2 = System.Text.Encoding.UTF8.GetBytes(str);
             return b2;
         }
