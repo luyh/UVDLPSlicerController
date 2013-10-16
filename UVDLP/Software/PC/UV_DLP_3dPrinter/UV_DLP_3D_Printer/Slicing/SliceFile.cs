@@ -104,6 +104,10 @@ namespace UV_DLP_3D_Printer.Slicing
                 try
                 {
                     //try to read bitmap from disk
+                    path = Path.GetDirectoryName(modelname);
+                    path += UVDLPApp.m_pathsep;
+                    path += Path.GetFileNameWithoutExtension(modelname);// strip off the file extension
+
                     path += UVDLPApp.m_pathsep;
                     path += Path.GetFileNameWithoutExtension(modelname) + String.Format("{0:0000}", layer) + ".png";
 

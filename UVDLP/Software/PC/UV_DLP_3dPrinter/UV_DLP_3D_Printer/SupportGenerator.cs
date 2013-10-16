@@ -61,6 +61,7 @@ namespace UV_DLP_3D_Printer
         private bool m_cancel;
         private bool m_generating; // true while this is running
         public SupportGeneratorEvent SupportEvent;
+       // public ArrayList m_lstSupports = null; // the list of generated supports returned after support generation is complete
 
         public void RaiseSupportEvent(SupportEvent evnt, string message, Object obj) 
         {
@@ -68,20 +69,6 @@ namespace UV_DLP_3D_Printer
             {
                 SupportEvent(evnt, message, obj);
             }
-        }
-
-        void GenerateSupport2d() 
-        {
-            /*
-             * // the model can be treated as volumetric data
-             * foreach slice z
-             *      foreach pixel y
-             *          foreach pixel x
-             *              if(pixel color is black)
-             *              {
-             *                  
-             *              }
-             */
         }
 
         public bool Generating 
@@ -160,6 +147,8 @@ namespace UV_DLP_3D_Printer
         }
         private void StartGenerating() 
         {
+           // m_lstSupports = new ArrayList();
+            RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eStarted, "Support Generation Started", null);
             GenerateSupportObjects();
         }
         /*
@@ -168,7 +157,7 @@ namespace UV_DLP_3D_Printer
          */
         public ArrayList GenerateSupportObjects() 
         {
-           // ArrayList objects = new ArrayList();
+           
             // iterate over the platform size by indicated mm step; // projected resolution in x,y
             // generate a 3d x/y point on z=0, 
             // generate another on the z=zmax
@@ -251,13 +240,9 @@ namespace UV_DLP_3D_Printer
 
                         Support s = new Support();
                         float lz = (float)lowest.z;
-                        s.Create(2.5f, 1.5f, 1.5f, .75f, lz*.2f, lz*.6f, lz*.2f, 20);
-
-                        //Cylinder3d cyl = new Cylinder3d();
-                        //cyl.Create(m_sc.brad, m_sc.trad, lowest.z, 20, m_sc.vdivs);
+                        s.Create((float)m_sc.fbrad, (float)m_sc.ftrad, (float)m_sc.hbrad, (float)m_sc.htrad, lz * .2f, lz * .6f, lz * .2f, 11);
                         s.Translate((float)x,(float)y,0);
                         s.Name = "Support " + scnt;
-                        s.IsSupport = true;
                         s.SetColor(Color.Yellow);
                         scnt++;                       
                         lstsupports.Add(s);
@@ -266,7 +251,7 @@ namespace UV_DLP_3D_Printer
                 }
             }
            // return objects;
-            RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eCompleted, "Support Generation Completed", null);
+            RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eCompleted, "Support Generation Completed", lstsupports);
             m_generating = false;
             return lstsupports;
         }

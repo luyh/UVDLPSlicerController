@@ -109,7 +109,7 @@ const bool Z_ENDSTOP_INVERT = true;
 //-----------------------------------------------------------------------
 // Disables axis when it's not being used.
 //-----------------------------------------------------------------------
-const bool DISABLE_X = false;
+const bool DISABLE_X = true;
 const bool DISABLE_Y = false;
 const bool DISABLE_Z = true;
 const bool DISABLE_E = false;
@@ -117,7 +117,7 @@ const bool DISABLE_E = false;
 //-----------------------------------------------------------------------
 // Inverting axis direction
 //-----------------------------------------------------------------------
-const bool INVERT_X_DIR = false;
+const bool INVERT_X_DIR = true;
 const bool INVERT_Y_DIR = false;
 const bool INVERT_Z_DIR = false;
 const bool INVERT_E_DIR = false;
@@ -147,8 +147,8 @@ const int Z_MAX_LENGTH = 250;
 //// MOVEMENT SETTINGS
 //-----------------------------------------------------------------------
 const int NUM_AXIS = 4; // The axis order in all axis related arrays is X, Y, Z, E
-#define _MAX_FEEDRATE {400, 400, 200, 45}       // (mm/sec)    
-#define _HOMING_FEEDRATE {1500,1500,100}      // (mm/min) !!
+#define _MAX_FEEDRATE {250, 250, 250, 45}       // (mm/sec)    
+#define _HOMING_FEEDRATE {100,100,100}      // (mm/min) !!
 #define _AXIS_RELATIVE_MODES {false, false, false, false}
 
 #define MAX_STEP_FREQUENCY 30000 // Max step frequency

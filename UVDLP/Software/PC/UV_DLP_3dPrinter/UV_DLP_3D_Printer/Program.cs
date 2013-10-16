@@ -21,8 +21,8 @@ namespace UV_DLP_3D_Printer
             SetDefaultCulture(System.Globalization.CultureInfo.InvariantCulture); 
             Application.SetCompatibleTextRenderingDefault(false);
             //init the app object
-            frmSplash splash = new frmSplash();
-            splash.Show();
+           // frmSplash splash = new frmSplash();
+           // splash.Show();
             UVDLPApp.Instance().DoAppStartup();
             Application.Run(new frmMain());
 

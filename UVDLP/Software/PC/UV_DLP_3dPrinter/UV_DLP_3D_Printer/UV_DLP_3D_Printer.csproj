@@ -92,6 +92,7 @@
     <Compile Include="Configs\AppConfig.cs" />
     <Compile Include="Configs\ConnectionConfig.cs" />
     <Compile Include="Configs\DeviceDriverConfig.cs" />
+    <Compile Include="Configs\FDMSliceBuildConfig.cs" />
     <Compile Include="Configs\ParmList.cs" />
     <Compile Include="Configs\SupportConfig.cs" />
     <Compile Include="Device_Interface\DeviceDriver.cs" />
@@ -118,17 +119,17 @@
     <Compile Include="GUI\Controls\ctlMachineControl.Designer.cs">
       <DependentUpon>ctlMachineControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\ctlSupport.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\ctlSupport.Designer.cs">
+      <DependentUpon>ctlSupport.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frm3DLPrinterControl.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\frm3DLPrinterControl.Designer.cs">
       <DependentUpon>frm3DLPrinterControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\frmAuto3dSupport.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\frmAuto3dSupport.Designer.cs">
-      <DependentUpon>frmAuto3dSupport.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\frmBuildProfilesManager.cs">
       <SubType>Form</SubType>
@@ -141,12 +142,6 @@
     </Compile>
     <Compile Include="GUI\frmConnection.Designer.cs">
       <DependentUpon>frmConnection.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\frmControl.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\frmControl.Designer.cs">
-      <DependentUpon>frmControl.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\frmFlexSliceOptions.cs">
       <SubType>Form</SubType>
@@ -235,20 +230,17 @@
     <EmbeddedResource Include="GUI\Controls\ctlMachineControl.resx">
       <DependentUpon>ctlMachineControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\ctlSupport.resx">
+      <DependentUpon>ctlSupport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\frm3DLPrinterControl.resx">
       <DependentUpon>frm3DLPrinterControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\frmAuto3dSupport.resx">
-      <DependentUpon>frmAuto3dSupport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmBuildProfilesManager.resx">
       <DependentUpon>frmBuildProfilesManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmConnection.resx">
       <DependentUpon>frmConnection.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\frmControl.resx">
-      <DependentUpon>frmControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmFlexSliceOptions.resx">
       <DependentUpon>frmFlexSliceOptions.cs</DependentUpon>

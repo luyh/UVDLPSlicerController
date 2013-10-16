@@ -67,7 +67,8 @@ namespace UV_DLP_3D_Printer
         private const int BUILD_TIMER_INTERVAL = 1000; // 1 second updates
         Bitmap m_blankimage = null; // a blank image to display
         Bitmap m_calibimage = null; // a calibration image to display
-
+        private DateTime m_buildstarttime;
+        private string estimatedbuildtime = "";
         public BuildManager() 
         {
             m_buildtimer = new System.Timers.Timer();
@@ -92,7 +93,13 @@ namespace UV_DLP_3D_Printer
                     double totallines = m_gcode.Lines.Length;
                     double curline = m_gcodeline;
                     percentdone = (curline / totallines) * 100.0;
-                    string mess = "Build " + string.Format("{0:0.00}",percentdone) + "% Completed";
+                    TimeSpan span = DateTime.Now.Subtract(m_buildstarttime);
+
+                    string tm = //"Elapsed " + span.Hours + ":" + span.Minutes + ":" + span.Seconds + " of " + EstimateBuildTime(m_gcode);
+                    tm = String.Format("{0:00}:{1:00}:{2:00}", span.Hours, span.Minutes, span.Seconds);
+                    tm = "Elapsed " + tm;
+                    tm += " of " + estimatedbuildtime;
+                    string mess = tm +  " - " + string.Format("{0:0.00}",percentdone) + "% Completed";
                     RaiseStatusEvent(eBuildStatus.eBuildStatusUpdate,mess);
                 }
             }
@@ -212,7 +219,11 @@ namespace UV_DLP_3D_Printer
                 return;
 
             m_printing = true;
+            m_buildstarttime = new DateTime();
+            m_buildstarttime = DateTime.Now;
+            estimatedbuildtime = EstimateBuildTime(gcode);
             StartBuildTimer();
+            
             m_sf = sf; // set the slicefile for rendering
             m_gcode = gcode; // set the file 
             m_state = STATE_START; // set the state machine as started
@@ -225,6 +236,7 @@ namespace UV_DLP_3D_Printer
             try
             {
                 int val = 0;
+                line = line.Replace(';', ' '); // remove comments
                 line = line.Replace(')', ' ');
                 String[] lines = line.Split('>');
                 if (lines[1].Contains("Blank"))

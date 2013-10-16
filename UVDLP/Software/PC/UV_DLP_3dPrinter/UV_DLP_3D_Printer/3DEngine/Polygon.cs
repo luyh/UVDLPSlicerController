@@ -28,6 +28,7 @@ namespace Engine3D
         public bool m_solid; // draw it solid
         public bool m_wire;// draw wireframe
         public MinMax m_minmax; // cached for slicing
+        public bool m_hidden; // for hiding polygons during the manual support genetation step
         //move vars cached for slicing
         PolyLine3d lineseg1;
         PolyLine3d lineseg2;
@@ -51,6 +52,7 @@ namespace Engine3D
             m_center = new Point3d();
             m_minmax = null;
             plane = new Plane();
+            m_hidden = false;
         }
 
         void CalculatePlaneEquation()
@@ -264,7 +266,8 @@ namespace Engine3D
             // 
             // test dot product of the transformed normal
             Color clr = m_color;
-
+            if (m_hidden == true)
+                return; // not displaying this poly...
             if (wireframe)
             {
                 GL.Begin(BeginMode.LineLoop);//.LineStrip);

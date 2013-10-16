@@ -71,13 +71,17 @@ namespace UV_DLP_3D_Printer
         public DeviceDataReceived DataEvent;
         public DeviceLineReceived LineDataEvent;
         private DeviceDriver m_driver; //support for a single device driver 
+        private DeviceDriver m_projector; // secondary interface
+
         private bool m_ready; // ready to send a command
         private byte[] m_databufA;
         private byte[] m_databufB;
         private const int BUFF_SIZE = 4096;
         private const char TERMCHAR = '\n';
+
         public DeviceInterface() 
         {
+            m_projector = null;
             m_driver = null;
             m_ready = true;
             m_databufA = null;// new byte[BUFF_SIZE];
@@ -106,10 +110,39 @@ namespace UV_DLP_3D_Printer
                 m_driver.DeviceStatus += new DeviceDriver.DeviceStatusEvent(DriverDeviceStatusEvent);
             }
         }
+        // get and set the printdriver
+        public DeviceDriver DriverProjector
+        {
+            get { return m_projector; }
+            set 
+            {
+                if (m_projector != null)
+                {
+                    DeviceDriver olddriver = m_projector;
+                    if(olddriver.Connected == true)
+                        olddriver.Disconnect(); // disconnect the old driver
+                    //remove the old device driver delegates
+                    olddriver.DataReceived -= new DeviceDriver.DataReceivedEvent(DriverDataReceivedEvent);
+                    olddriver.DeviceStatus -= new DeviceDriver.DeviceStatusEvent(DriverDeviceStatusEvent);
+                }
+                //set the new driver
+                m_projector = value; 
+                //and bind the delegates to listen to events
+                m_projector.DataReceived += new DeviceDriver.DataReceivedEvent(DriverDataReceivedEvent);
+                m_projector.DeviceStatus += new DeviceDriver.DeviceStatusEvent(DriverDeviceStatusEvent);
+            }
+        }
+
+
         public void Configure(ConnectionConfig cc) 
         {
             Driver.Configure(cc);
         }
+        public void ConfigureProjector(ConnectionConfig cc) 
+        {
+            DriverProjector.Configure(cc);
+        }
+        
         public void DriverDeviceStatusEvent(DeviceDriver device, eDeviceStatus status) 
         {
             switch (status) 
@@ -244,18 +277,9 @@ namespace UV_DLP_3D_Printer
         }
         */
         public bool Connected { get { return m_driver.Connected; } }
+        public bool ConnectedProjector { get { return m_projector.Connected; } }
 
-        /*
-         This function moves the Z axis to the specified position in mm 
-         * at the specified feed rate
-         */
-        /*
-        public void MoveTo(double zpos,double rate) 
-        {
-            String command = "G1 Z"  + zpos + " F" + rate + "\r\n";
-            SendCommandToDevice(command);
-        }
-        */
+
         /*
          This function moves the Z axis to by the distance in mm 
          * at the specified feed rate
@@ -289,7 +313,7 @@ namespace UV_DLP_3D_Printer
             SendCommandToDevice(command);
             SendCommandToDevice("G90\r\n");
         }
-        public bool Disconnect() 
+        public bool Disconnect()
         {
             m_ready = false;
             return m_driver.Disconnect();
@@ -300,6 +324,24 @@ namespace UV_DLP_3D_Printer
             {
                 m_ready = true;
                 return m_driver.Connect();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool DisconnectProjector() 
+        {
+            //m_ready = false;
+            return m_projector.Disconnect();
+        }
+        public bool ConnectProjector()
+        {
+            try
+            {
+              //  m_ready = true;
+                return m_projector.Connect();
             }
             catch (Exception ) 
             {

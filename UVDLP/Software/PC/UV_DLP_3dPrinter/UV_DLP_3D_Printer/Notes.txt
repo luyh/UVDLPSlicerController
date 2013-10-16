@@ -146,3 +146,10 @@ Change everything to use relative sub-paths
 make the profiles backwards compatible
 -STL Save
 3DLPrinter notes:
+
+
+Improvement:
+
+Determination of ml volume consumed
+estimate to done for building
+ability to add buttons for the toolbar linked to gcode (or other) functions

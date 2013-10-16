@@ -31,7 +31,6 @@
             this.chkExportSlices = new System.Windows.Forms.CheckBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.cmdOK = new System.Windows.Forms.Button();
-            this.chkgengcode = new System.Windows.Forms.CheckBox();
             this.lblLayerTime = new System.Windows.Forms.Label();
             this.txtLayerTime = new System.Windows.Forms.TextBox();
             this.txtZThick = new System.Windows.Forms.TextBox();
@@ -50,6 +49,9 @@
             this.label8 = new System.Windows.Forms.Label();
             this.tabOptions = new System.Windows.Forms.TabControl();
             this.tbOptions = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.rbsub = new System.Windows.Forms.RadioButton();
+            this.rbzip = new System.Windows.Forms.RadioButton();
             this.chkmainliftgcode = new System.Windows.Forms.CheckBox();
             this.chkautocalcdelay = new System.Windows.Forms.CheckBox();
             this.grpLift = new System.Windows.Forms.GroupBox();
@@ -88,12 +90,11 @@
             this.cmdendgcode = new System.Windows.Forms.Button();
             this.txtsaveendgcode = new System.Windows.Forms.Button();
             this.txtendgcode = new System.Windows.Forms.TextBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.rbzip = new System.Windows.Forms.RadioButton();
-            this.rbsub = new System.Windows.Forms.RadioButton();
+            this.cmdAutoCalc = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.tabOptions.SuspendLayout();
             this.tbOptions.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.grpLift.SuspendLayout();
             this.tbStart.SuspendLayout();
             this.tbPreSlice.SuspendLayout();
@@ -101,7 +102,6 @@
             this.tbMainlift.SuspendLayout();
             this.tbPostLift.SuspendLayout();
             this.tbEnd.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // chkExportSlices
@@ -126,18 +126,6 @@
             this.cmdOK.Text = "OK";
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
-            // 
-            // chkgengcode
-            // 
-            this.chkgengcode.AutoSize = true;
-            this.chkgengcode.Location = new System.Drawing.Point(28, 256);
-            this.chkgengcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.chkgengcode.Name = "chkgengcode";
-            this.chkgengcode.Size = new System.Drawing.Size(138, 21);
-            this.chkgengcode.TabIndex = 25;
-            this.chkgengcode.Text = "Generate GCode";
-            this.chkgengcode.UseVisualStyleBackColor = true;
-            this.chkgengcode.CheckedChanged += new System.EventHandler(this.chkgengcode_CheckedChanged);
             // 
             // lblLayerTime
             // 
@@ -319,7 +307,6 @@
             this.tbOptions.Controls.Add(this.chkExportSlices);
             this.tbOptions.Controls.Add(this.cmdOK);
             this.tbOptions.Controls.Add(this.label8);
-            this.tbOptions.Controls.Add(this.chkgengcode);
             this.tbOptions.Controls.Add(this.txtnumbottom);
             this.tbOptions.Controls.Add(this.txtLayerTime);
             this.tbOptions.Controls.Add(this.lblLayerTime);
@@ -336,6 +323,39 @@
             this.tbOptions.TabIndex = 0;
             this.tbOptions.Text = "Options";
             this.tbOptions.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.rbsub);
+            this.groupBox2.Controls.Add(this.rbzip);
+            this.groupBox2.Location = new System.Drawing.Point(28, 309);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(200, 81);
+            this.groupBox2.TabIndex = 50;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Image Slice Export Options";
+            // 
+            // rbsub
+            // 
+            this.rbsub.AutoSize = true;
+            this.rbsub.Location = new System.Drawing.Point(7, 49);
+            this.rbsub.Name = "rbsub";
+            this.rbsub.Size = new System.Drawing.Size(109, 21);
+            this.rbsub.TabIndex = 1;
+            this.rbsub.TabStop = true;
+            this.rbsub.Text = "Subdirectory";
+            this.rbsub.UseVisualStyleBackColor = true;
+            // 
+            // rbzip
+            // 
+            this.rbzip.AutoSize = true;
+            this.rbzip.Location = new System.Drawing.Point(7, 22);
+            this.rbzip.Name = "rbzip";
+            this.rbzip.Size = new System.Drawing.Size(75, 21);
+            this.rbzip.TabIndex = 0;
+            this.rbzip.TabStop = true;
+            this.rbzip.Text = "Zip File";
+            this.rbzip.UseVisualStyleBackColor = true;
             // 
             // chkmainliftgcode
             // 
@@ -364,6 +384,7 @@
             // 
             // grpLift
             // 
+            this.grpLift.Controls.Add(this.cmdAutoCalc);
             this.grpLift.Controls.Add(this.label14);
             this.grpLift.Controls.Add(this.txtliftfeed);
             this.grpLift.Controls.Add(this.label13);
@@ -390,9 +411,9 @@
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(8, 123);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(132, 17);
+            this.label14.Size = new System.Drawing.Size(136, 17);
             this.label14.TabIndex = 48;
-            this.label14.Text = "Z Lift Speed (mm/s)";
+            this.label14.Text = "Z Lift Speed (mm/m)";
             // 
             // txtliftfeed
             // 
@@ -409,9 +430,9 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(143, 123);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(182, 17);
+            this.label13.Size = new System.Drawing.Size(186, 17);
             this.label13.TabIndex = 46;
-            this.label13.Text = "Z Lift Retract Speed (mm/s)";
+            this.label13.Text = "Z Lift Retract Speed (mm/m)";
             // 
             // txtretractfeed
             // 
@@ -761,38 +782,15 @@
             this.txtendgcode.Size = new System.Drawing.Size(721, 298);
             this.txtendgcode.TabIndex = 3;
             // 
-            // groupBox2
+            // cmdAutoCalc
             // 
-            this.groupBox2.Controls.Add(this.rbsub);
-            this.groupBox2.Controls.Add(this.rbzip);
-            this.groupBox2.Location = new System.Drawing.Point(28, 309);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 81);
-            this.groupBox2.TabIndex = 50;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Image Slice Export Options";
-            // 
-            // rbzip
-            // 
-            this.rbzip.AutoSize = true;
-            this.rbzip.Location = new System.Drawing.Point(7, 22);
-            this.rbzip.Name = "rbzip";
-            this.rbzip.Size = new System.Drawing.Size(75, 21);
-            this.rbzip.TabIndex = 0;
-            this.rbzip.TabStop = true;
-            this.rbzip.Text = "Zip File";
-            this.rbzip.UseVisualStyleBackColor = true;
-            // 
-            // rbsub
-            // 
-            this.rbsub.AutoSize = true;
-            this.rbsub.Location = new System.Drawing.Point(7, 49);
-            this.rbsub.Name = "rbsub";
-            this.rbsub.Size = new System.Drawing.Size(109, 21);
-            this.rbsub.TabIndex = 1;
-            this.rbsub.TabStop = true;
-            this.rbsub.Text = "Subdirectory";
-            this.rbsub.UseVisualStyleBackColor = true;
+            this.cmdAutoCalc.Location = new System.Drawing.Point(71, 43);
+            this.cmdAutoCalc.Name = "cmdAutoCalc";
+            this.cmdAutoCalc.Size = new System.Drawing.Size(104, 23);
+            this.cmdAutoCalc.TabIndex = 49;
+            this.cmdAutoCalc.Text = "Auto Calc";
+            this.cmdAutoCalc.UseVisualStyleBackColor = true;
+            this.cmdAutoCalc.Click += new System.EventHandler(this.cmdAutoCalc_Click);
             // 
             // frmSliceOptions
             // 
@@ -813,6 +811,8 @@
             this.tabOptions.ResumeLayout(false);
             this.tbOptions.ResumeLayout(false);
             this.tbOptions.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.grpLift.ResumeLayout(false);
             this.grpLift.PerformLayout();
             this.tbStart.ResumeLayout(false);
@@ -827,8 +827,6 @@
             this.tbPostLift.PerformLayout();
             this.tbEnd.ResumeLayout(false);
             this.tbEnd.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -838,7 +836,6 @@
         private System.Windows.Forms.CheckBox chkExportSlices;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button cmdOK;
-        private System.Windows.Forms.CheckBox chkgengcode;
         private System.Windows.Forms.Label lblLayerTime;
         private System.Windows.Forms.TextBox txtLayerTime;
         private System.Windows.Forms.TextBox txtZThick;
@@ -898,5 +895,6 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RadioButton rbsub;
         private System.Windows.Forms.RadioButton rbzip;
+        private System.Windows.Forms.Button cmdAutoCalc;
     }
 }

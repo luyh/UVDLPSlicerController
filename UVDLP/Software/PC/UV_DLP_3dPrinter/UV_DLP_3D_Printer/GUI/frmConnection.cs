@@ -52,19 +52,12 @@ namespace UV_DLP_3D_Printer.GUI
             cmbSpeed.SelectedItem = cc.speed.ToString();
             txtDataBits.Text = cc.databits.ToString();
 
-            /*        foreach (string s in Enum.GetNames(typeof(StopBits)))
-        {
-            Console.WriteLine("   {0}", s);
-        }*/
-            //
-
         }
 
         private void cmdOK_Click(object sender, EventArgs e)
         {
             if (GetData()) 
             {
-                //UVDLPApp.Instance().SaveCurrentMachineConfig();//save machine config                
                 Close();
             }
         }

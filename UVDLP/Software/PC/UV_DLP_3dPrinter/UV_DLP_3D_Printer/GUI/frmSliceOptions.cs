@@ -33,7 +33,7 @@ namespace UV_DLP_3D_Printer
         private void SetValues() 
         {
             txtZThick.Text = "" + String.Format("{0:0.00000}",m_config.ZThick);
-            chkgengcode.Checked = m_config.exportgcode;
+           // chkgengcode.Checked = m_config.exportgcode;
             chkExportSlices.Checked = m_config.exportimages;
             //chkexportsvg.Checked = m_config.exportsvg;
             if (m_config.m_exportopt.ToUpper().Contains("ZIP"))
@@ -78,7 +78,7 @@ namespace UV_DLP_3D_Printer
             try
             {              
                 m_config.ZThick = Single.Parse(txtZThick.Text);
-                m_config.exportgcode = true;// chkgengcode.Checked;
+               // m_config.exportgcode = true;// chkgengcode.Checked;
                 m_config.exportimages = chkExportSlices.Checked;
                 //m_config.exportsvg = chkexportsvg.Checked;
                 if (rbzip.Checked == true)
@@ -253,6 +253,35 @@ namespace UV_DLP_3D_Printer
         private void chkgengcode_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void cmdAutoCalc_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (GetValues())
+                {
+                    double zlift = m_config.liftdistance; // in mm
+                    double zliftrate = m_config.liftfeedrate; // in mm/m
+                    double zliftretract = m_config.liftretractrate; // in mm/m
+                    zliftrate /= 60.0d;     // to convert to mm/s
+                    zliftretract /= 60.0d;  // to convert to mm/s
+
+                    double tval = 0;
+                    double settlingtime = 500.0d; // 500 ms
+                    tval = (zlift / zliftrate);
+                    tval += (zlift / zliftretract);
+                    tval *= 1000.0d; // convert to ms
+                    tval += settlingtime;
+                    String stime = ((int)tval).ToString();
+                    txtBlankTime.Text = stime;
+
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
         }
     }
 }

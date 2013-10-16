@@ -347,11 +347,23 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             lblConMachine.Text = m_config.m_driverconfig.m_connection.comname;
         }
+        private void UpdateDisplayConnection()
+        {
+            lblConDisp.Text = m_config.m_driverconfig.m_displayconnection.comname;
+        }
         private void cmdCfgConMch_Click(object sender, EventArgs e)
         {
             frmConnection frmconnect = new frmConnection(ref m_config.m_driverconfig.m_connection);
             frmconnect.ShowDialog();
             UpdateMainConnection();
+        }
+
+        private void cmdCfgConDsp_Click(object sender, EventArgs e)
+        {
+            frmConnection frmconnect = new frmConnection(ref m_config.m_driverconfig.m_displayconnection);
+            frmconnect.ShowDialog();
+            UpdateDisplayConnection();
+       
         }
     }
 }

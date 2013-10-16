@@ -139,10 +139,19 @@ namespace UV_DLP_3D_Printer
                 UVDLPApp.Instance().Scene.FindMinMax();
                 // I think I should calculate the number of slices from the world 0 position, not just the bottom of the object
                 //int numslices = (int)((UVDLPApp.Instance().Scene.m_max.z - UVDLPApp.Instance().Scene.m_min.z) / m_sf.m_config.ZThick);
+                
+                int numslices = (int)((UVDLPApp.Instance().Scene.m_max.z - UVDLPApp.Instance().Scene.m_min.z) / m_sf.m_config.ZThick);
+                // I should start slicing at Wz 0, not Oz 0
+                double curz = (double)UVDLPApp.Instance().Scene.m_min.z; // start at the bottom of all objects in the scene
+                
+                /*
                 int numslices = (int)((UVDLPApp.Instance().Scene.m_max.z) / m_sf.m_config.ZThick);
                 // I should start slicing at Wz 0, not Oz 0
-                //double curz = (double)UVDLPApp.Instance().Scene.m_min.z;
-                double curz = (double)0.0;// start at the ground               
+                double curz = 0; // start at Wz0
+                */
+                // an alternative here is to slice the scene from wZ 0, therefore, all object geometry beneath the ground plane won't be slice;
+                //double curz = (double)0.0;// start at the ground   
+            
                 
                 int c = 0;
                 string scenename = "";
@@ -202,12 +211,21 @@ namespace UV_DLP_3D_Printer
                             sl.RenderSlice(m_sf.m_config, ref bmp);
                             //now re-sample it if needed and save it
                             savebm = bmp;
+/*
                             if (m_sf.m_config.antialiasing == true) // we're using anti-aliasing here, so resize the image
                             {
                                 savebm = ResizeImage(bmp, new Size(ox, oy));
                             }           
+
+ */
                         }
                     }
+
+                    if (m_sf.m_config.antialiasing == true) // we're using anti-aliasing here, so resize the image
+                    {
+                        savebm = ResizeImage(bmp, new Size(ox, oy));
+                    }           
+
                     curz += m_sf.m_config.ZThick;// move the slice for the next layer
                     //raise an event to say we've finished a slice
                     if (savebm == null) 
@@ -347,17 +365,18 @@ namespace UV_DLP_3D_Printer
             ArrayList lst = new ArrayList();
             try
             {
-                
-                foreach (Polygon p in obj.m_lstpolys)
+                if (zlev >= obj.m_min.z && zlev <= obj.m_max.z)
                 {
-                    //check and see if current z level is between any of the polygons z coords
-                    //MinMax mm = p.CalcMinMax();
-                    if (p.m_minmax.InRange(zlev))
+                    foreach (Polygon p in obj.m_lstpolys)
                     {
-                        lst.Add(p);
+                        //check and see if current z level is between any of the polygons z coords
+                        //MinMax mm = p.CalcMinMax();
+                        if (p.m_minmax.InRange(zlev))
+                        {
+                            lst.Add(p);
+                        }
                     }
-                }
-                
+                }                
             }
             catch (Exception ex) 
             {

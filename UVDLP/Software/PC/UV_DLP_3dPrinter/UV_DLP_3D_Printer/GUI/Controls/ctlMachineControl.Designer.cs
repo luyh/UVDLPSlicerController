@@ -80,6 +80,10 @@
             this.cmdReverse2 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cmdClear = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.cmdHide = new System.Windows.Forms.Button();
+            this.cmdShowBlank = new System.Windows.Forms.Button();
+            this.cmdShowCalib = new System.Windows.Forms.Button();
             this.grpHoming.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.grpExtrudeControls.SuspendLayout();
@@ -89,6 +93,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.udTool1Rate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.udext1len)).BeginInit();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // label9
@@ -471,7 +476,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(696, 198);
+            this.label11.Location = new System.Drawing.Point(575, 198);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(71, 17);
             this.label11.TabIndex = 56;
@@ -480,7 +485,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(696, 63);
+            this.label12.Location = new System.Drawing.Point(575, 63);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(41, 17);
             this.label12.TabIndex = 55;
@@ -489,7 +494,7 @@
             // txtReceived
             // 
             this.txtReceived.BackColor = System.Drawing.Color.White;
-            this.txtReceived.Location = new System.Drawing.Point(699, 222);
+            this.txtReceived.Location = new System.Drawing.Point(578, 222);
             this.txtReceived.Multiline = true;
             this.txtReceived.Name = "txtReceived";
             this.txtReceived.ReadOnly = true;
@@ -500,7 +505,7 @@
             // txtSent
             // 
             this.txtSent.BackColor = System.Drawing.Color.White;
-            this.txtSent.Location = new System.Drawing.Point(699, 86);
+            this.txtSent.Location = new System.Drawing.Point(578, 86);
             this.txtSent.Multiline = true;
             this.txtSent.Name = "txtSent";
             this.txtSent.ReadOnly = true;
@@ -511,7 +516,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(696, 18);
+            this.label13.Location = new System.Drawing.Point(575, 18);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(103, 17);
             this.label13.TabIndex = 52;
@@ -519,7 +524,7 @@
             // 
             // cmdSendGCode
             // 
-            this.cmdSendGCode.Location = new System.Drawing.Point(946, 38);
+            this.cmdSendGCode.Location = new System.Drawing.Point(825, 38);
             this.cmdSendGCode.Name = "cmdSendGCode";
             this.cmdSendGCode.Size = new System.Drawing.Size(75, 23);
             this.cmdSendGCode.TabIndex = 51;
@@ -529,7 +534,7 @@
             // 
             // txtGCode
             // 
-            this.txtGCode.Location = new System.Drawing.Point(699, 38);
+            this.txtGCode.Location = new System.Drawing.Point(578, 38);
             this.txtGCode.Name = "txtGCode";
             this.txtGCode.Size = new System.Drawing.Size(229, 22);
             this.txtGCode.TabIndex = 50;
@@ -652,10 +657,50 @@
             this.cmdClear.UseVisualStyleBackColor = true;
             this.cmdClear.Click += new System.EventHandler(this.cmdClear_Click);
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.cmdHide);
+            this.groupBox4.Controls.Add(this.cmdShowBlank);
+            this.groupBox4.Controls.Add(this.cmdShowCalib);
+            this.groupBox4.Location = new System.Drawing.Point(250, 383);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(257, 126);
+            this.groupBox4.TabIndex = 60;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Projector";
+            // 
+            // cmdHide
+            // 
+            this.cmdHide.Location = new System.Drawing.Point(7, 90);
+            this.cmdHide.Name = "cmdHide";
+            this.cmdHide.Size = new System.Drawing.Size(147, 29);
+            this.cmdHide.TabIndex = 2;
+            this.cmdHide.Text = "Hide";
+            this.cmdHide.UseVisualStyleBackColor = true;
+            // 
+            // cmdShowBlank
+            // 
+            this.cmdShowBlank.Location = new System.Drawing.Point(6, 55);
+            this.cmdShowBlank.Name = "cmdShowBlank";
+            this.cmdShowBlank.Size = new System.Drawing.Size(147, 29);
+            this.cmdShowBlank.TabIndex = 1;
+            this.cmdShowBlank.Text = "Show Blank";
+            this.cmdShowBlank.UseVisualStyleBackColor = true;
+            // 
+            // cmdShowCalib
+            // 
+            this.cmdShowCalib.Location = new System.Drawing.Point(7, 21);
+            this.cmdShowCalib.Name = "cmdShowCalib";
+            this.cmdShowCalib.Size = new System.Drawing.Size(147, 28);
+            this.cmdShowCalib.TabIndex = 0;
+            this.cmdShowCalib.Text = "Show Calibration";
+            this.cmdShowCalib.UseVisualStyleBackColor = true;
+            // 
             // ctlMachineControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.cmdClear);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -681,7 +726,7 @@
             this.Controls.Add(this.cmdDown);
             this.Controls.Add(this.cmdUp);
             this.Name = "ctlMachineControl";
-            this.Size = new System.Drawing.Size(1184, 557);
+            this.Size = new System.Drawing.Size(949, 557);
             this.grpHoming.ResumeLayout(false);
             this.grpHoming.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -695,6 +740,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.udext1len)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -754,5 +800,9 @@
         private System.Windows.Forms.NumericUpDown udext1len;
         private System.Windows.Forms.NumericUpDown udTool0Rate;
         private System.Windows.Forms.NumericUpDown udTool1Rate;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button cmdShowBlank;
+        private System.Windows.Forms.Button cmdShowCalib;
+        private System.Windows.Forms.Button cmdHide;
     }
 }

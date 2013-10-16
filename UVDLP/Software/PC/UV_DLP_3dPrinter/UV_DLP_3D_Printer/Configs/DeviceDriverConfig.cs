@@ -11,13 +11,16 @@ namespace UV_DLP_3D_Printer.Configs
     public class DeviceDriverConfig
     {
         public eDriverType m_drivertype;
-        public ConnectionConfig m_connection;
+        public ConnectionConfig m_connection; // main serial connection to printer
+        public ConnectionConfig m_displayconnection; // to the projector or similar
 
         public DeviceDriverConfig() 
         {
             m_drivertype = eDriverType.eGENERIC; // default to a null driver
             m_connection = new ConnectionConfig();
+            m_displayconnection = new ConnectionConfig();
             m_connection.CreateDefault();
+            m_displayconnection.CreateDefault();
         }
 
         public bool Load(XmlReader xr)

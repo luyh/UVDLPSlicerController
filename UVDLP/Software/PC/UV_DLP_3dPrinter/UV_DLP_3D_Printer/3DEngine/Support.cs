@@ -58,7 +58,7 @@ namespace Engine3D
         private int cdivs;
         public Support() 
         {
-            tag = 500; // tag for support
+            tag = Object3d.OBJ_SUPPORT; // tag for support
 
         }
         /// <summary>

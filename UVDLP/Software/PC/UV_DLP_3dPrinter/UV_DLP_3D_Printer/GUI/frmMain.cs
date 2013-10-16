@@ -25,19 +25,13 @@ namespace UV_DLP_3D_Printer
 {
     public partial class frmMain : Form
     {
-//        private ISectData m_currentisect = null; // test /
-//        private ISectData m_lastisect = null; // test /
-//        private Color m_savedcol;
         private bool m_movingobjectmode = false; // for moving objects while the shift key is held down
         bool loaded = false;
         bool m_showalpha = false;
-      //  bool lightingsetup = false;
          
         frmDLP m_frmdlp = new frmDLP();        
-        frmControl m_frmcontrol = new frmControl();
         frm3DLPrinterControl m_frm3DLPControl = new frm3DLPrinterControl();
         frmSlice m_frmSlice = new frmSlice();
-        
         frmBuildProfilesManager m_buildprofilesmanager = new frmBuildProfilesManager();
         ArcBall arcball;// = new ArcBall();
         Quaternion m_quat;
@@ -202,6 +196,13 @@ namespace UV_DLP_3D_Printer
                     case eAppEvent.eMachineTypeChanged:
                         SetupForMachineType();
                         break;
+                    case eAppEvent.eShowBlank:
+                        ShowDLPScreen();
+                        break;
+                    case eAppEvent.eShowCalib:
+                        break;
+                    case eAppEvent.eShowDLP:
+                        break;
                 }
             }
             Refresh();
@@ -220,8 +221,17 @@ namespace UV_DLP_3D_Printer
         }
         private void SetVScrollMax(int val) 
         {
-            vScrollBar1.Maximum = val;// +vScrollBar1.LargeChange + 1;
-            vScrollBar1.Value = 0;
+            try
+            {
+                if (val < 0)
+                    val = 0;
+                vScrollBar1.Maximum = val;// +vScrollBar1.LargeChange + 1;
+                vScrollBar1.Value = 0;
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
         }
         private void SetButtonStatuses() 
         {
@@ -813,7 +823,7 @@ namespace UV_DLP_3D_Printer
             
             //UVDLPApp.Instance().Engine3D.m_objects
 
-            ArrayList isects = RTUtils.IntersectObjects(dir, origin, UVDLPApp.Instance().Engine3D.m_objects);
+            ArrayList isects = RTUtils.IntersectObjects(dir, origin, UVDLPApp.Instance().Engine3D.m_objects,true);
             if (isects.Count > 0) 
             {
                 ISectData isect = (ISectData)isects[0]; // get the first
@@ -893,7 +903,7 @@ namespace UV_DLP_3D_Printer
                     // examine the last isect data
                     foreach (ISectData dat in hits)
                     {
-                        if (dat.obj.tag == 9999) //found the ground plane
+                        if (dat.obj.tag == Object3d.OBJ_GROUND) //found the ground plane
                         {
 
                             UVDLPApp.Instance().m_selectedobject.Translate(
@@ -903,7 +913,7 @@ namespace UV_DLP_3D_Printer
                         }
                         
                     }
-                    if (UVDLPApp.Instance().m_selectedobject.tag == 500)  // if the current selected object is a support
+                    if (UVDLPApp.Instance().m_selectedobject.tag == Object3d.OBJ_SUPPORT)  // if the current selected object is a support
                     {
                         Support tmpsup = (Support)UVDLPApp.Instance().m_selectedobject;
                         Point3d pnt = new Point3d();
@@ -913,12 +923,12 @@ namespace UV_DLP_3D_Printer
                         // hit test from the selected objects center x/y/0 position straight up
                         //see if it hits any object in the scene,
                         // if it does, scale the object from the ground plane to the closest intersection point
-                        ArrayList iss = RTUtils.IntersectObjects(vec, pnt, UVDLPApp.Instance().Engine3D.m_objects);
+                        ArrayList iss = RTUtils.IntersectObjects(vec, pnt, UVDLPApp.Instance().Engine3D.m_objects,false);
                         foreach (ISectData htd in iss) 
                         {
-                            if (htd.obj.tag != 500 )  // if this is not another support or the ground
+                            if (htd.obj.tag != Object3d.OBJ_SUPPORT )  // if this is not another support or the ground
                             {
-                                if (htd.obj.tag != 9999)
+                                if (htd.obj.tag != Object3d.OBJ_GROUND)
                                 {
                                     // this should be it...
                                     tmpsup.ScaleToHeight(htd.intersect.z);
@@ -1101,29 +1111,6 @@ namespace UV_DLP_3D_Printer
             }
         }
 
-        private void cmdControl_Click(object sender, EventArgs e)
-        {
-            switch (UVDLPApp.Instance().m_deviceinterface.Driver.DriverType) 
-            {
-                case Drivers.eDriverType.eGENERIC:
-                case Drivers.eDriverType.eNULL_DRIVER:
-                    if (m_frmcontrol.IsDisposed)
-                    {
-                        m_frmcontrol = new frmControl();
-                    }
-                    m_frmcontrol.Show();
-                    break;
-                case Drivers.eDriverType.eRF_3DLPRINTER:
-                    if (m_frm3DLPControl.IsDisposed) 
-                    {
-                        m_frm3DLPControl = new frm3DLPrinterControl();
-                    }
-                    m_frm3DLPControl.Show();
-                    break;
-            }
-
-        }
-
         private void cmdSlice1_Click(object sender, EventArgs e)
         {
             if (m_frmSlice.IsDisposed) 
@@ -1166,7 +1153,7 @@ namespace UV_DLP_3D_Printer
 
             foreach (Object3d obj in UVDLPApp.Instance().Engine3D.m_objects)
             {
-                if (obj.IsSupport)
+                if (obj.tag == Object3d.OBJ_SUPPORT)
                 {
                     TreeNode objnode = new TreeNode(obj.Name);
                     objnode.Tag = obj;
@@ -1660,14 +1647,7 @@ namespace UV_DLP_3D_Printer
             UVDLPApp.Instance().AddSupport();
         }
 
-        private void addAutomaticSupportsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmAuto3dSupport frmsupport = new frmAuto3dSupport(ref UVDLPApp.Instance().m_supportconfig);
-            if (frmsupport.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-               
-            }
-        }
+       
 
         private void propertiesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -1783,14 +1763,14 @@ namespace UV_DLP_3D_Printer
 
             }
         }
-
+        /*
         private void chkSliceHeight_CheckedChanged(object sender, EventArgs e)
         {
             int vscrollval = vScrollBar1.Value;
             ViewLayer(vscrollval, null, BuildManager.SLICE_NORMAL);
             Refresh();
         }
-
+        */
         private void cmdDonate_Click(object sender, EventArgs e)
         {
             try
@@ -1875,6 +1855,37 @@ namespace UV_DLP_3D_Printer
             }
         }
 
+        private void ctlSupport1_Load(object sender, EventArgs e)
+        {
+
+        }
+        private void SetVScroll(int val) 
+        {
+            try
+            {
+                vScrollBar1.Value = val;
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
+        
+        }
+        private void cmdViewLayer_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int layer = int.Parse(txtLayerNum.Text);
+                //ViewLayer(layer, null, BuildManager.SLICE_NORMAL);
+                //vScrollBar1_ValueChanged
+                SetVScroll(layer);
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
+        }
+        /*
         private void button1_Click(object sender, EventArgs e)
         {
             Object3d obj1;
@@ -1916,5 +1927,6 @@ namespace UV_DLP_3D_Printer
                 UVDLPApp.Instance().m_engine3d.m_objects.Add(obj3);
             }
         }
+         * */
     }
 }

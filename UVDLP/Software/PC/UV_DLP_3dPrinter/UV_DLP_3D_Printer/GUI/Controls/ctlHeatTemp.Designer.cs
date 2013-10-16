@@ -141,11 +141,12 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.pictureBox1.Location = new System.Drawing.Point(532, 8);
+            this.pictureBox1.Location = new System.Drawing.Point(324, 8);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(157, 127);
             this.pictureBox1.TabIndex = 10;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
             // 
             // chkMonitorTemps
             // 
@@ -176,7 +177,7 @@
             this.lblEXT0.TabIndex = 13;
             this.lblEXT0.Text = "C";
             // 
-            // HeatTempCtl
+            // ctlHeatTemp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -194,8 +195,8 @@
             this.Controls.Add(this.cmdSet1);
             this.Controls.Add(this.lbl);
             this.Controls.Add(this.txtVal1);
-            this.Name = "HeatTempCtl";
-            this.Size = new System.Drawing.Size(692, 152);
+            this.Name = "ctlHeatTemp";
+            this.Size = new System.Drawing.Size(495, 152);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

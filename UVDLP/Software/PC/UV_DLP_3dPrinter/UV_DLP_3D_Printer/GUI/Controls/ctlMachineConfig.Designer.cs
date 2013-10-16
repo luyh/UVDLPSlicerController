@@ -108,7 +108,7 @@
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Location = new System.Drawing.Point(416, 62);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(145, 127);
+            this.groupBox3.Size = new System.Drawing.Size(145, 128);
             this.groupBox3.TabIndex = 51;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Max Feed Rate (mm/m)";
@@ -338,17 +338,17 @@
             // 
             // cmdOK
             // 
-            this.cmdOK.Location = new System.Drawing.Point(265, 355);
+            this.cmdOK.Location = new System.Drawing.Point(271, 339);
             this.cmdOK.Name = "cmdOK";
-            this.cmdOK.Size = new System.Drawing.Size(92, 38);
+            this.cmdOK.Size = new System.Drawing.Size(139, 38);
             this.cmdOK.TabIndex = 45;
-            this.cmdOK.Text = "Apply";
+            this.cmdOK.Text = "Save Changes";
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
             // cmdDelete
             // 
-            this.cmdDelete.Location = new System.Drawing.Point(113, 347);
+            this.cmdDelete.Location = new System.Drawing.Point(112, 201);
             this.cmdDelete.Name = "cmdDelete";
             this.cmdDelete.Size = new System.Drawing.Size(101, 33);
             this.cmdDelete.TabIndex = 56;
@@ -358,7 +358,7 @@
             // 
             // cmdNew
             // 
-            this.cmdNew.Location = new System.Drawing.Point(6, 347);
+            this.cmdNew.Location = new System.Drawing.Point(5, 201);
             this.cmdNew.Name = "cmdNew";
             this.cmdNew.Size = new System.Drawing.Size(101, 33);
             this.cmdNew.TabIndex = 55;
@@ -370,23 +370,21 @@
             // 
             this.lstMachineProfiles.FormattingEnabled = true;
             this.lstMachineProfiles.ItemHeight = 16;
-            this.lstMachineProfiles.Location = new System.Drawing.Point(6, 120);
+            this.lstMachineProfiles.Location = new System.Drawing.Point(5, 42);
             this.lstMachineProfiles.Name = "lstMachineProfiles";
-            this.lstMachineProfiles.Size = new System.Drawing.Size(208, 212);
+            this.lstMachineProfiles.Size = new System.Drawing.Size(208, 148);
             this.lstMachineProfiles.TabIndex = 54;
             this.lstMachineProfiles.SelectedIndexChanged += new System.EventHandler(this.lstMachineProfiles_SelectedIndexChanged);
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.label11);
-            this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.cmbMachineProfiles);
             this.groupBox2.Controls.Add(this.lstMachineProfiles);
             this.groupBox2.Controls.Add(this.cmdDelete);
             this.groupBox2.Controls.Add(this.cmdNew);
-            this.groupBox2.Location = new System.Drawing.Point(3, 3);
+            this.groupBox2.Location = new System.Drawing.Point(14, 82);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(227, 390);
+            this.groupBox2.Size = new System.Drawing.Size(227, 246);
             this.groupBox2.TabIndex = 57;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Configured Machine Profiles";
@@ -394,7 +392,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(7, 95);
+            this.label11.Location = new System.Drawing.Point(6, 22);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(78, 17);
             this.label11.TabIndex = 59;
@@ -403,7 +401,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(7, 28);
+            this.label10.Location = new System.Drawing.Point(13, 29);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(96, 17);
             this.label10.TabIndex = 58;
@@ -412,7 +410,7 @@
             // cmbMachineProfiles
             // 
             this.cmbMachineProfiles.FormattingEnabled = true;
-            this.cmbMachineProfiles.Location = new System.Drawing.Point(7, 51);
+            this.cmbMachineProfiles.Location = new System.Drawing.Point(13, 52);
             this.cmbMachineProfiles.Name = "cmbMachineProfiles";
             this.cmbMachineProfiles.Size = new System.Drawing.Size(207, 24);
             this.cmbMachineProfiles.TabIndex = 57;
@@ -461,9 +459,9 @@
             // 
             this.grpPrjSerial.Controls.Add(this.lblConDisp);
             this.grpPrjSerial.Controls.Add(this.cmdCfgConDsp);
-            this.grpPrjSerial.Location = new System.Drawing.Point(775, 200);
+            this.grpPrjSerial.Location = new System.Drawing.Point(775, 194);
             this.grpPrjSerial.Name = "grpPrjSerial";
-            this.grpPrjSerial.Size = new System.Drawing.Size(170, 128);
+            this.grpPrjSerial.Size = new System.Drawing.Size(170, 134);
             this.grpPrjSerial.TabIndex = 60;
             this.grpPrjSerial.TabStop = false;
             this.grpPrjSerial.Text = "Projector Serial Control";
@@ -485,12 +483,15 @@
             this.cmdCfgConDsp.TabIndex = 2;
             this.cmdCfgConDsp.Text = "Configure";
             this.cmdCfgConDsp.UseVisualStyleBackColor = true;
+            this.cmdCfgConDsp.Click += new System.EventHandler(this.cmdCfgConDsp_Click);
             // 
             // ctlMachineConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.grpPrjSerial);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.cmbMachineProfiles);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.lblMachineName);
             this.Controls.Add(this.groupBox2);

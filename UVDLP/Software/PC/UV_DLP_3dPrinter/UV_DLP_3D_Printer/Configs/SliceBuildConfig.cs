@@ -30,7 +30,7 @@ namespace UV_DLP_3D_Printer
         public int blanktime_ms; // blanking time between layers
        // public int raise_time_ms; // time delay for the z axis to raise on a per-layer basis
         public int plat_temp; // desired platform temperature in celsius 
-        public bool exportgcode; // export the gcode file when slicing
+       // public bool exportgcode; // export the gcode file when slicing
         public bool exportsvg; // export the svg slices when building
         public bool exportimages; // export image slices when building
         public eBuildDirection direction;
@@ -51,7 +51,7 @@ namespace UV_DLP_3D_Printer
         public int XOffset, YOffset; // the X/Y pixel offset used 
         public String m_exportopt; // export sliced images in ZIP or SUBDIR
 
-        public bool m_generateautosupports; // automatic support generation
+        //public bool m_generateautosupports; // automatic support generation
         //need some parms here for auto support
 
         private String[] m_defheader = 
@@ -191,7 +191,7 @@ namespace UV_DLP_3D_Printer
             firstlayertime_ms = source.firstlayertime_ms;
             blanktime_ms = source.blanktime_ms;
             plat_temp = source.plat_temp; // desired platform temperature in celsius 
-            exportgcode = source.exportgcode; // export the gcode file when slicing
+           // exportgcode = source.exportgcode; // export the gcode file when slicing
             exportsvg = source.exportsvg; // export the svg slices when building
             exportimages = source.exportimages; // export image slices when building
             m_headercode = source.m_headercode; // inserted at beginning of file
@@ -213,7 +213,7 @@ namespace UV_DLP_3D_Printer
             liftfeedrate = source.liftfeedrate;
             liftretractrate = source.liftretractrate;
             aaval = source.aaval;//
-            m_generateautosupports = source.m_generateautosupports;
+            //m_generateautosupports = source.m_generateautosupports;
             m_exportopt = source.m_exportopt;
             //raise_time_ms = source.raise_time_ms;
         }
@@ -248,7 +248,7 @@ namespace UV_DLP_3D_Printer
             XOffset = 0;
             YOffset = 0;
             numfirstlayers = 3;
-            exportgcode = true;
+            //exportgcode = true;
             exportsvg = false;
             exportimages = false;
             direction = eBuildDirection.Bottom_Up;
@@ -261,7 +261,7 @@ namespace UV_DLP_3D_Printer
             aaval = 1.5;
             liftfeedrate = 50.0;// 50mm/s
             liftretractrate = 100.0;// 100mm/s
-            m_generateautosupports = false; // for testing
+            //m_generateautosupports = false; // for testing
             m_exportopt = "SUBDIR"; // default to saving in subdirectory
             SetDefaultCodes(); // set up default gcodes
         }
@@ -288,7 +288,7 @@ namespace UV_DLP_3D_Printer
                 firstlayertime_ms = int.Parse(xr.ReadElementString("FirstLayerTime"));
                 blanktime_ms = int.Parse(xr.ReadElementString("BlankTime"));
                 plat_temp = int.Parse(xr.ReadElementString("PlatformTemp"));
-                exportgcode = bool.Parse(xr.ReadElementString("ExportGCode"));
+                //exportgcode = bool.Parse(xr.ReadElementString("ExportGCode"));
                 exportsvg = bool.Parse(xr.ReadElementString("ExportSVG"));
                 exportimages = bool.Parse(xr.ReadElementString("ExportImages")); ;
                 XOffset = int.Parse(xr.ReadElementString("XOffset"));
@@ -351,7 +351,7 @@ namespace UV_DLP_3D_Printer
                 xw.WriteElementString("FirstLayerTime", firstlayertime_ms.ToString());
                 xw.WriteElementString("BlankTime", blanktime_ms.ToString());
                 xw.WriteElementString("PlatformTemp", plat_temp.ToString());
-                xw.WriteElementString("ExportGCode", exportgcode.ToString());
+               // xw.WriteElementString("ExportGCode", exportgcode.ToString());
                 xw.WriteElementString("ExportSVG", exportsvg.ToString());
                 xw.WriteElementString("ExportImages", exportimages.ToString());
                 xw.WriteElementString("XOffset", XOffset.ToString());

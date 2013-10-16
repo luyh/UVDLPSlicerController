@@ -211,7 +211,7 @@ namespace UV_DLP_3D_Printer._3DEngine
             ply1.m_points[2] = p3;
             m_gp.m_lstpolys.Add(ply0);
             m_gp.m_lstpolys.Add(ply1);
-            m_gp.tag = 9999; // groundplane tag
+            m_gp.tag = Object3d.OBJ_GROUND; // groundplane tag
             m_gp.Update();
            // p1.m
 
@@ -257,14 +257,14 @@ namespace UV_DLP_3D_Printer._3DEngine
         /// This function takes a list of objects and a ray and starting point.
         /// It will return an ArrayList of ISectData,
         /// if no intersections occur, the list will be empty,
-        /// 
+        /// the suports variable indicates whether to intersect supports
         /// Each Object should be updated before being added to the list here.
         /// </summary>
         /// <param name="direction"></param>
         /// <param name="origin"></param>
         /// <param name="objects"></param>
         /// <returns></returns>
-        public static ArrayList IntersectObjects(Vector3d direction, Point3d origin, ArrayList objects) 
+        public static ArrayList IntersectObjects(Vector3d direction, Point3d origin, ArrayList objects,bool supports) 
         {
             ArrayList m_isectlst = new ArrayList();
 
@@ -280,6 +280,8 @@ namespace UV_DLP_3D_Printer._3DEngine
 
             foreach (Object3d obj in objects)
             {
+                if (obj.tag == Object3d.OBJ_SUPPORT && !supports)
+                    continue;
                 // try a less- costly sphere intersect here   
                 if (IntersectSphere(origin, endp, ref intersect, obj.m_center, obj.m_radius))
                 {

@@ -29,6 +29,9 @@ namespace UV_DLP_3D_Printer
         eSupportGenerated,
         eSlicedLoaded,
         eMachineTypeChanged,
+        eShowDLP,
+        eShowCalib,
+        eShowBlank
     }
     public delegate void AppEventDelegate(eAppEvent ev, String Message);
     /*
@@ -72,6 +75,8 @@ namespace UV_DLP_3D_Printer
 
         private static String m_appconfigname = "CreationConfig.xml";
         public static String m_pathsep = "\\";
+
+       // public ArrayList m_tempobjs = null;
         public static UVDLPApp Instance() 
         {
             if (m_instance == null) 
@@ -105,21 +110,32 @@ namespace UV_DLP_3D_Printer
         }
         public void SupEvent(SupportEvent ev, string message, Object obj) 
         {
-
+            //if()
+            
             try
             {
                 switch (ev)
                 {
                     case SupportEvent.eCompleted:
+                        ArrayList lstobjs = (ArrayList)obj;
+                        if (lstobjs != null) 
+                        {
+                            foreach (Object3d o in lstobjs) 
+                            {
+                                m_engine3d.AddObject((Object3d)o);    
+                            }
+                            RaiseAppEvent(eAppEvent.eModelAdded, message);
+                        }
                         break;
                     case SupportEvent.eCancel:
                         break;
                     case SupportEvent.eProgress:
                         break;
                     case SupportEvent.eStarted:
+                        
                         break;
                     case SupportEvent.eSupportGenerated:
-                        m_engine3d.AddObject((Object3d)obj);
+                        //m_engine3d.AddObject((Object3d)obj);
                       //  RaiseAppEvent(eAppEvent.eModelAdded, message);
                             //add the model to the scene
                         break;
@@ -127,7 +143,7 @@ namespace UV_DLP_3D_Printer
             }
             catch (Exception ex) 
             {
-                DebugLogger.Instance().LogError(ex.Message);      
+                //DebugLogger.Instance().LogError(ex.Message);       // look more into the error being raised here on slicing completed
             }
         }
         public void RaiseAppEvent(eAppEvent ev, String message) 
@@ -183,7 +199,7 @@ namespace UV_DLP_3D_Printer
 
             foreach (Object3d obj in m_engine3d.m_objects) 
             {
-                if (obj.IsSupport) 
+                if (obj.tag == Object3d.OBJ_SUPPORT) 
                 {
                     lst.Add(obj);
                 }
@@ -193,6 +209,14 @@ namespace UV_DLP_3D_Printer
                 m_engine3d.RemoveObject(obj);
             }
         }
+
+        #region DLPfunctions
+        public void ShowDLP() 
+        {
+            RaiseAppEvent(eAppEvent.
+        }
+
+        #endregion
         /// <summary>
         /// Adds a new dummy support
         /// </summary>
@@ -201,7 +225,9 @@ namespace UV_DLP_3D_Printer
            // Cylinder3d cyl = new Cylinder3d();
            // cyl.Create(2.5, 1.5, 10, 15, 2);
             Support s = new Support();
-            s.Create(2.5f, 1.5f, 1.5f, .75f, 2f, 5f, 2f, 20);
+            //s.Create((float)m_supportconfig.fbrad, 1.5f, 1.5f, .75f, 2f, 5f, 2f, 20);
+            s.Create((float)m_supportconfig.fbrad, (float)m_supportconfig.ftrad, (float)m_supportconfig.hbrad,
+                (float)m_supportconfig.htrad, 2f, 5f, 2f, 11);
             m_engine3d.AddObject(s);
             RaiseAppEvent(eAppEvent.eModelAdded, "Model Created");
         }

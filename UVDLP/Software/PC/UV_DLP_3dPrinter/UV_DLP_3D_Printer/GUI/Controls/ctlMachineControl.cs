@@ -12,7 +12,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 {
     public partial class ctlMachineControl : UserControl
     {
+        public delegate void MachineCtlEvent();
         StringBuilder sb;
+        public MachineCtlEvent machEvent;
         public ctlMachineControl()
         {
             InitializeComponent();
