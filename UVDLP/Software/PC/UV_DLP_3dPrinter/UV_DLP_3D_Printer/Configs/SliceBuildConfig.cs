@@ -38,7 +38,6 @@ namespace UV_DLP_3D_Printer
         public double slidetiltval; // a value used for slide / tilt 
         public bool antialiasing; // should we use anti-aliasing
         public bool usemainliftgcode; // should we use mainliftgcode-tab instead of generating the gcode
-        public bool autocalcdelay; // should we calculate the delay automatically
         public double aaval; // anti-aliasing scaler value - How much to upsample the image values between 1.0 - 3.0 should be fine
         public double liftfeedrate; // initial lift may cause a lot of suction. To maximize lift power, we slow the steppers down to maximize stepper motor torque.
         public double liftretractrate; // the feedrate that this lowers(for bottom-up) or raises(top-down) the build platform, this is the retraction rate of the lift.
@@ -50,6 +49,9 @@ namespace UV_DLP_3D_Printer
         private String m_mainliftcode; // inserted before each slice
         public int XOffset, YOffset; // the X/Y pixel offset used 
         public String m_exportopt; // export sliced images in ZIP or SUBDIR
+        public bool m_flipX; // mirror the x axis
+        public bool m_flipY; // mirror the y axis
+        public string m_notes;
 
         //public bool m_generateautosupports; // automatic support generation
         //need some parms here for auto support
@@ -82,7 +84,7 @@ namespace UV_DLP_3D_Printer
         private String[] m_defpostlift = 
         {
             ";(********** Post-Lift Start ********)\r\n", //
-            ";(Set up any GCode here to be executed AFTER a lift)\r\n",
+            ";(Set up any GCode here to be executed after a lift)\r\n",
             ";(E.g. M117 'text' to be shown on Display)\r\n",
             ";(********** Post-Lift End **********)\r\n",
         };
@@ -90,7 +92,7 @@ namespace UV_DLP_3D_Printer
         private String[] m_defpreslice = 
         {
             ";(********** Pre-Slice Start ********)\r\n", //
-            ";(Set up any GCode here to be executed BERFORE a lift)\r\n",
+            ";(Set up any GCode here to be executed before a lift)\r\n",
             ";(********** Pre-Slice End **********)\r\n",
         };
         private String[] m_defmainlift = 
@@ -209,12 +211,14 @@ namespace UV_DLP_3D_Printer
             slidetiltval = source.slidetiltval;
             antialiasing = source.antialiasing;
             usemainliftgcode = source.usemainliftgcode;
-            autocalcdelay = source.autocalcdelay;
             liftfeedrate = source.liftfeedrate;
             liftretractrate = source.liftretractrate;
             aaval = source.aaval;//
             //m_generateautosupports = source.m_generateautosupports;
             m_exportopt = source.m_exportopt;
+            m_flipX = source.m_flipX;
+            m_flipY = source.m_flipY;
+            m_notes = source.m_notes;
             //raise_time_ms = source.raise_time_ms;
         }
 
@@ -257,12 +261,14 @@ namespace UV_DLP_3D_Printer
             slidetiltval = 0.0;
             antialiasing = false;
             usemainliftgcode = false;
-            autocalcdelay = false;
             aaval = 1.5;
             liftfeedrate = 50.0;// 50mm/s
             liftretractrate = 100.0;// 100mm/s
             //m_generateautosupports = false; // for testing
             m_exportopt = "SUBDIR"; // default to saving in subdirectory
+            m_flipX = false;
+            m_flipY = false;
+            m_notes = "";
             SetDefaultCodes(); // set up default gcodes
         }
         public bool Load(Stream stream) 
@@ -298,12 +304,14 @@ namespace UV_DLP_3D_Printer
                 liftdistance = double.Parse(xr.ReadElementString("LiftDistance"));
                 slidetiltval = double.Parse(xr.ReadElementString("SlideTiltValue"));
                 antialiasing = bool.Parse(xr.ReadElementString("AntiAliasing"));
-                autocalcdelay = bool.Parse(xr.ReadElementString("AutoCalcDelay"));
                 usemainliftgcode = bool.Parse(xr.ReadElementString("UseMainLiftGCode"));
                 aaval = double.Parse(xr.ReadElementString("AntiAliasingValue"));
                 liftfeedrate = double.Parse(xr.ReadElementString("LiftFeedRate"));
                 liftretractrate = double.Parse(xr.ReadElementString("LiftRetractRate"));
                 m_exportopt = xr.ReadElementString("ExportOption");
+                m_flipX = bool.Parse(xr.ReadElementString("FlipX"));
+                m_flipY = bool.Parse(xr.ReadElementString("FlipY"));
+                m_notes = xr.ReadElementString("Notes"); 
 
                 xr.ReadEndElement();
                 xr.Close();
@@ -320,17 +328,31 @@ namespace UV_DLP_3D_Printer
         /*This is used to serialize to the GCode post-header info*/
         public bool Load(String filename) 
         {
+            Stream stream = null;
             try
             {
                 m_filename = filename;
-                Stream stream = new FileStream(filename, FileMode.Open);
+                stream = new FileStream(filename, FileMode.Open);
                 if (Load(stream))
                 {
+                    stream.Close();
                     return true;
+                }
+                else 
+                {
+                    stream.Close(); //close it anyway
                 }
             }
             catch (Exception ex)
             {
+                try
+                {
+                    stream.Close();
+                }
+                catch (Exception e) 
+                {
+                    DebugLogger.Instance().LogError(e.Message);
+                }
                 DebugLogger.Instance().LogRecord(ex.Message);                
             }
             return false;
@@ -361,12 +383,15 @@ namespace UV_DLP_3D_Printer
                 xw.WriteElementString("LiftDistance", liftdistance.ToString());
                 xw.WriteElementString("SlideTiltValue", slidetiltval.ToString());
                 xw.WriteElementString("AntiAliasing", antialiasing.ToString());
-                xw.WriteElementString("AutoCalcDelay", autocalcdelay.ToString());
                 xw.WriteElementString("UseMainLiftGCode", usemainliftgcode.ToString());
                 xw.WriteElementString("AntiAliasingValue", aaval.ToString());
                 xw.WriteElementString("LiftFeedRate", liftfeedrate.ToString());
                 xw.WriteElementString("LiftRetractRate", liftretractrate.ToString());
                 xw.WriteElementString("ExportOption", m_exportopt);
+
+                xw.WriteElementString("FlipX", m_flipX.ToString());
+                xw.WriteElementString("FlipY", m_flipY.ToString());
+                xw.WriteElementString("Notes", m_notes);
                 // xw.WriteElementString("Raise_Time_Delay",raise_time_ms.ToString());
                 xw.WriteEndElement();
                 xw.Close();
@@ -390,6 +415,10 @@ namespace UV_DLP_3D_Printer
                 {
                     stream.Close();
                     return true;
+                }
+                else 
+                {
+                    stream.Close(); // close it anyway
                 }                
             }
             catch (Exception ex) 
@@ -419,11 +448,12 @@ namespace UV_DLP_3D_Printer
             sb.Append(";(Lift Distance           = " + liftdistance.ToString() + " mm )\r\n");
             sb.Append(";(Slide/Tilt Value        = " + slidetiltval.ToString() + ")\r\n");
             sb.Append(";(Anti Aliasing           = " + antialiasing.ToString() + ")\r\n");
-            sb.Append(";(Auto Calculate Delay    = " + autocalcdelay.ToString() + ")\r\n");
             sb.Append(";(Use Mainlift GCode Tab  = " + usemainliftgcode.ToString() + ")\r\n");
             sb.Append(";(Anti Aliasing Value     = " + aaval.ToString() + " )\r\n");
             sb.Append(";(Z Lift Feed Rate        = " + String.Format("{0:0.00000}", liftfeedrate) + " mm/s )\r\n");
             sb.Append(";(Z Lift Retract Rate     = " + String.Format("{0:0.00000}", liftretractrate) + " mm/s )\r\n");
+            sb.Append(";(Flip X                  = " + m_flipX.ToString() + ")\r\n");
+            sb.Append(";(Flip Y                  = " + m_flipY.ToString() + ")\r\n");
             return sb.ToString();
         }
 

@@ -111,6 +111,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 GetData();
                 UVDLPApp.Instance().m_supportconfig = m_sc; // should copy really
                 UVDLPApp.Instance().StartAddSupports(); // start the support generation
+                UVDLPApp.Instance().SaveSupportConfig(UVDLPApp.Instance().m_appconfig.SupportConfigName);
             }
             catch (Exception ex) 
             {
@@ -122,6 +123,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             GetData();
             UVDLPApp.Instance().AddSupport();
+            UVDLPApp.Instance().SaveSupportConfig(UVDLPApp.Instance().m_appconfig.SupportConfigName);
         }
 
         private void chkDownPolys_CheckedChanged(object sender, EventArgs e)

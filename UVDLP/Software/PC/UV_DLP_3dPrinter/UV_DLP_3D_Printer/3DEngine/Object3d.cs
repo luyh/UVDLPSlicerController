@@ -22,7 +22,7 @@ namespace Engine3D
         private bool m_visible;
         public Point3d m_min, m_max,m_center;
         public bool m_wireframe = false;
-        private bool m_support = false; // is this a 3d support object?
+        //private bool m_support = false; // is this a 3d support object?
         public double m_radius;
         public Material material;// = new Material();
         public int tag = -1; // acting as an object ID
@@ -31,10 +31,15 @@ namespace Engine3D
         public static int OBJ_SUPPORT = 1; // a generated support
         public static int OBJ_GROUND = 2; // ground plane usewd for hit-testing
         //public static int OBJ_SUPPORT;
-
+        private int m_listid; // gl call list id 
+        //private static int m_IDGEN = 1;
         public Object3d() 
         {
             Init();
+        }
+        public void InvalidateList() 
+        {
+            m_listid = -1;
         }
         public void Init() 
         {
@@ -47,10 +52,11 @@ namespace Engine3D
             m_max = new Point3d();
             m_visible = true;
             m_radius = 0.0;
-            m_support = false;
+            //m_support = false;
             material = new Material();
             tag = Object3d.OBJ_NORMAL;
             //m_showalpha = false;
+            m_listid = -1;
         }
         public string Name 
         { 
@@ -134,16 +140,38 @@ namespace Engine3D
         {
             
         }
-
+        private static int GetListID() 
+        {
+            return GL.GenLists(1); 
+        }
+        /*
         public virtual void RenderGL(bool showalpha, bool selected) 
         {
-
             foreach (Polygon poly in m_lstpolys)
             {
                 poly.RenderGL(this.m_wireframe, showalpha, selected);
             }
         }
-
+         */
+        
+        public virtual void RenderGL(bool showalpha, bool selected)
+        {
+            if (m_listid == -1)
+            {
+                m_listid = GetListID();
+                GL.NewList(m_listid, ListMode.CompileAndExecute);
+                foreach (Polygon poly in m_lstpolys)
+                {
+                    poly.RenderGL(this.m_wireframe, showalpha, selected);
+                }
+                GL.EndList();
+            }
+            else
+            {
+                GL.CallList(m_listid);
+            }
+        }
+        
         public void Render(Camera cam, PaintEventArgs ev, int wid, int hei)
         {
 
@@ -360,6 +388,7 @@ namespace Engine3D
                     p.Update();
                 }
                // MarkPolysDown();
+                m_listid = -1; // invalidate the list id
             }
             catch (Exception ex) 
             {

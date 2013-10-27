@@ -34,6 +34,7 @@ namespace UV_DLP_3D_Printer.Configs
                     {
                         retval = true;
                     }
+                    m_displayconnection.Load(xr);
                 xr.ReadEndElement();
                 return retval;
             }
@@ -54,6 +55,7 @@ namespace UV_DLP_3D_Printer.Configs
                     {
                         retval = true;
                     }
+                    m_displayconnection.Save(xw);
                 xw.WriteEndElement();
                 return retval;
             }

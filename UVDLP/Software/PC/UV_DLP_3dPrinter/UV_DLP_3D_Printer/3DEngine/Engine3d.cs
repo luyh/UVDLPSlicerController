@@ -28,6 +28,13 @@ namespace Engine3D
             m_objects = new ArrayList();
             AddGrid();
         }
+        public void UpdateLists() 
+        {
+            foreach (Object3d obj in m_objects) 
+            {
+                obj.InvalidateList();
+            }
+        }
         public void CameraRotate(double x,double y, double z)
         {
             m_camera.viewmat.Rotate(x, y, z);

@@ -84,7 +84,36 @@ namespace UV_DLP_3D_Printer
                 isslicing = true;
                 return m_sf;
         }
+        private static Bitmap ReflectX(Bitmap source)
+        {
+            try
+            {
+                source.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                Bitmap b = new Bitmap(source.Width, source.Height);
+                using (Graphics g = Graphics.FromImage((Image)b))
+                {
+                    g.DrawImage(source, 0, 0, source.Width, source.Height);
+                }
+                return b;
+            }
+            catch { return null; }
 
+        }
+        private static Bitmap ReflectY(Bitmap source)
+        {
+            try
+            {
+                source.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                Bitmap b = new Bitmap(source.Width, source.Height);
+                using (Graphics g = Graphics.FromImage((Image)b))
+                {
+                    g.DrawImage(source, 0, 0, source.Width, source.Height);
+                }
+                return b;
+            }
+            catch { return null; }
+
+        }
         private static Bitmap ResizeImage(Bitmap imgToResize, Size size)
         {
             try
@@ -139,16 +168,16 @@ namespace UV_DLP_3D_Printer
                 UVDLPApp.Instance().Scene.FindMinMax();
                 // I think I should calculate the number of slices from the world 0 position, not just the bottom of the object
                 //int numslices = (int)((UVDLPApp.Instance().Scene.m_max.z - UVDLPApp.Instance().Scene.m_min.z) / m_sf.m_config.ZThick);
-                
+                /*
                 int numslices = (int)((UVDLPApp.Instance().Scene.m_max.z - UVDLPApp.Instance().Scene.m_min.z) / m_sf.m_config.ZThick);
                 // I should start slicing at Wz 0, not Oz 0
                 double curz = (double)UVDLPApp.Instance().Scene.m_min.z; // start at the bottom of all objects in the scene
+                */
                 
-                /*
                 int numslices = (int)((UVDLPApp.Instance().Scene.m_max.z) / m_sf.m_config.ZThick);
                 // I should start slicing at Wz 0, not Oz 0
                 double curz = 0; // start at Wz0
-                */
+                
                 // an alternative here is to slice the scene from wZ 0, therefore, all object geometry beneath the ground plane won't be slice;
                 //double curz = (double)0.0;// start at the ground   
             
@@ -209,29 +238,24 @@ namespace UV_DLP_3D_Printer
                            // m_sf.m_slices.Add(sl);// add the slice to slicefile        
                             // now render the slice into the scaled, pre-allocated bitmap
                             sl.RenderSlice(m_sf.m_config, ref bmp);
-                            //now re-sample it if needed and save it
                             savebm = bmp;
-/*
-                            if (m_sf.m_config.antialiasing == true) // we're using anti-aliasing here, so resize the image
-                            {
-                                savebm = ResizeImage(bmp, new Size(ox, oy));
-                            }           
-
- */
                         }
                     }
 
                     if (m_sf.m_config.antialiasing == true) // we're using anti-aliasing here, so resize the image
                     {
                         savebm = ResizeImage(bmp, new Size(ox, oy));
-                    }           
-
+                    }
+                    if (m_sf.m_config.m_flipX == true) 
+                    {
+                        savebm = ReflectX(savebm);
+                    }
+                    if (m_sf.m_config.m_flipY == true)
+                    {
+                        savebm = ReflectY(savebm);
+                    }
                     curz += m_sf.m_config.ZThick;// move the slice for the next layer
                     //raise an event to say we've finished a slice
-                    if (savebm == null) 
-                    {
-                        string s = "shouldn't be here";
-                    }
                     LayerSliced(scenename, c,numslices,savebm);
                 }
                 SliceCompleted(scenename, c, numslices);
@@ -335,6 +359,7 @@ namespace UV_DLP_3D_Printer
          * What is returns is an ArrayList of 3d line segments. These line segments correspond
          * to the intersection of a plane through the polygons. Each polygon may return 0 or 1 line intersections 
          * on the 2d XY plane
+         * I beleive I can determine the winding order (inside or outside facing), based off of the polygon normal
          */
         public ArrayList GetZIntersections(ArrayList polys,double zcur) 
         {

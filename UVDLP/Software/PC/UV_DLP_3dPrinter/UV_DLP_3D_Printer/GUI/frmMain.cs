@@ -172,6 +172,7 @@ namespace UV_DLP_3D_Printer
                         //the current model was removed
                         DebugLogger.Instance().LogRecord(Message);
                         ShowObjectInfo();
+                        UVDLPApp.Instance().m_engine3d.UpdateLists();
                         DisplayFunc();
                         break;
                     case eAppEvent.eSlicedLoaded: // update the gui to view
@@ -190,6 +191,7 @@ namespace UV_DLP_3D_Printer
                         break;
                     case eAppEvent.eModelAdded:
                         ShowObjectInfo();
+                        UVDLPApp.Instance().m_engine3d.UpdateLists();
                         DisplayFunc();
                         DebugLogger.Instance().LogRecord(Message);
                         break;
@@ -197,11 +199,16 @@ namespace UV_DLP_3D_Printer
                         SetupForMachineType();
                         break;
                     case eAppEvent.eShowBlank:
-                        ShowDLPScreen();
+                        showBlankToolStripMenuItem_Click(null, null);                        
                         break;
                     case eAppEvent.eShowCalib:
+                        showCalibrationToolStripMenuItem_Click(null, null);
                         break;
                     case eAppEvent.eShowDLP:
+                        ShowDLPScreen();
+                        break;
+                    case eAppEvent.eHideDLP:
+                        hideToolStripMenuItem_Click(null, null);
                         break;
                 }
             }
@@ -302,8 +309,6 @@ namespace UV_DLP_3D_Printer
                     case ePIStatus.eError:
                         break;
                     case ePIStatus.eReady:
-                        break;
-                    case ePIStatus.eTimedout:
                         break;
                 }
             }
@@ -495,7 +500,7 @@ namespace UV_DLP_3D_Printer
                 {
                     DisplayFunc();
                     SliceFile sf = UVDLPApp.Instance().m_slicefile;
-                    lblSliceNum.Text = "Slice " + (layer+1) + " of " + sf.NumSlices;
+                    lblSliceNum.Text = "Slice " + (layer) + " of " + (sf.NumSlices-1).ToString();
                 }
                 //render the 2d slice
                 Bitmap bmp = null;
@@ -676,36 +681,28 @@ namespace UV_DLP_3D_Printer
             
           /* Clear the buffer, clear the matrix */
           GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-     
+
+            
           GL.LoadIdentity(); // assuming we're in the model matrix still
-                      
+            
           GL.Translate(xoffset, yoffset, orbitdist); // tmp          
           GL.Rotate(orbitypos, 0, 1, 0); // transform first // tmp
           GL.Rotate(orbitxpos, 1, 0, 0); // tmp
             
+          //Matrix4 yax;
+          //Matrix4.CreateFromAxisAngle(new Vector3(0, 0, 1), m_quat.Z, out yax);
+          //GL.LoadMatrix(ref yax);
             /*
-          OpenTK.Matrix4 modelView = OpenTK.Matrix4.LookAt(new OpenTK.Vector3(0, 0, 0), new OpenTK.Vector3(0, 0, 0), new OpenTK.Vector3(0, 0, 1));
-
-          GL.MatrixMode(MatrixMode.Modelview);
-          GL.Translate(xoffset, yoffset, orbitdist); // tmp  
-          GL.LoadMatrix(ref modelView);
-             * */
-          /*
-          Matrix4.CreateFromAxisAngle(new Vector3(1,0,0),m_quat.X);         
-          
+          Matrix4.CreateFromAxisAngle(new Vector3(1, 0, 0), m_quat.X);
+            */
+            /*
           GL.Translate(xoffset, yoffset, orbitdist); // tmp
-          //GL.Rotate(m_quat.Y * 100, 0, 1, 0); //          
-          //GL.Rotate(m_quat.Z * 100, 0, 0, 1); //
-          GL.Rotate(m_quat.X * 100, 1, 0, 0); //
-          GL.Rotate(m_quat.Y * 100, 0, 1, 0); //          
-          GL.Rotate(m_quat.Z * 100, 0, 0, 1); //
-           * */
-//          GL.Translate(xoffset, yoffset, orbitdist); // tmp
-          /*
-            Matrix3fSetRotationFromQuat4f(&ThisRot, &ThisQuat);         // Convert Quaternion Into Matrix3fT
-          Matrix3fMulMatrix3f(&ThisRot, &LastRot);                // Accumulate Last Rotation Into This One
-          Matrix4fSetRotationFromMatrix3f(&Transform, &ThisRot);          // Set Our Final          
-           */
+
+          GL.Rotate(m_quat.Z * 100, 0, 0, 1); //  
+          GL.Rotate(m_quat.Y * 100, 0, 1, 0); // 
+          GL.Rotate(m_quat.X * 100, 1, 0, 0); //  
+            */
+
           UVDLPApp.Instance().Engine3D.RenderGL(m_showalpha);
           DrawISect();          
           GL.Flush();
@@ -738,6 +735,7 @@ namespace UV_DLP_3D_Printer
             if (e.Button == MouseButtons.Middle)
             {
                 mmdown = true;
+                arcball.Click(new Vector2(mdx,mdy));
             }
             
             if (e.Button == MouseButtons.Left)
@@ -883,7 +881,13 @@ namespace UV_DLP_3D_Printer
                 Vector2 vec = new Vector2(mdx,mdy);
                 m_quat += arcball.Drag(vec);
                 arcball.Click(vec);
-
+                //arcball.Click(vec);
+                //ArcBall.drag(&MousePt, &ThisQuat);                  // Update End Vector And Get Rotation As Quaternion
+                /*
+                Matrix3fSetRotationFromQuat4f(&ThisRot, &ThisQuat);         // Convert Quaternion Into Matrix3fT
+                Matrix3fMulMatrix3f(&ThisRot, &LastRot);                // Accumulate Last Rotation Into This One
+                Matrix4fSetRotationFromMatrix3f(&Transform, &ThisRot);          // Set Our Final 
+                 * */
                 // do the rotation
             }
             else if (mmdown)
@@ -1087,12 +1091,31 @@ namespace UV_DLP_3D_Printer
             {
                 if (!UVDLPApp.Instance().m_deviceinterface.Connected) // 
                 {
+                    // configure the main device interface
                     UVDLPApp.Instance().m_deviceinterface.Configure(UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_connection);
+                    //get the name of the main serial interface
                     String com = UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_connection.comname;
                     DebugLogger.Instance().LogRecord("Connecting to Printer on " + com + " using " + UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_drivertype.ToString());
-                    if (!UVDLPApp.Instance().m_deviceinterface.Connect()) 
+                    if (!UVDLPApp.Instance().m_deviceinterface.Connect())
                     {
                         DebugLogger.Instance().LogRecord("Cannot connect printer driver on " + com);
+                    }
+                    else 
+                    {
+                        UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eMachineConnected,"Printer connected");
+                    }
+                    // configure the projector
+                    UVDLPApp.Instance().m_deviceinterface.ConfigureProjector(UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_displayconnection);
+                    com = UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_displayconnection.comname;
+                    DebugLogger.Instance().LogRecord("Connecting to Projector on " + com + " using " + UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_drivertype.ToString());
+                    if (!UVDLPApp.Instance().m_deviceinterface.ConnectProjector())
+                    {
+                        DebugLogger.Instance().LogRecord("Cannot connect projector driver on " + com);
+                    }
+                    else 
+                    {
+                        DebugLogger.Instance().LogRecord("Connected to Display control on " + com);
+                        UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eDisplayConnected, "Display connected");
                     }
                 }
             }
@@ -1108,6 +1131,13 @@ namespace UV_DLP_3D_Printer
             {
                 DebugLogger.Instance().LogRecord("Disconnecting from Printer");
                 UVDLPApp.Instance().m_deviceinterface.Disconnect();
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eMachineDisconnected, "Printer connection closed");
+            }
+            if (UVDLPApp.Instance().m_deviceinterface.ConnectedProjector) 
+            {
+                DebugLogger.Instance().LogRecord("Disconnecting from Projector");
+                UVDLPApp.Instance().m_deviceinterface.DisconnectProjector();
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eDisplayDisconnected, "Projector connection closed");                
             }
         }
 
@@ -1691,6 +1721,7 @@ namespace UV_DLP_3D_Printer
             //if (UVDLPApp.Instance().m_selectedobject == null) return;
             //UVDLPApp.Instance().m_selectedobject.m_showalpha = chkAlpha.Checked;
             SetAlpha(chkAlpha.Checked);
+            UVDLPApp.Instance().m_engine3d.UpdateLists();
             DisplayFunc();
             Refresh();
         }
@@ -1771,6 +1802,7 @@ namespace UV_DLP_3D_Printer
             Refresh();
         }
         */
+        /*
         private void cmdDonate_Click(object sender, EventArgs e)
         {
             try
@@ -1798,7 +1830,7 @@ namespace UV_DLP_3D_Printer
                 DebugLogger.Instance().LogError(ex.Message);
             }
         }
-
+        */
         private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmPrefs prefs = new frmPrefs();
@@ -1819,13 +1851,7 @@ namespace UV_DLP_3D_Printer
                {
                    ISectData i = (ISectData)isects[0];
                    UVDLPApp.Instance().m_selectedobject = i.obj;
-                   //show the object is selected
-                   /*
-                   foreach (Polygon p in UVDLPApp.Instance().m_selectedobject.m_lstpolys) 
-                   {
-                       p.m_color = Color.Green;
-                   }
-                    * */
+                   UVDLPApp.Instance().m_engine3d.UpdateLists();
                }
         }
 
@@ -1852,6 +1878,8 @@ namespace UV_DLP_3D_Printer
             if (e.KeyCode == Keys.ShiftKey)
             {
                 m_movingobjectmode = false;
+                //redraw the scene graph
+                SetupSceneTree();
             }
         }
 
@@ -1885,6 +1913,19 @@ namespace UV_DLP_3D_Printer
                 DebugLogger.Instance().LogError(ex.Message);
             }
         }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAbout frm = new frmAbout();
+            frm.ShowDialog();
+        }
+        /*
+        private void projectorCommandsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmProjCommand cmd = new frmProjCommand();
+            cmd.ShowDialog();
+        }
+         * */
         /*
         private void button1_Click(object sender, EventArgs e)
         {

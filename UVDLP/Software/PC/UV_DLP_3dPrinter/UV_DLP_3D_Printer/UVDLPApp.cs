@@ -15,11 +15,11 @@ using UV_DLP_3D_Printer.Configs;
 using System.Collections;
 using Ionic.Zip;
 using System.Drawing.Imaging;
-
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace UV_DLP_3D_Printer
 {
-    public enum eAppEvent 
+    public enum eAppEvent
     {
         eModelAdded,
         eModelNotLoaded,
@@ -31,7 +31,12 @@ namespace UV_DLP_3D_Printer
         eMachineTypeChanged,
         eShowDLP,
         eShowCalib,
-        eShowBlank
+        eShowBlank,
+        eHideDLP,
+        eMachineConnected, // the main serial port for the machine was opened - aka - we connected
+        eMachineDisconnected, // the machine disconnected
+        eDisplayConnected,
+        eDisplayDisconnected
     }
     public delegate void AppEventDelegate(eAppEvent ev, String Message);
     /*
@@ -70,7 +75,7 @@ namespace UV_DLP_3D_Printer
         //current slice file
         public SliceFile m_slicefile;
         public BuildManager m_buildmgr;
-        
+        public prjcmdlst m_proj_cmd_lst;
         public GCodeInterpreter gci = null;
 
         private static String m_appconfigname = "CreationConfig.xml";
@@ -100,7 +105,7 @@ namespace UV_DLP_3D_Printer
             m_supportconfig = new SupportConfig();
             m_supportgenerator = new SupportGenerator();
             m_supportgenerator.SupportEvent+= new SupportGeneratorEvent(SupEvent);
-            
+            m_proj_cmd_lst = new prjcmdlst();
         }
         public enum Platform
         {
@@ -141,7 +146,7 @@ namespace UV_DLP_3D_Printer
                         break;
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ) 
             {
                 //DebugLogger.Instance().LogError(ex.Message);       // look more into the error being raised here on slicing completed
             }
@@ -153,7 +158,80 @@ namespace UV_DLP_3D_Printer
                 AppEvent(ev, message);
             }
         }
+        public bool SaveProjectorCommands(string filename) 
+        {
+            try
+            {
+                Stream TestFileStream = File.Create(filename);
+                BinaryFormatter serializer = new BinaryFormatter();
+                serializer.Serialize(TestFileStream, m_proj_cmd_lst);
+                TestFileStream.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+                return false;
+            }
+                
+        }
+        public bool LoadProjectorCommands(string filename) 
+        {
+            try
+            {
+                if (File.Exists(filename))
+                {
+                    Stream TestFileStream = File.OpenRead(filename);
+                    BinaryFormatter deserializer = new BinaryFormatter();
+                    m_proj_cmd_lst = (prjcmdlst)deserializer.Deserialize(TestFileStream);
+                    TestFileStream.Close();
+                }
 
+                return true;
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+                return false;
+            }
+
+        }
+
+        public bool LoadSupportConfig(string filename)
+        {
+            try
+            {
+                if (File.Exists(filename))
+                {
+                    Stream TestFileStream = File.OpenRead(filename);
+                    BinaryFormatter deserializer = new BinaryFormatter();
+                    m_supportconfig = (SupportConfig)deserializer.Deserialize(TestFileStream);
+                    TestFileStream.Close();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+                return false;
+            }
+        }
+        public bool SaveSupportConfig(string filename)
+        {
+            try
+            {
+                Stream TestFileStream = File.Create(filename);
+                BinaryFormatter serializer = new BinaryFormatter();
+                serializer.Serialize(TestFileStream, m_supportconfig);
+                TestFileStream.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+                return false;
+            }
+        }
         public void CalcScene() 
         {
             m_sceneobject = new Object3d();
@@ -210,13 +288,6 @@ namespace UV_DLP_3D_Printer
             }
         }
 
-        #region DLPfunctions
-        public void ShowDLP() 
-        {
-            RaiseAppEvent(eAppEvent.
-        }
-
-        #endregion
         /// <summary>
         /// Adds a new dummy support
         /// </summary>
@@ -272,6 +343,7 @@ namespace UV_DLP_3D_Printer
                 {
                     m_engine3d.AddObject(obj);
                     m_selectedobject = obj;
+                    UVDLPApp.Instance().m_engine3d.UpdateLists();
                     m_slicefile = null; // the slice file is not longer current
                     RaiseAppEvent(eAppEvent.eModelAdded, "Model Loaded " + filename);
                     //now try to load the gcode file
@@ -532,7 +604,19 @@ namespace UV_DLP_3D_Printer
                 DebugLogger.Instance().LogRecord(ex.Message);
             }
         }
-
+        public void SetupDriverProjector()
+        {
+            DebugLogger.Instance().LogRecord("Changing monitor driver type to " + eDriverType.eGENERIC.ToString());
+            if (m_deviceinterface.DriverProjector != null)
+            {
+                if (m_deviceinterface.DriverProjector.Connected == true)
+                {
+                    // be sure to close the old driver to play nice
+                    m_deviceinterface.DriverProjector.Disconnect();
+                }
+            }
+            m_deviceinterface.DriverProjector = DriverFactory.Create(eDriverType.eGENERIC);
+        }
         public void SetupDriver() 
         {
             DebugLogger.Instance().LogRecord("Changing driver type to " + m_printerinfo.m_driverconfig.m_drivertype.ToString());
@@ -549,6 +633,32 @@ namespace UV_DLP_3D_Printer
         public void SaveAppConfig() 
         {
             m_appconfig.Save("." + m_pathsep + m_appconfigname);
+        }
+        /// <summary>
+        /// This function returns a list of Slice/Build Profiles
+        /// </summary>
+        /// <returns></returns>
+        public List<string>  SliceProfiles() 
+        {
+            List<string> profiles = new List<string>();
+            try
+            {
+
+                string[] filePaths = Directory.GetFiles(UVDLPApp.Instance().m_PathProfiles, "*.slicing");
+                string curprof = Path.GetFileNameWithoutExtension(UVDLPApp.Instance().m_buildparms.m_filename);
+                //create a new menu item for all build/slice profiles
+                foreach (String profile in filePaths)
+                {
+                    String pn = Path.GetFileNameWithoutExtension(profile);
+                    profiles.Add(pn);
+                }
+                
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
+            return profiles;
         }
         public void DoAppStartup() 
         {
@@ -575,7 +685,7 @@ namespace UV_DLP_3D_Printer
             {
                 Utility.CreateDirectory(m_PathProfiles);
             }
-
+            
             if (!m_appconfig.Load("." + m_pathsep + m_appconfigname))
             {
                 m_appconfig.CreateDefault();
@@ -589,14 +699,34 @@ namespace UV_DLP_3D_Printer
             }
             // machine configuration was just loaded here.
             RaiseAppEvent(eAppEvent.eMachineTypeChanged, ""); // notify the gui to set up correctly
+            //load the projector command list
 
+            if (!LoadProjectorCommands("." + m_pathsep + m_appconfig.ProjectorCommandsFile)) 
+            {
+                SaveProjectorCommands("." + m_pathsep + m_appconfig.ProjectorCommandsFile);
+            }
             //load the current slicing profile
             if (!m_buildparms.Load(m_appconfig.m_cursliceprofilename)) 
             {
                 m_buildparms.CreateDefault();
                 m_buildparms.Save(m_appconfig.m_cursliceprofilename);
             }
+            // set up the drivers
             SetupDriver();
+            SetupDriverProjector();
+            // load the support configuration
+            if (!LoadSupportConfig("." + m_pathsep + m_appconfig.SupportConfigName)) 
+            {
+                SaveSupportConfig("." + m_pathsep + m_appconfig.SupportConfigName);
+            }
+        }
+        /// <summary>
+        /// returns the name of the current build / slice profile
+        /// </summary>
+        /// <returns></returns>
+        public string GetCurrentSliceProfileName() 
+        {
+            return Path.GetFileNameWithoutExtension(m_appconfig.m_cursliceprofilename);            
         }
 
     }

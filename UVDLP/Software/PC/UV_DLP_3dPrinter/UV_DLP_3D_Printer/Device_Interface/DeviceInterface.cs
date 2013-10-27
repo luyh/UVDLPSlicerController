@@ -53,7 +53,6 @@ namespace UV_DLP_3D_Printer
 
     public enum ePIStatus 
     {
-        eTimedout, // the last command timed out
         eReady, // ready for next command
         eError, // something went wrong
         eConnected, // device is now connected
@@ -168,14 +167,17 @@ namespace UV_DLP_3D_Printer
 
             }
         }
-
+        private static object lockobj = new object();
         // this is called when we receive data from the device driver
         // one or more full lines can be received here
         void DriverDataReceivedEvent(DeviceDriver device, byte[] data, int length) 
         {
             try
             {
-                m_ready = true;
+                lock (lockobj)
+                {
+                    m_ready = true;
+                }
                 // raise the data event
                 if (DataEvent != null)
                 {
@@ -205,7 +207,10 @@ namespace UV_DLP_3D_Printer
                 {
                     m_databufB = CopyData(0, m_databufA, 0, termpos + 1);
                     string result = System.Text.Encoding.ASCII.GetString(m_databufB); // should this be ascii?
-                    m_ready = true;
+                    lock (lockobj)
+                    {
+                        m_ready = true;
+                    }
 
                     if (LineDataEvent != null)
                     {
@@ -216,7 +221,7 @@ namespace UV_DLP_3D_Printer
                     termpos = Term_Pos(m_databufA, m_databufA.Length); // check again
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ) 
             {
                // DebugLogger.Instance().LogError(ex.Message);  // this is erroring on the null driver for some reason
             }
@@ -261,7 +266,7 @@ namespace UV_DLP_3D_Printer
                 return dstbuffer;
 
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 //DebugLogger.Instance().LogError(e.Message); // error with null driver causing issues, look into it
                 return null;
@@ -315,14 +320,20 @@ namespace UV_DLP_3D_Printer
         }
         public bool Disconnect()
         {
-            m_ready = false;
+            lock (lockobj)
+            {
+                m_ready = false;
+            }
             return m_driver.Disconnect();
         }
         public bool Connect()
         {
             try
             {
-                m_ready = true;
+                lock (lockobj)
+                {
+                    m_ready = true;
+                }
                 return m_driver.Connect();
             }
             catch (Exception)
@@ -343,8 +354,9 @@ namespace UV_DLP_3D_Printer
               //  m_ready = true;
                 return m_projector.Connect();
             }
-            catch (Exception ) 
+            catch (Exception ex) 
             {
+                DebugLogger.Instance().LogError(ex.Message);
                 return false;
             }
         }
@@ -354,16 +366,23 @@ namespace UV_DLP_3D_Printer
         /// <returns></returns>
         public bool ReadyForCommand() 
         {
-            return m_ready;
+            lock (lockobj)
+            {
+                return m_ready;
+            }
         }
 
         public bool SendCommandToDevice(String command) 
         {
             try
             {
+                // this could be the source of the lock
                 if (m_driver.Write(command) > 0) 
                 {
-                    m_ready = false;
+                    lock (lockobj)
+                    {
+                        m_ready = false;
+                    }
                     return true;
                 }                                
                 return false;

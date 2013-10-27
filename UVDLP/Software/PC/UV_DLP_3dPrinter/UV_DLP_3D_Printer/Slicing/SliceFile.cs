@@ -30,7 +30,7 @@ namespace UV_DLP_3D_Printer.Slicing
         public string modelname; // the fully qualified model/scene name, so we can load up the image files
         private int m_numslices;
         private int m_xres, m_yres;
-        private SFMode m_mode;
+        public SFMode m_mode;
 
         ZipFile m_zip;
         /*
@@ -73,7 +73,18 @@ namespace UV_DLP_3D_Printer.Slicing
             m_yres = config.yres;
             m_mode = SFMode.eSliced;
         }
-
+        /// <summary>
+        /// This function is to get around the locking of the currently loaded bitmap
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static Image FromFile(string path)
+        {
+            var bytes = File.ReadAllBytes(path);
+            var ms = new MemoryStream(bytes);
+            var img = Image.FromStream(ms);
+            return img;
+        }
         /*
          This function get the slice from the cache/drive 
          */
@@ -97,9 +108,9 @@ namespace UV_DLP_3D_Printer.Slicing
                     ze.Extract(stream);
                     Bitmap bmp = new Bitmap(stream);
                     return bmp;      
-                }catch(Exception )
+                }catch(Exception)
                 {
-                
+                    
                 }
                 try
                 {
@@ -110,8 +121,10 @@ namespace UV_DLP_3D_Printer.Slicing
 
                     path += UVDLPApp.m_pathsep;
                     path += Path.GetFileNameWithoutExtension(modelname) + String.Format("{0:0000}", layer) + ".png";
-
+                    /*
                     Bitmap bmp = new Bitmap(path);
+                    */
+                    Bitmap bmp = (Bitmap)FromFile(path);
                     return bmp;
                 }
                 catch (Exception ) { }

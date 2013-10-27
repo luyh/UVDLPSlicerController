@@ -41,7 +41,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.panelback = new System.Windows.Forms.Panel();
             this.cmdselectback = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -99,7 +101,7 @@
             // 
             // cmdselectfore
             // 
-            this.cmdselectfore.Location = new System.Drawing.Point(40, 199);
+            this.cmdselectfore.Location = new System.Drawing.Point(41, 104);
             this.cmdselectfore.Name = "cmdselectfore";
             this.cmdselectfore.Size = new System.Drawing.Size(75, 39);
             this.cmdselectfore.TabIndex = 6;
@@ -109,7 +111,7 @@
             // 
             // panelfore
             // 
-            this.panelfore.Location = new System.Drawing.Point(40, 144);
+            this.panelfore.Location = new System.Drawing.Point(41, 49);
             this.panelfore.Name = "panelfore";
             this.panelfore.Size = new System.Drawing.Size(75, 49);
             this.panelfore.TabIndex = 7;
@@ -117,7 +119,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 119);
+            this.label1.Location = new System.Drawing.Point(19, 24);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(119, 17);
             this.label1.TabIndex = 8;
@@ -126,7 +128,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(155, 119);
+            this.label2.Location = new System.Drawing.Point(156, 24);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(121, 17);
             this.label2.TabIndex = 11;
@@ -134,14 +136,14 @@
             // 
             // panelback
             // 
-            this.panelback.Location = new System.Drawing.Point(177, 144);
+            this.panelback.Location = new System.Drawing.Point(178, 49);
             this.panelback.Name = "panelback";
             this.panelback.Size = new System.Drawing.Size(75, 49);
             this.panelback.TabIndex = 10;
             // 
             // cmdselectback
             // 
-            this.cmdselectback.Location = new System.Drawing.Point(177, 199);
+            this.cmdselectback.Location = new System.Drawing.Point(178, 104);
             this.cmdselectback.Name = "cmdselectback";
             this.cmdselectback.Size = new System.Drawing.Size(75, 39);
             this.cmdselectback.TabIndex = 9;
@@ -149,17 +151,27 @@
             this.cmdselectback.UseVisualStyleBackColor = true;
             this.cmdselectback.Click += new System.EventHandler(this.cmdselectback_Click);
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.panelback);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.cmdselectfore);
+            this.groupBox2.Controls.Add(this.panelfore);
+            this.groupBox2.Controls.Add(this.cmdselectback);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Location = new System.Drawing.Point(12, 123);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(471, 153);
+            this.groupBox2.TabIndex = 12;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Slice Color Selection";
+            // 
             // frmPrefs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(827, 328);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.panelback);
-            this.Controls.Add(this.cmdselectback);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.panelfore);
-            this.Controls.Add(this.cmdselectfore);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdOK);
             this.Controls.Add(this.groupBox1);
@@ -167,8 +179,9 @@
             this.Text = "Program Preferences";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -187,5 +200,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panelback;
         private System.Windows.Forms.Button cmdselectback;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }

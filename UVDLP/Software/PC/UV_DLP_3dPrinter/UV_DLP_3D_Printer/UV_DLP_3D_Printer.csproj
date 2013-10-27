@@ -125,11 +125,23 @@
     <Compile Include="GUI\Controls\ctlSupport.Designer.cs">
       <DependentUpon>ctlSupport.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\ctlToolpathGenConfig.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\ctlToolpathGenConfig.Designer.cs">
+      <DependentUpon>ctlToolpathGenConfig.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frm3DLPrinterControl.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\frm3DLPrinterControl.Designer.cs">
       <DependentUpon>frm3DLPrinterControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmAbout.Designer.cs">
+      <DependentUpon>frmAbout.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\frmBuildProfilesManager.cs">
       <SubType>Form</SubType>
@@ -161,6 +173,12 @@
     <Compile Include="GUI\frmProfileName.Designer.cs">
       <DependentUpon>frmProfileName.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\frmProjCommand.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmProjCommand.Designer.cs">
+      <DependentUpon>frmProjCommand.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frmSlice.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,6 +191,8 @@
     <Compile Include="GUI\frmSplash.Designer.cs">
       <DependentUpon>frmSplash.cs</DependentUpon>
     </Compile>
+    <Compile Include="Projector_LCD\prjcmdlst.cs" />
+    <Compile Include="Projector_LCD\ProjectorCommand.cs" />
     <Compile Include="Slicing\FlexSlice.cs" />
     <Compile Include="Slicing\Modules\Carve.cs" />
     <Compile Include="Slicing\Modules\ImageSliceExporter.cs" />
@@ -184,7 +204,7 @@
     <Compile Include="Slicing\SliceFile.cs" />
     <Compile Include="Slicing\Modules\SliceModule.cs" />
     <Compile Include="Slicing\Modules\SupportGen.cs" />
-    <Compile Include="SupportGenerator.cs" />
+    <Compile Include="3DEngine\SupportGenerator.cs" />
     <Compile Include="Utility\DebugLogger.cs" />
     <Compile Include="GUI\frmDLP.cs">
       <SubType>Form</SubType>
@@ -233,8 +253,14 @@
     <EmbeddedResource Include="GUI\Controls\ctlSupport.resx">
       <DependentUpon>ctlSupport.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\ctlToolpathGenConfig.resx">
+      <DependentUpon>ctlToolpathGenConfig.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\frm3DLPrinterControl.resx">
       <DependentUpon>frm3DLPrinterControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmAbout.resx">
+      <DependentUpon>frmAbout.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmBuildProfilesManager.resx">
       <DependentUpon>frmBuildProfilesManager.cs</DependentUpon>
@@ -256,6 +282,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmProfileName.resx">
       <DependentUpon>frmProfileName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmProjCommand.resx">
+      <DependentUpon>frmProjCommand.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmSlice.resx">
       <DependentUpon>frmSlice.cs</DependentUpon>
@@ -303,6 +332,9 @@
     <None Include="resources\animatedTurningHelix.gif" />
     <None Include="resources\niceAnimatedTriangles.gif" />
     <None Include="resources\turningGear.gif" />
+    <None Include="resources\paypal-donate-button.jpg" />
+    <None Include="resources\Donate1.png" />
+    <None Include="resources\donate.gif" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

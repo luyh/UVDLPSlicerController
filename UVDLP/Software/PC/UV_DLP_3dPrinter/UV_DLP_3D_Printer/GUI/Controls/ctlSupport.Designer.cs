@@ -44,14 +44,14 @@
             this.label7 = new System.Windows.Forms.Label();
             this.numFB1 = new System.Windows.Forms.NumericUpDown();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.numX = new System.Windows.Forms.NumericUpDown();
             this.numY = new System.Windows.Forms.NumericUpDown();
+            this.numX = new System.Windows.Forms.NumericUpDown();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.chkDownPolys = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.chkDownPolys = new System.Windows.Forms.CheckBox();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHT)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHB)).BeginInit();
@@ -59,9 +59,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numFT)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numFB1)).BeginInit();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numX)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
@@ -310,25 +310,33 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Auto Support on Grid";
             // 
-            // groupBox2
+            // numY
             // 
-            this.groupBox2.Controls.Add(this.pictureBox1);
-            this.groupBox2.Controls.Add(this.numHT);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.numFB1);
-            this.groupBox2.Controls.Add(this.numHB);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.numFB);
-            this.groupBox2.Controls.Add(this.numFT);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Location = new System.Drawing.Point(3, 3);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(283, 199);
-            this.groupBox2.TabIndex = 24;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Support Parameters";
+            this.numY.DecimalPlaces = 1;
+            this.numY.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.numY.Location = new System.Drawing.Point(89, 38);
+            this.numY.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numY.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.numY.Name = "numY";
+            this.numY.Size = new System.Drawing.Size(71, 22);
+            this.numY.TabIndex = 15;
+            this.numY.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
             // 
             // numX
             // 
@@ -358,33 +366,25 @@
             0,
             131072});
             // 
-            // numY
+            // groupBox2
             // 
-            this.numY.DecimalPlaces = 1;
-            this.numY.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            65536});
-            this.numY.Location = new System.Drawing.Point(89, 38);
-            this.numY.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.numY.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            131072});
-            this.numY.Name = "numY";
-            this.numY.Size = new System.Drawing.Size(71, 22);
-            this.numY.TabIndex = 15;
-            this.numY.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            131072});
+            this.groupBox2.Controls.Add(this.pictureBox1);
+            this.groupBox2.Controls.Add(this.numHT);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.numFB1);
+            this.groupBox2.Controls.Add(this.numHB);
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.numFB);
+            this.groupBox2.Controls.Add(this.numFT);
+            this.groupBox2.Controls.Add(this.label6);
+            this.groupBox2.Location = new System.Drawing.Point(3, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(283, 199);
+            this.groupBox2.TabIndex = 24;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Support Parameters";
             // 
             // button1
             // 
@@ -409,8 +409,31 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Manual Support";
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Enabled = false;
+            this.label8.Location = new System.Drawing.Point(84, 51);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(60, 17);
+            this.label8.TabIndex = 28;
+            this.label8.Text = "degrees";
+            // 
+            // chkDownPolys
+            // 
+            this.chkDownPolys.AutoSize = true;
+            this.chkDownPolys.Enabled = false;
+            this.chkDownPolys.Location = new System.Drawing.Point(7, 21);
+            this.chkDownPolys.Name = "chkDownPolys";
+            this.chkDownPolys.Size = new System.Drawing.Size(218, 21);
+            this.chkDownPolys.TabIndex = 27;
+            this.chkDownPolys.Text = "Shown downward facing polys";
+            this.chkDownPolys.UseVisualStyleBackColor = true;
+            this.chkDownPolys.CheckedChanged += new System.EventHandler(this.chkDownPolys_CheckedChanged);
+            // 
             // numericUpDown1
             // 
+            this.numericUpDown1.Enabled = false;
             this.numericUpDown1.Increment = new decimal(new int[] {
             5,
             0,
@@ -431,26 +454,6 @@
             0,
             0});
             // 
-            // chkDownPolys
-            // 
-            this.chkDownPolys.AutoSize = true;
-            this.chkDownPolys.Location = new System.Drawing.Point(7, 21);
-            this.chkDownPolys.Name = "chkDownPolys";
-            this.chkDownPolys.Size = new System.Drawing.Size(218, 21);
-            this.chkDownPolys.TabIndex = 27;
-            this.chkDownPolys.Text = "Shown downward facing polys";
-            this.chkDownPolys.UseVisualStyleBackColor = true;
-            this.chkDownPolys.CheckedChanged += new System.EventHandler(this.chkDownPolys_CheckedChanged);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(84, 51);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(60, 17);
-            this.label8.TabIndex = 28;
-            this.label8.Text = "degrees";
-            // 
             // ctlSupport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -468,10 +471,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.numFB1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numX)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numY)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();

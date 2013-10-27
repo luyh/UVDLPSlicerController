@@ -342,6 +342,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             SetData();
             lstMachineProfiles.SelectedItem = cmbMachineProfiles.SelectedItem;
             UpdateMainConnection();
+            UpdateDisplayConnection();
         }
         private void UpdateMainConnection() 
         {

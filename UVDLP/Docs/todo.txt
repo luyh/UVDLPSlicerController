@@ -1,3 +1,20 @@
+Beta 12 release todo:
+	*remove dlp menu
+	verify dlp buttons on machine control screen
+	projector commands
+		send
+		save/load config
+	save/load support config
+	*turn on splash screen
+	*add help menu
+		add about box with donate button
+	software manual
+	youtube videos
+	more blog + pics of machine
+
+
+
+
 Add PLY support
 Add ASCII support?
 Add Triangulate function

@@ -123,6 +123,20 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap donate {
+            get {
+                object obj = ResourceManager.GetObject("donate", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap Donate1 {
+            get {
+                object obj = ResourceManager.GetObject("Donate1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap Down1Blue {
             get {
                 object obj = ResourceManager.GetObject("Down1Blue", resourceCulture);
@@ -154,6 +168,13 @@ namespace UV_DLP_3D_Printer.Properties {
         public static System.Drawing.Bitmap niceAnimatedTriangles {
             get {
                 object obj = ResourceManager.GetObject("niceAnimatedTriangles", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap paypal_donate_button {
+            get {
+                object obj = ResourceManager.GetObject("paypal-donate-button", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

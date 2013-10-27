@@ -188,21 +188,8 @@ namespace UV_DLP_3D_Printer
 
             }
         }
-        private static Bitmap ReflectY(Bitmap source) 
-        {
-            try
-            {
-                source.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                Bitmap b = new Bitmap(source.Width, source.Height);
-                using (Graphics g = Graphics.FromImage((Image)b))
-                {
-                    g.DrawImage(source, 0, 0, source.Width, source.Height);
-                }
-                return b;
-            }
-            catch { return null; }
-        
-        }
+
+        /*
         private static Bitmap ResizeImage(Bitmap imgToResize, Size size)
         {
             try
@@ -218,7 +205,7 @@ namespace UV_DLP_3D_Printer
             }
             catch { return null; }
         }
-
+        */
         /// <summary>
         /// This new slicing function renders into a pre-allocated bitmap
         /// </summary>
@@ -232,7 +219,6 @@ namespace UV_DLP_3D_Printer
                 Point pnt1 = new Point(); // create some points for drawing
                 Point pnt2 = new Point();
                 Pen pen = new Pen(UVDLPApp.Instance().m_appconfig.m_foregroundcolor, 1);
-                //graph.Clear(UVDLPApp.Instance().m_appconfig.m_backgroundcolor);
                 //convert all to 2d lines
                 int hxres = sp.xres / 2;
                 int hyres = sp.yres / 2;
@@ -284,7 +270,7 @@ namespace UV_DLP_3D_Printer
                 DebugLogger.Instance().LogError(ex.Message);
             }
         }
-
+        /*
         public Bitmap RenderSlice(SliceBuildConfig sp) 
         {
             // create a new bitmap that will be used to draw into
@@ -382,6 +368,7 @@ namespace UV_DLP_3D_Printer
 
             //return bmp;
         }
+         * */
         private void SortXIncreasing(ArrayList points) 
         {
             points.Sort();            
@@ -435,7 +422,9 @@ namespace UV_DLP_3D_Printer
         private ArrayList Get2dLines(SliceBuildConfig sp) 
         {
             ArrayList lst = new ArrayList();
-            foreach (PolyLine3d ply in m_segments) 
+            // this can be changed at some point to assume that the 3d polyline has more than 2 points
+            // I'll need to do this when I want to properly generate inside / outside countours
+            foreach (PolyLine3d ply in m_segments)  
             {
                 Line2d ln = new Line2d();
                 //get the 3d points of the line

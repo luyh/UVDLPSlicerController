@@ -38,9 +38,9 @@ namespace UV_DLP_3D_Printer
         private double CX, CY, CZ, CE1, CE2; // current values 
         private double PX, PY, PZ, PE1, PE2; // previous value 
         private double F; // Feed rate
-        private bool m_mmunits; // units are in mm
-        private bool m_abs; // movement is absolute
-        private bool m_extabs; // extrusion units are absolute
+        //private bool m_mmunits; // units are in mm
+        //private bool m_abs; // movement is absolute
+        //private bool m_extabs; // extrusion units are absolute
         private Thread m_thread = null;
         private bool m_done;
         private double FAST_FEED = 3000; // defines what a fast feed rate is
@@ -75,9 +75,9 @@ namespace UV_DLP_3D_Printer
         /// </summary>
         private void Reset() 
         {
-            m_mmunits = true;
-            m_abs = true;
-            m_extabs = true;
+            //m_mmunits = true;
+            //m_abs = true;
+            //m_extabs = true;
             CX = CY = CZ = CE1 = CE2 = 0.0;
             PX = PY = PZ = PE1 = PE2 = 0.0;
             m_done = false;

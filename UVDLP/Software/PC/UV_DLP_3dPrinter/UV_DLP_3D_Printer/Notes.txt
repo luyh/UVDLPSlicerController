@@ -63,12 +63,12 @@ GCode Generation:
 				The image files and the gcode file should follow a naming pattern based on the
 				original model filename (automatically generated).
 			-Alternative to a set of sliced images, the slicer can produce a sliced file and during runtime
-			 can dynamically generate slices from theses. This is a good space saver.
+			 can dynamically generate slices from theses. This is a good space saver.*(Not true, slice files can be huge! Looking to reduce size...)
 			-Another alternative is to store the image slices in a movie format such as avi, mpg, etc.. as a 
-			 lossless movie
+			 lossless movie *(Hmm)
 				
 
-		I think I need to separate the build parameters from the slicing parameters
+		I think I need to separate the build parameters from the slicing parameters*(Done)
 		The slicing parameters hold info such as 
 			slice thickness
 			whether to export files, and where to export them
@@ -105,7 +105,7 @@ GCode Generation:
 				have to be re-sliced. The advantage of this format is that it is ready to print, and allows for slices to be viewed and examined quickly
 
 				Another approach is not to generate image or vector slices at all, and only generate them at run-time. The model itself could be 
-				the only resource needed beyond the slicing and build parameters.
+				the only resource needed beyond the slicing and build parameters.*(Well, nice for us, but we should still import/export industry standard formats)
 
 
 Slicing re-write notes:
@@ -141,15 +141,21 @@ Zsteps per mm
 
 mm =in  / 0.039370
 
-
+*(All done)
 Change everything to use relative sub-paths
 make the profiles backwards compatible
 -STL Save
 3DLPrinter notes:
-
 
 Improvement:
 
 Determination of ml volume consumed
 estimate to done for building
 ability to add buttons for the toolbar linked to gcode (or other) functions
+
+Support generation
+	Dragging:
+		A external -support is one that extends from the ground plane to the object
+		An intra-support is one that extends from one z-plane/slice to another verticaly along the z axis to a second intersection of the same object.
+		When dragging, try to detect intern/vs extern and change support type automatically.
+		give the support the ability to change types

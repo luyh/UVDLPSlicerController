@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using Ionic.Zip;
+using System.Globalization;
 namespace UV_DLP_3D_Printer
 {
     public static class Utility
@@ -49,6 +50,23 @@ namespace UV_DLP_3D_Printer
                 return null;
             }
         
+        }
+        public static byte[] HexStringToByteArray(string hexString)
+        {
+            if (hexString.Length % 2 != 0)
+            {
+                //throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, "The binary key cannot have an odd number of digits: {0}", hexString));
+                DebugLogger.Instance().LogError("The hex string cannot have an odd number of digits");
+            }
+
+            byte[] HexAsBytes = new byte[hexString.Length / 2];
+            for (int index = 0; index < HexAsBytes.Length; index++)
+            {
+                string byteValue = hexString.Substring(index * 2, 2);
+                HexAsBytes[index] = byte.Parse(byteValue, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+            }
+
+            return HexAsBytes;
         }
         public static bool StoreInZip(string zipname, string zipentryname, Stream stream) 
         {            

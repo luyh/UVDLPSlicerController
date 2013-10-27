@@ -19,12 +19,15 @@ namespace UV_DLP_3D_Printer
         bool m_loadlastmodel; // load and display the last model
         public string m_slic3rloc; // location of slicer exetutable- shouldn't be here?
         public Color m_foregroundcolor;
-        public Color m_backgroundcolor; 
+        public Color m_backgroundcolor;
+        public string SupportConfigName = "supportconfig.xml";
+        public string ProjectorCommandsFile = "projectorcommands.xml";
 
         public void CreateDefault() 
         {
             m_cursliceprofilename = UVDLPApp.Instance().m_PathProfiles + UVDLPApp.m_pathsep + "default.slicing";
             m_curmachineeprofilename = UVDLPApp.Instance().m_PathMachines + UVDLPApp.m_pathsep + "NullMachine.machine";
+            SupportConfigName = "supportconfig.xml";
             m_LastModelFilename = "";
             m_loadlastmodel = true;
             m_autoconnect = false;
@@ -91,7 +94,7 @@ namespace UV_DLP_3D_Printer
 
         public AppConfig() 
         {
-           
+            //CreateDefault();
         }
     }
 }

@@ -55,57 +55,57 @@ namespace UV_DLP_3D_Printer.Drivers
             }
         }
 
+        private string RemoveComment(string line) 
+        {
+           
+            string newln = "";
+            // this function removes the comments from the line
+            line = line.Trim(); // trim off any whitespace
+            if (line.StartsWith("("))
+            {
+                return "";
+            }
+            if (line.StartsWith(";"))
+            {
+                return "";
+            }
+            // now replace the ';' with '('
+            line = line.Replace(';','(');
+            if (line.Contains('('))
+            {
+                // this line does not start with a comment, but contains a comment,
+                // split the line and give only the first portion
+                String[] Lines = line.Split('(');
+                if (Lines.Length > 0)
+                {
+                    newln = Lines[0];
+                    newln += "\r\n"; // make sure to cap it off               
+                }
+                else
+                {
+                    //wtf here?
+                    DebugLogger.Instance().LogError("Should be a line here....");
+                }
+            }
+            else 
+            {
+                //line contains no comments
+                newln = line + "\r\n";
+            }
+            return newln;
+        }
+
         public override int Write(String line) 
         {
             lock (_locker) // ensure synchronization
             {
-                int len = -1;
-                len = line.Length;
-                string newln = "";
-                //check to see if the line is blank, or starts with a comment
-                // if it does, don't send the comment to the firmware
-                if (line.StartsWith("("))
-                {
-                    len = 0; // nothing to write
-                    return len;
-                }
-                if (line.StartsWith(";"))
-                {
-                    len = 0; // nothing to write
-                    return len;
-                }
-                else if (line.Contains('('))
-                {
-                    // this line does not start with a comment, but contains a comment,
-                    // split the line and give only the first portion
-                    String[] Lines = line.Split('(');
-                    if (Lines.Length > 0)
-                    {
-                        newln = Lines[0];
-                        newln += "\r\n"; // make sure to capp it off
-                        len = newln.Length;
-                        m_serialport.Write(newln); // write the portion without the comment                    
-                    }
-                }
-                else if (line.Contains(';'))
-                {
-                    // this line does not start with a comment, but contains a comment,
-                    // split the line and give only the first portion
-                    String[] Lines = line.Split(';');
-                    if (Lines.Length > 0)
-                    {
-                        newln = Lines[0];
-                        newln += "\r\n"; // make sure to capp it off
-                        len = newln.Length;
-                        m_serialport.Write(newln); // write the portion without the comment                    
-                    }
-                }
-                else // write the line as normal
+                line = RemoveComment(line);
+                if (line.Trim().Length > 0)
                 {
                     m_serialport.Write(line);
-                    return line.Length;
+                    
                 }
-                return len;
+                return line.Trim().Length;
             }
         }
     }

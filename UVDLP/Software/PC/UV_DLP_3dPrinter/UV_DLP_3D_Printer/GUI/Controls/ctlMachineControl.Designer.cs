@@ -36,13 +36,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.grpHoming = new System.Windows.Forms.GroupBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.cmdHomeAll = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.lblX = new System.Windows.Forms.Label();
-            this.cmdYHome = new System.Windows.Forms.Button();
-            this.cmdXHome = new System.Windows.Forms.Button();
-            this.cmdZHome = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cmdMotorsOn = new System.Windows.Forms.Button();
             this.cmdMotorsOff = new System.Windows.Forms.Button();
@@ -55,15 +51,9 @@
             this.cmdReverse = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.txtdistXY = new System.Windows.Forms.TextBox();
-            this.cmdYDown = new System.Windows.Forms.Button();
-            this.cmdYUp = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.cmdXDown = new System.Windows.Forms.Button();
-            this.cmdXUp = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txtdist = new System.Windows.Forms.TextBox();
-            this.cmdDown = new System.Windows.Forms.Button();
-            this.cmdUp = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.txtReceived = new System.Windows.Forms.TextBox();
@@ -81,9 +71,23 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cmdClear = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.cmdConnect = new System.Windows.Forms.Button();
+            this.cmdEditPC = new System.Windows.Forms.Button();
             this.cmdHide = new System.Windows.Forms.Button();
             this.cmdShowBlank = new System.Windows.Forms.Button();
             this.cmdShowCalib = new System.Windows.Forms.Button();
+            this.cmdHomeAll = new System.Windows.Forms.Button();
+            this.cmdYHome = new System.Windows.Forms.Button();
+            this.cmdXHome = new System.Windows.Forms.Button();
+            this.cmdZHome = new System.Windows.Forms.Button();
+            this.cmdYDown = new System.Windows.Forms.Button();
+            this.cmdYUp = new System.Windows.Forms.Button();
+            this.cmdXDown = new System.Windows.Forms.Button();
+            this.cmdXUp = new System.Windows.Forms.Button();
+            this.cmdDown = new System.Windows.Forms.Button();
+            this.cmdUp = new System.Windows.Forms.Button();
+            this.cmbCommands = new System.Windows.Forms.ComboBox();
+            this.cmdSendProj = new System.Windows.Forms.Button();
             this.grpHoming.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.grpExtrudeControls.SuspendLayout();
@@ -160,7 +164,7 @@
             this.grpHoming.Controls.Add(this.cmdZHome);
             this.grpHoming.Location = new System.Drawing.Point(249, 249);
             this.grpHoming.Name = "grpHoming";
-            this.grpHoming.Size = new System.Drawing.Size(258, 127);
+            this.grpHoming.Size = new System.Drawing.Size(300, 127);
             this.grpHoming.TabIndex = 43;
             this.grpHoming.TabStop = false;
             this.grpHoming.Text = "Homing";
@@ -174,16 +178,6 @@
             this.label15.Size = new System.Drawing.Size(46, 23);
             this.label15.TabIndex = 23;
             this.label15.Text = "All";
-            // 
-            // cmdHomeAll
-            // 
-            this.cmdHomeAll.Image = global::UV_DLP_3D_Printer.Properties.Resources.rounded_blue_home_button_4805;
-            this.cmdHomeAll.Location = new System.Drawing.Point(194, 32);
-            this.cmdHomeAll.Name = "cmdHomeAll";
-            this.cmdHomeAll.Size = new System.Drawing.Size(48, 52);
-            this.cmdHomeAll.TabIndex = 22;
-            this.cmdHomeAll.UseVisualStyleBackColor = true;
-            this.cmdHomeAll.Click += new System.EventHandler(this.cmdHomeAll_Click);
             // 
             // label5
             // 
@@ -214,36 +208,6 @@
             this.lblX.Size = new System.Drawing.Size(22, 23);
             this.lblX.TabIndex = 19;
             this.lblX.Text = "X";
-            // 
-            // cmdYHome
-            // 
-            this.cmdYHome.Image = global::UV_DLP_3D_Printer.Properties.Resources.rounded_blue_home_button_4805;
-            this.cmdYHome.Location = new System.Drawing.Point(73, 32);
-            this.cmdYHome.Name = "cmdYHome";
-            this.cmdYHome.Size = new System.Drawing.Size(48, 52);
-            this.cmdYHome.TabIndex = 18;
-            this.cmdYHome.UseVisualStyleBackColor = true;
-            this.cmdYHome.Click += new System.EventHandler(this.cmdYHome_Click);
-            // 
-            // cmdXHome
-            // 
-            this.cmdXHome.Image = global::UV_DLP_3D_Printer.Properties.Resources.rounded_blue_home_button_4805;
-            this.cmdXHome.Location = new System.Drawing.Point(11, 32);
-            this.cmdXHome.Name = "cmdXHome";
-            this.cmdXHome.Size = new System.Drawing.Size(48, 52);
-            this.cmdXHome.TabIndex = 17;
-            this.cmdXHome.UseVisualStyleBackColor = true;
-            this.cmdXHome.Click += new System.EventHandler(this.cmdXHome_Click);
-            // 
-            // cmdZHome
-            // 
-            this.cmdZHome.Image = global::UV_DLP_3D_Printer.Properties.Resources.rounded_blue_home_button_4805;
-            this.cmdZHome.Location = new System.Drawing.Point(134, 32);
-            this.cmdZHome.Name = "cmdZHome";
-            this.cmdZHome.Size = new System.Drawing.Size(48, 52);
-            this.cmdZHome.TabIndex = 16;
-            this.cmdZHome.UseVisualStyleBackColor = true;
-            this.cmdZHome.Click += new System.EventHandler(this.cmdZHome_Click);
             // 
             // groupBox1
             // 
@@ -386,26 +350,6 @@
             this.txtdistXY.Text = "10";
             this.txtdistXY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // cmdYDown
-            // 
-            this.cmdYDown.Image = global::UV_DLP_3D_Printer.Properties.Resources.Down1Blue;
-            this.cmdYDown.Location = new System.Drawing.Point(81, 170);
-            this.cmdYDown.Name = "cmdYDown";
-            this.cmdYDown.Size = new System.Drawing.Size(72, 72);
-            this.cmdYDown.TabIndex = 38;
-            this.cmdYDown.UseVisualStyleBackColor = true;
-            this.cmdYDown.Click += new System.EventHandler(this.cmdYDown_Click);
-            // 
-            // cmdYUp
-            // 
-            this.cmdYUp.Image = global::UV_DLP_3D_Printer.Properties.Resources.Up1Blue;
-            this.cmdYUp.Location = new System.Drawing.Point(81, 28);
-            this.cmdYUp.Name = "cmdYUp";
-            this.cmdYUp.Size = new System.Drawing.Size(72, 72);
-            this.cmdYUp.TabIndex = 37;
-            this.cmdYUp.UseVisualStyleBackColor = true;
-            this.cmdYUp.Click += new System.EventHandler(this.cmdYUp_Click);
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -414,26 +358,6 @@
             this.label3.Size = new System.Drawing.Size(42, 17);
             this.label3.TabIndex = 36;
             this.label3.Text = "ZAxis";
-            // 
-            // cmdXDown
-            // 
-            this.cmdXDown.Image = global::UV_DLP_3D_Printer.Properties.Resources.Left1Blue;
-            this.cmdXDown.Location = new System.Drawing.Point(9, 99);
-            this.cmdXDown.Name = "cmdXDown";
-            this.cmdXDown.Size = new System.Drawing.Size(72, 72);
-            this.cmdXDown.TabIndex = 35;
-            this.cmdXDown.UseVisualStyleBackColor = true;
-            this.cmdXDown.Click += new System.EventHandler(this.cmdXDown_Click);
-            // 
-            // cmdXUp
-            // 
-            this.cmdXUp.Image = global::UV_DLP_3D_Printer.Properties.Resources.Right1Blue;
-            this.cmdXUp.Location = new System.Drawing.Point(153, 99);
-            this.cmdXUp.Name = "cmdXUp";
-            this.cmdXUp.Size = new System.Drawing.Size(72, 72);
-            this.cmdXUp.TabIndex = 34;
-            this.cmdXUp.UseVisualStyleBackColor = true;
-            this.cmdXUp.Click += new System.EventHandler(this.cmdXUp_Click);
             // 
             // label1
             // 
@@ -452,26 +376,6 @@
             this.txtdist.TabIndex = 32;
             this.txtdist.Text = "10";
             this.txtdist.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // cmdDown
-            // 
-            this.cmdDown.Image = global::UV_DLP_3D_Printer.Properties.Resources.Down1Blue;
-            this.cmdDown.Location = new System.Drawing.Point(249, 172);
-            this.cmdDown.Name = "cmdDown";
-            this.cmdDown.Size = new System.Drawing.Size(72, 72);
-            this.cmdDown.TabIndex = 31;
-            this.cmdDown.UseVisualStyleBackColor = true;
-            this.cmdDown.Click += new System.EventHandler(this.cmdDown_Click);
-            // 
-            // cmdUp
-            // 
-            this.cmdUp.Image = global::UV_DLP_3D_Printer.Properties.Resources.Up1Blue;
-            this.cmdUp.Location = new System.Drawing.Point(249, 28);
-            this.cmdUp.Name = "cmdUp";
-            this.cmdUp.Size = new System.Drawing.Size(72, 72);
-            this.cmdUp.TabIndex = 30;
-            this.cmdUp.UseVisualStyleBackColor = true;
-            this.cmdUp.Click += new System.EventHandler(this.cmdUp_Click);
             // 
             // label11
             // 
@@ -659,42 +563,187 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.cmdSendProj);
+            this.groupBox4.Controls.Add(this.cmbCommands);
+            this.groupBox4.Controls.Add(this.cmdConnect);
+            this.groupBox4.Controls.Add(this.cmdEditPC);
             this.groupBox4.Controls.Add(this.cmdHide);
             this.groupBox4.Controls.Add(this.cmdShowBlank);
             this.groupBox4.Controls.Add(this.cmdShowCalib);
             this.groupBox4.Location = new System.Drawing.Point(250, 383);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(257, 126);
+            this.groupBox4.Size = new System.Drawing.Size(299, 159);
             this.groupBox4.TabIndex = 60;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Projector";
+            // 
+            // cmdConnect
+            // 
+            this.cmdConnect.Location = new System.Drawing.Point(154, 20);
+            this.cmdConnect.Name = "cmdConnect";
+            this.cmdConnect.Size = new System.Drawing.Size(124, 29);
+            this.cmdConnect.TabIndex = 4;
+            this.cmdConnect.Text = "Connect Display";
+            this.cmdConnect.UseVisualStyleBackColor = true;
+            this.cmdConnect.Click += new System.EventHandler(this.cmdConnect_Click);
+            // 
+            // cmdEditPC
+            // 
+            this.cmdEditPC.Location = new System.Drawing.Point(154, 55);
+            this.cmdEditPC.Name = "cmdEditPC";
+            this.cmdEditPC.Size = new System.Drawing.Size(124, 29);
+            this.cmdEditPC.TabIndex = 3;
+            this.cmdEditPC.Text = "Edit Commands";
+            this.cmdEditPC.UseVisualStyleBackColor = true;
+            this.cmdEditPC.Click += new System.EventHandler(this.cmdEditPC_Click);
             // 
             // cmdHide
             // 
             this.cmdHide.Location = new System.Drawing.Point(7, 90);
             this.cmdHide.Name = "cmdHide";
-            this.cmdHide.Size = new System.Drawing.Size(147, 29);
+            this.cmdHide.Size = new System.Drawing.Size(124, 29);
             this.cmdHide.TabIndex = 2;
             this.cmdHide.Text = "Hide";
             this.cmdHide.UseVisualStyleBackColor = true;
+            this.cmdHide.Click += new System.EventHandler(this.cmdHide_Click);
             // 
             // cmdShowBlank
             // 
             this.cmdShowBlank.Location = new System.Drawing.Point(6, 55);
             this.cmdShowBlank.Name = "cmdShowBlank";
-            this.cmdShowBlank.Size = new System.Drawing.Size(147, 29);
+            this.cmdShowBlank.Size = new System.Drawing.Size(125, 29);
             this.cmdShowBlank.TabIndex = 1;
             this.cmdShowBlank.Text = "Show Blank";
             this.cmdShowBlank.UseVisualStyleBackColor = true;
+            this.cmdShowBlank.Click += new System.EventHandler(this.cmdShowBlank_Click);
             // 
             // cmdShowCalib
             // 
             this.cmdShowCalib.Location = new System.Drawing.Point(7, 21);
             this.cmdShowCalib.Name = "cmdShowCalib";
-            this.cmdShowCalib.Size = new System.Drawing.Size(147, 28);
+            this.cmdShowCalib.Size = new System.Drawing.Size(124, 28);
             this.cmdShowCalib.TabIndex = 0;
             this.cmdShowCalib.Text = "Show Calibration";
             this.cmdShowCalib.UseVisualStyleBackColor = true;
+            this.cmdShowCalib.Click += new System.EventHandler(this.cmdShowCalib_Click);
+            // 
+            // cmdHomeAll
+            // 
+            this.cmdHomeAll.Image = global::UV_DLP_3D_Printer.Properties.Resources.rounded_blue_home_button_4805;
+            this.cmdHomeAll.Location = new System.Drawing.Point(194, 32);
+            this.cmdHomeAll.Name = "cmdHomeAll";
+            this.cmdHomeAll.Size = new System.Drawing.Size(48, 52);
+            this.cmdHomeAll.TabIndex = 22;
+            this.cmdHomeAll.UseVisualStyleBackColor = true;
+            this.cmdHomeAll.Click += new System.EventHandler(this.cmdHomeAll_Click);
+            // 
+            // cmdYHome
+            // 
+            this.cmdYHome.Image = global::UV_DLP_3D_Printer.Properties.Resources.rounded_blue_home_button_4805;
+            this.cmdYHome.Location = new System.Drawing.Point(73, 32);
+            this.cmdYHome.Name = "cmdYHome";
+            this.cmdYHome.Size = new System.Drawing.Size(48, 52);
+            this.cmdYHome.TabIndex = 18;
+            this.cmdYHome.UseVisualStyleBackColor = true;
+            this.cmdYHome.Click += new System.EventHandler(this.cmdYHome_Click);
+            // 
+            // cmdXHome
+            // 
+            this.cmdXHome.Image = global::UV_DLP_3D_Printer.Properties.Resources.rounded_blue_home_button_4805;
+            this.cmdXHome.Location = new System.Drawing.Point(11, 32);
+            this.cmdXHome.Name = "cmdXHome";
+            this.cmdXHome.Size = new System.Drawing.Size(48, 52);
+            this.cmdXHome.TabIndex = 17;
+            this.cmdXHome.UseVisualStyleBackColor = true;
+            this.cmdXHome.Click += new System.EventHandler(this.cmdXHome_Click);
+            // 
+            // cmdZHome
+            // 
+            this.cmdZHome.Image = global::UV_DLP_3D_Printer.Properties.Resources.rounded_blue_home_button_4805;
+            this.cmdZHome.Location = new System.Drawing.Point(134, 32);
+            this.cmdZHome.Name = "cmdZHome";
+            this.cmdZHome.Size = new System.Drawing.Size(48, 52);
+            this.cmdZHome.TabIndex = 16;
+            this.cmdZHome.UseVisualStyleBackColor = true;
+            this.cmdZHome.Click += new System.EventHandler(this.cmdZHome_Click);
+            // 
+            // cmdYDown
+            // 
+            this.cmdYDown.Image = global::UV_DLP_3D_Printer.Properties.Resources.Down1Blue;
+            this.cmdYDown.Location = new System.Drawing.Point(81, 170);
+            this.cmdYDown.Name = "cmdYDown";
+            this.cmdYDown.Size = new System.Drawing.Size(72, 72);
+            this.cmdYDown.TabIndex = 38;
+            this.cmdYDown.UseVisualStyleBackColor = true;
+            this.cmdYDown.Click += new System.EventHandler(this.cmdYDown_Click);
+            // 
+            // cmdYUp
+            // 
+            this.cmdYUp.Image = global::UV_DLP_3D_Printer.Properties.Resources.Up1Blue;
+            this.cmdYUp.Location = new System.Drawing.Point(81, 28);
+            this.cmdYUp.Name = "cmdYUp";
+            this.cmdYUp.Size = new System.Drawing.Size(72, 72);
+            this.cmdYUp.TabIndex = 37;
+            this.cmdYUp.UseVisualStyleBackColor = true;
+            this.cmdYUp.Click += new System.EventHandler(this.cmdYUp_Click);
+            // 
+            // cmdXDown
+            // 
+            this.cmdXDown.Image = global::UV_DLP_3D_Printer.Properties.Resources.Left1Blue;
+            this.cmdXDown.Location = new System.Drawing.Point(9, 99);
+            this.cmdXDown.Name = "cmdXDown";
+            this.cmdXDown.Size = new System.Drawing.Size(72, 72);
+            this.cmdXDown.TabIndex = 35;
+            this.cmdXDown.UseVisualStyleBackColor = true;
+            this.cmdXDown.Click += new System.EventHandler(this.cmdXDown_Click);
+            // 
+            // cmdXUp
+            // 
+            this.cmdXUp.Image = global::UV_DLP_3D_Printer.Properties.Resources.Right1Blue;
+            this.cmdXUp.Location = new System.Drawing.Point(153, 99);
+            this.cmdXUp.Name = "cmdXUp";
+            this.cmdXUp.Size = new System.Drawing.Size(72, 72);
+            this.cmdXUp.TabIndex = 34;
+            this.cmdXUp.UseVisualStyleBackColor = true;
+            this.cmdXUp.Click += new System.EventHandler(this.cmdXUp_Click);
+            // 
+            // cmdDown
+            // 
+            this.cmdDown.Image = global::UV_DLP_3D_Printer.Properties.Resources.Down1Blue;
+            this.cmdDown.Location = new System.Drawing.Point(249, 172);
+            this.cmdDown.Name = "cmdDown";
+            this.cmdDown.Size = new System.Drawing.Size(72, 72);
+            this.cmdDown.TabIndex = 31;
+            this.cmdDown.UseVisualStyleBackColor = true;
+            this.cmdDown.Click += new System.EventHandler(this.cmdDown_Click);
+            // 
+            // cmdUp
+            // 
+            this.cmdUp.Image = global::UV_DLP_3D_Printer.Properties.Resources.Up1Blue;
+            this.cmdUp.Location = new System.Drawing.Point(249, 28);
+            this.cmdUp.Name = "cmdUp";
+            this.cmdUp.Size = new System.Drawing.Size(72, 72);
+            this.cmdUp.TabIndex = 30;
+            this.cmdUp.UseVisualStyleBackColor = true;
+            this.cmdUp.Click += new System.EventHandler(this.cmdUp_Click);
+            // 
+            // cmbCommands
+            // 
+            this.cmbCommands.FormattingEnabled = true;
+            this.cmbCommands.Location = new System.Drawing.Point(7, 125);
+            this.cmbCommands.Name = "cmbCommands";
+            this.cmbCommands.Size = new System.Drawing.Size(193, 24);
+            this.cmbCommands.TabIndex = 5;
+            // 
+            // cmdSendProj
+            // 
+            this.cmdSendProj.Location = new System.Drawing.Point(207, 125);
+            this.cmdSendProj.Name = "cmdSendProj";
+            this.cmdSendProj.Size = new System.Drawing.Size(75, 23);
+            this.cmdSendProj.TabIndex = 6;
+            this.cmdSendProj.Text = "Send";
+            this.cmdSendProj.UseVisualStyleBackColor = true;
+            this.cmdSendProj.Click += new System.EventHandler(this.cmdSendProj_Click);
             // 
             // ctlMachineControl
             // 
@@ -804,5 +853,9 @@
         private System.Windows.Forms.Button cmdShowBlank;
         private System.Windows.Forms.Button cmdShowCalib;
         private System.Windows.Forms.Button cmdHide;
+        private System.Windows.Forms.Button cmdEditPC;
+        private System.Windows.Forms.Button cmdConnect;
+        private System.Windows.Forms.Button cmdSendProj;
+        private System.Windows.Forms.ComboBox cmbCommands;
     }
 }

@@ -264,49 +264,58 @@ namespace UV_DLP_3D_Printer._3DEngine
         /// <param name="origin"></param>
         /// <param name="objects"></param>
         /// <returns></returns>
+        /// 
+        static object lck = new object();
         public static ArrayList IntersectObjects(Vector3d direction, Point3d origin, ArrayList objects,bool supports) 
         {
             ArrayList m_isectlst = new ArrayList();
-
-            direction.Normalize();
-            direction.Scale(10000.0);
-            Point3d endp = new Point3d();
-            Point3d intersect = new Point3d();
-
-            endp.Set(origin);
-            endp.x += direction.x;
-            endp.y += direction.y;
-            endp.z += direction.z;
-
-            foreach (Object3d obj in objects)
+            try
             {
-                if (obj.tag == Object3d.OBJ_SUPPORT && !supports)
-                    continue;
-                // try a less- costly sphere intersect here   
-                if (IntersectSphere(origin, endp, ref intersect, obj.m_center, obj.m_radius))
+                direction.Normalize();
+                direction.Scale(10000.0);
+                Point3d endp = new Point3d();
+                Point3d intersect = new Point3d();
+
+                endp.Set(origin);
+                endp.x += direction.x;
+                endp.y += direction.y;
+                endp.z += direction.z;
+                lock (lck)
                 {
-                    foreach (Polygon p in obj.m_lstpolys)
+                    foreach (Object3d obj in objects)
                     {
-                        intersect = new Point3d();
+                        if (obj.tag == Object3d.OBJ_SUPPORT && !supports)
+                            continue;
                         // try a less- costly sphere intersect here   
-                        if (IntersectSphere(origin, endp, ref intersect, p.m_center, p.m_radius))
+                        if (IntersectSphere(origin, endp, ref intersect, obj.m_center, obj.m_radius))
                         {
-                            // if it intersects,
-                            if (RTUtils.IntersectPoly(p, origin, endp, ref intersect))
+                            foreach (Polygon p in obj.m_lstpolys)
                             {
-                                m_isectlst.Add(new ISectData(obj, p, intersect, origin, direction));
+                                intersect = new Point3d();
+                                // try a less- costly sphere intersect here   
+                                if (IntersectSphere(origin, endp, ref intersect, p.m_center, p.m_radius))
+                                {
+                                    // if it intersects,
+                                    if (RTUtils.IntersectPoly(p, origin, endp, ref intersect))
+                                    {
+                                        m_isectlst.Add(new ISectData(obj, p, intersect, origin, direction));
+                                    }
+                                }
                             }
                         }
                     }
                 }
+                ISectData gp = ISectGroundPlane(direction, origin);
+                if (gp != null)
+                {
+                    m_isectlst.Add(gp);
+                }
+                m_isectlst.Sort();
             }
-            ISectData gp = ISectGroundPlane(direction, origin);
-            if (gp != null) 
+            catch (Exception ex) 
             {
-                m_isectlst.Add(gp);
+                DebugLogger.Instance().LogError(ex.Message);
             }
-            m_isectlst.Sort();
-            
             return m_isectlst;
         }
     }
