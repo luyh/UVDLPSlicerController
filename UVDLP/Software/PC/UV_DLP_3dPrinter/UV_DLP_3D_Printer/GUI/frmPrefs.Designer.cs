@@ -73,7 +73,7 @@
             this.groupBox1.Size = new System.Drawing.Size(803, 100);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Slic3r Location";
+            this.groupBox1.Text = "FDM Slic3r Location";
             // 
             // cmdOK
             // 

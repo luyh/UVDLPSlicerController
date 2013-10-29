@@ -57,6 +57,7 @@ namespace UV_DLP_3D_Printer
             {
                 //throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, "The binary key cannot have an odd number of digits: {0}", hexString));
                 DebugLogger.Instance().LogError("The hex string cannot have an odd number of digits");
+                return null;
             }
 
             byte[] HexAsBytes = new byte[hexString.Length / 2];

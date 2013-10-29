@@ -32,7 +32,11 @@ namespace UV_DLP_3D_Printer.GUI
             if (m_pc == null) return false;
             try
             {
-                m_pc.hex = chkHex.Checked;
+                string ts = txtCommand.Text;
+                ts = ts.Replace(" ", string.Empty);
+                byte[] tmp = Utility.HexStringToByteArray(ts);
+                if (tmp == null) return false;
+                m_pc.hex = chkHex.Checked;                
                 m_pc.command = txtCommand.Text;
                 m_pc.name = txtName.Text; 
                 return true;
@@ -93,9 +97,15 @@ namespace UV_DLP_3D_Printer.GUI
 
         private void cmdApply_Click(object sender, EventArgs e)
         {
-            GetData();
-            DisplayCommandList();
-            UVDLPApp.Instance().SaveProjectorCommands("." + UVDLPApp.m_pathsep + UVDLPApp.Instance().m_appconfig.ProjectorCommandsFile);
+            if (!GetData())
+            {
+                MessageBox.Show("Please Check Input");
+            }
+            else
+            {
+                DisplayCommandList();
+                UVDLPApp.Instance().SaveProjectorCommands("." + UVDLPApp.m_pathsep + UVDLPApp.Instance().m_appconfig.ProjectorCommandsFile);
+            }
         }
 
         private void cmdDelete_Click(object sender, EventArgs e)

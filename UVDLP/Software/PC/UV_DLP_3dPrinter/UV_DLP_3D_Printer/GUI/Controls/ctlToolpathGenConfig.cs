@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
+using System.IO;
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
     public partial class ctlToolpathGenConfig : UserControl
@@ -366,10 +366,28 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         private void cmdDelete_Click(object sender, EventArgs e)
         {
-            string shortname = lstSliceProfiles.SelectedItem.ToString();
-            if (shortname.ToLower().Contains("default")) 
+            try
             {
-                MessageBox.Show("Cannot delete default profile");
+                string shortname = lstSliceProfiles.SelectedItem.ToString();
+                if (shortname.ToLower().Contains("default"))
+                {
+                    MessageBox.Show("Cannot delete default profile");
+                }
+                else
+                {
+
+                    string fname = UVDLPApp.Instance().m_PathProfiles;
+                    fname += UVDLPApp.m_pathsep + shortname;
+                    string pname = fname;
+                    fname += ".slicing";
+                    File.Delete(fname); // delete the file
+                    Directory.Delete(pname, true);
+                    PopulateProfiles();
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
             }
         }
     }

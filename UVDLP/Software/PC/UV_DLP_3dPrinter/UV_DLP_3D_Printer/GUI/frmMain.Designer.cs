@@ -36,23 +36,9 @@
             this.saveSceneSTLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.buildProfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.propertiesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.manageProfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.txtLog = new System.Windows.Forms.TextBox();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cmdRemoveObject = new System.Windows.Forms.ToolStripMenuItem();
-            this.printDialog1 = new System.Windows.Forms.PrintDialog();
-            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.tabControl2 = new System.Windows.Forms.TabControl();
@@ -117,6 +103,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.lblSliceNum = new System.Windows.Forms.Label();
             this.tabMachineControl = new System.Windows.Forms.TabPage();
+            this.ctlMachineControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineControl();
             this.tabMachineConfig = new System.Windows.Forms.TabPage();
             this.ctlMachineConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineConfig();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -137,17 +124,21 @@
             this.lblMainMessage = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.lblTime = new System.Windows.Forms.ToolStripLabel();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.txtLog = new System.Windows.Forms.TextBox();
             this.heatTempCtl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlHeatTemp();
-            this.ctlMachineControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineControl();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cmdRemoveObject = new System.Windows.Forms.ToolStripMenuItem();
+            this.printDialog1 = new System.Windows.Forms.PrintDialog();
+            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            this.splitContainer3.Panel1.SuspendLayout();
-            this.splitContainer3.Panel2.SuspendLayout();
-            this.splitContainer3.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
-            this.contextMenuStrip2.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -174,6 +165,11 @@
             this.tabMachineConfig.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
+            this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -184,7 +180,6 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.buildProfilesToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -231,35 +226,6 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
-            // buildProfilesToolStripMenuItem
-            // 
-            this.buildProfilesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.propertiesToolStripMenuItem1,
-            this.manageProfilesToolStripMenuItem,
-            this.toolStripSeparator6});
-            this.buildProfilesToolStripMenuItem.Name = "buildProfilesToolStripMenuItem";
-            this.buildProfilesToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
-            this.buildProfilesToolStripMenuItem.Text = "Build Profiles";
-            // 
-            // propertiesToolStripMenuItem1
-            // 
-            this.propertiesToolStripMenuItem1.Name = "propertiesToolStripMenuItem1";
-            this.propertiesToolStripMenuItem1.Size = new System.Drawing.Size(178, 22);
-            this.propertiesToolStripMenuItem1.Text = "Properties";
-            this.propertiesToolStripMenuItem1.Click += new System.EventHandler(this.propertiesToolStripMenuItem1_Click);
-            // 
-            // manageProfilesToolStripMenuItem
-            // 
-            this.manageProfilesToolStripMenuItem.Name = "manageProfilesToolStripMenuItem";
-            this.manageProfilesToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
-            this.manageProfilesToolStripMenuItem.Text = "Manage Profiles";
-            this.manageProfilesToolStripMenuItem.Click += new System.EventHandler(this.manageProfilesToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(175, 6);
-            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -271,7 +237,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -293,68 +259,6 @@
             this.splitContainer2.Size = new System.Drawing.Size(1457, 792);
             this.splitContainer2.SplitterDistance = 667;
             this.splitContainer2.TabIndex = 21;
-            // 
-            // splitContainer3
-            // 
-            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer3.Name = "splitContainer3";
-            // 
-            // splitContainer3.Panel1
-            // 
-            this.splitContainer3.Panel1.Controls.Add(this.txtLog);
-            // 
-            // splitContainer3.Panel2
-            // 
-            this.splitContainer3.Panel2.Controls.Add(this.heatTempCtl1);
-            this.splitContainer3.Size = new System.Drawing.Size(1457, 121);
-            this.splitContainer3.SplitterDistance = 993;
-            this.splitContainer3.TabIndex = 1;
-            // 
-            // txtLog
-            // 
-            this.txtLog.BackColor = System.Drawing.Color.White;
-            this.txtLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtLog.Font = new System.Drawing.Font("Courier New", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLog.Location = new System.Drawing.Point(0, 0);
-            this.txtLog.Multiline = true;
-            this.txtLog.Name = "txtLog";
-            this.txtLog.ReadOnly = true;
-            this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtLog.Size = new System.Drawing.Size(993, 121);
-            this.txtLog.TabIndex = 0;
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmdRemoveObject});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(179, 26);
-            // 
-            // cmdRemoveObject
-            // 
-            this.cmdRemoveObject.Name = "cmdRemoveObject";
-            this.cmdRemoveObject.Size = new System.Drawing.Size(178, 22);
-            this.cmdRemoveObject.Text = "Remove Object";
-            this.cmdRemoveObject.Click += new System.EventHandler(this.cmdRemoveObject_Click);
-            // 
-            // printDialog1
-            // 
-            this.printDialog1.UseEXDialog = true;
-            // 
-            // contextMenuStrip2
-            // 
-            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1});
-            this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(211, 26);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(210, 22);
-            this.toolStripMenuItem1.Text = "Remove All Supports";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // splitContainer1
             // 
@@ -1070,6 +974,13 @@
             this.tabMachineControl.Text = "Machine Control";
             this.tabMachineControl.UseVisualStyleBackColor = true;
             // 
+            // ctlMachineControl1
+            // 
+            this.ctlMachineControl1.Location = new System.Drawing.Point(3, 3);
+            this.ctlMachineControl1.Name = "ctlMachineControl1";
+            this.ctlMachineControl1.Size = new System.Drawing.Size(949, 557);
+            this.ctlMachineControl1.TabIndex = 0;
+            // 
             // tabMachineConfig
             // 
             this.tabMachineConfig.Controls.Add(this.ctlMachineConfig1);
@@ -1247,6 +1158,36 @@
             this.lblTime.Name = "lblTime";
             this.lblTime.Size = new System.Drawing.Size(0, 52);
             // 
+            // splitContainer3
+            // 
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.txtLog);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.heatTempCtl1);
+            this.splitContainer3.Size = new System.Drawing.Size(1457, 121);
+            this.splitContainer3.SplitterDistance = 993;
+            this.splitContainer3.TabIndex = 1;
+            // 
+            // txtLog
+            // 
+            this.txtLog.BackColor = System.Drawing.Color.White;
+            this.txtLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtLog.Font = new System.Drawing.Font("Courier New", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLog.Location = new System.Drawing.Point(0, 0);
+            this.txtLog.Multiline = true;
+            this.txtLog.Name = "txtLog";
+            this.txtLog.ReadOnly = true;
+            this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtLog.Size = new System.Drawing.Size(993, 121);
+            this.txtLog.TabIndex = 0;
+            // 
             // heatTempCtl1
             // 
             this.heatTempCtl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1256,12 +1197,37 @@
             this.heatTempCtl1.Size = new System.Drawing.Size(460, 121);
             this.heatTempCtl1.TabIndex = 0;
             // 
-            // ctlMachineControl1
+            // contextMenuStrip1
             // 
-            this.ctlMachineControl1.Location = new System.Drawing.Point(3, 3);
-            this.ctlMachineControl1.Name = "ctlMachineControl1";
-            this.ctlMachineControl1.Size = new System.Drawing.Size(949, 557);
-            this.ctlMachineControl1.TabIndex = 0;
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmdRemoveObject});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(179, 26);
+            // 
+            // cmdRemoveObject
+            // 
+            this.cmdRemoveObject.Name = "cmdRemoveObject";
+            this.cmdRemoveObject.Size = new System.Drawing.Size(178, 22);
+            this.cmdRemoveObject.Text = "Remove Object";
+            this.cmdRemoveObject.Click += new System.EventHandler(this.cmdRemoveObject_Click);
+            // 
+            // printDialog1
+            // 
+            this.printDialog1.UseEXDialog = true;
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(211, 26);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(210, 22);
+            this.toolStripMenuItem1.Text = "Remove All Supports";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // frmMain
             // 
@@ -1282,12 +1248,6 @@
             this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
             this.splitContainer2.ResumeLayout(false);
-            this.splitContainer3.Panel1.ResumeLayout(false);
-            this.splitContainer3.Panel1.PerformLayout();
-            this.splitContainer3.Panel2.ResumeLayout(false);
-            this.splitContainer3.ResumeLayout(false);
-            this.contextMenuStrip1.ResumeLayout(false);
-            this.contextMenuStrip2.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
@@ -1323,6 +1283,12 @@
             this.tabPage3.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel1.PerformLayout();
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            this.splitContainer3.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
+            this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1394,10 +1360,6 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.TabPage tabView;
         private System.Windows.Forms.Label lblDebug;
-        private System.Windows.Forms.ToolStripMenuItem buildProfilesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem propertiesToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem manageProfilesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label lblSliceNum;
         private System.Windows.Forms.VScrollBar vScrollBar1;
@@ -1421,7 +1383,7 @@
         private System.Windows.Forms.SplitContainer splitContainer3;
         private GUI.Controls.ctlHeatTemp heatTempCtl1;
         private System.Windows.Forms.TabPage tabMachineControl;
-        private GUI.Controls.ctlMachineControl machineControl1;
+        //private GUI.Controls.ctlMachineControl machineControl1;
         private System.Windows.Forms.CheckBox chkSliceHeight;
         private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
         private System.Windows.Forms.TabPage tabMachineConfig;

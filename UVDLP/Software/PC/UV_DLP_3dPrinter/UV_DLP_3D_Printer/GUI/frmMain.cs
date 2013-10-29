@@ -66,7 +66,7 @@ namespace UV_DLP_3D_Printer
             m_quat = new Quaternion();
 
             SetButtonStatuses();                        
-            PopulateBuildProfilesMenu();
+            //PopulateBuildProfilesMenu();
             SetupSceneTree();
             printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(printDocument1_PrintPage);
             Refresh();
@@ -119,6 +119,7 @@ namespace UV_DLP_3D_Printer
             //throw new NotImplementedException();
             // e.Graphics =  current slice graphics
         }
+        /*
         private void PopulateBuildProfilesMenu()
         {
             //remove all items except the first 2
@@ -142,7 +143,7 @@ namespace UV_DLP_3D_Printer
                 }
             }
         }
-
+        */
         private void SetTimeMessage(String message) 
         {
             lblTime.Text = message;
@@ -360,7 +361,7 @@ namespace UV_DLP_3D_Printer
                     case eBuildStatus.eBuildCancelled:
                         message = "Print Cancelled";
                         SetButtonStatuses();
-                        machineControl1.BuildStopped();
+                        ctlMachineControl1.BuildStopped();
                         SetMainMessage(message);
                         DebugLogger.Instance().LogRecord(message);
 
@@ -371,7 +372,7 @@ namespace UV_DLP_3D_Printer
                     case eBuildStatus.eBuildCompleted:
                         message = "Print Completed";
                         SetButtonStatuses();
-                        machineControl1.BuildStopped();
+                        ctlMachineControl1.BuildStopped();
                         MessageBox.Show("Build Completed");
                         SetMainMessage(message);
                         DebugLogger.Instance().LogRecord(message);
@@ -379,7 +380,7 @@ namespace UV_DLP_3D_Printer
                     case eBuildStatus.eBuildStarted:
                         message = "Print Started";
                         SetButtonStatuses();
-                        machineControl1.BuildStarted();
+                        ctlMachineControl1.BuildStarted();
                         // if the current machine type is a UVDLP printer, make sure we can show the screen
                         if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
                         {
@@ -1104,18 +1105,22 @@ namespace UV_DLP_3D_Printer
                     {
                         UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eMachineConnected,"Printer connected");
                     }
+                    // check to see if we're uv dlp
                     // configure the projector
-                    UVDLPApp.Instance().m_deviceinterface.ConfigureProjector(UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_displayconnection);
-                    com = UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_displayconnection.comname;
-                    DebugLogger.Instance().LogRecord("Connecting to Projector on " + com + " using " + UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_drivertype.ToString());
-                    if (!UVDLPApp.Instance().m_deviceinterface.ConnectProjector())
+                    if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
                     {
-                        DebugLogger.Instance().LogRecord("Cannot connect projector driver on " + com);
-                    }
-                    else 
-                    {
-                        DebugLogger.Instance().LogRecord("Connected to Display control on " + com);
-                        UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eDisplayConnected, "Display connected");
+                        UVDLPApp.Instance().m_deviceinterface.ConfigureProjector(UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_displayconnection);
+                        com = UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_displayconnection.comname;
+                        DebugLogger.Instance().LogRecord("Connecting to Projector on " + com + " using " + UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_drivertype.ToString());
+                        if (!UVDLPApp.Instance().m_deviceinterface.ConnectProjector())
+                        {
+                            DebugLogger.Instance().LogRecord("Cannot connect projector driver on " + com);
+                        }
+                        else
+                        {
+                            DebugLogger.Instance().LogRecord("Connected to Display control on " + com);
+                            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eDisplayConnected, "Display connected");
+                        }
                     }
                 }
             }
@@ -1540,6 +1545,7 @@ namespace UV_DLP_3D_Printer
          * */
         #endregion 
         // one of the populated slice/build profiles was clicked
+        /*
         private void mnuBuildProfile_Click(object sender, EventArgs e)
         {
             String newprof = sender.ToString();
@@ -1552,13 +1558,13 @@ namespace UV_DLP_3D_Printer
                 if (pn.Equals(newprof))
                 {
                     UVDLPApp.Instance().LoadBuildSliceProfile(filePaths[idx]);
-                    PopulateBuildProfilesMenu();
+                    //PopulateBuildProfilesMenu();
                     break;
                 }
                 idx++;
             }             
         }
-
+        */
         #region DLP Screen Controls
         private void showBlankToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1678,12 +1684,13 @@ namespace UV_DLP_3D_Printer
         }
 
        
-
+        /*
         private void propertiesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             cmdSliceOptions_Click(this, null);
         }
-
+         * */
+        /*
         private void manageProfilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (m_buildprofilesmanager.IsDisposed)
@@ -1697,7 +1704,7 @@ namespace UV_DLP_3D_Printer
             SetTitle();
             Refresh();
         }
-
+        */
         private void frmMain_Resize(object sender, EventArgs e)
         {
             Refresh();
