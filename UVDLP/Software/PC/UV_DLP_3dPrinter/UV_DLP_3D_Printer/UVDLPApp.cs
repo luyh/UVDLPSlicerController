@@ -48,7 +48,7 @@ namespace UV_DLP_3D_Printer
         private static UVDLPApp m_instance = null;
         public String m_PathMachines;
         public String m_PathProfiles;
-       // public String m_apppath;
+        public String m_apppath;
         // the current application configuration object
         public AppConfig m_appconfig;
         public string appcofnginame; // the full filename
@@ -632,7 +632,7 @@ namespace UV_DLP_3D_Printer
         }
         public void SaveAppConfig() 
         {
-            m_appconfig.Save("." + m_pathsep + m_appconfigname);
+            m_appconfig.Save(m_apppath + m_pathsep + m_appconfigname);  // use full path - SHS
         }
         /// <summary>
         /// This function returns a list of Slice/Build Profiles
@@ -662,7 +662,7 @@ namespace UV_DLP_3D_Printer
         }
         public void DoAppStartup() 
         {
-            //m_apppath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            m_apppath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             //get the path separater 
             if (RunningPlatform() == Platform.Windows)
             {
@@ -673,8 +673,8 @@ namespace UV_DLP_3D_Printer
                 m_pathsep = "/";
             }
             // define some default paths
-            m_PathMachines = "." + m_pathsep +  "Machines";
-            m_PathProfiles = "." + m_pathsep + "Profiles";
+            m_PathMachines = m_apppath + m_pathsep + "Machines";  // use full paths - SHS
+            m_PathProfiles = m_apppath + m_pathsep + "Profiles";
 
             // set up directories if they don't exist
             if (!Directory.Exists(m_PathMachines)) 
@@ -685,11 +685,11 @@ namespace UV_DLP_3D_Printer
             {
                 Utility.CreateDirectory(m_PathProfiles);
             }
-            
-            if (!m_appconfig.Load("." + m_pathsep + m_appconfigname))
+
+            if (!m_appconfig.Load(m_apppath + m_pathsep + m_appconfigname))  // use full path - SHS
             {
                 m_appconfig.CreateDefault();
-                m_appconfig.Save("." + m_pathsep + m_appconfigname);
+                m_appconfig.Save(m_apppath + m_pathsep + m_appconfigname);  // use full path - SHS
             }
 
             //load the current machine configuration file
@@ -701,9 +701,9 @@ namespace UV_DLP_3D_Printer
             RaiseAppEvent(eAppEvent.eMachineTypeChanged, ""); // notify the gui to set up correctly
             //load the projector command list
 
-            if (!LoadProjectorCommands("." + m_pathsep + m_appconfig.ProjectorCommandsFile)) 
+            if (!LoadProjectorCommands(m_apppath + m_pathsep + m_appconfig.ProjectorCommandsFile))  // use full path - SHS
             {
-                SaveProjectorCommands("." + m_pathsep + m_appconfig.ProjectorCommandsFile);
+                SaveProjectorCommands(m_apppath + m_pathsep + m_appconfig.ProjectorCommandsFile); // use full path - SHS
             }
             //load the current slicing profile
             if (!m_buildparms.Load(m_appconfig.m_cursliceprofilename)) 
@@ -715,9 +715,9 @@ namespace UV_DLP_3D_Printer
             SetupDriver();
             SetupDriverProjector();
             // load the support configuration
-            if (!LoadSupportConfig("." + m_pathsep + m_appconfig.SupportConfigName)) 
+            if (!LoadSupportConfig(m_apppath + m_pathsep + m_appconfig.SupportConfigName))  // use full path - SHS
             {
-                SaveSupportConfig("." + m_pathsep + m_appconfig.SupportConfigName);
+                SaveSupportConfig(m_apppath + m_pathsep + m_appconfig.SupportConfigName); // use full path - SHS
             }
         }
         /// <summary>
