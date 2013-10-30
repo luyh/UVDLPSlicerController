@@ -13,14 +13,17 @@ namespace UV_DLP_3D_Printer.Configs
         public eDriverType m_drivertype;
         public ConnectionConfig m_connection; // main serial connection to printer
         public ConnectionConfig m_displayconnection; // to the projector or similar
+        public Boolean m_displayconnectionenabled;   // projector comm enabled / disabled -SHS
 
         public DeviceDriverConfig() 
         {
             m_drivertype = eDriverType.eGENERIC; // default to a null driver
+            m_displayconnectionenabled = false;  // -SHS
             m_connection = new ConnectionConfig();
             m_displayconnection = new ConnectionConfig();
             m_connection.CreateDefault();
             m_displayconnection.CreateDefault();
+            
         }
 
         public bool Load(XmlReader xr)
@@ -30,6 +33,7 @@ namespace UV_DLP_3D_Printer.Configs
                 bool retval = false;
                 xr.ReadStartElement("DriverConfig");
                     m_drivertype = (eDriverType)Enum.Parse(typeof(eDriverType), xr.ReadElementString("DriverType"));
+                    m_displayconnectionenabled = Boolean.Parse(xr.ReadElementString("DisplayCommEnabled")); // -SHS
                     if (m_connection.Load(xr))
                     {
                         retval = true;
@@ -51,6 +55,7 @@ namespace UV_DLP_3D_Printer.Configs
                 bool retval = false;
                 xw.WriteStartElement("DriverConfig");
                     xw.WriteElementString("DriverType", m_drivertype.ToString());
+                    xw.WriteElementString("DisplayCommEnabled", m_displayconnectionenabled.ToString()); // -SHS
                     if (m_connection.Save(xw))
                     {
                         retval = true;

@@ -233,7 +233,7 @@ namespace UV_DLP_3D_Printer
             {
                 if (val < 0)
                     val = 0;
-                vScrollBar1.Maximum = val;// +vScrollBar1.LargeChange + 1;
+                vScrollBar1.Maximum = val + vScrollBar1.LargeChange - 2;
                 vScrollBar1.Value = 0;
             }
             catch (Exception ex) 
@@ -1925,6 +1925,11 @@ namespace UV_DLP_3D_Printer
         {
             frmAbout frm = new frmAbout();
             frm.ShowDialog();
+        }
+
+        private void tabMachineControl_Enter(object sender, EventArgs e)
+        {
+            ctlMachineControl1.UpdateControl(); // update control display -SHS
         }
         /*
         private void projectorCommandsToolStripMenuItem_Click(object sender, EventArgs e)

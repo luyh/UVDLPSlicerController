@@ -272,6 +272,24 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             UVDLPApp.Instance().m_deviceinterface.LineDataEvent += new DeviceInterface.DeviceLineReceived(LineDataReceived);
         }
 
+        /// <summary>
+        /// Disables/enables items based on up to date configuration) -SHS
+        /// </summary>
+        public void UpdateControl()
+        {
+            if (UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_displayconnectionenabled == false)
+            {
+                cmdConnect.Enabled = false;
+                cmdSendProj.Enabled = false;
+            }
+            else
+            {
+                cmdConnect.Enabled = true;
+                cmdSendProj.Enabled = true;
+            }
+
+        }
+
         void LineDataReceived(DeviceDriver driver, string line)
         {
             if (InvokeRequired)
@@ -452,7 +470,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     cmdConnect.Text = "Connect Monitor";
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 DebugLogger.Instance().LogError(ex.Message);
             }

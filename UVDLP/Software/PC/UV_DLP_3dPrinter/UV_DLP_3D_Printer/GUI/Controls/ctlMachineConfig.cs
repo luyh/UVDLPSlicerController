@@ -77,6 +77,16 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             
             }
         }
+
+        // clean bad characters from device name -SHS
+        private string CleanScreenName(String name)
+        {
+            int zero_place = name.IndexOf((char)0);
+            if (zero_place >= 0)
+                name = name.Substring(0,zero_place);
+            return name;
+        }
+
         private bool GetData() 
         {
             try
@@ -106,7 +116,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_config.CalcPixPerMM();
                 if (lstMonitors.SelectedIndex != -1)
                 {
-                    m_config.Monitorid = Screen.AllScreens[lstMonitors.SelectedIndex].DeviceName;// lstMonitors.Items[lstMonitors.SelectedIndex].ToString();
+                    // need to clean device name as it holds some bad characters -SHS
+                    m_config.Monitorid = CleanScreenName((Screen.AllScreens[lstMonitors.SelectedIndex].DeviceName));// lstMonitors.Items[lstMonitors.SelectedIndex].ToString();
                 }
                 return true;
             }
@@ -145,7 +156,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 lstMonitors.Items.Clear();
                 foreach (Screen s in Screen.AllScreens)
                 {
-                    lstMonitors.Items.Add(s.DeviceName);
+                    lstMonitors.Items.Add(CleanScreenName(s.DeviceName));  // -SHS
                 }
                 if (lstMonitors.Items.Count > 0)
                     lstMonitors.SelectedIndex = 0;
@@ -350,6 +361,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         }
         private void UpdateDisplayConnection()
         {
+            checkConDispEnable.Checked = m_config.m_driverconfig.m_displayconnectionenabled;
             lblConDisp.Text = m_config.m_driverconfig.m_displayconnection.comname;
         }
         private void cmdCfgConMch_Click(object sender, EventArgs e)
@@ -365,6 +377,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             frmconnect.ShowDialog();
             UpdateDisplayConnection();
        
+        }
+
+        private void checkConDispEnable_CheckedChanged(object sender, EventArgs e)
+        {
+            m_config.m_driverconfig.m_displayconnectionenabled = checkConDispEnable.Checked;
         }
     }
 }
