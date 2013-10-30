@@ -1109,17 +1109,21 @@ namespace UV_DLP_3D_Printer
                     // configure the projector
                     if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
                     {
-                        UVDLPApp.Instance().m_deviceinterface.ConfigureProjector(UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_displayconnection);
-                        com = UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_displayconnection.comname;
-                        DebugLogger.Instance().LogRecord("Connecting to Projector on " + com + " using " + UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_drivertype.ToString());
-                        if (!UVDLPApp.Instance().m_deviceinterface.ConnectProjector())
+                        // only try to configure and connect to the projector if the connection is enabled
+                        if (UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_displayconnectionenabled == true)
                         {
-                            DebugLogger.Instance().LogRecord("Cannot connect projector driver on " + com);
-                        }
-                        else
-                        {
-                            DebugLogger.Instance().LogRecord("Connected to Display control on " + com);
-                            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eDisplayConnected, "Display connected");
+                            UVDLPApp.Instance().m_deviceinterface.ConfigureProjector(UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_displayconnection);
+                            com = UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_displayconnection.comname;
+                            DebugLogger.Instance().LogRecord("Connecting to Projector on " + com + " using " + UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_drivertype.ToString());
+                            if (!UVDLPApp.Instance().m_deviceinterface.ConnectProjector())
+                            {
+                                DebugLogger.Instance().LogRecord("Cannot connect projector driver on " + com);
+                            }
+                            else
+                            {
+                                DebugLogger.Instance().LogRecord("Connected to Display control on " + com);
+                                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eDisplayConnected, "Display connected");
+                            }
                         }
                     }
                 }
