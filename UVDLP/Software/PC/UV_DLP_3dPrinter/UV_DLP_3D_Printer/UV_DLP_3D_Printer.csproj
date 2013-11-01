@@ -95,6 +95,7 @@
     <Compile Include="Configs\FDMSliceBuildConfig.cs" />
     <Compile Include="Configs\ParmList.cs" />
     <Compile Include="Configs\SupportConfig.cs" />
+    <Compile Include="Configs\XmlHelper.cs" />
     <Compile Include="Device_Interface\DeviceDriver.cs" />
     <Compile Include="Device_Interface\NULLdriver.cs" />
     <Compile Include="Device_Interface\DriverFactory.cs" />

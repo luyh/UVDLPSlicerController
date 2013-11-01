@@ -24,8 +24,8 @@ namespace UV_DLP_3D_Printer
             UV_DLP
         }
         public const int FILE_VERSION = 1; // this should change every time the format changes
-        public  double m_XDLPRes; // the X resolution of the DLP projector in pixels
-        public  double m_YDLPRes; // the Y resolution of the DLP projector in pixels
+        public double m_XDLPRes; // the X resolution of the DLP projector in pixels
+        public double m_YDLPRes; // the Y resolution of the DLP projector in pixels
         public double m_PlatXSize; // the X size of the build platform in mm
         public double m_PlatYSize; // the Y size of the build platform in mm
         public double m_PlatZSize; // the Z size of the Z axis length in mm
@@ -42,91 +42,74 @@ namespace UV_DLP_3D_Printer
         public String m_filename;// the filename of this profile. (not saved)
         public DeviceDriverConfig m_driverconfig;
 
-               
-        public bool Load(string filename) 
-        {
-            try
-            {
-                m_filename = filename;
-                m_name = Path.GetFileNameWithoutExtension(filename);
-                bool retval = false;
-                XmlReader xr = XmlReader.Create(filename);
-                xr.ReadStartElement("MachineConfig");
-                int ver = int.Parse(xr.ReadElementString("FileVersion"));
-                if (ver != FILE_VERSION) 
-                {
-                    return false;
-                }
-                m_XDLPRes = double.Parse(xr.ReadElementString("DLP_X_Res"));
-                m_YDLPRes = double.Parse(xr.ReadElementString("DLP_Y_Res"));
-                m_PlatXSize = double.Parse(xr.ReadElementString("PlatformXSize"));
-                m_PlatYSize = double.Parse(xr.ReadElementString("PlatformYSize"));
-                m_PlatZSize = double.Parse(xr.ReadElementString("PlatformZSize"));
-                m_Xpixpermm = double.Parse(xr.ReadElementString("PixPermmX"));
-                m_Ypixpermm = double.Parse(xr.ReadElementString("PixPermmY"));
-                m_XMaxFeedrate = double.Parse(xr.ReadElementString("MaxXFeedRate"));
-                m_YMaxFeedrate = double.Parse(xr.ReadElementString("MaxYFeedRate"));
-                m_ZMaxFeedrate = double.Parse(xr.ReadElementString("MaxZFeedRate"));
-                m_monitorid = xr.ReadElementString("MonitorID");
-                m_machinetype = (eMachineType)Enum.Parse(typeof(eMachineType), xr.ReadElementString("MachineType"));
-                CalcPixPerMM();
 
-                if (m_driverconfig.Load(xr))
-                {
-                    retval = true;
-                }
-                xr.ReadEndElement();
-                xr.Close();
-                return retval;
-            }
-            catch (Exception ex) 
+
+        public bool Load(string filename)
+        {
+            m_filename = filename;
+            m_name = Path.GetFileNameWithoutExtension(filename);
+            bool retval = false;
+            XmlHelper xh = new XmlHelper();
+            bool fileExist = xh.Start(m_filename, "MachineConfig");
+            XmlNode mc = xh.m_toplevel;
+
+            m_XDLPRes = xh.GetDouble(mc, "DLP_X_Res", 1024.0);
+            m_YDLPRes = xh.GetDouble(mc, "DLP_Y_Res", 768.0);
+            m_PlatXSize = xh.GetDouble(mc, "PlatformXSize", 102.0);
+            m_PlatYSize = xh.GetDouble(mc, "PlatformYSize", 77.0);
+            m_PlatZSize = xh.GetDouble(mc, "PlatformZSize", 100.0);
+            m_Xpixpermm = xh.GetDouble(mc, "PixPermmX", m_XDLPRes / m_PlatXSize);
+            m_Ypixpermm = xh.GetDouble(mc, "PixPermmY", m_YDLPRes / m_PlatYSize);
+            m_XMaxFeedrate = xh.GetDouble(mc, "MaxXFeedRate", 100.0);
+            m_YMaxFeedrate = xh.GetDouble(mc, "MaxYFeedRate", 100.0);
+            m_ZMaxFeedrate = xh.GetDouble(mc, "MaxZFeedRate", 100.0);
+            m_monitorid = xh.GetString(mc, "MonitorID", "");
+            m_machinetype = (eMachineType)xh.GetEnum(mc, "MachineType", typeof(eMachineType), eMachineType.UV_DLP);
+            CalcPixPerMM();
+
+            if (m_driverconfig.Load(xh, mc))
             {
-                DebugLogger.Instance().LogRecord(ex.Message);
-                return false;
+                retval = true;
             }
+            if (!fileExist)
+            {
+                xh.Save(FILE_VERSION);
+            }
+            return retval;
         }
+
+
         public bool Save(string filename)
         {
-            try
+            bool retval = false;
+            m_filename = filename;
+            m_name = Path.GetFileNameWithoutExtension(filename);
+            XmlHelper xh = new XmlHelper();
+            bool fileExist = xh.Start(m_filename, "MachineConfig");
+            XmlNode mc = xh.m_toplevel;
+            xh.SetParameter(mc, "DLP_X_Res", m_XDLPRes);
+            xh.SetParameter(mc, "DLP_Y_Res", m_YDLPRes);
+            xh.SetParameter(mc, "PlatformXSize", m_PlatXSize);
+            xh.SetParameter(mc, "PlatformYSize", m_PlatYSize);
+            xh.SetParameter(mc, "PlatformZSize", m_PlatZSize);
+            xh.SetParameter(mc, "PixPermmX", m_Xpixpermm);
+            xh.SetParameter(mc, "PixPermmY", m_Ypixpermm);
+            xh.SetParameter(mc, "MaxXFeedRate", m_XMaxFeedrate);
+            xh.SetParameter(mc, "MaxYFeedRate", m_YMaxFeedrate);
+            xh.SetParameter(mc, "MaxZFeedRate", m_ZMaxFeedrate);
+            xh.SetParameter(mc, "MonitorID", m_monitorid);
+            xh.SetParameter(mc, "MachineType", m_machinetype);
+            if (m_driverconfig.Save(xh, mc))
             {
-                bool retval = false;
-                XmlWriter xw = XmlWriter.Create(filename);
-                m_filename = filename;
-                m_name = Path.GetFileNameWithoutExtension(filename);
-                xw.WriteStartDocument();
-                    xw.WriteStartElement("MachineConfig");
-                        xw.WriteElementString("FileVersion", FILE_VERSION.ToString());
-                        xw.WriteElementString("DLP_X_Res", m_XDLPRes.ToString());
-                        xw.WriteElementString("DLP_Y_Res", m_YDLPRes.ToString());
-                        xw.WriteElementString("PlatformXSize", m_PlatXSize.ToString());
-                        xw.WriteElementString("PlatformYSize", m_PlatYSize.ToString());
-                        xw.WriteElementString("PlatformZSize", m_PlatZSize.ToString());
-                        xw.WriteElementString("PixPermmX", m_Xpixpermm.ToString());
-                        xw.WriteElementString("PixPermmY", m_Ypixpermm.ToString());
-                        xw.WriteElementString("MaxXFeedRate", m_XMaxFeedrate.ToString());
-                        xw.WriteElementString("MaxYFeedRate", m_YMaxFeedrate.ToString());
-                        xw.WriteElementString("MaxZFeedRate", m_ZMaxFeedrate.ToString());
-                        xw.WriteElementString("MonitorID", m_monitorid.ToString());
-                        xw.WriteElementString("MachineType", m_machinetype.ToString());
-                        if (m_driverconfig.Save(xw))
-                        {
-                            retval = true;
-                        }
-                    xw.WriteEndElement();
-                xw.WriteEndDocument();
-                xw.Close();
-                return retval;
+                retval = true;
             }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogRecord(ex.Message);
-                return false;
-            }
+            xh.Save(FILE_VERSION);
+            return retval;
         }
-        public MachineConfig() 
+        public MachineConfig()
         {
             m_XDLPRes = 1024;
-            m_YDLPRes = 768;            
+            m_YDLPRes = 768;
             m_PlatXSize = 102.0;
             m_PlatYSize = 77.0;
             m_PlatZSize = 100; // 100 mm default, we have to load this
@@ -137,7 +120,7 @@ namespace UV_DLP_3D_Printer
             CalcPixPerMM();
             m_driverconfig = new DeviceDriverConfig();
             m_machinetype = eMachineType.UV_DLP;
-            
+
         }
         public override string ToString()
         {
@@ -157,7 +140,7 @@ namespace UV_DLP_3D_Printer
             return sb.ToString();
         }
 
-        public void CalcPixPerMM() 
+        public void CalcPixPerMM()
         {
             m_Xpixpermm = m_XDLPRes / m_PlatXSize;
             m_Ypixpermm = m_YDLPRes / m_PlatYSize;

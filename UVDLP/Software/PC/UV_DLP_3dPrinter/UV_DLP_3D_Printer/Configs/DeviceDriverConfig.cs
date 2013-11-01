@@ -15,7 +15,7 @@ namespace UV_DLP_3D_Printer.Configs
         public ConnectionConfig m_displayconnection; // to the projector or similar
         public Boolean m_displayconnectionenabled;   // projector comm enabled / disabled -SHS
 
-        public DeviceDriverConfig() 
+        public DeviceDriverConfig()
         {
             m_drivertype = eDriverType.eGENERIC; // default to a null driver
             m_displayconnectionenabled = false;  // -SHS
@@ -23,53 +23,39 @@ namespace UV_DLP_3D_Printer.Configs
             m_displayconnection = new ConnectionConfig();
             m_connection.CreateDefault();
             m_displayconnection.CreateDefault();
-            
+
         }
 
-        public bool Load(XmlReader xr)
+        public bool Load(XmlHelper xh, XmlNode parent) // use new xml system -SHS
         {
-            try
+            bool retval = false;
+            XmlNode mdc = xh.FindSection(parent, "MotorsDriverConfig");
+            m_drivertype = (eDriverType)xh.GetEnum(mdc, "DriverType", typeof(eDriverType), eDriverType.eGENERIC);
+            if (m_connection.Load(xh, mdc))
             {
-                bool retval = false;
-                xr.ReadStartElement("DriverConfig");
-                    m_drivertype = (eDriverType)Enum.Parse(typeof(eDriverType), xr.ReadElementString("DriverType"));
-                    m_displayconnectionenabled = Boolean.Parse(xr.ReadElementString("DisplayCommEnabled")); // -SHS
-                    if (m_connection.Load(xr))
-                    {
-                        retval = true;
-                    }
-                    m_displayconnection.Load(xr);
-                xr.ReadEndElement();
-                return retval;
+                retval = true;
             }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogRecord(ex.Message);
-                return false;
-            }
+            XmlNode pdc = xh.FindSection(parent, "ProjectorDriverConfig");
+            m_displayconnectionenabled = xh.GetBool(pdc, "DisplayCommEnabled", false);
+            m_displayconnection.Load(xh, pdc);
+            return retval;
         }
-        public bool Save(XmlWriter xw)
+
+        public bool Save(XmlHelper xh, XmlNode parent) // use new xml system -SHS
         {
-            try
+            bool retval = false;
+            XmlNode mdc = xh.FindSection(parent, "MotorsDriverConfig");
+            xh.SetParameter(mdc, "DriverType", m_drivertype);
+            if (m_connection.Save(xh, mdc))
             {
-                bool retval = false;
-                xw.WriteStartElement("DriverConfig");
-                    xw.WriteElementString("DriverType", m_drivertype.ToString());
-                    xw.WriteElementString("DisplayCommEnabled", m_displayconnectionenabled.ToString()); // -SHS
-                    if (m_connection.Save(xw))
-                    {
-                        retval = true;
-                    }
-                    m_displayconnection.Save(xw);
-                xw.WriteEndElement();
-                return retval;
+                retval = true;
             }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogRecord(ex.Message);
-                return false;
-            }
-        }        
+            XmlNode pdc = xh.FindSection(parent, "ProjectorDriverConfig");
+            xh.SetParameter(pdc, "DisplayCommEnabled", m_displayconnectionenabled);
+            m_displayconnection.Save(xh, pdc);
+
+            return retval;
+        }
 
     }
 }
