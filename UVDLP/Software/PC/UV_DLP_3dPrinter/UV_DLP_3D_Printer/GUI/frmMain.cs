@@ -68,7 +68,7 @@ namespace UV_DLP_3D_Printer
             SetButtonStatuses();                        
             //PopulateBuildProfilesMenu();
             SetupSceneTree();
-            printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(printDocument1_PrintPage);
+            
             Refresh();
         }
         
@@ -114,36 +114,6 @@ namespace UV_DLP_3D_Printer
         }
         #endregion Support event handler
 
-        void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
-        {
-            //throw new NotImplementedException();
-            // e.Graphics =  current slice graphics
-        }
-        /*
-        private void PopulateBuildProfilesMenu()
-        {
-            //remove all items except the first 2
-            for (int c = buildProfilesToolStripMenuItem.DropDownItems.Count; c > 3; c--)
-            {
-                buildProfilesToolStripMenuItem.DropDownItems.RemoveAt(c - 1);
-            }
-
-            string[] filePaths = Directory.GetFiles(UVDLPApp.Instance().m_PathProfiles, "*.slicing");
-            string curprof = Path.GetFileNameWithoutExtension(UVDLPApp.Instance().m_buildparms.m_filename);
-            //create a new menu item for all build/slice profiles
-            foreach (String profile in filePaths)
-            {
-                String pn = Path.GetFileNameWithoutExtension(profile);
-                ToolStripMenuItem it = new ToolStripMenuItem(pn);
-                it.Click += new EventHandler(mnuBuildProfile_Click);
-                buildProfilesToolStripMenuItem.DropDownItems.Add(it);
-                if (curprof.Equals(pn)) // if this is the current profile, show as checked
-                {
-                    it.Checked = true;
-                }
-            }
-        }
-        */
         private void SetTimeMessage(String message) 
         {
             lblTime.Text = message;
@@ -210,6 +180,9 @@ namespace UV_DLP_3D_Printer
                         break;
                     case eAppEvent.eHideDLP:
                         hideToolStripMenuItem_Click(null, null);
+                        break;
+                    case eAppEvent.eReDraw: // redraw the 3d display
+                        DisplayFunc();
                         break;
                 }
             }
@@ -751,7 +724,7 @@ namespace UV_DLP_3D_Printer
             }
         }
 
-        private ArrayList TestHitTest(int X, int Y)
+        private List<ISectData> TestHitTest(int X, int Y)
         {
             String mess = "";
             mess = "Screen X,Y = (" + X.ToString() + "," + Y.ToString() + ")\r\n";
@@ -822,7 +795,7 @@ namespace UV_DLP_3D_Printer
             
             //UVDLPApp.Instance().Engine3D.m_objects
 
-            ArrayList isects = RTUtils.IntersectObjects(dir, origin, UVDLPApp.Instance().Engine3D.m_objects,true);
+            List<ISectData> isects = RTUtils.IntersectObjects(dir, origin, UVDLPApp.Instance().Engine3D.m_objects, true);
             if (isects.Count > 0) 
             {
                 ISectData isect = (ISectData)isects[0]; // get the first
@@ -862,7 +835,7 @@ namespace UV_DLP_3D_Printer
 
         private void glControl1_MouseMove(object sender, MouseEventArgs e)
         {
-            ArrayList hits = TestHitTest(e.X,e.Y);
+            List<ISectData> hits = TestHitTest(e.X,e.Y);
             double dx = 0, dy = 0;
             if (lmdown || rmdown || mmdown)
             {
@@ -901,7 +874,7 @@ namespace UV_DLP_3D_Printer
                 xoffset += (float)dx / 2;
             }
 
-            if (UVDLPApp.Instance().m_selectedobject != null)
+            if (UVDLPApp.Instance().SelectedObject != null)
             {
                 if (m_movingobjectmode) // if we're moving an object
                 {
@@ -911,16 +884,16 @@ namespace UV_DLP_3D_Printer
                         if (dat.obj.tag == Object3d.OBJ_GROUND) //found the ground plane
                         {
 
-                            UVDLPApp.Instance().m_selectedobject.Translate(
-                                (float)(dat.intersect.x - UVDLPApp.Instance().m_selectedobject.m_center.x),
-                                (float)(dat.intersect.y - UVDLPApp.Instance().m_selectedobject.m_center.y),
+                            UVDLPApp.Instance().SelectedObject.Translate(
+                                (float)(dat.intersect.x - UVDLPApp.Instance().SelectedObject.m_center.x),
+                                (float)(dat.intersect.y - UVDLPApp.Instance().SelectedObject.m_center.y),
                                 0.0f);
                         }
                         
                     }
-                    if (UVDLPApp.Instance().m_selectedobject.tag == Object3d.OBJ_SUPPORT)  // if the current selected object is a support
+                    if (UVDLPApp.Instance().SelectedObject.tag == Object3d.OBJ_SUPPORT)  // if the current selected object is a support
                     {
-                        Support tmpsup = (Support)UVDLPApp.Instance().m_selectedobject;
+                        Support tmpsup = (Support)UVDLPApp.Instance().SelectedObject;
                         Point3d pnt = new Point3d();
                         pnt.Set(tmpsup.m_center.x, tmpsup.m_center.y, 0, 0);
                         Engine3D.Vector3d vec = new Engine3D.Vector3d();
@@ -928,7 +901,7 @@ namespace UV_DLP_3D_Printer
                         // hit test from the selected objects center x/y/0 position straight up
                         //see if it hits any object in the scene,
                         // if it does, scale the object from the ground plane to the closest intersection point
-                        ArrayList iss = RTUtils.IntersectObjects(vec, pnt, UVDLPApp.Instance().Engine3D.m_objects,false);
+                        List<ISectData> iss = RTUtils.IntersectObjects(vec, pnt, UVDLPApp.Instance().Engine3D.m_objects, false);
                         foreach (ISectData htd in iss) 
                         {
                             if (htd.obj.tag != Object3d.OBJ_SUPPORT )  // if this is not another support or the ground
@@ -962,19 +935,19 @@ namespace UV_DLP_3D_Printer
 
         private void chkWireframe_CheckedChanged(object sender, EventArgs e)
         {
-            if (UVDLPApp.Instance().m_selectedobject == null) return;
-            UVDLPApp.Instance().m_selectedobject.m_wireframe = chkWireframe.Checked;
+            if (UVDLPApp.Instance().SelectedObject == null) return;
+            UVDLPApp.Instance().SelectedObject.m_wireframe = chkWireframe.Checked;
             DisplayFunc();
             Refresh();
         }
 
         private void cmdCenter_Click(object sender, EventArgs e)
         {
-            if (UVDLPApp.Instance().m_selectedobject == null) return;
-            Point3d center = UVDLPApp.Instance().m_selectedobject.CalcCenter();
-            UVDLPApp.Instance().m_selectedobject.Translate((float)-center.x, (float)-center.y,(float) -center.z);
+            if (UVDLPApp.Instance().SelectedObject == null) return;
+            Point3d center = UVDLPApp.Instance().SelectedObject.CalcCenter();
+            UVDLPApp.Instance().SelectedObject.Translate((float)-center.x, (float)-center.y,(float) -center.z);
             ShowObjectInfo();
-            DisplayFunc();
+            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
         }
 
         private void cmdStartPrint_Click(object sender, EventArgs e)
@@ -1033,28 +1006,28 @@ namespace UV_DLP_3D_Printer
         }
         private void cmdPlace_Click(object sender, EventArgs e)
         {
-            if (UVDLPApp.Instance().m_selectedobject == null) 
+            if (UVDLPApp.Instance().SelectedObject == null) 
                 return;
-            Point3d center = UVDLPApp.Instance().m_selectedobject.CalcCenter();
-            UVDLPApp.Instance().m_selectedobject.FindMinMax();
-            float zlev = (float)UVDLPApp.Instance().m_selectedobject.m_min.z;
+            Point3d center = UVDLPApp.Instance().SelectedObject.CalcCenter();
+            UVDLPApp.Instance().SelectedObject.FindMinMax();
+            float zlev = (float)UVDLPApp.Instance().SelectedObject.m_min.z;
             float epsilon = .05f; // add in a the level of 1 slice 
-            UVDLPApp.Instance().m_selectedobject.Translate((float)0, (float)0, (float)-zlev);
-            UVDLPApp.Instance().m_selectedobject.Translate((float)0, (float)0, (float)-epsilon);
+            UVDLPApp.Instance().SelectedObject.Translate((float)0, (float)0, (float)-zlev);
+            UVDLPApp.Instance().SelectedObject.Translate((float)0, (float)0, (float)-epsilon);
             ShowObjectInfo();
-            DisplayFunc();
+            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
         }
 
         private void cmdScale_Click(object sender, EventArgs e)
         {
             try
             {
-                if (UVDLPApp.Instance().m_selectedobject == null) 
+                if (UVDLPApp.Instance().SelectedObject == null) 
                     return;
                 float sf = Single.Parse(txtScale.Text);
-                UVDLPApp.Instance().m_selectedobject.Scale(sf);
+                UVDLPApp.Instance().SelectedObject.Scale(sf);
                 ShowObjectInfo();
-                DisplayFunc();
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
 
             }
             catch (Exception) 
@@ -1197,7 +1170,7 @@ namespace UV_DLP_3D_Printer
                     TreeNode objnode = new TreeNode(obj.Name);
                     objnode.Tag = obj;
                     support3d.Nodes.Add(objnode);
-                    if (obj == UVDLPApp.Instance().m_selectedobject)  // expand this node
+                    if (obj == UVDLPApp.Instance().SelectedObject)  // expand this node
                     {
                         objnode.BackColor = Color.LightBlue;
                         treeScene.SelectedNode = objnode;
@@ -1221,7 +1194,7 @@ namespace UV_DLP_3D_Printer
                     ys = obj.m_max.y - obj.m_min.y;
                     zs = obj.m_max.z - obj.m_min.z;
                     objnode.Nodes.Add("Size= (" + String.Format("{0:0.00}", xs) + "," + String.Format("{0:0.00}", ys) + "," + String.Format("{0:0.00}", zs) + ")");
-                    if (obj == UVDLPApp.Instance().m_selectedobject)  // expand this node
+                    if (obj == UVDLPApp.Instance().SelectedObject)  // expand this node
                     {
                         objnode.Expand();
                         objnode.BackColor = Color.LightBlue;
@@ -1243,8 +1216,9 @@ namespace UV_DLP_3D_Printer
             //if (e.Node.Tag != null)            
             if (e.Button == System.Windows.Forms.MouseButtons.Left && e.Node.Tag != null)
             {
-                UVDLPApp.Instance().m_selectedobject = (Object3d)e.Node.Tag;
+                UVDLPApp.Instance().SelectedObject = (Object3d)e.Node.Tag;
                 SetupSceneTree();
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
             }
                 
             if (e.Button == System.Windows.Forms.MouseButtons.Right)  // we right clicked a menu item, check and see if it has a tag
@@ -1267,7 +1241,7 @@ namespace UV_DLP_3D_Printer
         private void cmdRemoveObject_Click(object sender, EventArgs e)
         {
             // delete the current selected object
-            if (UVDLPApp.Instance().m_selectedobject != null) 
+            if (UVDLPApp.Instance().SelectedObject != null) 
             {
                 UVDLPApp.Instance().RemoveCurrentModel();
 
@@ -1281,13 +1255,13 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                if (UVDLPApp.Instance().m_selectedobject == null)
+                if (UVDLPApp.Instance().SelectedObject == null)
                     return;
                 float val = float.Parse(txtXTrans.Text);
                 val *= -1;
-                UVDLPApp.Instance().m_selectedobject.Translate(val, 0, 0);
+                UVDLPApp.Instance().SelectedObject.Translate(val, 0, 0);
                 ShowObjectInfo();
-                DisplayFunc();
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
             }
             catch (Exception ex) 
             {
@@ -1299,12 +1273,12 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                if (UVDLPApp.Instance().m_selectedobject == null)
+                if (UVDLPApp.Instance().SelectedObject == null)
                     return;
                 float val = float.Parse(txtXTrans.Text);
-                UVDLPApp.Instance().m_selectedobject.Translate(val, 0, 0);
+                UVDLPApp.Instance().SelectedObject.Translate(val, 0, 0);
                 ShowObjectInfo();
-                DisplayFunc();
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
             }
             catch (Exception ex)
             {
@@ -1316,13 +1290,13 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                if (UVDLPApp.Instance().m_selectedobject == null)
+                if (UVDLPApp.Instance().SelectedObject == null)
                     return;
                 float val = float.Parse(txtYTrans.Text);
                 val *= -1;
-                UVDLPApp.Instance().m_selectedobject.Translate(0, val, 0);
+                UVDLPApp.Instance().SelectedObject.Translate(0, val, 0);
                 ShowObjectInfo();
-                DisplayFunc();
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
             }
             catch (Exception ex)
             {
@@ -1334,13 +1308,13 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                if (UVDLPApp.Instance().m_selectedobject == null)
+                if (UVDLPApp.Instance().SelectedObject == null)
                     return;
                 float val = float.Parse(txtYTrans.Text);
                 val *= 1;
-                UVDLPApp.Instance().m_selectedobject.Translate(0, val, 0);
+                UVDLPApp.Instance().SelectedObject.Translate(0, val, 0);
                 ShowObjectInfo();
-                DisplayFunc();
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
             }
             catch (Exception ex)
             {
@@ -1352,13 +1326,13 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                if (UVDLPApp.Instance().m_selectedobject == null)
+                if (UVDLPApp.Instance().SelectedObject == null)
                     return;
                 float val = float.Parse(txtZTrans.Text);
                 val *= -1;
-                UVDLPApp.Instance().m_selectedobject.Translate(0, 0,val);
+                UVDLPApp.Instance().SelectedObject.Translate(0, 0,val);
                 ShowObjectInfo();
-                DisplayFunc();
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
             }
             catch (Exception ex)
             {
@@ -1370,13 +1344,13 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                if (UVDLPApp.Instance().m_selectedobject == null)
+                if (UVDLPApp.Instance().SelectedObject == null)
                     return;
                 float val = float.Parse(txtZTrans.Text);
                 val *= 1;
-                UVDLPApp.Instance().m_selectedobject.Translate(0, 0,val);
+                UVDLPApp.Instance().SelectedObject.Translate(0, 0,val);
                 ShowObjectInfo();
-                DisplayFunc();
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
             }
             catch (Exception ex)
             {
@@ -1390,13 +1364,13 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                if (UVDLPApp.Instance().m_selectedobject == null)
+                if (UVDLPApp.Instance().SelectedObject == null)
                     return;
                 float dx = 90.0f;
                 Single.TryParse(txtRx.Text, out dx);                
-                UVDLPApp.Instance().m_selectedobject.Rotate(-(dx * 0.0174532925f), 0, 0);
+                UVDLPApp.Instance().SelectedObject.Rotate(-(dx * 0.0174532925f), 0, 0);
                 ShowObjectInfo();
-                DisplayFunc();
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
             }
             catch (Exception ex)
             {
@@ -1409,14 +1383,14 @@ namespace UV_DLP_3D_Printer
             try
             {
 
-                if (UVDLPApp.Instance().m_selectedobject == null)
+                if (UVDLPApp.Instance().SelectedObject == null)
                     return;
                 //get R-x val
                 float dx=90.0f;
                 Single.TryParse(txtRx.Text, out dx);
-                UVDLPApp.Instance().m_selectedobject.Rotate((dx * 0.0174532925f), 0, 0);
+                UVDLPApp.Instance().SelectedObject.Rotate((dx * 0.0174532925f), 0, 0);
                 ShowObjectInfo();
-                DisplayFunc();
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
             }
             catch (Exception ex)
             {
@@ -1428,13 +1402,13 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                if (UVDLPApp.Instance().m_selectedobject == null)
+                if (UVDLPApp.Instance().SelectedObject == null)
                     return;
                 float dy = 90.0f;
                 Single.TryParse(txtRy.Text, out dy);
-                UVDLPApp.Instance().m_selectedobject.Rotate(0,-(dy*0.0174532925f), 0);
+                UVDLPApp.Instance().SelectedObject.Rotate(0,-(dy*0.0174532925f), 0);
                 ShowObjectInfo();
-                DisplayFunc();
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
             }
             catch (Exception ex)
             {
@@ -1446,13 +1420,13 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                if (UVDLPApp.Instance().m_selectedobject == null)
+                if (UVDLPApp.Instance().SelectedObject == null)
                     return;
                 float dy = 90.0f;
                 Single.TryParse(txtRy.Text, out dy);
-                UVDLPApp.Instance().m_selectedobject.Rotate(0, dy * 0.0174532925f, 0);
+                UVDLPApp.Instance().SelectedObject.Rotate(0, dy * 0.0174532925f, 0);
                 ShowObjectInfo();
-                DisplayFunc();
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
             }
             catch (Exception ex)
             {
@@ -1464,14 +1438,14 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                if (UVDLPApp.Instance().m_selectedobject == null)
+                if (UVDLPApp.Instance().SelectedObject == null)
                     return;
                 float dz = 90.0f;
                 Single.TryParse(txtRz.Text, out dz);
 
-                UVDLPApp.Instance().m_selectedobject.Rotate(0, 0, -(dz*0.0174532925f));
+                UVDLPApp.Instance().SelectedObject.Rotate(0, 0, -(dz*0.0174532925f));
                 ShowObjectInfo();
-                DisplayFunc();
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
             }
             catch (Exception ex)
             {
@@ -1483,13 +1457,13 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                if (UVDLPApp.Instance().m_selectedobject == null)
+                if (UVDLPApp.Instance().SelectedObject == null)
                     return;
                 float dz = 90.0f;
                 Single.TryParse(txtRz.Text, out dz);
-                UVDLPApp.Instance().m_selectedobject.Rotate(0, 0, dz * 0.0174532925f);
+                UVDLPApp.Instance().SelectedObject.Rotate(0, 0, dz * 0.0174532925f);
                 ShowObjectInfo();
-                DisplayFunc();
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
             }
             catch (Exception ex)
             {
@@ -1733,8 +1707,7 @@ namespace UV_DLP_3D_Printer
             //UVDLPApp.Instance().m_selectedobject.m_showalpha = chkAlpha.Checked;
             SetAlpha(chkAlpha.Checked);
             UVDLPApp.Instance().m_engine3d.UpdateLists();
-            DisplayFunc();
-            Refresh();
+            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");            
         }
 
         private void cmdLoadGCode_Click(object sender, EventArgs e)
@@ -1759,12 +1732,12 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                if (UVDLPApp.Instance().m_selectedobject == null)
+                if (UVDLPApp.Instance().SelectedObject == null)
                     return;
                 float sfx = Single.Parse(txtScaleX.Text);
-                UVDLPApp.Instance().m_selectedobject.Scale(sfx,1,1);
+                UVDLPApp.Instance().SelectedObject.Scale(sfx,1,1);
                 ShowObjectInfo();
-                DisplayFunc();
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
             }
             catch (Exception)
             {
@@ -1776,12 +1749,12 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                if (UVDLPApp.Instance().m_selectedobject == null)
+                if (UVDLPApp.Instance().SelectedObject == null)
                     return;
                 float sfy = Single.Parse(txtScaleY.Text);
-                UVDLPApp.Instance().m_selectedobject.Scale(1, sfy, 1);
+                UVDLPApp.Instance().SelectedObject.Scale(1, sfy, 1);
                 ShowObjectInfo();
-                DisplayFunc();
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
             }
             catch (Exception)
             {
@@ -1793,12 +1766,12 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                if (UVDLPApp.Instance().m_selectedobject == null)
+                if (UVDLPApp.Instance().SelectedObject == null)
                     return;
                 float sfz = Single.Parse(txtScaleZ.Text);
-                UVDLPApp.Instance().m_selectedobject.Scale( 1, 1, sfz);
+                UVDLPApp.Instance().SelectedObject.Scale( 1, 1, sfz);
                 ShowObjectInfo();
-                DisplayFunc();
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
             }
             catch (Exception)
             {
@@ -1857,11 +1830,11 @@ namespace UV_DLP_3D_Printer
                MouseButtons buttonPushed = me.Button;
                int xPos = me.X;
                int yPos = me.Y;
-               ArrayList isects = TestHitTest(xPos, yPos);
+               List<ISectData> isects = TestHitTest(xPos, yPos);
                if (isects.Count > 0) 
                {
                    ISectData i = (ISectData)isects[0];
-                   UVDLPApp.Instance().m_selectedobject = i.obj;
+                   UVDLPApp.Instance().SelectedObject = i.obj;
                    UVDLPApp.Instance().m_engine3d.UpdateLists();
                }
         }
