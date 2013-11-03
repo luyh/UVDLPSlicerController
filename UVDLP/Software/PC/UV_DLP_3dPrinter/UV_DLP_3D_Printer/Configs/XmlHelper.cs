@@ -284,10 +284,11 @@ namespace UV_DLP_3D_Printer.Configs
 
         public void Save(int version)
         {
-            m_version = version;
-            m_verattr.Value = version.ToString();
+
             try
             {
+                m_version = version;
+                m_verattr.Value = version.ToString();  // an exception was being thrown here first load - smh
                 m_xdoc.Save(m_filename);
             }
             catch (Exception ex)
