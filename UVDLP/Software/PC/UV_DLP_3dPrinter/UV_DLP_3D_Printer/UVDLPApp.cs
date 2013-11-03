@@ -200,6 +200,7 @@ namespace UV_DLP_3D_Printer
 
         public bool LoadSupportConfig(string filename)
         {
+            /*
             try
             {
                 if (File.Exists(filename))
@@ -216,10 +217,13 @@ namespace UV_DLP_3D_Printer
                 DebugLogger.Instance().LogError(ex.Message);
                 return false;
             }
+             * */
+            m_supportconfig.Load(m_apppath + m_pathsep + filename);
+            return true;
         }
         public bool SaveSupportConfig(string filename)
         {
-            try
+            /*try
             {
                 Stream TestFileStream = File.Create(filename);
                 BinaryFormatter serializer = new BinaryFormatter();
@@ -231,7 +235,9 @@ namespace UV_DLP_3D_Printer
             {
                 DebugLogger.Instance().LogError(ex.Message);
                 return false;
-            }
+            }*/
+            m_supportconfig.Save(m_apppath + m_pathsep + filename);
+            return true;
         }
         public void CalcScene() 
         {
@@ -731,9 +737,9 @@ namespace UV_DLP_3D_Printer
             SetupDriver();
             SetupDriverProjector();
             // load the support configuration
-            if (!LoadSupportConfig(m_apppath + m_pathsep + m_appconfig.SupportConfigName))  // use full path - SHS
+            if (!LoadSupportConfig(m_appconfig.SupportConfigName))
             {
-                SaveSupportConfig(m_apppath + m_pathsep + m_appconfig.SupportConfigName); // use full path - SHS
+                SaveSupportConfig(m_appconfig.SupportConfigName);
             }
         }
         /// <summary>
