@@ -30,6 +30,10 @@
         {
             this.tabOptions = new System.Windows.Forms.TabControl();
             this.tbOptions = new System.Windows.Forms.TabPage();
+            this.lblProfName = new System.Windows.Forms.Label();
+            this.txtNotes = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.chkReflectY = new System.Windows.Forms.CheckBox();
             this.chkReflectX = new System.Windows.Forms.CheckBox();
@@ -66,30 +70,6 @@
             this.txtXOffset = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.tbStart = new System.Windows.Forms.TabPage();
-            this.cmdreloadstartgcode = new System.Windows.Forms.Button();
-            this.cmdsavestartgcode = new System.Windows.Forms.Button();
-            this.txtstartgcode = new System.Windows.Forms.TextBox();
-            this.tbPreSlice = new System.Windows.Forms.TabPage();
-            this.cmdreloadpreslicegcode = new System.Windows.Forms.Button();
-            this.cmdsavepreslicegcode = new System.Windows.Forms.Button();
-            this.txtpreslicegcode = new System.Windows.Forms.TextBox();
-            this.tbPreLift = new System.Windows.Forms.TabPage();
-            this.cmdReloadPrelift = new System.Windows.Forms.Button();
-            this.cmdSavePrelift = new System.Windows.Forms.Button();
-            this.txtpreliftgcode = new System.Windows.Forms.TextBox();
-            this.tbMainlift = new System.Windows.Forms.TabPage();
-            this.cmdreloadmainliftgcode = new System.Windows.Forms.Button();
-            this.cmdsavemainliftgcode = new System.Windows.Forms.Button();
-            this.txtmainliftgcode = new System.Windows.Forms.TextBox();
-            this.tbPostLift = new System.Windows.Forms.TabPage();
-            this.cmdpostliftgcode = new System.Windows.Forms.Button();
-            this.cmdsavepostliftgcode = new System.Windows.Forms.Button();
-            this.txtpostliftgcode = new System.Windows.Forms.TextBox();
-            this.tbEnd = new System.Windows.Forms.TabPage();
-            this.cmdendgcode = new System.Windows.Forms.Button();
-            this.txtsaveendgcode = new System.Windows.Forms.Button();
-            this.txtendgcode = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.cmbSliceProfiles = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -97,34 +77,26 @@
             this.lstSliceProfiles = new System.Windows.Forms.ListBox();
             this.cmdDelete = new System.Windows.Forms.Button();
             this.cmdNew = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.txtNotes = new System.Windows.Forms.TextBox();
-            this.lblProfName = new System.Windows.Forms.Label();
+            this.tbGCode = new System.Windows.Forms.TabPage();
+            this.cmdReloadGCode = new System.Windows.Forms.Button();
+            this.cmdSaveGCode = new System.Windows.Forms.Button();
+            this.txtGCode = new System.Windows.Forms.TextBox();
+            this.lbGCodeSection = new System.Windows.Forms.ListBox();
+            this.label16 = new System.Windows.Forms.Label();
             this.tabOptions.SuspendLayout();
             this.tbOptions.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.grpLift.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.tbStart.SuspendLayout();
-            this.tbPreSlice.SuspendLayout();
-            this.tbPreLift.SuspendLayout();
-            this.tbMainlift.SuspendLayout();
-            this.tbPostLift.SuspendLayout();
-            this.tbEnd.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.tbGCode.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabOptions
             // 
             this.tabOptions.Controls.Add(this.tbOptions);
-            this.tabOptions.Controls.Add(this.tbStart);
-            this.tabOptions.Controls.Add(this.tbPreSlice);
-            this.tabOptions.Controls.Add(this.tbPreLift);
-            this.tabOptions.Controls.Add(this.tbMainlift);
-            this.tabOptions.Controls.Add(this.tbPostLift);
-            this.tabOptions.Controls.Add(this.tbEnd);
+            this.tabOptions.Controls.Add(this.tbGCode);
             this.tabOptions.Location = new System.Drawing.Point(253, 2);
             this.tabOptions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabOptions.Name = "tabOptions";
@@ -161,6 +133,41 @@
             this.tbOptions.TabIndex = 0;
             this.tbOptions.Text = "Options";
             this.tbOptions.UseVisualStyleBackColor = true;
+            // 
+            // lblProfName
+            // 
+            this.lblProfName.AutoSize = true;
+            this.lblProfName.Location = new System.Drawing.Point(136, 24);
+            this.lblProfName.Name = "lblProfName";
+            this.lblProfName.Size = new System.Drawing.Size(89, 17);
+            this.lblProfName.TabIndex = 56;
+            this.lblProfName.Text = "Profile Name";
+            // 
+            // txtNotes
+            // 
+            this.txtNotes.Location = new System.Drawing.Point(28, 71);
+            this.txtNotes.Multiline = true;
+            this.txtNotes.Name = "txtNotes";
+            this.txtNotes.Size = new System.Drawing.Size(249, 74);
+            this.txtNotes.TabIndex = 55;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(25, 51);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(49, 17);
+            this.label15.TabIndex = 54;
+            this.label15.Text = "Notes:";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(25, 24);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(89, 17);
+            this.label9.TabIndex = 53;
+            this.label9.Text = "Profile Name";
             // 
             // groupBox3
             // 
@@ -526,278 +533,6 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "X Offset";
             // 
-            // tbStart
-            // 
-            this.tbStart.Controls.Add(this.cmdreloadstartgcode);
-            this.tbStart.Controls.Add(this.cmdsavestartgcode);
-            this.tbStart.Controls.Add(this.txtstartgcode);
-            this.tbStart.Location = new System.Drawing.Point(4, 25);
-            this.tbStart.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tbStart.Name = "tbStart";
-            this.tbStart.Size = new System.Drawing.Size(751, 455);
-            this.tbStart.TabIndex = 3;
-            this.tbStart.Text = "Start GCode";
-            this.tbStart.UseVisualStyleBackColor = true;
-            // 
-            // cmdreloadstartgcode
-            // 
-            this.cmdreloadstartgcode.Location = new System.Drawing.Point(191, 308);
-            this.cmdreloadstartgcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdreloadstartgcode.Name = "cmdreloadstartgcode";
-            this.cmdreloadstartgcode.Size = new System.Drawing.Size(188, 43);
-            this.cmdreloadstartgcode.TabIndex = 5;
-            this.cmdreloadstartgcode.Text = "Reload";
-            this.cmdreloadstartgcode.UseVisualStyleBackColor = true;
-            this.cmdreloadstartgcode.Click += new System.EventHandler(this.cmdreloadstartgcode_Click);
-            // 
-            // cmdsavestartgcode
-            // 
-            this.cmdsavestartgcode.Location = new System.Drawing.Point(3, 308);
-            this.cmdsavestartgcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdsavestartgcode.Name = "cmdsavestartgcode";
-            this.cmdsavestartgcode.Size = new System.Drawing.Size(181, 43);
-            this.cmdsavestartgcode.TabIndex = 4;
-            this.cmdsavestartgcode.Text = "Save";
-            this.cmdsavestartgcode.UseVisualStyleBackColor = true;
-            this.cmdsavestartgcode.Click += new System.EventHandler(this.cmdsavestartgcode_Click);
-            // 
-            // txtstartgcode
-            // 
-            this.txtstartgcode.Location = new System.Drawing.Point(3, 2);
-            this.txtstartgcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtstartgcode.Multiline = true;
-            this.txtstartgcode.Name = "txtstartgcode";
-            this.txtstartgcode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtstartgcode.Size = new System.Drawing.Size(721, 298);
-            this.txtstartgcode.TabIndex = 3;
-            // 
-            // tbPreSlice
-            // 
-            this.tbPreSlice.Controls.Add(this.cmdreloadpreslicegcode);
-            this.tbPreSlice.Controls.Add(this.cmdsavepreslicegcode);
-            this.tbPreSlice.Controls.Add(this.txtpreslicegcode);
-            this.tbPreSlice.Location = new System.Drawing.Point(4, 25);
-            this.tbPreSlice.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tbPreSlice.Name = "tbPreSlice";
-            this.tbPreSlice.Size = new System.Drawing.Size(751, 455);
-            this.tbPreSlice.TabIndex = 5;
-            this.tbPreSlice.Text = "Pre-Slice GCode";
-            this.tbPreSlice.UseVisualStyleBackColor = true;
-            // 
-            // cmdreloadpreslicegcode
-            // 
-            this.cmdreloadpreslicegcode.Location = new System.Drawing.Point(191, 308);
-            this.cmdreloadpreslicegcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdreloadpreslicegcode.Name = "cmdreloadpreslicegcode";
-            this.cmdreloadpreslicegcode.Size = new System.Drawing.Size(188, 43);
-            this.cmdreloadpreslicegcode.TabIndex = 5;
-            this.cmdreloadpreslicegcode.Text = "Reload";
-            this.cmdreloadpreslicegcode.UseVisualStyleBackColor = true;
-            this.cmdreloadpreslicegcode.Click += new System.EventHandler(this.cmdreloadpreslicegcode_Click);
-            // 
-            // cmdsavepreslicegcode
-            // 
-            this.cmdsavepreslicegcode.Location = new System.Drawing.Point(3, 308);
-            this.cmdsavepreslicegcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdsavepreslicegcode.Name = "cmdsavepreslicegcode";
-            this.cmdsavepreslicegcode.Size = new System.Drawing.Size(181, 43);
-            this.cmdsavepreslicegcode.TabIndex = 4;
-            this.cmdsavepreslicegcode.Text = "Save";
-            this.cmdsavepreslicegcode.UseVisualStyleBackColor = true;
-            this.cmdsavepreslicegcode.Click += new System.EventHandler(this.cmdsavepreslicegcode_Click);
-            // 
-            // txtpreslicegcode
-            // 
-            this.txtpreslicegcode.Location = new System.Drawing.Point(3, 2);
-            this.txtpreslicegcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtpreslicegcode.Multiline = true;
-            this.txtpreslicegcode.Name = "txtpreslicegcode";
-            this.txtpreslicegcode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtpreslicegcode.Size = new System.Drawing.Size(721, 298);
-            this.txtpreslicegcode.TabIndex = 3;
-            // 
-            // tbPreLift
-            // 
-            this.tbPreLift.Controls.Add(this.cmdReloadPrelift);
-            this.tbPreLift.Controls.Add(this.cmdSavePrelift);
-            this.tbPreLift.Controls.Add(this.txtpreliftgcode);
-            this.tbPreLift.Location = new System.Drawing.Point(4, 25);
-            this.tbPreLift.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tbPreLift.Name = "tbPreLift";
-            this.tbPreLift.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tbPreLift.Size = new System.Drawing.Size(751, 455);
-            this.tbPreLift.TabIndex = 1;
-            this.tbPreLift.Text = "Pre-Lift GCode";
-            this.tbPreLift.UseVisualStyleBackColor = true;
-            // 
-            // cmdReloadPrelift
-            // 
-            this.cmdReloadPrelift.Location = new System.Drawing.Point(191, 308);
-            this.cmdReloadPrelift.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdReloadPrelift.Name = "cmdReloadPrelift";
-            this.cmdReloadPrelift.Size = new System.Drawing.Size(188, 43);
-            this.cmdReloadPrelift.TabIndex = 2;
-            this.cmdReloadPrelift.Text = "Reload";
-            this.cmdReloadPrelift.UseVisualStyleBackColor = true;
-            this.cmdReloadPrelift.Click += new System.EventHandler(this.cmdReloadPrelift_Click);
-            // 
-            // cmdSavePrelift
-            // 
-            this.cmdSavePrelift.Location = new System.Drawing.Point(3, 308);
-            this.cmdSavePrelift.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdSavePrelift.Name = "cmdSavePrelift";
-            this.cmdSavePrelift.Size = new System.Drawing.Size(181, 43);
-            this.cmdSavePrelift.TabIndex = 1;
-            this.cmdSavePrelift.Text = "Save";
-            this.cmdSavePrelift.UseVisualStyleBackColor = true;
-            this.cmdSavePrelift.Click += new System.EventHandler(this.cmdSavePrelift_Click);
-            // 
-            // txtpreliftgcode
-            // 
-            this.txtpreliftgcode.Location = new System.Drawing.Point(3, 2);
-            this.txtpreliftgcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtpreliftgcode.Multiline = true;
-            this.txtpreliftgcode.Name = "txtpreliftgcode";
-            this.txtpreliftgcode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtpreliftgcode.Size = new System.Drawing.Size(721, 298);
-            this.txtpreliftgcode.TabIndex = 0;
-            // 
-            // tbMainlift
-            // 
-            this.tbMainlift.Controls.Add(this.cmdreloadmainliftgcode);
-            this.tbMainlift.Controls.Add(this.cmdsavemainliftgcode);
-            this.tbMainlift.Controls.Add(this.txtmainliftgcode);
-            this.tbMainlift.Location = new System.Drawing.Point(4, 25);
-            this.tbMainlift.Margin = new System.Windows.Forms.Padding(4);
-            this.tbMainlift.Name = "tbMainlift";
-            this.tbMainlift.Padding = new System.Windows.Forms.Padding(4);
-            this.tbMainlift.Size = new System.Drawing.Size(751, 455);
-            this.tbMainlift.TabIndex = 6;
-            this.tbMainlift.Text = "Main-Lift GCode";
-            this.tbMainlift.UseVisualStyleBackColor = true;
-            // 
-            // cmdreloadmainliftgcode
-            // 
-            this.cmdreloadmainliftgcode.Location = new System.Drawing.Point(191, 308);
-            this.cmdreloadmainliftgcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdreloadmainliftgcode.Name = "cmdreloadmainliftgcode";
-            this.cmdreloadmainliftgcode.Size = new System.Drawing.Size(188, 43);
-            this.cmdreloadmainliftgcode.TabIndex = 7;
-            this.cmdreloadmainliftgcode.Text = "Reload";
-            this.cmdreloadmainliftgcode.UseVisualStyleBackColor = true;
-            this.cmdreloadmainliftgcode.Click += new System.EventHandler(this.cmdreloadmainliftgcode_Click);
-            // 
-            // cmdsavemainliftgcode
-            // 
-            this.cmdsavemainliftgcode.Location = new System.Drawing.Point(3, 308);
-            this.cmdsavemainliftgcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdsavemainliftgcode.Name = "cmdsavemainliftgcode";
-            this.cmdsavemainliftgcode.Size = new System.Drawing.Size(181, 43);
-            this.cmdsavemainliftgcode.TabIndex = 6;
-            this.cmdsavemainliftgcode.Text = "Save";
-            this.cmdsavemainliftgcode.UseVisualStyleBackColor = true;
-            this.cmdsavemainliftgcode.Click += new System.EventHandler(this.cmdsavemainliftgcode_Click);
-            // 
-            // txtmainliftgcode
-            // 
-            this.txtmainliftgcode.Location = new System.Drawing.Point(3, 2);
-            this.txtmainliftgcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtmainliftgcode.Multiline = true;
-            this.txtmainliftgcode.Name = "txtmainliftgcode";
-            this.txtmainliftgcode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtmainliftgcode.Size = new System.Drawing.Size(721, 298);
-            this.txtmainliftgcode.TabIndex = 4;
-            // 
-            // tbPostLift
-            // 
-            this.tbPostLift.Controls.Add(this.cmdpostliftgcode);
-            this.tbPostLift.Controls.Add(this.cmdsavepostliftgcode);
-            this.tbPostLift.Controls.Add(this.txtpostliftgcode);
-            this.tbPostLift.Location = new System.Drawing.Point(4, 25);
-            this.tbPostLift.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tbPostLift.Name = "tbPostLift";
-            this.tbPostLift.Size = new System.Drawing.Size(751, 455);
-            this.tbPostLift.TabIndex = 2;
-            this.tbPostLift.Text = "Post-Lift GCode";
-            this.tbPostLift.UseVisualStyleBackColor = true;
-            // 
-            // cmdpostliftgcode
-            // 
-            this.cmdpostliftgcode.Location = new System.Drawing.Point(191, 308);
-            this.cmdpostliftgcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdpostliftgcode.Name = "cmdpostliftgcode";
-            this.cmdpostliftgcode.Size = new System.Drawing.Size(188, 43);
-            this.cmdpostliftgcode.TabIndex = 5;
-            this.cmdpostliftgcode.Text = "Reload";
-            this.cmdpostliftgcode.UseVisualStyleBackColor = true;
-            this.cmdpostliftgcode.Click += new System.EventHandler(this.cmdpostliftgcode_Click);
-            // 
-            // cmdsavepostliftgcode
-            // 
-            this.cmdsavepostliftgcode.Location = new System.Drawing.Point(3, 308);
-            this.cmdsavepostliftgcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdsavepostliftgcode.Name = "cmdsavepostliftgcode";
-            this.cmdsavepostliftgcode.Size = new System.Drawing.Size(181, 43);
-            this.cmdsavepostliftgcode.TabIndex = 4;
-            this.cmdsavepostliftgcode.Text = "Save";
-            this.cmdsavepostliftgcode.UseVisualStyleBackColor = true;
-            this.cmdsavepostliftgcode.Click += new System.EventHandler(this.cmdsavepostliftgcode_Click);
-            // 
-            // txtpostliftgcode
-            // 
-            this.txtpostliftgcode.Location = new System.Drawing.Point(3, 2);
-            this.txtpostliftgcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtpostliftgcode.Multiline = true;
-            this.txtpostliftgcode.Name = "txtpostliftgcode";
-            this.txtpostliftgcode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtpostliftgcode.Size = new System.Drawing.Size(721, 298);
-            this.txtpostliftgcode.TabIndex = 3;
-            // 
-            // tbEnd
-            // 
-            this.tbEnd.Controls.Add(this.cmdendgcode);
-            this.tbEnd.Controls.Add(this.txtsaveendgcode);
-            this.tbEnd.Controls.Add(this.txtendgcode);
-            this.tbEnd.Location = new System.Drawing.Point(4, 25);
-            this.tbEnd.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tbEnd.Name = "tbEnd";
-            this.tbEnd.Size = new System.Drawing.Size(751, 455);
-            this.tbEnd.TabIndex = 4;
-            this.tbEnd.Text = "End GCode";
-            this.tbEnd.UseVisualStyleBackColor = true;
-            // 
-            // cmdendgcode
-            // 
-            this.cmdendgcode.Location = new System.Drawing.Point(191, 308);
-            this.cmdendgcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdendgcode.Name = "cmdendgcode";
-            this.cmdendgcode.Size = new System.Drawing.Size(188, 43);
-            this.cmdendgcode.TabIndex = 5;
-            this.cmdendgcode.Text = "Reload";
-            this.cmdendgcode.UseVisualStyleBackColor = true;
-            this.cmdendgcode.Click += new System.EventHandler(this.cmdendgcode_Click);
-            // 
-            // txtsaveendgcode
-            // 
-            this.txtsaveendgcode.Location = new System.Drawing.Point(3, 308);
-            this.txtsaveendgcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtsaveendgcode.Name = "txtsaveendgcode";
-            this.txtsaveendgcode.Size = new System.Drawing.Size(181, 43);
-            this.txtsaveendgcode.TabIndex = 4;
-            this.txtsaveendgcode.Text = "Save";
-            this.txtsaveendgcode.UseVisualStyleBackColor = true;
-            this.txtsaveendgcode.Click += new System.EventHandler(this.txtsaveendgcode_Click);
-            // 
-            // txtendgcode
-            // 
-            this.txtendgcode.Location = new System.Drawing.Point(3, 2);
-            this.txtendgcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtendgcode.Multiline = true;
-            this.txtendgcode.Name = "txtendgcode";
-            this.txtendgcode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtendgcode.Size = new System.Drawing.Size(721, 298);
-            this.txtendgcode.TabIndex = 3;
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -868,40 +603,77 @@
             this.cmdNew.UseVisualStyleBackColor = true;
             this.cmdNew.Click += new System.EventHandler(this.cmdNew_Click);
             // 
-            // label9
+            // tbGCode
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(25, 24);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(89, 17);
-            this.label9.TabIndex = 53;
-            this.label9.Text = "Profile Name";
+            this.tbGCode.Controls.Add(this.label16);
+            this.tbGCode.Controls.Add(this.lbGCodeSection);
+            this.tbGCode.Controls.Add(this.cmdReloadGCode);
+            this.tbGCode.Controls.Add(this.cmdSaveGCode);
+            this.tbGCode.Controls.Add(this.txtGCode);
+            this.tbGCode.Location = new System.Drawing.Point(4, 25);
+            this.tbGCode.Name = "tbGCode";
+            this.tbGCode.Size = new System.Drawing.Size(751, 455);
+            this.tbGCode.TabIndex = 7;
+            this.tbGCode.Text = "GCode";
+            this.tbGCode.UseVisualStyleBackColor = true;
             // 
-            // label15
+            // cmdReloadGCode
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(25, 51);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(49, 17);
-            this.label15.TabIndex = 54;
-            this.label15.Text = "Notes:";
+            this.cmdReloadGCode.Location = new System.Drawing.Point(369, 308);
+            this.cmdReloadGCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmdReloadGCode.Name = "cmdReloadGCode";
+            this.cmdReloadGCode.Size = new System.Drawing.Size(188, 43);
+            this.cmdReloadGCode.TabIndex = 8;
+            this.cmdReloadGCode.Text = "Reload";
+            this.cmdReloadGCode.UseVisualStyleBackColor = true;
+            this.cmdReloadGCode.Click += new System.EventHandler(this.cmdReloadGCode_Click);
             // 
-            // txtNotes
+            // cmdSaveGCode
             // 
-            this.txtNotes.Location = new System.Drawing.Point(28, 71);
-            this.txtNotes.Multiline = true;
-            this.txtNotes.Name = "txtNotes";
-            this.txtNotes.Size = new System.Drawing.Size(249, 74);
-            this.txtNotes.TabIndex = 55;
+            this.cmdSaveGCode.Location = new System.Drawing.Point(182, 308);
+            this.cmdSaveGCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmdSaveGCode.Name = "cmdSaveGCode";
+            this.cmdSaveGCode.Size = new System.Drawing.Size(181, 43);
+            this.cmdSaveGCode.TabIndex = 7;
+            this.cmdSaveGCode.Text = "Save";
+            this.cmdSaveGCode.UseVisualStyleBackColor = true;
+            this.cmdSaveGCode.Click += new System.EventHandler(this.cmdSaveGCode_Click);
             // 
-            // lblProfName
+            // txtGCode
             // 
-            this.lblProfName.AutoSize = true;
-            this.lblProfName.Location = new System.Drawing.Point(136, 24);
-            this.lblProfName.Name = "lblProfName";
-            this.lblProfName.Size = new System.Drawing.Size(89, 17);
-            this.lblProfName.TabIndex = 56;
-            this.lblProfName.Text = "Profile Name";
+            this.txtGCode.Location = new System.Drawing.Point(182, 6);
+            this.txtGCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtGCode.Multiline = true;
+            this.txtGCode.Name = "txtGCode";
+            this.txtGCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtGCode.Size = new System.Drawing.Size(542, 298);
+            this.txtGCode.TabIndex = 6;
+            // 
+            // lbGCodeSection
+            // 
+            this.lbGCodeSection.FormattingEnabled = true;
+            this.lbGCodeSection.ItemHeight = 16;
+            this.lbGCodeSection.Items.AddRange(new object[] {
+            "Start",
+            "Pre-Slice",
+            "Pre-Lift",
+            "Post Lift",
+            "End",
+            "Main Lift"});
+            this.lbGCodeSection.Location = new System.Drawing.Point(4, 42);
+            this.lbGCodeSection.Name = "lbGCodeSection";
+            this.lbGCodeSection.Size = new System.Drawing.Size(158, 228);
+            this.lbGCodeSection.TabIndex = 9;
+            this.lbGCodeSection.SelectedIndexChanged += new System.EventHandler(this.lbGCodeSection_SelectedIndexChanged);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(4, 19);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(103, 17);
+            this.label16.TabIndex = 10;
+            this.label16.Text = "GCode Section";
             // 
             // ctlToolpathGenConfig
             // 
@@ -924,20 +696,10 @@
             this.grpLift.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.tbStart.ResumeLayout(false);
-            this.tbStart.PerformLayout();
-            this.tbPreSlice.ResumeLayout(false);
-            this.tbPreSlice.PerformLayout();
-            this.tbPreLift.ResumeLayout(false);
-            this.tbPreLift.PerformLayout();
-            this.tbMainlift.ResumeLayout(false);
-            this.tbMainlift.PerformLayout();
-            this.tbPostLift.ResumeLayout(false);
-            this.tbPostLift.PerformLayout();
-            this.tbEnd.ResumeLayout(false);
-            this.tbEnd.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.tbGCode.ResumeLayout(false);
+            this.tbGCode.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -983,30 +745,6 @@
         private System.Windows.Forms.TextBox txtXOffset;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TabPage tbStart;
-        private System.Windows.Forms.Button cmdreloadstartgcode;
-        private System.Windows.Forms.Button cmdsavestartgcode;
-        private System.Windows.Forms.TextBox txtstartgcode;
-        private System.Windows.Forms.TabPage tbPreSlice;
-        private System.Windows.Forms.Button cmdreloadpreslicegcode;
-        private System.Windows.Forms.Button cmdsavepreslicegcode;
-        private System.Windows.Forms.TextBox txtpreslicegcode;
-        private System.Windows.Forms.TabPage tbPreLift;
-        private System.Windows.Forms.Button cmdReloadPrelift;
-        private System.Windows.Forms.Button cmdSavePrelift;
-        private System.Windows.Forms.TextBox txtpreliftgcode;
-        private System.Windows.Forms.TabPage tbMainlift;
-        private System.Windows.Forms.Button cmdreloadmainliftgcode;
-        private System.Windows.Forms.Button cmdsavemainliftgcode;
-        private System.Windows.Forms.TextBox txtmainliftgcode;
-        private System.Windows.Forms.TabPage tbPostLift;
-        private System.Windows.Forms.Button cmdpostliftgcode;
-        private System.Windows.Forms.Button cmdsavepostliftgcode;
-        private System.Windows.Forms.TextBox txtpostliftgcode;
-        private System.Windows.Forms.TabPage tbEnd;
-        private System.Windows.Forms.Button cmdendgcode;
-        private System.Windows.Forms.Button txtsaveendgcode;
-        private System.Windows.Forms.TextBox txtendgcode;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox cmbSliceProfiles;
         private System.Windows.Forms.GroupBox groupBox4;
@@ -1018,5 +756,11 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label lblProfName;
+        private System.Windows.Forms.TabPage tbGCode;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.ListBox lbGCodeSection;
+        private System.Windows.Forms.Button cmdReloadGCode;
+        private System.Windows.Forms.Button cmdSaveGCode;
+        private System.Windows.Forms.TextBox txtGCode;
     }
 }
