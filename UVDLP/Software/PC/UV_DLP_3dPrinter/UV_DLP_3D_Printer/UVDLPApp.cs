@@ -36,7 +36,8 @@ namespace UV_DLP_3D_Printer
         eMachineConnected, // the main serial port for the machine was opened - aka - we connected
         eMachineDisconnected, // the machine disconnected
         eDisplayConnected,
-        eDisplayDisconnected
+        eDisplayDisconnected,
+        eReDraw, // this is used when an application action needs to re-draw the 3d display
     }
     public delegate void AppEventDelegate(eAppEvent ev, String Message);
     /*
@@ -55,7 +56,7 @@ namespace UV_DLP_3D_Printer
         // the simple 3d graphic engine we're using along with OpenGL
         public Engine3d m_engine3d = new Engine3d();
         // the current model we're working with
-        public Object3d m_selectedobject = null;
+        private Object3d m_selectedobject = null;
         // the scene object used for slicing
         private Object3d m_sceneobject = null;
         // the current machine configuration
@@ -302,13 +303,28 @@ namespace UV_DLP_3D_Printer
             m_engine3d.AddObject(s);
             RaiseAppEvent(eAppEvent.eModelAdded, "Model Created");
         }
-
+        /// <summary>
+        /// Removes the currently selected object
+        /// </summary>
         public void RemoveCurrentModel() 
         {
-            m_engine3d.RemoveObject(m_selectedobject);
-            m_selectedobject = null;
+            m_engine3d.RemoveObject(SelectedObject);
+            SelectedObject = null;
             RaiseAppEvent(eAppEvent.eModelRemoved, "model removed");
         }
+        public Object3d SelectedObject
+        {
+            get 
+            {
+                return m_selectedobject;
+            }
+            set 
+            {
+                m_selectedobject = value;
+                m_engine3d.UpdateLists(); // need to re-update the selected object lists
+            }
+        }
+
         /// <summary>
         /// Loads a model, adds it to the 3d engine to be shown, and raises an app event
         /// </summary>
@@ -342,7 +358,7 @@ namespace UV_DLP_3D_Printer
                 if (ret == true)
                 {
                     m_engine3d.AddObject(obj);
-                    m_selectedobject = obj;
+                    SelectedObject = obj;
                     UVDLPApp.Instance().m_engine3d.UpdateLists();
                     m_slicefile = null; // the slice file is not longer current
                     RaiseAppEvent(eAppEvent.eModelAdded, "Model Loaded " + filename);

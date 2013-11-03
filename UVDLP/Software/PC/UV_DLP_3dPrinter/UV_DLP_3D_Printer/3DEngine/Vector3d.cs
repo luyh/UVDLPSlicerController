@@ -18,6 +18,14 @@ namespace Engine3D
             y *= scale;
             z *= scale;
         }
+        public Vector3d Cross(Vector3d v) 
+        {
+            Vector3d cr = new Vector3d();
+            cr.x = y * v.z - z * v.y;
+            cr.y = z * v.x - x * v.z;
+            cr.z = x * v.y - y * v.x;
+            return cr;
+        }
         public double Dot(Vector3d v) //dot product 
         {
 	        double dp = ( x * v.x ) +

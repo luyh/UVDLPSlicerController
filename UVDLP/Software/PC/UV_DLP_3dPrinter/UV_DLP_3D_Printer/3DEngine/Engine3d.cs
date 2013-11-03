@@ -139,8 +139,7 @@ namespace Engine3D
                     GL.Enable(EnableCap.Lighting);
                     GL.Enable(EnableCap.Light0);
                     GL.Disable(EnableCap.LineSmooth);
-                    if (UVDLPApp.Instance().m_selectedobject == obj)
-                    {
+                    if (UVDLPApp.Instance().SelectedObject == obj)                    {
                         obj.RenderGL(alpha,true);
                     }
                     else 

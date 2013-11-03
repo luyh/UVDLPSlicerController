@@ -13,11 +13,40 @@ namespace UV_DLP_3D_Printer._3DEngine
     public class RTUtils
     {
         // 
-        class TestPoint { public double X, Y;};
+        public class TestPoint { public double X, Y;};
         static TestPoint[] TstPnt = new TestPoint[4]; //for the crossing test
         static int numTstPnt = 0;//for the crossing test        
-        static Object3d m_gp = null;
+        static Object3d m_gp = null; // artificial ground plane
 
+
+        public static double sign(TestPoint p1, TestPoint p2, TestPoint p3)
+        {
+            return (p1.X - p3.X) * (p2.Y - p3.Y) - (p2.X - p3.X) * (p1.Y - p3.Y);
+        }
+
+        public static bool PointInTriangle(TestPoint pt, TestPoint v1, TestPoint v2, TestPoint v3)
+        {
+            bool b1, b2, b3;
+
+            b1 = sign(pt, v1, v2) < 0.0f;
+            b2 = sign(pt, v2, v3) < 0.0f;
+            b3 = sign(pt, v3, v1) < 0.0f;
+
+            return ((b1 == b2) && (b2 == b3));
+        }
+
+        public static int CrossingsTest(double PntX, double PntY) 
+        {
+            TestPoint pt = new TestPoint();
+            pt.X = PntX;
+            pt.Y = PntY;
+            if (PointInTriangle(pt, TstPnt[0], TstPnt[1], TstPnt[2])) 
+            {
+                return 1;
+            }
+            return 0;
+        }
+        /*
         public static int CrossingsTest(double PntX, double PntY)
         {
             if (TstPnt[0] == null)  // create if not created already
@@ -27,7 +56,7 @@ namespace UV_DLP_3D_Printer._3DEngine
                 TstPnt[2] = new TestPoint();
                 TstPnt[3] = new TestPoint();
             }
-            int j, yflag0, yflag1, inside_flag, xflag0;
+            int j, yflag0, yflag1, inside_flag = 0, xflag0;
             double ty, tx;// *vtx0, *vtx1 ;
             int line_flag;
             short index = 0;
@@ -81,7 +110,7 @@ namespace UV_DLP_3D_Printer._3DEngine
                     line_flag = 1;
                 }
 
-                /* move to next pair of vertices, retaining info as possible */
+                // move to next pair of vertices, retaining info as possible 
                 yflag0 = yflag1;
                 vtx0 = vtx1;
                 vtx1 = TstPnt[++index];
@@ -89,7 +118,7 @@ namespace UV_DLP_3D_Printer._3DEngine
         Exit: ;
             return (inside_flag);
         }
-
+        */
         public static bool IntersectPoly(Polygon poly, Point3d start, Point3d end,ref  Point3d intersection)
         {
             //intersect a Polygon with a ray in world space
@@ -116,11 +145,14 @@ namespace UV_DLP_3D_Printer._3DEngine
 
             denom = (A * deltaX + B * deltaY + C * deltaZ);
 
-            if (denom == 0.0)//ray is parallel, no intersection
+            double epsilon = 0.00001;
+            //if (denom == 0.0)//ray is parallel, no intersection
+            if (denom >= -epsilon && denom <= epsilon)//ray is parallel, no intersection
             {
                 retval = false;
                 return retval;
             }
+
             T = (-1) / denom;
             S = (A * start.x + B * start.y + C * start.z);
             t = (S + D) * T;
@@ -154,6 +186,12 @@ namespace UV_DLP_3D_Printer._3DEngine
             }
             return retval;
         }
+        /*
+        public static bool IntersectPoly(Polygon poly, Point3d start, Point3d end,ref  Point3d intersection)
+        {
+            return polyisect.findIntersection(poly, start, end, ref intersection);
+        }
+        */
         public static bool IntersectSphere(Point3d start,Point3d end,ref Point3d intersect, Point3d center,double radius)
         {
 	        bool retval = false;
@@ -266,9 +304,9 @@ namespace UV_DLP_3D_Printer._3DEngine
         /// <returns></returns>
         /// 
         static object lck = new object();
-        public static ArrayList IntersectObjects(Vector3d direction, Point3d origin, ArrayList objects,bool supports) 
+        public static List<ISectData> IntersectObjects(Vector3d direction, Point3d origin, ArrayList objects, bool supports) 
         {
-            ArrayList m_isectlst = new ArrayList();
+            List<ISectData> m_isectlst = new List<ISectData>();
             try
             {
                 direction.Normalize();
