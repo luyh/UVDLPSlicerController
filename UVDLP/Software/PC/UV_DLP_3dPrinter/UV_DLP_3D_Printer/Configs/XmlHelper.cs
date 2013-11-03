@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Drawing;
 
 
 // Xml Helper class for new configuration system -SHS
@@ -149,6 +150,64 @@ namespace UV_DLP_3D_Printer.Configs
             catch (Exception)
             {
                 LogParamErr(parentNode, id, "integer number");
+                result = default_val;
+            }
+            return result;
+        }
+
+        private int GetColorComponent(String str, String compid, Char endchar)
+        {
+            int start = str.IndexOf(compid) + 2;
+            if (start < 1)
+                return - 1;
+            int len = str.IndexOf(endchar, start) - start;
+            if (len < 1)
+                return -1;
+            return int.Parse(str.Substring(start, len));
+        }
+
+        public Color ParseColor(String colstr)
+        {
+            Color result;
+            if (colstr.StartsWith("Color ["))
+            {
+                int a = GetColorComponent(colstr, "A=", ',');
+                if (a >= 0)
+                {
+                    int r = GetColorComponent(colstr, "R=", ',');
+                    int g = GetColorComponent(colstr, "G=", ',');
+                    int b = GetColorComponent(colstr, "B=", ']');
+                    result = Color.FromArgb(a, r, g, b);
+                }
+                else
+                {
+                    int len = colstr.IndexOf(']') - 7;
+                    result = Color.FromName(colstr.Substring(7, len));
+                }
+            }
+            else
+            {
+                result = Color.FromArgb(int.Parse(colstr));
+            }
+            return result;
+        }
+
+        public Color GetColor(XmlNode parentNode, String id, Color default_val)
+        {
+            XmlNode nd = FindChildElement(parentNode, id);
+            Color result;
+            if (nd == null)
+            {
+                AddParameter(parentNode, id, default_val.ToString());
+                return default_val;
+            }
+            try
+            {
+                result = ParseColor(nd.InnerText);
+            }
+            catch (Exception)
+            {
+                LogParamErr(parentNode, id, "color value");
                 result = default_val;
             }
             return result;

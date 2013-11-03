@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Drawing;
+using System.IO;
+using UV_DLP_3D_Printer.Configs;
 
 namespace UV_DLP_3D_Printer
 {
@@ -12,6 +14,7 @@ namespace UV_DLP_3D_Printer
      */
     public class AppConfig
     {
+        public const int FILE_VERSION = 1; // this should change every time the format changes
         private String m_LastModelFilename; // the last model loaded
         public string m_cursliceprofilename; // slicing / building profile
         public string m_curmachineeprofilename; // machine profile
@@ -40,20 +43,21 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                XmlReader xr = XmlReader.Create(filename);
-                xr.ReadStartElement("ApplicationConfig");
-                
-                m_LastModelFilename = xr.ReadElementString("LastModelName");
-                m_cursliceprofilename = xr.ReadElementString("SliceProfileName");
-                m_curmachineeprofilename = xr.ReadElementString("MachineProfileName");
-                m_autoconnect = bool.Parse(xr.ReadElementString("AutoConnect"));
-                m_loadlastmodel = bool.Parse(xr.ReadElementString("LoadLastModel"));
-                m_slic3rloc = xr.ReadElementString("Slic3rLocation");
-                m_foregroundcolor =  Color.FromArgb(int.Parse(xr.ReadElementString("ForegroundColor")));
-                m_backgroundcolor = Color.FromArgb(int.Parse(xr.ReadElementString("BackgroundColor")));
-                //Color.(
-                xr.ReadEndElement();
-                xr.Close();
+                XmlHelper xh = new XmlHelper();
+                bool fileExist = xh.Start(filename, "ApplicationConfig");
+                XmlNode ac = xh.m_toplevel;
+                m_LastModelFilename = xh.GetString(ac, "LastModelName","");
+                m_cursliceprofilename = UVDLPApp.Instance().m_PathMachines + UVDLPApp.m_pathsep + xh.GetString(ac, "SliceProfileName", "default.slicing");
+                m_curmachineeprofilename = UVDLPApp.Instance().m_PathMachines + UVDLPApp.m_pathsep + xh.GetString(ac, "MachineProfileName", "NullMachine.machine");
+                m_autoconnect = xh.GetBool(ac, "AutoConnect", false);
+                m_loadlastmodel = xh.GetBool(ac, "LoadLastModel", true);
+                m_slic3rloc = xh.GetString(ac, "Slic3rLocation", "");
+                m_foregroundcolor =  xh.GetColor(ac, "ForegroundColor", Color.White);
+                m_backgroundcolor = xh.GetColor(ac, "BackgroundColor", Color.Black);
+                if (!fileExist)
+                {
+                    xh.Save(FILE_VERSION);
+                }
                 return true;
             }
             catch (Exception ex) 
@@ -66,18 +70,18 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                XmlWriter xw = XmlWriter.Create(filename);
-                xw.WriteStartElement("ApplicationConfig");
-                xw.WriteElementString("LastModelName", m_LastModelFilename);
-                xw.WriteElementString("SliceProfileName", m_cursliceprofilename);
-                xw.WriteElementString("MachineProfileName", m_curmachineeprofilename);
-                xw.WriteElementString("AutoConnect", m_autoconnect?"True":"False");
-                xw.WriteElementString("LoadLastModel", m_loadlastmodel ? "True" : "False");
-                xw.WriteElementString("Slic3rLocation", m_slic3rloc);
-                xw.WriteElementString("ForegroundColor", m_foregroundcolor.ToArgb().ToString());
-                xw.WriteElementString("BackgroundColor", m_backgroundcolor.ToArgb().ToString());
-                xw.WriteEndElement();
-                xw.Close(); // close the file
+                XmlHelper xh = new XmlHelper();
+                bool fileExist = xh.Start(filename, "ApplicationConfig");
+                XmlNode ac = xh.m_toplevel;
+                xh.SetParameter(ac, "LastModelName", m_LastModelFilename);
+                xh.SetParameter(ac, "SliceProfileName", Path.GetFileName(m_cursliceprofilename));
+                xh.SetParameter(ac, "MachineProfileName", Path.GetFileName(m_curmachineeprofilename));
+                xh.SetParameter(ac, "AutoConnect", m_autoconnect ? "True" : "False");
+                xh.SetParameter(ac, "LoadLastModel", m_loadlastmodel ? "True" : "False");
+                xh.SetParameter(ac, "Slic3rLocation", m_slic3rloc);
+                xh.SetParameter(ac, "ForegroundColor", m_foregroundcolor);
+                xh.SetParameter(ac, "BackgroundColor", m_backgroundcolor);
+                xh.Save(FILE_VERSION);
                 return true;
             }catch(Exception ex)
             {
