@@ -24,23 +24,19 @@ namespace UV_DLP_3D_Printer
             UV_DLP
         }
         public const int FILE_VERSION = 1; // this should change every time the format changes
-        public double m_XDLPRes; // the X resolution of the DLP projector in pixels
-        public double m_YDLPRes; // the Y resolution of the DLP projector in pixels
         public double m_PlatXSize; // the X size of the build platform in mm
         public double m_PlatYSize; // the Y size of the build platform in mm
         public double m_PlatZSize; // the Z size of the Z axis length in mm
-        private double m_Xpixpermm; // the calculated pixels per mm
-        private double m_Ypixpermm; // the calculated pixels per mm
         private double m_XMaxFeedrate;// in mm/min 
         private double m_YMaxFeedrate;// in mm/min 
         private double m_ZMaxFeedrate;// in mm/min 
-        private string m_monitorid; // which monitor we're using
         public eMachineType m_machinetype;
 
         public String m_description; // a description
         public String m_name; // the profile name
         public String m_filename;// the filename of this profile. (not saved)
         public DeviceDriverConfig m_driverconfig;
+        public MonitorConfig m_monitorconfig;
 
 
 
@@ -53,17 +49,12 @@ namespace UV_DLP_3D_Printer
             bool fileExist = xh.Start(m_filename, "MachineConfig");
             XmlNode mc = xh.m_toplevel;
 
-            m_XDLPRes = xh.GetDouble(mc, "DLP_X_Res", 1024.0);
-            m_YDLPRes = xh.GetDouble(mc, "DLP_Y_Res", 768.0);
             m_PlatXSize = xh.GetDouble(mc, "PlatformXSize", 102.0);
             m_PlatYSize = xh.GetDouble(mc, "PlatformYSize", 77.0);
             m_PlatZSize = xh.GetDouble(mc, "PlatformZSize", 100.0);
-            m_Xpixpermm = xh.GetDouble(mc, "PixPermmX", m_XDLPRes / m_PlatXSize);
-            m_Ypixpermm = xh.GetDouble(mc, "PixPermmY", m_YDLPRes / m_PlatYSize);
             m_XMaxFeedrate = xh.GetDouble(mc, "MaxXFeedRate", 100.0);
             m_YMaxFeedrate = xh.GetDouble(mc, "MaxYFeedRate", 100.0);
             m_ZMaxFeedrate = xh.GetDouble(mc, "MaxZFeedRate", 100.0);
-            m_monitorid = xh.GetString(mc, "MonitorID", "");
             m_machinetype = (eMachineType)xh.GetEnum(mc, "MachineType", typeof(eMachineType), eMachineType.UV_DLP);
             CalcPixPerMM();
 
@@ -71,6 +62,7 @@ namespace UV_DLP_3D_Printer
             {
                 retval = true;
             }
+            m_monitorconfig.Load(xh, mc);
             if (!fileExist)
             {
                 xh.Save(FILE_VERSION);
@@ -87,47 +79,38 @@ namespace UV_DLP_3D_Printer
             XmlHelper xh = new XmlHelper();
             bool fileExist = xh.Start(m_filename, "MachineConfig");
             XmlNode mc = xh.m_toplevel;
-            xh.SetParameter(mc, "DLP_X_Res", m_XDLPRes);
-            xh.SetParameter(mc, "DLP_Y_Res", m_YDLPRes);
             xh.SetParameter(mc, "PlatformXSize", m_PlatXSize);
             xh.SetParameter(mc, "PlatformYSize", m_PlatYSize);
             xh.SetParameter(mc, "PlatformZSize", m_PlatZSize);
-            xh.SetParameter(mc, "PixPermmX", m_Xpixpermm);
-            xh.SetParameter(mc, "PixPermmY", m_Ypixpermm);
             xh.SetParameter(mc, "MaxXFeedRate", m_XMaxFeedrate);
             xh.SetParameter(mc, "MaxYFeedRate", m_YMaxFeedrate);
             xh.SetParameter(mc, "MaxZFeedRate", m_ZMaxFeedrate);
-            xh.SetParameter(mc, "MonitorID", m_monitorid);
             xh.SetParameter(mc, "MachineType", m_machinetype);
             if (m_driverconfig.Save(xh, mc))
             {
                 retval = true;
             }
+            m_monitorconfig.Save(xh, mc);
             xh.Save(FILE_VERSION);
             return retval;
         }
         public MachineConfig()
         {
-            m_XDLPRes = 1024;
-            m_YDLPRes = 768;
             m_PlatXSize = 102.0;
             m_PlatYSize = 77.0;
             m_PlatZSize = 100; // 100 mm default, we have to load this
             m_XMaxFeedrate = 100;
             m_YMaxFeedrate = 100;
             m_ZMaxFeedrate = 100;
-            m_monitorid = "";
-            CalcPixPerMM();
             m_driverconfig = new DeviceDriverConfig();
+            m_monitorconfig = new MonitorConfig();
             m_machinetype = eMachineType.UV_DLP;
-
+            CalcPixPerMM();
         }
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(";(****Machine Configuration ******)\r\n");
-            sb.Append(";(Projector X Res         = " + m_XDLPRes + ")\r\n");
-            sb.Append(";(Projector Y Res         = " + m_YDLPRes + ")\r\n");
             sb.Append(";(Platform X Size         = " + m_PlatXSize + "mm )\r\n");
             sb.Append(";(Platform Y Size         = " + m_PlatYSize + "mm )\r\n");
             sb.Append(";(Platform Z Size         = " + m_PlatZSize + "mm )\r\n");
@@ -135,24 +118,21 @@ namespace UV_DLP_3D_Printer
             sb.Append(";(Max X Feedrate          = " + m_XMaxFeedrate + "mm/s )\r\n");
             sb.Append(";(Max Y Feedrate          = " + m_YMaxFeedrate + "mm/s )\r\n");
             sb.Append(";(Max Z Feedrate          = " + m_ZMaxFeedrate + "mm/s )\r\n");
-            sb.Append(";(Monitor ID              = " + m_monitorid + ")\r\n");
             sb.Append(";(Machine Type            = " + m_machinetype.ToString() + ")\r\n");
             return sb.ToString();
         }
 
         public void CalcPixPerMM()
         {
-            m_Xpixpermm = m_XDLPRes / m_PlatXSize;
-            m_Ypixpermm = m_YDLPRes / m_PlatYSize;
-
+            m_monitorconfig.CalcPixPerMM(m_PlatXSize, m_PlatYSize); 
         }
+
         public void SetDLPRes(double xres, double yres)
         {
-            m_XDLPRes = xres;
-            m_YDLPRes = yres;
+            m_monitorconfig.SetDLPRes(xres, yres);
             CalcPixPerMM();
         }
-
+        
         public void SetPlatSize(double xsz, double ysz)
         {
             m_PlatXSize = xsz;
@@ -160,10 +140,6 @@ namespace UV_DLP_3D_Printer
             CalcPixPerMM();
         }
 
-        public double PixPerMMX { get { return m_Xpixpermm; } }
-        public double PixPerMMY { get { return m_Ypixpermm; } }
-        public int XRes { get { return (int)m_XDLPRes; } }
-        public int YRes { get { return (int)m_YDLPRes; } }
         public double XMaxFeedrate
         {
             get { return m_XMaxFeedrate; }
@@ -180,11 +156,6 @@ namespace UV_DLP_3D_Printer
             set { m_ZMaxFeedrate = value; }
         }
 
-        public string Monitorid
-        {
-            get { return m_monitorid; }
-            set { m_monitorid = value; }
-        }
 
     }
 }

@@ -56,8 +56,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 txtPlatWidth.Text = "" + m_config.m_PlatXSize;
                 txtPlatHeight.Text = "" + m_config.m_PlatYSize;
                 txtPlatTall.Text = m_config.m_PlatZSize.ToString();
-                projwidth.Text = "" + m_config.XRes;
-                projheight.Text = "" + m_config.YRes;
+                projwidth.Text = "" + m_config.m_monitorconfig.XRes;
+                projheight.Text = "" + m_config.m_monitorconfig.YRes;
                 txtXFeed.Text = m_config.XMaxFeedrate.ToString();
                 txtYFeed.Text = m_config.YMaxFeedrate.ToString();
                 txtZFeed.Text = m_config.ZMaxFeedrate.ToString();
@@ -65,7 +65,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 int idx = 0;
                 foreach (String s in lstMonitors.Items) 
                 {
-                    if (s.Equals(m_config.Monitorid)) 
+                    if (s.Equals(m_config.m_monitorconfig.Monitorid)) 
                     {
                         lstMonitors.SelectedIndex = idx;
                     }
@@ -108,8 +108,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_config.m_PlatXSize = double.Parse(txtPlatWidth.Text);
                 m_config.m_PlatYSize = double.Parse(txtPlatHeight.Text);
                 m_config.m_PlatZSize = double.Parse(txtPlatTall.Text);
-                m_config.m_XDLPRes = double.Parse(projwidth.Text);
-                m_config.m_YDLPRes = double.Parse(projheight.Text);
+                m_config.m_monitorconfig.m_XDLPRes = double.Parse(projwidth.Text);
+                m_config.m_monitorconfig.m_YDLPRes = double.Parse(projheight.Text);
                 m_config.XMaxFeedrate = double.Parse(txtXFeed.Text);
                 m_config.YMaxFeedrate = double.Parse(txtYFeed.Text);
                 m_config.ZMaxFeedrate = double.Parse(txtZFeed.Text);
@@ -117,7 +117,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 if (lstMonitors.SelectedIndex != -1)
                 {
                     // need to clean device name as it holds some bad characters -SHS
-                    m_config.Monitorid = CleanScreenName((Screen.AllScreens[lstMonitors.SelectedIndex].DeviceName));// lstMonitors.Items[lstMonitors.SelectedIndex].ToString();
+                    m_config.m_monitorconfig.Monitorid = CleanScreenName((Screen.AllScreens[lstMonitors.SelectedIndex].DeviceName));// lstMonitors.Items[lstMonitors.SelectedIndex].ToString();
                 }
                 return true;
             }
@@ -361,8 +361,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         }
         private void UpdateDisplayConnection()
         {
-            checkConDispEnable.Checked = m_config.m_driverconfig.m_displayconnectionenabled;
-            lblConDisp.Text = m_config.m_driverconfig.m_displayconnection.comname;
+            checkConDispEnable.Checked = m_config.m_monitorconfig.m_displayconnectionenabled;
+            lblConDisp.Text = m_config.m_monitorconfig.m_displayconnection.comname;
         }
         private void cmdCfgConMch_Click(object sender, EventArgs e)
         {
@@ -373,7 +373,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         private void cmdCfgConDsp_Click(object sender, EventArgs e)
         {
-            frmConnection frmconnect = new frmConnection(ref m_config.m_driverconfig.m_displayconnection);
+            frmConnection frmconnect = new frmConnection(ref m_config.m_monitorconfig.m_displayconnection);
             frmconnect.ShowDialog();
             UpdateDisplayConnection();
        
@@ -381,7 +381,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         private void checkConDispEnable_CheckedChanged(object sender, EventArgs e)
         {
-            m_config.m_driverconfig.m_displayconnectionenabled = checkConDispEnable.Checked;
+            m_config.m_monitorconfig.m_displayconnectionenabled = checkConDispEnable.Checked;
         }
     }
 }

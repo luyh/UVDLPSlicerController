@@ -277,7 +277,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         /// </summary>
         public void UpdateControl()
         {
-            if (UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_displayconnectionenabled == false)
+            if (UVDLPApp.Instance().m_printerinfo.m_monitorconfig.m_displayconnectionenabled == false)
             {
                 cmdConnect.Enabled = false;
                 cmdSendProj.Enabled = false;
@@ -480,7 +480,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             //UVDLPApp.Instance().m_deviceinterface.Configure(UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_connection);
             if (UVDLPApp.Instance().m_deviceinterface.ConnectedProjector == false)
             {
-                UVDLPApp.Instance().m_deviceinterface.ConfigureProjector(UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_displayconnection);
+                UVDLPApp.Instance().m_deviceinterface.ConfigureProjector(UVDLPApp.Instance().m_printerinfo.m_monitorconfig.m_displayconnection);
                 if (UVDLPApp.Instance().m_deviceinterface.ConnectProjector())
                 {
                     UpdateProjConnected();

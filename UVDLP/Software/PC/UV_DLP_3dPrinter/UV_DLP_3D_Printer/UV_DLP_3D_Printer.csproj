@@ -93,6 +93,7 @@
     <Compile Include="Configs\ConnectionConfig.cs" />
     <Compile Include="Configs\DeviceDriverConfig.cs" />
     <Compile Include="Configs\FDMSliceBuildConfig.cs" />
+    <Compile Include="Configs\MonitorConfig.cs" />
     <Compile Include="Configs\ParmList.cs" />
     <Compile Include="Configs\SupportConfig.cs" />
     <Compile Include="Configs\XmlHelper.cs" />

@@ -576,7 +576,7 @@ namespace UV_DLP_3D_Printer
             if (ret) 
             {
                 m_appconfig.m_cursliceprofilename = filename;
-                m_appconfig.Save(m_appconfigname);// this name doesn't change
+                m_appconfig.Save(m_apppath + m_pathsep + m_appconfigname);// this name doesn't change
             }
             return ret;
         }
@@ -592,7 +592,7 @@ namespace UV_DLP_3D_Printer
             {
                 m_appconfig.m_curmachineeprofilename = filename; // set the app config name
                 //save the app config
-                m_appconfig.Save(m_appconfigname);// this name doesn't change
+                m_appconfig.Save(m_apppath + m_pathsep + m_appconfigname);// this name doesn't change
             }
             RaiseAppEvent(eAppEvent.eMachineTypeChanged, "");
             return ret;

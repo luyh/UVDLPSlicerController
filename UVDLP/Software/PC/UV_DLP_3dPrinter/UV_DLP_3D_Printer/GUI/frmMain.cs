@@ -359,7 +359,7 @@ namespace UV_DLP_3D_Printer
                         {
                             if (!ShowDLPScreen())
                             {
-                                MessageBox.Show("Monitor " + UVDLPApp.Instance().m_printerinfo.Monitorid + " not found, cancelling build", "Error");
+                                MessageBox.Show("Monitor " + UVDLPApp.Instance().m_printerinfo.m_monitorconfig.Monitorid + " not found, cancelling build", "Error");
                                 UVDLPApp.Instance().m_buildmgr.CancelPrint();
                             }
                         }
@@ -1083,10 +1083,10 @@ namespace UV_DLP_3D_Printer
                     if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
                     {
                         // only try to configure and connect to the projector if the connection is enabled
-                        if (UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_displayconnectionenabled == true)
+                        if (UVDLPApp.Instance().m_printerinfo.m_monitorconfig.m_displayconnectionenabled == true)
                         {
-                            UVDLPApp.Instance().m_deviceinterface.ConfigureProjector(UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_displayconnection);
-                            com = UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_displayconnection.comname;
+                            UVDLPApp.Instance().m_deviceinterface.ConfigureProjector(UVDLPApp.Instance().m_printerinfo.m_monitorconfig.m_displayconnection);
+                            com = UVDLPApp.Instance().m_printerinfo.m_monitorconfig.m_displayconnection.comname;
                             DebugLogger.Instance().LogRecord("Connecting to Projector on " + com + " using " + UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_drivertype.ToString());
                             if (!UVDLPApp.Instance().m_deviceinterface.ConnectProjector())
                             {
@@ -1569,7 +1569,7 @@ namespace UV_DLP_3D_Printer
             Screen dlpscreen = null;
             foreach (Screen s in Screen.AllScreens)
             {
-                if (s.DeviceName.Equals(UVDLPApp.Instance().m_printerinfo.Monitorid))
+                if (s.DeviceName.Equals(UVDLPApp.Instance().m_printerinfo.m_monitorconfig.Monitorid))
                 {
                     dlpscreen = s;
                     break;
@@ -1578,7 +1578,7 @@ namespace UV_DLP_3D_Printer
             if (dlpscreen == null)
             {
                 dlpscreen = Screen.AllScreens[0]; // default to the first if we can't find it
-                DebugLogger.Instance().LogRecord("Can't find screen " + UVDLPApp.Instance().m_printerinfo.Monitorid);
+                DebugLogger.Instance().LogRecord("Can't find screen " + UVDLPApp.Instance().m_printerinfo.m_monitorconfig.Monitorid);
             }
             return dlpscreen;
         }

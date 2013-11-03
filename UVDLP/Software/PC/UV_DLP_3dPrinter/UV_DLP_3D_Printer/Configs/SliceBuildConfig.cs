@@ -232,10 +232,10 @@ namespace UV_DLP_3D_Printer
         }
         public void UpdateFrom(MachineConfig mf)
         {
-            dpmmX = mf.PixPerMMX; //10 dots per mm
-            dpmmY = mf.PixPerMMY;// 10;
-            xres = mf.XRes;
-            yres = mf.YRes;            
+            dpmmX = mf.m_monitorconfig.PixPerMMX; //10 dots per mm
+            dpmmY = mf.m_monitorconfig.PixPerMMY;// 10;
+            xres = mf.m_monitorconfig.XRes;
+            yres = mf.m_monitorconfig.YRes;            
         }
         public void CreateDefault() 
         {
