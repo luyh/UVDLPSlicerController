@@ -46,6 +46,7 @@ namespace UV_DLP_3D_Printer.Configs
                     DebugLogger.Instance().LogError(m_name + ": " + ex.Message);
                     m_xdoc.RemoveAll();
                 }
+                m_toplevel = null;
             }
             if (m_toplevel == null)
             {
