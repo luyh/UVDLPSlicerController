@@ -13,8 +13,15 @@ namespace UV_DLP_3D_Printer.GUI.Controls
     {
         public ctlToolpathGenConfig()
         {
-            InitializeComponent();
-            PopulateProfiles();
+            try
+            {
+                InitializeComponent();
+                PopulateProfiles();
+                lbGCodeSection.SelectedIndex = 0;
+            }catch(Exception)
+            {
+            
+            }
         }
 
        private SliceBuildConfig m_config = null;
@@ -115,13 +122,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 cmbBuildDirection.Items.Add(name);
             }
             cmbBuildDirection.SelectedItem = m_config.direction.ToString();
-
-            txtstartgcode.Text = m_config.HeaderCode;
-            txtpreslicegcode.Text = m_config.PreSliceCode;
-            txtpreliftgcode.Text = m_config.PreLiftCode;
-            txtpostliftgcode.Text = m_config.PostLiftCode;
-            txtendgcode.Text = m_config.FooterCode;
-            txtmainliftgcode.Text = m_config.MainLiftCode;
         }
 
         private bool GetValues() 
@@ -164,83 +164,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 return false;
             }
         }
-        /*
-        private void frmSliceOptions_Load(object sender, EventArgs e)
-        {
-            SetValues();
-        }
-        */
-        private void cmdCancel_Click(object sender, EventArgs e)
-        {
-          //  Close();
-        }
 
-        private void cmdreloadstartgcode_Click(object sender, EventArgs e)
-        {
-            txtstartgcode.Text = m_config.HeaderCode;
-        }
-
-        private void cmdreloadpreslicegcode_Click(object sender, EventArgs e)
-        {
-            txtpreslicegcode.Text = m_config.PreSliceCode;
-        }
-
-        private void cmdReloadPrelift_Click(object sender, EventArgs e)
-        {
-           txtpreliftgcode.Text = m_config.PreLiftCode;
-        }
-
-        private void cmdpostliftgcode_Click(object sender, EventArgs e)
-        {
-            txtpostliftgcode.Text = m_config.PostLiftCode;
-        }
-
-        private void cmdendgcode_Click(object sender, EventArgs e)
-        {
-            txtendgcode.Text = m_config.FooterCode;
-        }
-
-        private void cmdreloadmainliftgcode_Click(object sender, EventArgs e)
-        {
-            txtmainliftgcode.Text = m_config.MainLiftCode;
-        }
-
-        
-        private void cmdsavestartgcode_Click(object sender, EventArgs e)
-        {
-            m_config.HeaderCode = txtstartgcode.Text;
-            m_config.SaveFile(CurPrefGcodePath() + "start.gcode", txtstartgcode.Text);
-        }
-
-        private void cmdsavepreslicegcode_Click(object sender, EventArgs e)
-        {
-            m_config.PreSliceCode = txtpreslicegcode.Text;
-            m_config.SaveFile(CurPrefGcodePath() + "preslice.gcode", txtpreslicegcode.Text);
-        }
-
-        private void cmdSavePrelift_Click(object sender, EventArgs e)
-        {
-            m_config.PreLiftCode = txtpreliftgcode.Text;
-            m_config.SaveFile(CurPrefGcodePath() + "prelift.gcode", txtpreliftgcode.Text);
-        }
-
-        private void cmdsavepostliftgcode_Click(object sender, EventArgs e)
-        {
-            m_config.PostLiftCode = txtpostliftgcode.Text;
-            m_config.SaveFile(CurPrefGcodePath() + "postlift.gcode", txtpostliftgcode.Text);
-        }
-
-        private void txtsaveendgcode_Click(object sender, EventArgs e)
-        {
-            m_config.FooterCode = txtendgcode.Text;
-            m_config.SaveFile(CurPrefGcodePath() + "end.gcode", txtendgcode.Text);
-        }
-
-        private void cmdsavemainliftgcode_Click(object sender, EventArgs e)
-        {
-            m_config.MainLiftCode = txtmainliftgcode.Text;
-            m_config.SaveFile(CurPrefGcodePath() + "mainlift.gcode", txtmainliftgcode.Text);
-        }
 
         private void chkmainliftgcode_CheckedChanged(object sender, EventArgs e)
         {
@@ -389,6 +313,75 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 DebugLogger.Instance().LogError(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// this index changes when the user selects an item from the list of GCode file segements
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lbGCodeSection_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            txtGCode.Text = GCodeSection2GCode();
+        }
+
+        private string GCodeSection2GCode()
+        {
+            if (lbGCodeSection.SelectedIndex == -1) return "";
+            switch (lbGCodeSection.SelectedIndex)
+            {
+                case 0: return m_config.HeaderCode;
+                case 1: return m_config.PreSliceCode;
+                case 2: return m_config.PreLiftCode;
+                case 3: return m_config.PostLiftCode;
+                case 4: return m_config.FooterCode;
+                case 5: return m_config.MainLiftCode;
+            }
+            return "";
+        }
+
+        private string GCodeSection2FName() 
+        {
+            if (lbGCodeSection.SelectedIndex == -1) return "";
+            switch (lbGCodeSection.SelectedIndex) 
+            {
+                case 0: return "start.gcode";
+                case 1: return "preslice.gcode";
+                case 2: return "prelift.gcode";
+                case 3: return "postlift.gcode";
+                case 4: return "end.gcode";
+                case 5: return "mainlift.gcode";
+            }
+            return "";
+        }
+
+        private void cmdSaveGCode_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // save the gcode to the right section
+                string gcode = txtGCode.Text;
+                if (lbGCodeSection.SelectedIndex == -1) return;
+                switch (lbGCodeSection.SelectedIndex)
+                {
+                    case 0: m_config.HeaderCode = gcode; break;
+                    case 1: m_config.PreSliceCode = gcode; break;
+                    case 2: m_config.PreLiftCode = gcode; break;
+                    case 3: m_config.PostLiftCode = gcode; break;
+                    case 4: m_config.FooterCode = gcode; break;
+                    case 5: m_config.MainLiftCode = gcode; break;
+                }
+                m_config.SaveFile(CurPrefGcodePath() + GCodeSection2FName(), gcode);
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
+        }
+
+        private void cmdReloadGCode_Click(object sender, EventArgs e)
+        {
+            txtGCode.Text = GCodeSection2GCode();
         }
     }
 }
