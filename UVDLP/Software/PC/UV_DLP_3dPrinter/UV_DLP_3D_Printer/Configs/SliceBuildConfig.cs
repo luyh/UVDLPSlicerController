@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.IO;
+using UV_DLP_3D_Printer.Configs;
+
 namespace UV_DLP_3D_Printer
 {
     /*
@@ -271,50 +273,49 @@ namespace UV_DLP_3D_Printer
             m_notes = "";
             SetDefaultCodes(); // set up default gcodes
         }
-        public bool Load(Stream stream) 
+        public bool Load(String filename) 
         {
+            // m_filename = filename;
+
+            LoadGCodes();
+            XmlHelper xh = new XmlHelper();
+            bool fileExist = xh.Start(filename, "SliceBuildConfig");
+            XmlNode sbc = xh.m_toplevel;
+
+            dpmmX = xh.GetDouble(sbc, "DotsPermmX", 102.4);
+            dpmmY = xh.GetDouble(sbc, "DotsPermmY", 76.8);
+            xres = xh.GetInt(sbc, "XResolution", 1024);
+            yres = xh.GetInt(sbc, "YResolution", 768);
+            ZThick = xh.GetDouble(sbc, "SliceHeight", 0.05);
+            layertime_ms = xh.GetInt(sbc, "LayerTime", 1000); // 1 second default
+            firstlayertime_ms = xh.GetInt(sbc, "FirstLayerTime", 5000);
+            blanktime_ms = xh.GetInt(sbc, "BlankTime", 2000); // 2 seconds blank
+            plat_temp = xh.GetInt(sbc, "PlatformTemp", 75);
+            //exportgcode = xh.GetBool(sbc, "ExportGCode"));
+            exportsvg = xh.GetBool(sbc, "ExportSVG", false);
+            exportimages = xh.GetBool(sbc, "ExportImages", false); ;
+            XOffset = xh.GetInt(sbc, "XOffset", 0);
+            YOffset = xh.GetInt(sbc, "YOffset", 0);
+            numfirstlayers = xh.GetInt(sbc, "NumberofBottomLayers", 3);
+            direction = (eBuildDirection)xh.GetEnum(sbc, "Direction", typeof(eBuildDirection), eBuildDirection.Bottom_Up);
+            liftdistance = xh.GetDouble(sbc, "LiftDistance", 5.0);
+            slidetiltval = xh.GetDouble(sbc, "SlideTiltValue", 0.0);
+            antialiasing = xh.GetBool(sbc, "AntiAliasing", false);
+            usemainliftgcode = xh.GetBool(sbc, "UseMainLiftGCode", false);
+            aaval = xh.GetDouble(sbc, "AntiAliasingValue", 1.5);
+            liftfeedrate = xh.GetDouble(sbc, "LiftFeedRate", 50.0); // 50mm/s
+            liftretractrate = xh.GetDouble(sbc, "LiftRetractRate", 100.0); // 100mm/s
+            m_exportopt = xh.GetString(sbc, "ExportOption", "SUBDIR"); // default to saving in subdirectory
+            m_flipX = xh.GetBool(sbc, "FlipX", false);
+            m_flipY = xh.GetBool(sbc, "FlipY", false);
+            m_notes = xh.GetString(sbc, "Notes", "");
+
             try
             {
-               // m_filename = filename;
-
-                LoadGCodes();
-                XmlReader xr = (XmlReader)XmlReader.Create(stream);
-                xr.ReadStartElement("SliceBuildConfig");
-                int ver = int.Parse(xr.ReadElementString("FileVersion"));
-                if (ver != FILE_VERSION)
+                if (!fileExist)
                 {
-                    return false; // I may try to implement some backward compatibility here...
+                    xh.Save(FILE_VERSION);
                 }
-                dpmmX = double.Parse(xr.ReadElementString("DotsPermmX"));
-                dpmmY = double.Parse(xr.ReadElementString("DotsPermmY"));
-                xres = int.Parse(xr.ReadElementString("XResolution"));
-                yres = int.Parse(xr.ReadElementString("YResolution"));
-                ZThick = double.Parse(xr.ReadElementString("SliceHeight"));
-                layertime_ms = int.Parse(xr.ReadElementString("LayerTime"));
-                firstlayertime_ms = int.Parse(xr.ReadElementString("FirstLayerTime"));
-                blanktime_ms = int.Parse(xr.ReadElementString("BlankTime"));
-                plat_temp = int.Parse(xr.ReadElementString("PlatformTemp"));
-                //exportgcode = bool.Parse(xr.ReadElementString("ExportGCode"));
-                exportsvg = bool.Parse(xr.ReadElementString("ExportSVG"));
-                exportimages = bool.Parse(xr.ReadElementString("ExportImages")); ;
-                XOffset = int.Parse(xr.ReadElementString("XOffset"));
-                YOffset = int.Parse(xr.ReadElementString("YOffset"));
-                numfirstlayers = int.Parse(xr.ReadElementString("NumberofBottomLayers"));
-                direction = (eBuildDirection)Enum.Parse(typeof(eBuildDirection), xr.ReadElementString("Direction"));
-                liftdistance = double.Parse(xr.ReadElementString("LiftDistance"));
-                slidetiltval = double.Parse(xr.ReadElementString("SlideTiltValue"));
-                antialiasing = bool.Parse(xr.ReadElementString("AntiAliasing"));
-                usemainliftgcode = bool.Parse(xr.ReadElementString("UseMainLiftGCode"));
-                aaval = double.Parse(xr.ReadElementString("AntiAliasingValue"));
-                liftfeedrate = double.Parse(xr.ReadElementString("LiftFeedRate"));
-                liftretractrate = double.Parse(xr.ReadElementString("LiftRetractRate"));
-                m_exportopt = xr.ReadElementString("ExportOption");
-                m_flipX = bool.Parse(xr.ReadElementString("FlipX"));
-                m_flipY = bool.Parse(xr.ReadElementString("FlipY"));
-                m_notes = xr.ReadElementString("Notes"); 
-
-                xr.ReadEndElement();
-                xr.Close();
 
                 return true;
             }
@@ -326,7 +327,7 @@ namespace UV_DLP_3D_Printer
         
         }
         /*This is used to serialize to the GCode post-header info*/
-        public bool Load(String filename) 
+        /*public bool Load(String filename) 
         {
             Stream stream = null;
             try
@@ -356,56 +357,58 @@ namespace UV_DLP_3D_Printer
                 DebugLogger.Instance().LogRecord(ex.Message);                
             }
             return false;
-        }
-        public bool Save(Stream stream) 
+        }*/
+
+        public bool Save(String filename) 
         {
+            XmlHelper xh = new XmlHelper();
+            bool fileExist = xh.Start(filename, "SliceBuildConfig");
+            XmlNode sbc = xh.m_toplevel;
+
+            xh.SetParameter(sbc, "DotsPermmX", dpmmX);
+            xh.SetParameter(sbc, "DotsPermmY", dpmmY);
+            xh.SetParameter(sbc, "XResolution", xres);
+            xh.SetParameter(sbc, "YResolution", yres);
+            xh.SetParameter(sbc, "SliceHeight", ZThick);
+            xh.SetParameter(sbc, "LayerTime", layertime_ms);
+            xh.SetParameter(sbc, "FirstLayerTime", firstlayertime_ms);
+            xh.SetParameter(sbc, "BlankTime", blanktime_ms);
+            xh.SetParameter(sbc, "PlatformTemp", plat_temp);
+            // xh.SetParameter(sbc, "ExportGCode", exportgcode);
+            xh.SetParameter(sbc, "ExportSVG", exportsvg);
+            xh.SetParameter(sbc, "ExportImages", exportimages);
+            xh.SetParameter(sbc, "XOffset", XOffset);
+            xh.SetParameter(sbc, "YOffset", YOffset);
+            xh.SetParameter(sbc, "NumberofBottomLayers", numfirstlayers);
+            xh.SetParameter(sbc, "Direction", direction);
+            xh.SetParameter(sbc, "LiftDistance", liftdistance);
+            xh.SetParameter(sbc, "SlideTiltValue", slidetiltval);
+            xh.SetParameter(sbc, "AntiAliasing", antialiasing);
+            xh.SetParameter(sbc, "UseMainLiftGCode", usemainliftgcode);
+            xh.SetParameter(sbc, "AntiAliasingValue", aaval);
+            xh.SetParameter(sbc, "LiftFeedRate", liftfeedrate);
+            xh.SetParameter(sbc, "LiftRetractRate", liftretractrate);
+            xh.SetParameter(sbc, "ExportOption", m_exportopt);
+
+            xh.SetParameter(sbc, "FlipX", m_flipX);
+            xh.SetParameter(sbc, "FlipY", m_flipY);
+            xh.SetParameter(sbc, "Notes", m_notes);
+            // xh.SetParameter(sbc, "Raise_Time_Delay",raise_time_ms);
+
             try
             {
-                XmlWriter xw = XmlWriter.Create(stream);
-                xw.WriteStartElement("SliceBuildConfig");
-                xw.WriteElementString("FileVersion", FILE_VERSION.ToString());
-                xw.WriteElementString("DotsPermmX", dpmmX.ToString());
-                xw.WriteElementString("DotsPermmY", dpmmY.ToString());
-                xw.WriteElementString("XResolution", xres.ToString());
-                xw.WriteElementString("YResolution", yres.ToString());
-                xw.WriteElementString("SliceHeight", ZThick.ToString());
-                xw.WriteElementString("LayerTime", layertime_ms.ToString());
-                xw.WriteElementString("FirstLayerTime", firstlayertime_ms.ToString());
-                xw.WriteElementString("BlankTime", blanktime_ms.ToString());
-                xw.WriteElementString("PlatformTemp", plat_temp.ToString());
-               // xw.WriteElementString("ExportGCode", exportgcode.ToString());
-                xw.WriteElementString("ExportSVG", exportsvg.ToString());
-                xw.WriteElementString("ExportImages", exportimages.ToString());
-                xw.WriteElementString("XOffset", XOffset.ToString());
-                xw.WriteElementString("YOffset", YOffset.ToString());
-                xw.WriteElementString("NumberofBottomLayers", numfirstlayers.ToString());
-                xw.WriteElementString("Direction", direction.ToString());
-                xw.WriteElementString("LiftDistance", liftdistance.ToString());
-                xw.WriteElementString("SlideTiltValue", slidetiltval.ToString());
-                xw.WriteElementString("AntiAliasing", antialiasing.ToString());
-                xw.WriteElementString("UseMainLiftGCode", usemainliftgcode.ToString());
-                xw.WriteElementString("AntiAliasingValue", aaval.ToString());
-                xw.WriteElementString("LiftFeedRate", liftfeedrate.ToString());
-                xw.WriteElementString("LiftRetractRate", liftretractrate.ToString());
-                xw.WriteElementString("ExportOption", m_exportopt);
-
-                xw.WriteElementString("FlipX", m_flipX.ToString());
-                xw.WriteElementString("FlipY", m_flipY.ToString());
-                xw.WriteElementString("Notes", m_notes);
-                // xw.WriteElementString("Raise_Time_Delay",raise_time_ms.ToString());
-                xw.WriteEndElement();
-                xw.Close();
+                xh.Save(FILE_VERSION);
                 SaveGCodes();
                 return true;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 DebugLogger.Instance().LogRecord(ex.Message);
-                return false;            
+                return false;
             }
         }
 
-        public bool Save(String filename)
+        /*public bool Save(String filename)
         {
             try 
             {
@@ -426,7 +429,7 @@ namespace UV_DLP_3D_Printer
                 DebugLogger.Instance().LogError(ex.Message);                
             }
             return false;
-        }
+        }*/
 
         // these get stored to the gcode file as a reference
         public override String ToString() 
