@@ -200,42 +200,11 @@ namespace UV_DLP_3D_Printer
 
         public bool LoadSupportConfig(string filename)
         {
-            /*
-            try
-            {
-                if (File.Exists(filename))
-                {
-                    Stream TestFileStream = File.OpenRead(filename);
-                    BinaryFormatter deserializer = new BinaryFormatter();
-                    m_supportconfig = (SupportConfig)deserializer.Deserialize(TestFileStream);
-                    TestFileStream.Close();
-                }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-                return false;
-            }
-             * */
             m_supportconfig.Load(m_apppath + m_pathsep + filename);
             return true;
         }
         public bool SaveSupportConfig(string filename)
         {
-            /*try
-            {
-                Stream TestFileStream = File.Create(filename);
-                BinaryFormatter serializer = new BinaryFormatter();
-                serializer.Serialize(TestFileStream, m_supportconfig);
-                TestFileStream.Close();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-                return false;
-            }*/
             m_supportconfig.Save(m_apppath + m_pathsep + filename);
             return true;
         }
