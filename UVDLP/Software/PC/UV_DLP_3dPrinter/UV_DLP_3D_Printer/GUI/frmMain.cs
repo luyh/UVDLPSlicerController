@@ -60,7 +60,7 @@ namespace UV_DLP_3D_Printer
             DebugLogger.Instance().LoggerStatusEvent += new LoggerStatusHandler(LoggerStatusEvent);
             UVDLPApp.Instance().m_deviceinterface.StatusEvent += new DeviceInterface.DeviceInterfaceStatus(DeviceStatusEvent);
             UVDLPApp.Instance().m_supportgenerator.SupportEvent += new SupportGeneratorEvent(SupEvent);
-
+            UVDLPApp.Instance().m_estimator.VolEstEventDel += new VolumeEstimator.VolEstEvent(VolEstEventF);
             
             arcball = new ArcBall();
             m_quat = new Quaternion();
@@ -71,7 +71,23 @@ namespace UV_DLP_3D_Printer
             
             Refresh();
         }
-        
+        private void VolEstEventF(VolumeEstimator.eVolEstEvent ev, string message) 
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new MethodInvoker(delegate() { VolEstEventF(ev, message); }));
+            }
+            else
+            {
+                // show final estimate
+                switch (ev) 
+                {
+                    case VolumeEstimator.eVolEstEvent.eCompleted:
+                        SetMainMessage(message);
+                        break;
+                }
+            }
+        }
         #region Support Event Handler
         /// <summary>
         /// Support Event handler
@@ -1907,6 +1923,13 @@ namespace UV_DLP_3D_Printer
         private void tabMachineControl_Enter(object sender, EventArgs e)
         {
             ctlMachineControl1.UpdateControl(); // update control display -SHS
+        }
+
+        private void estimateVolumeCostToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmVolEst frmvol = new frmVolEst();
+            UVDLPApp.Instance().m_estimator.Setup(UVDLPApp.Instance().m_slicefile, UVDLPApp.Instance().m_buildparms);
+            frmvol.ShowDialog();
         }
         /*
         private void projectorCommandsToolStripMenuItem_Click(object sender, EventArgs e)

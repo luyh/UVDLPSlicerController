@@ -115,6 +115,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             chkReflectX.Checked = m_config.m_flipX;
             chkReflectY.Checked = m_config.m_flipY;
             txtNotes.Text = m_config.m_notes;
+            txtResinPriceL.Text = m_config.m_resinprice.ToString();
+
            // txtRaiseTime.Text = m_config.raise_time_ms.ToString();
 
             foreach(String name in Enum.GetNames(typeof(SliceBuildConfig.eBuildDirection)))
@@ -155,6 +157,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_config.m_flipX = chkReflectX.Checked;
                 m_config.m_flipY = chkReflectY.Checked;
                 m_config.m_notes = txtNotes.Text;
+                m_config.m_resinprice = double.Parse(txtResinPriceL.Text);
                 m_config.direction = (SliceBuildConfig.eBuildDirection)Enum.Parse(typeof(SliceBuildConfig.eBuildDirection), cmbBuildDirection.SelectedItem.ToString());
                 return true;
             }

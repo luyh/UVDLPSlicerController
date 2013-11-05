@@ -70,6 +70,12 @@
             this.txtXOffset = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.tbGCode = new System.Windows.Forms.TabPage();
+            this.label16 = new System.Windows.Forms.Label();
+            this.lbGCodeSection = new System.Windows.Forms.ListBox();
+            this.cmdReloadGCode = new System.Windows.Forms.Button();
+            this.cmdSaveGCode = new System.Windows.Forms.Button();
+            this.txtGCode = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.cmbSliceProfiles = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -77,20 +83,16 @@
             this.lstSliceProfiles = new System.Windows.Forms.ListBox();
             this.cmdDelete = new System.Windows.Forms.Button();
             this.cmdNew = new System.Windows.Forms.Button();
-            this.tbGCode = new System.Windows.Forms.TabPage();
-            this.cmdReloadGCode = new System.Windows.Forms.Button();
-            this.cmdSaveGCode = new System.Windows.Forms.Button();
-            this.txtGCode = new System.Windows.Forms.TextBox();
-            this.lbGCodeSection = new System.Windows.Forms.ListBox();
-            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txtResinPriceL = new System.Windows.Forms.TextBox();
             this.tabOptions.SuspendLayout();
             this.tbOptions.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.grpLift.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.groupBox4.SuspendLayout();
             this.tbGCode.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabOptions
@@ -106,6 +108,8 @@
             // 
             // tbOptions
             // 
+            this.tbOptions.Controls.Add(this.txtResinPriceL);
+            this.tbOptions.Controls.Add(this.label17);
             this.tbOptions.Controls.Add(this.lblProfName);
             this.tbOptions.Controls.Add(this.txtNotes);
             this.tbOptions.Controls.Add(this.label15);
@@ -177,7 +181,7 @@
             this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox3.Size = new System.Drawing.Size(190, 110);
+            this.groupBox3.Size = new System.Drawing.Size(190, 97);
             this.groupBox3.TabIndex = 51;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Image Reflection";
@@ -492,7 +496,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Size = new System.Drawing.Size(199, 110);
+            this.groupBox1.Size = new System.Drawing.Size(199, 97);
             this.groupBox1.TabIndex = 34;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Image Pixel Offsets";
@@ -532,6 +536,78 @@
             this.label3.Size = new System.Drawing.Size(59, 17);
             this.label3.TabIndex = 0;
             this.label3.Text = "X Offset";
+            // 
+            // tbGCode
+            // 
+            this.tbGCode.Controls.Add(this.label16);
+            this.tbGCode.Controls.Add(this.lbGCodeSection);
+            this.tbGCode.Controls.Add(this.cmdReloadGCode);
+            this.tbGCode.Controls.Add(this.cmdSaveGCode);
+            this.tbGCode.Controls.Add(this.txtGCode);
+            this.tbGCode.Location = new System.Drawing.Point(4, 25);
+            this.tbGCode.Name = "tbGCode";
+            this.tbGCode.Size = new System.Drawing.Size(751, 455);
+            this.tbGCode.TabIndex = 7;
+            this.tbGCode.Text = "GCode";
+            this.tbGCode.UseVisualStyleBackColor = true;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(4, 19);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(103, 17);
+            this.label16.TabIndex = 10;
+            this.label16.Text = "GCode Section";
+            // 
+            // lbGCodeSection
+            // 
+            this.lbGCodeSection.FormattingEnabled = true;
+            this.lbGCodeSection.ItemHeight = 16;
+            this.lbGCodeSection.Items.AddRange(new object[] {
+            "Start",
+            "Pre-Slice",
+            "Pre-Lift",
+            "Post Lift",
+            "End",
+            "Main Lift"});
+            this.lbGCodeSection.Location = new System.Drawing.Point(4, 42);
+            this.lbGCodeSection.Name = "lbGCodeSection";
+            this.lbGCodeSection.Size = new System.Drawing.Size(158, 228);
+            this.lbGCodeSection.TabIndex = 9;
+            this.lbGCodeSection.SelectedIndexChanged += new System.EventHandler(this.lbGCodeSection_SelectedIndexChanged);
+            // 
+            // cmdReloadGCode
+            // 
+            this.cmdReloadGCode.Location = new System.Drawing.Point(369, 308);
+            this.cmdReloadGCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmdReloadGCode.Name = "cmdReloadGCode";
+            this.cmdReloadGCode.Size = new System.Drawing.Size(188, 43);
+            this.cmdReloadGCode.TabIndex = 8;
+            this.cmdReloadGCode.Text = "Reload";
+            this.cmdReloadGCode.UseVisualStyleBackColor = true;
+            this.cmdReloadGCode.Click += new System.EventHandler(this.cmdReloadGCode_Click);
+            // 
+            // cmdSaveGCode
+            // 
+            this.cmdSaveGCode.Location = new System.Drawing.Point(182, 308);
+            this.cmdSaveGCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmdSaveGCode.Name = "cmdSaveGCode";
+            this.cmdSaveGCode.Size = new System.Drawing.Size(181, 43);
+            this.cmdSaveGCode.TabIndex = 7;
+            this.cmdSaveGCode.Text = "Save";
+            this.cmdSaveGCode.UseVisualStyleBackColor = true;
+            this.cmdSaveGCode.Click += new System.EventHandler(this.cmdSaveGCode_Click);
+            // 
+            // txtGCode
+            // 
+            this.txtGCode.Location = new System.Drawing.Point(182, 6);
+            this.txtGCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtGCode.Multiline = true;
+            this.txtGCode.Name = "txtGCode";
+            this.txtGCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtGCode.Size = new System.Drawing.Size(542, 298);
+            this.txtGCode.TabIndex = 6;
             // 
             // label6
             // 
@@ -603,77 +679,23 @@
             this.cmdNew.UseVisualStyleBackColor = true;
             this.cmdNew.Click += new System.EventHandler(this.cmdNew_Click);
             // 
-            // tbGCode
+            // label17
             // 
-            this.tbGCode.Controls.Add(this.label16);
-            this.tbGCode.Controls.Add(this.lbGCodeSection);
-            this.tbGCode.Controls.Add(this.cmdReloadGCode);
-            this.tbGCode.Controls.Add(this.cmdSaveGCode);
-            this.tbGCode.Controls.Add(this.txtGCode);
-            this.tbGCode.Location = new System.Drawing.Point(4, 25);
-            this.tbGCode.Name = "tbGCode";
-            this.tbGCode.Size = new System.Drawing.Size(751, 455);
-            this.tbGCode.TabIndex = 7;
-            this.tbGCode.Text = "GCode";
-            this.tbGCode.UseVisualStyleBackColor = true;
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(304, 128);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(132, 17);
+            this.label17.TabIndex = 57;
+            this.label17.Text = "Resin Price per liter";
             // 
-            // cmdReloadGCode
+            // txtResinPriceL
             // 
-            this.cmdReloadGCode.Location = new System.Drawing.Point(369, 308);
-            this.cmdReloadGCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdReloadGCode.Name = "cmdReloadGCode";
-            this.cmdReloadGCode.Size = new System.Drawing.Size(188, 43);
-            this.cmdReloadGCode.TabIndex = 8;
-            this.cmdReloadGCode.Text = "Reload";
-            this.cmdReloadGCode.UseVisualStyleBackColor = true;
-            this.cmdReloadGCode.Click += new System.EventHandler(this.cmdReloadGCode_Click);
-            // 
-            // cmdSaveGCode
-            // 
-            this.cmdSaveGCode.Location = new System.Drawing.Point(182, 308);
-            this.cmdSaveGCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdSaveGCode.Name = "cmdSaveGCode";
-            this.cmdSaveGCode.Size = new System.Drawing.Size(181, 43);
-            this.cmdSaveGCode.TabIndex = 7;
-            this.cmdSaveGCode.Text = "Save";
-            this.cmdSaveGCode.UseVisualStyleBackColor = true;
-            this.cmdSaveGCode.Click += new System.EventHandler(this.cmdSaveGCode_Click);
-            // 
-            // txtGCode
-            // 
-            this.txtGCode.Location = new System.Drawing.Point(182, 6);
-            this.txtGCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtGCode.Multiline = true;
-            this.txtGCode.Name = "txtGCode";
-            this.txtGCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtGCode.Size = new System.Drawing.Size(542, 298);
-            this.txtGCode.TabIndex = 6;
-            // 
-            // lbGCodeSection
-            // 
-            this.lbGCodeSection.FormattingEnabled = true;
-            this.lbGCodeSection.ItemHeight = 16;
-            this.lbGCodeSection.Items.AddRange(new object[] {
-            "Start",
-            "Pre-Slice",
-            "Pre-Lift",
-            "Post Lift",
-            "End",
-            "Main Lift"});
-            this.lbGCodeSection.Location = new System.Drawing.Point(4, 42);
-            this.lbGCodeSection.Name = "lbGCodeSection";
-            this.lbGCodeSection.Size = new System.Drawing.Size(158, 228);
-            this.lbGCodeSection.TabIndex = 9;
-            this.lbGCodeSection.SelectedIndexChanged += new System.EventHandler(this.lbGCodeSection_SelectedIndexChanged);
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(4, 19);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(103, 17);
-            this.label16.TabIndex = 10;
-            this.label16.Text = "GCode Section";
+            this.txtResinPriceL.Location = new System.Drawing.Point(442, 126);
+            this.txtResinPriceL.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtResinPriceL.Name = "txtResinPriceL";
+            this.txtResinPriceL.Size = new System.Drawing.Size(64, 22);
+            this.txtResinPriceL.TabIndex = 58;
+            this.txtResinPriceL.Text = "5000";
             // 
             // ctlToolpathGenConfig
             // 
@@ -696,10 +718,10 @@
             this.grpLift.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
             this.tbGCode.ResumeLayout(false);
             this.tbGCode.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -762,5 +784,7 @@
         private System.Windows.Forms.Button cmdReloadGCode;
         private System.Windows.Forms.Button cmdSaveGCode;
         private System.Windows.Forms.TextBox txtGCode;
+        private System.Windows.Forms.TextBox txtResinPriceL;
+        private System.Windows.Forms.Label label17;
     }
 }

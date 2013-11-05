@@ -54,6 +54,7 @@ namespace UV_DLP_3D_Printer
         public bool m_flipX; // mirror the x axis
         public bool m_flipY; // mirror the y axis
         public string m_notes;
+        public double m_resinprice; // per liter
 
         //public bool m_generateautosupports; // automatic support generation
         //need some parms here for auto support
@@ -221,6 +222,7 @@ namespace UV_DLP_3D_Printer
             m_flipX = source.m_flipX;
             m_flipY = source.m_flipY;
             m_notes = source.m_notes;
+            m_resinprice = source.m_resinprice;
             //raise_time_ms = source.raise_time_ms;
         }
 
@@ -271,11 +273,12 @@ namespace UV_DLP_3D_Printer
             m_flipX = false;
             m_flipY = false;
             m_notes = "";
+            m_resinprice = 0.0;//
             SetDefaultCodes(); // set up default gcodes
         }
         public bool Load(String filename) 
         {
-            // m_filename = filename;
+             m_filename = filename;
 
             LoadGCodes();
             XmlHelper xh = new XmlHelper();
@@ -309,7 +312,7 @@ namespace UV_DLP_3D_Printer
             m_flipX = xh.GetBool(sbc, "FlipX", false);
             m_flipY = xh.GetBool(sbc, "FlipY", false);
             m_notes = xh.GetString(sbc, "Notes", "");
-
+            m_resinprice = xh.GetDouble(sbc, "ResinPriceL", 0.0);
             try
             {
                 if (!fileExist)
@@ -361,6 +364,7 @@ namespace UV_DLP_3D_Printer
 
         public bool Save(String filename) 
         {
+            m_filename = filename;
             XmlHelper xh = new XmlHelper();
             bool fileExist = xh.Start(filename, "SliceBuildConfig");
             XmlNode sbc = xh.m_toplevel;
@@ -393,6 +397,7 @@ namespace UV_DLP_3D_Printer
             xh.SetParameter(sbc, "FlipX", m_flipX);
             xh.SetParameter(sbc, "FlipY", m_flipY);
             xh.SetParameter(sbc, "Notes", m_notes);
+            xh.SetParameter(sbc, "ResinPriceL", m_resinprice);
             // xh.SetParameter(sbc, "Raise_Time_Delay",raise_time_ms);
 
             try

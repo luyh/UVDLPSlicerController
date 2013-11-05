@@ -193,6 +193,12 @@
     <Compile Include="GUI\frmSplash.Designer.cs">
       <DependentUpon>frmSplash.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\frmVolEst.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmVolEst.Designer.cs">
+      <DependentUpon>frmVolEst.cs</DependentUpon>
+    </Compile>
     <Compile Include="Projector_LCD\prjcmdlst.cs" />
     <Compile Include="Projector_LCD\ProjectorCommand.cs" />
     <Compile Include="Slicing\FlexSlice.cs" />
@@ -207,6 +213,7 @@
     <Compile Include="Slicing\Modules\SliceModule.cs" />
     <Compile Include="Slicing\Modules\SupportGen.cs" />
     <Compile Include="3DEngine\SupportGenerator.cs" />
+    <Compile Include="Slicing\VolumeEstimator.cs" />
     <Compile Include="Utility\DebugLogger.cs" />
     <Compile Include="GUI\frmDLP.cs">
       <SubType>Form</SubType>
@@ -296,6 +303,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmSplash.resx">
       <DependentUpon>frmSplash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmVolEst.resx">
+      <DependentUpon>frmVolEst.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

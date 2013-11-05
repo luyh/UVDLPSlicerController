@@ -68,10 +68,10 @@
             // 
             // cmdAutoSupport
             // 
-            this.cmdAutoSupport.Location = new System.Drawing.Point(7, 54);
-            this.cmdAutoSupport.Margin = new System.Windows.Forms.Padding(2);
+            this.cmdAutoSupport.Location = new System.Drawing.Point(9, 66);
+            this.cmdAutoSupport.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdAutoSupport.Name = "cmdAutoSupport";
-            this.cmdAutoSupport.Size = new System.Drawing.Size(95, 26);
+            this.cmdAutoSupport.Size = new System.Drawing.Size(127, 32);
             this.cmdAutoSupport.TabIndex = 0;
             this.cmdAutoSupport.Text = "Generate Auto";
             this.cmdAutoSupport.UseVisualStyleBackColor = true;
@@ -80,38 +80,36 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(64, 15);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Location = new System.Drawing.Point(85, 18);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(39, 13);
+            this.label2.Size = new System.Drawing.Size(53, 17);
             this.label2.TabIndex = 8;
             this.label2.Text = "Y (mm)";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 15);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(5, 18);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(39, 13);
+            this.label1.Size = new System.Drawing.Size(53, 17);
             this.label1.TabIndex = 6;
             this.label1.Text = "X (mm)";
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(7, 85);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(2);
+            this.progressBar1.Location = new System.Drawing.Point(9, 105);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(199, 19);
+            this.progressBar1.Size = new System.Drawing.Size(265, 23);
             this.progressBar1.TabIndex = 11;
             // 
             // pictureSupport
             // 
             this.pictureSupport.BackColor = System.Drawing.SystemColors.Control;
-            this.pictureSupport.Location = new System.Drawing.Point(4, 17);
-            this.pictureSupport.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureSupport.Location = new System.Drawing.Point(5, 21);
+            this.pictureSupport.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureSupport.Name = "pictureSupport";
-            this.pictureSupport.Size = new System.Drawing.Size(77, 135);
+            this.pictureSupport.Size = new System.Drawing.Size(103, 166);
             this.pictureSupport.TabIndex = 12;
             this.pictureSupport.TabStop = false;
             this.pictureSupport.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureSupport_Paint);
@@ -124,8 +122,8 @@
             0,
             0,
             65536});
-            this.numHT.Location = new System.Drawing.Point(86, 24);
-            this.numHT.Margin = new System.Windows.Forms.Padding(2);
+            this.numHT.Location = new System.Drawing.Point(115, 30);
+            this.numHT.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numHT.Maximum = new decimal(new int[] {
             10,
             0,
@@ -137,7 +135,7 @@
             0,
             131072});
             this.numHT.Name = "numHT";
-            this.numHT.Size = new System.Drawing.Size(53, 20);
+            this.numHT.Size = new System.Drawing.Size(69, 22);
             this.numHT.TabIndex = 13;
             this.numHT.Value = new decimal(new int[] {
             1,
@@ -149,20 +147,18 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(142, 28);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Location = new System.Drawing.Point(189, 34);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(55, 13);
+            this.label3.Size = new System.Drawing.Size(71, 17);
             this.label3.TabIndex = 14;
             this.label3.Text = "Head Top";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(142, 50);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Location = new System.Drawing.Point(189, 62);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(69, 13);
+            this.label4.Size = new System.Drawing.Size(90, 17);
             this.label4.TabIndex = 16;
             this.label4.Text = "Head Bottom";
             // 
@@ -174,8 +170,8 @@
             0,
             0,
             65536});
-            this.numHB.Location = new System.Drawing.Point(86, 46);
-            this.numHB.Margin = new System.Windows.Forms.Padding(2);
+            this.numHB.Location = new System.Drawing.Point(115, 57);
+            this.numHB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numHB.Maximum = new decimal(new int[] {
             10,
             0,
@@ -187,7 +183,7 @@
             0,
             131072});
             this.numHB.Name = "numHB";
-            this.numHB.Size = new System.Drawing.Size(53, 20);
+            this.numHB.Size = new System.Drawing.Size(69, 22);
             this.numHB.TabIndex = 15;
             this.numHB.Value = new decimal(new int[] {
             1,
@@ -199,10 +195,9 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(142, 111);
-            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Location = new System.Drawing.Point(189, 137);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(64, 13);
+            this.label5.Size = new System.Drawing.Size(84, 17);
             this.label5.TabIndex = 20;
             this.label5.Text = "Foot Bottom";
             // 
@@ -214,8 +209,8 @@
             0,
             0,
             65536});
-            this.numFB.Location = new System.Drawing.Point(86, 107);
-            this.numFB.Margin = new System.Windows.Forms.Padding(2);
+            this.numFB.Location = new System.Drawing.Point(115, 132);
+            this.numFB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numFB.Maximum = new decimal(new int[] {
             10,
             0,
@@ -227,7 +222,7 @@
             0,
             131072});
             this.numFB.Name = "numFB";
-            this.numFB.Size = new System.Drawing.Size(53, 20);
+            this.numFB.Size = new System.Drawing.Size(69, 22);
             this.numFB.TabIndex = 19;
             this.numFB.Value = new decimal(new int[] {
             1,
@@ -240,10 +235,9 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(142, 89);
-            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label6.Location = new System.Drawing.Point(189, 110);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(50, 13);
+            this.label6.Size = new System.Drawing.Size(65, 17);
             this.label6.TabIndex = 18;
             this.label6.Text = "Foot Top";
             // 
@@ -255,8 +249,8 @@
             0,
             0,
             65536});
-            this.numFT.Location = new System.Drawing.Point(86, 84);
-            this.numFT.Margin = new System.Windows.Forms.Padding(2);
+            this.numFT.Location = new System.Drawing.Point(115, 103);
+            this.numFT.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numFT.Maximum = new decimal(new int[] {
             10,
             0,
@@ -268,7 +262,7 @@
             0,
             131072});
             this.numFT.Name = "numFT";
-            this.numFT.Size = new System.Drawing.Size(53, 20);
+            this.numFT.Size = new System.Drawing.Size(69, 22);
             this.numFT.TabIndex = 17;
             this.numFT.Value = new decimal(new int[] {
             1,
@@ -280,10 +274,9 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(142, 134);
-            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label7.Location = new System.Drawing.Point(189, 165);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(65, 13);
+            this.label7.Size = new System.Drawing.Size(85, 17);
             this.label7.TabIndex = 22;
             this.label7.Text = "Foot Bt Intra";
             // 
@@ -295,8 +288,8 @@
             0,
             0,
             65536});
-            this.numFB1.Location = new System.Drawing.Point(86, 130);
-            this.numFB1.Margin = new System.Windows.Forms.Padding(2);
+            this.numFB1.Location = new System.Drawing.Point(115, 160);
+            this.numFB1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numFB1.Maximum = new decimal(new int[] {
             10,
             0,
@@ -308,7 +301,7 @@
             0,
             131072});
             this.numFB1.Name = "numFB1";
-            this.numFB1.Size = new System.Drawing.Size(53, 20);
+            this.numFB1.Size = new System.Drawing.Size(69, 22);
             this.numFB1.TabIndex = 21;
             this.numFB1.Value = new decimal(new int[] {
             1,
@@ -326,11 +319,11 @@
             this.groupBox1.Controls.Add(this.cmdAutoSupport);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.progressBar1);
-            this.groupBox1.Location = new System.Drawing.Point(2, 169);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Location = new System.Drawing.Point(3, 208);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(212, 119);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox1.Size = new System.Drawing.Size(283, 146);
             this.groupBox1.TabIndex = 23;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Auto Support on Grid";
@@ -343,8 +336,8 @@
             0,
             0,
             65536});
-            this.numY.Location = new System.Drawing.Point(67, 31);
-            this.numY.Margin = new System.Windows.Forms.Padding(2);
+            this.numY.Location = new System.Drawing.Point(89, 38);
+            this.numY.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numY.Maximum = new decimal(new int[] {
             10,
             0,
@@ -356,7 +349,7 @@
             0,
             131072});
             this.numY.Name = "numY";
-            this.numY.Size = new System.Drawing.Size(53, 20);
+            this.numY.Size = new System.Drawing.Size(69, 22);
             this.numY.TabIndex = 15;
             this.numY.Value = new decimal(new int[] {
             1,
@@ -372,8 +365,8 @@
             0,
             0,
             65536});
-            this.numX.Location = new System.Drawing.Point(7, 32);
-            this.numX.Margin = new System.Windows.Forms.Padding(2);
+            this.numX.Location = new System.Drawing.Point(9, 39);
+            this.numX.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numX.Maximum = new decimal(new int[] {
             10,
             0,
@@ -385,7 +378,7 @@
             0,
             131072});
             this.numX.Name = "numX";
-            this.numX.Size = new System.Drawing.Size(53, 20);
+            this.numX.Size = new System.Drawing.Size(69, 22);
             this.numX.TabIndex = 14;
             this.numX.Value = new decimal(new int[] {
             1,
@@ -406,21 +399,21 @@
             this.groupSupportParam.Controls.Add(this.numFB);
             this.groupSupportParam.Controls.Add(this.numFT);
             this.groupSupportParam.Controls.Add(this.label6);
-            this.groupSupportParam.Location = new System.Drawing.Point(2, 2);
-            this.groupSupportParam.Margin = new System.Windows.Forms.Padding(2);
+            this.groupSupportParam.Location = new System.Drawing.Point(3, 2);
+            this.groupSupportParam.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupSupportParam.Name = "groupSupportParam";
-            this.groupSupportParam.Padding = new System.Windows.Forms.Padding(2);
-            this.groupSupportParam.Size = new System.Drawing.Size(212, 162);
+            this.groupSupportParam.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupSupportParam.Size = new System.Drawing.Size(283, 199);
             this.groupSupportParam.TabIndex = 24;
             this.groupSupportParam.TabStop = false;
             this.groupSupportParam.Text = "Support Parameters";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(4, 67);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
+            this.button1.Location = new System.Drawing.Point(5, 82);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(95, 26);
+            this.button1.Size = new System.Drawing.Size(127, 32);
             this.button1.TabIndex = 25;
             this.button1.Text = "Create Support";
             this.button1.UseVisualStyleBackColor = true;
@@ -432,11 +425,11 @@
             this.groupBox3.Controls.Add(this.chkDownPolys);
             this.groupBox3.Controls.Add(this.numericUpDown1);
             this.groupBox3.Controls.Add(this.button1);
-            this.groupBox3.Location = new System.Drawing.Point(7, 292);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox3.Location = new System.Drawing.Point(9, 359);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox3.Size = new System.Drawing.Size(206, 98);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox3.Size = new System.Drawing.Size(275, 121);
             this.groupBox3.TabIndex = 26;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Manual Support";
@@ -445,10 +438,9 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Enabled = false;
-            this.label8.Location = new System.Drawing.Point(63, 41);
-            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label8.Location = new System.Drawing.Point(84, 50);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(45, 13);
+            this.label8.Size = new System.Drawing.Size(60, 17);
             this.label8.TabIndex = 28;
             this.label8.Text = "degrees";
             // 
@@ -456,10 +448,10 @@
             // 
             this.chkDownPolys.AutoSize = true;
             this.chkDownPolys.Enabled = false;
-            this.chkDownPolys.Location = new System.Drawing.Point(5, 17);
-            this.chkDownPolys.Margin = new System.Windows.Forms.Padding(2);
+            this.chkDownPolys.Location = new System.Drawing.Point(7, 21);
+            this.chkDownPolys.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkDownPolys.Name = "chkDownPolys";
-            this.chkDownPolys.Size = new System.Drawing.Size(170, 17);
+            this.chkDownPolys.Size = new System.Drawing.Size(218, 21);
             this.chkDownPolys.TabIndex = 27;
             this.chkDownPolys.Text = "Shown downward facing polys";
             this.chkDownPolys.UseVisualStyleBackColor = true;
@@ -473,15 +465,15 @@
             0,
             0,
             65536});
-            this.numericUpDown1.Location = new System.Drawing.Point(5, 39);
-            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(2);
+            this.numericUpDown1.Location = new System.Drawing.Point(7, 48);
+            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             90,
             0,
             0,
             0});
             this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(53, 20);
+            this.numericUpDown1.Size = new System.Drawing.Size(69, 22);
             this.numericUpDown1.TabIndex = 26;
             this.numericUpDown1.Value = new decimal(new int[] {
             45,
@@ -491,14 +483,14 @@
             // 
             // ctlSupport
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupSupportParam);
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ctlSupport";
-            this.Size = new System.Drawing.Size(222, 393);
+            this.Size = new System.Drawing.Size(296, 484);
             this.Load += new System.EventHandler(this.ctlSupport_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureSupport)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHT)).EndInit();
