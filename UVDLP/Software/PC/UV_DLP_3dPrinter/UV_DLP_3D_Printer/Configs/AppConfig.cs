@@ -47,7 +47,7 @@ namespace UV_DLP_3D_Printer
                 bool fileExist = xh.Start(filename, "ApplicationConfig");
                 XmlNode ac = xh.m_toplevel;
                 m_LastModelFilename = xh.GetString(ac, "LastModelName","");
-                m_cursliceprofilename = UVDLPApp.Instance().m_PathMachines + UVDLPApp.m_pathsep + xh.GetString(ac, "SliceProfileName", "default.slicing");
+                m_cursliceprofilename = UVDLPApp.Instance().m_PathProfiles + UVDLPApp.m_pathsep + xh.GetString(ac, "SliceProfileName", "default.slicing");
                 m_curmachineeprofilename = UVDLPApp.Instance().m_PathMachines + UVDLPApp.m_pathsep + xh.GetString(ac, "MachineProfileName", "NullMachine.machine");
                 m_autoconnect = xh.GetBool(ac, "AutoConnect", false);
                 m_loadlastmodel = xh.GetBool(ac, "LoadLastModel", true);
