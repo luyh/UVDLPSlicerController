@@ -7,7 +7,8 @@ using System.Drawing;
 namespace UV_DLP_3D_Printer.Slicing
 {
     /// <summary>
-    /// this class can take a slice file and estimate the volume in Liters of a print, it will also estimate the cost of the print
+    /// this class can take a slice file and estimate the volume in Liters of a print, 
+    /// it will also estimate the cost of the print
     /// </summary>
     public class VolumeEstimator
     {
