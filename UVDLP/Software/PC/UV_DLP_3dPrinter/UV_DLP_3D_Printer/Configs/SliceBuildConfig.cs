@@ -312,13 +312,9 @@ namespace UV_DLP_3D_Printer
             m_flipX = xh.GetBool(sbc, "FlipX", false);
             m_flipY = xh.GetBool(sbc, "FlipY", false);
             m_notes = xh.GetString(sbc, "Notes", "");
-<<<<<<< HEAD
-            m_resinprice = xh.GetDouble(sbc, "ResinPriceL", 0.0);
-            try
-=======
-
+            m_resinprice = xh.GetDouble(sbc, "ResinPriceL", 0.0);            
+            
             if (!fileExist)
->>>>>>> 2a864d2e0001949c67eab694a459474353ad3371
             {
                 return xh.Save(FILE_VERSION);
             }
