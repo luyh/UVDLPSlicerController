@@ -1,0 +1,41 @@
+﻿Goals of the slicer:
+must be run from the command line
+must have a configurable slicer
+can have slicer input parnmeters read from an xml file
+can save svg slice files
+can save image slices
+must support multiple printer types
+	DLP
+	Power
+	FDM
+		Plastic
+		Ceramic
+
+must support a wide variety of slice modules
+	each slice module works on data local to the slicer
+Each Module is aware of other slicer modules?
+	I'd like to have a discussion about this here. Does it make more sense to have each slicer module know 
+	nothing about other modules. or should each module be able to access data from others,
+
+	I.E. An example of this may be that 'Bottom' module. The Bottom module will modify the lower layers, and tag them to move slower,
+	or to have a solid infill.
+
+	Is there a solid example of where modules need to be aware of modules parameters?
+	Speed example: 
+		I have a module named speed,it's job is to set the overall build speed for the model by setting its
+		parameters.
+
+Must create GCode for DLP Printers (Z axis GCode and wiper /HBP/ tilt, projector)
+Must create FDM GCode for a variety of printers
+	RepRap firmware (Serial GCode)
+		Sprinter
+		Marlin
+		?
+	Makerbot firmware (Serial GCode + Commands?)
+	
+
+Loading and Saving of Slicing files
+The goal is to be able to load an stl file and have it produce the folowing:
+-png image slices
+-a slice file (is this really necessary if image slices are generated?) 
+	still need to be able to read/write CLI or similar files

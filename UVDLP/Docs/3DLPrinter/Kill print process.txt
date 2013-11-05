@@ -1,0 +1,7 @@
+﻿if you press the esc key on the computer keyboard during a print cycle, the cycle stops
+
+
+BE 1B 00 00 00 00 D9                 
+
+ B4 1B 00 00 00 00 CF    
+

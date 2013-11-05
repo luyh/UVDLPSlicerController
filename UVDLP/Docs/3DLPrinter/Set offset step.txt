@@ -1,0 +1,18 @@
+﻿Button in the form "Set passi Offset"
+
+This command sets the printer to count the following steps to calculate the number of steps from the house to the z-axis resin
+
+ BE 13 00 00 00 00 D1                             
+
+ B4 13 00 00 00 00 C7                  
+
+-----------------------------------------------------------------------------------------------------
+
+Button in the form "Salva Passi Offset"
+
+This command saves the number of steps acquired in eeprom memory
+
+ BE 14 00 00 00 00 D2    
+
+ B4 14 00 00 00 00 C8            
+
