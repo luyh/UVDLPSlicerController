@@ -31,8 +31,8 @@ namespace UV_DLP_3D_Printer.Configs
             XmlNode mdc = xh.FindSection(parent, "MonitorDriverConfig");
             m_XDLPRes = xh.GetDouble(mdc, "DLP_X_Res", 1024.0);
             m_YDLPRes = xh.GetDouble(mdc, "DLP_Y_Res", 768.0);
-            m_Xpixpermm = xh.GetDouble(mdc, "PixPermmX", 0.0);
-            m_Ypixpermm = xh.GetDouble(mdc, "PixPermmY", 0.0);
+            m_Xpixpermm = xh.GetDouble(mdc, "PixPermmX", 10.0); // we'll assign these a default value of 10 for now
+            m_Ypixpermm = xh.GetDouble(mdc, "PixPermmY", 10.0);
             m_monitorid = xh.GetString(mdc, "MonitorID", "");
             m_displayconnectionenabled = xh.GetBool(mdc, "DisplayCommEnabled", false);
             m_displayconnection.Load(xh, mdc);

@@ -122,6 +122,15 @@ namespace UV_DLP_3D_Printer._3DEngine
         public static bool IntersectPoly(Polygon poly, Point3d start, Point3d end,ref  Point3d intersection)
         {
             //intersect a Polygon with a ray in world space
+            // first test to see if we're hitting the right side
+            /*
+            Vector3d tst = new Vector3d();
+            tst.Set(end.x - start.x, end.y - start.x, end.z - start.z, 0);
+            tst.Normalize();
+            if (poly.m_normal.Dot(tst) > 1)
+                return false;
+            */
+
             bool retval = false;
             double deltaX, deltaY, deltaZ, t, T, S;
             double A, B, C, D;//the Polygon plane
@@ -148,6 +157,7 @@ namespace UV_DLP_3D_Printer._3DEngine
             double epsilon = 0.00001;
             //if (denom == 0.0)//ray is parallel, no intersection
             if (denom >= -epsilon && denom <= epsilon)//ray is parallel, no intersection
+            //if (denom >= epsilon)//ray is parallel or less, no intersection
             {
                 retval = false;
                 return retval;

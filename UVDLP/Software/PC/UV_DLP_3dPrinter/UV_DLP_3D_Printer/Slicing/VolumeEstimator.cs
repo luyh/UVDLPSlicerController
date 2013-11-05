@@ -103,9 +103,9 @@ namespace UV_DLP_3D_Printer.Slicing
                 double vol = numlitpix * pixvol;// in liters
                 vol /= 1000.00;
                 string svol = "Build volume is " + string.Format("{0:0.000}",vol);
-                svol += " ml";
-                double cost = (m_sbc.m_resinprice / 1000.0) * vol;
-                svol += " : Cost is " + string.Format("{0:0.00}", cost);
+                svol += " mm^3";
+                //double cost = (m_sbc.m_resinprice / 1000.0) * vol;
+                //svol += " : Cost is " + string.Format("{0:0.00}", cost);
                 RaiseEvent(eVolEstEvent.eCompleted, svol);
             }
             catch (Exception ex) 
