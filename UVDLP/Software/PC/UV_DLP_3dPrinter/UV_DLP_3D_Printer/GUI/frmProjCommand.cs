@@ -92,7 +92,7 @@ namespace UV_DLP_3D_Printer.GUI
             ProjectorCommand cmd = new ProjectorCommand();
             UVDLPApp.Instance().m_proj_cmd_lst.m_commands.Add(cmd);
             DisplayCommandList();
-            UVDLPApp.Instance().SaveProjectorCommands(UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + UVDLPApp.Instance().m_appconfig.ProjectorCommandsFile); // use full path - SHS
+            UVDLPApp.Instance().SaveProjectorCommands(UVDLPApp.Instance().m_appconfig.ProjectorCommandsFile);
         }
 
         private void cmdApply_Click(object sender, EventArgs e)
@@ -104,7 +104,7 @@ namespace UV_DLP_3D_Printer.GUI
             else
             {
                 DisplayCommandList();
-                UVDLPApp.Instance().SaveProjectorCommands(UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + UVDLPApp.Instance().m_appconfig.ProjectorCommandsFile);  // use full path - SHS
+                UVDLPApp.Instance().SaveProjectorCommands(UVDLPApp.Instance().m_appconfig.ProjectorCommandsFile);
             }
         }
 
@@ -114,7 +114,7 @@ namespace UV_DLP_3D_Printer.GUI
             ProjectorCommand cmd =  UVDLPApp.Instance().m_proj_cmd_lst.m_commands[lbCommands.SelectedIndex];
             UVDLPApp.Instance().m_proj_cmd_lst.m_commands.Remove(cmd);
             DisplayCommandList();
-            UVDLPApp.Instance().SaveProjectorCommands(UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + UVDLPApp.Instance().m_appconfig.ProjectorCommandsFile); // use full path - SHS
+            UVDLPApp.Instance().SaveProjectorCommands(UVDLPApp.Instance().m_appconfig.ProjectorCommandsFile);
         }
 
     }

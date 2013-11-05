@@ -161,41 +161,11 @@ namespace UV_DLP_3D_Printer
         }
         public bool SaveProjectorCommands(string filename) 
         {
-            try
-            {
-                Stream TestFileStream = File.Create(filename);
-                BinaryFormatter serializer = new BinaryFormatter();
-                serializer.Serialize(TestFileStream, m_proj_cmd_lst);
-                TestFileStream.Close();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-                return false;
-            }
-                
+            return m_proj_cmd_lst.Save(m_apppath + m_pathsep + filename);
         }
         public bool LoadProjectorCommands(string filename) 
         {
-            try
-            {
-                if (File.Exists(filename))
-                {
-                    Stream TestFileStream = File.OpenRead(filename);
-                    BinaryFormatter deserializer = new BinaryFormatter();
-                    m_proj_cmd_lst = (prjcmdlst)deserializer.Deserialize(TestFileStream);
-                    TestFileStream.Close();
-                }
-
-                return true;
-            }
-            catch (Exception ex) 
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-                return false;
-            }
-
+            return m_proj_cmd_lst.Load(m_apppath + m_pathsep + filename);
         }
 
         public bool LoadSupportConfig(string filename)
@@ -692,9 +662,9 @@ namespace UV_DLP_3D_Printer
             RaiseAppEvent(eAppEvent.eMachineTypeChanged, ""); // notify the gui to set up correctly
             //load the projector command list
 
-            if (!LoadProjectorCommands(m_apppath + m_pathsep + m_appconfig.ProjectorCommandsFile))  // use full path - SHS
+            if (!LoadProjectorCommands(m_appconfig.ProjectorCommandsFile))
             {
-                SaveProjectorCommands(m_apppath + m_pathsep + m_appconfig.ProjectorCommandsFile); // use full path - SHS
+                SaveProjectorCommands(m_appconfig.ProjectorCommandsFile);
             }
             //load the current slicing profile
             if (!m_buildparms.Load(m_appconfig.m_cursliceprofilename)) 

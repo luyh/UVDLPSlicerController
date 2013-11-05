@@ -310,21 +310,13 @@ namespace UV_DLP_3D_Printer
             m_flipY = xh.GetBool(sbc, "FlipY", false);
             m_notes = xh.GetString(sbc, "Notes", "");
 
-            try
+            if (!fileExist)
             {
-                if (!fileExist)
-                {
-                    xh.Save(FILE_VERSION);
-                }
-
-                return true;
+                return xh.Save(FILE_VERSION);
             }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogRecord(ex.Message);
-                return false;
-            }       
-        
+
+            return true;
+         
         }
         /*This is used to serialize to the GCode post-header info*/
         /*public bool Load(String filename) 
@@ -399,13 +391,13 @@ namespace UV_DLP_3D_Printer
             {
                 xh.Save(FILE_VERSION);
                 SaveGCodes();
-                return true;
             }
             catch (Exception ex)
             {
                 DebugLogger.Instance().LogRecord(ex.Message);
                 return false;
             }
+            return true;
         }
 
         /*public bool Save(String filename)
