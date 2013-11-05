@@ -19,6 +19,27 @@ namespace UV_DLP_3D_Printer.Configs
         public XmlNode m_toplevel;
         public int m_version;
 
+
+        protected void NewDocument(String docName)
+        {
+            m_xdoc.AppendChild(m_xdoc.CreateXmlDeclaration("1.0", "utf-8", ""));
+            m_toplevel = m_xdoc.CreateElement(docName);
+            m_verattr = m_xdoc.CreateAttribute("FileVersion");
+            m_version = 0;
+            m_verattr.Value = m_version.ToString();
+            m_toplevel.Attributes.Append(m_verattr);
+            m_xdoc.AppendChild(m_toplevel);
+        }
+
+        // Start new empty XML document.
+        public void StartNew(String filename, String docName)
+        {
+            m_xdoc = new XmlDocument();
+            m_filename = filename;
+            NewDocument(docName);
+        }
+
+        // Read XML document from file, if not exist, start new XML document. 
         public bool Start(String filename, String docName)
         {
             m_filename = filename;
@@ -50,13 +71,7 @@ namespace UV_DLP_3D_Printer.Configs
             }
             if (m_toplevel == null)
             {
-                m_xdoc.AppendChild(m_xdoc.CreateXmlDeclaration("1.0", "utf-8", ""));
-                m_toplevel = m_xdoc.CreateElement(docName);
-                m_verattr = m_xdoc.CreateAttribute("FileVersion");
-                m_version = 0;
-                m_verattr.Value = m_version.ToString();
-                m_toplevel.Attributes.Append(m_verattr);
-                m_xdoc.AppendChild(m_toplevel);
+                NewDocument(docName);
             }
             return fileExist;
         }
@@ -82,16 +97,48 @@ namespace UV_DLP_3D_Printer.Configs
         public XmlNode FindSection(XmlNode parentNode, String elemName)
         {
             XmlNode nd;
-            if (parentNode == null) 
+            if (parentNode == null)
             {
                 parentNode = m_toplevel;
-            } 
+            }
             nd = FindChildElement(parentNode, elemName);
-            if (nd == null) {
+            if (nd == null)
+            {
                 nd = m_xdoc.CreateElement(elemName);
                 parentNode.AppendChild(nd);
-           }
+            }
             return nd;
+        }
+
+        // this will add a section even if a section with the same name exists
+        // it is used for arrays of records
+        public XmlNode AddSection(XmlNode parentNode, String elemName)
+        {
+            XmlNode nd;
+            if (parentNode == null)
+            {
+                parentNode = m_toplevel;
+            }
+            nd = m_xdoc.CreateElement(elemName);
+            parentNode.AppendChild(nd);
+            return nd;
+        }
+
+        public List<XmlNode> GetAllSections(XmlNode parentNode, String sectName)
+        {
+            if (parentNode == null)
+            {
+                parentNode = m_toplevel;
+            }
+            List<XmlNode> ndlist = new List<XmlNode>(); 
+            foreach (XmlNode nd in parentNode.ChildNodes)
+            {
+                if (nd.Name == sectName)
+                {
+                    ndlist.Add(nd);
+                }
+            }
+            return ndlist;
         }
 
         protected void AddParameter(XmlNode parentNode, String id, String val)
@@ -283,7 +330,7 @@ namespace UV_DLP_3D_Printer.Configs
             SetString(parentNode, id, val.ToString());
         }
 
-        public void Save(int version)
+        public bool Save(int version)
         {
 
             try
@@ -295,7 +342,9 @@ namespace UV_DLP_3D_Printer.Configs
             catch (Exception ex)
             {
                 DebugLogger.Instance().LogRecord(m_name + ": " + ex.Message);
+                return false;
             }
+            return true;
         }
        
 

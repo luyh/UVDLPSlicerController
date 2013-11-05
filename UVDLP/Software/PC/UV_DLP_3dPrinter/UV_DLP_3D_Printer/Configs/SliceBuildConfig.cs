@@ -312,22 +312,19 @@ namespace UV_DLP_3D_Printer
             m_flipX = xh.GetBool(sbc, "FlipX", false);
             m_flipY = xh.GetBool(sbc, "FlipY", false);
             m_notes = xh.GetString(sbc, "Notes", "");
+<<<<<<< HEAD
             m_resinprice = xh.GetDouble(sbc, "ResinPriceL", 0.0);
             try
-            {
-                if (!fileExist)
-                {
-                    xh.Save(FILE_VERSION);
-                }
+=======
 
-                return true;
-            }
-            catch (Exception ex)
+            if (!fileExist)
+>>>>>>> 2a864d2e0001949c67eab694a459474353ad3371
             {
-                DebugLogger.Instance().LogRecord(ex.Message);
-                return false;
-            }       
-        
+                return xh.Save(FILE_VERSION);
+            }
+
+            return true;
+         
         }
         /*This is used to serialize to the GCode post-header info*/
         /*public bool Load(String filename) 
@@ -404,13 +401,13 @@ namespace UV_DLP_3D_Printer
             {
                 xh.Save(FILE_VERSION);
                 SaveGCodes();
-                return true;
             }
             catch (Exception ex)
             {
                 DebugLogger.Instance().LogRecord(ex.Message);
                 return false;
             }
+            return true;
         }
 
         /*public bool Save(String filename)
