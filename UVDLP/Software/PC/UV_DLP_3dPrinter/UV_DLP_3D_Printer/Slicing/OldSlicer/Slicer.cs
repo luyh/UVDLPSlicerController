@@ -279,10 +279,34 @@ namespace UV_DLP_3D_Printer
                 string path = "";
                 // get the model name, could be scene....
                 String modelname = scenename;
+                String barename = Path.GetFileNameWithoutExtension(modelname);
                 // strip off the file extension
-                path = Path.GetDirectoryName(modelname);
-                path += UVDLPApp.m_pathsep;
-                path += Path.GetFileNameWithoutExtension(modelname);// strip off the file extension
+                path = SliceFile.GetSliceFilePath(modelname);
+
+                // remove previousely created slices -SHS
+                if (Directory.Exists(path))
+                {
+                    String searchPattern = Path.GetFileNameWithoutExtension(modelname) + "*.png";
+                    String [] fileNames = Directory.GetFiles(path, searchPattern);
+                    try
+                    {
+                        foreach (String fname in fileNames)
+                        {
+                            File.Delete(fname);
+                        }
+                        File.Delete(path + UVDLPApp.m_pathsep + barename + ".gcode");
+                        Directory.Delete(path);
+                    }
+                    catch (Exception) { }
+                }
+                try
+                {
+                    File.Delete(path + ".zip");
+                }
+                catch (Exception ex) 
+                {
+                    DebugLogger.Instance().LogError(ex.Message);
+                }
 
                 if (m_sf.m_config.m_exportopt.ToUpper().Contains("ZIP"))
                 {
@@ -310,10 +334,8 @@ namespace UV_DLP_3D_Printer
                     // get the model name
                     String modelname = scenename;
                     // strip off the file extension
-                    path = Path.GetDirectoryName(modelname);
-                    path += UVDLPApp.m_pathsep;
-                    path += Path.GetFileNameWithoutExtension(modelname);// strip off the file extension
-                    // = null;
+                    path = SliceFile.GetSliceFilePath(modelname);
+                   // = null;
                     String imname = Path.GetFileNameWithoutExtension(modelname) + String.Format("{0:0000}", layer) + ".png";
                     String imagename = path + UVDLPApp.m_pathsep + imname;
                     if (m_sf.m_config.m_exportopt.ToUpper().Contains("ZIP"))
@@ -342,12 +364,9 @@ namespace UV_DLP_3D_Printer
         {
             if (m_sf.m_config.m_exportopt.ToUpper().Contains("ZIP"))
             {
-                String path = "";
                 String modelname = scenename;
                 // strip off the file extension
-                path = Path.GetDirectoryName(modelname);
-                path += UVDLPApp.m_pathsep;
-                path += Path.GetFileNameWithoutExtension(modelname);// strip off the file extension
+                String path = SliceFile.GetSliceFilePath(modelname);
                 path += ".zip";
                 m_zip.Save(path);
             }

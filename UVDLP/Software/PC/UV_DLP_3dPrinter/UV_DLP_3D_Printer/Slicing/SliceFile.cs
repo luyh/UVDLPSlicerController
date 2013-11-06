@@ -31,6 +31,7 @@ namespace UV_DLP_3D_Printer.Slicing
         private int m_numslices;
         private int m_xres, m_yres;
         public SFMode m_mode;
+        public static String m_sliceext = ".slice";
 
         ZipFile m_zip;
         /*
@@ -85,28 +86,34 @@ namespace UV_DLP_3D_Printer.Slicing
             var img = Image.FromStream(ms);
             return img;
         }
+
+        public static String GetSliceFilePath(String modname)
+        {
+            String path = Path.GetDirectoryName(modname);
+            path += UVDLPApp.m_pathsep;
+            path += Path.GetFileNameWithoutExtension(modname);// strip off the file extension
+            path += m_sliceext;
+            return path;
+        }
         /*
          This function get the slice from the cache/drive 
          */
         public Bitmap GetSlice(int layer) // 0 based index
         {
+            string path = GetSliceFilePath(modelname);
             try
             {
-                string path = "";
-                path = Path.GetDirectoryName(modelname);
-                path += UVDLPApp.m_pathsep;
-                path += Path.GetFileNameWithoutExtension(modelname);// strip off the file extension
                 try
                 {
                     // try first to load from zip
                     // read the bitmap from the zip
-                    path += ".zip";
-                    m_zip = ZipFile.Read(path);
+                    m_zip = ZipFile.Read(path + ".zip");
                     string fname = Path.GetFileNameWithoutExtension(modelname) + String.Format("{0:0000}", layer) + ".png";
                     ZipEntry ze = m_zip[fname];
                     Stream stream = new MemoryStream();
                     ze.Extract(stream);
                     Bitmap bmp = new Bitmap(stream);
+                    m_zip.Dispose();
                     return bmp;      
                 }catch(Exception)
                 {
@@ -115,10 +122,6 @@ namespace UV_DLP_3D_Printer.Slicing
                 try
                 {
                     //try to read bitmap from disk
-                    path = Path.GetDirectoryName(modelname);
-                    path += UVDLPApp.m_pathsep;
-                    path += Path.GetFileNameWithoutExtension(modelname);// strip off the file extension
-
                     path += UVDLPApp.m_pathsep;
                     path += Path.GetFileNameWithoutExtension(modelname) + String.Format("{0:0000}", layer) + ".png";
                     /*
