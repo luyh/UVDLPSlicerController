@@ -60,7 +60,6 @@ namespace UV_DLP_3D_Printer
             DebugLogger.Instance().LoggerStatusEvent += new LoggerStatusHandler(LoggerStatusEvent);
             UVDLPApp.Instance().m_deviceinterface.StatusEvent += new DeviceInterface.DeviceInterfaceStatus(DeviceStatusEvent);
             UVDLPApp.Instance().m_supportgenerator.SupportEvent += new SupportGeneratorEvent(SupEvent);
-            UVDLPApp.Instance().m_estimator.VolEstEventDel += new VolumeEstimator.VolEstEvent(VolEstEventF);
             
             arcball = new ArcBall();
             m_quat = new Quaternion();
@@ -70,23 +69,6 @@ namespace UV_DLP_3D_Printer
             SetupSceneTree();
             
             Refresh();
-        }
-        private void VolEstEventF(VolumeEstimator.eVolEstEvent ev, string message) 
-        {
-            if (InvokeRequired)
-            {
-                BeginInvoke(new MethodInvoker(delegate() { VolEstEventF(ev, message); }));
-            }
-            else
-            {
-                // show final estimate
-                switch (ev) 
-                {
-                    case VolumeEstimator.eVolEstEvent.eCompleted:
-                        SetMainMessage(message);
-                        break;
-                }
-            }
         }
         #region Support Event Handler
         /// <summary>

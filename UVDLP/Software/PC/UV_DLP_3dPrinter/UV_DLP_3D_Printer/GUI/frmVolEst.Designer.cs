@@ -28,27 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.cmdStart = new System.Windows.Forms.Button();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.lblmess = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblVolume = new System.Windows.Forms.Label();
+            this.lblCost = new System.Windows.Forms.Label();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // cmdStart
-            // 
-            this.cmdStart.Location = new System.Drawing.Point(157, 114);
-            this.cmdStart.Name = "cmdStart";
-            this.cmdStart.Size = new System.Drawing.Size(103, 38);
-            this.cmdStart.TabIndex = 0;
-            this.cmdStart.Text = "Start";
-            this.cmdStart.UseVisualStyleBackColor = true;
-            this.cmdStart.Click += new System.EventHandler(this.cmdStart_Click);
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 67);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(422, 23);
-            this.progressBar1.TabIndex = 1;
             // 
             // lblmess
             // 
@@ -58,16 +44,59 @@
             this.lblmess.Size = new System.Drawing.Size(0, 17);
             this.lblmess.TabIndex = 2;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(111, 166);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(94, 37);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "OK";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.lblCost);
+            this.groupBox1.Controls.Add(this.lblVolume);
+            this.groupBox1.Location = new System.Drawing.Point(16, 13);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(273, 147);
+            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Total Volume and Cost";
+            // 
+            // lblVolume
+            // 
+            this.lblVolume.AutoSize = true;
+            this.lblVolume.Location = new System.Drawing.Point(32, 38);
+            this.lblVolume.Name = "lblVolume";
+            this.lblVolume.Size = new System.Drawing.Size(45, 17);
+            this.lblVolume.TabIndex = 1;
+            this.lblVolume.Text = "mm^3";
+            // 
+            // lblCost
+            // 
+            this.lblCost.AutoSize = true;
+            this.lblCost.Location = new System.Drawing.Point(32, 82);
+            this.lblCost.Name = "lblCost";
+            this.lblCost.Size = new System.Drawing.Size(34, 17);
+            this.lblCost.TabIndex = 3;
+            this.lblCost.Text = "cost";
+            // 
             // frmVolEst
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(447, 164);
+            this.ClientSize = new System.Drawing.Size(314, 217);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.lblmess);
-            this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.cmdStart);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmVolEst";
             this.Text = "Volume and Cost Estimation";
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -75,8 +104,10 @@
 
         #endregion
 
-        private System.Windows.Forms.Button cmdStart;
-        private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label lblmess;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label lblCost;
+        private System.Windows.Forms.Label lblVolume;
     }
 }

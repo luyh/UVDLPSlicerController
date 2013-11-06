@@ -180,6 +180,50 @@ namespace Engine3D
                 poly.Render(cam, ev, wid, hei);
             }
         }
+        /*
+public float SignedVolumeOfTriangle(Vector p1, Vector p2, Vector p3) {
+    var v321 = p3.X*p2.Y*p1.Z;
+    var v231 = p2.X*p3.Y*p1.Z;
+    var v312 = p3.X*p1.Y*p2.Z;
+    var v132 = p1.X*p3.Y*p2.Z;
+    var v213 = p2.X*p1.Y*p3.Z;
+    var v123 = p1.X*p2.Y*p3.Z;
+    return (1.0f/6.0f)*(-v321 + v231 + v312 - v132 - v213 + v123);
+}         
+         */
+        public double CalculateVolume() 
+        {
+            double vol = 0.0;
+            
+            try
+            {
+                //save the center                
+                Point3d center = CalcCenter();
+                //move to origin
+                Translate((float)-center.x, (float)-center.y, (float)-center.z);                
+                foreach (Polygon poly in m_lstpolys) 
+                {
+                    Point3d p1 = poly.m_points[0];
+                    Point3d p2 = poly.m_points[1];
+                    Point3d p3 = poly.m_points[2];
+                    double v321 = p3.x * p2.y * p1.z;
+                    double v231 = p2.x * p3.y * p1.z;
+                    double v312 = p3.x * p1.y * p2.z;
+                    double v132 = p1.x * p3.y * p2.z;
+                    double v213 = p2.x * p1.y * p3.z;
+                    double v123 = p1.x * p2.y * p3.z;
+                    vol += (1.0f / 6.0f) * (-v321 + v231 + v312 - v132 - v213 + v123);
+                }
+                //move it back
+                Translate((float)center.x, (float)center.y, (float)center.z);
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
+            return vol;
+        }
+
 
         private Point3d AddUniqueVert(Point3d pnt) 
         {

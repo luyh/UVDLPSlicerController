@@ -78,7 +78,6 @@ namespace UV_DLP_3D_Printer
         public BuildManager m_buildmgr;
         public prjcmdlst m_proj_cmd_lst;
         public GCodeInterpreter gci = null;
-        public VolumeEstimator m_estimator;
         private static String m_appconfigname = "CreationConfig.xml";
         public static String m_pathsep = "\\";
 
@@ -107,7 +106,6 @@ namespace UV_DLP_3D_Printer
             m_supportgenerator = new SupportGenerator();
             m_supportgenerator.SupportEvent+= new SupportGeneratorEvent(SupEvent);
             m_proj_cmd_lst = new prjcmdlst();
-            m_estimator = new VolumeEstimator();
         }
         public enum Platform
         {

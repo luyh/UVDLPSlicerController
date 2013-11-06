@@ -11,6 +11,15 @@ namespace UV_DLP_3D_Printer
         {
             x = y = z = a = 0.0;
         }
+
+        public Point3d(Point3d pnt)
+        {
+            x = pnt.x;
+            y = pnt.y;
+            z = pnt.z;
+            a = pnt.a;
+        }
+
         public bool IsEqual(Point3d pnt) 
         {
             if (x == pnt.x && y == pnt.y && z == pnt.z)
