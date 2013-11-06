@@ -25,8 +25,8 @@ namespace UV_DLP_3D_Printer.GUI
             {
                 vol += obj.CalculateVolume();
             }            
-            vol /= 100; // convert to mm^3
-            lblVolume.Text = "Volume = " + string.Format("{0:0.000}", vol) + " mm^3";
+            vol /= 1000.0; // convert to cm^3
+            lblVolume.Text = "Volume = " + string.Format("{0:0.000}", vol) + " cm^3";
 
             double cost = vol * (UVDLPApp.Instance().m_buildparms.m_resinprice / 1000.0);
             lblCost.Text = "Cost = " + string.Format("{0:0.000}", cost);

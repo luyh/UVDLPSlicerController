@@ -220,6 +220,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     string fname = UVDLPApp.Instance().m_PathProfiles;
                     fname += UVDLPApp.m_pathsep + shortname + ".slicing";
                     m_config.Save(fname);
+                    // make sure main build params are updated if needed
+                    if (cmbSliceProfiles.SelectedItem.ToString() == shortname)
+                    {
+                        UVDLPApp.Instance().LoadBuildSliceProfile(fname);
+                    }
                 }
             }
             catch (Exception ex) 

@@ -249,6 +249,11 @@ namespace UV_DLP_3D_Printer.GUI
         private void frmSlice_Activated(object sender, EventArgs e)
         {
             SetTitle();
+            if (UVDLPApp.Instance().m_engine3d.m_objects.Count == 0)
+            {
+                lblMessage.Text = "Scene is empty";
+                cmdSlice.Enabled = false;
+            }
         }
 
 

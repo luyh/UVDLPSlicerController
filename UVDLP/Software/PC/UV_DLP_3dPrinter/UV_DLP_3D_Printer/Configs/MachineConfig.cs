@@ -56,13 +56,15 @@ namespace UV_DLP_3D_Printer
             m_YMaxFeedrate = xh.GetDouble(mc, "MaxYFeedRate", 100.0);
             m_ZMaxFeedrate = xh.GetDouble(mc, "MaxZFeedRate", 100.0);
             m_machinetype = (eMachineType)xh.GetEnum(mc, "MachineType", typeof(eMachineType), eMachineType.UV_DLP);
-            CalcPixPerMM();
 
             if (m_driverconfig.Load(xh, mc))
             {
                 retval = true;
             }
+
             m_monitorconfig.Load(xh, mc);
+            CalcPixPerMM();
+
             if (!fileExist)
             {
                 xh.Save(FILE_VERSION);
