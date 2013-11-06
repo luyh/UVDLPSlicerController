@@ -1910,7 +1910,7 @@ namespace UV_DLP_3D_Printer
         private void estimateVolumeCostToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmVolEst frmvol = new frmVolEst();
-            UVDLPApp.Instance().m_estimator.Setup(UVDLPApp.Instance().m_slicefile, UVDLPApp.Instance().m_buildparms);
+           // UVDLPApp.Instance().m_estimator.Setup(UVDLPApp.Instance().m_slicefile, UVDLPApp.Instance().m_buildparms);
             frmvol.ShowDialog();
         }
         /*
