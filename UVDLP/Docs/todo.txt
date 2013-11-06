@@ -19,7 +19,7 @@ CLI Common Layer Interface export <- http://www.forwiss.uni-passau.de/~welisch/p
 USF Universal Slice File
 SLC File
 SSL Statasys Layer File
-Add homing for x/y/z in machine control section
+
 
 GCode reference help section loaded from file
 
@@ -34,8 +34,7 @@ additional controls for dlprinter
 Add Generic variables for XML & Slicing!!
 
 Bugs**************************************
-*Can't select other build/slice profile - Fixed
-Remove the comments being sent to the Firmware
+
 
 
 Improvement Requests:***************************
@@ -48,6 +47,9 @@ This would give people the possibility to use Other slicers like "VISCam RP" an 
 
 
 Completed**********************************
+*Can't select other build/slice profile - Fixed
+*Remove the comments being sent to the Firmware
+*Add homing for x/y/z in machine control section
 *Support Multiple Machine types:
 	Add in support for launching an external slicer (Slic3r)
 	Support multiple machine configuration types (import/export skeinforge types?)

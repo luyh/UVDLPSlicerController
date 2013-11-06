@@ -119,17 +119,78 @@ namespace UV_DLP_3D_Printer._3DEngine
             return (inside_flag);
         }
         */
+        // intersect3D_RayTriangle(): find the 3D intersection of a ray with a triangle
+        //    Input:  a ray R, and a triangle T
+        //    Output: *I = intersection point (when it exists)
+        //    Return: -1 = triangle is degenerate (a segment or point)
+        //             0 =  disjoint (no intersect)
+        //             1 =  intersect in unique point I1
+        //             2 =  are in the same plane
+        static int intersect3D_RayTriangle(Point3d startp, Point3d endp, Polygon T,ref Point3d I)
+        {
+            Vector3d u, v, n;              // triangle vectors
+            Vector3d dir, w0, w;           // ray vectors
+            double r, a, b;              // params to calc ray-plane intersect
+
+            // get triangle edge vectors and plane normal
+            u = T.m_points[1] - T.m_points[0];
+            v = T.m_points[2] - T.m_points[0];
+            n = Vector3d.cross(u , v);              // cross product
+            /*
+            if (n == 0)             // triangle is degenerate
+                return -1;                  // do not deal with this case
+            */
+
+            dir = endp - startp;//dir = R.P1 - R.P0;              // ray direction vector
+            w0 = startp - T.m_points[0];//w0 = R.P0 - T.V0;
+            a = -Vector3d.dot(n, w0); //a = -dot(n, w0);
+            b = Vector3d.dot(n, dir);//b = dot(n, dir);
+            if(Math.Abs(b) < .0001)
+            {     // ray is  parallel to triangle plane
+                if (a == 0)                 // ray lies in triangle plane
+                    return 2;
+                else return 0;              // ray disjoint from plane
+            }
+
+            // get intersect point of ray with triangle plane
+            r = a / b;
+            if (r < 0.0)                    // ray goes away from triangle
+                return 0;                   // => no intersect
+            // for a segment, also test if (r > 1.0) => no intersect
+
+            //*I = R.P0 + r * dir;            // intersect point of ray and plane
+            I.x = startp.x + r * dir.x;
+            I.y = startp.y + r * dir.y;
+            I.z = startp.z + r * dir.z;
+            // is I inside T?
+            double uu, uv, vv, wu, wv, D;
+            uu = Vector3d.dot(u, u);
+            uv = Vector3d.dot(u, v);
+            vv = Vector3d.dot(v, v);
+            w = I - T.m_points[0];// V0;
+            wu = Vector3d.dot(w, u);
+            wv = Vector3d.dot(w, v);
+            D = uv * uv - uu * vv;
+
+            // get and test parametric coords
+            double s, t;
+            s = (uv * wv - vv * wu) / D;
+            if (s < 0.0 || s > 1.0)         // I is outside T
+                return 0;
+            t = (uv * wu - uu * wv) / D;
+            if (t < 0.0 || (s + t) > 1.0)  // I is outside T
+                return 0;
+
+            return 1;                       // I is in T
+        }
+
+
+        /*
         public static bool IntersectPoly(Polygon poly, Point3d start, Point3d end,ref  Point3d intersection)
         {
             //intersect a Polygon with a ray in world space
             // first test to see if we're hitting the right side
-            /*
-            Vector3d tst = new Vector3d();
-            tst.Set(end.x - start.x, end.y - start.x, end.z - start.z, 0);
-            tst.Normalize();
-            if (poly.m_normal.Dot(tst) > 1)
-                return false;
-            */
+
 
             bool retval = false;
             double deltaX, deltaY, deltaZ, t, T, S;
@@ -190,18 +251,23 @@ namespace UV_DLP_3D_Printer._3DEngine
                 TstPnt[counter].X = poly.m_points[counter].x;
                 TstPnt[counter].Y = poly.m_points[counter].z;
             }
-            if (CrossingsTest(intersection.x, intersection.y) == 1) 
+            //if (CrossingsTest(intersection.x, intersection.y) == 1) 
+            if (CrossingsTest(intersection.x, intersection.z) == 1) 
             { 
                 retval = true; 
             }
             return retval;
         }
-        /*
+         * */
+        
         public static bool IntersectPoly(Polygon poly, Point3d start, Point3d end,ref  Point3d intersection)
         {
-            return polyisect.findIntersection(poly, start, end, ref intersection);
+            //return polyisect.findIntersection(poly, start, end, ref intersection);
+            if (intersect3D_RayTriangle(start, end, poly, ref intersection) == 1)
+                return true;
+            return false;
         }
-        */
+        
         public static bool IntersectSphere(Point3d start,Point3d end,ref Point3d intersect, Point3d center,double radius)
         {
 	        bool retval = false;

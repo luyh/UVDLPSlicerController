@@ -595,14 +595,6 @@ namespace UV_DLP_3D_Printer
            // OpenTK.
             
         }
-        /*
-        private void SetupLights() 
-        {
-            if (lightingsetup)
-                return;
-            lightingsetup = true;
-        }
-         * */
         private void SetAlpha(bool val) 
         {
             m_showalpha = val;
@@ -789,16 +781,11 @@ namespace UV_DLP_3D_Printer
 
             origin.Set(t_ray_pnt.X, t_ray_pnt.Y, t_ray_pnt.Z, 1.0);
             dir.Set(t_ray_vec.X, t_ray_vec.Y, t_ray_vec.Z, 0); // should this be scaled?
-            //dir.Scale(1);
-            
-            //UVDLPApp.Instance().Engine3D.m_objects
 
             List<ISectData> isects = RTUtils.IntersectObjects(dir, origin, UVDLPApp.Instance().Engine3D.m_objects, true);
             if (isects.Count > 0) 
             {
                 ISectData isect = (ISectData)isects[0]; // get the first
-          //      SetISect(isect);
-               // mess += "Intersection @ =  (" + String.Format("{0:0.00}", isect.intersect.x) + ", " + String.Format("{0:0.00}", isect.intersect.y) + "," + String.Format("{0:0.00}", isect.intersect.z) + ")\r\n";
                 ix = (float)isect.intersect.x; // show the closest
                 iy = (float)isect.intersect.y;
                 iz = (float)isect.intersect.z;
@@ -806,13 +793,6 @@ namespace UV_DLP_3D_Printer
             
             return isects;
         }
-        /*
-        private void SetISect(ISectData dat) 
-        {         
-            m_lastisect = m_currentisect;
-            m_currentisect = dat;
-        }
-        */
         private void glControl1_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Middle)
@@ -912,14 +892,6 @@ namespace UV_DLP_3D_Printer
                                 }
                             }
                         }
-                        /*
-                        if (iss.Count > 0)
-                        {
-                            ISectData isdat = (ISectData)iss[0]; // closest intersection
-                            //isdat.intersect.z // this should be the distance away, but later, we'll really need to calc distance                                
-                            tmpsup.ScaleToHeight(isdat.intersect.z);
-                        }
-                         * */
                     }
                 }
             }
@@ -998,10 +970,12 @@ namespace UV_DLP_3D_Printer
                 
             }
         }
+        /*
         private void cmdPause_Click(object sender, EventArgs e)
         {
             //UVDLPApp.Instance().m_buildmgr.StartPrint(UVDLPApp.Instance().m_slicefile, UVDLPApp.Instance().m_gcode);
         }
+         */ 
         private void cmdPlace_Click(object sender, EventArgs e)
         {
             if (UVDLPApp.Instance().SelectedObject == null) 
@@ -1520,27 +1494,6 @@ namespace UV_DLP_3D_Printer
         }
          * */
         #endregion 
-        // one of the populated slice/build profiles was clicked
-        /*
-        private void mnuBuildProfile_Click(object sender, EventArgs e)
-        {
-            String newprof = sender.ToString();
-            
-            string[] filePaths = Directory.GetFiles(UVDLPApp.Instance().m_PathProfiles, "*.slicing");
-            int idx = 0;
-            foreach (String profile in filePaths)
-            {
-                String pn = Path.GetFileNameWithoutExtension(profile);
-                if (pn.Equals(newprof))
-                {
-                    UVDLPApp.Instance().LoadBuildSliceProfile(filePaths[idx]);
-                    //PopulateBuildProfilesMenu();
-                    break;
-                }
-                idx++;
-            }             
-        }
-        */
         #region DLP Screen Controls
         private void showBlankToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1609,32 +1562,6 @@ namespace UV_DLP_3D_Printer
             UVDLPApp.Instance().m_buildmgr.PausePrint();
         }
 
-        private void printToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // Allow the user to choose the page range he or she would
-            // like to print.
-            printDialog1.AllowSomePages = true;
-
-            // Show the help button.
-            printDialog1.ShowHelp = true;
-
-            // Set the Document property to the PrintDocument for 
-            // which the PrintPage Event has been handled. To display the
-            // dialog, either this property or the PrinterSettings property 
-            // must be set 
-
-            //printDialog1.Document = docToPrint;
-
-            DialogResult result = printDialog1.ShowDialog();
-
-            // If the result is OK then print the document.
-            if (result == DialogResult.OK)
-            {
-                //docToPrint.Print();
-                printDocument1.Print();
-            }
-
-        }
 
         private void saveSceneSTLToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1660,27 +1587,7 @@ namespace UV_DLP_3D_Printer
         }
 
        
-        /*
-        private void propertiesToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            cmdSliceOptions_Click(this, null);
-        }
-         * */
-        /*
-        private void manageProfilesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (m_buildprofilesmanager.IsDisposed)
-            {
-                m_buildprofilesmanager = new frmBuildProfilesManager();
-            }
-            m_buildprofilesmanager.ShowDialog();
-            // update just in case.
-            DisplayFunc();
-            PopulateBuildProfilesMenu();
-            SetTitle();
-            Refresh();
-        }
-        */
+       
         private void frmMain_Resize(object sender, EventArgs e)
         {
             Refresh();
@@ -1776,43 +1683,6 @@ namespace UV_DLP_3D_Printer
 
             }
         }
-        /*
-        private void chkSliceHeight_CheckedChanged(object sender, EventArgs e)
-        {
-            int vscrollval = vScrollBar1.Value;
-            ViewLayer(vscrollval, null, BuildManager.SLICE_NORMAL);
-            Refresh();
-        }
-        */
-        /*
-        private void cmdDonate_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string url = "";
-
-                string business = "pacmanfan321@gmail.com";  // your paypal email
-                string description = "Donation";            // '%20' represents a space. remember HTML!
-                string country = "US";                  // AU, US, etc.
-                string currency = "USD";                 // AUD, USD, etc.
-
-                url += "https://www.paypal.com/cgi-bin/webscr" +
-                    "?cmd=" + "_donations" +
-                    "&business=" + business +
-                    "&lc=" + country +
-                    "&item_name=" + description +
-                    "&currency_code=" + currency +
-                    "&bn=" + "PP%2dDonationsBF";
-
-                System.Diagnostics.Process.Start(url);
-                //System.Diagnostics.Process.Start(target);
-            }
-            catch(Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
-        */
         private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmPrefs prefs = new frmPrefs();
@@ -1913,55 +1783,5 @@ namespace UV_DLP_3D_Printer
            // UVDLPApp.Instance().m_estimator.Setup(UVDLPApp.Instance().m_slicefile, UVDLPApp.Instance().m_buildparms);
             frmvol.ShowDialog();
         }
-        /*
-        private void projectorCommandsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmProjCommand cmd = new frmProjCommand();
-            cmd.ShowDialog();
-        }
-         * */
-        /*
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Object3d obj1;
-            Object3d obj2;
-            Object3d obj3;
-            if (UVDLPApp.Instance().m_engine3d.m_objects.Count > 1) 
-            {
-                obj1 = (Object3d)UVDLPApp.Instance().m_engine3d.m_objects[0];
-                obj2 = (Object3d)UVDLPApp.Instance().m_engine3d.m_objects[1];
-                obj3 = CSG.Union(obj1, obj2);
-                UVDLPApp.Instance().m_engine3d.m_objects.Add(obj3);
-            }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            Object3d obj1;
-            Object3d obj2;
-            Object3d obj3;
-            if (UVDLPApp.Instance().m_engine3d.m_objects.Count > 1)
-            {
-                obj1 = (Object3d)UVDLPApp.Instance().m_engine3d.m_objects[0];
-                obj2 = (Object3d)UVDLPApp.Instance().m_engine3d.m_objects[1];
-                obj3 = CSG.Subtract(obj1, obj2);
-                UVDLPApp.Instance().m_engine3d.m_objects.Add(obj3);
-            }
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            Object3d obj1;
-            Object3d obj2;
-            Object3d obj3;
-            if (UVDLPApp.Instance().m_engine3d.m_objects.Count > 1)
-            {
-                obj1 = (Object3d)UVDLPApp.Instance().m_engine3d.m_objects[0];
-                obj2 = (Object3d)UVDLPApp.Instance().m_engine3d.m_objects[1];
-                obj3 = CSG.Intersect(obj1, obj2);
-                UVDLPApp.Instance().m_engine3d.m_objects.Add(obj3);
-            }
-        }
-         * */
     }
 }

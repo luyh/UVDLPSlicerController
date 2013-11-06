@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using Engine3D;
 namespace UV_DLP_3D_Printer
 {
     public class Point3d
@@ -19,7 +20,12 @@ namespace UV_DLP_3D_Printer
             z = pnt.z;
             a = pnt.a;
         }
-
+        public static Vector3d operator -(Point3d c1, Point3d c2) 
+        {
+            Vector3d ret = new Vector3d();
+            ret.Set(c1.x - c2.x, c1.y - c2.y, c1.z - c2.z,0);
+            return ret;
+        }
         public bool IsEqual(Point3d pnt) 
         {
             if (x == pnt.x && y == pnt.y && z == pnt.z)
