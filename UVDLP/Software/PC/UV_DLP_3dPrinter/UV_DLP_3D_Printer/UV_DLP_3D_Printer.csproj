@@ -133,6 +133,9 @@
     <Compile Include="GUI\Controls\ctlToolpathGenConfig.Designer.cs">
       <DependentUpon>ctlToolpathGenConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\ctlExpandPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GUI\Form1.cs">
       <SubType>Form</SubType>
     </Compile>

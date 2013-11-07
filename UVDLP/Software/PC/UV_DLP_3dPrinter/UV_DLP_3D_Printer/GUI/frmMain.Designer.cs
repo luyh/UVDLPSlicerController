@@ -33,6 +33,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadBinarySTLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.estimateVolumeCostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveSceneSTLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -135,7 +136,6 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.estimateVolumeCostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -208,6 +208,13 @@
             this.loadBinarySTLToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.loadBinarySTLToolStripMenuItem.Text = "Load Model";
             this.loadBinarySTLToolStripMenuItem.Click += new System.EventHandler(this.loadBinarySTLToolStripMenuItem_Click);
+            // 
+            // estimateVolumeCostToolStripMenuItem
+            // 
+            this.estimateVolumeCostToolStripMenuItem.Name = "estimateVolumeCostToolStripMenuItem";
+            this.estimateVolumeCostToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.estimateVolumeCostToolStripMenuItem.Text = "Estimate Volume && Cost";
+            this.estimateVolumeCostToolStripMenuItem.Click += new System.EventHandler(this.estimateVolumeCostToolStripMenuItem_Click);
             // 
             // saveSceneSTLToolStripMenuItem
             // 
@@ -359,7 +366,7 @@
             this.ctlSupport1.Location = new System.Drawing.Point(3, 2);
             this.ctlSupport1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ctlSupport1.Name = "ctlSupport1";
-            this.ctlSupport1.Size = new System.Drawing.Size(293, 398);
+            this.ctlSupport1.Size = new System.Drawing.Size(293, 397);
             this.ctlSupport1.TabIndex = 0;
             this.ctlSupport1.Load += new System.EventHandler(this.ctlSupport1_Load);
             // 
@@ -1304,13 +1311,6 @@
             this.toolStripMenuItem1.Size = new System.Drawing.Size(173, 22);
             this.toolStripMenuItem1.Text = "Remove All Supports";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
-            // 
-            // estimateVolumeCostToolStripMenuItem
-            // 
-            this.estimateVolumeCostToolStripMenuItem.Name = "estimateVolumeCostToolStripMenuItem";
-            this.estimateVolumeCostToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            this.estimateVolumeCostToolStripMenuItem.Text = "Estimate Volume && Cost";
-            this.estimateVolumeCostToolStripMenuItem.Click += new System.EventHandler(this.estimateVolumeCostToolStripMenuItem_Click);
             // 
             // frmMain
             // 
