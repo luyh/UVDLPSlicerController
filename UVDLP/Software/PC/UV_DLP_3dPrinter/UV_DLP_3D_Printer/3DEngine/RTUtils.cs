@@ -15,7 +15,7 @@ namespace UV_DLP_3D_Printer._3DEngine
         // 
         public class TestPoint { public double X, Y;};
         static TestPoint[] TstPnt = new TestPoint[4]; //for the crossing test
-        static int numTstPnt = 0;//for the crossing test        
+       // static int numTstPnt = 0;//for the crossing test        
         static Object3d m_gp = null; // artificial ground plane
 
 

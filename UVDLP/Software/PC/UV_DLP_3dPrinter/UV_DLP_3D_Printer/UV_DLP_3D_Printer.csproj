@@ -133,6 +133,12 @@
     <Compile Include="GUI\Controls\ctlToolpathGenConfig.Designer.cs">
       <DependentUpon>ctlToolpathGenConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frm3DLPrinterControl.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -263,6 +269,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\ctlToolpathGenConfig.resx">
       <DependentUpon>ctlToolpathGenConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frm3DLPrinterControl.resx">
       <DependentUpon>frm3DLPrinterControl.cs</DependentUpon>

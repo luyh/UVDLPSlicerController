@@ -31,8 +31,8 @@
             this.lblmess = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblVolume = new System.Windows.Forms.Label();
             this.lblCost = new System.Windows.Forms.Label();
+            this.lblVolume = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,15 +65,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Total Volume and Cost";
             // 
-            // lblVolume
-            // 
-            this.lblVolume.AutoSize = true;
-            this.lblVolume.Location = new System.Drawing.Point(32, 38);
-            this.lblVolume.Name = "lblVolume";
-            this.lblVolume.Size = new System.Drawing.Size(45, 17);
-            this.lblVolume.TabIndex = 1;
-            this.lblVolume.Text = "mm^3";
-            // 
             // lblCost
             // 
             this.lblCost.AutoSize = true;
@@ -82,6 +73,15 @@
             this.lblCost.Size = new System.Drawing.Size(34, 17);
             this.lblCost.TabIndex = 3;
             this.lblCost.Text = "cost";
+            // 
+            // lblVolume
+            // 
+            this.lblVolume.AutoSize = true;
+            this.lblVolume.Location = new System.Drawing.Point(32, 38);
+            this.lblVolume.Name = "lblVolume";
+            this.lblVolume.Size = new System.Drawing.Size(45, 17);
+            this.lblVolume.TabIndex = 1;
+            this.lblVolume.Text = "mm^3";
             // 
             // frmVolEst
             // 
@@ -94,6 +94,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmVolEst";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Volume and Cost Estimation";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

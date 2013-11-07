@@ -396,10 +396,11 @@ public float SignedVolumeOfTriangle(Vector p1, Vector p2, Vector p3) {
         /*
          Test function to mark polygons facing doward a different color         
          */
-        private void MarkPolysDown(double angle) 
+        public void MarkPolysDown(double angle) 
         {
             Vector3d upvec = new Vector3d();
-            //double angle = -.9;
+            double inc = 1.0 / 90.0;
+            angle = -(1 - (angle * inc));
             upvec.Set(new Point3d(0,0,1,1));
             foreach (Polygon p in this.m_lstpolys) 
             {
@@ -407,13 +408,23 @@ public float SignedVolumeOfTriangle(Vector p1, Vector p2, Vector p3) {
                 double d = p.m_normal.Dot(upvec);
                 if (d <= angle)  // facing down
                 {
-                    p.m_color = Color.Red;
+                    p.tag = Polygon.TAG_MARKDOWN;
                 }
                 else 
                 {
-                    p.m_color = Color.Gray;
+                    p.tag = Polygon.TAG_REGULAR;
                 }
             }
+            InvalidateList();
+        }
+        public void ClearPolyTags() 
+        {
+            foreach (Polygon p in this.m_lstpolys)
+            {
+                p.tag = Polygon.TAG_REGULAR;
+                p.m_color = Color.Gray;
+            }
+            InvalidateList();
         }
 
         /*

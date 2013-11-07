@@ -51,7 +51,8 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
             this.chkDownPolys = new System.Windows.Forms.CheckBox();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numdownangle = new System.Windows.Forms.NumericUpDown();
+            this.chkOnlyDownward = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureSupport)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHT)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHB)).BeginInit();
@@ -63,24 +64,24 @@
             ((System.ComponentModel.ISupportInitialize)(this.numX)).BeginInit();
             this.groupSupportParam.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numdownangle)).BeginInit();
             this.SuspendLayout();
             // 
             // cmdAutoSupport
             // 
-            this.cmdAutoSupport.Location = new System.Drawing.Point(9, 66);
+            this.cmdAutoSupport.Location = new System.Drawing.Point(7, 89);
             this.cmdAutoSupport.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdAutoSupport.Name = "cmdAutoSupport";
-            this.cmdAutoSupport.Size = new System.Drawing.Size(127, 32);
+            this.cmdAutoSupport.Size = new System.Drawing.Size(185, 32);
             this.cmdAutoSupport.TabIndex = 0;
-            this.cmdAutoSupport.Text = "Generate Auto";
+            this.cmdAutoSupport.Text = "Generate Auto Supports";
             this.cmdAutoSupport.UseVisualStyleBackColor = true;
             this.cmdAutoSupport.Click += new System.EventHandler(this.cmdAutoSupport_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(85, 18);
+            this.label2.Location = new System.Drawing.Point(131, 18);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 17);
             this.label2.TabIndex = 8;
@@ -97,7 +98,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(9, 105);
+            this.progressBar1.Location = new System.Drawing.Point(7, 125);
             this.progressBar1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(265, 23);
@@ -313,17 +314,18 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chkOnlyDownward);
             this.groupBox1.Controls.Add(this.numY);
             this.groupBox1.Controls.Add(this.numX);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.cmdAutoSupport);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.progressBar1);
-            this.groupBox1.Location = new System.Drawing.Point(3, 208);
+            this.groupBox1.Location = new System.Drawing.Point(3, 330);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Size = new System.Drawing.Size(283, 146);
+            this.groupBox1.Size = new System.Drawing.Size(283, 152);
             this.groupBox1.TabIndex = 23;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Auto Support on Grid";
@@ -336,7 +338,7 @@
             0,
             0,
             65536});
-            this.numY.Location = new System.Drawing.Point(89, 38);
+            this.numY.Location = new System.Drawing.Point(191, 15);
             this.numY.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numY.Maximum = new decimal(new int[] {
             10,
@@ -365,7 +367,7 @@
             0,
             0,
             65536});
-            this.numX.Location = new System.Drawing.Point(9, 39);
+            this.numX.Location = new System.Drawing.Point(56, 16);
             this.numX.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numX.Maximum = new decimal(new int[] {
             10,
@@ -413,9 +415,9 @@
             this.button1.Location = new System.Drawing.Point(5, 82);
             this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(127, 32);
+            this.button1.Size = new System.Drawing.Size(187, 32);
             this.button1.TabIndex = 25;
-            this.button1.Text = "Create Support";
+            this.button1.Text = "Create Manual Support";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -423,16 +425,16 @@
             // 
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.chkDownPolys);
-            this.groupBox3.Controls.Add(this.numericUpDown1);
+            this.groupBox3.Controls.Add(this.numdownangle);
             this.groupBox3.Controls.Add(this.button1);
-            this.groupBox3.Location = new System.Drawing.Point(9, 359);
+            this.groupBox3.Location = new System.Drawing.Point(3, 205);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox3.Size = new System.Drawing.Size(275, 121);
+            this.groupBox3.Size = new System.Drawing.Size(283, 121);
             this.groupBox3.TabIndex = 26;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Manual Support";
+            this.groupBox3.Text = "Support General";
             // 
             // label8
             // 
@@ -447,39 +449,48 @@
             // chkDownPolys
             // 
             this.chkDownPolys.AutoSize = true;
-            this.chkDownPolys.Enabled = false;
             this.chkDownPolys.Location = new System.Drawing.Point(7, 21);
             this.chkDownPolys.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkDownPolys.Name = "chkDownPolys";
-            this.chkDownPolys.Size = new System.Drawing.Size(218, 21);
+            this.chkDownPolys.Size = new System.Drawing.Size(210, 21);
             this.chkDownPolys.TabIndex = 27;
-            this.chkDownPolys.Text = "Shown downward facing polys";
+            this.chkDownPolys.Text = "Show downward facing polys";
             this.chkDownPolys.UseVisualStyleBackColor = true;
             this.chkDownPolys.CheckedChanged += new System.EventHandler(this.chkDownPolys_CheckedChanged);
             // 
-            // numericUpDown1
+            // numdownangle
             // 
-            this.numericUpDown1.Enabled = false;
-            this.numericUpDown1.Increment = new decimal(new int[] {
+            this.numdownangle.Increment = new decimal(new int[] {
             5,
             0,
             0,
             65536});
-            this.numericUpDown1.Location = new System.Drawing.Point(7, 48);
-            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.numdownangle.Location = new System.Drawing.Point(7, 48);
+            this.numdownangle.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.numdownangle.Maximum = new decimal(new int[] {
             90,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(69, 22);
-            this.numericUpDown1.TabIndex = 26;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.numdownangle.Name = "numdownangle";
+            this.numdownangle.Size = new System.Drawing.Size(69, 22);
+            this.numdownangle.TabIndex = 26;
+            this.numdownangle.Value = new decimal(new int[] {
             45,
             0,
             0,
             0});
+            this.numdownangle.ValueChanged += new System.EventHandler(this.numdownangle_ValueChanged);
+            // 
+            // chkOnlyDownward
+            // 
+            this.chkOnlyDownward.AutoSize = true;
+            this.chkOnlyDownward.Location = new System.Drawing.Point(6, 43);
+            this.chkOnlyDownward.Name = "chkOnlyDownward";
+            this.chkOnlyDownward.Size = new System.Drawing.Size(207, 21);
+            this.chkOnlyDownward.TabIndex = 16;
+            this.chkOnlyDownward.Text = "Generate only on downward";
+            this.chkOnlyDownward.UseVisualStyleBackColor = true;
             // 
             // ctlSupport
             // 
@@ -490,7 +501,7 @@
             this.Controls.Add(this.groupBox1);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ctlSupport";
-            this.Size = new System.Drawing.Size(296, 484);
+            this.Size = new System.Drawing.Size(608, 484);
             this.Load += new System.EventHandler(this.ctlSupport_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureSupport)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHT)).EndInit();
@@ -506,7 +517,7 @@
             this.groupSupportParam.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numdownangle)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -536,6 +547,7 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox chkDownPolys;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown numdownangle;
+        private System.Windows.Forms.CheckBox chkOnlyDownward;
     }
 }

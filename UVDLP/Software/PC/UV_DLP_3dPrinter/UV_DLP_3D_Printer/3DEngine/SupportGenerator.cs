@@ -61,7 +61,6 @@ namespace UV_DLP_3D_Printer
         private bool m_cancel;
         private bool m_generating; // true while this is running
         public SupportGeneratorEvent SupportEvent;
-       // public ArrayList m_lstSupports = null; // the list of generated supports returned after support generation is complete
 
         public void RaiseSupportEvent(SupportEvent evnt, string message, Object obj) 
         {
@@ -76,45 +75,6 @@ namespace UV_DLP_3D_Printer
             get { return m_generating; }
         }
 
-        /*
-        /// <summary>
-        /// This will return an intersection, not necessarily the closest one.
-        /// </summary>
-        /// <param name="direction"></param>
-        /// <param name="origin"></param>
-        /// <param name="intersect"></param>
-        /// <returns></returns>
-        public static bool FindIntersection(Vector3d direction, Point3d origin, ref Point3d intersect)
-        {
-            if (UVDLPApp.Instance().Scene == null) return false;
-            if (UVDLPApp.Instance().Scene.m_lstpolys == null) return false;
-
-            direction.Normalize();
-            direction.Scale(10000.0);
-            Point3d endp = new Point3d();
-            endp.Set(origin);
-            endp.x += direction.x;
-            endp.y += direction.y;
-            endp.z += direction.z;
-            foreach (Polygon p in UVDLPApp.Instance().Scene.m_lstpolys)
-            {
-                intersect = new Point3d();
-                // try a less- costly sphere intersect here   
-                if (RTUtils.IntersectSphere(origin, endp, ref intersect, p.m_center, p.m_radius))
-                {
-                    // if it intersects,
-                    if (RTUtils.IntersectPoly(p, origin, endp, ref intersect))
-                    {
-                        return true;
-
-                    }
-                }
-            }
-
-
-            return false;
-        }
-         * */
         public SupportGenerator() 
         {
             m_cancel = false;
@@ -145,112 +105,6 @@ namespace UV_DLP_3D_Printer
             RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eStarted, "Support Generation Started", null);
             GenerateSupportObjects();
         }
-        /*
-         To start, we're going to intersect the entire scene and generate support objects
-         * we can change this to generate support for individual objects if needed.
-         */
-        /*
-        public ArrayList GenerateSupportObjects() 
-        {
-           
-            // iterate over the platform size by indicated mm step; // projected resolution in x,y
-            // generate a 3d x/y point on z=0, 
-            // generate another on the z=zmax
-            // use this ray to intersect the scene
-            // foreach intersection point, generate a support
-            // we gott make sure supports don't collide
-            // I also have to take into account the 
-            // interface between the support and the model
-            ArrayList lstsupports = new ArrayList();
-
-           // double HX =  UVDLPApp.Instance().m_printerinfo.m_PlatXSize / 2; // half X size
-          //  double HY =  UVDLPApp.Instance().m_printerinfo.m_PlatYSize / 2; // half Y size
-            double ZVal = UVDLPApp.Instance().m_printerinfo.m_PlatZSize;
-
-            
-            //UVDLPApp.Instance().CalcScene();
-            m_model.Update();
-            double MinX = m_model.m_min.x;
-            double MaxX = m_model.m_max.x;
-            double MinY = m_model.m_min.y;
-            double MaxY = m_model.m_max.y;
-
-            bool intersected = false;
-            int scnt = 0; // support count
-            // iterate from -HX to HX step xtep;
-            double dts = (MaxX - MinX) / m_sc.xspace;
-            int its = (int)dts;
-            int curstep = 0;
-
-            for (double x = (MinX + (m_sc.xspace/2)); x < MaxX; x += m_sc.xspace)
-            {
-                
-                RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eProgress, "" + curstep + "/" + its, null);
-                curstep++;
-                for (double y = (MinY + (m_sc.yspace / 2)); y < MaxY; y += m_sc.yspace)
-                {
-                    Point3d bpoint,tpoint;
-                    Point3d lowest = new Point3d(); // the lowest point of intersection on the z axis
-
-                    bpoint = new Point3d(); // bottom point
-                    tpoint = new Point3d(); // top point
-                    bpoint.Set(x, y, 0.0 , 1);
-                    tpoint.Set(x, y, ZVal, 1); // set to the max height
-                    //intersect the scene with a ray
-
-                    lowest.Set(0, 0, ZVal, 0);
-                    intersected = false; // reset the intersected flag to be false
-                    foreach (Polygon p in m_model.m_lstpolys)
-                    {
-                        Point3d intersect = new Point3d();
-                        // try a less- costly sphere intersect here   
-                        if (RTUtils.IntersectSphere(bpoint, tpoint, ref intersect, p.m_center, p.m_radius)) 
-                        {
-                            // if it intersects,
-                            if(RTUtils.IntersectPoly(p,bpoint,tpoint,ref intersect))
-                            {
-                                // and it's the lowest one
-                                if(intersect.z <= lowest.z)
-                                {
-                                    //save this point
-                                    intersected = true;
-                                    lowest.Set(intersect);
-                                }
-                            }
-                        }
-                        if (m_cancel) 
-                        {
-                            RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eCancel, "Support Generation Cancelled", null);
-                            return lstsupports;
-                        }
-                    }
-                    // for some reason, we're getting negatively generating cylinders
-                    // that extend to the -Z world axis
-                    // and we're also unnessary support generate on the y -axis that
-                    // do not intersect objects vertically in the x/y plane
-
-                    if ((lowest.z < ZVal) && intersected && (lowest.z >= 0)) 
-                    {
-                        // now, generate and add a cylinder here
-
-                        Support s = new Support();
-                        float lz = (float)lowest.z;
-                        s.Create((float)m_sc.fbrad, (float)m_sc.ftrad, (float)m_sc.hbrad, (float)m_sc.htrad, lz * .2f, lz * .6f, lz * .2f, 11);
-                        s.Translate((float)x,(float)y,0);
-                        s.Name = "Support " + scnt;
-                        s.SetColor(Color.Yellow);
-                        scnt++;                       
-                        lstsupports.Add(s);
-                        RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eSupportGenerated, s.Name, s);
-                    }      
-                }
-            }
-           // return objects;
-            RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eCompleted, "Support Generation Completed", lstsupports);
-            m_generating = false;
-            return lstsupports;
-        }
-         * */
         public ArrayList GenerateSupportObjects()
         {
 
@@ -264,19 +118,14 @@ namespace UV_DLP_3D_Printer
             // interface between the support and the model
             ArrayList lstsupports = new ArrayList();
 
-            // double HX =  UVDLPApp.Instance().m_printerinfo.m_PlatXSize / 2; // half X size
-            //  double HY =  UVDLPApp.Instance().m_printerinfo.m_PlatYSize / 2; // half Y size
             double ZVal = UVDLPApp.Instance().m_printerinfo.m_PlatZSize;
-
-
-            //UVDLPApp.Instance().CalcScene();
             m_model.Update();
             double MinX = m_model.m_min.x;
             double MaxX = m_model.m_max.x;
             double MinY = m_model.m_min.y;
             double MaxY = m_model.m_max.y;
 
-            bool intersected = false;
+           // bool intersected = false;
             int scnt = 0; // support count
             // iterate from -HX to HX step xtep;
             double dts = (MaxX - MinX) / m_sc.xspace;
@@ -293,7 +142,7 @@ namespace UV_DLP_3D_Printer
                     Point3d origin;                   
                     origin = new Point3d(); // bottom point
                     origin.Set(x, y, 0.0, 1);
-                    intersected = false; // reset the intersected flag to be false
+                    //intersected = false; // reset the intersected flag to be false
 
                     Vector3d up = new Vector3d(); // the up vector
                     up.x = 0.0;
@@ -315,8 +164,9 @@ namespace UV_DLP_3D_Printer
                         {
                             if (htd.obj.tag != Object3d.OBJ_GROUND) // if it's not the ground
                             {
+                                if (m_sc.m_onlydownward && htd.poly.tag != Polygon.TAG_MARKDOWN)
+                                    break; // not a downward facing and we're only doing downward
                                 // this should be the closest intersected
-                                //tmpsup.ScaleToHeight(htd.intersect.z);
                                 Support s = new Support();
                                 float lz = (float)htd.intersect.z;
                                 s.Create((float)m_sc.fbrad, (float)m_sc.ftrad, (float)m_sc.hbrad, (float)m_sc.htrad, lz * .2f, lz * .6f, lz * .2f, 11);

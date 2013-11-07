@@ -57,6 +57,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_sc.fbrad2 = (double)numFB1.Value;
                 m_sc.xspace = (double)numX.Value;
                 m_sc.yspace = (double)numY.Value;
+                m_sc.m_onlydownward = chkOnlyDownward.Checked;
                 pictureSupport.Invalidate();
                 return true;
             }
@@ -139,7 +140,19 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         private void chkDownPolys_CheckedChanged(object sender, EventArgs e)
         {
+            if (UVDLPApp.Instance().SelectedObject == null) return;
             // tell the 3d engine to only show polygons from objects that are facing downward at the specified angle
+            if (chkDownPolys.Checked == true)
+            {
+                double angle = (double)numdownangle.Value;
+                UVDLPApp.Instance().SelectedObject.MarkPolysDown(angle);                
+            }
+            else 
+            {
+                // restore the object
+                UVDLPApp.Instance().SelectedObject.ClearPolyTags();
+            }
+            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
         }
 
         private PointF[] GetLinePoints(float [] coords)
@@ -243,6 +256,17 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         private void ctlSupport_Load(object sender, EventArgs e)
         {
             pictureSupport.BackColor = groupSupportParam.BackColor;
+        }
+
+        private void numdownangle_ValueChanged(object sender, EventArgs e)
+        {
+            if (UVDLPApp.Instance().SelectedObject == null) return;
+            if (chkDownPolys.Checked == true)
+            {
+                double angle = (double)numdownangle.Value;
+                UVDLPApp.Instance().SelectedObject.MarkPolysDown(angle);
+            }
+            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
         }
 
     }

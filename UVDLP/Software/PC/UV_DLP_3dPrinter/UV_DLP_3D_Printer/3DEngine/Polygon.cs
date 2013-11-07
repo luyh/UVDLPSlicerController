@@ -33,6 +33,9 @@ namespace Engine3D
         PolyLine3d lineseg1;
         PolyLine3d lineseg2;
         PolyLine3d lineseg3;
+        public int tag; // special markers for this polygon
+        public static int TAG_REGULAR        = 0;
+        public static int TAG_MARKDOWN      = 1;
             
         public void ClearCached()
         {
@@ -53,6 +56,7 @@ namespace Engine3D
             m_minmax = null;
             plane = new Plane();
             m_hidden = false;
+            tag = TAG_REGULAR;
         }
 
         void CalculatePlaneEquation()
@@ -276,23 +280,39 @@ namespace Engine3D
             {
                 GL.Begin(BeginMode.Triangles);
             }
-            
-            if (selected) 
+
+            if (tag == TAG_MARKDOWN)
             {
-                clr = Color.Green;
+                clr = Color.Red;
             }
-             
-            //if (!selected)
+            else
             {
-                if (alpha)
+                if (selected)
                 {
-                    GL.Color4((byte)clr.R, (byte)clr.G, (byte)clr.B, (byte)128);
+                    clr = Color.Green;
                 }
-                else
+               // else 
+               // {
+               //     clr = Color.Gray;
+               // }
+            }
+
+            if (alpha)
+            {
+                if (tag == TAG_MARKDOWN)
                 {
                     GL.Color3(clr);
                 }
+                else
+                {
+                    GL.Color4((byte)clr.R, (byte)clr.G, (byte)clr.B, (byte)128);
+                }
             }
+            else
+            {
+                GL.Color3(clr);
+            }
+            
             GL.Normal3(m_normal.x, m_normal.y, m_normal.z);
             foreach (Point3d p in this.m_points)
             {               

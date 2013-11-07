@@ -23,6 +23,7 @@ namespace UV_DLP_3D_Printer.Configs
         public double fbrad; // foot bottom radius
         public double fbrad2; // foot bottom radius 2
         public int vdivs;
+        public bool m_onlydownward;
 
         public SupportConfig() 
         {
@@ -34,6 +35,7 @@ namespace UV_DLP_3D_Printer.Configs
             fbrad = 2; // for support on the platform
             fbrad2 = .2; // for intra-object support
             //vdivs = 1; // divisions vertically
+            m_onlydownward = false;
         }
         
         public void Load(String filename)
