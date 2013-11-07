@@ -569,6 +569,14 @@ namespace UV_DLP_3D_Printer
                 //set a color to clear the background
                 GL.ClearColor(Color.LightBlue);
 
+                // antialising lines
+                GL.Enable(EnableCap.LineSmooth);
+                //GL.Enable(EnableCap.PolygonSmooth);
+                GL.Enable(EnableCap.Blend);
+                GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+                GL.Hint(HintTarget.LineSmoothHint, HintMode.Nicest);
+                //GL.Hint(HintTarget.PolygonSmoothHint, HintMode.Nicest); 
+
                 // lighting
                 GL.Enable(EnableCap.Lighting);
                 GL.Enable(EnableCap.Light0);

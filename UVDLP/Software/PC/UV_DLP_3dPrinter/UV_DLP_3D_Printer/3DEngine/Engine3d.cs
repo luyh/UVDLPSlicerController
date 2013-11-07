@@ -51,17 +51,36 @@ namespace Engine3D
         {
             m_camera.Reset();
         }
+
+        public void AddGridLine(int x1, int y1, int x2, int y2, Color col)
+        {
+            AddLine(new PolyLine3d(new Point3d(x1, y1, 0, 0), new Point3d(x2, y2, 0, 0), col));
+        }
+
         public void AddGrid() 
         {
             for (int x = -50; x < 51; x += 10)
             {
-                AddLine(new PolyLine3d(new Point3d(x, -50, 0, 0), new Point3d(x, 50, 0, 0), Color.Blue));
+                AddGridLine(x, -50, x, 50, Color.Blue);
             }
             for (int y = -50; y < 51; y += 10)
             {
-                AddLine(new PolyLine3d(new Point3d(-50, y, 0, 0), new Point3d(50, y, 0, 0), Color.Blue));
+                AddGridLine(-50, y, 50, y, Color.Blue);
             }
             AddLine(new PolyLine3d(new Point3d(0, 0, -10, 0), new Point3d(0, 0, 10, 0), Color.Blue));
+
+            // add XY arrows
+            AddGridLine(50, 0, 58, 0, Color.Blue);
+            AddGridLine(58, 0, 55, 3, Color.Blue);
+            AddGridLine(58, 0, 55, -3, Color.Blue);
+            AddGridLine(0, 50, 0, 58, Color.Blue);
+            AddGridLine(0, 58, 3, 55, Color.Blue);
+            AddGridLine(0, 58, -3, 55, Color.Blue);
+            AddGridLine(60, 2, 66, -2, Color.Red);
+            AddGridLine(60, -2, 66, 2, Color.Red);
+            AddGridLine(0, 60, 0, 63, Color.Red);
+            AddGridLine(0, 63, 2, 66, Color.Red);
+            AddGridLine(0, 63, -2, 66, Color.Red);
         }
         //This function draws a cube the size of the build platform
         // The X/Y is centered along the 0,0 center point. Z extends from 0 to Z
