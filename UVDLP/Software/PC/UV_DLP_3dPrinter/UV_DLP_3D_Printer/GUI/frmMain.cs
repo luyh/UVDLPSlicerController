@@ -1791,5 +1791,11 @@ namespace UV_DLP_3D_Printer
            // UVDLPApp.Instance().m_estimator.Setup(UVDLPApp.Instance().m_slicefile, UVDLPApp.Instance().m_buildparms);
             frmvol.ShowDialog();
         }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form1 frm = new Form1();
+            frm.Show();
+        }
     }
 }

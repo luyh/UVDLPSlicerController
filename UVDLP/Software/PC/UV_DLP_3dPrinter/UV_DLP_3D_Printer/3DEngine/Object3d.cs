@@ -87,13 +87,7 @@ namespace Engine3D
                 p.CalcMinMax();
             }
         }
-        public void ClearCached() 
-        {
-            foreach (Polygon p in m_lstpolys)
-            {
-                p.ClearCached();
-            }        
-        }
+
         public void Rotate(float x, float y, float z) 
         {
             Point3d center = CalcCenter();
@@ -180,17 +174,7 @@ namespace Engine3D
                 poly.Render(cam, ev, wid, hei);
             }
         }
-        /*
-public float SignedVolumeOfTriangle(Vector p1, Vector p2, Vector p3) {
-    var v321 = p3.X*p2.Y*p1.Z;
-    var v231 = p2.X*p3.Y*p1.Z;
-    var v312 = p3.X*p1.Y*p2.Z;
-    var v132 = p1.X*p3.Y*p2.Z;
-    var v213 = p2.X*p1.Y*p3.Z;
-    var v123 = p1.X*p2.Y*p3.Z;
-    return (1.0f/6.0f)*(-v321 + v231 + v312 - v132 - v213 + v123);
-}         
-         */
+
         public double CalculateVolume() 
         {
             double vol = 0.0;
@@ -269,7 +253,7 @@ public float SignedVolumeOfTriangle(Vector p1, Vector p2, Vector p3) {
             }
         
         }
-        public bool GenerateFromBitmap(string file, ScaleFactor f) 
+        public bool GenerateFromBitmap(string file, Vector3d f) 
         {
             try
             {
@@ -556,17 +540,15 @@ public float SignedVolumeOfTriangle(Vector p1, Vector p2, Vector p3) {
                     p.m_normal.Load(br); // load the normal
                     p.m_points = new Point3d[3]; // create storage
                     for (int pc = 0; pc < 3; pc++) //iterate through the points
-                    {                       
-                        p.m_points[pc] = new Point3d();
-                        p.m_points[pc].Load(br);
-                        m_lstpoints.Add(p.m_points[pc]);                       
-                        
+                    {                        
+                        Point3d pnt = new Point3d();
+                        pnt.Load(br);
+                        m_lstpoints.Add(pnt);
+                        p.m_points[pc] = pnt;
                     }
                     uint attr = br.ReadUInt16(); // not used attribute
-                    //p.CalcNormal();
                 }
                 
-                //FindMinMax();
                 Update(); // initial positions please...
                 br.Close();
                 return true;

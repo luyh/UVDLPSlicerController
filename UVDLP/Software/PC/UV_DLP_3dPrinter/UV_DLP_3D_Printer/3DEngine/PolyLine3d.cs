@@ -39,7 +39,7 @@ namespace Engine3D
             m_points = new ArrayList();
             foreach (Point3d pnt in src.m_points) 
             {
-                Point3d p = new Point3d(pnt.x, pnt.y, pnt.z, pnt.a);
+                Point3d p = new Point3d(pnt.x, pnt.y, pnt.z,0.0);
                 m_points.Add(p);
             }
         }

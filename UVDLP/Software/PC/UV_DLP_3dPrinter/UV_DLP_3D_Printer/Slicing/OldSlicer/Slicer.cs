@@ -188,7 +188,6 @@ namespace UV_DLP_3D_Printer
                 foreach (Object3d obj in UVDLPApp.Instance().Engine3D.m_objects) 
                 {
                     obj.CalcMinMaxes();
-                    obj.ClearCached();
                     if (c == 0) 
                     {
                         //get the first objects' name

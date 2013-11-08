@@ -14,44 +14,38 @@ using UV_DLP_3D_Printer._3DEngine;
 
 namespace Engine3D
 {
-    public class Polygon : IComparer
+    public class Polygon //: IComparer
     {
         public Vector3d m_normal; // the plane normal
         public Plane plane; // the plane for intersection testing
         public Point3d m_center; // the calculated center of the polygon
         public double m_radius; // the radius of the poly for sphere intersection testing
 
-        public Point3d m_centercamera; // transformed into camera space
+       // public Point3d m_centercamera; // transformed into camera space
         public Color m_color;
-        public Color m_linecolor;
+        //public Color m_linecolor;
         public Point3d[] m_points; // points in poly, also contained in parent objects points list 
         public bool m_solid; // draw it solid
-        public bool m_wire;// draw wireframe
+        //public bool m_wire;// draw wireframe
         public MinMax m_minmax; // cached for slicing
         public bool m_hidden; // for hiding polygons during the manual support genetation step
         //move vars cached for slicing
-        PolyLine3d lineseg1;
-        PolyLine3d lineseg2;
-        PolyLine3d lineseg3;
+        //PolyLine3d lineseg1;
+       // PolyLine3d lineseg2;
+       // PolyLine3d lineseg3;
         public int tag; // special markers for this polygon
         public static int TAG_REGULAR        = 0;
         public static int TAG_MARKDOWN      = 1;
             
-        public void ClearCached()
-        {
-            lineseg1 = null;
-            lineseg2 = null;
-            lineseg3 = null;
-        }
+
 
         public Polygon() 
         {
             m_normal = new Vector3d();
             m_radius = 0.0;
             m_color = Color.Gray;
-            m_linecolor = Color.Blue;
+            //m_linecolor = Color.Blue;
             m_solid = true;
-            m_wire = true;
             m_center = new Point3d();
             m_minmax = null;
             plane = new Plane();
@@ -135,13 +129,13 @@ namespace Engine3D
                 Point3d p1, p2, p3; // intersection points for the 3 3d line segments
                 int count = 0;
                 Point3d[] lst = new Point3d[3];
+                PolyLine3d lineseg1 = null;
+                PolyLine3d lineseg2 = null;
+                PolyLine3d lineseg3 = null;
 
-                if (lineseg1 == null)
-                {
-                    lineseg1 = new PolyLine3d();
-                    lineseg1.AddPoint(m_points[0]); // 0-1
-                    lineseg1.AddPoint(m_points[1]);
-                }
+                lineseg1 = new PolyLine3d();
+                lineseg1.AddPoint(m_points[0]); // 0-1
+                lineseg1.AddPoint(m_points[1]);
                 p1 = lineseg1.IntersectZ(zcur);
                 if (p1 != null)
                 {
@@ -149,12 +143,11 @@ namespace Engine3D
                     segment.AddPoint(p1);
                 }
 
-                if (lineseg2 == null)
-                {
-                    lineseg2 = new PolyLine3d();
-                    lineseg2.AddPoint(m_points[1]); // 1-2
-                    lineseg2.AddPoint(m_points[2]);
-                }
+
+                lineseg2 = new PolyLine3d();
+                lineseg2.AddPoint(m_points[1]); // 1-2
+                lineseg2.AddPoint(m_points[2]);
+
                 p2 = lineseg2.IntersectZ(zcur);
                 if (p2 != null)
                 {
@@ -167,12 +160,10 @@ namespace Engine3D
 
                 // there is no sense in doing the 3rd intersection if we don't have 
                 // at least 1 point at this stage
-                if (lineseg3 == null)
-                {
-                    lineseg3 = new PolyLine3d();
-                    lineseg3.AddPoint(m_points[2]); // 2-0
-                    lineseg3.AddPoint(m_points[0]);
-                }
+
+                lineseg3 = new PolyLine3d();
+                lineseg3.AddPoint(m_points[2]); // 2-0
+                lineseg3.AddPoint(m_points[0]);
                 p3 = lineseg3.IntersectZ(zcur);
                 if (p3 != null)
                 {
@@ -254,6 +245,7 @@ namespace Engine3D
                 }
 	        }
         }
+        /*
         int IComparer.Compare(Object pFirstObject, Object pObjectToCompare)
         {
             Polygon p1 = (Polygon)pFirstObject;
@@ -262,7 +254,7 @@ namespace Engine3D
             if (p1.m_centercamera.z < p2.m_centercamera.z) return -1;
             return 0;
         }
-
+        */
         public void RenderGL(bool wireframe,bool alpha, bool selected) 
         {
             // clip test before rendering 
@@ -362,13 +354,14 @@ namespace Engine3D
                         ev.Graphics.FillPolygon(solidbrush, line);
 
                     }
-
+                    /*
                     Pen linepen = new Pen(m_linecolor, 2);
                     if (m_wire == true)
                     {
                         ev.Graphics.DrawPolygon(linepen, line);
                         ev.Graphics.DrawLines(linepen, line);
                     }
+                     */ 
                 }
             }
             catch (Exception) { }

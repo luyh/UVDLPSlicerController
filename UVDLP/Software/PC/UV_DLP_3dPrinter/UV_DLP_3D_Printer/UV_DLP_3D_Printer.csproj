@@ -273,6 +273,9 @@
     <EmbeddedResource Include="GUI\Controls\ctlToolpathGenConfig.resx">
       <DependentUpon>ctlToolpathGenConfig.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\ctlExpandPanel.resx">
+      <DependentUpon>ctlExpandPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

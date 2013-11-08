@@ -41,7 +41,6 @@ namespace UV_DLP_3D_Printer.Slicing.Modules
             DebugLogger.Instance().LogRecord("Slicing started");
             int c = 0;
             m_data.m_obj.CalcMinMaxes();
-            m_data.m_obj.ClearCached();
             for (c = 0; c < numslices; c++)
             {
                 if (m_cancel)
