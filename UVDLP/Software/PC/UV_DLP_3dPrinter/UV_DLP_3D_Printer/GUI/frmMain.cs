@@ -787,7 +787,7 @@ namespace UV_DLP_3D_Printer
             Point3d intersect = new Point3d();
             Engine3D.Vector3d dir = new Engine3D.Vector3d();
 
-            origin.Set(t_ray_pnt.X, t_ray_pnt.Y, t_ray_pnt.Z, 1.0);
+            origin.Set(t_ray_pnt.X, t_ray_pnt.Y, t_ray_pnt.Z, 1.0f);
             dir.Set(t_ray_vec.X, t_ray_vec.Y, t_ray_vec.Z, 0); // should this be scaled?
 
             List<ISectData> isects = RTUtils.IntersectObjects(dir, origin, UVDLPApp.Instance().Engine3D.m_objects, true);

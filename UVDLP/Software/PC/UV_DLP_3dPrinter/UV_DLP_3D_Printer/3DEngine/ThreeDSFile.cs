@@ -412,7 +412,7 @@ namespace Engine3D
                 float f1 = reader.ReadSingle();
                 float f2 = reader.ReadSingle();
                 float f3 = reader.ReadSingle();
-                Point3d pnt = new Point3d(f1,f2,f3,1.0);
+                Point3d pnt = new Point3d(f1,f2,f3,1.0f);
                 lst.Add(pnt);
             }
 

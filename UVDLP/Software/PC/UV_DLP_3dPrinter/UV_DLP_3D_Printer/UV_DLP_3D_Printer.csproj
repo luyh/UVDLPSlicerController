@@ -102,7 +102,6 @@
     <Compile Include="Device_Interface\DriverFactory.cs" />
     <Compile Include="Device_Interface\GenericDriver.cs" />
     <Compile Include="Device_Interface\RobotFactorySRL_3DLPrinter.cs" />
-    <Compile Include="GCodeInterpreter.cs" />
     <Compile Include="GUI\Controls\ctlHeatTemp.cs">
       <SubType>UserControl</SubType>
     </Compile>

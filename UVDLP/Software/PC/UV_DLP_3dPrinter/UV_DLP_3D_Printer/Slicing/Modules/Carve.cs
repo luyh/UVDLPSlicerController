@@ -36,7 +36,7 @@ namespace UV_DLP_3D_Printer.Slicing.Modules
             m_data.m_obj.FindMinMax();
             int numslices = (int)((m_data.m_obj.m_max.z - m_data.m_obj.m_min.z) / m_parms.GetDouble("ZThick"));
 
-            double curz = (double)m_data.m_obj.m_min.z;
+            float curz = (float)m_data.m_obj.m_min.z;
             //RaiseSliceEvent(eSliceEvent.eSliceStarted, 0, numslices);
             DebugLogger.Instance().LogRecord("Slicing started");
             int c = 0;
@@ -55,7 +55,7 @@ namespace UV_DLP_3D_Printer.Slicing.Modules
                 //iterate through all the polygons and generate x/y line segments at this 3d z level
                 ArrayList lstintersections = GetZIntersections(lstply, curz);
                 // move the slice for the next layer
-                curz += m_parms.GetDouble("ZThick");
+                curz += (float)m_parms.GetDouble("ZThick");
                 //create a new slice
                 Slice sl = new Slice();
                 // Set the list of intersections 
@@ -76,7 +76,7 @@ namespace UV_DLP_3D_Printer.Slicing.Modules
          * to the intersection of a plane through the polygons. Each polygon may return 0 or 1 line intersections 
          * on the 2d XY plane
          */
-        public ArrayList GetZIntersections(ArrayList polys, double zcur)
+        public ArrayList GetZIntersections(ArrayList polys, float zcur)
         {
             try
             {

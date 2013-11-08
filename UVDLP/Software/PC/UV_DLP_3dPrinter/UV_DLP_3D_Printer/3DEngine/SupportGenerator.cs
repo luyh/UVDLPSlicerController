@@ -118,12 +118,12 @@ namespace UV_DLP_3D_Printer
             // interface between the support and the model
             ArrayList lstsupports = new ArrayList();
 
-            double ZVal = UVDLPApp.Instance().m_printerinfo.m_PlatZSize;
+            float ZVal = (float)UVDLPApp.Instance().m_printerinfo.m_PlatZSize;
             m_model.Update();
-            double MinX = m_model.m_min.x;
-            double MaxX = m_model.m_max.x;
-            double MinY = m_model.m_min.y;
-            double MaxY = m_model.m_max.y;
+            float MinX = m_model.m_min.x;
+            float MaxX = m_model.m_max.x;
+            float MinY = m_model.m_min.y;
+            float MaxY = m_model.m_max.y;
 
            // bool intersected = false;
             int scnt = 0; // support count
@@ -132,22 +132,22 @@ namespace UV_DLP_3D_Printer
             int its = (int)dts;
             int curstep = 0;
 
-            for (double x = (MinX + (m_sc.xspace / 2)); x < MaxX; x += m_sc.xspace)
+            for (float x = (float)(MinX + (m_sc.xspace / 2.0f)); x < MaxX; x += (float)m_sc.xspace)
             {
                 // say we're doing stuff
                 RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eProgress, "" + curstep + "/" + its, null);
                 curstep++;
-                for (double y = (MinY + (m_sc.yspace / 2)); y < MaxY; y += m_sc.yspace)
+                for (float y = (float)(MinY + (m_sc.yspace / 2)); y < MaxY; y += (float)m_sc.yspace)
                 {
                     Point3d origin;                   
                     origin = new Point3d(); // bottom point
-                    origin.Set(x, y, 0.0, 1);
+                    origin.Set(x, y, 0.0f, 1f);
                     //intersected = false; // reset the intersected flag to be false
 
                     Vector3d up = new Vector3d(); // the up vector
-                    up.x = 0.0;
-                    up.y = 0.0;
-                    up.z = 1.0;
+                    up.x = 0.0f;
+                    up.y = 0.0f;
+                    up.z = 1.0f;
 
                     List<ISectData> lstISects = RTUtils.IntersectObjects(up, origin, UVDLPApp.Instance().Engine3D.m_objects, false);
                     //check for cancelling

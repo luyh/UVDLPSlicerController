@@ -77,7 +77,7 @@ namespace UV_DLP_3D_Printer
         public SliceFile m_slicefile;
         public BuildManager m_buildmgr;
         public prjcmdlst m_proj_cmd_lst;
-        public GCodeInterpreter gci = null;
+       // public GCodeInterpreter gci = null;
         private static String m_appconfigname = "CreationConfig.xml";
         public static String m_pathsep = "\\";
 
@@ -426,7 +426,7 @@ namespace UV_DLP_3D_Printer
 
             }
         }
-
+        /*
         private void StartGCodeInterpret() 
         {
             if (gci == null) 
@@ -437,6 +437,7 @@ namespace UV_DLP_3D_Printer
             gci.StartInterpret();
         
         }
+         */ 
         public void LoadGCode(String filename)
         {
             try

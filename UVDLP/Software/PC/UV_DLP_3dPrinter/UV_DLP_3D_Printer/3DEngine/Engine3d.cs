@@ -35,7 +35,7 @@ namespace Engine3D
                 obj.InvalidateList();
             }
         }
-        public void CameraRotate(double x,double y, double z)
+        public void CameraRotate(float x,float y, float z)
         {
             m_camera.viewmat.Rotate(x, y, z);
         }
@@ -43,7 +43,7 @@ namespace Engine3D
         {
             m_camera.viewmat.Translate(pnt.x, pnt.y, pnt.z);
         }
-        public void CameraMove(double x,double y, double z)
+        public void CameraMove(float x,float y, float z)
         {
             m_camera.viewmat.Translate(x,y,z);
         }
@@ -87,12 +87,12 @@ namespace Engine3D
 
         public void AddPlatCube() 
         {
-            double platX, platY, platZ;
-            double X, Y, Z;
+            float platX, platY, platZ;
+            float X, Y, Z;
             Color cubecol = Color.Gray;
-            platX = UVDLPApp.Instance().m_printerinfo.m_PlatXSize;
-            platY = UVDLPApp.Instance().m_printerinfo.m_PlatYSize;
-            platZ = UVDLPApp.Instance().m_printerinfo.m_PlatZSize;
+            platX = (float)UVDLPApp.Instance().m_printerinfo.m_PlatXSize;
+            platY = (float)UVDLPApp.Instance().m_printerinfo.m_PlatYSize;
+            platZ = (float)UVDLPApp.Instance().m_printerinfo.m_PlatZSize;
             X = platX / 2;
             Y = platY / 2;
             Z = platZ / 2;

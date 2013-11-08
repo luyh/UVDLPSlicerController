@@ -85,7 +85,7 @@ namespace Engine3D
             {
                 
                 cdivs = divs;
-                double zlev = 0.0; // start at the bottom of the cylinder
+                float zlev = 0.0f; // start at the bottom of the cylinder
                 s1i = 0; // set 0 to be the starting index for the bottom of the foot
                 GenerateCirclePoints(fbrad, divs, zlev, true); // foot bottom
                 zlev += d1;

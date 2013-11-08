@@ -7,10 +7,10 @@ namespace UV_DLP_3D_Printer
 {
     public class Point3d
     {
-        public double x, y, z;
+        public float x, y, z;
         public Point3d() 
         {
-            x = y = z = 0.0;
+            x = y = z = 0.0f;
         }
 
         public Point3d(Point3d pnt)
@@ -32,11 +32,11 @@ namespace UV_DLP_3D_Printer
                 return true;
             return false;
         }
-        public Point3d(double xp, double yp, double zp, double ap)
+        public Point3d(float xp, float yp, float zp, float ap)
         {
             Set(xp, yp, zp, ap);
         }
-        public void Set(double xp, double yp, double zp,double ap)
+        public void Set(float xp, float yp, float zp,float ap)
         {
             x = xp;
             y = yp;
@@ -45,7 +45,7 @@ namespace UV_DLP_3D_Printer
 
         public void Set(Point3d pnt) 
         {
-            Set(pnt.x, pnt.y, pnt.z,0.0);
+            Set(pnt.x, pnt.y, pnt.z,0.0f);
         }
 
         public void Load(BinaryReader br) 
@@ -57,9 +57,9 @@ namespace UV_DLP_3D_Printer
 
         public void Load(StreamReader sr) 
         {
-            x = double.Parse(sr.ReadLine());
-            y = double.Parse(sr.ReadLine());
-            z = double.Parse(sr.ReadLine());
+            x = float.Parse(sr.ReadLine());
+            y = float.Parse(sr.ReadLine());
+            z = float.Parse(sr.ReadLine());
         }
         public void Save(StreamWriter sw) 
         {

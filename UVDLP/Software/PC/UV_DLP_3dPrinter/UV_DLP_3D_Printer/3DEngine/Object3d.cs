@@ -23,7 +23,7 @@ namespace Engine3D
         public Point3d m_min, m_max,m_center;
         public bool m_wireframe = false;
         //private bool m_support = false; // is this a 3d support object?
-        public double m_radius;
+        public float m_radius;
         public Material material;// = new Material();
         public int tag = -1; // acting as an object ID
         //public bool m_showalpha;
@@ -51,7 +51,7 @@ namespace Engine3D
             m_min = new Point3d();
             m_max = new Point3d();
             m_visible = true;
-            m_radius = 0.0;
+            m_radius = 0.0f;
             //m_support = false;
             material = new Material();
             tag = Object3d.OBJ_NORMAL;
@@ -233,15 +233,15 @@ namespace Engine3D
                 {
                     pnt = new Point3d();
                     lst.Add(pnt);
-                    pnt.x = double.Parse(sr.ReadLine());
+                    pnt.x = float.Parse(sr.ReadLine());
                 }
                 if (line == "20" || line == "21" || line == "22" || line == "23") 
                 {
-                    pnt.y = double.Parse(sr.ReadLine());
+                    pnt.y = float.Parse(sr.ReadLine());
                 }
                 if (line == "30" || line == "31" || line == "32" || line == "33") 
                 {
-                    pnt.z = double.Parse(sr.ReadLine());
+                    pnt.z = float.Parse(sr.ReadLine());
                 }
                 if (line == "62") done = true;
             }
@@ -266,9 +266,9 @@ namespace Engine3D
                     {
                         Color clr = bm.GetPixel(x, y);
                         Point3d pnt = new Point3d();
-                        pnt.x = f.x * ((double)x);
-                        pnt.y = f.y * ((double)y);
-                        pnt.z = f.z * ((double)clr.R);
+                        pnt.x = f.x * ((float)x);
+                        pnt.y = f.y * ((float)y);
+                        pnt.z = f.z * ((float)clr.R);
                         m_lstpoints.Add(pnt);
                     }
                 }
@@ -318,8 +318,8 @@ namespace Engine3D
         public void FindMinMax()         
         {
             Point3d first = (Point3d)this.m_lstpoints[0];
-            m_min.Set(first.x, first.y, first.z, 0.0);
-            m_max.Set(first.x, first.y, first.z, 0.0);
+            m_min.Set(first.x, first.y, first.z, 0.0f);
+            m_max.Set(first.x, first.y, first.z, 0.0f);
             foreach (Point3d p in this.m_lstpoints)             
             {
                 if (p.x < m_min.x)
@@ -344,14 +344,14 @@ namespace Engine3D
          */
         public void CalcRadius() 
         {
-            double maxdist = 0.0;
-            double td = 0.0;
+            float maxdist = 0.0f;
+            float td = 0.0f;
             foreach (Point3d p in m_lstpoints)
             {
                 td = (p.x - m_center.x) * (p.x - m_center.x);
                 td += (p.y - m_center.y) * (p.y - m_center.y);
                 td += (p.z - m_center.z) * (p.z - m_center.z);
-                td = Math.Sqrt(td);
+                td = (float)Math.Sqrt(td);
                 if (td >= maxdist)
                     maxdist = td;
             }
@@ -373,7 +373,7 @@ namespace Engine3D
             center.y /= m_lstpoints.Count;
             center.z /= m_lstpoints.Count;
 
-            m_center.Set(center.x, center.y, center.z, 1.0);
+            m_center.Set(center.x, center.y, center.z, 1.0f);
             return center;
         }
 
@@ -604,9 +604,9 @@ namespace Engine3D
                             {
                                 return false;
                             }
-                            poly.m_points[idx].x = (double)Double.Parse(toks[1].Trim(), System.Globalization.NumberStyles.Any);
-                            poly.m_points[idx].y = (double)Double.Parse(toks[2].Trim(), System.Globalization.NumberStyles.Any);
-                            poly.m_points[idx].z = (double)Double.Parse(toks[3].Trim(), System.Globalization.NumberStyles.Any);                           
+                            poly.m_points[idx].x = (float)float.Parse(toks[1].Trim(), System.Globalization.NumberStyles.Any);
+                            poly.m_points[idx].y = (float)float.Parse(toks[2].Trim(), System.Globalization.NumberStyles.Any);
+                            poly.m_points[idx].z = (float)float.Parse(toks[3].Trim(), System.Globalization.NumberStyles.Any);                           
                         }
 
                         line = sr.ReadLine().Trim();//endloop
@@ -714,7 +714,7 @@ namespace Engine3D
         ﻿  ﻿  ﻿  ﻿  ﻿  {
         ﻿  ﻿  ﻿  ﻿  ﻿  case "v": // vertex         ﻿  ﻿  ﻿  ﻿
                         Point3d pnt = new Point3d();
-                        double[] v = ParseVector(parts);
+                        float[] v = ParseVector(parts);
                         pnt.x = v[0];
                         pnt.y = v[1];
                         pnt.z = v[2];
@@ -775,12 +775,12 @@ namespace Engine3D
           }
 ﻿  ﻿  }
 ﻿  ﻿  
-﻿  ﻿  static double[] ParseVector(string[] parts)
+﻿  ﻿  static float[] ParseVector(string[] parts)
 ﻿  ﻿  {﻿  ﻿  ﻿  
-          double []dv = new double[3];
-          dv[0] = Double.Parse(parts[1]);
-          dv[1] = Double.Parse(parts[2]);
-          dv[2] = Double.Parse(parts[3]);
+          float []dv = new float[3];
+          dv[0] = Single.Parse(parts[1]);
+          dv[1] = Single.Parse(parts[2]);
+          dv[2] = Single.Parse(parts[3]);
 
     ﻿  ﻿  ﻿  return dv;
 ﻿  ﻿  }                     

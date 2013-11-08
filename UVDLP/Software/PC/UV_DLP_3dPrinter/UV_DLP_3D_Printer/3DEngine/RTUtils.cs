@@ -130,7 +130,7 @@ namespace UV_DLP_3D_Printer._3DEngine
         {
             Vector3d u, v, n;              // triangle vectors
             Vector3d dir, w0, w;           // ray vectors
-            double r, a, b;              // params to calc ray-plane intersect
+            float r, a, b;              // params to calc ray-plane intersect
 
             // get triangle edge vectors and plane normal
             u = T.m_points[1] - T.m_points[0];
@@ -143,8 +143,8 @@ namespace UV_DLP_3D_Printer._3DEngine
 
             dir = endp - startp;//dir = R.P1 - R.P0;              // ray direction vector
             w0 = startp - T.m_points[0];//w0 = R.P0 - T.V0;
-            a = -Vector3d.dot(n, w0); //a = -dot(n, w0);
-            b = Vector3d.dot(n, dir);//b = dot(n, dir);
+            a = (float)-Vector3d.dot(n, w0); //a = -dot(n, w0);
+            b = (float)Vector3d.dot(n, dir);//b = dot(n, dir);
             if(Math.Abs(b) < .0001)
             {     // ray is  parallel to triangle plane
                 if (a == 0)                 // ray lies in triangle plane
@@ -268,11 +268,11 @@ namespace UV_DLP_3D_Printer._3DEngine
             return false;
         }
         
-        public static bool IntersectSphere(Point3d start,Point3d end,ref Point3d intersect, Point3d center,double radius)
+        public static bool IntersectSphere(Point3d start,Point3d end,ref Point3d intersect, Point3d center,float radius)
         {
 	        bool retval = false;
-	        double EO;//EO is distance from start of ray to center of sphere
-	        double d,disc,v;//v is length of direction ray
+	        float EO;//EO is distance from start of ray to center of sphere
+	        float d,disc,v;//v is length of direction ray
 	        Vector3d V,temp;//V is unit vector of the ray
 	        temp =new Vector3d();
             V = new Vector3d();
@@ -291,7 +291,7 @@ namespace UV_DLP_3D_Printer._3DEngine
             else
             { // compute the intersection point
 		        retval = true;
-		        d = Math.Sqrt(disc);
+		        d = (float)Math.Sqrt(disc);
 		        intersect.x = start.x + ((v-d)*V.x);
 		        intersect.y = start.y + ((v-d)*V.y);
 		        intersect.z = start.z + ((v-d)*V.z);
@@ -335,7 +335,7 @@ namespace UV_DLP_3D_Printer._3DEngine
         {
             ISectData isect = null;
             direction.Normalize();
-            direction.Scale(10000.0);
+            direction.Scale(10000.0f);
             Point3d endp = new Point3d();
             Point3d intersect = new Point3d();
 
@@ -386,7 +386,7 @@ namespace UV_DLP_3D_Printer._3DEngine
             try
             {
                 direction.Normalize();
-                direction.Scale(10000.0);
+                direction.Scale(10000.0f);
                 Point3d endp = new Point3d();
                 Point3d intersect = new Point3d();
 

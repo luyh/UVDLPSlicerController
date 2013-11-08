@@ -19,7 +19,7 @@ namespace Engine3D
         public Vector3d m_normal; // the plane normal
         public Plane plane; // the plane for intersection testing
         public Point3d m_center; // the calculated center of the polygon
-        public double m_radius; // the radius of the poly for sphere intersection testing
+        public float m_radius; // the radius of the poly for sphere intersection testing
 
        // public Point3d m_centercamera; // transformed into camera space
         public Color m_color;
@@ -42,7 +42,7 @@ namespace Engine3D
         public Polygon() 
         {
             m_normal = new Vector3d();
-            m_radius = 0.0;
+            m_radius = 0.0f;
             m_color = Color.Gray;
             //m_linecolor = Color.Blue;
             m_solid = true;
@@ -95,8 +95,8 @@ namespace Engine3D
 
         public void CalcNormal() 
         {
-            double Ax, Ay, Az;
-            double Bx, By, Bz;
+            float Ax, Ay, Az;
+            float Bx, By, Bz;
             Ax = m_points[1].x - m_points[0].x;
             Ay = m_points[1].y - m_points[0].y;
             Az = m_points[1].z - m_points[0].z;
@@ -104,19 +104,19 @@ namespace Engine3D
             By = m_points[2].y - m_points[0].y;
             Bz = m_points[2].z - m_points[0].z;        
    
-            double Nx = (Ay * Bz) - (Az * By);
-            double Ny = (Az * Bx) - (Ax * Bz);
-            double Nz = (Ax * By) - (Ay * Bx);
+            float Nx = (Ay * Bz) - (Az * By);
+            float Ny = (Az * Bx) - (Ax * Bz);
+            float Nz = (Ax * By) - (Ay * Bx);
             m_normal.x = Nx;
             m_normal.y = Ny;
             m_normal.z = Nz;
-            double length = Math.Sqrt((m_normal.x * m_normal.x) + (m_normal.y * m_normal.y) + (m_normal.z * m_normal.z));
+            float length = (float)Math.Sqrt((m_normal.x * m_normal.x) + (m_normal.y * m_normal.y) + (m_normal.z * m_normal.z));
             m_normal.x /= length;
             m_normal.y /= length;
             m_normal.z /= length;
             CalculatePlaneEquation();
         }
-        public PolyLine3d IntersectZPlane(double zcur)
+        public PolyLine3d IntersectZPlane(float zcur)
         {
             try
             {
