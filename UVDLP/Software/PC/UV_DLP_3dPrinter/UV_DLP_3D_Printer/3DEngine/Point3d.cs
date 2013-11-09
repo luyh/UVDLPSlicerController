@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using Engine3D;
-namespace UV_DLP_3D_Printer
+
+namespace Engine3D
 {
     public class Point3d
     {

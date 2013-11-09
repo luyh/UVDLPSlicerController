@@ -21,13 +21,13 @@ namespace Engine3D
         public Vector3d m_zaxis;
 
 
-        double m_dx, m_dy, m_dz;
-        double deg2rad;
+        float m_dx, m_dy, m_dz;
+        float deg2rad;
 
         public GLCamera()
         {
             viewmat = new Matrix3D();
-            deg2rad = 2.0 * Math.PI / 360.0;
+            deg2rad = (float)(2.0 * Math.PI / 360.0);
             m_zaxis = new Vector3d(0, 0, 1);
             m_dx = m_dy = 0;
         }
@@ -58,15 +58,15 @@ namespace Engine3D
 
             GL.LoadMatrix(viewmatrix);
 
-            double m_offsx = m_up.x * m_dy - m_right.x * m_dx;
-            double m_offsy = m_up.y * m_dy - m_right.y * m_dx;
+            float m_offsx = m_up.x * m_dy - m_right.x * m_dx;
+            float m_offsy = m_up.y * m_dy - m_right.y * m_dx;
             GL.Translate(-m_eye.x - m_offsx, -m_eye.y - m_offsy, -m_eye.z - m_dz);
         }
 
         void UpdateView()
         {
             // Create a 4x4 orientation matrix from the right, up, and at vectors
-            Matrix3D orientation = new Matrix3D(new double [] {
+            Matrix3D orientation = new Matrix3D(new float [] {
                 m_right.x,  m_right.y,  m_right.z,  0,
                 m_up.x,     m_up.y,     m_up.z,     0,
                 -m_target.x, -m_target.y, -m_target.z, 0,
@@ -84,16 +84,16 @@ namespace Engine3D
         }
 
         // rotate eye deg degrees arround rotAxis pivoting at target (m_lookat)
-        protected Matrix3D Rotate(Vector3d rotAxis, double deg)
+        protected Matrix3D Rotate(Vector3d rotAxis, float deg)
         {
-            double rad = deg2rad * deg;
-            double c = Math.Cos(rad);
-            double s = Math.Sin(rad);
-            double t = 1.0 - c;
-            double x = rotAxis.x;
-            double y = rotAxis.y;
-            double z = rotAxis.z;
-            Matrix3D rotMat= new Matrix3D(new double[] {
+            float rad = deg2rad * deg;
+            float c = (float)Math.Cos(rad);
+            float s = (float)Math.Sin(rad);
+            float t = 1.0f - c;
+            float x = rotAxis.x;
+            float y = rotAxis.y;
+            float z = rotAxis.z;
+            Matrix3D rotMat= new Matrix3D(new float [] {
                 t*x*x+c, t*x*y-s*z, t*x*z+s*y, 0,
                 t*x*y+s*z, t*y*y+c, t*y*z-s*x, 0,
                 t*x*z-s*y, t*y*z+s*x, t*z*z+c, 0,
@@ -105,7 +105,7 @@ namespace Engine3D
             return rotMat;
         }
 
-        public void RotateUp(double deg)
+        public void RotateUp(float deg)
         {
             Rotate(m_right, deg);
             // update target and up
@@ -115,7 +115,7 @@ namespace Engine3D
             UpdateView();
         }
 
-        public void RotateRight(double deg)
+        public void RotateRight(float deg)
         {
             Rotate(m_up, deg);
             // update target and up
@@ -125,7 +125,7 @@ namespace Engine3D
             UpdateView();
         }
 
-        public void RotateRightFlat(double deg)
+        public void RotateRightFlat(float deg)
         {
             Matrix3D rotMat = Rotate(m_zaxis, deg);
             m_target = rotMat.Transform(m_target);
@@ -138,7 +138,7 @@ namespace Engine3D
         }
 
         // atempt to rotate the scene based on mouse location
-        public void RotateRightFlat(double deg, double ix, double iy)
+        public void RotateRightFlat(float deg, float ix, float iy)
         {
             Vector3d mouse = new Vector3d(ix, iy, 0);
             Vector3d horizon = new Vector3d(m_right.x, m_right.y, 0);
@@ -146,15 +146,15 @@ namespace Engine3D
             RotateRightFlat(deg * Math.Sign(perp.z));
         }
 
-        public void MoveForward(double dist)
+        public void MoveForward(float dist)
         {
-            double factor = Vector3d.length(m_eye - m_lookat) / 200.0;
+            float factor = Vector3d.length(m_eye - m_lookat) / 200.0f;
             if (factor < 0.3)
-                factor = 0.3;
+                factor = 0.3f;
             dist = dist * factor;
             
             Vector3d diff = (m_eye - m_lookat);
-            double len = Vector3d.length(diff) - dist;
+            float len = Vector3d.length(diff) - dist;
             if ((len <= 0) || (len >= 1000))
                 return;
             diff.Normalize();
@@ -163,10 +163,10 @@ namespace Engine3D
             UpdateView();
         }
 
-        public void Move(double dx, double dy)
+        public void Move(float dx, float dy)
         {
             // normalize dist
-            double factor = Vector3d.length(m_eye - m_lookat) / 500.0;
+            float factor = Vector3d.length(m_eye - m_lookat) / 500.0f;
             m_dx += dx * factor;
             if (m_dx < -70) m_dx = -70;
             else if (m_dx > 70) m_dx = 70;
@@ -184,7 +184,7 @@ namespace Engine3D
             }
         }
 
-        public void ResetView(double x, double y, double z, double updeg, double lookz)
+        public void ResetView(float x, float y, float z, float updeg, float lookz)
         {
             m_eye = new Vector3d(x, y, z);
             m_lookat = new Vector3d(0, 0, 0);

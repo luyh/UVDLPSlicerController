@@ -845,8 +845,8 @@ namespace UV_DLP_3D_Printer
                 Vector2 vec = new Vector2(mdx,mdy);
                 m_quat += arcball.Drag(vec);
                 arcball.Click(vec);
-                m_camera.RotateRightFlat(dx, ix, iy);
-                m_camera.RotateUp(dy);
+                m_camera.RotateRightFlat((float)dx, ix, iy);
+                m_camera.RotateUp((float)dy);
                 //arcball.Click(vec);
                 //ArcBall.drag(&MousePt, &ThisQuat);                  // Update End Vector And Get Rotation As Quaternion
                 /*
@@ -859,13 +859,13 @@ namespace UV_DLP_3D_Printer
             else if (mmdown)
             {
                 orbitdist += (float)dy;
-                m_camera.MoveForward(dy);
+                m_camera.MoveForward((float)dy);
             }
             else if (rmdown)
             {
                 yoffset += (float)dy / 2;
                 xoffset += (float)dx / 2;
-                m_camera.Move(dx, dy);
+                m_camera.Move((float)dx, (float)dy);
             }
 
             if (UVDLPApp.Instance().SelectedObject != null)
