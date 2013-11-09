@@ -77,11 +77,11 @@ namespace UV_DLP_3D_Printer
         public SliceFile m_slicefile;
         public BuildManager m_buildmgr;
         public prjcmdlst m_proj_cmd_lst;
-        public GCodeInterpreter gci = null;
+
         private static String m_appconfigname = "CreationConfig.xml";
         public static String m_pathsep = "\\";
 
-       // public ArrayList m_tempobjs = null;
+
         public static UVDLPApp Instance() 
         {
             if (m_instance == null) 
@@ -122,7 +122,7 @@ namespace UV_DLP_3D_Printer
                 switch (ev)
                 {
                     case SupportEvent.eCompleted:
-                        ArrayList lstobjs = (ArrayList)obj;
+                        List<Object3d> lstobjs = (List<Object3d>)obj;
                         if (lstobjs != null) 
                         {
                             foreach (Object3d o in lstobjs) 
@@ -218,7 +218,7 @@ namespace UV_DLP_3D_Printer
 
         public void RemoveAllSupports() 
         {
-            ArrayList lst = new ArrayList();
+            List<Object3d> lst = new List<Object3d>();
 
             foreach (Object3d obj in m_engine3d.m_objects) 
             {
@@ -426,7 +426,7 @@ namespace UV_DLP_3D_Printer
 
             }
         }
-
+        /*
         private void StartGCodeInterpret() 
         {
             if (gci == null) 
@@ -437,6 +437,7 @@ namespace UV_DLP_3D_Printer
             gci.StartInterpret();
         
         }
+         */ 
         public void LoadGCode(String filename)
         {
             try

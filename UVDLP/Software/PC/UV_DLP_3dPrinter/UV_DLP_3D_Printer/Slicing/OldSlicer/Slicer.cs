@@ -176,7 +176,7 @@ namespace UV_DLP_3D_Printer
                 
                 int numslices = (int)((UVDLPApp.Instance().Scene.m_max.z) / m_sf.m_config.ZThick);
                 // I should start slicing at Wz 0, not Oz 0
-                double curz = 0; // start at Wz0
+                float curz = 0; // start at Wz0
                 
                 // an alternative here is to slice the scene from wZ 0, therefore, all object geometry beneath the ground plane won't be slice;
                 //double curz = (double)0.0;// start at the ground   
@@ -188,7 +188,6 @@ namespace UV_DLP_3D_Printer
                 foreach (Object3d obj in UVDLPApp.Instance().Engine3D.m_objects) 
                 {
                     obj.CalcMinMaxes();
-                    obj.ClearCached();
                     if (c == 0) 
                     {
                         //get the first objects' name
@@ -254,7 +253,7 @@ namespace UV_DLP_3D_Printer
                     {
                         savebm = ReflectY(savebm);
                     }
-                    curz += m_sf.m_config.ZThick;// move the slice for the next layer
+                    curz += (float)m_sf.m_config.ZThick;// move the slice for the next layer
                     //raise an event to say we've finished a slice
                     LayerSliced(scenename, c,numslices,savebm);
                 }
@@ -380,7 +379,7 @@ namespace UV_DLP_3D_Printer
          * on the 2d XY plane
          * I beleive I can determine the winding order (inside or outside facing), based off of the polygon normal
          */
-        public ArrayList GetZIntersections(ArrayList polys,double zcur) 
+        public ArrayList GetZIntersections(ArrayList polys,float zcur) 
         {
             try
             {

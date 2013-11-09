@@ -15,17 +15,15 @@ namespace Engine3D
 
     public class Engine3d
     {
-        public Camera m_camera;
-        ArrayList m_lines;
-        public ArrayList m_objects;
+        List<PolyLine3d> m_lines;
+        public List<Object3d> m_objects;
         public event ModelAdded ModelAddedEvent;
         public event ModelRemoved ModelRemovedEvent;
 
         public Engine3d() 
         {
-            m_camera = new Camera();
-            m_lines = new ArrayList();
-            m_objects = new ArrayList();
+            m_lines = new List<PolyLine3d>();
+            m_objects = new List<Object3d>();
             AddGrid();
         }
         public void UpdateLists() 
@@ -35,26 +33,38 @@ namespace Engine3D
                 obj.InvalidateList();
             }
         }
-        public void CameraRotate(double x,double y, double z)
+        public MinMax CalcSceneExtents() 
         {
-            m_camera.viewmat.Rotate(x, y, z);
-        }
-        public void CameraMove(Point3d pnt)
-        {
-            m_camera.viewmat.Translate(pnt.x, pnt.y, pnt.z);
-        }
-        public void CameraMove(double x,double y, double z)
-        {
-            m_camera.viewmat.Translate(x,y,z);
-        }
-        public void CameraReset() 
-        {
-            m_camera.Reset();
-        }
+            MinMax mm = new MinMax();
+            try
+            {
+                int c = 0;
+                foreach (Object3d obj in m_objects)
+                {
+                    obj.CalcMinMaxes();
+                    if (c == 0) //first one
+                    {                        
+                        mm.m_min = obj.m_min.z;
+                        mm.m_max = obj.m_max.z;
+                    }
+                    if (obj.m_min.z < mm.m_min)
+                        mm.m_min = obj.m_min.z;
 
+                    if (obj.m_max.z > mm.m_max)
+                        mm.m_max = obj.m_max.z;
+                    c++;
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
+            return mm;
+        }
+        
         public void AddGridLine(int x1, int y1, int x2, int y2, Color col)
         {
-            AddLine(new PolyLine3d(new Point3d(x1, y1, 0, 0), new Point3d(x2, y2, 0, 0), col));
+            AddLine(new PolyLine3d(new Point3d(x1, y1, 0), new Point3d(x2, y2, 0), col));
         }
 
         public void AddGrid() 
@@ -67,7 +77,7 @@ namespace Engine3D
             {
                 AddGridLine(-50, y, 50, y, Color.Blue);
             }
-            AddLine(new PolyLine3d(new Point3d(0, 0, -10, 0), new Point3d(0, 0, 10, 0), Color.Blue));
+            AddLine(new PolyLine3d(new Point3d(0, 0, -10), new Point3d(0, 0, 10), Color.Blue));
 
             // add XY arrows
             AddGridLine(50, 0, 58, 0, Color.Blue);
@@ -87,43 +97,43 @@ namespace Engine3D
 
         public void AddPlatCube() 
         {
-            double platX, platY, platZ;
-            double X, Y, Z;
+            float platX, platY, platZ;
+            float X, Y, Z;
             Color cubecol = Color.Gray;
-            platX = UVDLPApp.Instance().m_printerinfo.m_PlatXSize;
-            platY = UVDLPApp.Instance().m_printerinfo.m_PlatYSize;
-            platZ = UVDLPApp.Instance().m_printerinfo.m_PlatZSize;
+            platX = (float)UVDLPApp.Instance().m_printerinfo.m_PlatXSize;
+            platY = (float)UVDLPApp.Instance().m_printerinfo.m_PlatYSize;
+            platZ = (float)UVDLPApp.Instance().m_printerinfo.m_PlatZSize;
             X = platX / 2;
             Y = platY / 2;
             Z = platZ / 2;
 
             // bottom
-            AddLine(new PolyLine3d(new Point3d(-X, Y, 0, 0), new Point3d(X, Y, 0, 0), cubecol));
-            AddLine(new PolyLine3d(new Point3d(-X, -Y, 0, 0), new Point3d(X, -Y, 0, 0), cubecol));
+            AddLine(new PolyLine3d(new Point3d(-X, Y, 0), new Point3d(X, Y, 0), cubecol));
+            AddLine(new PolyLine3d(new Point3d(-X, -Y, 0), new Point3d(X, -Y, 0), cubecol));
 
-            AddLine(new PolyLine3d(new Point3d(-X, -Y, 0, 0), new Point3d(-X, Y, 0, 0), cubecol));
-            AddLine(new PolyLine3d(new Point3d( X, -Y, 0, 0), new Point3d( X, Y, 0, 0), cubecol));
+            AddLine(new PolyLine3d(new Point3d(-X, -Y, 0), new Point3d(-X, Y, 0), cubecol));
+            AddLine(new PolyLine3d(new Point3d( X, -Y, 0), new Point3d( X, Y, 0), cubecol));
 
             // Top
-            AddLine(new PolyLine3d(new Point3d(-X, Y, Z, 0), new Point3d(X, Y, Z, 0), cubecol));
-            AddLine(new PolyLine3d(new Point3d(-X, -Y, Z, 0), new Point3d(X, -Y, Z, 0), cubecol));
+            AddLine(new PolyLine3d(new Point3d(-X, Y, Z), new Point3d(X, Y, Z), cubecol));
+            AddLine(new PolyLine3d(new Point3d(-X, -Y, Z), new Point3d(X, -Y, Z), cubecol));
 
-            AddLine(new PolyLine3d(new Point3d(-X, -Y, Z, 0), new Point3d(-X, Y, Z, 0), cubecol));
-            AddLine(new PolyLine3d(new Point3d(X, -Y, Z, 0), new Point3d(X, Y, Z, 0), cubecol));
+            AddLine(new PolyLine3d(new Point3d(-X, -Y, Z), new Point3d(-X, Y, Z), cubecol));
+            AddLine(new PolyLine3d(new Point3d(X, -Y, Z), new Point3d(X, Y, Z), cubecol));
 
             // side edges
-            AddLine(new PolyLine3d(new Point3d(X, Y, 0, 0), new Point3d(X, Y, Z, 0), cubecol));
-            AddLine(new PolyLine3d(new Point3d(X, -Y, 0, 0), new Point3d(X, -Y, Z, 0), cubecol));
+            AddLine(new PolyLine3d(new Point3d(X, Y, 0), new Point3d(X, Y, Z), cubecol));
+            AddLine(new PolyLine3d(new Point3d(X, -Y, 0), new Point3d(X, -Y, Z), cubecol));
 
-            AddLine(new PolyLine3d(new Point3d(-X, Y, 0, 0), new Point3d(-X, Y, Z, 0), cubecol));
-            AddLine(new PolyLine3d(new Point3d(-X, -Y, 0, 0), new Point3d(-X, -Y, Z, 0), cubecol));
+            AddLine(new PolyLine3d(new Point3d(-X, Y, 0), new Point3d(-X, Y, Z), cubecol));
+            AddLine(new PolyLine3d(new Point3d(-X, -Y, 0), new Point3d(-X, -Y, Z), cubecol));
 
 
         
         }
         public void RemoveAllObjects() 
         {
-            m_objects = new ArrayList();
+            m_objects = new List<Object3d>();
 
         }
         public void AddObject(Object3d obj) 
@@ -145,7 +155,7 @@ namespace Engine3D
         public void AddLine(PolyLine3d ply) { m_lines.Add(ply); }
         public void RemoveAllLines() 
         {
-            m_lines = new ArrayList();
+            m_lines = new List<PolyLine3d>();
         }
 
         public void RenderGL(bool alpha) 
@@ -176,18 +186,7 @@ namespace Engine3D
             }
             catch (Exception) { }
         }
-        public void Render(PaintEventArgs e, int wid, int hei) 
-        {
-
-            foreach (Object3d obj in m_objects) 
-            {
-                obj.Render(m_camera, e, wid, hei);
-            }
-            foreach (PolyLine3d ply in m_lines)
-            {
-                ply.Render(m_camera, e, wid, hei);
-            }
-        }
+        
         /*
          This function takes the specified vector and intersects all objects
          * in the scene, it will return the polygon? or point that intersects first

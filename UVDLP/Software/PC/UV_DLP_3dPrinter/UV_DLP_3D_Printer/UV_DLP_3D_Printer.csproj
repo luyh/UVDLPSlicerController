@@ -74,7 +74,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="3DEngine\ArcBall.cs" />
-    <Compile Include="3DEngine\Camera.cs" />
     <Compile Include="3DEngine\CSG\CSG.cs" />
     <Compile Include="3DEngine\CSG\csgjs_csnode.cs" />
     <Compile Include="3DEngine\CSG\csgjs_model.cs" />
@@ -86,7 +85,6 @@
     <Compile Include="3DEngine\GLCamera.cs" />
     <Compile Include="3DEngine\ISectData.cs" />
     <Compile Include="3DEngine\Material.cs" />
-    <Compile Include="3DEngine\Plane.cs" />
     <Compile Include="3DEngine\RTUtils.cs" />
     <Compile Include="3DEngine\Support.cs" />
     <Compile Include="3DEngine\ThreeDSFile.cs" />
@@ -103,7 +101,6 @@
     <Compile Include="Device_Interface\DriverFactory.cs" />
     <Compile Include="Device_Interface\GenericDriver.cs" />
     <Compile Include="Device_Interface\RobotFactorySRL_3DLPrinter.cs" />
-    <Compile Include="GCodeInterpreter.cs" />
     <Compile Include="GUI\Controls\ctlHeatTemp.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -133,6 +130,9 @@
     </Compile>
     <Compile Include="GUI\Controls\ctlToolpathGenConfig.Designer.cs">
       <DependentUpon>ctlToolpathGenConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\ctlExpandPanel.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="GUI\Form1.cs">
       <SubType>Form</SubType>
@@ -270,6 +270,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\ctlToolpathGenConfig.resx">
       <DependentUpon>ctlToolpathGenConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\ctlExpandPanel.resx">
+      <DependentUpon>ctlExpandPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

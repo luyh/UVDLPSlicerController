@@ -9,9 +9,9 @@ namespace Engine3D
     {
         public Vector3d() 
         {
-            x = y = z = 0.0;
+            x = y = z = 0.0f;
         }
-        public Vector3d(double xp, double yp, double zp)
+        public Vector3d(float xp, float yp, float zp)
         {
             x = xp;
             y = yp;
@@ -63,11 +63,11 @@ namespace Engine3D
             return new Vector3d(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x); 
         }
 
-        public double Mag()
+        public float Mag()
         {
-            return Math.Sqrt((x * x) + (y * y) + (z * z));
+            return (float)Math.Sqrt((x * x) + (y * y) + (z * z));
         }
-        public void Scale(double scale) 
+        public void Scale(float scale) 
         {
             x *= scale;
             y *= scale;
@@ -91,7 +91,7 @@ namespace Engine3D
 
        public void Normalize()  
        {
-    	    double oneoverdist  = 1.0f / Mag();
+    	    float oneoverdist  = 1.0f / Mag();
             x *= oneoverdist;
             y *= oneoverdist;
             z *= oneoverdist;

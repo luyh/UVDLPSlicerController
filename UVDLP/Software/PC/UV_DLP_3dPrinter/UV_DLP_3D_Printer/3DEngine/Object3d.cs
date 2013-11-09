@@ -15,24 +15,20 @@ namespace Engine3D
 {
     public class Object3d
     {
-        public ArrayList m_lstpoints; // list of 3d points in object
-        public ArrayList m_lstpolys;// list of polygons
+        public List<Point3d> m_lstpoints; // list of 3d points in object
+        public List<Polygon> m_lstpolys;// list of polygons
         private string m_name; // just the filename
         public string m_fullname; // full path with filename
         private bool m_visible;
         public Point3d m_min, m_max,m_center;
         public bool m_wireframe = false;
-        //private bool m_support = false; // is this a 3d support object?
-        public double m_radius;
+        public float m_radius;
         public Material material;// = new Material();
         public int tag = -1; // acting as an object ID
-        //public bool m_showalpha;
         public static int OBJ_NORMAL        =0; // a regular old object
         public static int OBJ_SUPPORT = 1; // a generated support
         public static int OBJ_GROUND = 2; // ground plane usewd for hit-testing
-        //public static int OBJ_SUPPORT;
         private int m_listid; // gl call list id 
-        //private static int m_IDGEN = 1;
         public Object3d() 
         {
             Init();
@@ -43,19 +39,17 @@ namespace Engine3D
         }
         public void Init() 
         {
-            m_lstpolys = new ArrayList();
-            m_lstpoints = new ArrayList();
+            m_lstpolys = new List<Polygon>();
+            m_lstpoints = new List<Point3d>();
             m_center = new Point3d();
             m_name = "Model";
             m_fullname = "Model";
             m_min = new Point3d();
             m_max = new Point3d();
             m_visible = true;
-            m_radius = 0.0;
-            //m_support = false;
+            m_radius = 0.0f;
             material = new Material();
             tag = Object3d.OBJ_NORMAL;
-            //m_showalpha = false;
             m_listid = -1;
         }
         public string Name 
@@ -87,13 +81,7 @@ namespace Engine3D
                 p.CalcMinMax();
             }
         }
-        public void ClearCached() 
-        {
-            foreach (Polygon p in m_lstpolys)
-            {
-                p.ClearCached();
-            }        
-        }
+
         public void Rotate(float x, float y, float z) 
         {
             Point3d center = CalcCenter();
@@ -172,25 +160,6 @@ namespace Engine3D
             }
         }
         
-        public void Render(Camera cam, PaintEventArgs ev, int wid, int hei)
-        {
-
-            foreach (Polygon poly in m_lstpolys) 
-            {
-                poly.Render(cam, ev, wid, hei);
-            }
-        }
-        /*
-public float SignedVolumeOfTriangle(Vector p1, Vector p2, Vector p3) {
-    var v321 = p3.X*p2.Y*p1.Z;
-    var v231 = p2.X*p3.Y*p1.Z;
-    var v312 = p3.X*p1.Y*p2.Z;
-    var v132 = p1.X*p3.Y*p2.Z;
-    var v213 = p2.X*p1.Y*p3.Z;
-    var v123 = p1.X*p2.Y*p3.Z;
-    return (1.0f/6.0f)*(-v321 + v231 + v312 - v132 - v213 + v123);
-}         
-         */
         public double CalculateVolume() 
         {
             double vol = 0.0;
@@ -249,15 +218,15 @@ public float SignedVolumeOfTriangle(Vector p1, Vector p2, Vector p3) {
                 {
                     pnt = new Point3d();
                     lst.Add(pnt);
-                    pnt.x = double.Parse(sr.ReadLine());
+                    pnt.x = float.Parse(sr.ReadLine());
                 }
                 if (line == "20" || line == "21" || line == "22" || line == "23") 
                 {
-                    pnt.y = double.Parse(sr.ReadLine());
+                    pnt.y = float.Parse(sr.ReadLine());
                 }
                 if (line == "30" || line == "31" || line == "32" || line == "33") 
                 {
-                    pnt.z = double.Parse(sr.ReadLine());
+                    pnt.z = float.Parse(sr.ReadLine());
                 }
                 if (line == "62") done = true;
             }
@@ -269,7 +238,7 @@ public float SignedVolumeOfTriangle(Vector p1, Vector p2, Vector p3) {
             }
         
         }
-        public bool GenerateFromBitmap(string file, ScaleFactor f) 
+        public bool GenerateFromBitmap(string file, Vector3d f) 
         {
             try
             {
@@ -282,9 +251,9 @@ public float SignedVolumeOfTriangle(Vector p1, Vector p2, Vector p3) {
                     {
                         Color clr = bm.GetPixel(x, y);
                         Point3d pnt = new Point3d();
-                        pnt.x = f.x * ((double)x);
-                        pnt.y = f.y * ((double)y);
-                        pnt.z = f.z * ((double)clr.R);
+                        pnt.x = f.x * ((float)x);
+                        pnt.y = f.y * ((float)y);
+                        pnt.z = f.z * ((float)clr.R);
                         m_lstpoints.Add(pnt);
                     }
                 }
@@ -334,8 +303,8 @@ public float SignedVolumeOfTriangle(Vector p1, Vector p2, Vector p3) {
         public void FindMinMax()         
         {
             Point3d first = (Point3d)this.m_lstpoints[0];
-            m_min.Set(first.x, first.y, first.z, 0.0);
-            m_max.Set(first.x, first.y, first.z, 0.0);
+            m_min.Set(first.x, first.y, first.z);
+            m_max.Set(first.x, first.y, first.z);
             foreach (Point3d p in this.m_lstpoints)             
             {
                 if (p.x < m_min.x)
@@ -360,14 +329,14 @@ public float SignedVolumeOfTriangle(Vector p1, Vector p2, Vector p3) {
          */
         public void CalcRadius() 
         {
-            double maxdist = 0.0;
-            double td = 0.0;
+            float maxdist = 0.0f;
+            float td = 0.0f;
             foreach (Point3d p in m_lstpoints)
             {
                 td = (p.x - m_center.x) * (p.x - m_center.x);
                 td += (p.y - m_center.y) * (p.y - m_center.y);
                 td += (p.z - m_center.z) * (p.z - m_center.z);
-                td = Math.Sqrt(td);
+                td = (float)Math.Sqrt(td);
                 if (td >= maxdist)
                     maxdist = td;
             }
@@ -377,7 +346,7 @@ public float SignedVolumeOfTriangle(Vector p1, Vector p2, Vector p3) {
         public Point3d CalcCenter() 
         {
             Point3d center = new Point3d();
-            center.Set(0, 0, 0, 0);
+            center.Set(0, 0, 0);
             foreach (Point3d p in m_lstpoints) 
             {
                 center.x += p.x;
@@ -389,7 +358,7 @@ public float SignedVolumeOfTriangle(Vector p1, Vector p2, Vector p3) {
             center.y /= m_lstpoints.Count;
             center.z /= m_lstpoints.Count;
 
-            m_center.Set(center.x, center.y, center.z, 1.0);
+            m_center.Set(center.x, center.y, center.z);
             return center;
         }
 
@@ -401,7 +370,7 @@ public float SignedVolumeOfTriangle(Vector p1, Vector p2, Vector p3) {
             Vector3d upvec = new Vector3d();
             double inc = 1.0 / 90.0;
             angle = -(1 - (angle * inc));
-            upvec.Set(new Point3d(0,0,1,1));
+            upvec.Set(new Point3d(0,0,1));
             foreach (Polygon p in this.m_lstpolys) 
             {
                 p.CalcNormal();
@@ -556,17 +525,15 @@ public float SignedVolumeOfTriangle(Vector p1, Vector p2, Vector p3) {
                     p.m_normal.Load(br); // load the normal
                     p.m_points = new Point3d[3]; // create storage
                     for (int pc = 0; pc < 3; pc++) //iterate through the points
-                    {                       
-                        p.m_points[pc] = new Point3d();
-                        p.m_points[pc].Load(br);
-                        m_lstpoints.Add(p.m_points[pc]);                       
-                        
+                    {                        
+                        Point3d pnt = new Point3d();
+                        pnt.Load(br);
+                        m_lstpoints.Add(pnt);
+                        p.m_points[pc] = pnt;
                     }
                     uint attr = br.ReadUInt16(); // not used attribute
-                    //p.CalcNormal();
                 }
                 
-                //FindMinMax();
                 Update(); // initial positions please...
                 br.Close();
                 return true;
@@ -622,9 +589,9 @@ public float SignedVolumeOfTriangle(Vector p1, Vector p2, Vector p3) {
                             {
                                 return false;
                             }
-                            poly.m_points[idx].x = (double)Double.Parse(toks[1].Trim(), System.Globalization.NumberStyles.Any);
-                            poly.m_points[idx].y = (double)Double.Parse(toks[2].Trim(), System.Globalization.NumberStyles.Any);
-                            poly.m_points[idx].z = (double)Double.Parse(toks[3].Trim(), System.Globalization.NumberStyles.Any);                           
+                            poly.m_points[idx].x = (float)float.Parse(toks[1].Trim(), System.Globalization.NumberStyles.Any);
+                            poly.m_points[idx].y = (float)float.Parse(toks[2].Trim(), System.Globalization.NumberStyles.Any);
+                            poly.m_points[idx].z = (float)float.Parse(toks[3].Trim(), System.Globalization.NumberStyles.Any);                           
                         }
 
                         line = sr.ReadLine().Trim();//endloop
@@ -732,7 +699,7 @@ public float SignedVolumeOfTriangle(Vector p1, Vector p2, Vector p3) {
         ﻿  ﻿  ﻿  ﻿  ﻿  {
         ﻿  ﻿  ﻿  ﻿  ﻿  case "v": // vertex         ﻿  ﻿  ﻿  ﻿
                         Point3d pnt = new Point3d();
-                        double[] v = ParseVector(parts);
+                        float[] v = ParseVector(parts);
                         pnt.x = v[0];
                         pnt.y = v[1];
                         pnt.z = v[2];
@@ -793,12 +760,12 @@ public float SignedVolumeOfTriangle(Vector p1, Vector p2, Vector p3) {
           }
 ﻿  ﻿  }
 ﻿  ﻿  
-﻿  ﻿  static double[] ParseVector(string[] parts)
+﻿  ﻿  static float[] ParseVector(string[] parts)
 ﻿  ﻿  {﻿  ﻿  ﻿  
-          double []dv = new double[3];
-          dv[0] = Double.Parse(parts[1]);
-          dv[1] = Double.Parse(parts[2]);
-          dv[2] = Double.Parse(parts[3]);
+          float []dv = new float[3];
+          dv[0] = Single.Parse(parts[1]);
+          dv[1] = Single.Parse(parts[2]);
+          dv[2] = Single.Parse(parts[3]);
 
     ﻿  ﻿  ﻿  return dv;
 ﻿  ﻿  }                     

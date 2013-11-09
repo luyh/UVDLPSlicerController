@@ -54,7 +54,6 @@ namespace UV_DLP_3D_Printer
             UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEventDel);
             UVDLPApp.Instance().Engine3D.AddGrid();
             UVDLPApp.Instance().Engine3D.AddPlatCube();
-            UVDLPApp.Instance().Engine3D.CameraReset();
             UVDLPApp.Instance().m_slicer.Slice_Event += new Slicer.SliceEvent(SliceEv);
             UVDLPApp.Instance().m_buildmgr.BuildStatus += new delBuildStatus(BuildStatus);
             UVDLPApp.Instance().m_buildmgr.PrintLayer += new delPrinterLayer(PrintLayer);
@@ -792,8 +791,8 @@ namespace UV_DLP_3D_Printer
             Point3d intersect = new Point3d();
             Engine3D.Vector3d dir = new Engine3D.Vector3d();
 
-            origin.Set(t_ray_pnt.X, t_ray_pnt.Y, t_ray_pnt.Z, 1.0);
-            dir.Set(t_ray_vec.X, t_ray_vec.Y, t_ray_vec.Z, 0); // should this be scaled?
+            origin.Set(t_ray_pnt.X, t_ray_pnt.Y, t_ray_pnt.Z);
+            dir.Set(t_ray_vec.X, t_ray_vec.Y, t_ray_vec.Z); // should this be scaled?
 
             List<ISectData> isects = RTUtils.IntersectObjects(dir, origin, UVDLPApp.Instance().Engine3D.m_objects, true);
             if (isects.Count > 0) 
@@ -890,9 +889,9 @@ namespace UV_DLP_3D_Printer
                     {
                         Support tmpsup = (Support)UVDLPApp.Instance().SelectedObject;
                         Point3d pnt = new Point3d();
-                        pnt.Set(tmpsup.m_center.x, tmpsup.m_center.y, 0, 0);
+                        pnt.Set(tmpsup.m_center.x, tmpsup.m_center.y, 0);
                         Engine3D.Vector3d vec = new Engine3D.Vector3d();
-                        vec.Set(0, 0, 1, 0); // create a vector striaght up
+                        vec.Set(0, 0, 1); // create a vector striaght up
                         // hit test from the selected objects center x/y/0 position straight up
                         //see if it hits any object in the scene,
                         // if it does, scale the object from the ground plane to the closest intersection point
@@ -1799,6 +1798,12 @@ namespace UV_DLP_3D_Printer
             frmVolEst frmvol = new frmVolEst();
            // UVDLPApp.Instance().m_estimator.Setup(UVDLPApp.Instance().m_slicefile, UVDLPApp.Instance().m_buildparms);
             frmvol.ShowDialog();
+        }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form1 frm = new Form1();
+            frm.Show();
         }
     }
 }

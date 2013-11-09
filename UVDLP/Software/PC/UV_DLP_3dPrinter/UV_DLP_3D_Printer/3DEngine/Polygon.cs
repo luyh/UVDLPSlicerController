@@ -14,95 +14,35 @@ using UV_DLP_3D_Printer._3DEngine;
 
 namespace Engine3D
 {
-    public class Polygon : IComparer
+    public class Polygon 
     {
         public Vector3d m_normal; // the plane normal
-        public Plane plane; // the plane for intersection testing
         public Point3d m_center; // the calculated center of the polygon
-        public double m_radius; // the radius of the poly for sphere intersection testing
-
-        public Point3d m_centercamera; // transformed into camera space
+        public float m_radius; // the radius of the poly for sphere intersection testing
         public Color m_color;
-        public Color m_linecolor;
         public Point3d[] m_points; // points in poly, also contained in parent objects points list 
-        public bool m_solid; // draw it solid
-        public bool m_wire;// draw wireframe
         public MinMax m_minmax; // cached for slicing
         public bool m_hidden; // for hiding polygons during the manual support genetation step
         //move vars cached for slicing
-        PolyLine3d lineseg1;
-        PolyLine3d lineseg2;
-        PolyLine3d lineseg3;
         public int tag; // special markers for this polygon
         public static int TAG_REGULAR        = 0;
         public static int TAG_MARKDOWN      = 1;
             
-        public void ClearCached()
-        {
-            lineseg1 = null;
-            lineseg2 = null;
-            lineseg3 = null;
-        }
-
         public Polygon() 
         {
             m_normal = new Vector3d();
-            m_radius = 0.0;
+            m_radius = 0.0f;
             m_color = Color.Gray;
-            m_linecolor = Color.Blue;
-            m_solid = true;
-            m_wire = true;
             m_center = new Point3d();
-            m_minmax = null;
-            plane = new Plane();
+            m_minmax = new MinMax(); // really should be bounding box
             m_hidden = false;
             tag = TAG_REGULAR;
         }
-
-        void CalculatePlaneEquation()
-        {
-                double           len;
-                int             i;
-                Vector3d          ref1, norm, v1, v2;
-                Point3d          vert1, vert2;
-                ref1 = new Vector3d();
-                norm = new Vector3d();
-                v1 = new Vector3d();
-                v2 = new Vector3d();
-
-                for(i=0; i < m_points.Length; i++) 
-                {
-				        vert1 = m_points[i];
-				        vert2 = m_points[(i+1) % m_points.Length];
-
-				        v1.x = vert1.x;
-				        v1.y = vert1.y;
-				        v1.z = vert1.z;
-
-				        v2.x = vert2.x;
-				        v2.y = vert2.y;
-				        v2.z = vert2.z;
-
-                        norm.x += (v1.y - v2.y)*(v1.z + v2.z);
-                        norm.y += (v1.z - v2.z)*(v1.x + v2.x);
-                        norm.z += (v1.x - v2.x)*(v1.y + v2.y);
-                        ref1.x += v1.x;
-                        ref1.y += v1.y;
-                        ref1.z += v1.z;
-                }
-
-		        len = norm.Mag();
-                plane.a = norm.x / len;
-                plane.b = norm.y / len;
-                plane.c = norm.z / len;
-                len *= m_points.Length;
-	            plane.d = -ref1.Dot(norm) / len;
-        }
-
+      
         public void CalcNormal() 
         {
-            double Ax, Ay, Az;
-            double Bx, By, Bz;
+            float Ax, Ay, Az;
+            float Bx, By, Bz;
             Ax = m_points[1].x - m_points[0].x;
             Ay = m_points[1].y - m_points[0].y;
             Az = m_points[1].z - m_points[0].z;
@@ -110,19 +50,18 @@ namespace Engine3D
             By = m_points[2].y - m_points[0].y;
             Bz = m_points[2].z - m_points[0].z;        
    
-            double Nx = (Ay * Bz) - (Az * By);
-            double Ny = (Az * Bx) - (Ax * Bz);
-            double Nz = (Ax * By) - (Ay * Bx);
+            float Nx = (Ay * Bz) - (Az * By);
+            float Ny = (Az * Bx) - (Ax * Bz);
+            float Nz = (Ax * By) - (Ay * Bx);
             m_normal.x = Nx;
             m_normal.y = Ny;
             m_normal.z = Nz;
-            double length = Math.Sqrt((m_normal.x * m_normal.x) + (m_normal.y * m_normal.y) + (m_normal.z * m_normal.z));
+            float length = (float)Math.Sqrt((m_normal.x * m_normal.x) + (m_normal.y * m_normal.y) + (m_normal.z * m_normal.z));
             m_normal.x /= length;
             m_normal.y /= length;
             m_normal.z /= length;
-            CalculatePlaneEquation();
         }
-        public PolyLine3d IntersectZPlane(double zcur)
+        public PolyLine3d IntersectZPlane(float zcur)
         {
             try
             {
@@ -135,13 +74,13 @@ namespace Engine3D
                 Point3d p1, p2, p3; // intersection points for the 3 3d line segments
                 int count = 0;
                 Point3d[] lst = new Point3d[3];
+                PolyLine3d lineseg1 = null;
+                PolyLine3d lineseg2 = null;
+                PolyLine3d lineseg3 = null;
 
-                if (lineseg1 == null)
-                {
-                    lineseg1 = new PolyLine3d();
-                    lineseg1.AddPoint(m_points[0]); // 0-1
-                    lineseg1.AddPoint(m_points[1]);
-                }
+                lineseg1 = new PolyLine3d();
+                lineseg1.AddPoint(m_points[0]); // 0-1
+                lineseg1.AddPoint(m_points[1]);
                 p1 = lineseg1.IntersectZ(zcur);
                 if (p1 != null)
                 {
@@ -149,12 +88,11 @@ namespace Engine3D
                     segment.AddPoint(p1);
                 }
 
-                if (lineseg2 == null)
-                {
-                    lineseg2 = new PolyLine3d();
-                    lineseg2.AddPoint(m_points[1]); // 1-2
-                    lineseg2.AddPoint(m_points[2]);
-                }
+
+                lineseg2 = new PolyLine3d();
+                lineseg2.AddPoint(m_points[1]); // 1-2
+                lineseg2.AddPoint(m_points[2]);
+
                 p2 = lineseg2.IntersectZ(zcur);
                 if (p2 != null)
                 {
@@ -167,12 +105,10 @@ namespace Engine3D
 
                 // there is no sense in doing the 3rd intersection if we don't have 
                 // at least 1 point at this stage
-                if (lineseg3 == null)
-                {
-                    lineseg3 = new PolyLine3d();
-                    lineseg3.AddPoint(m_points[2]); // 2-0
-                    lineseg3.AddPoint(m_points[0]);
-                }
+
+                lineseg3 = new PolyLine3d();
+                lineseg3.AddPoint(m_points[2]); // 2-0
+                lineseg3.AddPoint(m_points[0]);
                 p3 = lineseg3.IntersectZ(zcur);
                 if (p3 != null)
                 {
@@ -193,7 +129,6 @@ namespace Engine3D
 
         public void CalcMinMax() 
         {
-            m_minmax = new MinMax();
             m_minmax.m_min = m_points[0].z;
             m_minmax.m_max = m_points[0].z;
 
@@ -212,7 +147,7 @@ namespace Engine3D
         {
             try
             {
-                m_center.Set(0, 0, 0,0);
+                m_center.Set(0, 0, 0);
 
                 foreach (Point3d pnt in m_points)
                 {
@@ -239,10 +174,11 @@ namespace Engine3D
             CalcRadius();
             CalcNormal();
         }
+
+        static Vector3d newlen = new Vector3d(); // for calculating the radius of this poly
         public void CalcRadius()
-        {
-	        Vector3d newlen = new Vector3d();
-            newlen.Set(0, 0, 0, 0);
+        {	        
+            newlen.Set(0, 0, 0);
             for (int c = 0; c < m_points.Length; c++)
 	        {
                 newlen.x = m_center.x - m_points[c].x;
@@ -254,15 +190,7 @@ namespace Engine3D
                 }
 	        }
         }
-        int IComparer.Compare(Object pFirstObject, Object pObjectToCompare)
-        {
-            Polygon p1 = (Polygon)pFirstObject;
-            Polygon p2 = (Polygon)pObjectToCompare;
-            if (p1.m_centercamera.z > p2.m_centercamera.z) return 1;
-            if (p1.m_centercamera.z < p2.m_centercamera.z) return -1;
-            return 0;
-        }
-
+        
         public void RenderGL(bool wireframe,bool alpha, bool selected) 
         {
             // clip test before rendering 
@@ -320,59 +248,7 @@ namespace Engine3D
             }
             GL.End();            
         }
-
-        public void Render(Camera cam, PaintEventArgs ev, int wid, int hei)
-        {
-            try
-            {
-                ArrayList m_campnts = new ArrayList();
-                //transform this from world to camera coordinates
-                //project
-                // then draw
-                foreach (Point3d pnt in m_points)
-                {
-                    Point3d p = cam.viewmat.Transform(pnt);
-                    m_campnts.Add(p);
-                }
-                if (m_campnts.Count > 1)
-                {
-                    Point[] line = new Point[m_campnts.Count];
-                    if (cam.m_protyp == eProjectType.eParallel)
-                    {
-                        int idx = 0;
-                        Point first = new Point();
-                        foreach (Point3d pnt in m_campnts)
-                        {
-                            line[idx].X = (int)((cam.m_scalex * pnt.x) + (wid / 2)); // need to add x and y offsets
-                            line[idx].Y = (int)((cam.m_scaley * pnt.y) + (hei / 2)); // need to add x and y offsets
-                            if (idx == 0)
-                            {
-                                first.X = line[idx].X;
-                                first.Y = line[idx].Y;
-                            }
-                            idx++;
-                        }
-                        // line[idx].X  = first.X; // add the first on as the last as well to close it up
-                        // line[idx].Y = first.Y;
-                    }
-
-                    Brush solidbrush = new SolidBrush(m_color);
-                    if (m_solid == true)
-                    {
-                        ev.Graphics.FillPolygon(solidbrush, line);
-
-                    }
-
-                    Pen linepen = new Pen(m_linecolor, 2);
-                    if (m_wire == true)
-                    {
-                        ev.Graphics.DrawPolygon(linepen, line);
-                        ev.Graphics.DrawLines(linepen, line);
-                    }
-                }
-            }
-            catch (Exception) { }
-        }
+        
 
     }
 }

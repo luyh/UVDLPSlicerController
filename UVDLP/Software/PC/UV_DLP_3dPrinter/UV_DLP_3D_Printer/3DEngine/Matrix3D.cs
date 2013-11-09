@@ -6,11 +6,11 @@ namespace Engine3D
 {
     public class Matrix3D
     {
-        public double [,] Matrix;
+        public float [,] Matrix;
 
         public Matrix3D() 
         {
-            Matrix = new double[4, 4];
+            Matrix = new float[4, 4];
             Identity();
         }
 
@@ -33,7 +33,7 @@ namespace Engine3D
         public static void MergeMatrices (ref Matrix3D Dest , Matrix3D Source  )
         {
            // Multiply Source by Dest; store result in Temp:
-           double [,] Temp  = new double [ 4 , 4 ];
+           float [,] Temp  = new float [ 4 , 4 ];
            for (int i = 0; i < 4; i++)
            {
                for (int j = 0; j < 4; j++)
@@ -57,7 +57,7 @@ namespace Engine3D
         void MergeMatrix (Matrix3D NewMatrix )
         {
             // Multiply NewMatirx by Matrix; store result in TempMatrix
-            double [,] TempMatrix  = new double [ 4 , 4 ];
+            float [,] TempMatrix  = new float [ 4 , 4 ];
             for (int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 4; j++)
@@ -78,16 +78,16 @@ namespace Engine3D
                 Matrix[i,3] = TempMatrix[i,3];
             }   
         }
-        public void  Rotate ( double Xa, double Ya, double Za )
+        public void  Rotate ( float Xa, float Ya, float Za )
         {
             Matrix3D Rmat = new Matrix3D();
             Matrix3D RMatrix = new Matrix3D();
-            double sinxa = Math.Sin(Xa);
-            double cosxa = Math.Cos(Xa);
-            double sinza = Math.Sin(Za);
-            double cosza = Math.Cos(Za);
-            double sinya = Math.Sin(Ya);
-            double cosya = Math.Cos(Ya);
+            float sinxa = (float)Math.Sin(Xa);
+            float cosxa = (float)Math.Cos(Xa);
+            float sinza = (float)Math.Sin(Za);
+            float cosza = (float)Math.Cos(Za);
+            float sinya = (float)Math.Sin(Ya);
+            float cosya = (float)Math.Cos(Ya);
             Rmat.Identity();
             RMatrix.Identity();
 
@@ -122,7 +122,7 @@ namespace Engine3D
             MergeMatrix ( RMatrix ); // now merge with this one.
 
         }
-        public void Translate ( double Xt, double Yt, double Zt )
+        public void Translate ( float Xt, float Yt, float Zt )
         {
             // Create 3D translation matrix:
 

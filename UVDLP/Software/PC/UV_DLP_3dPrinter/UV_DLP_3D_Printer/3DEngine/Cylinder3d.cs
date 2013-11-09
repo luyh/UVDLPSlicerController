@@ -22,11 +22,11 @@ namespace Engine3D
             float y = r*sin(t) + k;         
          */
 
-        public void Create(double bottomradius, double topradius, double height, int numdivscirc, int numdivsheight) 
+        public void Create(float bottomradius, float topradius, float height, int numdivscirc, int numdivsheight) 
         {
             //generate sets of points that describe a circle vertically
            // int idx = 0; // this points to the first point in the circle
-            double zlev = 0.0; // start at the bottom of the cylinder
+            float zlev = 0.0f; // start at the bottom of the cylinder
             //Name = "Cylinder";
            // for (int cnt = 0; cnt < numdivsheight; cnt++)
            // {
@@ -114,16 +114,16 @@ namespace Engine3D
          This function generates a list of points for a cirlce add a certain level,
          * and adds them to the object point list
          */
-        protected void GenerateCirclePoints(double radius, int numdivscirc,double zlev,bool addcenter)
+        protected void GenerateCirclePoints(double radius, int numdivscirc,float zlev,bool addcenter)
         {            
-            double step = (double)(Math.PI * 2) / numdivscirc;
-            double t = 0.0;
+            float step = (float)(Math.PI * 2) / numdivscirc;
+            float t = 0.0f;
             for (int cnt = 0; cnt < numdivscirc; cnt++)
             {
                 Point3d pnt = new Point3d(); // bottom points
-                pnt.x = radius * Math.Cos(t);
-                pnt.y = radius * Math.Sin(t);
-                pnt.z = zlev;
+                pnt.x = (float)(radius * Math.Cos(t));
+                pnt.y = (float)(radius * Math.Sin(t));
+                pnt.z = (float)zlev;
                 m_lstpoints.Add(pnt);
                 t += step;
             }

@@ -86,9 +86,9 @@ namespace UV_DLP_3D_Printer._3DEngine.CSG
                     Point3d p1 = new Point3d();
                     Point3d p2 = new Point3d();
 
-                    p0.Set(poly.vertices[0].pos.x, poly.vertices[0].pos.y, poly.vertices[0].pos.z, 0);
-                    p1.Set(poly.vertices[j - 1].pos.x, poly.vertices[j - 1].pos.y, poly.vertices[j - 1].pos.z, 0);
-                    p2.Set(poly.vertices[j].pos.x, poly.vertices[j].pos.y, poly.vertices[j].pos.z, 0);
+                    p0.Set(poly.vertices[0].pos.x, poly.vertices[0].pos.y, poly.vertices[0].pos.z);
+                    p1.Set(poly.vertices[j - 1].pos.x, poly.vertices[j - 1].pos.y, poly.vertices[j - 1].pos.z);
+                    p2.Set(poly.vertices[j].pos.x, poly.vertices[j].pos.y, poly.vertices[j].pos.z);
 
                     ply.m_points[0] = p0;
                     ply.m_points[1] = p1;
