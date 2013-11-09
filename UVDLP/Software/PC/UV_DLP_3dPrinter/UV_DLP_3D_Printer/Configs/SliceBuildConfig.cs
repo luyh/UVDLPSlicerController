@@ -34,7 +34,7 @@ namespace UV_DLP_3D_Printer
         public int plat_temp; // desired platform temperature in celsius 
        // public bool exportgcode; // export the gcode file when slicing
         public bool exportsvg; // export the svg slices when building
-        public bool exportimages; // export image slices when building
+        public bool export; // export image slices when building
         public eBuildDirection direction;
         public double liftdistance; // distance to lift and retract
         public double slidetiltval; // a value used for slide / tilt 
@@ -55,8 +55,8 @@ namespace UV_DLP_3D_Printer
         public bool m_flipY; // mirror the y axis
         public string m_notes;
         public double m_resinprice; // per liter
-
-        //public bool m_generateautosupports; // automatic support generation
+       // public bool m_sliceimmediate; // slice and render on a per-needed basis
+        
         //need some parms here for auto support
 
         private String[] m_defheader = 
@@ -198,7 +198,7 @@ namespace UV_DLP_3D_Printer
             plat_temp = source.plat_temp; // desired platform temperature in celsius 
            // exportgcode = source.exportgcode; // export the gcode file when slicing
             exportsvg = source.exportsvg; // export the svg slices when building
-            exportimages = source.exportimages; // export image slices when building
+            export = source.export; // export image slices when building
             m_headercode = source.m_headercode; // inserted at beginning of file
             m_footercode = source.m_footercode; // inserted at end of file
             m_preliftcode = source.m_preliftcode; // inserted between each slice            
@@ -224,6 +224,7 @@ namespace UV_DLP_3D_Printer
             m_notes = source.m_notes;
             m_resinprice = source.m_resinprice;
             //raise_time_ms = source.raise_time_ms;
+            //m_sliceimmediate = source.m_sliceimmediate;
         }
 
         public SliceBuildConfig() 
@@ -258,7 +259,7 @@ namespace UV_DLP_3D_Printer
             numfirstlayers = 3;
             //exportgcode = true;
             exportsvg = false;
-            exportimages = false;
+            export = false;
             direction = eBuildDirection.Bottom_Up;
             liftdistance = 5.0;
             //raise_time_ms = 750;
@@ -274,6 +275,7 @@ namespace UV_DLP_3D_Printer
             m_flipY = false;
             m_notes = "";
             m_resinprice = 0.0;//
+            //m_sliceimmediate = false;
             SetDefaultCodes(); // set up default gcodes
         }
         public bool Load(String filename) 
@@ -296,7 +298,7 @@ namespace UV_DLP_3D_Printer
             plat_temp = xh.GetInt(sbc, "PlatformTemp", 75);
             //exportgcode = xh.GetBool(sbc, "ExportGCode"));
             exportsvg = xh.GetBool(sbc, "ExportSVG", false);
-            exportimages = xh.GetBool(sbc, "ExportImages", false); ;
+            export = xh.GetBool(sbc, "Export", false); ;
             XOffset = xh.GetInt(sbc, "XOffset", 0);
             YOffset = xh.GetInt(sbc, "YOffset", 0);
             numfirstlayers = xh.GetInt(sbc, "NumberofBottomLayers", 3);
@@ -373,7 +375,7 @@ namespace UV_DLP_3D_Printer
             xh.SetParameter(sbc, "PlatformTemp", plat_temp);
             // xh.SetParameter(sbc, "ExportGCode", exportgcode);
             xh.SetParameter(sbc, "ExportSVG", exportsvg);
-            xh.SetParameter(sbc, "ExportImages", exportimages);
+            xh.SetParameter(sbc, "Export", export);
             xh.SetParameter(sbc, "XOffset", XOffset);
             xh.SetParameter(sbc, "YOffset", YOffset);
             xh.SetParameter(sbc, "NumberofBottomLayers", numfirstlayers);

@@ -59,8 +59,10 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                UVDLPApp.Instance().CalcScene();
-                int numslices = (int)((UVDLPApp.Instance().Scene.m_max.z - UVDLPApp.Instance().Scene.m_min.z) / sp.ZThick);
+                //UVDLPApp.Instance().CalcScene();
+                MinMax mm = UVDLPApp.Instance().Engine3D.CalcSceneExtents(); // get the scene min/max
+                //int numslices = (int)((UVDLPApp.Instance().Scene.m_max.z - UVDLPApp.Instance().Scene.m_min.z) / sp.ZThick);
+                int numslices = (int)((mm.m_max - mm.m_min) / sp.ZThick);
                 return numslices;
             }
             catch (Exception) 
@@ -79,6 +81,10 @@ namespace UV_DLP_3D_Printer
                 m_cancel = false;
                 // create new slice file
                 m_sf = new SliceFile(sp);
+                if (sp.export == false) 
+                {
+                    m_sf.m_mode = SliceFile.SFMode.eImmediate;
+                }
                 m_slicethread = new Thread(new ThreadStart(slicefunc));
                 m_slicethread.Start();
                 isslicing = true;
@@ -128,8 +134,88 @@ namespace UV_DLP_3D_Printer
             }
             catch { return null; }
         }
+        /// <summary>
+        /// This function will immediately return a bitmap slice at the specified Z-Level
+        /// </summary>
+        /// <param name="zlev"></param>
+        /// <returns></returns>
+        public Bitmap SliceImmediate(float curz) 
+        {
+            try
+            {
+                //first take care of scaling up the output bitmap paramters size, so we can re-sample later
 
-    
+                int ox, oy;
+                double sdpmmx; // save the original dots per mm
+                double sdpmmy;
+                double scaler = 1.5; // specify the scale factor
+                if (m_sf.m_config.antialiasing == true)
+                {
+                    scaler = m_sf.m_config.aaval;
+                }
+                else
+                {
+                    scaler = 1.0; // no scaling
+                }
+                sdpmmx = m_sf.m_config.dpmmX; // save the original dots per mm
+                sdpmmy = m_sf.m_config.dpmmY;
+
+                m_sf.m_config.dpmmX *= scaler;//  scale them up.
+                m_sf.m_config.dpmmY *= scaler;
+                //Re-sample to a higher resolution so we can smooth later
+                ox = m_sf.m_config.xres; // save the original resolution
+                oy = m_sf.m_config.yres;
+                double xs, ys;
+                xs = ((double)m_sf.m_config.xres) * scaler;  // scale them up
+                ys = ((double)m_sf.m_config.yres) * scaler;
+                m_sf.m_config.xres = (int)xs;
+                m_sf.m_config.yres = (int)ys;
+                                                               
+
+                Bitmap bmp = new Bitmap(m_sf.m_config.xres, m_sf.m_config.yres); // create a new bitmap on a per-slice basis                    
+                Graphics graph = Graphics.FromImage(bmp);
+                graph.Clear(UVDLPApp.Instance().m_appconfig.m_backgroundcolor);//clear the image for rendering
+
+                //convert all to 2d lines
+                Bitmap savebm = null;
+                // check for cancelation
+
+                foreach (Object3d obj in UVDLPApp.Instance().Engine3D.m_objects)
+                {
+                    savebm = bmp; // need to set this here in case it's not rendered
+                    if (curz >= obj.m_min.z && curz <= obj.m_max.z) // only slice from the bottom to the top of the objects
+                    {
+                        ArrayList lstply = GetZPolys(obj, curz);//get a list of polygons at this slice z height that potentially intersect
+                        ArrayList lstintersections = GetZIntersections(lstply, curz);//iterate through all the polygons and generate x/y line segments at this 3d z level
+                        Slice sl = new Slice();//create a new slice
+                        sl.m_segments = lstintersections;// Set the list of intersections 
+                        sl.RenderSlice(m_sf.m_config, ref bmp);
+                        savebm = bmp;
+                    }
+                }
+
+                if (m_sf.m_config.antialiasing == true) // we're using anti-aliasing here, so resize the image
+                {
+                    savebm = ResizeImage(bmp, new Size(ox, oy));
+                }
+                if (m_sf.m_config.m_flipX == true)
+                {
+                    savebm = ReflectX(savebm);
+                }
+                if (m_sf.m_config.m_flipY == true)
+                {
+                    savebm = ReflectY(savebm);
+                }
+                return savebm;
+            }
+            catch (Exception ex)
+            {
+                string s = ex.StackTrace;
+                DebugLogger.Instance().LogRecord(ex.Message);
+                return null;
+            }        
+                        
+        }
 
         private void slicefunc() 
         {
@@ -165,16 +251,11 @@ namespace UV_DLP_3D_Printer
 
 
                 //determine the number of slices
-                UVDLPApp.Instance().Scene.FindMinMax();
-                // I think I should calculate the number of slices from the world 0 position, not just the bottom of the object
-                //int numslices = (int)((UVDLPApp.Instance().Scene.m_max.z - UVDLPApp.Instance().Scene.m_min.z) / m_sf.m_config.ZThick);
-                /*
-                int numslices = (int)((UVDLPApp.Instance().Scene.m_max.z - UVDLPApp.Instance().Scene.m_min.z) / m_sf.m_config.ZThick);
-                // I should start slicing at Wz 0, not Oz 0
-                double curz = (double)UVDLPApp.Instance().Scene.m_min.z; // start at the bottom of all objects in the scene
-                */
-                
-                int numslices = (int)((UVDLPApp.Instance().Scene.m_max.z) / m_sf.m_config.ZThick);
+                //UVDLPApp.Instance().Scene.FindMinMax();
+
+                MinMax mm = UVDLPApp.Instance().Engine3D.CalcSceneExtents();
+                int numslices = (int)((mm.m_max - mm.m_min) / m_sf.m_config.ZThick);
+                //int numslices = (int)((UVDLPApp.Instance().Scene.m_max.z) / m_sf.m_config.ZThick);
                 // I should start slicing at Wz 0, not Oz 0
                 float curz = 0; // start at Wz0
                 
@@ -199,7 +280,13 @@ namespace UV_DLP_3D_Printer
                 m_sf.NumSlices = numslices;
                 SliceStarted(scenename, numslices);
                 DebugLogger.Instance().LogRecord("Slicing started");
-
+                
+                if (m_sf.m_config.export == false) 
+                {
+                    // if we're not actually exporting slices right now, then 
+                    // raise the completed event and exit
+                    SliceCompleted(scenename, 0, numslices);
+                }
                 for (c = 0; c < numslices; c++)
                 {
                     Bitmap bmp = new Bitmap(m_sf.m_config.xres,m_sf.m_config.yres); // create a new bitmap on a per-slice basis
@@ -361,13 +448,16 @@ namespace UV_DLP_3D_Printer
         }
         private void SliceCompleted(string scenename, int layer, int numslices) 
         {
-            if (m_sf.m_config.m_exportopt.ToUpper().Contains("ZIP"))
+            if (m_sf.m_config.export == true) // if we're exporting image slices
             {
-                String modelname = scenename;
-                // strip off the file extension
-                String path = SliceFile.GetSliceFilePath(modelname);
-                path += ".zip";
-                m_zip.Save(path);
+                if (m_sf.m_config.m_exportopt.ToUpper().Contains("ZIP"))
+                {
+                    String modelname = scenename;
+                    // strip off the file extension
+                    String path = SliceFile.GetSliceFilePath(modelname);
+                    path += ".zip";
+                    m_zip.Save(path);
+                }
             }
             RaiseSliceEvent(eSliceEvent.eSliceCompleted, layer, numslices);
         }

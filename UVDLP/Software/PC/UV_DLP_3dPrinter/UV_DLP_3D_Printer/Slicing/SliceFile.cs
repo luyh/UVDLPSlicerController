@@ -23,7 +23,8 @@ namespace UV_DLP_3D_Printer.Slicing
         public enum SFMode 
         {
             eLoaded, // this is a fake lice file, there is no config, pull a few parms from the gcode file
-            eSliced // this is from a slicing done this session
+            eSliced,
+            eImmediate // 
         }
          
         public SliceBuildConfig m_config; // the slicing parameters used to create the image slices
@@ -100,37 +101,46 @@ namespace UV_DLP_3D_Printer.Slicing
          */
         public Bitmap GetSlice(int layer) // 0 based index
         {
-            string path = GetSliceFilePath(modelname);
+            
             try
             {
-                try
+                if (m_mode == SFMode.eImmediate)
                 {
-                    // try first to load from zip
-                    // read the bitmap from the zip
-                    m_zip = ZipFile.Read(path + ".zip");
-                    string fname = Path.GetFileNameWithoutExtension(modelname) + String.Format("{0:0000}", layer) + ".png";
-                    ZipEntry ze = m_zip[fname];
-                    Stream stream = new MemoryStream();
-                    ze.Extract(stream);
-                    Bitmap bmp = new Bitmap(stream);
-                    m_zip.Dispose();
-                    return bmp;      
-                }catch(Exception)
-                {
-                    
+                    // we're rendering slices immediately here
+                    float zlev = (float)(layer * m_config.ZThick);
+                    return UVDLPApp.Instance().m_slicer.SliceImmediate(zlev);
                 }
-                try
+                else
                 {
-                    //try to read bitmap from disk
-                    path += UVDLPApp.m_pathsep;
-                    path += Path.GetFileNameWithoutExtension(modelname) + String.Format("{0:0000}", layer) + ".png";
-                    /*
-                    Bitmap bmp = new Bitmap(path);
-                    */
-                    Bitmap bmp = (Bitmap)FromFile(path);
-                    return bmp;
+                    string path = GetSliceFilePath(modelname);
+                    try
+                    {
+                        
+                        // try first to load from zip
+                        // read the bitmap from the zip
+                        m_zip = ZipFile.Read(path + ".zip");
+                        string fname = Path.GetFileNameWithoutExtension(modelname) + String.Format("{0:0000}", layer) + ".png";
+                        ZipEntry ze = m_zip[fname];
+                        Stream stream = new MemoryStream();
+                        ze.Extract(stream);
+                        Bitmap bmp = new Bitmap(stream);
+                        m_zip.Dispose();
+                        return bmp;
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    try
+                    {
+                        //try to read bitmap from disk
+                        path += UVDLPApp.m_pathsep;
+                        path += Path.GetFileNameWithoutExtension(modelname) + String.Format("{0:0000}", layer) + ".png";
+                        Bitmap bmp = (Bitmap)FromFile(path);
+                        return bmp;
+                    }
+                    catch (Exception) { }
                 }
-                catch (Exception ) { }
                 return null;
             }
             catch (Exception ex) 

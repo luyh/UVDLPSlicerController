@@ -30,6 +30,8 @@
         {
             this.tabOptions = new System.Windows.Forms.TabControl();
             this.tbOptions = new System.Windows.Forms.TabPage();
+            this.txtResinPriceL = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
             this.lblProfName = new System.Windows.Forms.Label();
             this.txtNotes = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
@@ -83,8 +85,7 @@
             this.lstSliceProfiles = new System.Windows.Forms.ListBox();
             this.cmdDelete = new System.Windows.Forms.Button();
             this.cmdNew = new System.Windows.Forms.Button();
-            this.label17 = new System.Windows.Forms.Label();
-            this.txtResinPriceL = new System.Windows.Forms.TextBox();
+            this.chkExport = new System.Windows.Forms.CheckBox();
             this.tabOptions.SuspendLayout();
             this.tbOptions.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -108,6 +109,7 @@
             // 
             // tbOptions
             // 
+            this.tbOptions.Controls.Add(this.chkExport);
             this.tbOptions.Controls.Add(this.txtResinPriceL);
             this.tbOptions.Controls.Add(this.label17);
             this.tbOptions.Controls.Add(this.lblProfName);
@@ -138,10 +140,28 @@
             this.tbOptions.Text = "Options";
             this.tbOptions.UseVisualStyleBackColor = true;
             // 
+            // txtResinPriceL
+            // 
+            this.txtResinPriceL.Location = new System.Drawing.Point(442, 115);
+            this.txtResinPriceL.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtResinPriceL.Name = "txtResinPriceL";
+            this.txtResinPriceL.Size = new System.Drawing.Size(64, 22);
+            this.txtResinPriceL.TabIndex = 58;
+            this.txtResinPriceL.Text = "5000";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(304, 117);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(132, 17);
+            this.label17.TabIndex = 57;
+            this.label17.Text = "Resin Price per liter";
+            // 
             // lblProfName
             // 
             this.lblProfName.AutoSize = true;
-            this.lblProfName.Location = new System.Drawing.Point(136, 24);
+            this.lblProfName.Location = new System.Drawing.Point(136, 13);
             this.lblProfName.Name = "lblProfName";
             this.lblProfName.Size = new System.Drawing.Size(89, 17);
             this.lblProfName.TabIndex = 56;
@@ -149,7 +169,7 @@
             // 
             // txtNotes
             // 
-            this.txtNotes.Location = new System.Drawing.Point(28, 71);
+            this.txtNotes.Location = new System.Drawing.Point(28, 54);
             this.txtNotes.Multiline = true;
             this.txtNotes.Name = "txtNotes";
             this.txtNotes.Size = new System.Drawing.Size(249, 74);
@@ -158,7 +178,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(25, 51);
+            this.label15.Location = new System.Drawing.Point(25, 34);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(49, 17);
             this.label15.TabIndex = 54;
@@ -167,7 +187,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(25, 24);
+            this.label9.Location = new System.Drawing.Point(25, 13);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(89, 17);
             this.label9.TabIndex = 53;
@@ -177,7 +197,7 @@
             // 
             this.groupBox3.Controls.Add(this.chkReflectY);
             this.groupBox3.Controls.Add(this.chkReflectX);
-            this.groupBox3.Location = new System.Drawing.Point(512, 21);
+            this.groupBox3.Location = new System.Drawing.Point(512, 10);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -242,13 +262,14 @@
             // chkmainliftgcode
             // 
             this.chkmainliftgcode.AutoSize = true;
-            this.chkmainliftgcode.Location = new System.Drawing.Point(307, 152);
+            this.chkmainliftgcode.Location = new System.Drawing.Point(307, 141);
             this.chkmainliftgcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkmainliftgcode.Name = "chkmainliftgcode";
             this.chkmainliftgcode.Size = new System.Drawing.Size(346, 21);
             this.chkmainliftgcode.TabIndex = 49;
             this.chkmainliftgcode.Text = "Use Main-Lift GCode instead of Lift and Sequence";
             this.chkmainliftgcode.UseVisualStyleBackColor = true;
+            this.chkmainliftgcode.CheckedChanged += new System.EventHandler(this.chkmainliftgcode_CheckedChanged_1);
             // 
             // grpLift
             // 
@@ -265,7 +286,7 @@
             this.grpLift.Controls.Add(this.cmbBuildDirection);
             this.grpLift.Controls.Add(this.label5);
             this.grpLift.Controls.Add(this.txtBlankTime);
-            this.grpLift.Location = new System.Drawing.Point(307, 177);
+            this.grpLift.Location = new System.Drawing.Point(307, 166);
             this.grpLift.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpLift.Name = "grpLift";
             this.grpLift.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -395,7 +416,7 @@
             // chkantialiasing
             // 
             this.chkantialiasing.AutoSize = true;
-            this.chkantialiasing.Location = new System.Drawing.Point(28, 290);
+            this.chkantialiasing.Location = new System.Drawing.Point(28, 273);
             this.chkantialiasing.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkantialiasing.Name = "chkantialiasing";
             this.chkantialiasing.Size = new System.Drawing.Size(156, 21);
@@ -406,7 +427,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(25, 148);
+            this.label1.Location = new System.Drawing.Point(25, 131);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(142, 17);
             this.label1.TabIndex = 28;
@@ -426,7 +447,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(103, 261);
+            this.label8.Location = new System.Drawing.Point(103, 244);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(63, 17);
             this.label8.TabIndex = 42;
@@ -434,7 +455,7 @@
             // 
             // txtnumbottom
             // 
-            this.txtnumbottom.Location = new System.Drawing.Point(169, 259);
+            this.txtnumbottom.Location = new System.Drawing.Point(169, 242);
             this.txtnumbottom.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtnumbottom.Name = "txtnumbottom";
             this.txtnumbottom.Size = new System.Drawing.Size(56, 22);
@@ -443,7 +464,7 @@
             // 
             // txtLayerTime
             // 
-            this.txtLayerTime.Location = new System.Drawing.Point(28, 212);
+            this.txtLayerTime.Location = new System.Drawing.Point(28, 195);
             this.txtLayerTime.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtLayerTime.Name = "txtLayerTime";
             this.txtLayerTime.Size = new System.Drawing.Size(56, 22);
@@ -453,7 +474,7 @@
             // lblLayerTime
             // 
             this.lblLayerTime.AutoSize = true;
-            this.lblLayerTime.Location = new System.Drawing.Point(25, 192);
+            this.lblLayerTime.Location = new System.Drawing.Point(25, 175);
             this.lblLayerTime.Name = "lblLayerTime";
             this.lblLayerTime.Size = new System.Drawing.Size(200, 17);
             this.lblLayerTime.TabIndex = 27;
@@ -461,7 +482,7 @@
             // 
             // txtZThick
             // 
-            this.txtZThick.Location = new System.Drawing.Point(28, 167);
+            this.txtZThick.Location = new System.Drawing.Point(28, 150);
             this.txtZThick.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtZThick.Name = "txtZThick";
             this.txtZThick.Size = new System.Drawing.Size(56, 22);
@@ -470,7 +491,7 @@
             // 
             // txtFirstLayerTime
             // 
-            this.txtFirstLayerTime.Location = new System.Drawing.Point(28, 259);
+            this.txtFirstLayerTime.Location = new System.Drawing.Point(28, 242);
             this.txtFirstLayerTime.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtFirstLayerTime.Name = "txtFirstLayerTime";
             this.txtFirstLayerTime.Size = new System.Drawing.Size(56, 22);
@@ -480,7 +501,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(27, 239);
+            this.label2.Location = new System.Drawing.Point(27, 222);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(229, 17);
             this.label2.TabIndex = 33;
@@ -492,7 +513,7 @@
             this.groupBox1.Controls.Add(this.txtXOffset);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Location = new System.Drawing.Point(307, 21);
+            this.groupBox1.Location = new System.Drawing.Point(307, 10);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -679,23 +700,17 @@
             this.cmdNew.UseVisualStyleBackColor = true;
             this.cmdNew.Click += new System.EventHandler(this.cmdNew_Click);
             // 
-            // label17
+            // chkExport
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(304, 128);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(132, 17);
-            this.label17.TabIndex = 57;
-            this.label17.Text = "Resin Price per liter";
-            // 
-            // txtResinPriceL
-            // 
-            this.txtResinPriceL.Location = new System.Drawing.Point(442, 126);
-            this.txtResinPriceL.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtResinPriceL.Name = "txtResinPriceL";
-            this.txtResinPriceL.Size = new System.Drawing.Size(64, 22);
-            this.txtResinPriceL.TabIndex = 58;
-            this.txtResinPriceL.Text = "5000";
+            this.chkExport.AutoSize = true;
+            this.chkExport.Location = new System.Drawing.Point(28, 298);
+            this.chkExport.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkExport.Name = "chkExport";
+            this.chkExport.Size = new System.Drawing.Size(180, 21);
+            this.chkExport.TabIndex = 59;
+            this.chkExport.Text = "Export Images && GCode";
+            this.chkExport.UseVisualStyleBackColor = true;
+            this.chkExport.CheckedChanged += new System.EventHandler(this.chkExport_CheckedChanged);
             // 
             // ctlToolpathGenConfig
             // 
@@ -786,5 +801,6 @@
         private System.Windows.Forms.TextBox txtGCode;
         private System.Windows.Forms.TextBox txtResinPriceL;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.CheckBox chkExport;
     }
 }

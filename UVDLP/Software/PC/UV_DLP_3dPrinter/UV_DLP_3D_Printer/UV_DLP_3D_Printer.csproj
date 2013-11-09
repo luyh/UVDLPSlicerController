@@ -152,12 +152,6 @@
     <Compile Include="GUI\frmAbout.Designer.cs">
       <DependentUpon>frmAbout.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\frmBuildProfilesManager.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\frmBuildProfilesManager.Designer.cs">
-      <DependentUpon>frmBuildProfilesManager.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\frmConnection.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -227,12 +221,6 @@
     <Compile Include="GUI\frmDLP.Designer.cs">
       <DependentUpon>frmDLP.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\frmSliceOptions.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\frmSliceOptions.Designer.cs">
-      <DependentUpon>frmSliceOptions.cs</DependentUpon>
-    </Compile>
     <Compile Include="Slicing\GCodeFile.cs" />
     <Compile Include="Slicing\OldSlicer\GCodeGenerator.cs" />
     <Compile Include="Utility\LockBitmap.cs" />
@@ -283,9 +271,6 @@
     <EmbeddedResource Include="GUI\frmAbout.resx">
       <DependentUpon>frmAbout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\frmBuildProfilesManager.resx">
-      <DependentUpon>frmBuildProfilesManager.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmConnection.resx">
       <DependentUpon>frmConnection.cs</DependentUpon>
     </EmbeddedResource>
@@ -309,9 +294,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmSlice.resx">
       <DependentUpon>frmSlice.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\frmSliceOptions.resx">
-      <DependentUpon>frmSliceOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmSplash.resx">
       <DependentUpon>frmSplash.cs</DependentUpon>

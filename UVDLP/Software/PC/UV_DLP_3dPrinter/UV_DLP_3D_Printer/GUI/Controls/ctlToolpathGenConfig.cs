@@ -89,6 +89,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             lblProfName.Text = lstSliceProfiles.SelectedItem.ToString();
             txtZThick.Text = "" + String.Format("{0:0.000}",m_config.ZThick);
+            chkExport.Checked = m_config.export;
+            groupBox2.Enabled = chkExport.Checked;
            // chkgengcode.Checked = m_config.exportgcode;
            // chkExportSlices.Checked = m_config.exportimages;
             //chkexportsvg.Checked = m_config.exportsvg;
@@ -110,6 +112,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             txtSlideTilt.Text = m_config.slidetiltval.ToString();
             chkantialiasing.Checked = m_config.antialiasing;
             chkmainliftgcode.Checked = m_config.usemainliftgcode;
+            grpLift.Enabled = !chkmainliftgcode.Checked;
             txtliftfeed.Text = m_config.liftfeedrate.ToString();
             txtretractfeed.Text = m_config.liftretractrate.ToString();
             chkReflectX.Checked = m_config.m_flipX;
@@ -159,6 +162,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_config.m_notes = txtNotes.Text;
                 m_config.m_resinprice = double.Parse(txtResinPriceL.Text);
                 m_config.direction = (SliceBuildConfig.eBuildDirection)Enum.Parse(typeof(SliceBuildConfig.eBuildDirection), cmbBuildDirection.SelectedItem.ToString());
+                m_config.export = chkExport.Checked;
                 return true;
             }
             catch (Exception ex) 
@@ -390,6 +394,16 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         private void cmdReloadGCode_Click(object sender, EventArgs e)
         {
             txtGCode.Text = GCodeSection2GCode();
+        }
+
+        private void chkExport_CheckedChanged(object sender, EventArgs e)
+        {
+            groupBox2.Enabled = chkExport.Checked;
+        }
+
+        private void chkmainliftgcode_CheckedChanged_1(object sender, EventArgs e)
+        {
+            grpLift.Enabled = !chkmainliftgcode.Checked;
         }
     }
 }

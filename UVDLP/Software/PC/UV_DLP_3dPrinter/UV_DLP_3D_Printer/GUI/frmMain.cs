@@ -32,7 +32,7 @@ namespace UV_DLP_3D_Printer
         frmDLP m_frmdlp = new frmDLP();        
         frm3DLPrinterControl m_frm3DLPControl = new frm3DLPrinterControl();
         frmSlice m_frmSlice = new frmSlice();
-        frmBuildProfilesManager m_buildprofilesmanager = new frmBuildProfilesManager();
+        //frmBuildProfilesManager m_buildprofilesmanager = new frmBuildProfilesManager();
         ArcBall arcball;// = new ArcBall();
         Quaternion m_quat;
         GLCamera m_camera;
@@ -1023,13 +1023,13 @@ namespace UV_DLP_3D_Printer
             
             }
         }
-
+        /*
         private void cmdSliceOptions_Click(object sender, EventArgs e)
         {
             frmSliceOptions m_frmsliceopt = new frmSliceOptions(ref UVDLPApp.Instance().m_buildparms);
             m_frmsliceopt.ShowDialog();
         }
-
+        */
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();

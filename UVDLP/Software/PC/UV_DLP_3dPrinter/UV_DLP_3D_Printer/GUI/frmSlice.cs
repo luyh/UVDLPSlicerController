@@ -80,8 +80,8 @@ namespace UV_DLP_3D_Printer.GUI
         {
             //frmSliceOptions m_frmsliceopt = new frmSliceOptions();
             //m_frmsliceopt.Show();
-            frmSliceOptions m_frmsliceopt = new frmSliceOptions(ref UVDLPApp.Instance().m_buildparms);
-            m_frmsliceopt.ShowDialog(); // will modal work here?
+            //frmSliceOptions m_frmsliceopt = new frmSliceOptions(ref UVDLPApp.Instance().m_buildparms);
+            //m_frmsliceopt.ShowDialog(); // will modal work here?
         }
         private void frmSlice_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -103,11 +103,18 @@ namespace UV_DLP_3D_Printer.GUI
                     else
                     {
                         SliceBuildConfig sp = UVDLPApp.Instance().m_buildparms;
-                        sp.UpdateFrom(UVDLPApp.Instance().m_printerinfo);
-                        UVDLPApp.Instance().CalcScene();
-                        int numslices = UVDLPApp.Instance().m_slicer.GetNumberOfSlices(sp);
-                        UVDLPApp.Instance().m_slicefile = UVDLPApp.Instance().m_slicer.Slice(sp);
-
+                        sp.UpdateFrom(UVDLPApp.Instance().m_printerinfo); // make sure we've got the correct display size and PixPerMM values                        
+                        int numslices = UVDLPApp.Instance().m_slicer.GetNumberOfSlices(sp); // determine the number of slices
+                        if(sp.export == true)
+                        {
+                            // here we tell the slicefile that after slicing, we're loading images from disk/zip
+                            UVDLPApp.Instance().m_slicefile.m_mode = SliceFile.SFMode.eLoaded; 
+                        }else
+                        {
+                            // here, we're telling the slicefile to render the slice files on a per-needed basis
+                            UVDLPApp.Instance().m_slicefile.m_mode = SliceFile.SFMode.eImmediate; 
+                        }
+                        UVDLPApp.Instance().m_slicefile = UVDLPApp.Instance().m_slicer.Slice(sp); // start slicing the scene
                     }
                 }
                 else 
