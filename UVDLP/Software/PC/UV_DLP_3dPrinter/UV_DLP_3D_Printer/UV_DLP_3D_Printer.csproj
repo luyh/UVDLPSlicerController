@@ -74,7 +74,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="3DEngine\ArcBall.cs" />
-    <Compile Include="3DEngine\Camera.cs" />
     <Compile Include="3DEngine\CSG\CSG.cs" />
     <Compile Include="3DEngine\CSG\csgjs_csnode.cs" />
     <Compile Include="3DEngine\CSG\csgjs_model.cs" />
@@ -85,7 +84,6 @@
     <Compile Include="3DEngine\Cylinder3d.cs" />
     <Compile Include="3DEngine\ISectData.cs" />
     <Compile Include="3DEngine\Material.cs" />
-    <Compile Include="3DEngine\Plane.cs" />
     <Compile Include="3DEngine\RTUtils.cs" />
     <Compile Include="3DEngine\Support.cs" />
     <Compile Include="3DEngine\ThreeDSFile.cs" />

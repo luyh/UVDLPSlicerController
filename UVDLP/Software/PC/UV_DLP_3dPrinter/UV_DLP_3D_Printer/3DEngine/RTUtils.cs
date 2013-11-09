@@ -12,113 +12,34 @@ namespace UV_DLP_3D_Printer._3DEngine
      */
     public class RTUtils
     {
-        // 
-        public class TestPoint { public double X, Y;};
-        static TestPoint[] TstPnt = new TestPoint[4]; //for the crossing test
-       // static int numTstPnt = 0;//for the crossing test        
         static Object3d m_gp = null; // artificial ground plane
-
-
-        public static double sign(TestPoint p1, TestPoint p2, TestPoint p3)
+        static bool vecinit = false;
+        // keep these vectors around so we don't have to re-allocate them for every intersection test
+        static Vector3d u, v, n;              // triangle vectors
+        static Vector3d dir, w0, w;           // ray vectors
+        static Vector3d V, temp;
+        static Point3d IOendp = new Point3d();
+        static Point3d IOintersect = new Point3d();
+        static Point3d GPendp;
+        static Point3d GPintersect;
+        static List<ISectData> m_isectlst;
+        static void Initvecs() 
         {
-            return (p1.X - p3.X) * (p2.Y - p3.Y) - (p2.X - p3.X) * (p1.Y - p3.Y);
+            vecinit = true;
+            u = new Vector3d();
+            v = new Vector3d();
+            n = new Vector3d();
+            dir = new Vector3d();
+            w0 = new Vector3d();
+            w = new Vector3d();
+            V = new Vector3d();
+            temp = new Vector3d();
+            IOendp = new Point3d();
+            IOintersect = new Point3d();
+            GPendp = new Point3d();
+            GPintersect = new Point3d();
+            m_isectlst = new List<ISectData>();
         }
-
-        public static bool PointInTriangle(TestPoint pt, TestPoint v1, TestPoint v2, TestPoint v3)
-        {
-            bool b1, b2, b3;
-
-            b1 = sign(pt, v1, v2) < 0.0f;
-            b2 = sign(pt, v2, v3) < 0.0f;
-            b3 = sign(pt, v3, v1) < 0.0f;
-
-            return ((b1 == b2) && (b2 == b3));
-        }
-
-        public static int CrossingsTest(double PntX, double PntY) 
-        {
-            TestPoint pt = new TestPoint();
-            pt.X = PntX;
-            pt.Y = PntY;
-            if (PointInTriangle(pt, TstPnt[0], TstPnt[1], TstPnt[2])) 
-            {
-                return 1;
-            }
-            return 0;
-        }
-        /*
-        public static int CrossingsTest(double PntX, double PntY)
-        {
-            if (TstPnt[0] == null)  // create if not created already
-            {
-                TstPnt[0] = new TestPoint();
-                TstPnt[1] = new TestPoint();
-                TstPnt[2] = new TestPoint();
-                TstPnt[3] = new TestPoint();
-            }
-            int j, yflag0, yflag1, inside_flag = 0, xflag0;
-            double ty, tx;// *vtx0, *vtx1 ;
-            int line_flag;
-            short index = 0;
-            tx = PntX;//point[X] ;
-            ty = PntY;//point[Y] ;
-            TestPoint vtx0, vtx1;
-            vtx0 = TstPnt[numTstPnt - 1];
-            yflag0 = (vtx0.Y >= ty) ? 1 : 0;
-            vtx1 = TstPnt[0];
-            inside_flag = 0;
-            line_flag = 0;
-            for (j = numTstPnt + 1; --j > 0; )
-            {
-                yflag1 = (vtx1.Y >= ty) ? 1 : 0;
-                if (yflag0 != yflag1)
-                {
-                    xflag0 = (vtx0.X >= tx) ? 1 : 0;
-                    if (xflag0 == ((vtx1.X >= tx) ? 1 : 0))
-                    {
-                        if (xflag0 != 0)
-                        {
-                            if (inside_flag == 1)
-                            {
-                                inside_flag = 0;
-                            }
-                            else
-                            {
-                                inside_flag = 1;
-                            }
-                            //inside_flag = !inside_flag;
-                        }
-                    }
-                    else
-                    {
-                        if ((vtx1.X - (vtx1.Y - ty) *
-                         (vtx0.X - vtx1.X) / (vtx0.Y - vtx1.Y)) >= tx)
-                        {
-                            //inside_flag = !inside_flag ;
-                            if (inside_flag == 1)
-                            {
-                                inside_flag = 0;
-                            }
-                            else
-                            {
-                                inside_flag = 1;
-                            }
-                        }
-                    }
-                    if (line_flag != 0)
-                        goto Exit;
-                    line_flag = 1;
-                }
-
-                // move to next pair of vertices, retaining info as possible 
-                yflag0 = yflag1;
-                vtx0 = vtx1;
-                vtx1 = TstPnt[++index];
-            }
-        Exit: ;
-            return (inside_flag);
-        }
-        */
         // intersect3D_RayTriangle(): find the 3D intersection of a ray with a triangle
         //    Input:  a ray R, and a triangle T
         //    Output: *I = intersection point (when it exists)
@@ -128,21 +49,28 @@ namespace UV_DLP_3D_Printer._3DEngine
         //             2 =  are in the same plane
         static int intersect3D_RayTriangle(Point3d startp, Point3d endp, Polygon T,ref Point3d I)
         {
-            Vector3d u, v, n;              // triangle vectors
-            Vector3d dir, w0, w;           // ray vectors
+           // Vector3d u, v, n;              // triangle vectors
+           // Vector3d dir, w0, w;           // ray vectors
+
             float r, a, b;              // params to calc ray-plane intersect
 
             // get triangle edge vectors and plane normal
-            u = T.m_points[1] - T.m_points[0];
-            v = T.m_points[2] - T.m_points[0];
-            n = Vector3d.cross(u , v);              // cross product
-            /*
-            if (n == 0)             // triangle is degenerate
-                return -1;                  // do not deal with this case
-            */
+            
+            //u = T.m_points[1] - T.m_points[0];
+            u.Set(T.m_points[1].x - T.m_points[0].x, T.m_points[1].y - T.m_points[0].y, T.m_points[1].z - T.m_points[0].z);
+            //v = T.m_points[2] - T.m_points[0];
+            v.Set(T.m_points[2].x - T.m_points[0].x, T.m_points[2].y - T.m_points[0].y, T.m_points[2].z - T.m_points[0].z);
+            //n = Vector3d.cross(u , v);              // cross product
+            n = T.m_normal;
+                      
+            //if (n == 0)             // triangle is degenerate
+            //    return -1;                  // do not deal with this case
+            
 
-            dir = endp - startp;//dir = R.P1 - R.P0;              // ray direction vector
-            w0 = startp - T.m_points[0];//w0 = R.P0 - T.V0;
+            //dir = endp - startp;//dir = R.P1 - R.P0;              // ray direction vector
+            dir.Set(endp.x - startp.x, endp.y - startp.y, endp.z - startp.z);
+            //w0 = startp - T.m_points[0];//w0 = R.P0 - T.V0;
+            w0.Set(startp.x - T.m_points[0].x, startp.y - T.m_points[0].y, startp.z - T.m_points[0].z);
             a = (float)-Vector3d.dot(n, w0); //a = -dot(n, w0);
             b = (float)Vector3d.dot(n, dir);//b = dot(n, dir);
             if(Math.Abs(b) < .0001)
@@ -167,7 +95,8 @@ namespace UV_DLP_3D_Printer._3DEngine
             uu = Vector3d.dot(u, u);
             uv = Vector3d.dot(u, v);
             vv = Vector3d.dot(v, v);
-            w = I - T.m_points[0];// V0;
+            //w = I - T.m_points[0];// V0;
+            w.Set(I.x - T.m_points[0].x,I.y - T.m_points[0].y,I.z - T.m_points[0].z);// V0;
             wu = Vector3d.dot(w, u);
             wv = Vector3d.dot(w, v);
             D = uv * uv - uu * vv;
@@ -184,85 +113,9 @@ namespace UV_DLP_3D_Printer._3DEngine
             return 1;                       // I is in T
         }
 
-
-        /*
-        public static bool IntersectPoly(Polygon poly, Point3d start, Point3d end,ref  Point3d intersection)
-        {
-            //intersect a Polygon with a ray in world space
-            // first test to see if we're hitting the right side
-
-
-            bool retval = false;
-            double deltaX, deltaY, deltaZ, t, T, S;
-            double A, B, C, D;//the Polygon plane
-            double denom;
-
-            if (TstPnt[0] == null)  // create if not created already
-            {
-                TstPnt[0] = new TestPoint();
-                TstPnt[1] = new TestPoint();
-                TstPnt[2] = new TestPoint();
-                TstPnt[3] = new TestPoint();
-            }
-
-            A = poly.plane.a;
-            B = poly.plane.b;
-            C = poly.plane.c;
-            D = poly.plane.d;
-            deltaX = end.x - start.x;
-            deltaY = end.y - start.y;
-            deltaZ = end.z - start.z;
-
-            denom = (A * deltaX + B * deltaY + C * deltaZ);
-
-            double epsilon = 0.00001;
-            //if (denom == 0.0)//ray is parallel, no intersection
-            if (denom >= -epsilon && denom <= epsilon)//ray is parallel, no intersection
-            //if (denom >= epsilon)//ray is parallel or less, no intersection
-            {
-                retval = false;
-                return retval;
-            }
-
-            T = (-1) / denom;
-            S = (A * start.x + B * start.y + C * start.z);
-            t = (S + D) * T;
-            //at this point we have a possible intersection
-            //project to a major world axis and test for containment in the poly
-            intersection.x = (float)(start.x + (t * deltaX));
-            intersection.y = (float)(start.y + (t * deltaY));
-            intersection.z = (float)(start.z + (t * deltaZ));
-
-            numTstPnt = poly.m_points.Length;
-            // test the X/Y plane
-            for (long counter = 0; counter < poly.m_points.Length; counter++)
-            {
-                TstPnt[counter].X = poly.m_points[counter].x;
-                TstPnt[counter].Y = poly.m_points[counter].y;
-            }
-            if (CrossingsTest(intersection.x, intersection.y) == 1) 
-            { 
-                retval = true; 
-                return retval; 
-            }
-            // Test the X/Z plane
-            for (long counter = 0; counter < poly.m_points.Length; counter++)
-            {
-                TstPnt[counter].X = poly.m_points[counter].x;
-                TstPnt[counter].Y = poly.m_points[counter].z;
-            }
-            //if (CrossingsTest(intersection.x, intersection.y) == 1) 
-            if (CrossingsTest(intersection.x, intersection.z) == 1) 
-            { 
-                retval = true; 
-            }
-            return retval;
-        }
-         * */
         
         public static bool IntersectPoly(Polygon poly, Point3d start, Point3d end,ref  Point3d intersection)
         {
-            //return polyisect.findIntersection(poly, start, end, ref intersection);
             if (intersect3D_RayTriangle(start, end, poly, ref intersection) == 1)
                 return true;
             return false;
@@ -272,18 +125,18 @@ namespace UV_DLP_3D_Printer._3DEngine
         {
 	        bool retval = false;
 	        float EO;//EO is distance from start of ray to center of sphere
-	        float d,disc,v;//v is length of direction ray
-	        Vector3d V,temp;//V is unit vector of the ray
-	        temp =new Vector3d();
-            V = new Vector3d();
+	        float d,disc,raylen;//v is length of direction ray
+	        //Vector3d V,temp;//V is unit vector of the ray
+	       // temp =new Vector3d();
+           // V = new Vector3d();
 
-	        temp.Set(center.x - start.x,center.y - start.y,	center.z - start.z,0);
+	        temp.Set(center.x - start.x,center.y - start.y,	center.z - start.z);
 
 	        EO = temp.Mag(); // unnormalized length
-	        V.Set(end.x - start.x,end.y - start.y,end.z - start.z,0);
-	        v = V.Mag();// magnitude of direction vector
+	        V.Set(end.x - start.x,end.y - start.y,end.z - start.z);
+	        raylen = V.Mag();// magnitude of direction vector
 	        V.Normalize();// normalize the direction vector
-	        disc = (radius*radius) - ((EO*EO) - (v*v));
+	        disc = (radius*radius) - ((EO*EO) - (raylen*raylen));
 	        if(disc < 0.0f)
             {
                 retval = false;// no intersection
@@ -292,9 +145,9 @@ namespace UV_DLP_3D_Printer._3DEngine
             { // compute the intersection point
 		        retval = true;
 		        d = (float)Math.Sqrt(disc);
-		        intersect.x = start.x + ((v-d)*V.x);
-		        intersect.y = start.y + ((v-d)*V.y);
-		        intersect.z = start.z + ((v-d)*V.z);
+		        intersect.x = start.x + ((raylen-d)*V.x);
+		        intersect.y = start.y + ((raylen-d)*V.y);
+		        intersect.z = start.z + ((raylen-d)*V.z);
 	        }
 	        return retval;
         }
@@ -303,10 +156,10 @@ namespace UV_DLP_3D_Printer._3DEngine
         {
             m_gp = new Object3d();
             m_gp.Name = "GroundPlane";
-            Point3d p0=new Point3d(-500,-500,0,0);
-            Point3d p1=new Point3d(500,-500,0,0);
-            Point3d p2=new Point3d(500,500,0,0);
-            Point3d p3=new Point3d(-500,500,0,0);
+            Point3d p0=new Point3d(-500,-500,0);
+            Point3d p1=new Point3d(500,-500,0);
+            Point3d p2=new Point3d(500,500,0);
+            Point3d p3=new Point3d(-500,500,0);
             m_gp.m_lstpoints.Add(p0);
             m_gp.m_lstpoints.Add(p1);
             m_gp.m_lstpoints.Add(p2);
@@ -336,30 +189,28 @@ namespace UV_DLP_3D_Printer._3DEngine
             ISectData isect = null;
             direction.Normalize();
             direction.Scale(10000.0f);
-            Point3d endp = new Point3d();
-            Point3d intersect = new Point3d();
 
-            endp.Set(origin);
-            endp.x += direction.x;
-            endp.y += direction.y;
-            endp.z += direction.z;
+            GPendp.Set(origin);
+            GPendp.x += direction.x;
+            GPendp.y += direction.y;
+            GPendp.z += direction.z;
             // intersect with the imaginary groundplane object;
             if (m_gp == null) 
             {
                 CreateGroundPlane();
             }
-            if (IntersectSphere(origin, endp, ref intersect, m_gp.m_center, m_gp.m_radius))
+            if (IntersectSphere(origin, GPendp, ref GPintersect, m_gp.m_center, m_gp.m_radius))
             {
                 foreach (Polygon p in m_gp.m_lstpolys)
                 {
-                    intersect = new Point3d();
+                    //GPintersect = new Point3d();
                     // try a less- costly sphere intersect here   
-                    if (IntersectSphere(origin, endp, ref intersect, p.m_center, p.m_radius))
+                    if (IntersectSphere(origin, GPendp, ref GPintersect, p.m_center, p.m_radius))
                     {
                         // if it intersects,
-                        if (RTUtils.IntersectPoly(p, origin, endp, ref intersect))
+                        if (RTUtils.IntersectPoly(p, origin, GPendp, ref GPintersect))
                         {
-                           isect = new ISectData(m_gp, p, intersect, origin, direction);
+                           isect = new ISectData(m_gp, p, GPintersect, origin, direction);
                         }
                     }
                 }
@@ -380,20 +231,25 @@ namespace UV_DLP_3D_Printer._3DEngine
         /// <returns></returns>
         /// 
         static object lck = new object();
-        public static List<ISectData> IntersectObjects(Vector3d direction, Point3d origin, ArrayList objects, bool supports) 
+        public static List<ISectData> IntersectObjects(Vector3d direction, Point3d origin, List<Object3d> objects, bool supports) 
         {
-            List<ISectData> m_isectlst = new List<ISectData>();
+            //List<ISectData> m_isectlst = new List<ISectData>();
+            
             try
             {
+                if (!vecinit) 
+                {
+                    Initvecs();
+                }
+                m_isectlst.Clear();
                 direction.Normalize();
                 direction.Scale(10000.0f);
-                Point3d endp = new Point3d();
-                Point3d intersect = new Point3d();
 
-                endp.Set(origin);
-                endp.x += direction.x;
-                endp.y += direction.y;
-                endp.z += direction.z;
+
+                IOendp.Set(origin);
+                IOendp.x += direction.x;
+                IOendp.y += direction.y;
+                IOendp.z += direction.z;
                 lock (lck)
                 {
                     foreach (Object3d obj in objects)
@@ -401,18 +257,18 @@ namespace UV_DLP_3D_Printer._3DEngine
                         if (obj.tag == Object3d.OBJ_SUPPORT && !supports)
                             continue;
                         // try a less- costly sphere intersect here   
-                        if (IntersectSphere(origin, endp, ref intersect, obj.m_center, obj.m_radius))
+                        if (IntersectSphere(origin, IOendp, ref IOintersect, obj.m_center, obj.m_radius))
                         {
                             foreach (Polygon p in obj.m_lstpolys)
                             {
-                                intersect = new Point3d();
+                                //IOintersect = new Point3d();
                                 // try a less- costly sphere intersect here   
-                                if (IntersectSphere(origin, endp, ref intersect, p.m_center, p.m_radius))
+                                if (IntersectSphere(origin, IOendp, ref IOintersect, p.m_center, p.m_radius))
                                 {
                                     // if it intersects,
-                                    if (RTUtils.IntersectPoly(p, origin, endp, ref intersect))
+                                    if (RTUtils.IntersectPoly(p, origin, IOendp, ref IOintersect))
                                     {
-                                        m_isectlst.Add(new ISectData(obj, p, intersect, origin, direction));
+                                        m_isectlst.Add(new ISectData(obj, p, IOintersect, origin, direction));
                                     }
                                 }
                             }

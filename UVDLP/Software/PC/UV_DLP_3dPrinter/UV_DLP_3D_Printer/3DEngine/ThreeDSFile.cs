@@ -400,19 +400,19 @@ namespace Engine3D
             return sb.ToString();
         }
 
-        ArrayList ReadVertices(ThreeDSChunk chunk)
+        List<Point3d> ReadVertices(ThreeDSChunk chunk)
         {
             ushort numVerts = reader.ReadUInt16();
             chunk.BytesRead += 2;
             Console.WriteLine("	Vertices: {0}", numVerts);
-            ArrayList lst = new ArrayList();
+            List<Point3d> lst = new List<Point3d>();
             for (int ii = 0; ii < numVerts; ii++)
             {
                 
                 float f1 = reader.ReadSingle();
                 float f2 = reader.ReadSingle();
                 float f3 = reader.ReadSingle();
-                Point3d pnt = new Point3d(f1,f2,f3,1.0f);
+                Point3d pnt = new Point3d(f1,f2,f3);
                 lst.Add(pnt);
             }
 

@@ -15,24 +15,20 @@ namespace Engine3D
 {
     public class Object3d
     {
-        public ArrayList m_lstpoints; // list of 3d points in object
-        public ArrayList m_lstpolys;// list of polygons
+        public List<Point3d> m_lstpoints; // list of 3d points in object
+        public List<Polygon> m_lstpolys;// list of polygons
         private string m_name; // just the filename
         public string m_fullname; // full path with filename
         private bool m_visible;
         public Point3d m_min, m_max,m_center;
         public bool m_wireframe = false;
-        //private bool m_support = false; // is this a 3d support object?
         public float m_radius;
         public Material material;// = new Material();
         public int tag = -1; // acting as an object ID
-        //public bool m_showalpha;
         public static int OBJ_NORMAL        =0; // a regular old object
         public static int OBJ_SUPPORT = 1; // a generated support
         public static int OBJ_GROUND = 2; // ground plane usewd for hit-testing
-        //public static int OBJ_SUPPORT;
         private int m_listid; // gl call list id 
-        //private static int m_IDGEN = 1;
         public Object3d() 
         {
             Init();
@@ -43,8 +39,8 @@ namespace Engine3D
         }
         public void Init() 
         {
-            m_lstpolys = new ArrayList();
-            m_lstpoints = new ArrayList();
+            m_lstpolys = new List<Polygon>();
+            m_lstpoints = new List<Point3d>();
             m_center = new Point3d();
             m_name = "Model";
             m_fullname = "Model";
@@ -52,10 +48,8 @@ namespace Engine3D
             m_max = new Point3d();
             m_visible = true;
             m_radius = 0.0f;
-            //m_support = false;
             material = new Material();
             tag = Object3d.OBJ_NORMAL;
-            //m_showalpha = false;
             m_listid = -1;
         }
         public string Name 
@@ -166,15 +160,6 @@ namespace Engine3D
             }
         }
         
-        public void Render(Camera cam, PaintEventArgs ev, int wid, int hei)
-        {
-
-            foreach (Polygon poly in m_lstpolys) 
-            {
-                poly.Render(cam, ev, wid, hei);
-            }
-        }
-
         public double CalculateVolume() 
         {
             double vol = 0.0;
@@ -318,8 +303,8 @@ namespace Engine3D
         public void FindMinMax()         
         {
             Point3d first = (Point3d)this.m_lstpoints[0];
-            m_min.Set(first.x, first.y, first.z, 0.0f);
-            m_max.Set(first.x, first.y, first.z, 0.0f);
+            m_min.Set(first.x, first.y, first.z);
+            m_max.Set(first.x, first.y, first.z);
             foreach (Point3d p in this.m_lstpoints)             
             {
                 if (p.x < m_min.x)
@@ -361,7 +346,7 @@ namespace Engine3D
         public Point3d CalcCenter() 
         {
             Point3d center = new Point3d();
-            center.Set(0, 0, 0, 0);
+            center.Set(0, 0, 0);
             foreach (Point3d p in m_lstpoints) 
             {
                 center.x += p.x;
@@ -373,7 +358,7 @@ namespace Engine3D
             center.y /= m_lstpoints.Count;
             center.z /= m_lstpoints.Count;
 
-            m_center.Set(center.x, center.y, center.z, 1.0f);
+            m_center.Set(center.x, center.y, center.z);
             return center;
         }
 
@@ -385,7 +370,7 @@ namespace Engine3D
             Vector3d upvec = new Vector3d();
             double inc = 1.0 / 90.0;
             angle = -(1 - (angle * inc));
-            upvec.Set(new Point3d(0,0,1,1));
+            upvec.Set(new Point3d(0,0,1));
             foreach (Polygon p in this.m_lstpolys) 
             {
                 p.CalcNormal();

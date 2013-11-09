@@ -23,7 +23,7 @@ namespace UV_DLP_3D_Printer
         public static Vector3d operator -(Point3d c1, Point3d c2) 
         {
             Vector3d ret = new Vector3d();
-            ret.Set(c1.x - c2.x, c1.y - c2.y, c1.z - c2.z,0);
+            ret.Set(c1.x - c2.x, c1.y - c2.y, c1.z - c2.z);
             return ret;
         }
         public bool IsEqual(Point3d pnt) 
@@ -32,11 +32,11 @@ namespace UV_DLP_3D_Printer
                 return true;
             return false;
         }
-        public Point3d(float xp, float yp, float zp, float ap)
+        public Point3d(float xp, float yp, float zp)
         {
-            Set(xp, yp, zp, ap);
+            Set(xp, yp, zp);
         }
-        public void Set(float xp, float yp, float zp,float ap)
+        public void Set(float xp, float yp, float zp)
         {
             x = xp;
             y = yp;
@@ -45,7 +45,7 @@ namespace UV_DLP_3D_Printer
 
         public void Set(Point3d pnt) 
         {
-            Set(pnt.x, pnt.y, pnt.z,0.0f);
+            Set(pnt.x, pnt.y, pnt.z);
         }
 
         public void Load(BinaryReader br) 

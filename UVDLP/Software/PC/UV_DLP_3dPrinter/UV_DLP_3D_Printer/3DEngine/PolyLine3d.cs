@@ -14,7 +14,7 @@ namespace Engine3D
 {
     public class PolyLine3d
     {
-        public ArrayList m_points; // world coordinate points
+        public List<Point3d> m_points; // world coordinate points
         public Color m_color;
         // precached
         float minx, maxx;
@@ -36,10 +36,10 @@ namespace Engine3D
             maxz = src.maxz;
             linewidth = 1;
             visible = true;
-            m_points = new ArrayList();
+            m_points = new List<Point3d>();
             foreach (Point3d pnt in src.m_points) 
             {
-                Point3d p = new Point3d(pnt.x, pnt.y, pnt.z,0.0f);
+                Point3d p = new Point3d(pnt.x, pnt.y, pnt.z);
                 m_points.Add(p);
             }
         }
@@ -53,7 +53,7 @@ namespace Engine3D
         }
         public PolyLine3d(Point3d p1, Point3d p2, Color clr) 
         {
-            m_points = new ArrayList();
+            m_points = new List<Point3d>();
             linewidth = 1;
             m_color = clr;
             visible = true;
@@ -62,7 +62,7 @@ namespace Engine3D
         }
         public PolyLine3d() 
         {
-            m_points = new ArrayList();
+            m_points = new List<Point3d>();
             m_color = Color.Green;
             linewidth = 1;
             visible = true;
@@ -216,37 +216,6 @@ namespace Engine3D
                 return false;
             }
         }
-        public void Render(Camera cam, PaintEventArgs ev,int wid, int hei) 
-        {
-            try
-            {
-                ArrayList m_campnts = new ArrayList();
-                //transform this from world to camera coordinates
-                //project
-                // then draw
-                foreach (Point3d pnt in m_points)
-                {
-                    Point3d p = cam.viewmat.Transform(pnt);
-                    m_campnts.Add(p);
-                }
-                if (m_campnts.Count > 1)
-                {
-                    Point[] line = new Point[m_campnts.Count];
-                    if (cam.m_protyp == eProjectType.eParallel)
-                    {
-                        int idx = 0;
-                        foreach (Point3d pnt in m_campnts)
-                        {
-                            line[idx].X = (int)((cam.m_scalex * pnt.x) + (wid / 2)); // need to add x and y offsets
-                            line[idx].Y = (int)((cam.m_scaley * pnt.y) + (hei / 2)); // need to add x and y offsets
-                            idx++;
-                        }
-                    }
-                    Pen pen = new Pen(m_color, 2);
-                    ev.Graphics.DrawLines(pen, line);
-                }
-            }
-            catch (Exception) { }
-        }
+        
     }
 }

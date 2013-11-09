@@ -101,11 +101,10 @@ namespace UV_DLP_3D_Printer
         }
         private void StartGenerating() 
         {
-           // m_lstSupports = new ArrayList();
             RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eStarted, "Support Generation Started", null);
             GenerateSupportObjects();
         }
-        public ArrayList GenerateSupportObjects()
+        public List<Object3d> GenerateSupportObjects()
         {
 
             // iterate over the platform size by indicated mm step; // projected resolution in x,y
@@ -116,7 +115,7 @@ namespace UV_DLP_3D_Printer
             // we gott make sure supports don't collide
             // I also have to take into account the 
             // interface between the support and the model
-            ArrayList lstsupports = new ArrayList();
+            List<Object3d> lstsupports = new List<Object3d>();
 
             float ZVal = (float)UVDLPApp.Instance().m_printerinfo.m_PlatZSize;
             m_model.Update();
@@ -141,7 +140,7 @@ namespace UV_DLP_3D_Printer
                 {
                     Point3d origin;                   
                     origin = new Point3d(); // bottom point
-                    origin.Set(x, y, 0.0f, 1f);
+                    origin.Set(x, y, 0.0f);
                     //intersected = false; // reset the intersected flag to be false
 
                     Vector3d up = new Vector3d(); // the up vector
