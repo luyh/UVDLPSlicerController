@@ -22,14 +22,29 @@ namespace Engine3D
 
 
         float m_dx, m_dy, m_dz;
+        // bulid volume parameters
+        float m_bvx, m_bvy, m_bvz;
+        float m_bvscalexy, m_bvscaleh;
         float deg2rad;
+        float m_dir;
 
         public GLCamera()
         {
             viewmat = new Matrix3D();
             deg2rad = (float)(2.0 * Math.PI / 360.0);
             m_zaxis = new Vector3d(0, 0, 1);
-            m_dx = m_dy = 0;
+            m_dx = m_dy = m_dz = 0;
+            m_dir = 1.0f;
+            m_bvscalexy = 4.0f;
+            m_bvscaleh = 1.2f;
+
+        }
+
+        public void UpdateBuildVolume(float bx, float by, float bz)
+        {
+            m_bvx = bx * m_bvscalexy / 2.0f;
+            m_bvy = by * m_bvscalexy / 2.0f;
+            m_bvz = bz * m_bvscaleh / 2.0f;
         }
 
         //This functions sets the camera view to the opengl framework
@@ -127,7 +142,7 @@ namespace Engine3D
 
         public void RotateRightFlat(float deg)
         {
-            Matrix3D rotMat = Rotate(m_zaxis, deg);
+            Matrix3D rotMat = Rotate(m_zaxis, deg * m_dir);
             m_target = rotMat.Transform(m_target);
             m_right = rotMat.Transform(m_right);
             m_up = rotMat.Transform(m_up);
@@ -137,13 +152,13 @@ namespace Engine3D
             UpdateView();
         }
 
-        // atempt to rotate the scene based on mouse location
-        public void RotateRightFlat(float deg, float ix, float iy)
+        // set rotation direction based on mouse location projected to 3D space
+        public void UpdateDirection(float ix, float iy)
         {
             Vector3d mouse = new Vector3d(ix, iy, 0);
             Vector3d horizon = new Vector3d(m_right.x, m_right.y, 0);
             Vector3d perp = Vector3d.cross(mouse, horizon);
-            RotateRightFlat(deg * Math.Sign(perp.z));
+            m_dir = Math.Sign(perp.z);
         }
 
         public void MoveForward(float dist)
@@ -168,19 +183,19 @@ namespace Engine3D
             // normalize dist
             float factor = Vector3d.length(m_eye - m_lookat) / 500.0f;
             m_dx += dx * factor;
-            if (m_dx < -70) m_dx = -70;
-            else if (m_dx > 70) m_dx = 70;
+            if (m_dx < -m_bvx) m_dx = -m_bvx;
+            else if (m_dx > m_bvx) m_dx = m_bvx;
             if (Math.Abs(m_up.z) > 0.7)
             {
                 m_dz += dy * factor * Math.Sign(m_up.z);
-                if (m_dz < 0) m_dz = 0;
-                else if (m_dz > 70) m_dz = 70;
+                if (m_dz < -m_bvz) m_dz = -m_bvz;
+                else if (m_dz > m_bvz) m_dz = m_bvz;
             }
             else
             {
                 m_dy += dy * factor;
-                if (m_dy < -70) m_dy = -70;
-                else if (m_dy > 70) m_dy = 70;
+                if (m_dy < -m_bvy) m_dy = -m_bvy;
+                else if (m_dy > m_bvy) m_dy = m_bvy;
             }
         }
 

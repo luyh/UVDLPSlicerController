@@ -52,8 +52,8 @@ namespace UV_DLP_3D_Printer
         {
             InitializeComponent();
             UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEventDel);
-            UVDLPApp.Instance().Engine3D.AddGrid();
-            UVDLPApp.Instance().Engine3D.AddPlatCube();
+            UVDLPApp.Instance().Engine3D.UpdateGrid();
+            //UVDLPApp.Instance().Engine3D.AddPlatCube();
             UVDLPApp.Instance().m_slicer.Slice_Event += new Slicer.SliceEvent(SliceEv);
             UVDLPApp.Instance().m_buildmgr.BuildStatus += new delBuildStatus(BuildStatus);
             UVDLPApp.Instance().m_buildmgr.PrintLayer += new delPrinterLayer(PrintLayer);
@@ -190,15 +190,16 @@ namespace UV_DLP_3D_Printer
         }
         private void SetupForMachineType() 
         {
-            if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
+            MachineConfig mc = UVDLPApp.Instance().m_printerinfo;
+            if (mc.m_machinetype == MachineConfig.eMachineType.UV_DLP)
             {
                 heatTempCtl1.Enabled = false;
             }
-            else if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.FDM)
+            else if (mc.m_machinetype == MachineConfig.eMachineType.FDM)
             {
                 heatTempCtl1.Enabled = true;
             }
-                    
+            m_camera.UpdateBuildVolume((float)mc.m_PlatXSize, (float)mc.m_PlatYSize, (float)mc.m_PlatZSize);
         }
         private void SetVScrollMax(int val) 
         {
@@ -719,6 +720,7 @@ namespace UV_DLP_3D_Printer
                 lmdown = true;
                 Vector2 vec = new Vector2(mdx,mdy);
                 arcball.Click(vec);
+                m_camera.UpdateDirection(ix, iy);
             }
             if (e.Button == MouseButtons.Right)
             {
@@ -845,7 +847,7 @@ namespace UV_DLP_3D_Printer
                 Vector2 vec = new Vector2(mdx,mdy);
                 m_quat += arcball.Drag(vec);
                 arcball.Click(vec);
-                m_camera.RotateRightFlat((float)dx, ix, iy);
+                m_camera.RotateRightFlat((float)dx);
                 m_camera.RotateUp((float)dy);
                 //arcball.Click(vec);
                 //ArcBall.drag(&MousePt, &ThisQuat);                  // Update End Vector And Get Rotation As Quaternion

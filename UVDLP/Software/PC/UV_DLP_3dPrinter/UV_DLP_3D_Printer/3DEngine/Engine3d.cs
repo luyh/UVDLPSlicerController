@@ -24,7 +24,7 @@ namespace Engine3D
         {
             m_lines = new List<PolyLine3d>();
             m_objects = new List<Object3d>();
-            AddGrid();
+            //AddGrid(); // grid actually was created twice. -SHS
         }
         public void UpdateLists() 
         {
@@ -60,6 +60,13 @@ namespace Engine3D
                 DebugLogger.Instance().LogError(ex.Message);
             }
             return mm;
+        }
+
+        public void UpdateGrid()
+        {
+            m_lines = new List<PolyLine3d>();
+            AddGrid();
+            AddPlatCube();
         }
         
         public void AddGridLine(int x1, int y1, int x2, int y2, Color col)

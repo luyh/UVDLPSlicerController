@@ -139,6 +139,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 //UVDLPApp.Instance().SaveCurrentMachineConfig();
                 m_config.Save(m_config.m_filename);
+                // if its the current used config, update the system
+                if (Path.GetFileNameWithoutExtension(m_config.m_filename) == cmbMachineProfiles.SelectedItem.ToString())
+                {
+                    ConfigUpdated(m_config.m_filename);
+                }
                // Close();
             }
         }
@@ -323,6 +328,18 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             }
         }
 
+        private void ConfigUpdated(String filename)
+        {
+            //load and make active
+            if (UVDLPApp.Instance().LoadMachineConfig(filename) != true)
+            {
+                MessageBox.Show("Error loading machine configuration");
+                //should try to load/create a valid one
+                return;
+            }
+            UVDLPApp.Instance().SetupDriver();
+        }
+
         /// <summary>
         /// The user is selecting a new machine for the current profile here
         /// </summary>
@@ -334,14 +351,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 return;
 
             string filename = UVDLPApp.Instance().m_PathMachines + UVDLPApp.m_pathsep + cmbMachineProfiles.SelectedItem.ToString() + ".machine";
-            //load and make active
-            if (UVDLPApp.Instance().LoadMachineConfig(filename) != true) 
-            {
-                MessageBox.Show("Error loading machine configuration");
-                //should try to load/create a valid one
-                return;
-            }
-            UVDLPApp.Instance().SetupDriver();
+            ConfigUpdated(filename);
         }
 
         private void ctlMachineConfig_Load(object sender, EventArgs e)

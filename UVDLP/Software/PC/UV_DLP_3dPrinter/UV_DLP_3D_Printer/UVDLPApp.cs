@@ -532,6 +532,7 @@ namespace UV_DLP_3D_Printer
                 m_appconfig.Save(m_apppath + m_pathsep + m_appconfigname);// this name doesn't change
             }
             RaiseAppEvent(eAppEvent.eMachineTypeChanged, "");
+            m_engine3d.UpdateGrid();
             return ret;
         }
 
