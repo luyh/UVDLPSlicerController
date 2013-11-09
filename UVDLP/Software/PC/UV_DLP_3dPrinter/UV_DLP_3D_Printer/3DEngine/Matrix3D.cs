@@ -14,6 +14,15 @@ namespace Engine3D
             Identity();
         }
 
+        public Matrix3D(double [] vals)
+        {
+            Matrix = new double[4, 4];
+            Matrix[0, 0] = vals[0];  Matrix[0, 1] = vals[1];  Matrix[0, 2] = vals[2];  Matrix[0, 3] = vals[3];
+            Matrix[1, 0] = vals[4];  Matrix[1, 1] = vals[5];  Matrix[1, 2] = vals[6];  Matrix[1, 3] = vals[7];
+            Matrix[2, 0] = vals[8];  Matrix[2, 1] = vals[9];  Matrix[2, 2] = vals[10]; Matrix[2, 3] = vals[11];
+            Matrix[3, 0] = vals[12]; Matrix[3, 1] = vals[13]; Matrix[3, 2] = vals[14]; Matrix[3, 3] = vals[15];
+        }
+
         public void Identity ()
         {
             Matrix[0,0] = 1;  Matrix[0,1] = 0;  Matrix[0,2] = 0;  Matrix[0,3] = 0;
@@ -147,6 +156,13 @@ namespace Engine3D
                   + Matrix [ 3 , 2 ];
 
             return pnt;
+        }
+
+        public Vector3d Transform(Vector3d V)
+        {
+            Point3d pnt = new Point3d(V.x, V.y, V.z, 1);
+            pnt = Transform(pnt);
+            return new Vector3d(pnt.x, pnt.y, pnt.z);
         }
     }
 }

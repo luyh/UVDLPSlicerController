@@ -35,6 +35,7 @@ namespace UV_DLP_3D_Printer
         frmBuildProfilesManager m_buildprofilesmanager = new frmBuildProfilesManager();
         ArcBall arcball;// = new ArcBall();
         Quaternion m_quat;
+        GLCamera m_camera;
         
 
         private bool lmdown, rmdown, mmdown;
@@ -63,6 +64,8 @@ namespace UV_DLP_3D_Printer
             
             arcball = new ArcBall();
             m_quat = new Quaternion();
+            m_camera = new GLCamera();
+            m_camera.ResetView(0, -200, 0, 20, 20);
 
             SetButtonStatuses();                        
             //PopulateBuildProfilesMenu();
@@ -660,7 +663,8 @@ namespace UV_DLP_3D_Printer
           GL.Translate(xoffset, yoffset, orbitdist); // tmp          
           GL.Rotate(orbitypos, 0, 1, 0); // transform first // tmp
           GL.Rotate(orbitxpos, 1, 0, 0); // tmp
-            
+
+          m_camera.SetViewGL();
           //Matrix4 yax;
           //Matrix4.CreateFromAxisAngle(new Vector3(0, 0, 1), m_quat.Z, out yax);
           //GL.LoadMatrix(ref yax);
@@ -692,6 +696,7 @@ namespace UV_DLP_3D_Printer
         void glControl1_MouseWheel(object sender, MouseEventArgs e)
         {
             orbitdist += e.Delta / 10;
+            m_camera.MoveForward(e.Delta / 10);
             DisplayFunc();
         }
         private void SetTitle() 
@@ -841,6 +846,8 @@ namespace UV_DLP_3D_Printer
                 Vector2 vec = new Vector2(mdx,mdy);
                 m_quat += arcball.Drag(vec);
                 arcball.Click(vec);
+                m_camera.RotateRightFlat(dx, ix, iy);
+                m_camera.RotateUp(dy);
                 //arcball.Click(vec);
                 //ArcBall.drag(&MousePt, &ThisQuat);                  // Update End Vector And Get Rotation As Quaternion
                 /*
@@ -853,11 +860,13 @@ namespace UV_DLP_3D_Printer
             else if (mmdown)
             {
                 orbitdist += (float)dy;
+                m_camera.MoveForward(dy);
             }
             else if (rmdown)
             {
                 yoffset += (float)dy / 2;
                 xoffset += (float)dx / 2;
+                m_camera.Move(dx, dy);
             }
 
             if (UVDLPApp.Instance().SelectedObject != null)

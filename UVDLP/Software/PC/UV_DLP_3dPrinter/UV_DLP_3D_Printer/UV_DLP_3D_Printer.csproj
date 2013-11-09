@@ -83,6 +83,7 @@
     <Compile Include="3DEngine\CSG\csgjs_vector.cs" />
     <Compile Include="3DEngine\CSG\csgjs_vertex.cs" />
     <Compile Include="3DEngine\Cylinder3d.cs" />
+    <Compile Include="3DEngine\GLCamera.cs" />
     <Compile Include="3DEngine\ISectData.cs" />
     <Compile Include="3DEngine\Material.cs" />
     <Compile Include="3DEngine\Plane.cs" />
