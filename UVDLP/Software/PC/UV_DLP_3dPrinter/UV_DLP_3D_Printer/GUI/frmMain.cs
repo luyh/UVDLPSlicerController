@@ -473,7 +473,7 @@ namespace UV_DLP_3D_Printer
                 // otherwise, keep showing the current 3d layer
                 if (layertype == BuildManager.SLICE_NORMAL)
                 {
-                    DisplayFunc();
+                   // DisplayFunc();
                     SliceFile sf = UVDLPApp.Instance().m_slicefile;
                     lblSliceNum.Text = "Slice " + (layer) + " of " + (sf.NumSlices-1).ToString();
                 }
@@ -490,6 +490,7 @@ namespace UV_DLP_3D_Printer
 
                 //this bmp could be a normal, blank, or calibration image
                 picSlice.Image = bmp;//now show the 2d slice
+                picSlice.Refresh();
                 // if we're a UV DLP printer, show on the frmDLP
                 if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
                 {
@@ -709,22 +710,31 @@ namespace UV_DLP_3D_Printer
         {
             mdx = e.X;
             mdy = e.Y;
-            if (e.Button == MouseButtons.Middle)
+            try
             {
-                mmdown = true;
-                arcball.Click(new Vector2(mdx,mdy));
+                if (e.Button == MouseButtons.Middle)
+                {
+                    mmdown = true;
+                    arcball.Click(new Vector2(mdx, mdy));
+                }
+
+                if (e.Button == MouseButtons.Left)
+                {
+                    lmdown = true;
+                    Vector2 vec = new Vector2(mdx, mdy);
+                    arcball.Click(vec);
+                    // I saw ix and iy were 'NaN'
+                    // this means that the intersection failed somehow
+                    m_camera.UpdateDirection(ix, iy);
+                }
+                if (e.Button == MouseButtons.Right)
+                {
+                    rmdown = true;
+                }
             }
-            
-            if (e.Button == MouseButtons.Left)
+            catch (Exception ex) 
             {
-                lmdown = true;
-                Vector2 vec = new Vector2(mdx,mdy);
-                arcball.Click(vec);
-                m_camera.UpdateDirection(ix, iy);
-            }
-            if (e.Button == MouseButtons.Right)
-            {
-                rmdown = true;
+                ex = ex;// breakpoint here for testing
             }
         }
 
@@ -775,7 +785,7 @@ namespace UV_DLP_3D_Printer
             Vector4 ray_vec = new Vector4((float)x, (float)y, -1f, 0);
             ray_vec.Normalize();
 
-            mess += "Eye Pick Vec =  (" + String.Format("{0:0.00}", ray_vec.X) + ", " + String.Format("{0:0.00}", ray_vec.Y) + "," + String.Format("{0:0.00}", ray_vec.Z) + ")\r\n";
+            //mess += "Eye Pick Vec =  (" + String.Format("{0:0.00}", ray_vec.X) + ", " + String.Format("{0:0.00}", ray_vec.Y) + "," + String.Format("{0:0.00}", ray_vec.Z) + ")\r\n";
 
             Matrix4 modelViewMatrix;
             GL.GetFloat(GetPName.ModelviewMatrix, out modelViewMatrix);
@@ -786,8 +796,8 @@ namespace UV_DLP_3D_Printer
 
             Vector4.Transform(ref ray_vec, ref viewInv, out t_ray_vec);
             Vector4.Transform(ref ray_pnt, ref viewInv, out t_ray_pnt);
-            mess += "World Pick Vec =  (" + String.Format("{0:0.00}", t_ray_vec.X) + ", " + String.Format("{0:0.00}", t_ray_vec.Y) + "," + String.Format("{0:0.00}", t_ray_vec.Z) + ")\r\n";
-            mess += "World Pick Pnt =  (" + String.Format("{0:0.00}", t_ray_pnt.X) + ", " + String.Format("{0:0.00}", t_ray_pnt.Y) + "," + String.Format("{0:0.00}", t_ray_pnt.Z) + ")\r\n";
+            //mess += "World Pick Vec =  (" + String.Format("{0:0.00}", t_ray_vec.X) + ", " + String.Format("{0:0.00}", t_ray_vec.Y) + "," + String.Format("{0:0.00}", t_ray_vec.Z) + ")\r\n";
+            //mess += "World Pick Pnt =  (" + String.Format("{0:0.00}", t_ray_pnt.X) + ", " + String.Format("{0:0.00}", t_ray_pnt.Y) + "," + String.Format("{0:0.00}", t_ray_pnt.Z) + ")\r\n";
             
             Point3d origin = new Point3d();
             Point3d intersect = new Point3d();
@@ -1717,12 +1727,25 @@ namespace UV_DLP_3D_Printer
                int xPos = me.X;
                int yPos = me.Y;
                List<ISectData> isects = TestHitTest(xPos, yPos);
+                // find the first object that's not the ground
+            // this will allow us to select an object from the bottom.
+               foreach (ISectData i in isects) 
+               {
+                   if (i.obj.tag != Object3d.OBJ_GROUND) 
+                   {
+                       UVDLPApp.Instance().SelectedObject = i.obj;
+                       UVDLPApp.Instance().m_engine3d.UpdateLists();
+                       break; 
+                   }
+               }
+            /*
                if (isects.Count > 0) 
                {
                    ISectData i = (ISectData)isects[0];
                    UVDLPApp.Instance().SelectedObject = i.obj;
                    UVDLPApp.Instance().m_engine3d.UpdateLists();
                }
+             * */
         }
 
         private void glControl1_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
