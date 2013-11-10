@@ -72,7 +72,7 @@ namespace UV_DLP_3D_Printer
         public GCodeFile m_gcode;
         // the slicer we're using 
         public Slicer m_slicer;//
-        public FlexSlice m_flexslice;
+        //public FlexSlice m_flexslice;
         //current slice file
         public SliceFile m_slicefile;
         public BuildManager m_buildmgr;
@@ -100,7 +100,7 @@ namespace UV_DLP_3D_Printer
             m_buildmgr = new BuildManager();
             m_slicer = new Slicer();
             m_slicer.Slice_Event += new Slicer.SliceEvent(SliceEv);
-            m_flexslice = new FlexSlice();
+            //m_flexslice = new FlexSlice();
             m_gcode = new GCodeFile(""); // create a blank gcode to start with
             m_supportconfig = new SupportConfig();
             m_supportgenerator = new SupportGenerator();
