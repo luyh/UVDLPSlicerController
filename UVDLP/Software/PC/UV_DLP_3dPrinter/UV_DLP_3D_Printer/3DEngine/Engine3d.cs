@@ -112,7 +112,7 @@ namespace Engine3D
             platZ = (float)UVDLPApp.Instance().m_printerinfo.m_PlatZSize;
             X = platX / 2;
             Y = platY / 2;
-            Z = platZ / 2;
+            Z = platZ;
 
             // bottom
             AddLine(new PolyLine3d(new Point3d(-X, Y, 0), new Point3d(X, Y, 0), cubecol));
