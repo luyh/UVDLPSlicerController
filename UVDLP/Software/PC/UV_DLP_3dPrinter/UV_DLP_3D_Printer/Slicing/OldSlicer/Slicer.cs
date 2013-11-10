@@ -134,6 +134,8 @@ namespace UV_DLP_3D_Printer
             }
             catch { return null; }
         }
+
+        private static SliceBuildConfig m_saved = new SliceBuildConfig();        
         /// <summary>
         /// This function will immediately return a bitmap slice at the specified Z-Level
         /// </summary>
@@ -144,34 +146,18 @@ namespace UV_DLP_3D_Printer
             try
             {
                 //first take care of scaling up the output bitmap paramters size, so we can re-sample later
-
-                int ox, oy;
-                double sdpmmx; // save the original dots per mm
-                double sdpmmy;
                 double scaler = 1.5; // specify the scale factor
+                m_saved.CopyFrom(m_sf.m_config);// save the orginal
                 if (m_sf.m_config.antialiasing == true)
                 {
-                    scaler = m_sf.m_config.aaval;
+                    scaler = m_sf.m_config.aaval;                    
+                    m_sf.m_config.dpmmX *= scaler;
+                    m_sf.m_config.dpmmY *= scaler;
+                    m_sf.m_config.xres = (int)(scaler * m_sf.m_config.xres);
+                    m_sf.m_config.yres = (int)(scaler * m_sf.m_config.yres);
                 }
-                else
-                {
-                    scaler = 1.0; // no scaling
-                }
-                sdpmmx = m_sf.m_config.dpmmX; // save the original dots per mm
-                sdpmmy = m_sf.m_config.dpmmY;
-
-                m_sf.m_config.dpmmX *= scaler;//  scale them up.
-                m_sf.m_config.dpmmY *= scaler;
-                //Re-sample to a higher resolution so we can smooth later
-                ox = m_sf.m_config.xres; // save the original resolution
-                oy = m_sf.m_config.yres;
-                double xs, ys;
-                xs = ((double)m_sf.m_config.xres) * scaler;  // scale them up
-                ys = ((double)m_sf.m_config.yres) * scaler;
-                m_sf.m_config.xres = (int)xs;
-                m_sf.m_config.yres = (int)ys;
-                                                               
-
+                SliceBuildConfig sbf = new SliceBuildConfig(m_sf.m_config); // save it
+                
                 Bitmap bmp = new Bitmap(m_sf.m_config.xres, m_sf.m_config.yres); // create a new bitmap on a per-slice basis                    
                 Graphics graph = Graphics.FromImage(bmp);
                 graph.Clear(UVDLPApp.Instance().m_appconfig.m_backgroundcolor);//clear the image for rendering
@@ -196,7 +182,7 @@ namespace UV_DLP_3D_Printer
 
                 if (m_sf.m_config.antialiasing == true) // we're using anti-aliasing here, so resize the image
                 {
-                    savebm = ResizeImage(bmp, new Size(ox, oy));
+                    savebm = ResizeImage(bmp,new Size(m_saved.xres,m_saved.yres));
                 }
                 if (m_sf.m_config.m_flipX == true)
                 {
@@ -206,6 +192,8 @@ namespace UV_DLP_3D_Printer
                 {
                     savebm = ReflectY(savebm);
                 }
+                //restore the original size
+                m_sf.m_config.CopyFrom(m_saved);
                 return savebm;
             }
             catch (Exception ex)
@@ -222,33 +210,22 @@ namespace UV_DLP_3D_Printer
             try
             {
                 //first take care of scaling up the output bitmap paramters size, so we can re-sample later
-
-                int ox, oy;
-                double sdpmmx; // save the original dots per mm
-                double sdpmmy; 
                 double scaler = 1.5; // specify the scale factor
+                m_saved.CopyFrom(m_sf.m_config); // save the original
                 if (m_sf.m_config.antialiasing == true)
-                {
+                {                    
                     scaler = m_sf.m_config.aaval;
+                    //  scale them up.
+                    m_sf.m_config.dpmmX *= scaler;
+                    m_sf.m_config.dpmmY *= scaler;
+                    m_sf.m_config.xres = (int)(m_sf.m_config.xres * scaler);
+                    m_sf.m_config.yres = (int)(m_sf.m_config.yres * scaler);
+
                 }
                 else
                 {
                     scaler = 1.0; // no scaling
                 }
-                sdpmmx = m_sf.m_config.dpmmX; // save the original dots per mm
-                sdpmmy = m_sf.m_config.dpmmY;
-
-                m_sf.m_config.dpmmX *= scaler;//  scale them up.
-                m_sf.m_config.dpmmY *= scaler;
-                //Re-sample to a higher resolution so we can smooth later
-                ox = m_sf.m_config.xres; // save the original resolution
-                oy = m_sf.m_config.yres;
-                double xs, ys;
-                xs = ((double)m_sf.m_config.xres) * scaler;  // scale them up
-                ys = ((double)m_sf.m_config.yres) * scaler;
-                m_sf.m_config.xres = (int)xs;
-                m_sf.m_config.yres = (int)ys;
-
 
                 //determine the number of slices
                 //UVDLPApp.Instance().Scene.FindMinMax();
@@ -286,6 +263,9 @@ namespace UV_DLP_3D_Printer
                     // if we're not actually exporting slices right now, then 
                     // raise the completed event and exit
                     SliceCompleted(scenename, 0, numslices);
+                    m_sf.m_config.CopyFrom(m_saved);
+                    isslicing = false;
+                    return; // exit slicing, nothing more to do...
                 }
                 for (c = 0; c < numslices; c++)
                 {
@@ -302,10 +282,7 @@ namespace UV_DLP_3D_Printer
                         isslicing = false;
                         m_cancel = false;
                         //restore the original sizes 
-                        m_sf.m_config.dpmmX = sdpmmx;
-                        m_sf.m_config.dpmmY = sdpmmy;
-                        m_sf.m_config.xres = ox;
-                        m_sf.m_config.yres = oy;
+                        m_sf.m_config.CopyFrom(m_saved);
                         RaiseSliceEvent(eSliceEvent.eSliceCancelled, c, numslices);
                         return;
                     }
@@ -330,7 +307,7 @@ namespace UV_DLP_3D_Printer
 
                     if (m_sf.m_config.antialiasing == true) // we're using anti-aliasing here, so resize the image
                     {
-                        savebm = ResizeImage(bmp, new Size(ox, oy));
+                        savebm = ResizeImage(bmp, new Size(m_saved.xres,m_saved.yres));
                     }
                     if (m_sf.m_config.m_flipX == true) 
                     {
@@ -344,8 +321,9 @@ namespace UV_DLP_3D_Printer
                     //raise an event to say we've finished a slice
                     LayerSliced(scenename, c,numslices,savebm);
                 }
-                SliceCompleted(scenename, c, numslices);
-                
+                // restore the original
+                m_sf.m_config.CopyFrom(m_saved);
+                SliceCompleted(scenename, c, numslices);                
                 DebugLogger.Instance().LogRecord("Slicing Completed");
                 isslicing = false;
 

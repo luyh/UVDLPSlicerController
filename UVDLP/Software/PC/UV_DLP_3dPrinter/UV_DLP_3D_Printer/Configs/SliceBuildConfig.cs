@@ -187,6 +187,10 @@ namespace UV_DLP_3D_Printer
          */
         public SliceBuildConfig(SliceBuildConfig source) 
         {
+            CopyFrom(source);
+        }
+        public void CopyFrom(SliceBuildConfig source) 
+        {
             dpmmX = source.dpmmX; // dots per mm x
             dpmmY = source.dpmmY; // dots per mm y
             xres = source.xres;
@@ -196,7 +200,7 @@ namespace UV_DLP_3D_Printer
             firstlayertime_ms = source.firstlayertime_ms;
             blanktime_ms = source.blanktime_ms;
             plat_temp = source.plat_temp; // desired platform temperature in celsius 
-           // exportgcode = source.exportgcode; // export the gcode file when slicing
+            // exportgcode = source.exportgcode; // export the gcode file when slicing
             exportsvg = source.exportsvg; // export the svg slices when building
             export = source.export; // export image slices when building
             m_headercode = source.m_headercode; // inserted at beginning of file
@@ -222,11 +226,8 @@ namespace UV_DLP_3D_Printer
             m_flipX = source.m_flipX;
             m_flipY = source.m_flipY;
             m_notes = source.m_notes;
-            m_resinprice = source.m_resinprice;
-            //raise_time_ms = source.raise_time_ms;
-            //m_sliceimmediate = source.m_sliceimmediate;
+            m_resinprice = source.m_resinprice;        
         }
-
         public SliceBuildConfig() 
         {           
             // every new config will be set to default settings,

@@ -158,12 +158,6 @@
     <Compile Include="GUI\frmConnection.Designer.cs">
       <DependentUpon>frmConnection.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\frmFlexSliceOptions.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\frmFlexSliceOptions.Designer.cs">
-      <DependentUpon>frmFlexSliceOptions.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\frmPrefs.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -202,17 +196,8 @@
     </Compile>
     <Compile Include="Projector_LCD\prjcmdlst.cs" />
     <Compile Include="Projector_LCD\ProjectorCommand.cs" />
-    <Compile Include="Slicing\FlexSlice.cs" />
-    <Compile Include="Slicing\Modules\Carve.cs" />
-    <Compile Include="Slicing\Modules\ImageSliceExporter.cs" />
-    <Compile Include="Slicing\Modules\Raft.cs" />
     <Compile Include="Configs\Parm.cs" />
-    <Compile Include="Slicing\Modules\UV_Bottom.cs" />
-    <Compile Include="Slicing\Modules\UV_GCode_Gen.cs" />
-    <Compile Include="Slicing\SliceData.cs" />
     <Compile Include="Slicing\SliceFile.cs" />
-    <Compile Include="Slicing\Modules\SliceModule.cs" />
-    <Compile Include="Slicing\Modules\SupportGen.cs" />
     <Compile Include="3DEngine\SupportGenerator.cs" />
     <Compile Include="Utility\DebugLogger.cs" />
     <Compile Include="GUI\frmDLP.cs">
@@ -273,9 +258,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmConnection.resx">
       <DependentUpon>frmConnection.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\frmFlexSliceOptions.resx">
-      <DependentUpon>frmFlexSliceOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>

@@ -246,12 +246,7 @@ namespace UV_DLP_3D_Printer.GUI
                 DebugLogger.Instance().LogError("Slic3r failed " + ex.Message);
                 MessageBox.Show("Slicing Failed");
             }        
-        }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            frmFlexSliceOptions fso = new frmFlexSliceOptions();
-            fso.Show();
-        }
+        }        
 
         private void frmSlice_Activated(object sender, EventArgs e)
         {
