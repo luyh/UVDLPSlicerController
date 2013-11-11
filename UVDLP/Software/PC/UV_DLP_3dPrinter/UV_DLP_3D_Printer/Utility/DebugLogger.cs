@@ -8,13 +8,19 @@ namespace UV_DLP_3D_Printer
     public class DebugLogger : Logger
     {
         private static DebugLogger _instance = null;            //Make this class a singleton
+        private List<string> m_logs = new List<string>(); // keep the log around for a while
 
         public DebugLogger()
         {
             m_loggertype = eLoggerType.eDebugLogger;
             SetLogFile("Creation.log");
         }
-
+        
+        public List<string> GetLog()
+        {
+            return m_logs;
+        } 
+        
         /// <summary>
         /// Destructor:: Clear out the instance
         /// </summary>
@@ -47,6 +53,7 @@ namespace UV_DLP_3D_Printer
                 DateTime CurTime = DateTime.Now;
                 MsgOut = CurTime.ToString("HH:mm:ss.fff") + "> " + OutStr;
                 base.LogRecord(MsgOut);
+                m_logs.Add(MsgOut);
             }
             catch (Exception) { }
         }

@@ -16,6 +16,9 @@ using System.Collections;
 using Ionic.Zip;
 using System.Drawing.Imaging;
 using System.Runtime.Serialization.Formatters.Binary;
+using UV_DLP_3D_Printer.Plugin;
+using System.Windows;
+using System.Reflection;
 
 namespace UV_DLP_3D_Printer
 {
@@ -43,7 +46,7 @@ namespace UV_DLP_3D_Printer
     /*
      This represents the main application object
      */
-    public class UVDLPApp
+    public class UVDLPApp : IPluginHost
     {
         public AppEventDelegate AppEvent;
         private static UVDLPApp m_instance = null;
@@ -80,7 +83,7 @@ namespace UV_DLP_3D_Printer
 
         private static String m_appconfigname = "CreationConfig.xml";
         public static String m_pathsep = "\\";
-
+        public List<IPlugin> m_plugins;
 
         public static UVDLPApp Instance() 
         {
@@ -106,6 +109,7 @@ namespace UV_DLP_3D_Printer
             m_supportgenerator = new SupportGenerator();
             m_supportgenerator.SupportEvent+= new SupportGeneratorEvent(SupEvent);
             m_proj_cmd_lst = new prjcmdlst();
+            m_plugins = new List<IPlugin>(); // list of user plug-ins
         }
         public enum Platform
         {
@@ -673,6 +677,7 @@ namespace UV_DLP_3D_Printer
             {
                 SaveSupportConfig(m_appconfig.SupportConfigName);
             }
+            ScanForPlugins(); // look for plug-ins
         }
         /// <summary>
         /// returns the name of the current build / slice profile
@@ -683,5 +688,55 @@ namespace UV_DLP_3D_Printer
             return Path.GetFileNameWithoutExtension(m_appconfig.m_cursliceprofilename);            
         }
 
+        public void ScanForPlugins() 
+        {
+            // get a list of dll's in this current directory
+            // try to register them as a plug-in
+            string[] filePaths = Directory.GetFiles(m_apppath, "*.dll");
+            foreach (String pluginname in filePaths)
+            {
+                string args = Path.GetFileNameWithoutExtension(pluginname);
+                if (args.ToLower().StartsWith("pl")) 
+                {
+                    // located a dll that is a potential plugin
+                    Type ObjType = null;
+                    try
+                    {
+                        // load it
+                        Assembly ass = null;
+                        //string args = Path.GetFileNameWithoutExtension(pluginname);
+                        ass = Assembly.Load(args);
+                        if (ass != null)
+                        {
+                            ObjType = ass.GetType(args + ".PlugIn"); // look for the plugin interface
+                            // OK Lets create the object as we have the Report Type
+                            if (ObjType != null)
+                            {
+                                IPlugin plug = (IPlugin)Activator.CreateInstance(ObjType); 
+                                m_plugins.Add(plug);
+                                plug.Host = this;
+                                DebugLogger.Instance().LogInfo("Loaded plugin " + args);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        DebugLogger.Instance().LogError(ex.Message);
+                    }
+                }
+                //profiles.Add(pn);
+            }
+
+        }
+        /// <summary>
+        /// This is a plugin host implementation
+        /// </summary>
+        /// <param name="ipi"></param>
+        /// <returns></returns>
+        public bool Register(IPlugin ipi)
+        {
+            DebugLogger.Instance().LogInfo("Registered: " + ipi.Name);
+            return true;
+        }     
     }
 }

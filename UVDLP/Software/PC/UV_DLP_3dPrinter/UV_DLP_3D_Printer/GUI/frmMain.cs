@@ -520,6 +520,10 @@ namespace UV_DLP_3D_Printer
             SetTitle();
             SetupForMachineType();
             Refresh();
+            foreach (string lg in DebugLogger.Instance().GetLog()) 
+            {
+                txtLog.Text = lg + "\r\n" + txtLog.Text;
+            }
         }
 
         private void glControl1_Resize(object sender, EventArgs e)
