@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 
 namespace UV_DLP_3D_Printer.Plugin
 {
@@ -10,9 +11,12 @@ namespace UV_DLP_3D_Printer.Plugin
     /// </summary>
     public interface IPlugin
     {
-        string Name { get; set; } // name of the plugin
-        //string Vendorname { get; set; } // name of the Vendor who wrote this
-        IPluginHost Host { get; set; }
+        string Name { get;  } // name of the plugin
+        string Vendorname { get;  } // name of the Vendor who wrote this
+        int VendorID { get; }
+        IPluginHost Host { get; set; } // this will set the plugin host
         //void Show();
+        Bitmap IconImage { get; }
+        Bitmap SplashImage { get; }
     }
 }

@@ -738,7 +738,7 @@ namespace UV_DLP_3D_Printer
             }
             catch (Exception ex) 
             {
-                ex = ex;// breakpoint here for testing
+                DebugLogger.Instance().LogError(ex.Message);
             }
         }
 
