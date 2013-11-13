@@ -813,10 +813,21 @@ namespace UV_DLP_3D_Printer
             List<ISectData> isects = RTUtils.IntersectObjects(dir, origin, UVDLPApp.Instance().Engine3D.m_objects, true);
             if (isects.Count > 0) 
             {
-                ISectData isect = (ISectData)isects[0]; // get the first
-                ix = (float)isect.intersect.x; // show the closest
-                iy = (float)isect.intersect.y;
-                iz = (float)isect.intersect.z;
+
+                foreach (ISectData isect in isects) 
+                {
+                    if (!float.IsNaN(isect.intersect.x)) // check for NaN
+                    {
+                        ix = (float)isect.intersect.x; // show the closest
+                        iy = (float)isect.intersect.y;
+                        iz = (float)isect.intersect.z;
+                        break;
+                    }                
+                }
+
+                //ISectData isect = (ISectData)isects[0]; // get the first
+                // check for NaN
+               
             }
             
             return isects;

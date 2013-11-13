@@ -60,8 +60,8 @@ namespace UV_DLP_3D_Printer._3DEngine
             u.Set(T.m_points[1].x - T.m_points[0].x, T.m_points[1].y - T.m_points[0].y, T.m_points[1].z - T.m_points[0].z);
             //v = T.m_points[2] - T.m_points[0];
             v.Set(T.m_points[2].x - T.m_points[0].x, T.m_points[2].y - T.m_points[0].y, T.m_points[2].z - T.m_points[0].z);
-            //n = Vector3d.cross(u , v);              // cross product
-            n = T.m_normal;
+            n = Vector3d.cross(u , v);              // cross product
+            //n = T.m_normal;
                       
             //if (n == 0)             // triangle is degenerate
             //    return -1;                  // do not deal with this case
@@ -90,6 +90,11 @@ namespace UV_DLP_3D_Printer._3DEngine
             I.x = startp.x + r * dir.x;
             I.y = startp.y + r * dir.y;
             I.z = startp.z + r * dir.z;
+            if (float.IsNaN(I.x)) 
+            {
+                // what's going on here?
+                I.x = -1.0f;
+            }
             // is I inside T?
             double uu, uv, vv, wu, wv, D;
             uu = Vector3d.dot(u, u);

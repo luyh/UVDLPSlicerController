@@ -692,7 +692,8 @@ namespace UV_DLP_3D_Printer
         {
             // get a list of dll's in this current directory
             // try to register them as a plug-in
-            string[] filePaths = Directory.GetFiles(m_apppath, "*.dll");
+            //string[] filePaths = Directory.GetFiles(m_apppath + m_pathsep + "Plugins", "*.dll");
+            string[] filePaths = Directory.GetFiles(m_apppath , "*.dll");
             foreach (String pluginname in filePaths)
             {
                 string args = Path.GetFileNameWithoutExtension(pluginname);
