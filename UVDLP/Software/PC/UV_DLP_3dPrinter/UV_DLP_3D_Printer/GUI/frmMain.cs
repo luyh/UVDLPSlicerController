@@ -193,11 +193,11 @@ namespace UV_DLP_3D_Printer
             MachineConfig mc = UVDLPApp.Instance().m_printerinfo;
             if (mc.m_machinetype == MachineConfig.eMachineType.UV_DLP)
             {
-                heatTempCtl1.Enabled = false;
+                heatTempCtl1.Visible = false;
             }
             else if (mc.m_machinetype == MachineConfig.eMachineType.FDM)
             {
-                heatTempCtl1.Enabled = true;
+                heatTempCtl1.Visible = true;
             }
             m_camera.UpdateBuildVolume((float)mc.m_PlatXSize, (float)mc.m_PlatYSize, (float)mc.m_PlatZSize);
         }
