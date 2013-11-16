@@ -107,9 +107,9 @@ namespace UV_DLP_3D_Printer
             ";(The below GCode will only be executed if you)\r\n",
             ";(checked the Checkbox 'Use Main-Lift Gcode')\r\n",
             ";(Example by UV - DLP Slicer)\r\n",
-            "G1 Z 1.5 F21\r\n", 
-            "G1 Z 1.5 F210\r\n",
-            "G1 Z -2.9 F210\r\n",
+            "G1 Z($ZLiftDist/2) F$ZLiftRate\r\n", 
+            "G1 Z($ZLiftDist/2) F$ZRetractRate\r\n",
+            "G1 Z($LayerThickness-$ZLiftDist) F$ZRetractRate\r\n",
             ";(********** Main-Lift Sequence **********)\r\n", // 
         };
 

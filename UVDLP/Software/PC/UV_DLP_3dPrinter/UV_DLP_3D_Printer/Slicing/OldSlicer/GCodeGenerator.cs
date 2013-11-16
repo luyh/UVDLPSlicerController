@@ -26,6 +26,17 @@ namespace UV_DLP_3D_Printer
          
         */
 
+        // here we prepare the gcode preprocessor and fill all nessesary variables 
+        protected static PreProcessor PreparePreprocessor(SliceFile sf, MachineConfig pi)
+        {
+            PreProcessor pp = new PreProcessor();
+            pp.SetVar("$LayerThickness", sf.m_config.ZThick);
+            pp.SetVar("$ZLiftDist", sf.m_config.liftdistance);
+            pp.SetVar("$ZLiftRate", sf.m_config.liftfeedrate);
+            pp.SetVar("$ZRetractRate", sf.m_config.liftretractrate);
+            return pp;
+        }
+
         /*
          This is the main function to generate gcode files for the 
          * already sliced model
@@ -34,6 +45,7 @@ namespace UV_DLP_3D_Printer
         {
             String gcode;
             StringBuilder sb = new StringBuilder();
+            PreProcessor pp = PreparePreprocessor(sf, pi);
             double zdist = 0.0;
            // double feedrate = pi.ZMaxFeedrate; // 10mm/min
             double liftfeed = sf.m_config.liftfeedrate;
@@ -53,8 +65,8 @@ namespace UV_DLP_3D_Printer
             sb.Append(pi.ToString());//add the machine build parameters string
 
             // append the header
-            sb.Append(sf.m_config.HeaderCode);
-            
+            sb.Append(pp.Process(sf.m_config.HeaderCode));
+
             zdist = sf.m_config.ZThick;
 
             String firstlayerdelay = ";(<Delay> " + sf.m_config.firstlayertime_ms + " )\r\n";
@@ -65,9 +77,14 @@ namespace UV_DLP_3D_Printer
             String tmpX1 = String.Format("{0:0.00000}", (sf.m_config.slidetiltval)).Replace(',', '.');
             String tmpX2 = String.Format("{0:0.00000}", (sf.m_config.slidetiltval * -1)).Replace(',', '.');
 
+            String preSliceGCode = pp.Process(sf.m_config.PreSliceCode);
+            String preLiftGCode = pp.Process(sf.m_config.PreLiftCode);
+            String mainLiftGCode = pp.Process(sf.m_config.MainLiftCode);
+            String postLiftGcode = pp.Process(sf.m_config.PostLiftCode);
+
             for (int c = 0; c < sf.NumSlices; c++)
             {
-                sb.Append(sf.m_config.PreSliceCode);//add in the pre-slice code
+                sb.Append(preSliceGCode);//add in the pre-slice code
                 // this is the marker the BuildManager uses to display the correct slice
                 sb.Append(";(<Slice> " + c + " )\r\n");
                 // add a pause for the UV resin to be set using this image
@@ -80,13 +97,13 @@ namespace UV_DLP_3D_Printer
                     sb.Append(layerdelay);
                 }
                 sb.Append(";(<Slice> Blank )\r\n"); // show the blank layer
-                sb.Append(sf.m_config.PreLiftCode); // append the pre-lift codes
+                sb.Append(preLiftGCode); // append the pre-lift codes
                 // I put the following two lines out of the loop to reduce calculationTime
                 //String tmpZU = String.Format("{0:0.00000}", (sf.m_config.liftdistance * zdir)).Replace(',', '.');
                 //String tmpZD = String.Format("{0:0.00000}", ((sf.m_config.liftdistance - zdist) * zdir * -1)).Replace(',', '.');
                 if (sf.m_config.usemainliftgcode == true) // if you want to use the GCode from the MainLiftGCode-Tab
                 {
-                    sb.Append(sf.m_config.MainLiftCode);
+                    sb.Append(mainLiftGCode);
                 }
                 else if (sf.m_config.slidetiltval == 0.0) // tilt/slide is not used here
                 {
@@ -105,10 +122,10 @@ namespace UV_DLP_3D_Printer
                 // add a delay for the lift sequence and the pre/post lift codes to execute
                 sb.Append(blankdelay);
                 // append the post-lift codes
-                sb.Append(sf.m_config.PostLiftCode);
+                sb.Append(postLiftGcode);
             }
             //append the footer
-            sb.Append(sf.m_config.FooterCode);
+            sb.Append(pp.Process(sf.m_config.FooterCode));
             gcode = sb.ToString();
             GCodeFile gc = new GCodeFile(gcode);
             return gc;

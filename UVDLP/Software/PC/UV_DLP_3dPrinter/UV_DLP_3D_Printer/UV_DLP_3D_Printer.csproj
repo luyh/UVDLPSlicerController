@@ -199,6 +199,7 @@
     <Compile Include="Projector_LCD\prjcmdlst.cs" />
     <Compile Include="Projector_LCD\ProjectorCommand.cs" />
     <Compile Include="Configs\Parm.cs" />
+    <Compile Include="Slicing\PreProcessor.cs" />
     <Compile Include="Slicing\SliceFile.cs" />
     <Compile Include="3DEngine\SupportGenerator.cs" />
     <Compile Include="Utility\DebugLogger.cs" />

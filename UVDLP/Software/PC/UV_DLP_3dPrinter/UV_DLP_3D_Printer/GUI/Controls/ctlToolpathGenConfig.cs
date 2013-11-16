@@ -62,13 +62,19 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                return "";
            }
        }
+
+       private String GetSlicingFilename(string shortname)
+       {
+           string fname = UVDLPApp.Instance().m_PathProfiles;
+           fname += UVDLPApp.m_pathsep + shortname + ".slicing";
+           return fname;
+       }
         private SliceBuildConfig LoadProfile(string shortname) 
         {
             SliceBuildConfig profile = new SliceBuildConfig();
             try
             {
-                string fname = UVDLPApp.Instance().m_PathProfiles;
-                fname += UVDLPApp.m_pathsep + shortname + ".slicing";
+                string fname = GetSlicingFilename(shortname);
                 if (!profile.Load(fname))
                 {
                     DebugLogger.Instance().LogError("Could not load " + fname);
@@ -221,8 +227,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 if (GetValues())
                 {
                     string shortname = lstSliceProfiles.SelectedItem.ToString();
-                    string fname = UVDLPApp.Instance().m_PathProfiles;
-                    fname += UVDLPApp.m_pathsep + shortname + ".slicing";
+                    string fname = GetSlicingFilename(shortname);
                     m_config.Save(fname);
                     // make sure main build params are updated if needed
                     if (cmbSliceProfiles.SelectedItem.ToString() == shortname)
@@ -249,8 +254,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 //set this profile to be the active one for the program                
                 string shortname = cmbSliceProfiles.SelectedItem.ToString();
-                string fname = UVDLPApp.Instance().m_PathProfiles;
-                fname += UVDLPApp.m_pathsep + shortname + ".slicing";
+                string fname = GetSlicingFilename(shortname);
                 UVDLPApp.Instance().LoadBuildSliceProfile(fname);                 
             }
         }
@@ -289,8 +293,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 SliceBuildConfig bf = new SliceBuildConfig();
                 //save it
                 string shortname = frm.ProfileName;
-                string fname = UVDLPApp.Instance().m_PathProfiles;
-                fname += UVDLPApp.m_pathsep + shortname + ".slicing";
+                string fname = GetSlicingFilename(shortname);
                 if (!bf.Save(fname)) 
                 {
                     MessageBox.Show("Error saving new profile " + fname);
@@ -312,11 +315,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 else
                 {
 
-                    string fname = UVDLPApp.Instance().m_PathProfiles;
-                    fname += UVDLPApp.m_pathsep + shortname;
-                    string pname = fname;
-                    fname += ".slicing";
+                    string fname = GetSlicingFilename(shortname);
                     File.Delete(fname); // delete the file
+                    string pname = UVDLPApp.Instance().m_PathProfiles + UVDLPApp.m_pathsep + shortname;
                     Directory.Delete(pname, true);
                     PopulateProfiles();
                 }
@@ -384,6 +385,12 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     case 5: m_config.MainLiftCode = gcode; break;
                 }
                 m_config.SaveFile(CurPrefGcodePath() + GCodeSection2FName(), gcode);
+                // make sure main build params are updated if needed
+                string shortname = lstSliceProfiles.SelectedItem.ToString();
+                if (cmbSliceProfiles.SelectedItem.ToString() == shortname)
+                {
+                    UVDLPApp.Instance().LoadBuildSliceProfile(GetSlicingFilename(shortname));
+                }
             }
             catch (Exception ex) 
             {
