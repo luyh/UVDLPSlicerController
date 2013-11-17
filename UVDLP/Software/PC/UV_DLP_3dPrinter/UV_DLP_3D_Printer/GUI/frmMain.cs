@@ -1557,7 +1557,39 @@ namespace UV_DLP_3D_Printer
         {
             m_frmdlp.Hide();    
         }
-
+        private string CleanMonitorString(string str) 
+        {
+            string tmp = str.Replace("\\",string.Empty);
+            tmp = tmp.Replace(".", string.Empty);
+            tmp = tmp.Trim();
+            return tmp;
+        }
+        private Screen GetDLPScreen()
+        {
+            Screen dlpscreen = null;
+            foreach (Screen s in Screen.AllScreens)
+            {
+               // DebugLogger.Instance().LogInfo("Enumerated monitor name: " + s.DeviceName);
+                string mn = CleanMonitorString(s.DeviceName);
+               // DebugLogger.Instance().LogInfo("Cleaned enumerated monitor name: " + mn);
+               // DebugLogger.Instance().LogInfo("Configured monitor name: " + UVDLPApp.Instance().m_printerinfo.m_monitorconfig.Monitorid);               
+                string mid = CleanMonitorString(UVDLPApp.Instance().m_printerinfo.m_monitorconfig.Monitorid);
+               // DebugLogger.Instance().LogInfo("Cleaned configured monitor name: " + mid);
+                if (mn.Contains(mid))
+                {
+                 //   DebugLogger.Instance().LogInfo("Cleaned enumerated contains cleaned configured : " + mn);
+                    dlpscreen = s;
+                    break;
+                }
+            }
+            if (dlpscreen == null)
+            {
+                dlpscreen = Screen.AllScreens[0]; // default to the first if we can't find it
+                DebugLogger.Instance().LogRecord("Can't find screen " + UVDLPApp.Instance().m_printerinfo.m_monitorconfig.Monitorid);
+            }
+            return dlpscreen;
+        }
+        /*
         private Screen GetDLPScreen() 
         {
             Screen dlpscreen = null;
@@ -1576,6 +1608,8 @@ namespace UV_DLP_3D_Printer
             }
             return dlpscreen;
         }
+         * */
+
         private bool ShowDLPScreen()
         {
             try

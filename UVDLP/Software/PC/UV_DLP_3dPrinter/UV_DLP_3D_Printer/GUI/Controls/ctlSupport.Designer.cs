@@ -44,6 +44,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.numFB1 = new System.Windows.Forms.NumericUpDown();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkOnlyDownward = new System.Windows.Forms.CheckBox();
             this.numY = new System.Windows.Forms.NumericUpDown();
             this.numX = new System.Windows.Forms.NumericUpDown();
             this.groupSupportParam = new System.Windows.Forms.GroupBox();
@@ -52,7 +53,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.chkDownPolys = new System.Windows.Forms.CheckBox();
             this.numdownangle = new System.Windows.Forms.NumericUpDown();
-            this.chkOnlyDownward = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureSupport)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHT)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHB)).BeginInit();
@@ -325,10 +325,20 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Size = new System.Drawing.Size(283, 152);
+            this.groupBox1.Size = new System.Drawing.Size(340, 152);
             this.groupBox1.TabIndex = 23;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Auto Support on Grid";
+            // 
+            // chkOnlyDownward
+            // 
+            this.chkOnlyDownward.AutoSize = true;
+            this.chkOnlyDownward.Location = new System.Drawing.Point(6, 43);
+            this.chkOnlyDownward.Name = "chkOnlyDownward";
+            this.chkOnlyDownward.Size = new System.Drawing.Size(207, 21);
+            this.chkOnlyDownward.TabIndex = 16;
+            this.chkOnlyDownward.Text = "Generate only on downward";
+            this.chkOnlyDownward.UseVisualStyleBackColor = true;
             // 
             // numY
             // 
@@ -415,9 +425,9 @@
             this.button1.Location = new System.Drawing.Point(5, 82);
             this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(187, 32);
+            this.button1.Size = new System.Drawing.Size(139, 32);
             this.button1.TabIndex = 25;
-            this.button1.Text = "Create Manual Support";
+            this.button1.Text = "Manual Support";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -431,7 +441,7 @@
             this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox3.Size = new System.Drawing.Size(283, 121);
+            this.groupBox3.Size = new System.Drawing.Size(340, 121);
             this.groupBox3.TabIndex = 26;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Support General";
@@ -442,9 +452,9 @@
             this.label8.Enabled = false;
             this.label8.Location = new System.Drawing.Point(84, 50);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(60, 17);
+            this.label8.Size = new System.Drawing.Size(32, 17);
             this.label8.TabIndex = 28;
-            this.label8.Text = "degrees";
+            this.label8.Text = "deg";
             // 
             // chkDownPolys
             // 
@@ -452,9 +462,9 @@
             this.chkDownPolys.Location = new System.Drawing.Point(7, 21);
             this.chkDownPolys.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkDownPolys.Name = "chkDownPolys";
-            this.chkDownPolys.Size = new System.Drawing.Size(210, 21);
+            this.chkDownPolys.Size = new System.Drawing.Size(137, 21);
             this.chkDownPolys.TabIndex = 27;
-            this.chkDownPolys.Text = "Show downward facing polys";
+            this.chkDownPolys.Text = "Downward facing";
             this.chkDownPolys.UseVisualStyleBackColor = true;
             this.chkDownPolys.CheckedChanged += new System.EventHandler(this.chkDownPolys_CheckedChanged);
             // 
@@ -481,16 +491,6 @@
             0,
             0});
             this.numdownangle.ValueChanged += new System.EventHandler(this.numdownangle_ValueChanged);
-            // 
-            // chkOnlyDownward
-            // 
-            this.chkOnlyDownward.AutoSize = true;
-            this.chkOnlyDownward.Location = new System.Drawing.Point(6, 43);
-            this.chkOnlyDownward.Name = "chkOnlyDownward";
-            this.chkOnlyDownward.Size = new System.Drawing.Size(207, 21);
-            this.chkOnlyDownward.TabIndex = 16;
-            this.chkOnlyDownward.Text = "Generate only on downward";
-            this.chkOnlyDownward.UseVisualStyleBackColor = true;
             // 
             // ctlSupport
             // 

@@ -6,7 +6,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Timers;
 using UV_DLP_3D_Printer.Configs;
-
+using System.Threading;
 namespace UV_DLP_3D_Printer.Drivers
 {
     /*
@@ -39,14 +39,44 @@ namespace UV_DLP_3D_Printer.Drivers
         protected ConnectionConfig m_config; // the serial port configuration
         protected byte[] m_buffer;
 
+        private Thread m_readthread = null;
+        private bool m_readthreadrunning = false;
+
         protected DeviceDriver() 
         {
             m_serialport = new SerialPort();
             m_buffer = new byte[8192];
 
             m_serialport.DataReceived += new SerialDataReceivedEventHandler(m_serialport_DataReceived);
+            // Mono doesn't support the DataRecieved event, so we need to poll for the data
+            if (UVDLPApp.RunningPlatform() != UVDLPApp.Platform.Windows) 
+            {
+                // if we're not windows, we need to poll for data
+                m_readthread = new Thread(new ThreadStart(Mono_Serial_ReadThread));
+                m_readthreadrunning = true;
+                m_readthread.Start();
+            }
         }
-
+        private void Mono_Serial_ReadThread() 
+        {
+            try
+            {
+                if (m_readthreadrunning) 
+                {
+                    // try to read from serial port,
+                    // if we have one or more bytes available, pass it off to the m_serialport_DataReceived function
+                    if (m_serialport.BytesToRead > 0) 
+                    {
+                        m_serialport_DataReceived(null, null);
+                    }
+                }
+                Thread.Sleep(0); // yield the remainder of the timeslice
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
+        }
         void m_serialport_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             int read = m_serialport.Read(m_buffer, 0, m_serialport.BytesToRead);
