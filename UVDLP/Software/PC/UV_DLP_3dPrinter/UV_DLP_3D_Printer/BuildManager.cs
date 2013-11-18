@@ -316,13 +316,13 @@ namespace UV_DLP_3D_Printer
 
                             UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(line + "\r\n");
                             // if the line is a comment, parse it to see if we need to take action
-                            if (line.Contains("(<Delay> "))// get the delay
+                            if (line.Contains("<Delay> "))// get the delay
                             {                                
                                 nextlayertime = Environment.TickCount + getvarfromline(line);
                                 m_state = STATE_WAITING_FOR_LAYER;
                                 continue;
                             }
-                            else if (line.Contains("(<Slice> "))//get the slice number
+                            else if (line.Contains("<Slice> "))//get the slice number
                             {
                                 int layer = getvarfromline(line);
                                 int curtype = BuildManager.SLICE_NORMAL; // assume it's a normal image to begin with

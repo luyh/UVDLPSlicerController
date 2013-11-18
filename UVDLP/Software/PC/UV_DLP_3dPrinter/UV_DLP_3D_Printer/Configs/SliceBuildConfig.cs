@@ -45,10 +45,12 @@ namespace UV_DLP_3D_Printer
         public double liftretractrate; // the feedrate that this lowers(for bottom-up) or raises(top-down) the build platform, this is the retraction rate of the lift.
         private String m_headercode; // inserted at beginning of file
         private String m_footercode; // inserted at end of file
-        private String m_preliftcode; // inserted before each slice
-        private String m_postliftcode; // inserted after each slice
+        //private String m_preliftcode; // inserted before each slice
+        //private String m_postliftcode; // inserted after each slice
         private String m_preslicecode; // inserted before each slice
-        private String m_mainliftcode; // inserted before each slice
+        //private String m_mainliftcode; // inserted before each slice
+        private String m_liftcode; // inserted before each slice
+        //private String TiltLiftCode; // inserted before each slice on machines with tilt mechanism
         public int XOffset, YOffset; // the X/Y pixel offset used 
         public String m_exportopt; // export sliced images in ZIP or SUBDIR
         public bool m_flipX; // mirror the x axis
@@ -61,24 +63,24 @@ namespace UV_DLP_3D_Printer
 
         private String[] m_defheader = 
         {
-            ";(********** Header Start ********)\r\n", //
-            ";(Here you can set any G or M-Code which should be executed BEFORE the build process)\r\n",
-            "G21 ;(Set units to be mm)\r\n", 
-            "G91 ;(Relative Positioning)\r\n",
-            "M17 ;(Enable motors)\r\n",
-            ";(********** Header End **********)\r\n", // 
+            ";********** Header Start ********\r\n", //
+            ";Here you can set any G or M-Code which should be executed BEFORE the build process\r\n",
+            "G21 ;Set units to be mm\r\n", 
+            "G91 ;Relative Positioning\r\n",
+            "M17 ;Enable motors\r\n",
+            ";********** Header End **********\r\n", // 
             //";()\r\n"
         };
         private String[] m_deffooter = 
         {
-            ";(********** Footer Start ********)\r\n", //
-            ";(Here you can set any G or M-Code which should be executed after the last Layer is Printed)\r\n",
-            "M18 ;(Disable Motors)\r\n",
-            ";(<Completed>)\r\n", // a marker for completed            
-            ";(********** Footer End ********)\r\n", // 
+            ";********** Footer Start ********\r\n", //
+            ";Here you can set any G or M-Code which should be executed after the last Layer is Printed\r\n",
+            "M18 ;Disable Motors\r\n",
+            ";<Completed>\r\n", // a marker for completed            
+            ";********** Footer End ********\r\n", // 
         };
 
-        private String[] m_defprelift = 
+        /* LL private String[] m_defprelift = 
         {
             ";(********** Pre-Lift Start ********)\r\n", //
             ";(********** Pre-Lift End **********)\r\n",
@@ -90,27 +92,35 @@ namespace UV_DLP_3D_Printer
             ";(Set up any GCode here to be executed after a lift)\r\n",
             ";(E.g. M117 'text' to be shown on Display)\r\n",
             ";(********** Post-Lift End **********)\r\n",
-        };
+        }; */
 
         private String[] m_defpreslice = 
         {
-            ";(********** Pre-Slice Start ********)\r\n", //
-            ";(Set up any GCode here to be executed before a lift)\r\n",
-            ";(********** Pre-Slice End **********)\r\n",
+            ";********** Pre-Slice Start ********\r\n", //
+            ";Set up any GCode here to be executed before a lift\r\n",
+            ";********** Pre-Slice End **********\r\n",
         };
-        private String[] m_defmainlift = 
+        
+        /*private String[] m_deflift = 
         {
-            ";(********** Main-Lift Sequence ********)\r\n",// 
+            ";(********** Lift Sequence ********)\r\n",// 
             ";(Here you can set any G or M-Code, which )\r\n",
-            ";(should be executed as the Main-Lift, if)\r\n",
-            ";(the generated G-Code does not fit your needs.)\r\n",
-            ";(The below GCode will only be executed if you)\r\n",
-            ";(checked the Checkbox 'Use Main-Lift Gcode')\r\n",
+            ";(should be executed as the Z axis Lift. You)\r\n",
+            ";(can use expressions for flexibility.)\r\n",
             ";(Example by UV - DLP Slicer)\r\n",
             "G1 Z($ZLiftDist/2) F$ZLiftRate\r\n", 
             "G1 Z($ZLiftDist/2) F$ZRetractRate\r\n",
             "G1 Z($LayerThickness-$ZLiftDist) F$ZRetractRate\r\n",
-            ";(********** Main-Lift Sequence **********)\r\n", // 
+            ";(********** Lift Sequence **********)\r\n", // 
+        };*/
+
+        private String[] m_deflift = 
+        {
+            ";********** Lift Sequence ********\r\n",// 
+            "G1{$SlideTiltVal != 0? X$SlideTiltVal:} Z($ZLiftDist * $ZDir) F$ZLiftRate\r\n", 
+            "G1{$SlideTiltVal != 0? X($SlideTiltVal * -1):} Z(($LayerThickness-$ZLiftDist) * $ZDir) F$ZRetractRate\r\n",
+            ";<Delay> $BlankTime\r\n",
+            ";********** Lift Sequence **********\r\n", // 
         };
 
             
@@ -127,7 +137,7 @@ namespace UV_DLP_3D_Printer
                 sb.Append(s);
             FooterCode = sb.ToString();
 
-            sb = new StringBuilder();
+            /*LL sb = new StringBuilder();
             foreach (String s in m_defprelift)
                 sb.Append(s);
             PreLiftCode = sb.ToString();
@@ -135,17 +145,27 @@ namespace UV_DLP_3D_Printer
             sb = new StringBuilder();
             foreach (String s in m_defpostlift)
                 sb.Append(s);
-            PostLiftCode = sb.ToString();
+            PostLiftCode = sb.ToString(); */
 
             sb = new StringBuilder();
             foreach (String s in m_defpreslice)
                 sb.Append(s);
             PreSliceCode = sb.ToString();
 
-            sb = new StringBuilder();
+            /*LL sb = new StringBuilder();
             foreach (String s in m_defmainlift)
                 sb.Append(s);
-            MainLiftCode = sb.ToString();
+            MainLiftCode = sb.ToString(); */
+
+            sb = new StringBuilder();
+            foreach (String s in m_deflift)
+                sb.Append(s);
+            LiftCode = sb.ToString();
+
+            /*sb = new StringBuilder();
+            foreach (String s in m_deftiltlift)
+                sb.Append(s);
+            TiltLiftCode = sb.ToString();*/
         }
 
         public String HeaderCode
@@ -158,17 +178,23 @@ namespace UV_DLP_3D_Printer
             get { return m_footercode; }
             set { m_footercode = value; }
         }
-        public String PreLiftCode
+        /*public String PreLiftCode
         {
             get { return m_preliftcode; }
             set { m_preliftcode = value; }
+        }*/
+
+        public String LiftCode
+        {
+            get { return m_liftcode; }
+            set { m_liftcode = value; }
         }
 
-        public String PostLiftCode
+        /*public String PostLiftCode
         {
             get { return m_postliftcode; }
             set { m_postliftcode = value; }
-        }
+        }*/
 
         public String PreSliceCode
         {
@@ -176,11 +202,11 @@ namespace UV_DLP_3D_Printer
             set { m_preslicecode = value; }
         }
 
-        public String MainLiftCode
+        /*public String MainLiftCode
         {
             get { return m_mainliftcode; }
             set { m_mainliftcode = value; }
-        }
+        }*/
 
         /*
          Copy constructor
@@ -205,10 +231,11 @@ namespace UV_DLP_3D_Printer
             export = source.export; // export image slices when building
             m_headercode = source.m_headercode; // inserted at beginning of file
             m_footercode = source.m_footercode; // inserted at end of file
-            m_preliftcode = source.m_preliftcode; // inserted between each slice            
-            m_postliftcode = source.m_postliftcode; // inserted between each slice    
+            //LL m_preliftcode = source.m_preliftcode; // inserted between each slice            
+            //LL m_postliftcode = source.m_postliftcode; // inserted between each slice    
             m_preslicecode = source.m_preslicecode; // inserted before each slice
-            m_mainliftcode = source.m_mainliftcode; // inserted before postlift and after prelift. its the main lift code
+            //LL m_mainliftcode = source.m_mainliftcode; // inserted before postlift and after prelift. its the main lift code
+            m_liftcode = source.m_liftcode; // its the main lift code
 
             liftdistance = source.liftdistance;
             direction = source.direction;
@@ -480,10 +507,11 @@ namespace UV_DLP_3D_Printer
                     //load the files
                     m_headercode = LoadFile(profilepath + UVDLPApp.m_pathsep + "start.gcode");
                     m_footercode = LoadFile(profilepath + UVDLPApp.m_pathsep + "end.gcode");
-                    m_preliftcode = LoadFile(profilepath + UVDLPApp.m_pathsep + "prelift.gcode");
-                    m_postliftcode = LoadFile(profilepath + UVDLPApp.m_pathsep + "postlift.gcode");
+                    //LL m_preliftcode = LoadFile(profilepath + UVDLPApp.m_pathsep + "prelift.gcode");
+                    //LL m_postliftcode = LoadFile(profilepath + UVDLPApp.m_pathsep + "postlift.gcode");
                     m_preslicecode = LoadFile(profilepath + UVDLPApp.m_pathsep + "preslice.gcode");
-                    m_mainliftcode = LoadFile(profilepath + UVDLPApp.m_pathsep + "mainlift.gcode");
+                    //LL m_mainliftcode = LoadFile(profilepath + UVDLPApp.m_pathsep + "mainlift.gcode");
+                    m_liftcode = LoadFile(profilepath + UVDLPApp.m_pathsep + "lift.gcode");
                 }
             }
             catch (Exception ex) 
@@ -533,10 +561,11 @@ namespace UV_DLP_3D_Printer
 
                 SaveFile(profilepath + UVDLPApp.m_pathsep + "start.gcode", m_headercode);
                 SaveFile(profilepath + UVDLPApp.m_pathsep + "end.gcode", m_footercode);
-                SaveFile(profilepath + UVDLPApp.m_pathsep + "prelift.gcode", m_preliftcode);
-                SaveFile(profilepath + UVDLPApp.m_pathsep + "postlift.gcode", m_postliftcode);
+                //LL SaveFile(profilepath + UVDLPApp.m_pathsep + "prelift.gcode", m_preliftcode);
+                //LL SaveFile(profilepath + UVDLPApp.m_pathsep + "postlift.gcode", m_postliftcode);
                 SaveFile(profilepath + UVDLPApp.m_pathsep + "preslice.gcode", m_preslicecode);
-                SaveFile(profilepath + UVDLPApp.m_pathsep + "mainlift.gcode", m_mainliftcode);
+                //LL SaveFile(profilepath + UVDLPApp.m_pathsep + "mainlift.gcode", m_mainliftcode);
+                SaveFile(profilepath + UVDLPApp.m_pathsep + "lift.gcode", m_liftcode);
             }
             catch (Exception ex) 
             {

@@ -341,14 +341,12 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         private string GCodeSection2GCode()
         {
             if (lbGCodeSection.SelectedIndex == -1) return "";
-            switch (lbGCodeSection.SelectedIndex)
+            switch (lbGCodeSection.SelectedItem.ToString())
             {
-                case 0: return m_config.HeaderCode;
-                case 1: return m_config.PreSliceCode;
-                case 2: return m_config.PreLiftCode;
-                case 3: return m_config.PostLiftCode;
-                case 4: return m_config.FooterCode;
-                case 5: return m_config.MainLiftCode;
+                case "Start":     return m_config.HeaderCode;
+                case "Pre-Slice": return m_config.PreSliceCode;
+                case "Lift":      return m_config.LiftCode;
+                case "End":       return m_config.FooterCode;
             }
             return "";
         }
@@ -356,14 +354,12 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         private string GCodeSection2FName() 
         {
             if (lbGCodeSection.SelectedIndex == -1) return "";
-            switch (lbGCodeSection.SelectedIndex) 
+            switch (lbGCodeSection.SelectedItem.ToString()) 
             {
-                case 0: return "start.gcode";
-                case 1: return "preslice.gcode";
-                case 2: return "prelift.gcode";
-                case 3: return "postlift.gcode";
-                case 4: return "end.gcode";
-                case 5: return "mainlift.gcode";
+                case "Start":       return "start.gcode";
+                case "Pre-Slice":   return "preslice.gcode";
+                case "Lift":        return "lift.gcode";
+                case "End":         return "end.gcode";
             }
             return "";
         }
@@ -375,14 +371,12 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 // save the gcode to the right section
                 string gcode = txtGCode.Text;
                 if (lbGCodeSection.SelectedIndex == -1) return;
-                switch (lbGCodeSection.SelectedIndex)
+                switch (lbGCodeSection.SelectedItem.ToString())
                 {
-                    case 0: m_config.HeaderCode = gcode; break;
-                    case 1: m_config.PreSliceCode = gcode; break;
-                    case 2: m_config.PreLiftCode = gcode; break;
-                    case 3: m_config.PostLiftCode = gcode; break;
-                    case 4: m_config.FooterCode = gcode; break;
-                    case 5: m_config.MainLiftCode = gcode; break;
+                    case "Start": m_config.HeaderCode = gcode; break;
+                    case "Pre-Slice": m_config.PreSliceCode = gcode; break;
+                    case "Lift": m_config.LiftCode = gcode; break;
+                    case "End": m_config.FooterCode = gcode; break;
                 }
                 m_config.SaveFile(CurPrefGcodePath() + GCodeSection2FName(), gcode);
                 // make sure main build params are updated if needed

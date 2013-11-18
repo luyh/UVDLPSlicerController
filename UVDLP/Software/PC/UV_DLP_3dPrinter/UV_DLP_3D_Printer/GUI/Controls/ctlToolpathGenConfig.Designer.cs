@@ -30,6 +30,7 @@
         {
             this.tabOptions = new System.Windows.Forms.TabControl();
             this.tbOptions = new System.Windows.Forms.TabPage();
+            this.chkExport = new System.Windows.Forms.CheckBox();
             this.txtResinPriceL = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.lblProfName = new System.Windows.Forms.Label();
@@ -85,7 +86,6 @@
             this.lstSliceProfiles = new System.Windows.Forms.ListBox();
             this.cmdDelete = new System.Windows.Forms.Button();
             this.cmdNew = new System.Windows.Forms.Button();
-            this.chkExport = new System.Windows.Forms.CheckBox();
             this.tabOptions.SuspendLayout();
             this.tbOptions.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -139,6 +139,18 @@
             this.tbOptions.TabIndex = 0;
             this.tbOptions.Text = "Options";
             this.tbOptions.UseVisualStyleBackColor = true;
+            // 
+            // chkExport
+            // 
+            this.chkExport.AutoSize = true;
+            this.chkExport.Location = new System.Drawing.Point(28, 298);
+            this.chkExport.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkExport.Name = "chkExport";
+            this.chkExport.Size = new System.Drawing.Size(180, 21);
+            this.chkExport.TabIndex = 59;
+            this.chkExport.Text = "Export Images && GCode";
+            this.chkExport.UseVisualStyleBackColor = true;
+            this.chkExport.CheckedChanged += new System.EventHandler(this.chkExport_CheckedChanged);
             // 
             // txtResinPriceL
             // 
@@ -269,6 +281,7 @@
             this.chkmainliftgcode.TabIndex = 49;
             this.chkmainliftgcode.Text = "Use Main-Lift GCode instead of Lift and Sequence";
             this.chkmainliftgcode.UseVisualStyleBackColor = true;
+            this.chkmainliftgcode.Visible = false;
             this.chkmainliftgcode.CheckedChanged += new System.EventHandler(this.chkmainliftgcode_CheckedChanged_1);
             // 
             // grpLift
@@ -588,10 +601,8 @@
             this.lbGCodeSection.Items.AddRange(new object[] {
             "Start",
             "Pre-Slice",
-            "Pre-Lift",
-            "Post Lift",
-            "End",
-            "Main Lift"});
+            "Lift",
+            "End"});
             this.lbGCodeSection.Location = new System.Drawing.Point(4, 42);
             this.lbGCodeSection.Name = "lbGCodeSection";
             this.lbGCodeSection.Size = new System.Drawing.Size(158, 228);
@@ -699,18 +710,6 @@
             this.cmdNew.Text = "Create";
             this.cmdNew.UseVisualStyleBackColor = true;
             this.cmdNew.Click += new System.EventHandler(this.cmdNew_Click);
-            // 
-            // chkExport
-            // 
-            this.chkExport.AutoSize = true;
-            this.chkExport.Location = new System.Drawing.Point(28, 298);
-            this.chkExport.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.chkExport.Name = "chkExport";
-            this.chkExport.Size = new System.Drawing.Size(180, 21);
-            this.chkExport.TabIndex = 59;
-            this.chkExport.Text = "Export Images && GCode";
-            this.chkExport.UseVisualStyleBackColor = true;
-            this.chkExport.CheckedChanged += new System.EventHandler(this.chkExport_CheckedChanged);
             // 
             // ctlToolpathGenConfig
             // 

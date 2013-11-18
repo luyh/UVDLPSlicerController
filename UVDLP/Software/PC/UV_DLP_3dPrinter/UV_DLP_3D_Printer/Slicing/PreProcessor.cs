@@ -55,6 +55,7 @@ namespace UV_DLP_3D_Printer.Slicing
         public delegate void PreProcessorErrorHandler(PreProcessor preproc, string message);
         public event PreProcessorErrorHandler ParseErrorEvent;
         Dictionary<String, double> symbols_;
+        protected const double epsilon = 0.000005;
 
         public PreProcessor()
         {
@@ -70,9 +71,11 @@ namespace UV_DLP_3D_Printer.Slicing
         {
             StringBuilder sbcode = new StringBuilder();
             StringBuilder sbexpr = new StringBuilder();
-            Boolean in_comment = false;
+            Boolean in_condexpr = false;
             Boolean in_expr = false;
+            Boolean isIf = false;
             int prcount = 0;
+            List<String> condExprs = new List<string>(); 
 
             foreach (char ch in code)
             {
@@ -90,7 +93,6 @@ namespace UV_DLP_3D_Printer.Slicing
                             {
                                 in_expr = false;
                                 sbcode.Append(Evaluate(sbexpr.ToString()).ToString("F4").Replace(',', '.'));
-                                sbexpr.Length = 0;
                             }
                         }
                     }
@@ -101,34 +103,82 @@ namespace UV_DLP_3D_Printer.Slicing
                         {
                             in_expr = false;
                             sbcode.Append(Evaluate(sbexpr.ToString()).ToString("F4").Replace(',', '.'));
-                            sbexpr.Length = 0;
                             sbcode.Append(ch);
                         } else {
                             sbexpr.Append(ch);
                         }
                     }
-                } 
-                else 
+                }
+                else if (in_condexpr)
                 {
-                    sbcode.Append(ch);
-                    if (in_comment)
+                    sbexpr.Append(ch);
+                    if ((prcount == 1) && ((ch == '?') || (ch == ':')))
                     {
-                        if (ch == '\n')
-                            in_comment = false;
+                        if ((ch == '?') && (condExprs.Count == 0))
+                            isIf = true;
+                        sbexpr.Length--;
+                        condExprs.Add(sbexpr.ToString());
+                        sbexpr.Length = 0;
                     }
-                    else if (ch == ';')
+                    else if (ch == '{')
                     {
-                        in_comment = true;
+                        prcount++;
                     }
-                    else if ((ch == '(') || (ch == '$'))
+                    else if (ch == '}')
                     {
-                        sbcode.Length--;
+                        prcount--;
+                        if (prcount == 0)
+                        {
+                            sbexpr.Length--;
+                            condExprs.Add(sbexpr.ToString());
+                            if (condExprs.Count > 2)
+                            {
+                                int res = (int)Round(Evaluate(condExprs[0]));
+                                if (isIf)
+                                {
+                                    // a binary test
+                                    if (condExprs.Count == 3)
+                                    {
+                                        res = (res == 0) ? 2 : 1;
+                                        sbcode.Append(Process(condExprs[res]));
+                                    }
+                                }
+                                else if ((res >= 0) && (res < condExprs.Count - 1))
+                                {
+                                    // a case test
+                                    sbcode.Append(Process(condExprs[res + 1]));
+                                }
+                            }
+                            in_condexpr = false;
+                            isIf = false;
+                        }
+                    }
+                }
+                else
+                {
+                    if ((ch == '(') || (ch == '$'))
+                    {
+                        sbexpr.Length = 0;
                         sbexpr.Append(ch);
                         in_expr = true;
                         if (ch == '(')
                             prcount++;
                     }
+                    else if (ch == '{')
+                    {
+                        sbexpr.Length = 0;
+                        in_condexpr = true;
+                        condExprs.Clear();
+                        prcount = 1;
+                    }
+                    else
+                        sbcode.Append(ch);
                 }
+            }
+            if (in_expr)
+            {
+                // end of string leftover
+                sbcode.Append(Evaluate(sbexpr.ToString()).ToString("F4").Replace(',', '.'));
             }
             return sbcode.ToString();
         }
@@ -156,6 +206,11 @@ namespace UV_DLP_3D_Printer.Slicing
                 }
                 return val;
             }
+        }
+
+        long Round(double num)
+        {
+            return (long)Math.Round(num);
         }
 
         void CheckToken(TokenType wanted)
@@ -235,7 +290,7 @@ namespace UV_DLP_3D_Printer.Slicing
                 switch (type_)
                 {
                     case TokenType.AND:
-                        long d = (long)Comparison(true);   // don't want short-circuit evaluation
+                        long d = Round(Comparison(true));   // don't want short-circuit evaluation
                         if ((left != 0) && (d != 0))
                         {
                             left = 1;
@@ -243,7 +298,7 @@ namespace UV_DLP_3D_Printer.Slicing
                         else { left = 0; }
                         break;
                     case TokenType.OR:
-                        long cmp = (long)Comparison(true);   // don't want short-circuit evaluation
+                        long cmp = Round(Comparison(true));   // don't want short-circuit evaluation
                         if ((left != 0) || (cmp != 0))
                         {
                             left = 1;
@@ -264,12 +319,12 @@ namespace UV_DLP_3D_Printer.Slicing
             {
                 switch (type_)
                 {
-                    case TokenType.LT: left = left < AddSubtract(true) ? 1 : 0; break;
-                    case TokenType.GT: left = left > AddSubtract(true) ? 1 : 0; break;
-                    case TokenType.LE: left = left <= AddSubtract(true) ? 1 : 0; break;
-                    case TokenType.GE: left = left >= AddSubtract(true) ? 1 : 0; break;
-                    case TokenType.EQ: left = left == AddSubtract(true) ? 1 : 0; break;
-                    case TokenType.NE: left = left != AddSubtract(true) ? 1 : 0; break;
+                    case TokenType.LT: left = (AddSubtract(true) - left) > epsilon ? 1 : 0; break;
+                    case TokenType.GT: left = (left - AddSubtract(true)) > epsilon ? 1 : 0; break;
+                    case TokenType.LE: left = (left - AddSubtract(true)) < epsilon ? 1 : 0; break;
+                    case TokenType.GE: left = (AddSubtract(true) - left) < epsilon ? 1 : 0; break;
+                    case TokenType.EQ: left = Math.Abs(left - AddSubtract(true)) < epsilon ? 1 : 0; break;
+                    case TokenType.NE: left = Math.Abs(left - AddSubtract(true)) >= epsilon ? 1 : 0; break;
                     default: return left;
                 } // end of switch on type
             }   // end of loop
@@ -298,23 +353,23 @@ namespace UV_DLP_3D_Printer.Slicing
                 switch (type_)
                 {
                     case TokenType.BITAND:
-                        l = (long)left;
-                        l &= (long)Primary(true);
+                        l = Round(left);
+                        l &= Round(Primary(true));
                         left = l;
                         break;
                     case TokenType.BITOR:
-                        l = (long)left;
-                        l |= (long)Primary(true);
+                        l = Round(left);
+                        l |= Round(Primary(true));
                         left = l;
                         break;
                     case TokenType.SHR:
-                        l = (long)left;
-                        l >>= (int)Primary(true);
+                        l = Round(left);
+                        l >>= (int)(Primary(true));
                         left = l;
                         break;
                     case TokenType.SHL:
-                        l = (long)left;
-                        l <<= (int)Primary(true);
+                        l = Round(left);
+                        l <<= (int)Round(Primary(true));
                         left = l;
                         break;
                     case TokenType.MOD:
@@ -357,7 +412,7 @@ namespace UV_DLP_3D_Printer.Slicing
                         {
                             if (word == "if" || word == "IF")
                             {
-                                long v1 = (long)Expression(true);   // get argument 1 (not commalist)
+                                long v1 = Round(Expression(true));   // get argument 1 (not commalist)
                                 CheckToken(TokenType.COMMA);
                                 double v2 = Expression(true);   // get argument 2 (not commalist)
                                 CheckToken(TokenType.COMMA);
