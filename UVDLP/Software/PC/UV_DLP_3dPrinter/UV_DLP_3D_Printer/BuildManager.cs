@@ -130,7 +130,7 @@ namespace UV_DLP_3D_Printer
                 if (line.Length > 0)
                 {
                     // if the line is a comment, parse it to see if we need to take action
-                    if (line.Contains("(<Delay> "))// get the delay
+                    if (line.Contains("<Delay> "))// get the delay
                     {
                         int delay = getvarfromline(line);
                         bt += delay;
