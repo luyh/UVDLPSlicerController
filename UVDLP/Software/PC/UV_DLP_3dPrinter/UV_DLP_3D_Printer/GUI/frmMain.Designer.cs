@@ -87,7 +87,6 @@
             this.tabView = new System.Windows.Forms.TabPage();
             this.chkSliceHeight = new System.Windows.Forms.CheckBox();
             this.chkAlpha = new System.Windows.Forms.CheckBox();
-            this.lblDebug = new System.Windows.Forms.Label();
             this.chkWireframe = new System.Windows.Forms.CheckBox();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.tabModel1 = new System.Windows.Forms.TabPage();
@@ -137,6 +136,7 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkPreviewSlice = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -792,9 +792,9 @@
             // 
             // tabView
             // 
+            this.tabView.Controls.Add(this.chkPreviewSlice);
             this.tabView.Controls.Add(this.chkSliceHeight);
             this.tabView.Controls.Add(this.chkAlpha);
-            this.tabView.Controls.Add(this.lblDebug);
             this.tabView.Controls.Add(this.chkWireframe);
             this.tabView.Location = new System.Drawing.Point(4, 25);
             this.tabView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -807,7 +807,7 @@
             // chkSliceHeight
             // 
             this.chkSliceHeight.AutoSize = true;
-            this.chkSliceHeight.Location = new System.Drawing.Point(0, 170);
+            this.chkSliceHeight.Location = new System.Drawing.Point(0, 137);
             this.chkSliceHeight.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkSliceHeight.Name = "chkSliceHeight";
             this.chkSliceHeight.Size = new System.Drawing.Size(159, 21);
@@ -819,7 +819,7 @@
             // chkAlpha
             // 
             this.chkAlpha.AutoSize = true;
-            this.chkAlpha.Location = new System.Drawing.Point(3, 68);
+            this.chkAlpha.Location = new System.Drawing.Point(0, 2);
             this.chkAlpha.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkAlpha.Name = "chkAlpha";
             this.chkAlpha.Size = new System.Drawing.Size(267, 21);
@@ -827,15 +827,6 @@
             this.chkAlpha.Text = "View Models with 50% Alpha Blending";
             this.chkAlpha.UseVisualStyleBackColor = true;
             this.chkAlpha.CheckedChanged += new System.EventHandler(this.chkAlpha_CheckedChanged);
-            // 
-            // lblDebug
-            // 
-            this.lblDebug.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblDebug.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblDebug.Location = new System.Drawing.Point(0, 0);
-            this.lblDebug.Name = "lblDebug";
-            this.lblDebug.Size = new System.Drawing.Size(299, 65);
-            this.lblDebug.TabIndex = 0;
             // 
             // chkWireframe
             // 
@@ -1321,6 +1312,18 @@
             this.toolStripMenuItem1.Text = "Remove All Supports";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
+            // chkPreviewSlice
+            // 
+            this.chkPreviewSlice.AutoSize = true;
+            this.chkPreviewSlice.Location = new System.Drawing.Point(-1, 27);
+            this.chkPreviewSlice.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkPreviewSlice.Name = "chkPreviewSlice";
+            this.chkPreviewSlice.Size = new System.Drawing.Size(218, 21);
+            this.chkPreviewSlice.TabIndex = 3;
+            this.chkPreviewSlice.Text = "Preview Slice on Build Display";
+            this.chkPreviewSlice.UseVisualStyleBackColor = true;
+            this.chkPreviewSlice.CheckedChanged += new System.EventHandler(this.chkPreviewSlice_CheckedChanged);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1452,7 +1455,6 @@
         private System.Windows.Forms.ToolStripMenuItem saveSceneSTLToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.TabPage tabView;
-        private System.Windows.Forms.Label lblDebug;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label lblSliceNum;
         private System.Windows.Forms.VScrollBar vScrollBar1;
@@ -1497,6 +1499,7 @@
         private GUI.Controls.ctlMachineControl ctlMachineControl1;
         private System.Windows.Forms.ToolStripMenuItem estimateVolumeCostToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkPreviewSlice;
     }
 }
 

@@ -23,6 +23,7 @@ namespace UV_DLP_3D_Printer
         public string m_slic3rloc; // location of slicer exetutable- shouldn't be here?
         public Color m_foregroundcolor;
         public Color m_backgroundcolor;
+        public bool m_previewslicesbuilddisplay; 
         public string SupportConfigName = "supportconfig.xml";
         public string ProjectorCommandsFile = "projectorcommands.xml";
 
@@ -34,6 +35,7 @@ namespace UV_DLP_3D_Printer
             m_LastModelFilename = "";
             m_loadlastmodel = true;
             m_autoconnect = false;
+            m_previewslicesbuilddisplay = false;
             m_foregroundcolor = Color.White;
             m_backgroundcolor = Color.Black;
            // m_drivertype = eDriverType.eNULL_DRIVER;
@@ -54,6 +56,7 @@ namespace UV_DLP_3D_Printer
                 m_slic3rloc = xh.GetString(ac, "Slic3rLocation", "");
                 m_foregroundcolor =  xh.GetColor(ac, "ForegroundColor", Color.White);
                 m_backgroundcolor = xh.GetColor(ac, "BackgroundColor", Color.Black);
+                m_previewslicesbuilddisplay = xh.GetBool(ac, "PreviewSlices", false);
                 if (!fileExist)
                 {
                     xh.Save(FILE_VERSION);
@@ -81,6 +84,7 @@ namespace UV_DLP_3D_Printer
                 xh.SetParameter(ac, "Slic3rLocation", m_slic3rloc);
                 xh.SetParameter(ac, "ForegroundColor", m_foregroundcolor);
                 xh.SetParameter(ac, "BackgroundColor", m_backgroundcolor);
+                xh.SetParameter(ac, "PreviewSlices", m_previewslicesbuilddisplay);
                 xh.Save(FILE_VERSION);
                 return true;
             }catch(Exception ex)

@@ -81,7 +81,7 @@ namespace UV_DLP_3D_Printer
         public BuildManager m_buildmgr;
         public prjcmdlst m_proj_cmd_lst;
 
-        private static String m_appconfigname = "CreationConfig.xml";
+        public static String m_appconfigname = "CreationConfig.xml";
         public static String m_pathsep = "\\";
         public List<IPlugin> m_plugins;
 
