@@ -270,6 +270,7 @@ namespace UV_DLP_3D_Printer
             int nextlayertime = 0;
             while (m_running)
             {
+                Thread.Sleep(0); // moved this sleep here for if the 
                 switch (m_state) 
                 {
                     case BuildManager.STATE_START:
@@ -370,7 +371,7 @@ namespace UV_DLP_3D_Printer
                         RaiseStatusEvent(eBuildStatus.eBuildCompleted, "Build Completed");
                         break;
                 }
-                Thread.Sleep(0);
+                
             }
         }
 

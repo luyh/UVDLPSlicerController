@@ -110,7 +110,7 @@ namespace UV_DLP_3D_Printer
         {
             foreach (string ln in Lines) 
             {
-                if (ln.Contains("(<Slice> ")) 
+                if (ln.Contains("<Slice> ")) 
                 {
                     return true;
                 }

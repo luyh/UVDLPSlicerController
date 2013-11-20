@@ -172,58 +172,59 @@ namespace UV_DLP_3D_Printer
         // one or more full lines can be received here
         void DriverDataReceivedEvent(DeviceDriver device, byte[] data, int length) 
         {
-            try
+            lock (lockobj)
             {
-                lock (lockobj)
+                try
                 {
                     m_ready = true;
-                }
-                // raise the data event
-                if (DataEvent != null)
-                {
-                    DataEvent(device, data, length);
-                }
-                //raise a data event notifying that we're ready for the next command
-                if (StatusEvent != null)
-                {
-                    StatusEvent(ePIStatus.eReady, "Ready");
-                }
-
-                // copy the data into the A buffer
-                int termpos = -1;
-                // copy the data into the 'A' buffer
-                // need to copy into the end of the A buffer
-                if (m_databufA == null)
-                {
-                    m_databufA = CopyData(0, data, 0, length);
-                    
-                }
-                else
-                {
-                    m_databufA = AddBuffers(m_databufA, data);
-                }
-                termpos = Term_Pos(m_databufA, m_databufA.Length);
-                while (termpos != -1)
-                {
-                    m_databufB = CopyData(0, m_databufA, 0, termpos + 1);
-                    string result = System.Text.Encoding.ASCII.GetString(m_databufB); // should this be ascii?
-                    lock (lockobj)
+                    // raise the data event
+                    if (DataEvent != null)
                     {
+                        DataEvent(device, data, length);
+                    }
+                    /*
+                    //raise a data event notifying that we're ready for the next command
+                    if (StatusEvent != null)
+                    {
+                        StatusEvent(ePIStatus.eReady, "Ready");
+                    }
+                    */
+                    // copy the data into the A buffer
+                    int termpos = -1;
+                    // copy the data into the 'A' buffer
+                    // need to copy into the end of the A buffer
+                    if (m_databufA == null)
+                    {
+                        m_databufA = CopyData(0, data, 0, length);
+
+                    }
+                    else
+                    {
+                        m_databufA = AddBuffers(m_databufA, data);
+                    }
+                    termpos = Term_Pos(m_databufA, m_databufA.Length);
+                    while (termpos != -1)
+                    {
+                        m_databufB = CopyData(0, m_databufA, 0, termpos + 1);
+                        string result = System.Text.Encoding.ASCII.GetString(m_databufB); // should this be ascii?
+                        //lock (lockobj)
+                       // {
                         m_ready = true;
-                    }
+                       // }
 
-                    if (LineDataEvent != null)
-                    {
-                        LineDataEvent(device, result); // raise an event for each complete line we receive
+                        if (LineDataEvent != null)
+                        {
+                            LineDataEvent(device, result); // raise an event for each complete line we receive
+                        }
+                        m_databufB = CopyData(0, m_databufA, termpos + 1, (m_databufA.Length - (termpos + 1)));
+                        m_databufA = CopyData(0, m_databufB, 0, m_databufB.Length);
+                        termpos = Term_Pos(m_databufA, m_databufA.Length); // check again
                     }
-                    m_databufB =  CopyData(0, m_databufA, termpos + 1,(m_databufA.Length - (termpos + 1)));
-                    m_databufA =  CopyData(0, m_databufB, 0, m_databufB.Length);
-                    termpos = Term_Pos(m_databufA, m_databufA.Length); // check again
                 }
-            }
-            catch (Exception ) 
-            {
-               // DebugLogger.Instance().LogError(ex.Message);  // this is erroring on the null driver for some reason
+                catch (Exception)
+                {
+                    // DebugLogger.Instance().LogError(ex.Message);  // this is erroring on the null driver for some reason
+                }
             }
         }
 
@@ -376,16 +377,16 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                // this could be the source of the lock
-                if (m_driver.Write(command) > 0) 
+                lock (lockobj)
                 {
-                    lock (lockobj)
+                    // this could be the source of the lock
+                    if (m_driver.Write(command) > 0)
                     {
                         m_ready = false;
+                        return true;
                     }
-                    return true;
-                }                                
-                return false;
+                    return false;
+                }
             }
             catch (Exception) 
             {

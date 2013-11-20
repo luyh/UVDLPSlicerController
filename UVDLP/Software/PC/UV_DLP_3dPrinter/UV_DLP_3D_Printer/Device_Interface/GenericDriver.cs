@@ -61,21 +61,15 @@ namespace UV_DLP_3D_Printer.Drivers
             string newln = "";
             // this function removes the comments from the line
             line = line.Trim(); // trim off any whitespace
-            if (line.StartsWith("("))
-            {
-                return "";
-            }
             if (line.StartsWith(";"))
             {
                 return "";
             }
-            // now replace the ';' with '('
-            line = line.Replace(';','(');
-            if (line.Contains('('))
+            if (line.Contains(';'))
             {
                 // this line does not start with a comment, but contains a comment,
                 // split the line and give only the first portion
-                String[] Lines = line.Split('(');
+                String[] Lines = line.Split(';');
                 if (Lines.Length > 0)
                 {
                     newln = Lines[0];
