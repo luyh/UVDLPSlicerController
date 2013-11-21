@@ -326,6 +326,7 @@
     <None Include="resources\paypal-donate-button.jpg" />
     <None Include="resources\Donate1.png" />
     <None Include="resources\donate.gif" />
+    <None Include="resources\position.jpg" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

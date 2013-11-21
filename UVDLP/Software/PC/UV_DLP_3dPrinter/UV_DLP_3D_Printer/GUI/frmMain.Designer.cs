@@ -85,6 +85,7 @@
             this.cmdScale = new System.Windows.Forms.Button();
             this.txtScale = new System.Windows.Forms.TextBox();
             this.tabView = new System.Windows.Forms.TabPage();
+            this.chkPreviewSlice = new System.Windows.Forms.CheckBox();
             this.chkSliceHeight = new System.Windows.Forms.CheckBox();
             this.chkAlpha = new System.Windows.Forms.CheckBox();
             this.chkWireframe = new System.Windows.Forms.CheckBox();
@@ -136,7 +137,6 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.chkPreviewSlice = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -804,6 +804,18 @@
             this.tabView.Text = "View";
             this.tabView.UseVisualStyleBackColor = true;
             // 
+            // chkPreviewSlice
+            // 
+            this.chkPreviewSlice.AutoSize = true;
+            this.chkPreviewSlice.Location = new System.Drawing.Point(-1, 27);
+            this.chkPreviewSlice.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkPreviewSlice.Name = "chkPreviewSlice";
+            this.chkPreviewSlice.Size = new System.Drawing.Size(218, 21);
+            this.chkPreviewSlice.TabIndex = 3;
+            this.chkPreviewSlice.Text = "Preview Slice on Build Display";
+            this.chkPreviewSlice.UseVisualStyleBackColor = true;
+            this.chkPreviewSlice.CheckedChanged += new System.EventHandler(this.chkPreviewSlice_CheckedChanged);
+            // 
             // chkSliceHeight
             // 
             this.chkSliceHeight.AutoSize = true;
@@ -1311,18 +1323,6 @@
             this.toolStripMenuItem1.Size = new System.Drawing.Size(210, 22);
             this.toolStripMenuItem1.Text = "Remove All Supports";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
-            // 
-            // chkPreviewSlice
-            // 
-            this.chkPreviewSlice.AutoSize = true;
-            this.chkPreviewSlice.Location = new System.Drawing.Point(-1, 27);
-            this.chkPreviewSlice.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.chkPreviewSlice.Name = "chkPreviewSlice";
-            this.chkPreviewSlice.Size = new System.Drawing.Size(218, 21);
-            this.chkPreviewSlice.TabIndex = 3;
-            this.chkPreviewSlice.Text = "Preview Slice on Build Display";
-            this.chkPreviewSlice.UseVisualStyleBackColor = true;
-            this.chkPreviewSlice.CheckedChanged += new System.EventHandler(this.chkPreviewSlice_CheckedChanged);
             // 
             // frmMain
             // 

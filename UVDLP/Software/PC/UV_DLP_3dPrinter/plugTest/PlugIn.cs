@@ -16,6 +16,7 @@ namespace plugTest
         private static string m_Vendorname =    "TestVendor";
         private static int m_VendorID =         1234;
         private static string m_PluginName =    "TestPlugin";
+        private byte []m_hash; // simple SHA1 hash for validating against license keys
 
         public PlugIn() 
         {
@@ -27,7 +28,10 @@ namespace plugTest
             if (inited) // no re-initialization
                 return;
             inited = true;
+            //copy the hash 
+            m_hash = new byte[20];
         }
+
         public string Name {get { return m_PluginName; }}
         public IPluginHost Host 
         {

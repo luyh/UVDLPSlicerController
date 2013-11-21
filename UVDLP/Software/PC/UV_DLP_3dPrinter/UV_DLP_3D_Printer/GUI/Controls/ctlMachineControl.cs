@@ -517,5 +517,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 DebugLogger.Instance().LogError(ex.Message);
             }
         }
+
+        private void cmdGetPosition_Click(object sender, EventArgs e)
+        {
+            String command = "M114\r\n";
+            UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(command);
+        }
     }
 }
