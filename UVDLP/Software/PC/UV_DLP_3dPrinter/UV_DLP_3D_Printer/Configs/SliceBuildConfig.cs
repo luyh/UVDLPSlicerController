@@ -119,7 +119,7 @@ namespace UV_DLP_3D_Printer
             ";********** Lift Sequence ********\r\n",// 
             "G1{$SlideTiltVal != 0? X$SlideTiltVal:} Z($ZLiftDist * $ZDir) F$ZLiftRate\r\n", 
             "G1{$SlideTiltVal != 0? X($SlideTiltVal * -1):} Z(($LayerThickness-$ZLiftDist) * $ZDir) F$ZRetractRate\r\n",
-            ";<Delay> $BlankTime\r\n",
+            ";<Delay> %d$BlankTime\r\n",
             ";********** Lift Sequence **********\r\n", // 
         };
 

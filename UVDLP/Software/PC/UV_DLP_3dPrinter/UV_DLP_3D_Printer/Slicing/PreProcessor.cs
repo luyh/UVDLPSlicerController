@@ -55,7 +55,10 @@ namespace UV_DLP_3D_Printer.Slicing
         public delegate void PreProcessorErrorHandler(PreProcessor preproc, string message);
         public event PreProcessorErrorHandler ParseErrorEvent;
         Dictionary<String, double> symbols_;
+
         protected const double epsilon = 0.000005;
+        protected const String defFormat = "######.0####";
+        protected const String validFormatChars = "#.,+-RrXxCcFfDdGgNnPp";
 
         public PreProcessor()
         {
@@ -67,118 +70,152 @@ namespace UV_DLP_3D_Printer.Slicing
             symbols_[name] = data;
         }
 
+        protected String GetBrackets(String code, ref int pos)
+        {
+            int prcount = 0;
+            int start = pos + 1;
+            while (pos < code.Length)
+            {
+                if (code[pos] == '(')
+                    prcount++;
+                else if (code[pos] == ')')
+                {
+                    prcount--;
+                    if (prcount == 0) break;
+                }
+                pos++;
+            }
+            return code.Substring(start, pos - start);
+        }
+
+        protected List<String> GetCurlyBrackets(String code, ref int pos, out bool isIf)
+        {
+            int prcount = 0;
+            int start = pos + 1;
+            List<String> strs = new List<String>();
+            isIf = false;
+            while (pos < code.Length)
+            {
+                char ch = code[pos];
+                if (ch == '{')
+                    prcount++;
+                else if (ch == '}')
+                {
+                    prcount--;
+                    if (prcount == 0) break;
+                }
+                else if ((prcount == 1) && ((ch == '?') || (ch == ':')))
+                {
+                    if ((ch == '?') && (strs.Count == 0))
+                        isIf = true;
+                    strs.Add(code.Substring(start,pos - start));
+                    start = pos + 1;
+                }
+                pos++;
+            }
+            strs.Add(code.Substring(start, pos - start));
+            return strs;
+        }
+
+        protected String GetVarName(String code, ref int pos)
+        {
+            int start = pos;
+            pos++;
+            while (pos < code.Length)
+            {
+                if (!isalnum(code[pos]))
+                    break;
+                pos++;
+            }
+            pos--;
+            return code.Substring(start, pos - start + 1);
+        }
+
+        protected bool IsFormatChar(char ch)
+        {
+            if ((ch >= '0') && (ch <= '9'))
+                return true;
+            if (validFormatChars.IndexOf(ch) >= 0)
+                return true;
+            return false;
+        }
+
+        protected String GetFormat(String code, ref int pos)
+        {
+            pos++;
+            int start = pos;
+            while ((pos < code.Length) && (IsFormatChar(code[pos])))
+                pos++;
+            pos--;
+            return code.Substring(start, pos - start + 1);
+        }
+
+        protected String Stringify(double val, String format)
+        {
+            string res;
+            try
+            {
+                res = val.ToString(format).Replace(',', '.');
+            }
+            catch (Exception)
+            {
+                // maybe its an int format
+                res = Round(val).ToString(format);
+            }
+            return res;
+        }
+
         public String Process(String code)
         {
+            Boolean isIf;
+            int pos = 0;
+            List<String> condExprs;
             StringBuilder sbcode = new StringBuilder();
-            StringBuilder sbexpr = new StringBuilder();
-            Boolean in_condexpr = false;
-            Boolean in_expr = false;
-            Boolean isIf = false;
-            int prcount = 0;
-            List<String> condExprs = new List<string>(); 
+            string format = defFormat;
 
-            foreach (char ch in code)
+            while (pos < code.Length)
             {
-                if (in_expr) 
+                switch (code[pos])
                 {
-                    if (prcount > 0) {
-                        // extracting expression within parenthesis
-                        sbexpr.Append(ch);
-                        if (ch == '(')
-                            prcount ++;
-                        else if (ch == ')')
+                    case '(':
+                        sbcode.Append(Stringify(Evaluate(GetBrackets(code, ref pos)),format));
+                        format = defFormat;
+                        break;
+
+                    case '$':
+                        sbcode.Append(Stringify(Evaluate(GetVarName(code, ref pos)),format));
+                        format = defFormat;
+                        break;
+
+                    case '{':
+                        condExprs = GetCurlyBrackets(code, ref pos, out isIf);
+                        int res = (int)Round(Evaluate(condExprs[0]));
+                        if (isIf)
                         {
-                            prcount--;
-                            if (prcount == 0)
+                            // a binary test
+                            if (condExprs.Count == 3)
                             {
-                                in_expr = false;
-                                sbcode.Append(Evaluate(sbexpr.ToString()).ToString("F4").Replace(',', '.'));
+                                res = (res == 0) ? 2 : 1;
+                                sbcode.Append(Process(condExprs[res]));
                             }
                         }
-                    }
-                    else
-                    {
-                        // extracting a single var
-                        if (!isalnum(ch))
+                        else if ((res >= 0) && (res < condExprs.Count - 1))
                         {
-                            in_expr = false;
-                            sbcode.Append(Evaluate(sbexpr.ToString()).ToString("F4").Replace(',', '.'));
-                            sbcode.Append(ch);
-                        } else {
-                            sbexpr.Append(ch);
+                            // a case test
+                            sbcode.Append(Process(condExprs[res + 1]));
                         }
-                    }
+                        format = defFormat;
+                        break;
+
+                    case '%':
+                        format = GetFormat(code, ref pos);
+                        break;
+
+                    default:
+                        sbcode.Append(code[pos]);
+                        break;
                 }
-                else if (in_condexpr)
-                {
-                    sbexpr.Append(ch);
-                    if ((prcount == 1) && ((ch == '?') || (ch == ':')))
-                    {
-                        if ((ch == '?') && (condExprs.Count == 0))
-                            isIf = true;
-                        sbexpr.Length--;
-                        condExprs.Add(sbexpr.ToString());
-                        sbexpr.Length = 0;
-                    }
-                    else if (ch == '{')
-                    {
-                        prcount++;
-                    }
-                    else if (ch == '}')
-                    {
-                        prcount--;
-                        if (prcount == 0)
-                        {
-                            sbexpr.Length--;
-                            condExprs.Add(sbexpr.ToString());
-                            if (condExprs.Count > 2)
-                            {
-                                int res = (int)Round(Evaluate(condExprs[0]));
-                                if (isIf)
-                                {
-                                    // a binary test
-                                    if (condExprs.Count == 3)
-                                    {
-                                        res = (res == 0) ? 2 : 1;
-                                        sbcode.Append(Process(condExprs[res]));
-                                    }
-                                }
-                                else if ((res >= 0) && (res < condExprs.Count - 1))
-                                {
-                                    // a case test
-                                    sbcode.Append(Process(condExprs[res + 1]));
-                                }
-                            }
-                            in_condexpr = false;
-                            isIf = false;
-                        }
-                    }
-                }
-                else
-                {
-                    if ((ch == '(') || (ch == '$'))
-                    {
-                        sbexpr.Length = 0;
-                        sbexpr.Append(ch);
-                        in_expr = true;
-                        if (ch == '(')
-                            prcount++;
-                    }
-                    else if (ch == '{')
-                    {
-                        sbexpr.Length = 0;
-                        in_condexpr = true;
-                        condExprs.Clear();
-                        prcount = 1;
-                    }
-                    else
-                        sbcode.Append(ch);
-                }
-            }
-            if (in_expr)
-            {
-                // end of string leftover
-                sbcode.Append(Evaluate(sbexpr.ToString()).ToString("F4").Replace(',', '.'));
+                pos++;
             }
             return sbcode.ToString();
         }
@@ -252,6 +289,8 @@ namespace UV_DLP_3D_Printer.Slicing
             {
                 RaiseError("Unexpected text at end of expression: " + pWordStart_.ToString());
             }
+            // cleanup v to eliminate 'X.9999999' problems
+            v = Math.Round(v * 1000000.0) / 1000000.0;
             return v;
         }
 
@@ -259,7 +298,7 @@ namespace UV_DLP_3D_Printer.Slicing
         public double Evaluate(string program)  // get result
         {
             // do same stuff constructor did
-            program_ = program;
+            program_ = program + " ";   // add an extra space to overcome end-of-expression parsing issues - SHS
             pWord_ = 0; // 0 index 
             pWordStart_ = 0;
             type_ = TokenType.NONE;
