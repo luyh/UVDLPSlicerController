@@ -197,7 +197,6 @@
     <Compile Include="GUI\frmVolEst.Designer.cs">
       <DependentUpon>frmVolEst.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\CustomGUI\GLGui.cs" />
     <Compile Include="Plugin\IPlugin.cs" />
     <Compile Include="Plugin\IPluginHost.cs" />
     <Compile Include="Projector_LCD\prjcmdlst.cs" />
