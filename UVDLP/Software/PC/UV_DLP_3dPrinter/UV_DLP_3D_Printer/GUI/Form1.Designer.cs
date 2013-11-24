@@ -30,6 +30,7 @@ namespace UV_DLP_3D_Printer.GUI
         private void InitializeComponent()
         {
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.ctlImageButton1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.flowLayoutPanel1 = new UV_DLP_3D_Printer.GUI.ctlExpandPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.listView1 = new System.Windows.Forms.ListView();
@@ -53,6 +54,17 @@ namespace UV_DLP_3D_Printer.GUI
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(226, 374);
             this.flowLayoutPanel2.TabIndex = 2;
+            // 
+            // ctlImageButton1
+            // 
+            this.ctlImageButton1.BackColor = System.Drawing.Color.DarkBlue;
+            this.ctlImageButton1.Image = global::UV_DLP_3D_Printer.Properties.Resources.homeButt;
+            this.ctlImageButton1.Location = new System.Drawing.Point(40, 25);
+            this.ctlImageButton1.Name = "ctlImageButton1";
+            this.ctlImageButton1.Size = new System.Drawing.Size(64, 64);
+            this.ctlImageButton1.TabIndex = 3;
+            this.ctlImageButton1.Text = "ctlImageButton1";
+            this.ctlImageButton1.UseVisualStyleBackColor = true;
             // 
             // flowLayoutPanel1
             // 
@@ -151,6 +163,7 @@ namespace UV_DLP_3D_Printer.GUI
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(837, 600);
+            this.Controls.Add(this.ctlImageButton1);
             this.Controls.Add(this.flowLayoutPanel2);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -174,6 +187,7 @@ namespace UV_DLP_3D_Printer.GUI
         private System.Windows.Forms.ListView listView2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private CustomGUI.ctlImageButton ctlImageButton1;
 
     }
 }

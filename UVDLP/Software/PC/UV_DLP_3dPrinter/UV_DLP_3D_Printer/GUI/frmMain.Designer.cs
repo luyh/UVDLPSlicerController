@@ -91,6 +91,7 @@
             this.chkWireframe = new System.Windows.Forms.CheckBox();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.tabModel1 = new System.Windows.Forms.TabPage();
+            this.buttGlHome = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.glControl1 = new OpenTK.GLControl();
             this.tabGCode = new System.Windows.Forms.TabPage();
             this.txtGCode = new System.Windows.Forms.TextBox();
@@ -872,6 +873,7 @@
             // 
             // tabModel1
             // 
+            this.tabModel1.Controls.Add(this.buttGlHome);
             this.tabModel1.Controls.Add(this.glControl1);
             this.tabModel1.Location = new System.Drawing.Point(4, 25);
             this.tabModel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -881,6 +883,19 @@
             this.tabModel1.TabIndex = 0;
             this.tabModel1.Text = "Model View";
             this.tabModel1.UseVisualStyleBackColor = true;
+            this.tabModel1.SizeChanged += new System.EventHandler(this.tabModel1_SizeChanged);
+            // 
+            // buttGlHome
+            // 
+            this.buttGlHome.BackColor = System.Drawing.Color.Navy;
+            this.buttGlHome.Image = global::UV_DLP_3D_Printer.Properties.Resources.homeButt;
+            this.buttGlHome.Location = new System.Drawing.Point(67, 76);
+            this.buttGlHome.Name = "buttGlHome";
+            this.buttGlHome.Size = new System.Drawing.Size(48, 48);
+            this.buttGlHome.TabIndex = 16;
+            this.buttGlHome.Text = "Home";
+            this.buttGlHome.UseVisualStyleBackColor = false;
+            this.buttGlHome.Click += new System.EventHandler(this.buttGlHome_Click);
             // 
             // glControl1
             // 
@@ -1500,6 +1515,7 @@
         private System.Windows.Forms.ToolStripMenuItem estimateVolumeCostToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkPreviewSlice;
+        private GUI.CustomGUI.ctlImageButton buttGlHome;
     }
 }
 

@@ -16,6 +16,7 @@ using System.IO;
 using System.Collections;
 using UV_DLP_3D_Printer.GUI;
 using UV_DLP_3D_Printer.GUI.Controls;
+using UV_DLP_3D_Printer.GUI.CustomGUI;
 using UV_DLP_3D_Printer._3DEngine;
 using UV_DLP_3D_Printer.Slicing;
 
@@ -60,10 +61,14 @@ namespace UV_DLP_3D_Printer
             UVDLPApp.Instance().m_deviceinterface.StatusEvent += new DeviceInterface.DeviceInterfaceStatus(DeviceStatusEvent);
             UVDLPApp.Instance().m_supportgenerator.SupportEvent += new SupportGeneratorEvent(SupEvent);
             
+            // setup buttons
+            buttGlHome.SetPositioning(ctlImageButton.AnchorTypes.Right, ctlImageButton.AnchorTypes.Top, null, 10, 10);
+            
+
             arcball = new ArcBall();
             m_quat = new Quaternion();
             m_camera = new GLCamera();
-            m_camera.ResetView(0, -200, 0, 20, 20);
+            ResetCameraView();
 
             SetButtonStatuses();                        
             //PopulateBuildProfilesMenu();
@@ -71,6 +76,13 @@ namespace UV_DLP_3D_Printer
             
             Refresh();
         }
+
+        public void ResetCameraView()
+        {
+            m_camera.ResetView(0, -200, 0, 20, 20);
+            glControl1.Invalidate();
+        }
+
         #region Support Event Handler
         /// <summary>
         /// Support Event handler
@@ -1906,6 +1918,21 @@ namespace UV_DLP_3D_Printer
         {
             UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay = chkPreviewSlice.Checked;
             UVDLPApp.Instance().m_appconfig.Save(UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + UVDLPApp.m_appconfigname);
+        }
+
+        private void tabModel1_SizeChanged(object sender, EventArgs e)
+        {
+            // update inner control positions
+            foreach (Control ctl in tabModel1.Controls)
+            {
+                if (ctl.GetType() == typeof(ctlImageButton))
+                    ((ctlImageButton)ctl).UpdatePosition();
+            }
+        }
+
+        private void buttGlHome_Click(object sender, EventArgs e)
+        {
+            ResetCameraView();
         }
     }
 }
