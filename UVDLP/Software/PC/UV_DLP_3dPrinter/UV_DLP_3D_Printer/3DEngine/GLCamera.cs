@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Timers;
 
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -20,6 +21,13 @@ namespace Engine3D
         public Vector3d m_target;
         public Vector3d m_zaxis;
 
+        enum AnimStep
+        {
+            StepMove,
+            StepDown,
+            StepRotate,
+            StepNone
+        }
 
         float m_dx, m_dy, m_dz;
         // bulid volume parameters
@@ -27,6 +35,11 @@ namespace Engine3D
         float m_bvscalexy, m_bvscaleh;
         float deg2rad;
         float m_dir;
+
+        float m_animmovex, m_animmovey, m_animmovez, m_animzoom;
+        float m_animdown, m_animrot;
+        int m_animcnt;
+        AnimStep m_animstep;
 
         public GLCamera()
         {
@@ -142,7 +155,12 @@ namespace Engine3D
 
         public void RotateRightFlat(float deg)
         {
-            Matrix3D rotMat = Rotate(m_zaxis, deg * m_dir);
+            RotateRightFlat(deg, m_dir);
+        }
+
+        public void RotateRightFlat(float deg, float dir)
+        {
+            Matrix3D rotMat = Rotate(m_zaxis, deg * dir);
             m_target = rotMat.Transform(m_target);
             m_right = rotMat.Transform(m_right);
             m_up = rotMat.Transform(m_up);
@@ -164,10 +182,14 @@ namespace Engine3D
         public void MoveForward(float dist)
         {
             float factor = Vector3d.length(m_eye - m_lookat) / 200.0f;
+            MoveForward(dist, factor);
+        }
+   
+        public void MoveForward(float dist, float factor)
+        {
             if (factor < 0.3)
                 factor = 0.3f;
             dist = dist * factor;
-            
             Vector3d diff = (m_eye - m_lookat);
             float len = Vector3d.length(diff) - dist;
             if ((len <= 0) || (len >= 1000))
@@ -182,6 +204,11 @@ namespace Engine3D
         {
             // normalize dist
             float factor = Vector3d.length(m_eye - m_lookat) / 500.0f;
+            Move(dx, dy, factor);
+        }
+
+        public void Move(float dx, float dy, float factor)
+        {
             m_dx += dx * factor;
             if (m_dx < -m_bvx) m_dx = -m_bvx;
             else if (m_dx > m_bvx) m_dx = m_bvx;
@@ -205,6 +232,7 @@ namespace Engine3D
             m_lookat = new Vector3d(0, 0, 0);
             m_up = new Vector3d(0, 0, 1);
             m_dz = lookz;
+            m_dx = m_dy = 0;
             //m_right = new Vector3d(1, 0, 0);
             m_target = m_lookat - m_eye;    // The "look-at" unit vector.
             m_target.Normalize();
@@ -215,6 +243,74 @@ namespace Engine3D
             //Vector3d xaxis = Vector3d.cross(up, zaxis);// The "right" vector.
             //xaxis.Normalize();
             //Vector3d yaxis = Vector3d.cross(zaxis, xaxis);     // The "up" vector.
+        }
+
+        public void ResetViewAnim(float x, float y, float z, float updeg, float lookz)
+        {
+            m_animcnt = 10;
+            // move
+            m_animstep = AnimStep.StepMove;
+            m_animmovex = -m_dx / m_animcnt;
+            m_animmovey = -m_dy / m_animcnt;
+            m_animmovez = (lookz - m_dz) / m_animcnt;
+
+            // zoom
+            Vector3d diff = (m_eye - m_lookat);
+            float len = Vector3d.length(diff) - Vector3d.length(new Vector3d(x, y, z));
+            m_animzoom = len / m_animcnt;
+
+            // down
+            len = (float)Math.Sqrt(m_eye.x * m_eye.x + m_eye.y * m_eye.y);
+            float deg = (float)Math.Atan2(m_eye.z, len) / deg2rad;
+            if (m_up.z < 0)
+                deg = 180 - deg;
+            if (((deg > 85) && (deg < 95)) || ((deg < -85) && (deg > -95)))
+            {
+                RotateUp(-deg / 10);
+                deg -= deg / 10;
+            }
+            m_animdown = (updeg - deg) / m_animcnt;
+            
+            // rotate
+            deg = (float)Math.Atan2(m_eye.x, -m_eye.y) / deg2rad;
+            if (m_up.z < 0)
+                deg += 180;
+            if (deg > 360)
+                deg -= 360;
+            m_animrot = deg / m_animcnt;
+        }
+
+        public bool AnimTick()
+        {
+            switch (m_animstep)
+            {
+                case AnimStep.StepMove:
+                    m_dx += m_animmovex;
+                    m_dy += m_animmovey;
+                    m_dz += m_animmovez;
+                    MoveForward(m_animzoom, 1);
+                    RotateUp(m_animdown);
+                    RotateRightFlat(m_animrot, 1);
+                    m_animcnt--;
+                    if (m_animcnt == 0)
+                    {
+                        m_animstep = AnimStep.StepNone;
+                        return false;
+                    }
+                    return true;
+
+                case AnimStep.StepRotate:
+                    RotateRightFlat(m_animrot);
+                    m_animcnt--;
+                    if (m_animcnt == 0)
+                    {
+                        m_animstep = AnimStep.StepNone;
+                        return false;
+                    }
+                    return true;
+
+            }
+            return false;
         }
     }
 }

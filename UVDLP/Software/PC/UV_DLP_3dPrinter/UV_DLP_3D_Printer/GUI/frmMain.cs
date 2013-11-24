@@ -14,6 +14,7 @@ using OpenTK.Platform.Windows;
 using System.IO.Ports;
 using System.IO;
 using System.Collections;
+using System.Timers;
 using UV_DLP_3D_Printer.GUI;
 using UV_DLP_3D_Printer.GUI.Controls;
 using UV_DLP_3D_Printer.GUI.CustomGUI;
@@ -36,7 +37,7 @@ namespace UV_DLP_3D_Printer
         ArcBall arcball;// = new ArcBall();
         Quaternion m_quat;
         GLCamera m_camera;
-        
+        System.Timers.Timer m_modelAnimTmr;
 
         private bool lmdown, rmdown, mmdown;
         private int mdx, mdy;
@@ -64,11 +65,11 @@ namespace UV_DLP_3D_Printer
             // setup buttons
             buttGlHome.SetPositioning(ctlImageButton.AnchorTypes.Right, ctlImageButton.AnchorTypes.Top, null, 10, 10);
             
-
             arcball = new ArcBall();
             m_quat = new Quaternion();
             m_camera = new GLCamera();
             ResetCameraView();
+            m_modelAnimTmr = null;
 
             SetButtonStatuses();                        
             //PopulateBuildProfilesMenu();
@@ -1932,7 +1933,23 @@ namespace UV_DLP_3D_Printer
 
         private void buttGlHome_Click(object sender, EventArgs e)
         {
-            ResetCameraView();
+            if (m_modelAnimTmr != null)
+                return;
+            m_camera.ResetViewAnim(0, -200, 0, 20, 20);
+            m_modelAnimTmr = new System.Timers.Timer(25);
+            m_modelAnimTmr.Elapsed += new ElapsedEventHandler(ModelAnimTimerElapsed);
+            m_modelAnimTmr.AutoReset = true;
+            m_modelAnimTmr.Start();
+        }
+
+        void ModelAnimTimerElapsed(Object sender, ElapsedEventArgs args)
+        {
+            if (m_camera.AnimTick() == false)
+            {
+                m_modelAnimTmr.Stop();
+                m_modelAnimTmr = null;
+            }
+            glControl1.Invalidate();
         }
     }
 }
