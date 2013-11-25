@@ -24,15 +24,15 @@ namespace UV_DLP_3D_Printer
 {
     public enum eAppEvent
     {
-        eModelAdded,
-        eModelNotLoaded,
-        eModelRemoved,
-        eGCodeLoaded,
+        eModelAdded, // we just loaded / created a model and added it to the scene
+        eModelNotLoaded, // we tried to load a model and it failed to load
+        eModelRemoved, // we removed a model from the scene
+        eGCodeLoaded, 
         eGCodeSaved,
         eSupportGenerated,
         eSlicedLoaded,
         eMachineTypeChanged,
-        eShowDLP,
+        eShowDLP,  // this event is raised when someone wants to show the DLP screen
         eShowCalib,
         eShowBlank,
         eHideDLP,
@@ -55,7 +55,7 @@ namespace UV_DLP_3D_Printer
         public String m_apppath;
         // the current application configuration object
         public AppConfig m_appconfig;
-        public string appcofnginame; // the full filename
+        public string appconfigname; // the full filename
         // the simple 3d graphic engine we're using along with OpenGL
         public Engine3d m_engine3d = new Engine3d();
         // the current model we're working with
@@ -79,11 +79,11 @@ namespace UV_DLP_3D_Printer
         //current slice file
         public SliceFile m_slicefile;
         public BuildManager m_buildmgr;
-        public prjcmdlst m_proj_cmd_lst;
+        public prjcmdlst m_proj_cmd_lst; // projector command list
 
         public static String m_appconfigname = "CreationConfig.xml";
         public static String m_pathsep = "\\";
-        public List<IPlugin> m_plugins;
+        public List<IPlugin> m_plugins; // list of plug-ins
 
         public static UVDLPApp Instance() 
         {
@@ -618,6 +618,36 @@ namespace UV_DLP_3D_Printer
             }
             return profiles;
         }
+
+        private void CheckAndCreateDefaultMachines() 
+        {
+            //Check to see if the null machine exists
+            if (!File.Exists(UVDLPApp.Instance().m_PathMachines + UVDLPApp.m_pathsep + "NullMachine.machine"))
+            {
+                DebugLogger.Instance().LogWarning("Null Machine not found, creating...");
+                // if it doesn't, create it 
+                MachineConfig mc = new MachineConfig();
+                mc.CreateNullMachine();
+                if (!mc.Save(UVDLPApp.Instance().m_PathMachines + UVDLPApp.m_pathsep + "NullMachine.machine"))
+                {
+                    DebugLogger.Instance().LogError("Could not save Null Machine");
+                }
+            }
+
+            //Check to see if the default SLA machine exists
+            if (!File.Exists(UVDLPApp.Instance().m_PathMachines + UVDLPApp.m_pathsep + "Default_SLA.machine"))
+            {
+                DebugLogger.Instance().LogWarning("Default_SLA Machine not found, creating...");
+                // if it doesn't, create it 
+                MachineConfig mc = new MachineConfig();
+                if (!mc.Save(UVDLPApp.Instance().m_PathMachines + UVDLPApp.m_pathsep + "Default_SLA.machine"))
+                {
+                    DebugLogger.Instance().LogError("Could not save Default_SLA Machine");
+                }
+            }
+
+        
+        }
         public void DoAppStartup() 
         {
             m_apppath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
@@ -649,11 +679,13 @@ namespace UV_DLP_3D_Printer
                 m_appconfig.CreateDefault();
                 m_appconfig.Save(m_apppath + m_pathsep + m_appconfigname);  // use full path - SHS
             }
-
+            // this will check and make sure the default machines have been created
+            CheckAndCreateDefaultMachines();
             //load the current machine configuration file
             if (!m_printerinfo.Load(m_appconfig.m_curmachineeprofilename)) 
             {
-                m_printerinfo.Save(m_appconfig.m_curmachineeprofilename);
+               // m_printerinfo.Save(m_appconfig.m_curmachineeprofilename);
+                DebugLogger.Instance().LogError("Cannot Load Machine Profile " + m_appconfig.m_curmachineeprofilename);
             }
             // machine configuration was just loaded here.
             RaiseAppEvent(eAppEvent.eMachineTypeChanged, ""); // notify the gui to set up correctly

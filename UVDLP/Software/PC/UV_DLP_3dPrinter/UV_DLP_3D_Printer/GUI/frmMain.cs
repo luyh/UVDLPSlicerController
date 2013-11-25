@@ -303,8 +303,8 @@ namespace UV_DLP_3D_Printer
                         break;
                     case ePIStatus.eError:
                         break;
-                    case ePIStatus.eReady:
-                        break;
+                    //case ePIStatus.eReady:
+                     //   break;
                 }
             }
         }
@@ -515,13 +515,17 @@ namespace UV_DLP_3D_Printer
                 if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
                 {
                     // only show the image on the dlp if we're previewing
-                    if (UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay == true)
+                    //need to make sure we show the layer if building
+                    if (UVDLPApp.Instance().m_buildmgr.IsPrinting == true || UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay == true)
                     {
+                        //make sure we show the screen
+                        if (m_frmdlp == null) 
+                        {
+                            ShowDLPScreen(); 
+                        }
                         m_frmdlp.ShowImage(bmp);
                     }
-                }
-                
-                //lblCurSlice.Text = "Layer = " +layer;
+                }               
             }
             catch (Exception) { }
         

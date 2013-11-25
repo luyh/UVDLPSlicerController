@@ -88,11 +88,11 @@ namespace UV_DLP_3D_Printer
 
     public class Slice 
     {
-        public ArrayList m_segments; // list of polyline segments
+        public List<PolyLine3d> m_segments; // list of polyline segments
         
         public Slice()
         {
-            m_segments = new ArrayList();
+            m_segments = new List<PolyLine3d>();
         }
         public bool Load(StreamReader sr) 
         {
@@ -133,7 +133,7 @@ namespace UV_DLP_3D_Printer
         /*
          This function calculates the min and max x/y coordinates of this slice
          */
-        public MinMax_XY CalcMinMax_XY(ArrayList lines2d) 
+        public MinMax_XY CalcMinMax_XY(List<Line2d> lines2d) 
         {
             Line2d l1 = (Line2d)lines2d[0];
             MinMax_XY mm = new MinMax_XY();
@@ -156,7 +156,7 @@ namespace UV_DLP_3D_Printer
             return mm;
         }
 
-        private void Render2dlines(Graphics g, ArrayList lines, SliceBuildConfig sp) 
+        private void Render2dlines(Graphics g, List<Line2d> lines, SliceBuildConfig sp) 
         {
             try
             {
@@ -223,7 +223,7 @@ namespace UV_DLP_3D_Printer
                 int hxres = sp.xres / 2;
                 int hyres = sp.yres / 2;
 
-                ArrayList lines2d = Get2dLines(sp);
+                List<Line2d> lines2d = Get2dLines(sp);
                 if (lines2d.Count == 0) 
                     return; 
                 Render2dlines(graph, lines2d, sp);
@@ -234,9 +234,9 @@ namespace UV_DLP_3D_Printer
                 for (int y = mm.ymin; y < mm.ymax; y++) // this needs to be in scaled value 
                 {
                     //      get a line of lines that intersect this 2d line
-                    ArrayList intersecting = GetIntersecting2dYLines(y, lines2d);
+                    List<Line2d> intersecting = GetIntersecting2dYLines(y, lines2d);
                     //      get the list of point intersections
-                    ArrayList points = GetIntersectingPoints(y, intersecting);
+                    List<Point2d> points = GetIntersectingPoints(y, intersecting);
                     // sort the points in increasing x order
                     //SortXIncreasing(points);
                     points.Sort();
@@ -276,9 +276,9 @@ namespace UV_DLP_3D_Printer
             points.Sort();            
         }
         // this function will return a list of 2d point intersections on the specified y line
-        private ArrayList GetIntersectingPoints(int ypos, ArrayList lines) 
+        private List<Point2d> GetIntersectingPoints(int ypos, List<Line2d> lines) 
         {
-            ArrayList points = new ArrayList();
+            List<Point2d> points = new List<Point2d>();
             //if the ypos intersects with an endpoint, add it twice, because it must be used twice to make an even number
             foreach (Line2d ln in lines) 
             {
@@ -321,9 +321,9 @@ namespace UV_DLP_3D_Printer
             return points;
         }
         // this function converts all the 3d polyines to 2d lines so we can process everything
-        private ArrayList Get2dLines(SliceBuildConfig sp) 
+        private List<Line2d> Get2dLines(SliceBuildConfig sp) 
         {
-            ArrayList lst = new ArrayList();
+            List<Line2d> lst = new List<Line2d>();
             // this can be changed at some point to assume that the 3d polyline has more than 2 points
             // I'll need to do this when I want to properly generate inside / outside countours
             foreach (PolyLine3d ply in m_segments)  
@@ -345,9 +345,9 @@ namespace UV_DLP_3D_Printer
         /*
          This function will return a list of lines that intersect with the specified Y scanline
          */
-        private ArrayList GetIntersecting2dYLines(int ypos, ArrayList all2dlines) 
+        private List<Line2d> GetIntersecting2dYLines(int ypos, List<Line2d> all2dlines) 
         {
-            ArrayList intersecting = new ArrayList();
+            List<Line2d> intersecting = new List<Line2d>();
             foreach (Line2d ln in all2dlines) 
             {
                 if ((ln.p1.y >= ypos && ln.p2.y <= ypos) || 

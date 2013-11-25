@@ -109,6 +109,23 @@ namespace UV_DLP_3D_Printer
             m_machinetype = eMachineType.UV_DLP;
             CalcPixPerMM();
         }
+        // create a null loop-back machine for test
+        public void CreateNullMachine() 
+        {
+            m_PlatXSize = 102.0;
+            m_PlatYSize = 77.0;
+            m_PlatZSize = 100; // 100 mm default, we have to load this
+            m_XMaxFeedrate = 100;
+            m_YMaxFeedrate = 100;
+            m_ZMaxFeedrate = 100;
+            m_driverconfig = new DeviceDriverConfig();
+            m_driverconfig.m_drivertype = Drivers.eDriverType.eNULL_DRIVER;
+            m_monitorconfig = new MonitorConfig();
+            m_machinetype = eMachineType.UV_DLP;
+            m_driverconfig.m_connection.comname = "LoopBack";
+            CalcPixPerMM();
+        
+        }
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -142,6 +159,9 @@ namespace UV_DLP_3D_Printer
             CalcPixPerMM();
         }
 
+        /// <summary>
+        /// Feed rates for X/Y/Z - Not currently used...
+        /// </summary>
         public double XMaxFeedrate
         {
             get { return m_XMaxFeedrate; }

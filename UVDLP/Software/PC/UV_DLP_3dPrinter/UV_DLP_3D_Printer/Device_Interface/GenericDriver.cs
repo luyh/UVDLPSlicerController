@@ -6,11 +6,13 @@ using System.Text;
 namespace UV_DLP_3D_Printer.Drivers
 {
     public class GenericDriver : DeviceDriver
-    {
+    {       
         public GenericDriver() 
         {
             m_drivertype = eDriverType.eGENERIC;
+            
         }
+       
         public override bool Connect() 
         {
             try
@@ -20,6 +22,7 @@ namespace UV_DLP_3D_Printer.Drivers
                 {
                     m_connected = true;
                     RaiseDeviceStatus(this, eDeviceStatus.eConnect);
+                    Logging = true;
                     return true;
                 }
             }catch(Exception ex)
@@ -96,8 +99,8 @@ namespace UV_DLP_3D_Printer.Drivers
                 line = RemoveComment(line);
                 if (line.Trim().Length > 0)
                 {
-                    m_serialport.Write(line);
-                    
+                    Log(line);
+                    m_serialport.Write(line);                    
                 }
                 return line.Trim().Length;
             }
