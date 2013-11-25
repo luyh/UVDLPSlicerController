@@ -171,8 +171,8 @@ namespace UV_DLP_3D_Printer
                     savebm = bmp; // need to set this here in case it's not rendered
                     if (curz >= obj.m_min.z && curz <= obj.m_max.z) // only slice from the bottom to the top of the objects
                     {
-                        ArrayList lstply = GetZPolys(obj, curz);//get a list of polygons at this slice z height that potentially intersect
-                        ArrayList lstintersections = GetZIntersections(lstply, curz);//iterate through all the polygons and generate x/y line segments at this 3d z level
+                        List<Polygon> lstply = GetZPolys(obj, curz);//get a list of polygons at this slice z height that potentially intersect
+                        List<PolyLine3d> lstintersections = GetZIntersections(lstply, curz);//iterate through all the polygons and generate x/y line segments at this 3d z level
                         Slice sl = new Slice();//create a new slice
                         sl.m_segments = lstintersections;// Set the list of intersections 
                         sl.RenderSlice(m_sf.m_config, ref bmp);
@@ -293,8 +293,8 @@ namespace UV_DLP_3D_Printer
                         if (curz >=obj.m_min.z &&  curz <= obj.m_max.z) // only slice from the bottom to the top of the objects
                         {
                             //obj.ClearCached();
-                            ArrayList lstply = GetZPolys(obj, curz);//get a list of polygons at this slice z height that potentially intersect
-                            ArrayList lstintersections = GetZIntersections(lstply, curz);//iterate through all the polygons and generate x/y line segments at this 3d z level
+                            List<Polygon> lstply = GetZPolys(obj, curz);//get a list of polygons at this slice z height that potentially intersect
+                            List<PolyLine3d> lstintersections = GetZIntersections(lstply, curz);//iterate through all the polygons and generate x/y line segments at this 3d z level
                           
                             Slice sl = new Slice();//create a new slice
                             sl.m_segments = lstintersections;// Set the list of intersections 
@@ -447,11 +447,11 @@ namespace UV_DLP_3D_Printer
          * on the 2d XY plane
          * I beleive I can determine the winding order (inside or outside facing), based off of the polygon normal
          */
-        public ArrayList GetZIntersections(ArrayList polys,float zcur) 
+        public List<PolyLine3d> GetZIntersections(List<Polygon> polys, float zcur) 
         {
             try
             {
-                ArrayList lstlines = new ArrayList();
+                List<PolyLine3d> lstlines = new List<PolyLine3d>();
                 foreach (Polygon poly in polys) 
                 {
                     PolyLine3d s3d = poly.IntersectZPlane(zcur);
@@ -471,9 +471,9 @@ namespace UV_DLP_3D_Printer
         /*
          Return a list of polygons that intersect at this zlevel
          */
-        public ArrayList GetZPolys(Object3d obj, double zlev) 
+        public List<Polygon> GetZPolys(Object3d obj, double zlev) 
         {
-            ArrayList lst = new ArrayList();
+            List<Polygon> lst = new List<Polygon>();
             try
             {
                 if (zlev >= obj.m_min.z && zlev <= obj.m_max.z)

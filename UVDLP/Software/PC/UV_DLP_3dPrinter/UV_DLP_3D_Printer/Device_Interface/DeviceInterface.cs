@@ -53,7 +53,7 @@ namespace UV_DLP_3D_Printer
 
     public enum ePIStatus 
     {
-        eReady, // ready for next command
+       // eReady, // ready for next command
         eError, // something went wrong
         eConnected, // device is now connected
         eDisconnected // device disconnected
@@ -67,8 +67,8 @@ namespace UV_DLP_3D_Printer
         public delegate void DeviceLineReceived(DeviceDriver device, string line); // line of data terminated by a \r\n
 
         public DeviceInterfaceStatus StatusEvent;
-        public DeviceDataReceived DataEvent;
-        public DeviceLineReceived LineDataEvent;
+        public DeviceDataReceived DataEvent; // event for indicating data received from the serial port
+        public DeviceLineReceived LineDataEvent; // event for indicating a 'line' of data was received - termniated by '\r\n'
         private DeviceDriver m_driver; //support for a single device driver 
         private DeviceDriver m_projector; // secondary interface
 
@@ -176,7 +176,7 @@ namespace UV_DLP_3D_Printer
             {
                 try
                 {
-                    m_ready = true;
+                    // m_ready = true; // not sure I should do this here, I think it may be the cause of the flow control issue
                     // raise the data event
                     if (DataEvent != null)
                     {
@@ -206,11 +206,8 @@ namespace UV_DLP_3D_Printer
                     while (termpos != -1)
                     {
                         m_databufB = CopyData(0, m_databufA, 0, termpos + 1);
-                        string result = System.Text.Encoding.ASCII.GetString(m_databufB); // should this be ascii?
-                        //lock (lockobj)
-                       // {
+                        string result = System.Text.Encoding.ASCII.GetString(m_databufB); 
                         m_ready = true;
-                       // }
 
                         if (LineDataEvent != null)
                         {

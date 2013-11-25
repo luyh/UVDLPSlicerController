@@ -183,6 +183,11 @@ namespace UV_DLP_3D_Printer
             if (sw == null) return false;
             return true;
         }
+        public static string TimeStamp()
+        {
+                DateTime CurTime = DateTime.Now;
+                return CurTime.ToString("HH:mm:ss.fff");
+        }
         public void SetLogFile(string fname)
         {
             try

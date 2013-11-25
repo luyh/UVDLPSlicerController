@@ -172,18 +172,34 @@ namespace UV_DLP_3D_Printer
         }
         public void ShowBlank(int xres, int yres) 
         {
+            bool fillimage = false;
             if (m_blankimage == null)  // blank image is null, create it
             {
-                m_blankimage = new Bitmap(xres,yres);
+                fillimage = true;
+                m_blankimage = new Bitmap(xres, yres);
+            }
+            else 
+            {
+                if (m_blankimage.Width != xres && m_blankimage.Height != yres) 
+                {
+                    fillimage = true;
+                    m_blankimage = new Bitmap(xres, yres);
+                }
+            }
+            if (fillimage) 
+            {
                 // fill it with black
                 using (Graphics gfx = Graphics.FromImage(m_blankimage))
                 using (SolidBrush brush = new SolidBrush(Color.Black))
                 {
-                    gfx.FillRectangle(brush, 0, 0, xres,yres);
-                }
+                    gfx.FillRectangle(brush, 0, 0, xres, yres);
+                }            
             }
             PrintLayer(m_blankimage, SLICE_BLANK, SLICE_BLANK);            
         }
+        /// <summary>
+        /// This will return true while we are printing, even if paused
+        /// </summary>
         public bool IsPrinting { get { return m_printing; } }
 
         private void RaiseStatusEvent(eBuildStatus status,string message) 

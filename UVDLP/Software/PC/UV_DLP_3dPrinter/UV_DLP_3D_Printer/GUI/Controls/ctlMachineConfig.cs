@@ -33,15 +33,17 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 }
                 cmbMachineType.SelectedItem = m_config.m_machinetype.ToString();
                 //cmbMachineType_SelectedIndexChanged(null, null); // update the gui
-
+                /*
                 lstDrivers.Items.Clear();
                 foreach (String s in Enum.GetNames(typeof(eDriverType))) 
                 {
                     lstDrivers.Items.Add(s);
                 }
                 lstDrivers.SelectedItem = m_config.m_driverconfig.m_drivertype.ToString();
+                 * */
                 m_saved = m_config.m_driverconfig.m_drivertype;
                 //() check connection
+                /*
                 if (UVDLPApp.Instance().m_deviceinterface.Connected)
                 {
                     grpDriver.Enabled = false;
@@ -50,7 +52,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 {
                     grpDriver.Enabled = true; 
                 }
-
+                */
 
                 //list the drivers
                 txtPlatWidth.Text = "" + m_config.m_PlatXSize;
@@ -58,9 +60,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 txtPlatTall.Text = m_config.m_PlatZSize.ToString();
                 projwidth.Text = "" + m_config.m_monitorconfig.XRes;
                 projheight.Text = "" + m_config.m_monitorconfig.YRes;
-                txtXFeed.Text = m_config.XMaxFeedrate.ToString();
-                txtYFeed.Text = m_config.YMaxFeedrate.ToString();
-                txtZFeed.Text = m_config.ZMaxFeedrate.ToString();
+                //txtXFeed.Text = m_config.XMaxFeedrate.ToString();
+                //txtYFeed.Text = m_config.YMaxFeedrate.ToString();
+                //txtZFeed.Text = m_config.ZMaxFeedrate.ToString();
                 //select the current monitor
                 int idx = 0;
                 foreach (String s in lstMonitors.Items) 
@@ -95,11 +97,12 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 {
                     m_config.m_machinetype = (MachineConfig.eMachineType)Enum.Parse(typeof(MachineConfig.eMachineType), cmbMachineType.SelectedItem.ToString());
                 }
-
+                /*
                 if (lstDrivers.SelectedIndex != -1) 
                 {
                     m_config.m_driverconfig.m_drivertype = (eDriverType)Enum.Parse(typeof(eDriverType), lstDrivers.SelectedItem.ToString());
                 }
+                 */ 
                 if (m_saved != m_config.m_driverconfig.m_drivertype) 
                 {
                     UVDLPApp.Instance().SetupDriver();
@@ -110,9 +113,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_config.m_PlatZSize = double.Parse(txtPlatTall.Text);
                 m_config.m_monitorconfig.m_XDLPRes = double.Parse(projwidth.Text);
                 m_config.m_monitorconfig.m_YDLPRes = double.Parse(projheight.Text);
-                m_config.XMaxFeedrate = double.Parse(txtXFeed.Text);
-                m_config.YMaxFeedrate = double.Parse(txtYFeed.Text);
-                m_config.ZMaxFeedrate = double.Parse(txtZFeed.Text);
+                //m_config.XMaxFeedrate = double.Parse(txtXFeed.Text);
+                //m_config.YMaxFeedrate = double.Parse(txtYFeed.Text);
+                //m_config.ZMaxFeedrate = double.Parse(txtZFeed.Text);
                 m_config.CalcPixPerMM();
                 if (lstMonitors.SelectedIndex != -1)
                 {
@@ -252,6 +255,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     m_config = null;
                     m_config = UVDLPApp.Instance().m_printerinfo;
                     SetData(); // show the data
+                    UpdateMainConnection();
+                    UpdateDisplayConnection();
                 }
                 else 
                 {
@@ -260,6 +265,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     m_config = new MachineConfig();
                     m_config.Load(filename);
                     SetData(); // show the data
+                    UpdateMainConnection();
+                    UpdateDisplayConnection();
                 }
             }
         }

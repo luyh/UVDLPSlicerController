@@ -41,6 +41,7 @@ namespace UV_DLP_3D_Printer.Drivers
 
         private Thread m_readthread = null;
         private bool m_readthreadrunning = false;
+        private Logger m_commlog;
 
         protected DeviceDriver() 
         {
@@ -85,6 +86,7 @@ namespace UV_DLP_3D_Printer.Drivers
             {
                 data[c] = m_buffer[c];
             }
+            Log(data, read);
             RaiseDataReceivedEvent(this, data, read);
         }
 
@@ -119,6 +121,52 @@ namespace UV_DLP_3D_Printer.Drivers
             m_serialport.Parity = cc.parity;
             m_serialport.Handshake = cc.handshake;
             m_serialport.PortName = cc.comname;
+        }
+
+        protected void Log(string message)
+        {
+            if (Logging == true)
+            {
+                m_commlog.LogRecord(Logger.TimeStamp() +" Writing > "+ message);
+            }
+        }
+        protected void Log(byte[] data, int len) 
+        {
+            if (Logging == true)
+            {
+                m_commlog.LogRecord(Logger.TimeStamp() + "Received: ");
+                m_commlog.LogHexRecord(data, 0, len);
+                //m_commlog.LogRecord(Logger.TimeStamp() + "\r\n");
+
+            }            
+        }
+        /// <summary>
+        /// This is to log the raw serial data, 
+        /// </summary>
+        public bool Logging
+        {
+            set
+            {
+                if (value == true)
+                {
+                    m_commlog = new Logger();
+                    m_commlog.SetLogFile( UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep +  "commlog.log");
+                    m_commlog.EnableLogging = true;
+                }
+                else
+                {
+                    if (m_commlog != null)
+                    {
+                        m_commlog.CloseLogFile();
+                    }
+                }
+            }
+            get
+            {
+                if (m_commlog != null)
+                    return true;
+                return false;
+            }
         }
     }
 }
