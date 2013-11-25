@@ -134,6 +134,9 @@
     <Compile Include="GUI\ctlExpandPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GUI\CustomGUI\ctlAnchorable.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GUI\CustomGUI\ctlImageButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -332,6 +335,11 @@
     <None Include="resources\position.jpg" />
     <None Include="resources\buttHome.bmp" />
     <None Include="resources\CustomGUI\homeButt.png" />
+    <None Include="resources\CustomGUI\butMinus.png" />
+    <None Include="resources\CustomGUI\buttMove.png" />
+    <None Include="resources\CustomGUI\buttPlus.png" />
+    <None Include="resources\CustomGUI\buttRotate.png" />
+    <None Include="resources\CustomGUI\buttScale.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />
