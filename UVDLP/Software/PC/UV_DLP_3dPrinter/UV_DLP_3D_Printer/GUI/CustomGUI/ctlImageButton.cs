@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
-    public partial class ctlImageButton : Button
+    public partial class ctlImageButton : ctlAnchorable
     {
         private int mStateIndex;
         int mGapx, mGapy;
@@ -17,104 +17,29 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         AnchorTypes mAnchorVert;
         Control mCtlRefPos;
         bool mAnchorIn;
-        /*
-        protected override CreateParams CreateParams
+ 
+       // public enum AnchorTypes
+        Image mImage;
+
+        [Description("Horizontal space from anchored location"), Category("Data")]
+        public Image Image
         {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle |= 0x00000020; // WS_EX_TRANSPARENT
-                return cp;
-            }
+            get { return mImage; }
+            set { mImage = value; Invalidate(); }
         }
-         */ 
-        public enum AnchorTypes
-        {
-            Top = 0,
-            Left,
-            Center,
-            Right,
-            Bottom,
-            Over,
-            Under,
-            LeftOf,
-            RightOf
-        }
+
 
         public ctlImageButton()
         {
-            mStateIndex = 0;
             InitializeComponent();
         }
 
-        public void SetPositioning(AnchorTypes horiz, AnchorTypes vert, Control refpos, int gapx, int gapy)
-        {
-            mAnchorHoriz = horiz;
-            mAnchorVert = vert;
-            if ((refpos == null) || (refpos == Parent))
-            {
-                mAnchorIn = true;
-                mCtlRefPos = Parent;
-            }
-            else
-            {
-                mAnchorIn = false;
-                mCtlRefPos = refpos;
-            }
-            mGapx = gapx;
-            mGapy = gapy;
-            UpdatePosition();
-        }
-
-        protected int GetPosition(int refpos, int refwidth, int width, int gap, AnchorTypes anchor)
-        {
-            int retval = 0;
-            switch (anchor)
-            {
-                case AnchorTypes.Top:
-                case AnchorTypes.Left:
-                    retval = refpos + gap;
-                    break;
-
-                case AnchorTypes.Center:
-                    retval = refpos + (refwidth - width) / 2 + gap;
-                    break;
-
-                case AnchorTypes.Right:
-                case AnchorTypes.Bottom:
-                    retval = refpos + refwidth - width - gap;
-                    break;
-
-                case AnchorTypes.Over:
-                case AnchorTypes.LeftOf:
-                    retval = refpos - width - gap;
-                    break;
-
-                case AnchorTypes.Under:
-                case AnchorTypes.RightOf:
-                    retval = refpos + refwidth + gap;
-                    break;
-            }
-            return retval;
-        }
-
-
-        public void UpdatePosition()
-        {
-            if (mCtlRefPos == null)
-                return;
-            int rx = mAnchorIn ? 0 : mCtlRefPos.Location.X;
-            int ry = mAnchorIn ? 0 : mCtlRefPos.Location.Y;
-            int x = GetPosition(rx, mCtlRefPos.Width, Width, mGapx, mAnchorHoriz);
-            int y = GetPosition(ry, mCtlRefPos.Height, Height, mGapy, mAnchorVert);
-            Location = new System.Drawing.Point(x,y);
-        }
 
         protected override void OnPaint(PaintEventArgs pevent)
         {
             OnPaintBackground(pevent);
             Graphics gr = pevent.Graphics;
-            int index = mStateIndex;
+            int index = (int)mCtlState;
             if (Enabled == false)
                 index = 3;
             if (Image != null)
@@ -129,35 +54,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             //base.OnPaint(pevent);
         }
 
-        protected override void OnMouseEnter(EventArgs e)
-        {
-            mStateIndex = 1;
-            base.OnMouseEnter(e);
-        }
-
-        protected override void OnMouseLeave(EventArgs e)
-        {
-            mStateIndex = 0;
-            base.OnMouseLeave(e);
-        }
-
-        protected override void OnMouseDown(MouseEventArgs mevent)
-        {
-            mStateIndex = 2;
-            base.OnMouseDown(mevent);
-        }
-
-        protected override void OnMouseUp(MouseEventArgs mevent)
-        {
-            mStateIndex = 1;
-            base.OnMouseUp(mevent);
-        }
-
-        protected override void OnResize(EventArgs e)
-        {
-            UpdatePosition();
-            base.OnResize(e);
-        }
 
         private void InitializeComponent()
         {

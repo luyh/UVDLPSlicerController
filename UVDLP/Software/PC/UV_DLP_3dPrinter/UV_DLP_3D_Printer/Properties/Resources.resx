@@ -190,8 +190,23 @@
   <data name="position" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\position.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="homeButt" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\CustomGUI\homeButt.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="butMinus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\CustomGUI\butMinus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="buttMove" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\CustomGUI\buttMove.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="buttPlus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\CustomGUI\buttPlus.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="buttRotate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\CustomGUI\buttRotate.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="buttScale" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\CustomGUI\buttScale.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
