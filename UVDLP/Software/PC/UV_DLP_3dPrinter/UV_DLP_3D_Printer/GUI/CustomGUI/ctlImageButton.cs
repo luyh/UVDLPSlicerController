@@ -17,7 +17,17 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         AnchorTypes mAnchorVert;
         Control mCtlRefPos;
         bool mAnchorIn;
-
+        /*
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x00000020; // WS_EX_TRANSPARENT
+                return cp;
+            }
+        }
+         */ 
         public enum AnchorTypes
         {
             Top = 0,

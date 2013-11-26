@@ -130,6 +130,32 @@ namespace UV_DLP_3D_Printer
                 return false;
             }
         }
+        /// <summary>
+        /// This function trys to join together the short line segments into 
+        /// a set of longer 3d polyines
+        /// The goal here is to determine the interior and exterior lines
+        /// This is going to help us do several things:
+        /// 1) import/export SVG/CLI files
+        /// 2) determine overlapping boundaries for better self-intersecting models
+        /// 3) determine overhangs - by detemining if polylines from other layers intersect vertically or are encapsulated.
+        /// 
+        /// The first pass of this algorithm may have to be N^2 search, I'll try
+        /// to change it to log(N) or N as I go along
+        /// </summary>
+        public void Optimize() 
+        {
+            // copy all the polylines in segments into a list
+            List<PolyLine3d> allseg = new List<PolyLine3d>();
+            foreach (PolyLine3d pl in m_segments) allseg.Add(pl);
+            // get the first polyline
+            // look at it's end point
+            // try to match that endpoint to the starting point (hmm. or ending?)
+            // of another polyline
+            // if we match that starting point, remove the matched polyline from the list
+            // and add the end point to the current polyline we're growing
+
+
+        }
         /*
          This function calculates the min and max x/y coordinates of this slice
          */

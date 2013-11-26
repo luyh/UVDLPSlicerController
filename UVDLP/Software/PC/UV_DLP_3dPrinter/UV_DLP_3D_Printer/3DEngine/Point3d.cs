@@ -7,6 +7,7 @@ namespace Engine3D
 {
     public class Point3d
     {
+        private static float epsilon = .0001f; // define an epsilon value for matching
         public float x, y, z;
         public Point3d() 
         {
@@ -26,6 +27,32 @@ namespace Engine3D
             ret.Set(c1.x - c2.x, c1.y - c2.y, c1.z - c2.z);
             return ret;
         }
+
+        /// <summary>
+        /// This is an epsilon-based match
+        /// </summary>
+        /// <param name="pnt"></param>
+        /// <returns></returns>
+        public bool Matches(Point3d pnt) 
+        {
+            if (pnt.x >= (x - epsilon) && pnt.x <= (x + epsilon))
+            {
+                if (pnt.y >= (y - epsilon) && pnt.y <= (y + epsilon))
+                {
+                    if (pnt.z >= (z - epsilon) && pnt.z <= (z + epsilon))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// this function tests for an exact match of points
+        /// </summary>
+        /// <param name="pnt"></param>
+        /// <returns></returns>
         public bool IsEqual(Point3d pnt) 
         {
             if (x == pnt.x && y == pnt.y && z == pnt.z)

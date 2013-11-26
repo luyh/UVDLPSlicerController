@@ -24,9 +24,11 @@ namespace Engine3D
         bool cached = false;
         public int linewidth;
         public bool visible;
+        public int tag;
 
         public PolyLine3d(PolyLine3d src) 
         {
+            tag = 0;
             m_color = src.m_color;
             minx = src.minx;
             miny = src.miny;
