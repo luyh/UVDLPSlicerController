@@ -161,6 +161,7 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.findHolesInMeshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -230,7 +231,8 @@
             this.saveSceneSTLToolStripMenuItem,
             this.preferencesToolStripMenuItem,
             this.exitToolStripMenuItem,
-            this.testToolStripMenuItem});
+            this.testToolStripMenuItem,
+            this.findHolesInMeshToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(40, 22);
             this.fileToolStripMenuItem.Text = "File";
@@ -1689,6 +1691,13 @@
             this.toolStripMenuItem1.Text = "Remove All Supports";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
+            // findHolesInMeshToolStripMenuItem
+            // 
+            this.findHolesInMeshToolStripMenuItem.Name = "findHolesInMeshToolStripMenuItem";
+            this.findHolesInMeshToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.findHolesInMeshToolStripMenuItem.Text = "Find Holes In Mesh";
+            this.findHolesInMeshToolStripMenuItem.Click += new System.EventHandler(this.findHolesInMeshToolStripMenuItem_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1899,6 +1908,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel6;
         private System.Windows.Forms.TextBox textManipZ;
         private GUI.CustomGUI.ctlImageButton ctlImageButton7;
+        private System.Windows.Forms.ToolStripMenuItem findHolesInMeshToolStripMenuItem;
     }
 }
 
