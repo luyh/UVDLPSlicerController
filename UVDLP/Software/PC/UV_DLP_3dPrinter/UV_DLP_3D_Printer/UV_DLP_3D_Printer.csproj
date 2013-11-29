@@ -185,6 +185,12 @@
     <Compile Include="GUI\frmConnection.Designer.cs">
       <DependentUpon>frmConnection.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\frmMeshHoles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmMeshHoles.Designer.cs">
+      <DependentUpon>frmMeshHoles.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frmPrefs.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -303,6 +309,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmDLP.resx">
       <DependentUpon>frmDLP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmMeshHoles.resx">
+      <DependentUpon>frmMeshHoles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmPrefs.resx">
       <DependentUpon>frmPrefs.cs</DependentUpon>

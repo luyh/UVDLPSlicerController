@@ -25,11 +25,15 @@ namespace Engine3D
         public int linewidth;
         public bool visible;
         public int tag;
+        // this derived reference is a cheat. Basically, we need to retain information
+        // that this polygon was dereived from, so we can later look up it's neighbors
+        public Polygon m_derived; // 
 
         public PolyLine3d(PolyLine3d src) 
         {
             tag = 0;
             m_color = src.m_color;
+            m_derived = null;
             minx = src.minx;
             miny = src.miny;
             minz = src.minz;
@@ -42,7 +46,7 @@ namespace Engine3D
             foreach (Point3d pnt in src.m_points) 
             {
                 Point3d p = new Point3d(pnt.x, pnt.y, pnt.z);
-                m_points.Add(p);
+                m_points.Add(p);                
             }
         }
         public void SetZ(float z) 

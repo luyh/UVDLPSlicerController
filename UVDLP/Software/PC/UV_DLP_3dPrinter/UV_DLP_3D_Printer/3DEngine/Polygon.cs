@@ -119,6 +119,7 @@ namespace Engine3D
                     return null;
 
                 segment.m_color = Color.Red;
+                segment.m_derived = this; // set the parent
                 return segment;
             }
             catch (Exception) 
@@ -126,7 +127,6 @@ namespace Engine3D
                 return null;
             }
         }
-
         public void CalcMinMax() 
         {
             m_minmax.m_min = m_points[0].z;
@@ -163,6 +163,33 @@ namespace Engine3D
                 DebugLogger.Instance().LogError(ex.Message);
             }
         }
+        /// <summary>
+        /// This will return true if this poly and the specified share and edge (2 points)
+        /// </summary>
+        /// <param name="ply"></param>
+        /// <returns></returns>
+        public bool SharesEdge(Polygon ply) 
+        {
+            bool ret = false;
+            int cnt = 0;
+            foreach(Point3d pnt in m_points)
+            {
+                foreach (Point3d pnt2 in ply.m_points) 
+                {
+                    if (pnt.Matches(pnt2)) 
+                    {
+                        cnt++;
+                    }
+                }
+            }
+            if (cnt == 2) 
+            {
+                ret = true;
+            }
+            return ret;
+        }
+
+
         /*
          The update function should be called after the containing object
          * moves, scales or rotates to update the polygon information

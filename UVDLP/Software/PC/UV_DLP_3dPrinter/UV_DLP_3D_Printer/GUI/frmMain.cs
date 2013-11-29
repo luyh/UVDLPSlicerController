@@ -1995,5 +1995,11 @@ namespace UV_DLP_3D_Printer
             ShowPanel(buttMove, ctlObjMove);
         }
 
+        private void findHolesInMeshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmMeshHoles mh = new frmMeshHoles();
+            mh.ShowDialog();
+        }
+
     }
 }

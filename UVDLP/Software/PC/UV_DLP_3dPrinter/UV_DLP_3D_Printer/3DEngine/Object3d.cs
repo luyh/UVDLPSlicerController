@@ -141,7 +141,57 @@ namespace Engine3D
             }
         }
          */
-        
+
+        /// <summary>
+        /// Return a list of polygon next to a hole
+        /// operates in n^2 time
+        /// </summary>
+        /// <returns></returns>
+        public List<Polygon> FindHoles() 
+        {
+            List<Polygon> lstholes = new List<Polygon>();
+            Dictionary<Polygon, int> map = new Dictionary<Polygon, int>();
+            try
+            {
+                foreach (Polygon ply in m_lstpolys)
+                {
+                    foreach (Polygon ply2 in m_lstpolys)
+                    {
+                        if (ply != ply2)
+                        {
+                            if (ply.SharesEdge(ply2))
+                            {
+                                if (map.ContainsKey(ply))
+                                {
+                                    map[ply]++;
+                                }
+                                else
+                                {
+                                    map.Add(ply, 1);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                foreach (Polygon ply in m_lstpolys)
+                {
+                    if (map.ContainsKey(ply))
+                    {
+                        if (map[ply] < 3)
+                        {
+                            lstholes.Add(ply);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
+            return lstholes;
+        }
+
         public virtual void RenderGL(bool showalpha, bool selected)
         {
             if (m_listid == -1)

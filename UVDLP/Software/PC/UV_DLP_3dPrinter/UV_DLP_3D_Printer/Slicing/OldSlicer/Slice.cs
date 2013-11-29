@@ -89,10 +89,12 @@ namespace UV_DLP_3D_Printer
     public class Slice 
     {
         public List<PolyLine3d> m_segments; // list of polyline segments
+        public List<PolyLine3d> m_opsegs; // list of optimized polyline segments
         
         public Slice()
         {
             m_segments = new List<PolyLine3d>();
+            m_opsegs = null;
         }
         public bool Load(StreamReader sr) 
         {
@@ -146,13 +148,63 @@ namespace UV_DLP_3D_Printer
         {
             // copy all the polylines in segments into a list
             List<PolyLine3d> allseg = new List<PolyLine3d>();
-            foreach (PolyLine3d pl in m_segments) allseg.Add(pl);
+            foreach (PolyLine3d pl in m_segments) 
+                allseg.Add(pl);
+
+            // gotta keep track of lines to remove
+            List<PolyLine3d> removelist = new List<PolyLine3d>();
+            int idx = 0;
+
             // get the first polyline
             // look at it's end point
             // try to match that endpoint to the starting point (hmm. or ending?)
             // of another polyline
             // if we match that starting point, remove the matched polyline from the list
             // and add the end point to the current polyline we're growing
+            m_opsegs = new List<PolyLine3d>();
+            while (allseg.Count > 0)
+            {
+                idx = 0;
+                PolyLine3d curline = new PolyLine3d();
+                m_opsegs.Add(curline);
+                // add the points from the first polyline
+                curline.AddPoint(allseg[0].m_points[0]);
+                curline.AddPoint(allseg[0].m_points[1]);
+
+                foreach (PolyLine3d pl in allseg)
+                {
+                    if (idx != 0) // if we're not examining ourselves
+                    {
+                        // if the last point in the current polyline matches the first point
+                        // in the line we're testing, add the second point of the line we're testing 
+                        // to the end of the current line
+                        if (curline.m_points[curline.m_points.Count - 1].Matches(pl.m_points[0]))
+                        {
+                            curline.AddPoint(pl.m_points[1]);
+                            // add the test line to the list of lines to remove, now that we've used it
+                            removelist.Add(pl);
+                        }
+                        else if (curline.m_points[0].Matches(pl.m_points[1]))
+                        {
+                            // test to see if this test line's second point matches the curline's first point
+                            curline.m_points.Insert(0, pl.m_points[0]); // insert it at the head
+                            // add the test line to the list of lines to remove, now that we've used it
+                            removelist.Add(pl);
+                        }
+                    }
+                    else 
+                    {
+                        removelist.Add(pl);
+                    }
+                    idx++;
+                }
+                // now remove all the used segments from all segment list
+                foreach (PolyLine3d seg in removelist) 
+                {
+                    allseg.Remove(seg);
+                }
+                removelist.Clear();
+            }
 
 
         }
@@ -188,10 +240,8 @@ namespace UV_DLP_3D_Printer
             {
                 Point pnt1 = new Point(); // create some points for drawing
                 Point pnt2 = new Point();
-                //Pen pen = new Pen(Color.White, 1);
+
                 Pen pen = new Pen(UVDLPApp.Instance().m_appconfig.m_foregroundcolor, 1);
-                //Brush
-                //Pen p2 = new Pen(
 
                 int hxres = sp.xres / 2;
                 int hyres = sp.yres / 2;
@@ -214,24 +264,9 @@ namespace UV_DLP_3D_Printer
 
             }
         }
-
-        /*
-        private static Bitmap ResizeImage(Bitmap imgToResize, Size size)
-        {
-            try
-            {
-                Bitmap b = new Bitmap(size.Width, size.Height);
-                using (Graphics g = Graphics.FromImage((Image)b))
-                {
-                    //g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                    g.DrawImage(imgToResize, 0, 0, size.Width, size.Height);
-                }
-                return b;
-            }
-            catch { return null; }
-        }
-        */
+        //alright, it looks like I'm going to have to code up a 2d scanline fill algorithm
+        // I suppose the first step is to convert all the 3d-ish polyline points in this slice into
+        // 2d polylines, then use those to implement the fill
         /// <summary>
         /// This new slicing function renders into a pre-allocated bitmap
         /// </summary>
@@ -346,7 +381,13 @@ namespace UV_DLP_3D_Printer
             }
             return points;
         }
-        // this function converts all the 3d polyines to 2d lines so we can process everything
+        
+        /// <summary>
+        /// this function converts all the 3d polyines to 2d lines so we can process everything 
+        /// This is the equivanlant of a 3d->2d projection function
+        /// </summary>
+        /// <param name="sp"></param>
+        /// <returns></returns>
         private List<Line2d> Get2dLines(SliceBuildConfig sp) 
         {
             List<Line2d> lst = new List<Line2d>();
@@ -385,11 +426,5 @@ namespace UV_DLP_3D_Printer
             }
             return intersecting;
         }
-
-        //alright, it looks like I'm going to have to code up a 2d scanline fill algorithm
-        // I suppose the first step is to convert all the 3d-ish polyline points in this slice into
-        // 2d polylines, then use those to implement the fill
-
-
     }
 }

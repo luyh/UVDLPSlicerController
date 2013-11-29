@@ -176,6 +176,7 @@ namespace UV_DLP_3D_Printer
                         Slice sl = new Slice();//create a new slice
                         sl.m_segments = lstintersections;// Set the list of intersections 
                         sl.RenderSlice(m_sf.m_config, ref bmp);
+                        sl.Optimize();
                         savebm = bmp;
                     }
                 }
