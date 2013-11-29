@@ -140,6 +140,27 @@
     <Compile Include="GUI\CustomGUI\ctlImageButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GUI\CustomGUI\ctlMove.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlMove.Designer.cs">
+      <DependentUpon>ctlMove.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlScale.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlScale.Designer.cs">
+      <DependentUpon>ctlScale.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlRotate.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlRotate.Designer.cs">
+      <DependentUpon>ctlRotate.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -256,6 +277,15 @@
     <EmbeddedResource Include="GUI\ctlExpandPanel.resx">
       <DependentUpon>ctlExpandPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomGUI\ctlMove.resx">
+      <DependentUpon>ctlMove.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomGUI\ctlScale.resx">
+      <DependentUpon>ctlScale.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomGUI\ctlRotate.resx">
+      <DependentUpon>ctlRotate.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -340,6 +370,8 @@
     <None Include="resources\CustomGUI\buttPlus.png" />
     <None Include="resources\CustomGUI\buttRotate.png" />
     <None Include="resources\CustomGUI\buttScale.png" />
+    <None Include="resources\CustomGUI\buttOnPlatform.png" />
+    <None Include="resources\CustomGUI\buttCenter.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

@@ -38,7 +38,8 @@ namespace UV_DLP_3D_Printer
         Quaternion m_quat;
         GLCamera m_camera;
         System.Timers.Timer m_modelAnimTmr;
-        ctlImageButton pressedButt = null;
+        ctlImageButton m_pressedButt = null;
+        Control m_selectedControl = null;
 
         private bool lmdown, rmdown, mmdown;
         private int mdx, mdy;
@@ -1954,45 +1955,44 @@ namespace UV_DLP_3D_Printer
             glControl1.Invalidate();
         }
 
-        private void ShowManipPanel(ctlImageButton butt, String title, int val)
+        private void ShowPanel(ctlImageButton butt, Control ctl)
         {
-            if (butt == pressedButt)
+            if (ctl == m_selectedControl)
             {
                 butt.Gapx -= 5;
-                manipObject.Visible = false;
-                pressedButt = null;
+                m_pressedButt = null;
+                ctl.Visible = false;
+                m_selectedControl = null;
             }
             else
             {
-                if (pressedButt != null)
+                if (m_selectedControl != null)
                 {
-                    pressedButt.Gapx -= 5;
+                    m_pressedButt.Gapx -= 5;
+                    m_selectedControl.Visible = false;
                 }
-                pressedButt = butt;
+                m_pressedButt = butt;
+                m_selectedControl = ctl;
                 butt.Gapx += 5;
-                manipObject.Location = new Point(butt.Location.X + butt.Width,
-                    buttScale.Location.Y + buttScale.Height - manipObject.Height);
-                labelManipType.Text = title;
-                textManipX.Text = val.ToString();
-                textManipY.Text = val.ToString();
-                textManipZ.Text = val.ToString();
-                manipObject.Visible = true;
+                ctl.Location = new Point(butt.Location.X + butt.Width,
+                    butt.Location.Y + butt.Height - ctl.Height);
+                ctl.Visible = true;
             }
         }
 
         private void buttScale_Click(object sender, EventArgs e)
         {
-            ShowManipPanel(buttScale, "Scale (%)", 100);
+            ShowPanel(buttScale, ctlObjScale);
         }
 
         private void buttRotate_Click(object sender, EventArgs e)
         {
-            ShowManipPanel(buttRotate, "Rotate (deg)", 90);
+            ShowPanel(buttRotate, ctlObjRotate);
         }
 
         private void buttMove_Click(object sender, EventArgs e)
         {
-            ShowManipPanel(buttMove, "Move (mm)", 90);
+            ShowPanel(buttMove, ctlObjMove);
         }
 
     }
