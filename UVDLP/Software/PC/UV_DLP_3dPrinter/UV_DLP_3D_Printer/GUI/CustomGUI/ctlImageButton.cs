@@ -20,40 +20,68 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
  
        // public enum AnchorTypes
         Image mImage;
+        Rectangle mDstrc;
+        Rectangle mSrcrc;
+        const int nSubImages = 4;
+        int mSubImgWidth;
 
         [Description("Horizontal space from anchored location"), Category("Data")]
         public Image Image
         {
             get { return mImage; }
-            set { mImage = value; Invalidate(); }
+            set { 
+                mImage = value;
+                ScaleImage();
+            }
         }
-
 
         public ctlImageButton()
         {
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            DoubleBuffered = true;
             InitializeComponent();
         }
 
+        void ScaleImage()
+        {
+            mSubImgWidth = mImage.Width / nSubImages;
+            if ((Height == 0) || (Width == 0))
+                return;
+            float iratio = (float)mSubImgWidth / (float)Image.Height;
+            float cratio = (float)Width / (float)Height;
+            if (iratio > cratio)
+            {
+                int h = (int)((float)Width / iratio);
+                mDstrc = new Rectangle(0, (Height - h) / 2, Width, h);
+            }
+            else
+            {
+                int w = (int)((float)Height * iratio);
+                mDstrc = new Rectangle((Width - w) / 2, 0, w, Height);
+            }
+            mSrcrc = new Rectangle(0, 0, mSubImgWidth, mImage.Height);
+            Invalidate();
+        }
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+            ScaleImage();
+        }
 
         protected override void OnPaint(PaintEventArgs pevent)
         {
-            OnPaintBackground(pevent);
             Graphics gr = pevent.Graphics;
             int index = (int)mCtlState;
             if (Enabled == false)
                 index = 3;
             if (Image != null)
             {
-                int w = Image.Height;
-                int x = (Width * 96 / 72 - w) / 2;
-                int y = (Height * 96 / 72 - w) / 2;
-                Rectangle srcrc = new Rectangle(w * index, 0, w, w);
-                Rectangle dstrc = new Rectangle(0, 0, Width, Height);
-                gr.DrawImage(Image, dstrc, srcrc, GraphicsUnit.Pixel);
+                mSrcrc.X = mSubImgWidth * index;
+                gr.DrawImage(Image, mDstrc, mSrcrc, GraphicsUnit.Pixel);
             }
             //base.OnPaint(pevent);
         }
-
 
         private void InitializeComponent()
         {
