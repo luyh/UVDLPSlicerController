@@ -10,15 +10,7 @@ using System.Windows.Forms;
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
     public partial class ctlImageButton : ctlAnchorable
-    {
-        private int mStateIndex;
-        int mGapx, mGapy;
-        AnchorTypes mAnchorHoriz;
-        AnchorTypes mAnchorVert;
-        Control mCtlRefPos;
-        bool mAnchorIn;
- 
-       // public enum AnchorTypes
+    { 
         Image mImage;
         Rectangle mDstrc;
         Rectangle mSrcrc;

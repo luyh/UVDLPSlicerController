@@ -130,7 +130,7 @@
             this.ctlImageButton1.Gapx = 5;
             this.ctlImageButton1.Gapy = 5;
             this.ctlImageButton1.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.ctlImageButton1.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPlus;
+            this.ctlImageButton1.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttV;
             this.ctlImageButton1.Location = new System.Drawing.Point(130, 5);
             this.ctlImageButton1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.ctlImageButton1.Name = "ctlImageButton1";
@@ -190,7 +190,7 @@
             this.ctlImageButton3.Gapx = 5;
             this.ctlImageButton3.Gapy = 5;
             this.ctlImageButton3.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.ctlImageButton3.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPlus;
+            this.ctlImageButton3.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttV;
             this.ctlImageButton3.Location = new System.Drawing.Point(130, 5);
             this.ctlImageButton3.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.ctlImageButton3.Name = "ctlImageButton3";
@@ -250,7 +250,7 @@
             this.ctlImageButton5.Gapx = 5;
             this.ctlImageButton5.Gapy = 5;
             this.ctlImageButton5.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.ctlImageButton5.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPlus;
+            this.ctlImageButton5.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttV;
             this.ctlImageButton5.Location = new System.Drawing.Point(130, 5);
             this.ctlImageButton5.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.ctlImageButton5.Name = "ctlImageButton5";
@@ -310,7 +310,7 @@
             this.ctlImageButton7.Gapx = 5;
             this.ctlImageButton7.Gapy = 5;
             this.ctlImageButton7.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.ctlImageButton7.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPlus;
+            this.ctlImageButton7.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttV;
             this.ctlImageButton7.Location = new System.Drawing.Point(130, 5);
             this.ctlImageButton7.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.ctlImageButton7.Name = "ctlImageButton7";

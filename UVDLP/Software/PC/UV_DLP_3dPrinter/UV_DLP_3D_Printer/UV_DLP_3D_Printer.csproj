@@ -372,6 +372,7 @@
     <None Include="resources\CustomGUI\buttScale.png" />
     <None Include="resources\CustomGUI\buttOnPlatform.png" />
     <None Include="resources\CustomGUI\buttCenter.png" />
+    <None Include="resources\CustomGUI\buttV.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />
