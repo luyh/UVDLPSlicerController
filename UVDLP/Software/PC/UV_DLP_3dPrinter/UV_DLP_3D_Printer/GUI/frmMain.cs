@@ -53,7 +53,10 @@ namespace UV_DLP_3D_Printer
         //float ipx = 0.0f, ipy = 0.0f, ipz = 2.0f;
         public frmMain()
         {
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            // following 2 lines removed from designer - SHS to eliminate autoscale
+            //this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            //this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            
             InitializeComponent();
             UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEventDel);
             UVDLPApp.Instance().Engine3D.UpdateGrid();
@@ -712,7 +715,7 @@ namespace UV_DLP_3D_Printer
           GL.Rotate(m_quat.X * 100, 1, 0, 0); //  
             */
 
-          UVDLPApp.Instance().Engine3D.RenderGL(m_showalpha);
+          UVDLPApp.Instance().Engine3D.RenderGL();
           DrawISect();          
           GL.Flush();
           glControl1.SwapBuffers();
@@ -1727,6 +1730,7 @@ namespace UV_DLP_3D_Printer
             //if (UVDLPApp.Instance().m_selectedobject == null) return;
             //UVDLPApp.Instance().m_selectedobject.m_showalpha = chkAlpha.Checked;
             SetAlpha(chkAlpha.Checked);
+            UVDLPApp.Instance().m_engine3d.m_alpha = chkAlpha.Checked;
             UVDLPApp.Instance().m_engine3d.UpdateLists();
             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");            
         }
@@ -1996,12 +2000,18 @@ namespace UV_DLP_3D_Printer
         {
             ShowPanel(buttSupports, ctlSupport);
         }
-        
+
+        private void buttView_Click(object sender, EventArgs e)
+        {
+            ShowPanel(buttView, ctlViewOptions);
+        }
+
         private void findHolesInMeshToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmMeshHoles mh = new frmMeshHoles();
             mh.ShowDialog();
         }
+
 
     }
 }

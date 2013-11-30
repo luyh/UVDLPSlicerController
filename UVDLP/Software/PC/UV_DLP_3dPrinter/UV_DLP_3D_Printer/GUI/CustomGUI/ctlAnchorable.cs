@@ -30,6 +30,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         int mGapx, mGapy;
         AnchorTypes mAnchorHoriz;
         AnchorTypes mAnchorVert;
+        bool mChecked;
         //Control mCtlRefPos;
 
         // will apear in properties panel
@@ -58,6 +59,13 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             get { return mAnchorVert; }
             set { mAnchorVert = value; }
+        }
+
+        [Description("Check state"), Category("Data")]
+        public bool Checked
+        {
+            get { return mChecked; }
+            set { mChecked = value; Invalidate();  }
         }
 
         public ctlAnchorable()
@@ -143,6 +151,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             UpdatePosition();
             base.OnResize(e);
+        }
+
+        protected override void OnClick(EventArgs e)
+        {
+            Checked = !Checked;
+            base.OnClick(e);
         }
 
         private void InitializeComponent()

@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.progressTitle = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlProgress();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.buttAddSupport = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.buttAutoSupport = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.buttSetup = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel8 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel10 = new System.Windows.Forms.FlowLayoutPanel();
+            this.progressTitle = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlProgress();
+            this.buttAddSupport = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttAutoSupport = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttSetup = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -55,21 +55,6 @@
             this.flowLayoutPanel2.Size = new System.Drawing.Size(170, 219);
             this.flowLayoutPanel2.TabIndex = 23;
             // 
-            // progressTitle
-            // 
-            this.progressTitle.BarColor = System.Drawing.Color.RoyalBlue;
-            this.progressTitle.BorderThickness = 2;
-            this.progressTitle.Font = new System.Drawing.Font("Arial", 12F);
-            this.progressTitle.ForeColor = System.Drawing.Color.White;
-            this.progressTitle.Location = new System.Drawing.Point(5, 4);
-            this.progressTitle.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.progressTitle.Name = "progressTitle";
-            this.progressTitle.Size = new System.Drawing.Size(160, 25);
-            this.progressTitle.TabIndex = 0;
-            this.progressTitle.Text = "Supports";
-            this.progressTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.progressTitle.Value = 0;
-            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.BackColor = System.Drawing.Color.RoyalBlue;
@@ -81,53 +66,6 @@
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(164, 58);
             this.flowLayoutPanel1.TabIndex = 5;
-            // 
-            // buttAddSupport
-            // 
-            this.buttAddSupport.BackColor = System.Drawing.Color.Navy;
-            this.buttAddSupport.Gapx = 5;
-            this.buttAddSupport.Gapy = 5;
-            this.buttAddSupport.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.buttAddSupport.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttAddSupport;
-            this.buttAddSupport.Location = new System.Drawing.Point(5, 5);
-            this.buttAddSupport.Margin = new System.Windows.Forms.Padding(5);
-            this.buttAddSupport.Name = "buttAddSupport";
-            this.buttAddSupport.Size = new System.Drawing.Size(48, 48);
-            this.buttAddSupport.TabIndex = 23;
-            this.buttAddSupport.Text = "ctlImageButton1";
-            this.buttAddSupport.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.buttAddSupport.Click += new System.EventHandler(this.buttAddSupport_Click);
-            // 
-            // buttAutoSupport
-            // 
-            this.buttAutoSupport.BackColor = System.Drawing.Color.Navy;
-            this.buttAutoSupport.Gapx = 5;
-            this.buttAutoSupport.Gapy = 5;
-            this.buttAutoSupport.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.buttAutoSupport.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttAutoSupport;
-            this.buttAutoSupport.Location = new System.Drawing.Point(58, 5);
-            this.buttAutoSupport.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
-            this.buttAutoSupport.Name = "buttAutoSupport";
-            this.buttAutoSupport.Size = new System.Drawing.Size(48, 48);
-            this.buttAutoSupport.TabIndex = 24;
-            this.buttAutoSupport.Text = "ctlImageButton3";
-            this.buttAutoSupport.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.buttAutoSupport.Click += new System.EventHandler(this.buttAutoSupport_Click);
-            // 
-            // buttSetup
-            // 
-            this.buttSetup.BackColor = System.Drawing.Color.Navy;
-            this.buttSetup.Gapx = 5;
-            this.buttSetup.Gapy = 5;
-            this.buttSetup.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.buttSetup.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttGear;
-            this.buttSetup.Location = new System.Drawing.Point(111, 5);
-            this.buttSetup.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
-            this.buttSetup.Name = "buttSetup";
-            this.buttSetup.Size = new System.Drawing.Size(48, 48);
-            this.buttSetup.TabIndex = 25;
-            this.buttSetup.Text = "ctlImageButton3";
-            this.buttSetup.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             // 
             // flowLayoutPanel7
             // 
@@ -155,6 +93,76 @@
             this.flowLayoutPanel10.Name = "flowLayoutPanel10";
             this.flowLayoutPanel10.Size = new System.Drawing.Size(164, 38);
             this.flowLayoutPanel10.TabIndex = 5;
+            // 
+            // progressTitle
+            // 
+            this.progressTitle.BarColor = System.Drawing.Color.RoyalBlue;
+            this.progressTitle.BorderThickness = 2;
+            this.progressTitle.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.progressTitle.ForeColor = System.Drawing.Color.White;
+            this.progressTitle.Location = new System.Drawing.Point(5, 4);
+            this.progressTitle.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.progressTitle.Maximum = 100;
+            this.progressTitle.Minimum = 0;
+            this.progressTitle.Name = "progressTitle";
+            this.progressTitle.Size = new System.Drawing.Size(160, 25);
+            this.progressTitle.TabIndex = 0;
+            this.progressTitle.Text = "Supports";
+            this.progressTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.progressTitle.Value = 0;
+            // 
+            // buttAddSupport
+            // 
+            this.buttAddSupport.BackColor = System.Drawing.Color.Navy;
+            this.buttAddSupport.Checked = false;
+            this.buttAddSupport.CheckImage = null;
+            this.buttAddSupport.Gapx = 5;
+            this.buttAddSupport.Gapy = 5;
+            this.buttAddSupport.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttAddSupport.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttAddSupport;
+            this.buttAddSupport.Location = new System.Drawing.Point(5, 5);
+            this.buttAddSupport.Margin = new System.Windows.Forms.Padding(5);
+            this.buttAddSupport.Name = "buttAddSupport";
+            this.buttAddSupport.Size = new System.Drawing.Size(48, 48);
+            this.buttAddSupport.TabIndex = 23;
+            this.buttAddSupport.Text = "ctlImageButton1";
+            this.buttAddSupport.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttAddSupport.Click += new System.EventHandler(this.buttAddSupport_Click);
+            // 
+            // buttAutoSupport
+            // 
+            this.buttAutoSupport.BackColor = System.Drawing.Color.Navy;
+            this.buttAutoSupport.Checked = false;
+            this.buttAutoSupport.CheckImage = null;
+            this.buttAutoSupport.Gapx = 5;
+            this.buttAutoSupport.Gapy = 5;
+            this.buttAutoSupport.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttAutoSupport.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttAutoSupport;
+            this.buttAutoSupport.Location = new System.Drawing.Point(58, 5);
+            this.buttAutoSupport.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
+            this.buttAutoSupport.Name = "buttAutoSupport";
+            this.buttAutoSupport.Size = new System.Drawing.Size(48, 48);
+            this.buttAutoSupport.TabIndex = 24;
+            this.buttAutoSupport.Text = "ctlImageButton3";
+            this.buttAutoSupport.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttAutoSupport.Click += new System.EventHandler(this.buttAutoSupport_Click);
+            // 
+            // buttSetup
+            // 
+            this.buttSetup.BackColor = System.Drawing.Color.Navy;
+            this.buttSetup.Checked = false;
+            this.buttSetup.CheckImage = null;
+            this.buttSetup.Gapx = 5;
+            this.buttSetup.Gapy = 5;
+            this.buttSetup.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttSetup.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttGear;
+            this.buttSetup.Location = new System.Drawing.Point(111, 5);
+            this.buttSetup.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
+            this.buttSetup.Name = "buttSetup";
+            this.buttSetup.Size = new System.Drawing.Size(48, 48);
+            this.buttSetup.TabIndex = 25;
+            this.buttSetup.Text = "ctlImageButton3";
+            this.buttSetup.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             // 
             // ctlSupports
             // 

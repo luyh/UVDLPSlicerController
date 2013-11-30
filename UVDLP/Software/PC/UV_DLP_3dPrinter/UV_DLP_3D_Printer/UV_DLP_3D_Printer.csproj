@@ -170,6 +170,12 @@
     <Compile Include="GUI\CustomGUI\ctlRotate.Designer.cs">
       <DependentUpon>ctlRotate.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\CustomGUI\ctlView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlView.Designer.cs">
+      <DependentUpon>ctlView.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -304,6 +310,9 @@
     <EmbeddedResource Include="GUI\CustomGUI\ctlSupports.resx">
       <DependentUpon>ctlSupports.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomGUI\ctlView.resx">
+      <DependentUpon>ctlView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -398,6 +407,9 @@
     <None Include="resources\CustomGUI\buttAddSupport.png" />
     <None Include="resources\CustomGUI\buttAutoSupport.png" />
     <None Include="resources\CustomGUI\buttGear.png" />
+    <None Include="resources\CustomGUI\buttChecked.png" />
+    <None Include="resources\CustomGUI\buttView.png" />
+    <None Include="resources\CustomGUI\buttTransparent.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

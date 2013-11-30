@@ -19,11 +19,13 @@ namespace Engine3D
         public List<Object3d> m_objects;
         public event ModelAdded ModelAddedEvent;
         public event ModelRemoved ModelRemovedEvent;
+        public bool m_alpha;
 
         public Engine3d() 
         {
             m_lines = new List<PolyLine3d>();
             m_objects = new List<Object3d>();
+            m_alpha = false;
             //AddGrid(); // grid actually was created twice. -SHS
         }
         public void UpdateLists() 
@@ -193,7 +195,12 @@ namespace Engine3D
             }
             catch (Exception) { }
         }
-        
+
+        public void RenderGL()
+        {
+            RenderGL(m_alpha);
+        }
+
         /*
          This function takes the specified vector and intersects all objects
          * in the scene, it will return the polygon? or point that intersects first

@@ -12,18 +12,41 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
     public partial class ctlImageButton : ctlAnchorable
     { 
         Image mImage;
+        Image mCheckImage;
         Rectangle mDstrc;
         Rectangle mSrcrc;
+        Rectangle mCheckrc;
         const int nSubImages = 4;
-        int mSubImgWidth;
+        int mSubImgWidth, mSubChkImgWidth;
 
-        [Description("Horizontal space from anchored location"), Category("Data")]
+        [Description("Image composesed of all 4 button states"), Category("Data")]
         public Image Image
         {
             get { return mImage; }
-            set { 
+            set
+            {
                 mImage = value;
-                ScaleImage();
+                if (mImage != null)
+                {
+                    mSubImgWidth = mImage.Width / nSubImages;
+                    mSrcrc = new Rectangle(0, 0, mSubImgWidth, mImage.Height);
+                    ScaleImage();
+                }
+            }
+        }
+
+        [Description("Image of check/uncheck mark"), Category("Data")]
+        public Image CheckImage
+        {
+            get { return mCheckImage; }
+            set
+            {
+                mCheckImage = value;
+                if (mCheckImage != null)
+                {
+                    mSubChkImgWidth = mCheckImage.Width / 2;
+                    mCheckrc = new Rectangle(0, 0, mSubChkImgWidth, mCheckImage.Height);
+                }
             }
         }
 
@@ -36,7 +59,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         void ScaleImage()
         {
-            mSubImgWidth = mImage.Width / nSubImages;
+            if (mImage == null)
+                return;
             if ((Height == 0) || (Width == 0))
                 return;
             float iratio = (float)mSubImgWidth / (float)Image.Height;
@@ -51,7 +75,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 int w = (int)((float)Height * iratio);
                 mDstrc = new Rectangle((Width - w) / 2, 0, w, Height);
             }
-            mSrcrc = new Rectangle(0, 0, mSubImgWidth, mImage.Height);
             Invalidate();
         }
 
@@ -67,10 +90,15 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             int index = (int)mCtlState;
             if (Enabled == false)
                 index = 3;
-            if (Image != null)
+            if (mImage != null)
             {
                 mSrcrc.X = mSubImgWidth * index;
-                gr.DrawImage(Image, mDstrc, mSrcrc, GraphicsUnit.Pixel);
+                gr.DrawImage(mImage, mDstrc, mSrcrc, GraphicsUnit.Pixel);
+                if (mCheckImage != null)
+                {
+                    mCheckrc.X = Checked ? mSubChkImgWidth : 0;
+                    gr.DrawImage(mCheckImage, mDstrc, mCheckrc, GraphicsUnit.Pixel);
+                }
             }
             //base.OnPaint(pevent);
         }

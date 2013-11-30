@@ -137,6 +137,13 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap buttChecked {
+            get {
+                object obj = ResourceManager.GetObject("buttChecked", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap buttGear {
             get {
                 object obj = ResourceManager.GetObject("buttGear", resourceCulture);
@@ -186,9 +193,23 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap buttTransparent {
+            get {
+                object obj = ResourceManager.GetObject("buttTransparent", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap buttV {
             get {
                 object obj = ResourceManager.GetObject("buttV", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttView {
+            get {
+                object obj = ResourceManager.GetObject("buttView", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
