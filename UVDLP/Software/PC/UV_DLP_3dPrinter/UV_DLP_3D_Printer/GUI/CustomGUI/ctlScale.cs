@@ -25,7 +25,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 float val = var.FloatVal / 100f;
                 x = (x == 0) ? 1 : x * val;
                 y = (y == 0) ? 1 : y * val;
-                z = (z == 0) ? 1 : x * val;
+                z = (z == 0) ? 1 : z * val; 
                 UVDLPApp.Instance().SelectedObject.Scale(x, y, z);
                 //ShowObjectInfo();
                 UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
