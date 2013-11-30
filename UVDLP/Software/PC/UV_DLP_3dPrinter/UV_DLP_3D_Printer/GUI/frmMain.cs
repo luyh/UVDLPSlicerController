@@ -53,6 +53,7 @@ namespace UV_DLP_3D_Printer
         //float ipx = 0.0f, ipy = 0.0f, ipz = 2.0f;
         public frmMain()
         {
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             InitializeComponent();
             UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEventDel);
             UVDLPApp.Instance().Engine3D.UpdateGrid();
@@ -1863,10 +1864,6 @@ namespace UV_DLP_3D_Printer
             }
         }
 
-        private void ctlSupport1_Load(object sender, EventArgs e)
-        {
-
-        }
         private void SetVScroll(int val) 
         {
             try
@@ -1995,6 +1992,11 @@ namespace UV_DLP_3D_Printer
             ShowPanel(buttMove, ctlObjMove);
         }
 
+        private void buttSupports_Click(object sender, EventArgs e)
+        {
+            ShowPanel(buttSupports, ctlSupport);
+        }
+        
         private void findHolesInMeshToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmMeshHoles mh = new frmMeshHoles();

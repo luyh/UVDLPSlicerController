@@ -116,9 +116,30 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap buttAddSupport {
+            get {
+                object obj = ResourceManager.GetObject("buttAddSupport", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttAutoSupport {
+            get {
+                object obj = ResourceManager.GetObject("buttAutoSupport", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap buttCenter {
             get {
                 object obj = ResourceManager.GetObject("buttCenter", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttGear {
+            get {
+                object obj = ResourceManager.GetObject("buttGear", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -154,6 +175,13 @@ namespace UV_DLP_3D_Printer.Properties {
         public static System.Drawing.Bitmap buttScale {
             get {
                 object obj = ResourceManager.GetObject("buttScale", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttSupport {
+            get {
+                object obj = ResourceManager.GetObject("buttSupport", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

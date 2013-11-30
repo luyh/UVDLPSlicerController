@@ -92,6 +92,8 @@
             this.chkWireframe = new System.Windows.Forms.CheckBox();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.tabModel1 = new System.Windows.Forms.TabPage();
+            this.ctlSupport = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlSupports();
+            this.buttSupports = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.ctlObjRotate = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlRotate();
             this.ctlObjScale = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlScale();
             this.ctlObjMove = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMove();
@@ -393,7 +395,6 @@
             this.ctlSupport1.Name = "ctlSupport1";
             this.ctlSupport1.Size = new System.Drawing.Size(293, 397);
             this.ctlSupport1.TabIndex = 0;
-            this.ctlSupport1.Load += new System.EventHandler(this.ctlSupport1_Load);
             // 
             // tabControl1
             // 
@@ -888,6 +889,8 @@
             // 
             // tabModel1
             // 
+            this.tabModel1.Controls.Add(this.ctlSupport);
+            this.tabModel1.Controls.Add(this.buttSupports);
             this.tabModel1.Controls.Add(this.ctlObjRotate);
             this.tabModel1.Controls.Add(this.ctlObjScale);
             this.tabModel1.Controls.Add(this.ctlObjMove);
@@ -905,6 +908,29 @@
             this.tabModel1.Text = "Model View";
             this.tabModel1.UseVisualStyleBackColor = true;
             this.tabModel1.SizeChanged += new System.EventHandler(this.tabModel1_SizeChanged);
+            // 
+            // ctlSupport
+            // 
+            this.ctlSupport.Location = new System.Drawing.Point(519, 215);
+            this.ctlSupport.Name = "ctlSupport";
+            this.ctlSupport.Size = new System.Drawing.Size(170, 92);
+            this.ctlSupport.TabIndex = 24;
+            this.ctlSupport.Visible = false;
+            // 
+            // buttSupports
+            // 
+            this.buttSupports.BackColor = System.Drawing.Color.Navy;
+            this.buttSupports.Gapx = 10;
+            this.buttSupports.Gapy = 150;
+            this.buttSupports.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
+            this.buttSupports.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttSupport;
+            this.buttSupports.Location = new System.Drawing.Point(10, 370);
+            this.buttSupports.Name = "buttSupports";
+            this.buttSupports.Size = new System.Drawing.Size(32, 32);
+            this.buttSupports.TabIndex = 23;
+            this.buttSupports.Text = "ctlImageButton1";
+            this.buttSupports.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
+            this.buttSupports.Click += new System.EventHandler(this.buttSupports_Click);
             // 
             // ctlObjRotate
             // 
@@ -937,7 +963,7 @@
             this.buttMove.Gapy = 94;
             this.buttMove.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
             this.buttMove.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMove;
-            this.buttMove.Location = new System.Drawing.Point(29, 239);
+            this.buttMove.Location = new System.Drawing.Point(10, 426);
             this.buttMove.Name = "buttMove";
             this.buttMove.Size = new System.Drawing.Size(32, 32);
             this.buttMove.TabIndex = 19;
@@ -952,7 +978,7 @@
             this.buttRotate.Gapy = 52;
             this.buttRotate.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
             this.buttRotate.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttRotate;
-            this.buttRotate.Location = new System.Drawing.Point(29, 287);
+            this.buttRotate.Location = new System.Drawing.Point(10, 468);
             this.buttRotate.Name = "buttRotate";
             this.buttRotate.Size = new System.Drawing.Size(32, 32);
             this.buttRotate.TabIndex = 18;
@@ -967,7 +993,7 @@
             this.buttScale.Gapy = 10;
             this.buttScale.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
             this.buttScale.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttScale;
-            this.buttScale.Location = new System.Drawing.Point(29, 338);
+            this.buttScale.Location = new System.Drawing.Point(10, 510);
             this.buttScale.Name = "buttScale";
             this.buttScale.Size = new System.Drawing.Size(32, 32);
             this.buttScale.TabIndex = 17;
@@ -1612,30 +1638,12 @@
         private GUI.CustomGUI.ctlImageButton buttScale;
         private GUI.CustomGUI.ctlImageButton buttMove;
         private GUI.CustomGUI.ctlImageButton buttRotate;
-        private System.Windows.Forms.FlowLayoutPanel manipObject;
-        private System.Windows.Forms.Label labelManipType;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Label label5;
-        private GUI.CustomGUI.ctlImageButton ctlImageButton1;
-        private System.Windows.Forms.TextBox textManipX;
-        private GUI.CustomGUI.ctlImageButton ctlImageButton3;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
-        private System.Windows.Forms.Label label6;
-        private GUI.CustomGUI.ctlImageButton ctlImageButton4;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
-        private System.Windows.Forms.TextBox textManipY;
-        private GUI.CustomGUI.ctlImageButton ctlImageButton5;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel5;
-        private System.Windows.Forms.Label label7;
-        private GUI.CustomGUI.ctlImageButton ctlImageButton6;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel6;
-        private System.Windows.Forms.TextBox textManipZ;
-        private GUI.CustomGUI.ctlImageButton ctlImageButton7;
         private System.Windows.Forms.ToolStripMenuItem findHolesInMeshToolStripMenuItem;
         private GUI.CustomGUI.ctlMove ctlObjMove;
         private GUI.CustomGUI.ctlRotate ctlObjRotate;
         private GUI.CustomGUI.ctlScale ctlObjScale;
+        private GUI.CustomGUI.ctlImageButton buttSupports;
+        private GUI.CustomGUI.ctlSupports ctlSupport;
     }
 }
 

@@ -146,11 +146,20 @@
     <Compile Include="GUI\CustomGUI\ctlMove.Designer.cs">
       <DependentUpon>ctlMove.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\CustomGUI\ctlProgress.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GUI\CustomGUI\ctlScale.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlScale.Designer.cs">
       <DependentUpon>ctlScale.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlSupports.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlSupports.Designer.cs">
+      <DependentUpon>ctlSupports.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlTextBox.cs">
       <SubType>Component</SubType>
@@ -292,6 +301,9 @@
     <EmbeddedResource Include="GUI\CustomGUI\ctlRotate.resx">
       <DependentUpon>ctlRotate.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomGUI\ctlSupports.resx">
+      <DependentUpon>ctlSupports.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -382,6 +394,10 @@
     <None Include="resources\CustomGUI\buttOnPlatform.png" />
     <None Include="resources\CustomGUI\buttCenter.png" />
     <None Include="resources\CustomGUI\buttV.png" />
+    <None Include="resources\CustomGUI\buttSupport.png" />
+    <None Include="resources\CustomGUI\buttAddSupport.png" />
+    <None Include="resources\CustomGUI\buttAutoSupport.png" />
+    <None Include="resources\CustomGUI\buttGear.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

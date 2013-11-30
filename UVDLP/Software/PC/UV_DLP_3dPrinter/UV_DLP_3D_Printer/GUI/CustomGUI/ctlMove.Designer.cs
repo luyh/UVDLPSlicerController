@@ -31,20 +31,20 @@
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.label8 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label9 = new System.Windows.Forms.Label();
-            this.flowLayoutPanel8 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label10 = new System.Windows.Forms.Label();
-            this.flowLayoutPanel10 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label11 = new System.Windows.Forms.Label();
             this.ctlImageButton1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttCenter = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label9 = new System.Windows.Forms.Label();
             this.buttXMinus = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.textMoveX = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTextBox();
             this.buttXPlus = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.flowLayoutPanel8 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label10 = new System.Windows.Forms.Label();
             this.buttYMinus = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.textMoveY = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTextBox();
             this.buttYPlus = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.flowLayoutPanel10 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label11 = new System.Windows.Forms.Label();
             this.buttZMinus = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.textMoveZ = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTextBox();
             this.buttZPlus = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
@@ -72,7 +72,7 @@
             // 
             // label8
             // 
-            this.label8.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label8.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label8.ForeColor = System.Drawing.Color.White;
             this.label8.Location = new System.Drawing.Point(3, 0);
             this.label8.Name = "label8";
@@ -92,81 +92,6 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(164, 58);
             this.flowLayoutPanel1.TabIndex = 5;
             // 
-            // flowLayoutPanel7
-            // 
-            this.flowLayoutPanel7.BackColor = System.Drawing.Color.RoyalBlue;
-            this.flowLayoutPanel7.Controls.Add(this.label9);
-            this.flowLayoutPanel7.Controls.Add(this.buttXMinus);
-            this.flowLayoutPanel7.Controls.Add(this.textMoveX);
-            this.flowLayoutPanel7.Controls.Add(this.buttXPlus);
-            this.flowLayoutPanel7.Location = new System.Drawing.Point(3, 95);
-            this.flowLayoutPanel7.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.flowLayoutPanel7.Name = "flowLayoutPanel7";
-            this.flowLayoutPanel7.Size = new System.Drawing.Size(164, 38);
-            this.flowLayoutPanel7.TabIndex = 1;
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(3, 3);
-            this.label9.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(26, 32);
-            this.label9.TabIndex = 1;
-            this.label9.Text = "X";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // flowLayoutPanel8
-            // 
-            this.flowLayoutPanel8.BackColor = System.Drawing.Color.RoyalBlue;
-            this.flowLayoutPanel8.Controls.Add(this.label10);
-            this.flowLayoutPanel8.Controls.Add(this.buttYMinus);
-            this.flowLayoutPanel8.Controls.Add(this.textMoveY);
-            this.flowLayoutPanel8.Controls.Add(this.buttYPlus);
-            this.flowLayoutPanel8.Location = new System.Drawing.Point(3, 136);
-            this.flowLayoutPanel8.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.flowLayoutPanel8.Name = "flowLayoutPanel8";
-            this.flowLayoutPanel8.Size = new System.Drawing.Size(164, 38);
-            this.flowLayoutPanel8.TabIndex = 4;
-            // 
-            // label10
-            // 
-            this.label10.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label10.ForeColor = System.Drawing.Color.White;
-            this.label10.Location = new System.Drawing.Point(3, 3);
-            this.label10.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(26, 32);
-            this.label10.TabIndex = 1;
-            this.label10.Text = "Y";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // flowLayoutPanel10
-            // 
-            this.flowLayoutPanel10.BackColor = System.Drawing.Color.RoyalBlue;
-            this.flowLayoutPanel10.Controls.Add(this.label11);
-            this.flowLayoutPanel10.Controls.Add(this.buttZMinus);
-            this.flowLayoutPanel10.Controls.Add(this.textMoveZ);
-            this.flowLayoutPanel10.Controls.Add(this.buttZPlus);
-            this.flowLayoutPanel10.Location = new System.Drawing.Point(3, 177);
-            this.flowLayoutPanel10.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.flowLayoutPanel10.Name = "flowLayoutPanel10";
-            this.flowLayoutPanel10.Size = new System.Drawing.Size(164, 38);
-            this.flowLayoutPanel10.TabIndex = 5;
-            // 
-            // label11
-            // 
-            this.label11.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label11.ForeColor = System.Drawing.Color.White;
-            this.label11.Location = new System.Drawing.Point(3, 3);
-            this.label11.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(26, 32);
-            this.label11.TabIndex = 1;
-            this.label11.Text = "Z";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // ctlImageButton1
             // 
             this.ctlImageButton1.BackColor = System.Drawing.Color.Navy;
@@ -181,6 +106,7 @@
             this.ctlImageButton1.TabIndex = 23;
             this.ctlImageButton1.Text = "ctlImageButton1";
             this.ctlImageButton1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.ctlImageButton1.Click += new System.EventHandler(this.ctlImageButton1_Click);
             // 
             // buttCenter
             // 
@@ -196,6 +122,32 @@
             this.buttCenter.TabIndex = 24;
             this.buttCenter.Text = "ctlImageButton3";
             this.buttCenter.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttCenter.Click += new System.EventHandler(this.buttCenter_Click);
+            // 
+            // flowLayoutPanel7
+            // 
+            this.flowLayoutPanel7.BackColor = System.Drawing.Color.RoyalBlue;
+            this.flowLayoutPanel7.Controls.Add(this.label9);
+            this.flowLayoutPanel7.Controls.Add(this.buttXMinus);
+            this.flowLayoutPanel7.Controls.Add(this.textMoveX);
+            this.flowLayoutPanel7.Controls.Add(this.buttXPlus);
+            this.flowLayoutPanel7.Location = new System.Drawing.Point(3, 95);
+            this.flowLayoutPanel7.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.flowLayoutPanel7.Name = "flowLayoutPanel7";
+            this.flowLayoutPanel7.Size = new System.Drawing.Size(164, 38);
+            this.flowLayoutPanel7.TabIndex = 1;
+            // 
+            // label9
+            // 
+            this.label9.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label9.ForeColor = System.Drawing.Color.White;
+            this.label9.Location = new System.Drawing.Point(3, 3);
+            this.label9.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(26, 32);
+            this.label9.TabIndex = 1;
+            this.label9.Text = "X";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // buttXMinus
             // 
@@ -219,7 +171,7 @@
             this.textMoveX.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textMoveX.ErrorColor = System.Drawing.Color.Red;
             this.textMoveX.FloatVal = 10F;
-            this.textMoveX.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.textMoveX.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.textMoveX.ForeColor = System.Drawing.Color.White;
             this.textMoveX.IntVal = 1;
             this.textMoveX.Location = new System.Drawing.Point(66, 5);
@@ -252,6 +204,31 @@
             this.buttXPlus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttXPlus.Click += new System.EventHandler(this.buttXPlus_Click);
             // 
+            // flowLayoutPanel8
+            // 
+            this.flowLayoutPanel8.BackColor = System.Drawing.Color.RoyalBlue;
+            this.flowLayoutPanel8.Controls.Add(this.label10);
+            this.flowLayoutPanel8.Controls.Add(this.buttYMinus);
+            this.flowLayoutPanel8.Controls.Add(this.textMoveY);
+            this.flowLayoutPanel8.Controls.Add(this.buttYPlus);
+            this.flowLayoutPanel8.Location = new System.Drawing.Point(3, 136);
+            this.flowLayoutPanel8.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.flowLayoutPanel8.Name = "flowLayoutPanel8";
+            this.flowLayoutPanel8.Size = new System.Drawing.Size(164, 38);
+            this.flowLayoutPanel8.TabIndex = 4;
+            // 
+            // label10
+            // 
+            this.label10.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label10.ForeColor = System.Drawing.Color.White;
+            this.label10.Location = new System.Drawing.Point(3, 3);
+            this.label10.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(26, 32);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "Y";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // buttYMinus
             // 
             this.buttYMinus.BackColor = System.Drawing.Color.Navy;
@@ -274,7 +251,7 @@
             this.textMoveY.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textMoveY.ErrorColor = System.Drawing.Color.Red;
             this.textMoveY.FloatVal = 10F;
-            this.textMoveY.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.textMoveY.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.textMoveY.ForeColor = System.Drawing.Color.White;
             this.textMoveY.IntVal = 1;
             this.textMoveY.Location = new System.Drawing.Point(66, 5);
@@ -307,6 +284,31 @@
             this.buttYPlus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttYPlus.Click += new System.EventHandler(this.buttYPlus_Click);
             // 
+            // flowLayoutPanel10
+            // 
+            this.flowLayoutPanel10.BackColor = System.Drawing.Color.RoyalBlue;
+            this.flowLayoutPanel10.Controls.Add(this.label11);
+            this.flowLayoutPanel10.Controls.Add(this.buttZMinus);
+            this.flowLayoutPanel10.Controls.Add(this.textMoveZ);
+            this.flowLayoutPanel10.Controls.Add(this.buttZPlus);
+            this.flowLayoutPanel10.Location = new System.Drawing.Point(3, 177);
+            this.flowLayoutPanel10.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.flowLayoutPanel10.Name = "flowLayoutPanel10";
+            this.flowLayoutPanel10.Size = new System.Drawing.Size(164, 38);
+            this.flowLayoutPanel10.TabIndex = 5;
+            // 
+            // label11
+            // 
+            this.label11.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label11.ForeColor = System.Drawing.Color.White;
+            this.label11.Location = new System.Drawing.Point(3, 3);
+            this.label11.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(26, 32);
+            this.label11.TabIndex = 1;
+            this.label11.Text = "Z";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // buttZMinus
             // 
             this.buttZMinus.BackColor = System.Drawing.Color.Navy;
@@ -329,7 +331,7 @@
             this.textMoveZ.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textMoveZ.ErrorColor = System.Drawing.Color.Red;
             this.textMoveZ.FloatVal = 10F;
-            this.textMoveZ.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.textMoveZ.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.textMoveZ.ForeColor = System.Drawing.Color.White;
             this.textMoveZ.IntVal = 1;
             this.textMoveZ.Location = new System.Drawing.Point(66, 5);
@@ -364,8 +366,7 @@
             // 
             // ctlMove
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.flowLayoutPanel2);
             this.Name = "ctlMove";
             this.Size = new System.Drawing.Size(170, 219);
