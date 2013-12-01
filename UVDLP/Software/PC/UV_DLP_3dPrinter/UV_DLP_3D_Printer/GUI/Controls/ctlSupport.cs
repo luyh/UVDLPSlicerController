@@ -207,8 +207,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 xc - xft, yft, xc + xft, yft, xc + xfb, yfb, xc - xfb, yfb});
             PointF[] supportFoot2 = GetLinePoints(new float[] {
                 xc - xft, yft, xc + xft, yft, xc + xfb2, yfb, xc - xfb2, yfb});
-            
 
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             Pen blackPen = new Pen(Color.Black, 2);
             e.Graphics.FillPolygon(greenBrush, supportHead);
             e.Graphics.FillPolygon(yellowBrush, supportBody);
@@ -223,6 +223,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             else
                 e.Graphics.DrawPolygon(blackPen, supportFoot2);
 
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.Default;
             DrawGuide(e, xc + xht + 3, yht, 4, numHT);
             DrawGuide(e, xc + xhb + 3, yhb, 8, numHB);
             DrawGuide(e, xc + xft + 3, yft, 8, numFT);

@@ -33,6 +33,7 @@
             this.buttAddSupport = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.butt1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.butt2 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -75,6 +76,7 @@
             this.buttAddSupport.Size = new System.Drawing.Size(48, 48);
             this.buttAddSupport.TabIndex = 23;
             this.buttAddSupport.Text = "ctlImageButton1";
+            this.ctlToolTip1.SetToolTip(this.buttAddSupport, "Make objects 50%\r\ntransparent");
             this.buttAddSupport.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttAddSupport.Click += new System.EventHandler(this.buttAddSupport_Click);
             // 
@@ -112,6 +114,14 @@
             this.butt2.Text = "ctlImageButton3";
             this.butt2.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             // 
+            // ctlToolTip1
+            // 
+            this.ctlToolTip1.AutoPopDelay = 5000;
+            this.ctlToolTip1.BackColor = System.Drawing.Color.Turquoise;
+            this.ctlToolTip1.ForeColor = System.Drawing.Color.Navy;
+            this.ctlToolTip1.InitialDelay = 1500;
+            this.ctlToolTip1.ReshowDelay = 100;
+            // 
             // ctlView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -132,5 +142,6 @@
         private ctlImageButton buttAddSupport;
         private ctlImageButton butt1;
         private ctlImageButton butt2;
+        private ctlToolTip ctlToolTip1;
     }
 }

@@ -92,6 +92,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 index = 3;
             if (mImage != null)
             {
+                gr.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                 mSrcrc.X = mSubImgWidth * index;
                 gr.DrawImage(mImage, mDstrc, mSrcrc, GraphicsUnit.Pixel);
                 if (mCheckImage != null)

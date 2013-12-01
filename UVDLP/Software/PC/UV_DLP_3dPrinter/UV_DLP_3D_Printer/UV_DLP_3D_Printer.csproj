@@ -170,6 +170,9 @@
     <Compile Include="GUI\CustomGUI\ctlRotate.Designer.cs">
       <DependentUpon>ctlRotate.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\CustomGUI\ctlToolTip.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GUI\CustomGUI\ctlView.cs">
       <SubType>UserControl</SubType>
     </Compile>
