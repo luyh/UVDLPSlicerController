@@ -95,7 +95,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 gr.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                 mSrcrc.X = mSubImgWidth * index;
                 gr.DrawImage(mImage, mDstrc, mSrcrc, GraphicsUnit.Pixel);
-                if (mCheckImage != null)
+                if (Enabled && (mCheckImage != null))
                 {
                     mCheckrc.X = Checked ? mSubChkImgWidth : 0;
                     gr.DrawImage(mCheckImage, mDstrc, mCheckrc, GraphicsUnit.Pixel);

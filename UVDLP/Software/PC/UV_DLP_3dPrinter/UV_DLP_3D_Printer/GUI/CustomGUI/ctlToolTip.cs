@@ -17,5 +17,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.BackColor = Color.Turquoise;
             this.InitialDelay = 1500;
         }
+
+        
     }
 }

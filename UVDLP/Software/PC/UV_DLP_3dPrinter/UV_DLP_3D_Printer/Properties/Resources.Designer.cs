@@ -158,9 +158,23 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap buttOinfo {
+            get {
+                object obj = ResourceManager.GetObject("buttOinfo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap buttOnPlatform {
             get {
                 object obj = ResourceManager.GetObject("buttOnPlatform", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttOpenClose {
+            get {
+                object obj = ResourceManager.GetObject("buttOpenClose", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -182,6 +196,20 @@ namespace UV_DLP_3D_Printer.Properties {
         public static System.Drawing.Bitmap buttScale {
             get {
                 object obj = ResourceManager.GetObject("buttScale", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttShowslice {
+            get {
+                object obj = ResourceManager.GetObject("buttShowslice", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttShowsliceh {
+            get {
+                object obj = ResourceManager.GetObject("buttShowsliceh", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -43,5 +43,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             UVDLPApp.Instance().m_engine3d.UpdateLists();
             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");            
         }
+
+        private void buttShowSlice_Click(object sender, EventArgs e)
+        {
+            buttShowSliceHeight.Enabled = buttShowSlice.Checked;
+        }
+
     }
 }

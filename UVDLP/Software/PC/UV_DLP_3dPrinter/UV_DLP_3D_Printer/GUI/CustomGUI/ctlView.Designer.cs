@@ -31,30 +31,36 @@
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.buttAddSupport = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.butt1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.butt2 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttShowSlice = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttShowSliceHeight = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.buttObjectProperties = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.ctlImageButton2 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.ctlImageButton3 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.flowLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel2
             // 
             this.flowLayoutPanel2.BackColor = System.Drawing.Color.Navy;
             this.flowLayoutPanel2.Controls.Add(this.flowLayoutPanel1);
+            this.flowLayoutPanel2.Controls.Add(this.flowLayoutPanel3);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(170, 64);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(170, 125);
             this.flowLayoutPanel2.TabIndex = 24;
             // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.BackColor = System.Drawing.Color.RoyalBlue;
             this.flowLayoutPanel1.Controls.Add(this.buttAddSupport);
-            this.flowLayoutPanel1.Controls.Add(this.butt1);
-            this.flowLayoutPanel1.Controls.Add(this.butt2);
+            this.flowLayoutPanel1.Controls.Add(this.buttShowSlice);
+            this.flowLayoutPanel1.Controls.Add(this.buttShowSliceHeight);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -80,39 +86,108 @@
             this.buttAddSupport.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttAddSupport.Click += new System.EventHandler(this.buttAddSupport_Click);
             // 
-            // butt1
+            // buttShowSlice
             // 
-            this.butt1.BackColor = System.Drawing.Color.Navy;
-            this.butt1.Checked = false;
-            this.butt1.CheckImage = null;
-            this.butt1.Gapx = 5;
-            this.butt1.Gapy = 5;
-            this.butt1.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.butt1.Image = null;
-            this.butt1.Location = new System.Drawing.Point(58, 5);
-            this.butt1.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
-            this.butt1.Name = "butt1";
-            this.butt1.Size = new System.Drawing.Size(48, 48);
-            this.butt1.TabIndex = 24;
-            this.butt1.Text = "ctlImageButton3";
-            this.butt1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttShowSlice.BackColor = System.Drawing.Color.Navy;
+            this.buttShowSlice.Checked = false;
+            this.buttShowSlice.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.buttShowSlice.Gapx = 5;
+            this.buttShowSlice.Gapy = 5;
+            this.buttShowSlice.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttShowSlice.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttShowslice;
+            this.buttShowSlice.Location = new System.Drawing.Point(58, 5);
+            this.buttShowSlice.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
+            this.buttShowSlice.Name = "buttShowSlice";
+            this.buttShowSlice.Size = new System.Drawing.Size(48, 48);
+            this.buttShowSlice.TabIndex = 24;
+            this.buttShowSlice.Text = "ctlImageButton3";
+            this.ctlToolTip1.SetToolTip(this.buttShowSlice, "Show slice preview \r\non scene");
+            this.buttShowSlice.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttShowSlice.Click += new System.EventHandler(this.buttShowSlice_Click);
             // 
-            // butt2
+            // buttShowSliceHeight
             // 
-            this.butt2.BackColor = System.Drawing.Color.Navy;
-            this.butt2.Checked = false;
-            this.butt2.CheckImage = null;
-            this.butt2.Gapx = 5;
-            this.butt2.Gapy = 5;
-            this.butt2.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.butt2.Image = null;
-            this.butt2.Location = new System.Drawing.Point(111, 5);
-            this.butt2.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
-            this.butt2.Name = "butt2";
-            this.butt2.Size = new System.Drawing.Size(48, 48);
-            this.butt2.TabIndex = 25;
-            this.butt2.Text = "ctlImageButton3";
-            this.butt2.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttShowSliceHeight.BackColor = System.Drawing.Color.Navy;
+            this.buttShowSliceHeight.Checked = false;
+            this.buttShowSliceHeight.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.buttShowSliceHeight.Enabled = false;
+            this.buttShowSliceHeight.Gapx = 5;
+            this.buttShowSliceHeight.Gapy = 5;
+            this.buttShowSliceHeight.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttShowSliceHeight.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttShowsliceh;
+            this.buttShowSliceHeight.Location = new System.Drawing.Point(111, 5);
+            this.buttShowSliceHeight.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
+            this.buttShowSliceHeight.Name = "buttShowSliceHeight";
+            this.buttShowSliceHeight.Size = new System.Drawing.Size(48, 48);
+            this.buttShowSliceHeight.TabIndex = 25;
+            this.buttShowSliceHeight.Text = "ctlImageButton3";
+            this.ctlToolTip1.SetToolTip(this.buttShowSliceHeight, "Show slice thickness");
+            this.buttShowSliceHeight.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.BackColor = System.Drawing.Color.RoyalBlue;
+            this.flowLayoutPanel3.Controls.Add(this.buttObjectProperties);
+            this.flowLayoutPanel3.Controls.Add(this.ctlImageButton2);
+            this.flowLayoutPanel3.Controls.Add(this.ctlImageButton3);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 64);
+            this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(164, 58);
+            this.flowLayoutPanel3.TabIndex = 5;
+            // 
+            // buttObjectProperties
+            // 
+            this.buttObjectProperties.BackColor = System.Drawing.Color.Navy;
+            this.buttObjectProperties.Checked = false;
+            this.buttObjectProperties.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.buttObjectProperties.Gapx = 5;
+            this.buttObjectProperties.Gapy = 5;
+            this.buttObjectProperties.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttObjectProperties.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttOinfo;
+            this.buttObjectProperties.Location = new System.Drawing.Point(5, 5);
+            this.buttObjectProperties.Margin = new System.Windows.Forms.Padding(5);
+            this.buttObjectProperties.Name = "buttObjectProperties";
+            this.buttObjectProperties.Size = new System.Drawing.Size(48, 48);
+            this.buttObjectProperties.TabIndex = 23;
+            this.buttObjectProperties.Text = "ctlImageButton1";
+            this.ctlToolTip1.SetToolTip(this.buttObjectProperties, "Show object \r\nproperties panel");
+            this.buttObjectProperties.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttObjectProperties.Click += new System.EventHandler(this.buttAddSupport_Click);
+            // 
+            // ctlImageButton2
+            // 
+            this.ctlImageButton2.BackColor = System.Drawing.Color.Navy;
+            this.ctlImageButton2.Checked = false;
+            this.ctlImageButton2.CheckImage = null;
+            this.ctlImageButton2.Gapx = 5;
+            this.ctlImageButton2.Gapy = 5;
+            this.ctlImageButton2.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.ctlImageButton2.Image = null;
+            this.ctlImageButton2.Location = new System.Drawing.Point(58, 5);
+            this.ctlImageButton2.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
+            this.ctlImageButton2.Name = "ctlImageButton2";
+            this.ctlImageButton2.Size = new System.Drawing.Size(48, 48);
+            this.ctlImageButton2.TabIndex = 24;
+            this.ctlImageButton2.Text = "ctlImageButton3";
+            this.ctlImageButton2.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            // 
+            // ctlImageButton3
+            // 
+            this.ctlImageButton3.BackColor = System.Drawing.Color.Navy;
+            this.ctlImageButton3.Checked = false;
+            this.ctlImageButton3.CheckImage = null;
+            this.ctlImageButton3.Gapx = 5;
+            this.ctlImageButton3.Gapy = 5;
+            this.ctlImageButton3.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.ctlImageButton3.Image = null;
+            this.ctlImageButton3.Location = new System.Drawing.Point(111, 5);
+            this.ctlImageButton3.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
+            this.ctlImageButton3.Name = "ctlImageButton3";
+            this.ctlImageButton3.Size = new System.Drawing.Size(48, 48);
+            this.ctlImageButton3.TabIndex = 25;
+            this.ctlImageButton3.Text = "ctlImageButton3";
+            this.ctlImageButton3.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             // 
             // ctlToolTip1
             // 
@@ -128,9 +203,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.flowLayoutPanel2);
             this.Name = "ctlView";
-            this.Size = new System.Drawing.Size(170, 64);
+            this.Size = new System.Drawing.Size(170, 125);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -140,8 +216,12 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private ctlImageButton buttAddSupport;
-        private ctlImageButton butt1;
-        private ctlImageButton butt2;
+        private ctlImageButton buttShowSlice;
+        private ctlImageButton buttShowSliceHeight;
         private ctlToolTip ctlToolTip1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
+        private ctlImageButton buttObjectProperties;
+        private ctlImageButton ctlImageButton2;
+        private ctlImageButton ctlImageButton3;
     }
 }

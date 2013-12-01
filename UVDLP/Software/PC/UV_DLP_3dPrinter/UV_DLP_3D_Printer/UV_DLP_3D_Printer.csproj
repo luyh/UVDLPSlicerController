@@ -413,6 +413,10 @@
     <None Include="resources\CustomGUI\buttChecked.png" />
     <None Include="resources\CustomGUI\buttView.png" />
     <None Include="resources\CustomGUI\buttTransparent.png" />
+    <None Include="resources\CustomGUI\buttShowsliceh.png" />
+    <None Include="resources\CustomGUI\buttOinfo.png" />
+    <None Include="resources\CustomGUI\buttShowslice.png" />
+    <None Include="resources\CustomGUI\buttOpenClose.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />
