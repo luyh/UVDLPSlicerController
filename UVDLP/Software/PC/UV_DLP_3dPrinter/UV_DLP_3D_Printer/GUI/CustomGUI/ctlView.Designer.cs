@@ -35,7 +35,7 @@
             this.buttShowSliceHeight = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.buttObjectProperties = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.ctlImageButton2 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttTreeView = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.ctlImageButton3 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
             this.flowLayoutPanel2.SuspendLayout();
@@ -128,7 +128,7 @@
             // 
             this.flowLayoutPanel3.BackColor = System.Drawing.Color.RoyalBlue;
             this.flowLayoutPanel3.Controls.Add(this.buttObjectProperties);
-            this.flowLayoutPanel3.Controls.Add(this.ctlImageButton2);
+            this.flowLayoutPanel3.Controls.Add(this.buttTreeView);
             this.flowLayoutPanel3.Controls.Add(this.ctlImageButton3);
             this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 64);
             this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
@@ -155,22 +155,24 @@
             this.buttObjectProperties.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttObjectProperties.Click += new System.EventHandler(this.buttAddSupport_Click);
             // 
-            // ctlImageButton2
+            // buttTreeView
             // 
-            this.ctlImageButton2.BackColor = System.Drawing.Color.Navy;
-            this.ctlImageButton2.Checked = false;
-            this.ctlImageButton2.CheckImage = null;
-            this.ctlImageButton2.Gapx = 5;
-            this.ctlImageButton2.Gapy = 5;
-            this.ctlImageButton2.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.ctlImageButton2.Image = null;
-            this.ctlImageButton2.Location = new System.Drawing.Point(58, 5);
-            this.ctlImageButton2.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
-            this.ctlImageButton2.Name = "ctlImageButton2";
-            this.ctlImageButton2.Size = new System.Drawing.Size(48, 48);
-            this.ctlImageButton2.TabIndex = 24;
-            this.ctlImageButton2.Text = "ctlImageButton3";
-            this.ctlImageButton2.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttTreeView.BackColor = System.Drawing.Color.Navy;
+            this.buttTreeView.Checked = false;
+            this.buttTreeView.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.buttTreeView.Gapx = 5;
+            this.buttTreeView.Gapy = 5;
+            this.buttTreeView.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttTreeView.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttTreeview;
+            this.buttTreeView.Location = new System.Drawing.Point(58, 5);
+            this.buttTreeView.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
+            this.buttTreeView.Name = "buttTreeView";
+            this.buttTreeView.Size = new System.Drawing.Size(48, 48);
+            this.buttTreeView.TabIndex = 24;
+            this.buttTreeView.Text = "ctlImageButton3";
+            this.ctlToolTip1.SetToolTip(this.buttTreeView, "Show list of objects");
+            this.buttTreeView.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttTreeView.Click += new System.EventHandler(this.buttTreeView_Click);
             // 
             // ctlImageButton3
             // 
@@ -221,7 +223,7 @@
         private ctlToolTip ctlToolTip1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
         private ctlImageButton buttObjectProperties;
-        private ctlImageButton ctlImageButton2;
+        private ctlImageButton buttTreeView;
         private ctlImageButton ctlImageButton3;
     }
 }

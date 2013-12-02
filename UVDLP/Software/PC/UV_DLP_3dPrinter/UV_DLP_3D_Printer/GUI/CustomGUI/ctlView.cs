@@ -13,9 +13,18 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
     public partial class ctlView : UserControl
     {
+        SplitContainer mTreeViewHolder;
+
         public ctlView()
         {
             InitializeComponent();
+            mTreeViewHolder = null;
+        }
+
+        public SplitContainer TreeViewHolder
+        {
+            get { return mTreeViewHolder; }
+            set { mTreeViewHolder = value; }
         }
 
         private void SetAlpha(bool val)
@@ -47,6 +56,14 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         private void buttShowSlice_Click(object sender, EventArgs e)
         {
             buttShowSliceHeight.Enabled = buttShowSlice.Checked;
+        }
+
+        private void buttTreeView_Click(object sender, EventArgs e)
+        {
+            if (mTreeViewHolder != null)
+            {
+                mTreeViewHolder.Panel1Collapsed = !buttTreeView.Checked;
+            }
         }
 
     }

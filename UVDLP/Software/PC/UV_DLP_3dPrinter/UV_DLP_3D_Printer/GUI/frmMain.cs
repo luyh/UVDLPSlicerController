@@ -67,6 +67,9 @@ namespace UV_DLP_3D_Printer
             DebugLogger.Instance().LoggerStatusEvent += new LoggerStatusHandler(LoggerStatusEvent);
             UVDLPApp.Instance().m_deviceinterface.StatusEvent += new DeviceInterface.DeviceInterfaceStatus(DeviceStatusEvent);
             UVDLPApp.Instance().m_supportgenerator.SupportEvent += new SupportGeneratorEvent(SupEvent);
+
+            ctlViewOptions.TreeViewHolder = mainViewSplitContainer;
+            mainViewSplitContainer.Panel1Collapsed = true;
                         
             arcball = new ArcBall();
             m_quat = new Quaternion();
@@ -1925,16 +1928,6 @@ namespace UV_DLP_3D_Printer
             UVDLPApp.Instance().m_appconfig.Save(UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + UVDLPApp.m_appconfigname);
         }
 
-        private void tabModel1_SizeChanged(object sender, EventArgs e)
-        {
-            // update inner control positions
-            foreach (Control ctl in tabModel1.Controls)
-            {
-                if (ctl.GetType() == typeof(ctlImageButton))
-                    ((ctlImageButton)ctl).UpdatePosition();
-            }
-        }
-
         private void buttGlHome_Click(object sender, EventArgs e)
         {
             if (m_modelAnimTmr != null)
@@ -2010,6 +2003,17 @@ namespace UV_DLP_3D_Printer
         {
             frmMeshHoles mh = new frmMeshHoles();
             mh.ShowDialog();
+        }
+
+        private void splitContainer5_Panel2_SizeChanged(object sender, EventArgs e)
+        {
+
+            // update inner control positions
+            foreach (Control ctl in mainViewSplitContainer.Panel2.Controls)
+            {
+                if (ctl.GetType() == typeof(ctlImageButton))
+                    ((ctlImageButton)ctl).UpdatePosition();
+            }
         }
 
 
