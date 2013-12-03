@@ -211,13 +211,14 @@
             this.numFB1.BackColor = System.Drawing.Color.RoyalBlue;
             this.numFB1.ButtonsColor = System.Drawing.Color.Navy;
             this.numFB1.ErrorColor = System.Drawing.Color.Red;
-            this.numFB1.FloatVal = 0F;
+            this.numFB1.FloatVal = 0.1F;
             this.numFB1.Increment = 0.1F;
+            this.numFB1.IntVal = 1;
             this.numFB1.IsFloat = true;
             this.numFB1.Location = new System.Drawing.Point(114, 160);
             this.numFB1.MaxFloat = 20F;
             this.numFB1.MaxInt = 1000;
-            this.numFB1.MinFloat = -20F;
+            this.numFB1.MinFloat = 0.1F;
             this.numFB1.MinimumSize = new System.Drawing.Size(20, 5);
             this.numFB1.MinInt = 1;
             this.numFB1.Name = "numFB1";
@@ -234,13 +235,14 @@
             this.numFB.BackColor = System.Drawing.Color.RoyalBlue;
             this.numFB.ButtonsColor = System.Drawing.Color.Navy;
             this.numFB.ErrorColor = System.Drawing.Color.Red;
-            this.numFB.FloatVal = 0F;
+            this.numFB.FloatVal = 0.1F;
             this.numFB.Increment = 0.1F;
+            this.numFB.IntVal = 1;
             this.numFB.IsFloat = true;
             this.numFB.Location = new System.Drawing.Point(114, 133);
             this.numFB.MaxFloat = 20F;
             this.numFB.MaxInt = 1000;
-            this.numFB.MinFloat = -20F;
+            this.numFB.MinFloat = 0.1F;
             this.numFB.MinimumSize = new System.Drawing.Size(20, 5);
             this.numFB.MinInt = 1;
             this.numFB.Name = "numFB";
@@ -257,13 +259,14 @@
             this.numFT.BackColor = System.Drawing.Color.RoyalBlue;
             this.numFT.ButtonsColor = System.Drawing.Color.Navy;
             this.numFT.ErrorColor = System.Drawing.Color.Red;
-            this.numFT.FloatVal = 0F;
+            this.numFT.FloatVal = 0.1F;
             this.numFT.Increment = 0.1F;
+            this.numFT.IntVal = 1;
             this.numFT.IsFloat = true;
             this.numFT.Location = new System.Drawing.Point(114, 106);
             this.numFT.MaxFloat = 20F;
             this.numFT.MaxInt = 1000;
-            this.numFT.MinFloat = -20F;
+            this.numFT.MinFloat = 0.1F;
             this.numFT.MinimumSize = new System.Drawing.Size(20, 5);
             this.numFT.MinInt = 1;
             this.numFT.Name = "numFT";
@@ -279,13 +282,14 @@
             this.numHB.BackColor = System.Drawing.Color.RoyalBlue;
             this.numHB.ButtonsColor = System.Drawing.Color.Navy;
             this.numHB.ErrorColor = System.Drawing.Color.Red;
-            this.numHB.FloatVal = 0F;
+            this.numHB.FloatVal = 0.1F;
             this.numHB.Increment = 0.1F;
+            this.numHB.IntVal = 1;
             this.numHB.IsFloat = true;
             this.numHB.Location = new System.Drawing.Point(114, 58);
             this.numHB.MaxFloat = 20F;
             this.numHB.MaxInt = 1000;
-            this.numHB.MinFloat = -20F;
+            this.numHB.MinFloat = 0.1F;
             this.numHB.MinimumSize = new System.Drawing.Size(20, 5);
             this.numHB.MinInt = 1;
             this.numHB.Name = "numHB";
@@ -301,13 +305,14 @@
             this.numHT.BackColor = System.Drawing.Color.RoyalBlue;
             this.numHT.ButtonsColor = System.Drawing.Color.Navy;
             this.numHT.ErrorColor = System.Drawing.Color.Red;
-            this.numHT.FloatVal = 0F;
+            this.numHT.FloatVal = 0.1F;
             this.numHT.Increment = 0.1F;
+            this.numHT.IntVal = 1;
             this.numHT.IsFloat = true;
             this.numHT.Location = new System.Drawing.Point(114, 31);
             this.numHT.MaxFloat = 20F;
             this.numHT.MaxInt = 1000;
-            this.numHT.MinFloat = -20F;
+            this.numHT.MinFloat = 0.1F;
             this.numHT.MinimumSize = new System.Drawing.Size(20, 5);
             this.numHT.MinInt = 1;
             this.numHT.Name = "numHT";
@@ -355,7 +360,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label4.Font = new System.Drawing.Font("Arial", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(50, 47);
             this.label4.Name = "label4";
@@ -389,6 +394,7 @@
             this.numDownAngle.ErrorColor = System.Drawing.Color.Red;
             this.numDownAngle.FloatVal = 45F;
             this.numDownAngle.Increment = 1F;
+            this.numDownAngle.IntVal = 1;
             this.numDownAngle.IsFloat = true;
             this.numDownAngle.Location = new System.Drawing.Point(80, 43);
             this.numDownAngle.MaxFloat = 90F;
@@ -433,9 +439,9 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label7.Font = new System.Drawing.Font("Arial", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(4, 97);
+            this.label7.Location = new System.Drawing.Point(4, 99);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(45, 14);
             this.label7.TabIndex = 32;
@@ -444,9 +450,9 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label6.Font = new System.Drawing.Font("Arial", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(5, 77);
+            this.label6.Location = new System.Drawing.Point(5, 78);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(44, 14);
             this.label6.TabIndex = 32;
@@ -455,9 +461,9 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label5.Font = new System.Drawing.Font("Arial", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(4, 56);
+            this.label5.Location = new System.Drawing.Point(4, 59);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(122, 14);
             this.label5.TabIndex = 32;
@@ -470,6 +476,7 @@
             this.numY.ErrorColor = System.Drawing.Color.Red;
             this.numY.FloatVal = 0F;
             this.numY.Increment = 0.1F;
+            this.numY.IntVal = 1;
             this.numY.IsFloat = true;
             this.numY.Location = new System.Drawing.Point(49, 97);
             this.numY.MaxFloat = 20F;
@@ -491,6 +498,7 @@
             this.numX.ErrorColor = System.Drawing.Color.Red;
             this.numX.FloatVal = 0F;
             this.numX.Increment = 0.1F;
+            this.numX.IntVal = 1;
             this.numX.IsFloat = true;
             this.numX.Location = new System.Drawing.Point(49, 73);
             this.numX.MaxFloat = 20F;
@@ -514,7 +522,7 @@
             this.chkOnlyDownward.Gapy = 5;
             this.chkOnlyDownward.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.chkOnlyDownward.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttAutoDown;
-            this.chkOnlyDownward.Location = new System.Drawing.Point(7, 26);
+            this.chkOnlyDownward.Location = new System.Drawing.Point(7, 24);
             this.chkOnlyDownward.Margin = new System.Windows.Forms.Padding(5);
             this.chkOnlyDownward.Name = "chkOnlyDownward";
             this.chkOnlyDownward.Size = new System.Drawing.Size(32, 32);
