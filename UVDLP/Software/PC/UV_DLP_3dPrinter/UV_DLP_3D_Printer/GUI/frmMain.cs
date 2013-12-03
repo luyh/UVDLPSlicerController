@@ -69,6 +69,7 @@ namespace UV_DLP_3D_Printer
             UVDLPApp.Instance().m_supportgenerator.SupportEvent += new SupportGeneratorEvent(SupEvent);
 
             ctlViewOptions.TreeViewHolder = mainViewSplitContainer;
+            ctlViewOptions.MessagePanelHolder = splitContainerMainWindow;
             mainViewSplitContainer.Panel1Collapsed = true;
                         
             arcball = new ArcBall();

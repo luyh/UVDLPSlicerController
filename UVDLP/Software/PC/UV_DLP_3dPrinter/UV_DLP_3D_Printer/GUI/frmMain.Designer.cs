@@ -41,7 +41,7 @@
             this.findHolesInMeshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.splitContainerMainWindow = new System.Windows.Forms.SplitContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.tabControl2 = new System.Windows.Forms.TabControl();
@@ -152,9 +152,9 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
             this.menuStrip1.SuspendLayout();
-            this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
+            this.splitContainerMainWindow.Panel1.SuspendLayout();
+            this.splitContainerMainWindow.Panel2.SuspendLayout();
+            this.splitContainerMainWindow.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -285,25 +285,25 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
-            // splitContainer2
+            // splitContainerMainWindow
             // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.splitContainerMainWindow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerMainWindow.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerMainWindow.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.splitContainerMainWindow.Name = "splitContainerMainWindow";
+            this.splitContainerMainWindow.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // splitContainer2.Panel1
+            // splitContainerMainWindow.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.splitContainer1);
-            this.splitContainer2.Panel1.Controls.Add(this.menuStrip1);
+            this.splitContainerMainWindow.Panel1.Controls.Add(this.splitContainer1);
+            this.splitContainerMainWindow.Panel1.Controls.Add(this.menuStrip1);
             // 
-            // splitContainer2.Panel2
+            // splitContainerMainWindow.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.splitContainer3);
-            this.splitContainer2.Size = new System.Drawing.Size(1457, 793);
-            this.splitContainer2.SplitterDistance = 666;
-            this.splitContainer2.TabIndex = 21;
+            this.splitContainerMainWindow.Panel2.Controls.Add(this.splitContainer3);
+            this.splitContainerMainWindow.Size = new System.Drawing.Size(1457, 793);
+            this.splitContainerMainWindow.SplitterDistance = 666;
+            this.splitContainerMainWindow.TabIndex = 21;
             // 
             // splitContainer1
             // 
@@ -1538,7 +1538,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1457, 793);
-            this.Controls.Add(this.splitContainer2);
+            this.Controls.Add(this.splitContainerMainWindow);
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "frmMain";
@@ -1549,10 +1549,10 @@
             this.Resize += new System.EventHandler(this.frmMain_Resize);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel1.PerformLayout();
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            this.splitContainer2.ResumeLayout(false);
+            this.splitContainerMainWindow.Panel1.ResumeLayout(false);
+            this.splitContainerMainWindow.Panel1.PerformLayout();
+            this.splitContainerMainWindow.Panel2.ResumeLayout(false);
+            this.splitContainerMainWindow.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
@@ -1610,7 +1610,7 @@
         private System.Windows.Forms.Button cmdCenter;
         private System.Windows.Forms.TextBox txtScale;
         private System.Windows.Forms.Button cmdScale;
-        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.SplitContainer splitContainerMainWindow;
         private System.Windows.Forms.TextBox txtLog;
         private System.Windows.Forms.PictureBox picSlice;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;

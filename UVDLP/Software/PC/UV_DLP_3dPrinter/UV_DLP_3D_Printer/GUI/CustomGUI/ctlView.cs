@@ -14,11 +14,18 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
     public partial class ctlView : UserControl
     {
         SplitContainer mTreeViewHolder;
+        SplitContainer mMessagePanelHolder;
 
         public ctlView()
         {
             InitializeComponent();
             mTreeViewHolder = null;
+        }
+
+        public SplitContainer MessagePanelHolder
+        {
+            get { return mMessagePanelHolder; }
+            set { mMessagePanelHolder = value; }
         }
 
         public SplitContainer TreeViewHolder
@@ -63,6 +70,19 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (mTreeViewHolder != null)
             {
                 mTreeViewHolder.Panel1Collapsed = !buttTreeView.Checked;
+            }
+        }
+
+        private void ctlImageButton3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttShowConsole_Click(object sender, EventArgs e)
+        {
+            if (mMessagePanelHolder != null)
+            {
+                mMessagePanelHolder.Panel2Collapsed = !buttShowConsole.Checked;
             }
         }
 
