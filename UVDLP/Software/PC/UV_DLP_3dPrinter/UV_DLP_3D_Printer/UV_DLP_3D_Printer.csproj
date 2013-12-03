@@ -17,6 +17,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -29,7 +30,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -145,6 +145,12 @@
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlMove.Designer.cs">
       <DependentUpon>ctlMove.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlNumber.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlNumber.Designer.cs">
+      <DependentUpon>ctlNumber.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlProgress.cs">
       <SubType>Component</SubType>
@@ -304,6 +310,9 @@
     <EmbeddedResource Include="GUI\CustomGUI\ctlMove.resx">
       <DependentUpon>ctlMove.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomGUI\ctlNumber.resx">
+      <DependentUpon>ctlNumber.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\ctlScale.resx">
       <DependentUpon>ctlScale.cs</DependentUpon>
     </EmbeddedResource>
@@ -418,6 +427,7 @@
     <None Include="resources\CustomGUI\buttShowslice.png" />
     <None Include="resources\CustomGUI\buttOpenClose.png" />
     <None Include="resources\CustomGUI\buttTreeview.png" />
+    <None Include="resources\CustomGUI\buttDownward.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

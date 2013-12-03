@@ -144,6 +144,13 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap buttDownward {
+            get {
+                object obj = ResourceManager.GetObject("buttDownward", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap buttGear {
             get {
                 object obj = ResourceManager.GetObject("buttGear", resourceCulture);

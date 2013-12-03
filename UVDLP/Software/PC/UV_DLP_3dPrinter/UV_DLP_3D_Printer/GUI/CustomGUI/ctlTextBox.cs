@@ -24,52 +24,69 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         protected Color mErrColor;
         protected Color mValidColor;
         protected String mErrMsg;
+        protected bool mDisableExceptions;
+        protected String mFormat;
 
         public int IntVal
         {
             get 
             {
-                if (mErrMsg != null) throw new Exception(mErrMsg);
+                if ((mErrMsg != null) && (!mDisableExceptions))
+                        throw new Exception(mErrMsg);
                 return mIntVal; 
             }
-            set { mIntVal = value; Text = mIntVal.ToString(); }
+            set { 
+                mIntVal = value;
+                if (mValType == EValueType.Int)
+                    Text = mIntVal.ToString();
+            }
         }
 
         public float FloatVal
         {
             get {
-                if (mErrMsg != null) throw new Exception(mErrMsg);
+                if ((mErrMsg != null) && (!mDisableExceptions))
+                    throw new Exception(mErrMsg);
                 return mFloatVal;
             }
-            set { mFloatVal = value; Text = mFloatVal.ToString(); }
+            set { 
+                mFloatVal = value; 
+                if (mValType == EValueType.Float)
+                    Text = mFloatVal.ToString(mFormat); 
+            }
         }
 
 
         // will apear in properties panel
+        [DefaultValue(EValueType.None)]
         [Description("Auto input validation value type"), Category("Data")]
         public EValueType ValueType
         {
             get { return mValType; }
             set { mValType = value; ValidateVal(); }
         }
+        [DefaultValue(int.MinValue)]
         [Description("Minimum valid integer"), Category("Data")]
         public int MinInt
         {
             get { return mIntMin; }
             set { mIntMin = value; ValidateVal(); }
         }
+        [DefaultValue(int.MaxValue)]
         [Description("Maximum valid integer"), Category("Data")]
         public int MaxInt
         {
             get { return mIntMax; }
             set { mIntMax = value; ValidateVal(); }
         }
+        [DefaultValue(float.MinValue)]
         [Description("Minimum valid float"), Category("Data")]
         public float MinFloat
         {
             get { return mFloatMin; }
             set { mFloatMin = value; ValidateVal(); }
         }
+        [DefaultValue(float.MaxValue)]
         [Description("Maximum valid float"), Category("Data")]
         public float MaxFloat
         {
@@ -89,6 +106,27 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             set { mValidColor = value; }
         }
 
+        [DefaultValue(false)]
+        [Description("Disable execptions on invalid data"), Category("Data")]
+        public bool DisableExceptions
+        {
+            get { return mDisableExceptions; }
+            set { mDisableExceptions = value; }
+        }
+ 
+        [DefaultValue("0.0")]
+        [Description("Format for displaying float values"), Category("Data")]
+        public String Format
+        {
+            get { return mFormat; }
+            set { mFormat = value; Invalidate();  }
+        }
+
+        public bool Valid
+        {
+            get { return mErrMsg != null; }
+        }
+
 
         public ctlTextBox()
         {
@@ -104,6 +142,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             mErrColor = Color.Red;
             mValidColor = Color.White;
             mErrMsg = null;
+            mDisableExceptions = false;
+            mFormat = "0.0";
         }
 
         protected bool ValidateInt()

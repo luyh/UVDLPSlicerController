@@ -87,5 +87,21 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
 
         }
+
+        private void buttSetup_Click(object sender, EventArgs e)
+        {
+            if (buttSetup.Checked)
+            {
+                Width = 372;
+                Location = new Point(Location.X, Location.Y - (294 - Height));
+                Height = 294;
+            }
+            else
+            {
+                Width = 170;
+                Location = new Point(Location.X, Location.Y + (Height - 96));
+                Height = 96;
+            }
+        }
     }
 }
