@@ -173,6 +173,7 @@
             this.buttXMinus.Text = "ctlImageButton2";
             this.buttXMinus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttXMinus.Click += new System.EventHandler(this.buttXMinus_Click);
+            this.buttXMinus.DoubleClick += new System.EventHandler(this.buttXMinus_Click);
             // 
             // textMoveX
             // 
@@ -214,6 +215,7 @@
             this.buttXPlus.Text = "ctlImageButton8";
             this.buttXPlus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttXPlus.Click += new System.EventHandler(this.buttXPlus_Click);
+            this.buttXPlus.DoubleClick += new System.EventHandler(this.buttXPlus_Click);
             // 
             // flowLayoutPanel8
             // 
@@ -257,6 +259,7 @@
             this.buttYMinus.Text = "ctlImageButton9";
             this.buttYMinus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttYMinus.Click += new System.EventHandler(this.buttYMinus_Click);
+            this.buttYMinus.DoubleClick += new System.EventHandler(this.buttYMinus_Click);
             // 
             // textMoveY
             // 
@@ -298,6 +301,7 @@
             this.buttYPlus.Text = "ctlImageButton10";
             this.buttYPlus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttYPlus.Click += new System.EventHandler(this.buttYPlus_Click);
+            this.buttYPlus.DoubleClick += new System.EventHandler(this.buttYPlus_Click);
             // 
             // flowLayoutPanel10
             // 
@@ -341,6 +345,7 @@
             this.buttZMinus.Text = "ctlImageButton11";
             this.buttZMinus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttZMinus.Click += new System.EventHandler(this.buttZMinus_Click);
+            this.buttZMinus.DoubleClick += new System.EventHandler(this.buttZMinus_Click);
             // 
             // textMoveZ
             // 
@@ -382,6 +387,7 @@
             this.buttZPlus.Text = "ctlImageButton12";
             this.buttZPlus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttZPlus.Click += new System.EventHandler(this.buttZPlus_Click);
+            this.buttZPlus.DoubleClick += new System.EventHandler(this.buttZPlus_Click);
             // 
             // ctlToolTip1
             // 

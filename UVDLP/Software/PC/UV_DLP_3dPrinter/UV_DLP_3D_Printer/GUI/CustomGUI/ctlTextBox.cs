@@ -63,7 +63,15 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public EValueType ValueType
         {
             get { return mValType; }
-            set { mValType = value; ValidateVal(); }
+            set 
+            { 
+                mValType = value;
+                if (value == EValueType.Float)
+                    Text = mFloatVal.ToString(mFormat);
+                else if (value == EValueType.Int)
+                    Text = mIntVal.ToString();
+                ValidateVal(); 
+            }
         }
         [DefaultValue(int.MinValue)]
         [Description("Minimum valid integer"), Category("Data")]

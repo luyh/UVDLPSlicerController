@@ -104,6 +104,8 @@
             // buttRotateXMinus
             // 
             this.buttRotateXMinus.BackColor = System.Drawing.Color.Navy;
+            this.buttRotateXMinus.Checked = false;
+            this.buttRotateXMinus.CheckImage = null;
             this.buttRotateXMinus.Gapx = 5;
             this.buttRotateXMinus.Gapy = 5;
             this.buttRotateXMinus.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -116,6 +118,7 @@
             this.buttRotateXMinus.Text = "ctlImageButton2";
             this.buttRotateXMinus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttRotateXMinus.Click += new System.EventHandler(this.buttRotateXMinus_Click);
+            this.buttRotateXMinus.DoubleClick += new System.EventHandler(this.buttRotateXMinus_Click);
             // 
             // textRotateX
             // 
@@ -143,6 +146,8 @@
             // buttRotateXPlus
             // 
             this.buttRotateXPlus.BackColor = System.Drawing.Color.Navy;
+            this.buttRotateXPlus.Checked = false;
+            this.buttRotateXPlus.CheckImage = null;
             this.buttRotateXPlus.Gapx = 5;
             this.buttRotateXPlus.Gapy = 5;
             this.buttRotateXPlus.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -155,6 +160,7 @@
             this.buttRotateXPlus.Text = "ctlImageButton8";
             this.buttRotateXPlus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttRotateXPlus.Click += new System.EventHandler(this.buttRotateXPlus_Click);
+            this.buttRotateXPlus.DoubleClick += new System.EventHandler(this.buttRotateXPlus_Click);
             // 
             // flowLayoutPanel8
             // 
@@ -184,6 +190,8 @@
             // buttRotateYMinus
             // 
             this.buttRotateYMinus.BackColor = System.Drawing.Color.Navy;
+            this.buttRotateYMinus.Checked = false;
+            this.buttRotateYMinus.CheckImage = null;
             this.buttRotateYMinus.Gapx = 5;
             this.buttRotateYMinus.Gapy = 5;
             this.buttRotateYMinus.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -196,6 +204,7 @@
             this.buttRotateYMinus.Text = "ctlImageButton9";
             this.buttRotateYMinus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttRotateYMinus.Click += new System.EventHandler(this.buttRotateYMinus_Click);
+            this.buttRotateYMinus.DoubleClick += new System.EventHandler(this.buttRotateYMinus_Click);
             // 
             // textRotateY
             // 
@@ -223,6 +232,8 @@
             // buttRotateYPlus
             // 
             this.buttRotateYPlus.BackColor = System.Drawing.Color.Navy;
+            this.buttRotateYPlus.Checked = false;
+            this.buttRotateYPlus.CheckImage = null;
             this.buttRotateYPlus.Gapx = 5;
             this.buttRotateYPlus.Gapy = 5;
             this.buttRotateYPlus.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -235,6 +246,7 @@
             this.buttRotateYPlus.Text = "ctlImageButton10";
             this.buttRotateYPlus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttRotateYPlus.Click += new System.EventHandler(this.buttRotateYPlus_Click);
+            this.buttRotateYPlus.DoubleClick += new System.EventHandler(this.buttRotateYPlus_Click);
             // 
             // flowLayoutPanel10
             // 
@@ -264,6 +276,8 @@
             // buttRotateZMinus
             // 
             this.buttRotateZMinus.BackColor = System.Drawing.Color.Navy;
+            this.buttRotateZMinus.Checked = false;
+            this.buttRotateZMinus.CheckImage = null;
             this.buttRotateZMinus.Gapx = 5;
             this.buttRotateZMinus.Gapy = 5;
             this.buttRotateZMinus.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -276,6 +290,7 @@
             this.buttRotateZMinus.Text = "ctlImageButton11";
             this.buttRotateZMinus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttRotateZMinus.Click += new System.EventHandler(this.buttRotateZMinus_Click);
+            this.buttRotateZMinus.DoubleClick += new System.EventHandler(this.buttRotateZMinus_Click);
             // 
             // textRotateZ
             // 
@@ -303,6 +318,8 @@
             // buttRotateZPlus
             // 
             this.buttRotateZPlus.BackColor = System.Drawing.Color.Navy;
+            this.buttRotateZPlus.Checked = false;
+            this.buttRotateZPlus.CheckImage = null;
             this.buttRotateZPlus.Gapx = 5;
             this.buttRotateZPlus.Gapy = 5;
             this.buttRotateZPlus.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -315,6 +332,7 @@
             this.buttRotateZPlus.Text = "ctlImageButton12";
             this.buttRotateZPlus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttRotateZPlus.Click += new System.EventHandler(this.buttRotateZPlus_Click);
+            this.buttRotateZPlus.DoubleClick += new System.EventHandler(this.buttRotateZPlus_Click);
             // 
             // ctlRotate
             // 

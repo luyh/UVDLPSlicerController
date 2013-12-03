@@ -16,6 +16,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         bool mIsFloat;
         float mIncrement;
 
+        [Description("Called when value is changed"), Category("CatAction")]
+        public event EventHandler ValueChanged;
+
         // will apear in properties panel
         [DefaultValue(int.MinValue)]
         [Description("Minimum valid integer"), Category("Data")]
@@ -203,6 +206,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         private void buttMinus_Click(object sender, EventArgs e)
         {
             AdjustValue(-mIncrement);
+        }
+
+        private void textData_TextChanged(object sender, EventArgs e)
+        {
+            if (ValueChanged != null)
+                ValueChanged(this, e);
         }
     }
 }

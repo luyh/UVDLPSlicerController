@@ -428,6 +428,8 @@
     <None Include="resources\CustomGUI\buttOpenClose.png" />
     <None Include="resources\CustomGUI\buttTreeview.png" />
     <None Include="resources\CustomGUI\buttDownward.png" />
+    <None Include="resources\CustomGUI\buttViewDown.png" />
+    <None Include="resources\CustomGUI\buttautoDown.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

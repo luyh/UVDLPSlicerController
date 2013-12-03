@@ -129,6 +129,8 @@
             // buttScaleAll
             // 
             this.buttScaleAll.BackColor = System.Drawing.Color.Navy;
+            this.buttScaleAll.Checked = false;
+            this.buttScaleAll.CheckImage = null;
             this.buttScaleAll.Gapx = 5;
             this.buttScaleAll.Gapy = 5;
             this.buttScaleAll.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -141,6 +143,7 @@
             this.buttScaleAll.Text = "ctlImageButton7";
             this.buttScaleAll.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttScaleAll.Click += new System.EventHandler(this.buttScaleAll_Click);
+            this.buttScaleAll.DoubleClick += new System.EventHandler(this.buttScaleAll_Click);
             // 
             // flowLayoutPanel1
             // 
@@ -192,6 +195,8 @@
             // buttScaleX
             // 
             this.buttScaleX.BackColor = System.Drawing.Color.Navy;
+            this.buttScaleX.Checked = false;
+            this.buttScaleX.CheckImage = null;
             this.buttScaleX.Gapx = 5;
             this.buttScaleX.Gapy = 5;
             this.buttScaleX.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -204,6 +209,7 @@
             this.buttScaleX.Text = "ctlImageButton3";
             this.buttScaleX.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttScaleX.Click += new System.EventHandler(this.buttScaleX_Click);
+            this.buttScaleX.DoubleClick += new System.EventHandler(this.buttScaleX_Click);
             // 
             // flowLayoutPanel3
             // 
@@ -255,6 +261,8 @@
             // buttScaleY
             // 
             this.buttScaleY.BackColor = System.Drawing.Color.Navy;
+            this.buttScaleY.Checked = false;
+            this.buttScaleY.CheckImage = null;
             this.buttScaleY.Gapx = 5;
             this.buttScaleY.Gapy = 5;
             this.buttScaleY.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -267,6 +275,7 @@
             this.buttScaleY.Text = "ctlImageButton5";
             this.buttScaleY.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttScaleY.Click += new System.EventHandler(this.buttScaleY_Click);
+            this.buttScaleY.DoubleClick += new System.EventHandler(this.buttScaleY_Click);
             // 
             // flowLayoutPanel5
             // 
@@ -318,6 +327,8 @@
             // buttScaleZ
             // 
             this.buttScaleZ.BackColor = System.Drawing.Color.Navy;
+            this.buttScaleZ.Checked = false;
+            this.buttScaleZ.CheckImage = null;
             this.buttScaleZ.Gapx = 5;
             this.buttScaleZ.Gapy = 5;
             this.buttScaleZ.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -330,6 +341,7 @@
             this.buttScaleZ.Text = "ctlImageButton7";
             this.buttScaleZ.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttScaleZ.Click += new System.EventHandler(this.buttScaleZ_Click);
+            this.buttScaleZ.DoubleClick += new System.EventHandler(this.buttScaleZ_Click);
             // 
             // ctlScale
             // 

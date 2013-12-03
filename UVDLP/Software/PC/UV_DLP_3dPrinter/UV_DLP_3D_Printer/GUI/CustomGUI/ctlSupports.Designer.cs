@@ -46,16 +46,16 @@
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
-            this.buttMDownward = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.ctlNumber1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
+            this.chkDownPolys = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.numDownAngle = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.ctlNumber3 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
-            this.ctlNumber2 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
-            this.ctlImageButton1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.numY = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
+            this.numX = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
+            this.chkOnlyDownward = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.label3 = new System.Windows.Forms.Label();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
             this.flowLayoutPanel2.SuspendLayout();
@@ -211,9 +211,8 @@
             this.numFB1.BackColor = System.Drawing.Color.RoyalBlue;
             this.numFB1.ButtonsColor = System.Drawing.Color.Navy;
             this.numFB1.ErrorColor = System.Drawing.Color.Red;
-            this.numFB1.FloatVal = 10F;
+            this.numFB1.FloatVal = 0F;
             this.numFB1.Increment = 0.1F;
-            this.numFB1.IntVal = 10;
             this.numFB1.IsFloat = true;
             this.numFB1.Location = new System.Drawing.Point(114, 160);
             this.numFB1.MaxFloat = 20F;
@@ -227,15 +226,16 @@
             this.numFB1.TextFont = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.ctlToolTip1.SetToolTip(this.numFB1, "Foot Bottom intra (mm)");
             this.numFB1.ValidColor = System.Drawing.Color.White;
+            this.numFB1.ValueChanged += new System.EventHandler(this.num_ValueChanged);
+            this.numFB1.Enter += new System.EventHandler(this.numFB1_Enter);
             // 
             // numFB
             // 
             this.numFB.BackColor = System.Drawing.Color.RoyalBlue;
             this.numFB.ButtonsColor = System.Drawing.Color.Navy;
             this.numFB.ErrorColor = System.Drawing.Color.Red;
-            this.numFB.FloatVal = 10F;
+            this.numFB.FloatVal = 0F;
             this.numFB.Increment = 0.1F;
-            this.numFB.IntVal = 10;
             this.numFB.IsFloat = true;
             this.numFB.Location = new System.Drawing.Point(114, 133);
             this.numFB.MaxFloat = 20F;
@@ -249,15 +249,16 @@
             this.numFB.TextFont = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.ctlToolTip1.SetToolTip(this.numFB, "Foot Bottom (mm)");
             this.numFB.ValidColor = System.Drawing.Color.White;
+            this.numFB.ValueChanged += new System.EventHandler(this.num_ValueChanged);
+            this.numFB.Enter += new System.EventHandler(this.numFB_Enter);
             // 
             // numFT
             // 
             this.numFT.BackColor = System.Drawing.Color.RoyalBlue;
             this.numFT.ButtonsColor = System.Drawing.Color.Navy;
             this.numFT.ErrorColor = System.Drawing.Color.Red;
-            this.numFT.FloatVal = 10F;
+            this.numFT.FloatVal = 0F;
             this.numFT.Increment = 0.1F;
-            this.numFT.IntVal = 10;
             this.numFT.IsFloat = true;
             this.numFT.Location = new System.Drawing.Point(114, 106);
             this.numFT.MaxFloat = 20F;
@@ -271,15 +272,15 @@
             this.numFT.TextFont = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.ctlToolTip1.SetToolTip(this.numFT, "Foot Top (mm)");
             this.numFT.ValidColor = System.Drawing.Color.White;
+            this.numFT.ValueChanged += new System.EventHandler(this.num_ValueChanged);
             // 
             // numHB
             // 
             this.numHB.BackColor = System.Drawing.Color.RoyalBlue;
             this.numHB.ButtonsColor = System.Drawing.Color.Navy;
             this.numHB.ErrorColor = System.Drawing.Color.Red;
-            this.numHB.FloatVal = 10F;
+            this.numHB.FloatVal = 0F;
             this.numHB.Increment = 0.1F;
-            this.numHB.IntVal = 10;
             this.numHB.IsFloat = true;
             this.numHB.Location = new System.Drawing.Point(114, 58);
             this.numHB.MaxFloat = 20F;
@@ -293,15 +294,15 @@
             this.numHB.TextFont = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.ctlToolTip1.SetToolTip(this.numHB, "Head Bottom (mm)");
             this.numHB.ValidColor = System.Drawing.Color.White;
+            this.numHB.ValueChanged += new System.EventHandler(this.num_ValueChanged);
             // 
             // numHT
             // 
             this.numHT.BackColor = System.Drawing.Color.RoyalBlue;
             this.numHT.ButtonsColor = System.Drawing.Color.Navy;
             this.numHT.ErrorColor = System.Drawing.Color.Red;
-            this.numHT.FloatVal = 10F;
+            this.numHT.FloatVal = 0F;
             this.numHT.Increment = 0.1F;
-            this.numHT.IntVal = 10;
             this.numHT.IsFloat = true;
             this.numHT.Location = new System.Drawing.Point(114, 31);
             this.numHT.MaxFloat = 20F;
@@ -315,6 +316,7 @@
             this.numHT.TextFont = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.ctlToolTip1.SetToolTip(this.numHT, "Head Top (mm)");
             this.numHT.ValidColor = System.Drawing.Color.White;
+            this.numHT.ValueChanged += new System.EventHandler(this.num_ValueChanged);
             // 
             // pictureSupport
             // 
@@ -325,6 +327,7 @@
             this.pictureSupport.Size = new System.Drawing.Size(108, 150);
             this.pictureSupport.TabIndex = 12;
             this.pictureSupport.TabStop = false;
+            this.pictureSupport.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureSupport_Paint);
             // 
             // flowLayoutPanel4
             // 
@@ -340,8 +343,8 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.RoyalBlue;
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.buttMDownward);
-            this.panel1.Controls.Add(this.ctlNumber1);
+            this.panel1.Controls.Add(this.chkDownPolys);
+            this.panel1.Controls.Add(this.numDownAngle);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0, 0, 3, 3);
@@ -360,45 +363,45 @@
             this.label4.TabIndex = 32;
             this.label4.Text = "Deg:";
             // 
-            // buttMDownward
+            // chkDownPolys
             // 
-            this.buttMDownward.BackColor = System.Drawing.Color.Navy;
-            this.buttMDownward.Checked = false;
-            this.buttMDownward.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
-            this.buttMDownward.Gapx = 5;
-            this.buttMDownward.Gapy = 5;
-            this.buttMDownward.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.buttMDownward.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttDownward;
-            this.buttMDownward.Location = new System.Drawing.Point(7, 32);
-            this.buttMDownward.Margin = new System.Windows.Forms.Padding(5);
-            this.buttMDownward.Name = "buttMDownward";
-            this.buttMDownward.Size = new System.Drawing.Size(32, 32);
-            this.buttMDownward.TabIndex = 31;
-            this.buttMDownward.Text = "ctlImageButton1";
-            this.ctlToolTip1.SetToolTip(this.buttMDownward, "Downward facing surfaces");
-            this.buttMDownward.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.chkDownPolys.BackColor = System.Drawing.Color.Navy;
+            this.chkDownPolys.Checked = false;
+            this.chkDownPolys.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.chkDownPolys.Gapx = 5;
+            this.chkDownPolys.Gapy = 5;
+            this.chkDownPolys.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.chkDownPolys.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttViewDown;
+            this.chkDownPolys.Location = new System.Drawing.Point(7, 32);
+            this.chkDownPolys.Margin = new System.Windows.Forms.Padding(5);
+            this.chkDownPolys.Name = "chkDownPolys";
+            this.chkDownPolys.Size = new System.Drawing.Size(32, 32);
+            this.chkDownPolys.TabIndex = 31;
+            this.chkDownPolys.Text = "ctlImageButton1";
+            this.ctlToolTip1.SetToolTip(this.chkDownPolys, "Show downward facing \r\nsurfaces by angle");
+            this.chkDownPolys.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.chkDownPolys.Click += new System.EventHandler(this.chkDownPolys_Click);
             // 
-            // ctlNumber1
+            // numDownAngle
             // 
-            this.ctlNumber1.BackColor = System.Drawing.Color.RoyalBlue;
-            this.ctlNumber1.ButtonsColor = System.Drawing.Color.Navy;
-            this.ctlNumber1.ErrorColor = System.Drawing.Color.Red;
-            this.ctlNumber1.FloatVal = 10F;
-            this.ctlNumber1.Increment = 0.1F;
-            this.ctlNumber1.IntVal = 10;
-            this.ctlNumber1.IsFloat = true;
-            this.ctlNumber1.Location = new System.Drawing.Point(80, 43);
-            this.ctlNumber1.MaxFloat = 20F;
-            this.ctlNumber1.MaxInt = 1000;
-            this.ctlNumber1.MinFloat = -20F;
-            this.ctlNumber1.MinimumSize = new System.Drawing.Size(20, 5);
-            this.ctlNumber1.MinInt = 1;
-            this.ctlNumber1.Name = "ctlNumber1";
-            this.ctlNumber1.Size = new System.Drawing.Size(79, 21);
-            this.ctlNumber1.TabIndex = 30;
-            this.ctlNumber1.TextFont = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.ctlToolTip1.SetToolTip(this.ctlNumber1, "Downward facing degree");
-            this.ctlNumber1.ValidColor = System.Drawing.Color.White;
+            this.numDownAngle.BackColor = System.Drawing.Color.RoyalBlue;
+            this.numDownAngle.ButtonsColor = System.Drawing.Color.Navy;
+            this.numDownAngle.ErrorColor = System.Drawing.Color.Red;
+            this.numDownAngle.FloatVal = 45F;
+            this.numDownAngle.Increment = 1F;
+            this.numDownAngle.IsFloat = true;
+            this.numDownAngle.Location = new System.Drawing.Point(80, 43);
+            this.numDownAngle.MaxFloat = 90F;
+            this.numDownAngle.MaxInt = 1000;
+            this.numDownAngle.MinFloat = 0F;
+            this.numDownAngle.MinimumSize = new System.Drawing.Size(20, 5);
+            this.numDownAngle.MinInt = 1;
+            this.numDownAngle.Name = "numDownAngle";
+            this.numDownAngle.Size = new System.Drawing.Size(79, 21);
+            this.numDownAngle.TabIndex = 30;
+            this.numDownAngle.TextFont = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.ctlToolTip1.SetToolTip(this.numDownAngle, "Downward facing degree");
+            this.numDownAngle.ValidColor = System.Drawing.Color.White;
             // 
             // label2
             // 
@@ -417,9 +420,9 @@
             this.panel2.Controls.Add(this.label7);
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.label5);
-            this.panel2.Controls.Add(this.ctlNumber3);
-            this.panel2.Controls.Add(this.ctlNumber2);
-            this.panel2.Controls.Add(this.ctlImageButton1);
+            this.panel2.Controls.Add(this.numY);
+            this.panel2.Controls.Add(this.numX);
+            this.panel2.Controls.Add(this.chkOnlyDownward);
             this.panel2.Controls.Add(this.label3);
             this.panel2.Location = new System.Drawing.Point(0, 72);
             this.panel2.Margin = new System.Windows.Forms.Padding(0, 0, 3, 3);
@@ -460,67 +463,65 @@
             this.label5.TabIndex = 32;
             this.label5.Text = "Automatic Support Grid:";
             // 
-            // ctlNumber3
+            // numY
             // 
-            this.ctlNumber3.BackColor = System.Drawing.Color.RoyalBlue;
-            this.ctlNumber3.ButtonsColor = System.Drawing.Color.Navy;
-            this.ctlNumber3.ErrorColor = System.Drawing.Color.Red;
-            this.ctlNumber3.FloatVal = 10F;
-            this.ctlNumber3.Increment = 0.1F;
-            this.ctlNumber3.IntVal = 10;
-            this.ctlNumber3.IsFloat = true;
-            this.ctlNumber3.Location = new System.Drawing.Point(49, 97);
-            this.ctlNumber3.MaxFloat = 20F;
-            this.ctlNumber3.MaxInt = 1000;
-            this.ctlNumber3.MinFloat = -20F;
-            this.ctlNumber3.MinimumSize = new System.Drawing.Size(20, 5);
-            this.ctlNumber3.MinInt = 1;
-            this.ctlNumber3.Name = "ctlNumber3";
-            this.ctlNumber3.Size = new System.Drawing.Size(79, 21);
-            this.ctlNumber3.TabIndex = 34;
-            this.ctlNumber3.TextFont = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.ctlToolTip1.SetToolTip(this.ctlNumber3, "Vertical grid spacing");
-            this.ctlNumber3.ValidColor = System.Drawing.Color.White;
+            this.numY.BackColor = System.Drawing.Color.RoyalBlue;
+            this.numY.ButtonsColor = System.Drawing.Color.Navy;
+            this.numY.ErrorColor = System.Drawing.Color.Red;
+            this.numY.FloatVal = 0F;
+            this.numY.Increment = 0.1F;
+            this.numY.IsFloat = true;
+            this.numY.Location = new System.Drawing.Point(49, 97);
+            this.numY.MaxFloat = 20F;
+            this.numY.MaxInt = 1000;
+            this.numY.MinFloat = -20F;
+            this.numY.MinimumSize = new System.Drawing.Size(20, 5);
+            this.numY.MinInt = 1;
+            this.numY.Name = "numY";
+            this.numY.Size = new System.Drawing.Size(79, 21);
+            this.numY.TabIndex = 34;
+            this.numY.TextFont = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.ctlToolTip1.SetToolTip(this.numY, "Vertical grid spacing");
+            this.numY.ValidColor = System.Drawing.Color.White;
             // 
-            // ctlNumber2
+            // numX
             // 
-            this.ctlNumber2.BackColor = System.Drawing.Color.RoyalBlue;
-            this.ctlNumber2.ButtonsColor = System.Drawing.Color.Navy;
-            this.ctlNumber2.ErrorColor = System.Drawing.Color.Red;
-            this.ctlNumber2.FloatVal = 10F;
-            this.ctlNumber2.Increment = 0.1F;
-            this.ctlNumber2.IntVal = 10;
-            this.ctlNumber2.IsFloat = true;
-            this.ctlNumber2.Location = new System.Drawing.Point(49, 73);
-            this.ctlNumber2.MaxFloat = 20F;
-            this.ctlNumber2.MaxInt = 1000;
-            this.ctlNumber2.MinFloat = -20F;
-            this.ctlNumber2.MinimumSize = new System.Drawing.Size(20, 5);
-            this.ctlNumber2.MinInt = 1;
-            this.ctlNumber2.Name = "ctlNumber2";
-            this.ctlNumber2.Size = new System.Drawing.Size(79, 21);
-            this.ctlNumber2.TabIndex = 33;
-            this.ctlNumber2.TextFont = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.ctlToolTip1.SetToolTip(this.ctlNumber2, "Horizontal grid spacing");
-            this.ctlNumber2.ValidColor = System.Drawing.Color.White;
+            this.numX.BackColor = System.Drawing.Color.RoyalBlue;
+            this.numX.ButtonsColor = System.Drawing.Color.Navy;
+            this.numX.ErrorColor = System.Drawing.Color.Red;
+            this.numX.FloatVal = 0F;
+            this.numX.Increment = 0.1F;
+            this.numX.IsFloat = true;
+            this.numX.Location = new System.Drawing.Point(49, 73);
+            this.numX.MaxFloat = 20F;
+            this.numX.MaxInt = 1000;
+            this.numX.MinFloat = -20F;
+            this.numX.MinimumSize = new System.Drawing.Size(20, 5);
+            this.numX.MinInt = 1;
+            this.numX.Name = "numX";
+            this.numX.Size = new System.Drawing.Size(79, 21);
+            this.numX.TabIndex = 33;
+            this.numX.TextFont = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.ctlToolTip1.SetToolTip(this.numX, "Horizontal grid spacing");
+            this.numX.ValidColor = System.Drawing.Color.White;
             // 
-            // ctlImageButton1
+            // chkOnlyDownward
             // 
-            this.ctlImageButton1.BackColor = System.Drawing.Color.Navy;
-            this.ctlImageButton1.Checked = false;
-            this.ctlImageButton1.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
-            this.ctlImageButton1.Gapx = 5;
-            this.ctlImageButton1.Gapy = 5;
-            this.ctlImageButton1.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.ctlImageButton1.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttDownward;
-            this.ctlImageButton1.Location = new System.Drawing.Point(7, 26);
-            this.ctlImageButton1.Margin = new System.Windows.Forms.Padding(5);
-            this.ctlImageButton1.Name = "ctlImageButton1";
-            this.ctlImageButton1.Size = new System.Drawing.Size(32, 32);
-            this.ctlImageButton1.TabIndex = 32;
-            this.ctlImageButton1.Text = "ctlImageButton1";
-            this.ctlToolTip1.SetToolTip(this.ctlImageButton1, "Generate support only on\r\ndownward facing surfaces");
-            this.ctlImageButton1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.chkOnlyDownward.BackColor = System.Drawing.Color.Navy;
+            this.chkOnlyDownward.Checked = false;
+            this.chkOnlyDownward.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.chkOnlyDownward.Gapx = 5;
+            this.chkOnlyDownward.Gapy = 5;
+            this.chkOnlyDownward.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.chkOnlyDownward.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttAutoDown;
+            this.chkOnlyDownward.Location = new System.Drawing.Point(7, 26);
+            this.chkOnlyDownward.Margin = new System.Windows.Forms.Padding(5);
+            this.chkOnlyDownward.Name = "chkOnlyDownward";
+            this.chkOnlyDownward.Size = new System.Drawing.Size(32, 32);
+            this.chkOnlyDownward.TabIndex = 32;
+            this.chkOnlyDownward.Text = "ctlImageButton1";
+            this.ctlToolTip1.SetToolTip(this.chkOnlyDownward, "Generate support only on\r\ndownward facing surfaces");
+            this.chkOnlyDownward.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             // 
             // label3
             // 
@@ -582,14 +583,14 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
         private System.Windows.Forms.Panel panel1;
-        private ctlNumber ctlNumber1;
+        private ctlNumber numDownAngle;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label3;
-        private ctlImageButton buttMDownward;
-        private ctlNumber ctlNumber3;
-        private ctlNumber ctlNumber2;
-        private ctlImageButton ctlImageButton1;
+        private ctlImageButton chkDownPolys;
+        private ctlNumber numY;
+        private ctlNumber numX;
+        private ctlImageButton chkOnlyDownward;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;

@@ -41,7 +41,7 @@
             this.textData.ErrorColor = System.Drawing.Color.Red;
             this.textData.FloatVal = 10F;
             this.textData.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.textData.ForeColor = System.Drawing.Color.Red;
+            this.textData.ForeColor = System.Drawing.Color.White;
             this.textData.IntVal = 1;
             this.textData.Location = new System.Drawing.Point(37, 5);
             this.textData.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
@@ -52,9 +52,11 @@
             this.textData.Name = "textData";
             this.textData.Size = new System.Drawing.Size(60, 28);
             this.textData.TabIndex = 5;
+            this.textData.Text = "10.0";
             this.textData.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textData.ValidColor = System.Drawing.Color.White;
             this.textData.ValueType = UV_DLP_3D_Printer.GUI.CustomGUI.ctlTextBox.EValueType.Float;
+            this.textData.TextChanged += new System.EventHandler(this.textData_TextChanged);
             // 
             // buttPlus
             // 
