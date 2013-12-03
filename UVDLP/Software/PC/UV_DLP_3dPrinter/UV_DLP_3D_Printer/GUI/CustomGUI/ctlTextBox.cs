@@ -218,8 +218,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         protected override void OnTextChanged(EventArgs e)
         {
-            base.OnTextChanged(e);
             ValidateVal();
+            base.OnTextChanged(e);
         }
     }
 }

@@ -256,6 +256,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             m_changingData = true;
             GetData();
             m_changingData = false;
+            pictureSupport.Invalidate();
         }
 
         private void numFB_Enter(object sender, EventArgs e)

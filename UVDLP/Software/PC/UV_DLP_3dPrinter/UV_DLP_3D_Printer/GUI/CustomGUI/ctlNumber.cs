@@ -178,11 +178,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         }
 
 
-        private void AdjustValue(float val)
+        private void buttPlus_Click(object sender, EventArgs e)
         {
             if (mIsFloat)
             {
-                float newfloat = textData.FloatVal + val;
+                float newfloat = textData.FloatVal + mIncrement;
                 if (newfloat > textData.MaxFloat)
                     textData.FloatVal = textData.MaxFloat;
                 else
@@ -190,7 +190,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
             else
             {
-                int newint = textData.IntVal + (int)Math.Round(val);
+                int newint = textData.IntVal + (int)Math.Round(mIncrement);
                 if (newint > textData.MaxInt)
                     textData.IntVal = textData.MaxInt;
                 else
@@ -198,14 +198,24 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
         }
 
-        private void buttPlus_Click(object sender, EventArgs e)
-        {
-            AdjustValue(mIncrement);
-        }
-
         private void buttMinus_Click(object sender, EventArgs e)
         {
-            AdjustValue(-mIncrement);
+            if (mIsFloat)
+            {
+                float newfloat = textData.FloatVal - mIncrement;
+                if (newfloat < textData.MinFloat)
+                    textData.FloatVal = textData.MinFloat;
+                else
+                    textData.FloatVal = newfloat;
+            }
+            else
+            {
+                int newint = textData.IntVal - (int)Math.Round(mIncrement);
+                if (newint < textData.MinInt)
+                    textData.IntVal = textData.MinInt;
+                else
+                    textData.IntVal = newint;
+            }
         }
 
         private void textData_TextChanged(object sender, EventArgs e)
