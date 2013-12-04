@@ -202,7 +202,7 @@
             this.label1.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label1.Location = new System.Drawing.Point(3, 2);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(127, 21);
+            this.label1.Size = new System.Drawing.Size(134, 22);
             this.label1.TabIndex = 28;
             this.label1.Text = "Support shape";
             // 
@@ -216,6 +216,7 @@
             this.numFB1.IntVal = 1;
             this.numFB1.IsFloat = true;
             this.numFB1.Location = new System.Drawing.Point(114, 160);
+            this.numFB1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numFB1.MaxFloat = 20F;
             this.numFB1.MaxInt = 1000;
             this.numFB1.MinFloat = 0.1F;
@@ -240,6 +241,7 @@
             this.numFB.IntVal = 1;
             this.numFB.IsFloat = true;
             this.numFB.Location = new System.Drawing.Point(114, 133);
+            this.numFB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numFB.MaxFloat = 20F;
             this.numFB.MaxInt = 1000;
             this.numFB.MinFloat = 0.1F;
@@ -264,6 +266,7 @@
             this.numFT.IntVal = 1;
             this.numFT.IsFloat = true;
             this.numFT.Location = new System.Drawing.Point(114, 106);
+            this.numFT.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numFT.MaxFloat = 20F;
             this.numFT.MaxInt = 1000;
             this.numFT.MinFloat = 0.1F;
@@ -287,6 +290,7 @@
             this.numHB.IntVal = 1;
             this.numHB.IsFloat = true;
             this.numHB.Location = new System.Drawing.Point(114, 58);
+            this.numHB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numHB.MaxFloat = 20F;
             this.numHB.MaxInt = 1000;
             this.numHB.MinFloat = 0.1F;
@@ -310,6 +314,7 @@
             this.numHT.IntVal = 1;
             this.numHT.IsFloat = true;
             this.numHT.Location = new System.Drawing.Point(114, 31);
+            this.numHT.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numHT.MaxFloat = 20F;
             this.numHT.MaxInt = 1000;
             this.numHT.MinFloat = 0.1F;
@@ -364,7 +369,7 @@
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(50, 47);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(29, 14);
+            this.label4.Size = new System.Drawing.Size(33, 15);
             this.label4.TabIndex = 32;
             this.label4.Text = "Deg:";
             // 
@@ -397,6 +402,7 @@
             this.numDownAngle.IntVal = 1;
             this.numDownAngle.IsFloat = true;
             this.numDownAngle.Location = new System.Drawing.Point(80, 43);
+            this.numDownAngle.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numDownAngle.MaxFloat = 90F;
             this.numDownAngle.MaxInt = 1000;
             this.numDownAngle.MinFloat = 0F;
@@ -408,6 +414,7 @@
             this.numDownAngle.TextFont = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.ctlToolTip1.SetToolTip(this.numDownAngle, "Downward facing degree");
             this.numDownAngle.ValidColor = System.Drawing.Color.White;
+            this.numDownAngle.ValueChanged += new System.EventHandler(this.numDownAngle_ValueChanged);
             // 
             // label2
             // 
@@ -416,7 +423,7 @@
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(3, 6);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(122, 21);
+            this.label2.Size = new System.Drawing.Size(126, 22);
             this.label2.TabIndex = 29;
             this.label2.Text = "Manual config";
             // 
@@ -443,7 +450,7 @@
             this.label7.ForeColor = System.Drawing.Color.White;
             this.label7.Location = new System.Drawing.Point(4, 99);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(45, 14);
+            this.label7.Size = new System.Drawing.Size(50, 15);
             this.label7.TabIndex = 32;
             this.label7.Text = "Y (mm):";
             // 
@@ -454,7 +461,7 @@
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(5, 78);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(44, 14);
+            this.label6.Size = new System.Drawing.Size(50, 15);
             this.label6.TabIndex = 32;
             this.label6.Text = "X (mm):";
             // 
@@ -465,7 +472,7 @@
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(4, 59);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(122, 14);
+            this.label5.Size = new System.Drawing.Size(136, 15);
             this.label5.TabIndex = 32;
             this.label5.Text = "Automatic Support Grid:";
             // 
@@ -479,6 +486,7 @@
             this.numY.IntVal = 1;
             this.numY.IsFloat = true;
             this.numY.Location = new System.Drawing.Point(49, 97);
+            this.numY.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numY.MaxFloat = 20F;
             this.numY.MaxInt = 1000;
             this.numY.MinFloat = -20F;
@@ -501,6 +509,7 @@
             this.numX.IntVal = 1;
             this.numX.IsFloat = true;
             this.numX.Location = new System.Drawing.Point(49, 73);
+            this.numX.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numX.MaxFloat = 20F;
             this.numX.MaxInt = 1000;
             this.numX.MinFloat = -20F;
@@ -538,7 +547,7 @@
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(3, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(141, 21);
+            this.label3.Size = new System.Drawing.Size(151, 22);
             this.label3.TabIndex = 29;
             this.label3.Text = "Automatic config";
             // 
