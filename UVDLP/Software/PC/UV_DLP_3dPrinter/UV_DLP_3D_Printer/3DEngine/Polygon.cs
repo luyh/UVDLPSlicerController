@@ -163,8 +163,19 @@ namespace Engine3D
                 DebugLogger.Instance().LogError(ex.Message);
             }
         }
+        public bool SpheresIntersect(Polygon ply) 
+        {
+            bool retval = false;
+            Vector3d vec = m_center - ply.m_center;
+            float dist = (vec.x * vec.x) + (vec.y * vec.y) + (vec.z * vec.z);
+            float mindist = m_radius * ply.m_radius;
+            if (dist <= (mindist * mindist))
+                retval = true;
+            return retval;
+        }
         /// <summary>
         /// This will return true if this poly and the specified share and edge (2 points)
+        /// use this sparingly, it's a n^2 time routine 
         /// </summary>
         /// <param name="ply"></param>
         /// <returns></returns>

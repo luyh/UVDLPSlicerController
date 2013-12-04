@@ -27,6 +27,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 y = (y == 0) ? 1 : y * val;
                 z = (z == 0) ? 1 : z * val; 
                 UVDLPApp.Instance().SelectedObject.Scale(x, y, z);
+                UVDLPApp.Instance().SelectedObject.Update(); // make sure we update
                 //ShowObjectInfo();
                 UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
 

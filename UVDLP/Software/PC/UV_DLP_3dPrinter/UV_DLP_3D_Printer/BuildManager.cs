@@ -363,7 +363,7 @@ namespace UV_DLP_3D_Printer
                                 else 
                                 {
                                     m_curlayer = layer;
-                                    bmp = m_sf.GetSlice(m_curlayer); // get the rendered image slice or load it if already rendered                                    
+                                    bmp = m_sf.GetSliceImage(m_curlayer); // get the rendered image slice or load it if already rendered                                    
                                 }
                                 
                                 //raise a delegate so the main form can catch it and display layer information.

@@ -23,9 +23,13 @@ namespace UV_DLP_3D_Printer
         public string m_slic3rloc; // location of slicer exetutable- shouldn't be here?
         public Color m_foregroundcolor;
         public Color m_backgroundcolor;
-        public bool m_previewslicesbuilddisplay; 
+        
         public string SupportConfigName = "supportconfig.xml";
         public string ProjectorCommandsFile = "projectorcommands.xml";
+        // some view options
+        public bool m_viewslice3d; // view the 3d polyline of the slice while previewing with the scrollbar
+        public bool m_viewslice3dheight; // view the height of the slice in 3d
+        public bool m_previewslicesbuilddisplay; // show the 2d slice on the DLP display while previewing with the scrollbar
 
         public void CreateDefault() 
         {
@@ -38,6 +42,8 @@ namespace UV_DLP_3D_Printer
             m_previewslicesbuilddisplay = false;
             m_foregroundcolor = Color.White;
             m_backgroundcolor = Color.Black;
+            m_viewslice3d = false;
+            m_viewslice3dheight = false;
            // m_drivertype = eDriverType.eNULL_DRIVER;
         }
 
@@ -57,6 +63,8 @@ namespace UV_DLP_3D_Printer
                 m_foregroundcolor =  xh.GetColor(ac, "ForegroundColor", Color.White);
                 m_backgroundcolor = xh.GetColor(ac, "BackgroundColor", Color.Black);
                 m_previewslicesbuilddisplay = xh.GetBool(ac, "PreviewSlices", false);
+                m_viewslice3d = xh.GetBool(ac, "Preview3dSlice", false);
+                m_viewslice3dheight = xh.GetBool(ac, "Preview3dSliceHeight", false);
                 if (!fileExist)
                 {
                     xh.Save(FILE_VERSION);
@@ -85,6 +93,8 @@ namespace UV_DLP_3D_Printer
                 xh.SetParameter(ac, "ForegroundColor", m_foregroundcolor);
                 xh.SetParameter(ac, "BackgroundColor", m_backgroundcolor);
                 xh.SetParameter(ac, "PreviewSlices", m_previewslicesbuilddisplay);
+                xh.SetParameter(ac, "Preview3dSlice", m_viewslice3d);
+                xh.SetParameter(ac, "Preview3dSliceHeight", m_viewslice3dheight);
                 xh.Save(FILE_VERSION);
                 return true;
             }catch(Exception ex)

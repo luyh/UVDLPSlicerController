@@ -40,6 +40,7 @@ namespace UV_DLP_3D_Printer
         System.Timers.Timer m_modelAnimTmr;
         ctlImageButton m_pressedButt = null;
         Control m_selectedControl = null;
+        Slice m_curslice = null; // for previewing only
 
         private bool lmdown, rmdown, mmdown;
         private int mdx, mdy;
@@ -508,7 +509,19 @@ namespace UV_DLP_3D_Printer
                 Bitmap bmp = null;
                 if (image == null) // we're here because of the scroll bar in the gui
                 {
-                    bmp = UVDLPApp.Instance().m_slicefile.GetSlice(layer);
+                    bmp = UVDLPApp.Instance().m_slicefile.GetSliceImage(layer);
+                    if (UVDLPApp.Instance().m_appconfig.m_viewslice3d == true)
+                    {
+                        m_curslice = UVDLPApp.Instance().m_slicefile.GetSlice(layer);
+                        if (m_curslice != null) 
+                        {
+                            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
+                        }
+                    }
+                    else 
+                    {
+                        m_curslice = null;
+                    }
                 }
                 else // the image was specified from the build manager
                 {
@@ -705,26 +718,24 @@ namespace UV_DLP_3D_Printer
           GL.Rotate(orbitxpos, 1, 0, 0); // tmp
 
           m_camera.SetViewGL();
-          //Matrix4 yax;
-          //Matrix4.CreateFromAxisAngle(new Vector3(0, 0, 1), m_quat.Z, out yax);
-          //GL.LoadMatrix(ref yax);
-            /*
-          Matrix4.CreateFromAxisAngle(new Vector3(1, 0, 0), m_quat.X);
-            */
-            /*
-          GL.Translate(xoffset, yoffset, orbitdist); // tmp
-
-          GL.Rotate(m_quat.Z * 100, 0, 0, 1); //  
-          GL.Rotate(m_quat.Y * 100, 0, 1, 0); // 
-          GL.Rotate(m_quat.X * 100, 1, 0, 0); //  
-            */
 
           UVDLPApp.Instance().Engine3D.RenderGL();
-          DrawISect();          
+          DrawISect();
+          Render3dSlice();
           GL.Flush();
           glControl1.SwapBuffers();
         }
-
+        private void Render3dSlice() 
+        {
+            if (m_curslice == null)
+                return;
+            if (UVDLPApp.Instance().m_appconfig.m_viewslice3d == false)
+                return;
+            foreach (PolyLine3d ply in m_curslice.m_segments) 
+            {
+                ply.RenderGL();
+            }
+        }
 
         private void glControl1_Load(object sender, EventArgs e)
         {
@@ -2015,6 +2026,11 @@ namespace UV_DLP_3D_Printer
                 if (ctl.GetType() == typeof(ctlImageButton))
                     ((ctlImageButton)ctl).UpdatePosition();
             }
+        }
+
+        private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
+        {
+
         }
 
 

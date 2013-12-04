@@ -96,10 +96,34 @@ namespace UV_DLP_3D_Printer.Slicing
             path += m_sliceext;
             return path;
         }
+        public Slice GetSlice(int layer) 
+        {
+            try
+            {
+                if (m_mode == SFMode.eImmediate)
+                {
+                    // we're rendering slices immediately here
+                    float zlev = (float)(layer * m_config.ZThick);
+                    return UVDLPApp.Instance().m_slicer.GetSliceImmediate(zlev);
+                }
+                else
+                {
+                    
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogRecord(ex.Message);
+                return null;
+            }
+        
+        }
+
         /*
          This function get the slice from the cache/drive 
          */
-        public Bitmap GetSlice(int layer) // 0 based index
+        public Bitmap GetSliceImage(int layer) // 0 based index
         {
             
             try

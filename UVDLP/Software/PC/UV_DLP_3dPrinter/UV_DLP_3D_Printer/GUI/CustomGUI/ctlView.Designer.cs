@@ -30,14 +30,14 @@
         {
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.buttShowConsole = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
             this.buttAddSupport = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttShowSlice = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttShowSliceHeight = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.buttObjectProperties = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttTreeView = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttShowConsole = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
@@ -66,44 +66,6 @@
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(164, 58);
             this.flowLayoutPanel1.TabIndex = 5;
-            // 
-            // flowLayoutPanel3
-            // 
-            this.flowLayoutPanel3.BackColor = System.Drawing.Color.RoyalBlue;
-            this.flowLayoutPanel3.Controls.Add(this.buttObjectProperties);
-            this.flowLayoutPanel3.Controls.Add(this.buttTreeView);
-            this.flowLayoutPanel3.Controls.Add(this.buttShowConsole);
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 64);
-            this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(164, 58);
-            this.flowLayoutPanel3.TabIndex = 5;
-            // 
-            // buttShowConsole
-            // 
-            this.buttShowConsole.BackColor = System.Drawing.Color.Navy;
-            this.buttShowConsole.Checked = true;
-            this.buttShowConsole.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
-            this.buttShowConsole.Gapx = 5;
-            this.buttShowConsole.Gapy = 5;
-            this.buttShowConsole.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.buttShowConsole.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttConsole;
-            this.buttShowConsole.Location = new System.Drawing.Point(111, 5);
-            this.buttShowConsole.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
-            this.buttShowConsole.Name = "buttShowConsole";
-            this.buttShowConsole.Size = new System.Drawing.Size(48, 48);
-            this.buttShowConsole.TabIndex = 25;
-            this.buttShowConsole.Text = "ctlImageButton3";
-            this.buttShowConsole.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.buttShowConsole.Click += new System.EventHandler(this.buttShowConsole_Click);
-            // 
-            // ctlToolTip1
-            // 
-            this.ctlToolTip1.AutoPopDelay = 5000;
-            this.ctlToolTip1.BackColor = System.Drawing.Color.Turquoise;
-            this.ctlToolTip1.ForeColor = System.Drawing.Color.Navy;
-            this.ctlToolTip1.InitialDelay = 1500;
-            this.ctlToolTip1.ReshowDelay = 100;
             // 
             // buttAddSupport
             // 
@@ -161,6 +123,19 @@
             this.buttShowSliceHeight.Text = "ctlImageButton3";
             this.ctlToolTip1.SetToolTip(this.buttShowSliceHeight, "Show slice thickness");
             this.buttShowSliceHeight.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttShowSliceHeight.Click += new System.EventHandler(this.buttShowSliceHeight_Click);
+            // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.BackColor = System.Drawing.Color.RoyalBlue;
+            this.flowLayoutPanel3.Controls.Add(this.buttObjectProperties);
+            this.flowLayoutPanel3.Controls.Add(this.buttTreeView);
+            this.flowLayoutPanel3.Controls.Add(this.buttShowConsole);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 64);
+            this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(164, 58);
+            this.flowLayoutPanel3.TabIndex = 5;
             // 
             // buttObjectProperties
             // 
@@ -199,6 +174,32 @@
             this.ctlToolTip1.SetToolTip(this.buttTreeView, "Show list of objects");
             this.buttTreeView.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttTreeView.Click += new System.EventHandler(this.buttTreeView_Click);
+            // 
+            // buttShowConsole
+            // 
+            this.buttShowConsole.BackColor = System.Drawing.Color.Navy;
+            this.buttShowConsole.Checked = true;
+            this.buttShowConsole.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.buttShowConsole.Gapx = 5;
+            this.buttShowConsole.Gapy = 5;
+            this.buttShowConsole.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttShowConsole.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttConsole;
+            this.buttShowConsole.Location = new System.Drawing.Point(111, 5);
+            this.buttShowConsole.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
+            this.buttShowConsole.Name = "buttShowConsole";
+            this.buttShowConsole.Size = new System.Drawing.Size(48, 48);
+            this.buttShowConsole.TabIndex = 25;
+            this.buttShowConsole.Text = "ctlImageButton3";
+            this.buttShowConsole.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttShowConsole.Click += new System.EventHandler(this.buttShowConsole_Click);
+            // 
+            // ctlToolTip1
+            // 
+            this.ctlToolTip1.AutoPopDelay = 5000;
+            this.ctlToolTip1.BackColor = System.Drawing.Color.Turquoise;
+            this.ctlToolTip1.ForeColor = System.Drawing.Color.Navy;
+            this.ctlToolTip1.InitialDelay = 1500;
+            this.ctlToolTip1.ReshowDelay = 100;
             // 
             // ctlView
             // 

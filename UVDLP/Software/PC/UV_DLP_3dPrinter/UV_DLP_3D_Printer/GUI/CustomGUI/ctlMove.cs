@@ -29,6 +29,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 y *= val;
                 z *= val;
                 UVDLPApp.Instance().SelectedObject.Translate(x, y, z);
+                UVDLPApp.Instance().SelectedObject.Update(); // make sure we update
                 //ShowObjectInfo();
                 UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
             }
@@ -73,7 +74,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (UVDLPApp.Instance().SelectedObject == null) return;
             Point3d center = UVDLPApp.Instance().SelectedObject.CalcCenter();
             UVDLPApp.Instance().SelectedObject.Translate((float)-center.x, (float)-center.y, (float)-center.z);
-            //ShowObjectInfo();
+            UVDLPApp.Instance().SelectedObject.Update(); // make sure we update
             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
         }
 
@@ -87,7 +88,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             float epsilon = .05f; // add in a the level of 1 slice 
             UVDLPApp.Instance().SelectedObject.Translate((float)0, (float)0, (float)-zlev);
             UVDLPApp.Instance().SelectedObject.Translate((float)0, (float)0, (float)-epsilon);
-            //ShowObjectInfo();
+            UVDLPApp.Instance().SelectedObject.Update(); // make sure we update
             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
         }
 
