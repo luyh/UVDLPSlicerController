@@ -104,6 +104,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             //base.OnPaint(pevent);
         }
 
+        protected override void OnDoubleClick(EventArgs e)
+        {
+            base.OnClick(e);
+        }
+
         private void InitializeComponent()
         {
         }

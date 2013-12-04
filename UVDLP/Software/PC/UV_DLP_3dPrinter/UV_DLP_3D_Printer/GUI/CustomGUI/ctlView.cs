@@ -15,6 +15,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
     {
         SplitContainer mTreeViewHolder;
         SplitContainer mMessagePanelHolder;
+        ctlNumber mLayerNumberScroll;
 
         public ctlView()
         {
@@ -23,6 +24,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             //set some initial states
             buttShowSliceHeight.Checked = UVDLPApp.Instance().m_appconfig.m_viewslice3dheight;
             buttShowSlice.Checked = UVDLPApp.Instance().m_appconfig.m_viewslice3d;
+            mLayerNumberScroll = null;
+            mMessagePanelHolder = null;
+            mTreeViewHolder = null;
         }
 
         public SplitContainer MessagePanelHolder
@@ -35,6 +39,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             get { return mTreeViewHolder; }
             set { mTreeViewHolder = value; }
+        }
+
+        public ctlNumber LayerNumberScroll
+        {
+            get { return mLayerNumberScroll; }
+            set { mLayerNumberScroll = value; }
         }
 
         private void SetAlpha(bool val)
@@ -66,6 +76,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         private void buttShowSlice_Click(object sender, EventArgs e)
         {
             buttShowSliceHeight.Enabled = buttShowSlice.Checked;
+            if (mLayerNumberScroll != null)
+                mLayerNumberScroll.Visible = buttShowSlice.Checked;
             UVDLPApp.Instance().m_appconfig.m_viewslice3d = buttShowSlice.Checked;
             // now save it
             UVDLPApp.Instance().m_appconfig.Save(UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + UVDLPApp.m_appconfigname);            

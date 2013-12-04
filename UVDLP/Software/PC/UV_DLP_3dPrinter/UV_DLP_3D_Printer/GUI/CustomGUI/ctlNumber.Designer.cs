@@ -31,6 +31,7 @@
             this.textData = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTextBox();
             this.buttPlus = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttMinus = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.scrollData = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlHScroll();
             this.SuspendLayout();
             // 
             // textData
@@ -67,7 +68,7 @@
             this.buttPlus.Gapy = 5;
             this.buttPlus.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttPlus.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPlus;
-            this.buttPlus.Location = new System.Drawing.Point(103, 5);
+            this.buttPlus.Location = new System.Drawing.Point(261, 5);
             this.buttPlus.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.buttPlus.Name = "buttPlus";
             this.buttPlus.Size = new System.Drawing.Size(28, 28);
@@ -96,17 +97,31 @@
             this.buttMinus.Click += new System.EventHandler(this.buttMinus_Click);
             this.buttMinus.DoubleClick += new System.EventHandler(this.buttMinus_Click);
             // 
+            // scrollData
+            // 
+            this.scrollData.BackColor = System.Drawing.Color.Navy;
+            this.scrollData.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.scrollData.Increment = 10;
+            this.scrollData.Location = new System.Drawing.Point(103, 3);
+            this.scrollData.Name = "scrollData";
+            this.scrollData.Size = new System.Drawing.Size(152, 32);
+            this.scrollData.TabIndex = 7;
+            this.scrollData.Value = 0;
+            this.scrollData.Visible = false;
+            this.scrollData.ValueChanged += new System.EventHandler(this.scrollData_ValueChanged);
+            // 
             // ctlNumber
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.RoyalBlue;
+            this.Controls.Add(this.scrollData);
             this.Controls.Add(this.buttPlus);
             this.Controls.Add(this.textData);
             this.Controls.Add(this.buttMinus);
             this.MinimumSize = new System.Drawing.Size(20, 5);
             this.Name = "ctlNumber";
-            this.Size = new System.Drawing.Size(150, 39);
+            this.Size = new System.Drawing.Size(292, 39);
             this.Resize += new System.EventHandler(this.ctlNumber_Resize);
             this.ResumeLayout(false);
 
@@ -117,5 +132,6 @@
         private ctlImageButton buttMinus;
         private ctlTextBox textData;
         private ctlImageButton buttPlus;
+        private ctlHScroll scrollData;
     }
 }

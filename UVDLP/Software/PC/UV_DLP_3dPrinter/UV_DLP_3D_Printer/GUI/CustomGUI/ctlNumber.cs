@@ -9,12 +9,14 @@ using System.Windows.Forms;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
-    public partial class ctlNumber : UserControl
+    public partial class ctlNumber : ctlAnchorable
     {
         int mBorderWidth;
         int mGap;
         bool mIsFloat;
         float mIncrement;
+        bool mHasScroll;
+        float mTextAspectRatio;
 
         [Description("Called when value is changed"), Category("CatAction")]
         public event EventHandler ValueChanged;
@@ -25,28 +27,28 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public int MinInt
         {
             get { return textData.MinInt; }
-            set { textData.MinInt = value;}
+            set { textData.MinInt = value; scrollData.Minimum = value; }
         }
         [DefaultValue(int.MaxValue)]
         [Description("Maximum valid integer"), Category("Data")]
         public int MaxInt
         {
             get { return textData.MaxInt; }
-            set { textData.MaxInt = value; }
+            set { textData.MaxInt = value; scrollData.Maximum = value;  }
         }
         [DefaultValue(float.MinValue)]
         [Description("Minimum valid float"), Category("Data")]
         public float MinFloat
         {
             get { return textData.MinFloat; }
-            set { textData.MinFloat = value;}
+            set { textData.MinFloat = value; scrollData.Minimum = (int)value; }
         }
         [DefaultValue(float.MaxValue)]
         [Description("Maximum valid float"), Category("Data")]
         public float MaxFloat
         {
             get { return textData.MaxFloat; }
-            set { textData.MaxFloat = value; }
+            set { textData.MaxFloat = value; scrollData.Maximum = (int)value;  }
         }
         [Description("Text color when not valid"), Category("Data")]
         public Color ErrorColor
@@ -109,12 +111,29 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public bool IsFloat
         {
             get { return mIsFloat; }
-            set { 
+            set
+            {
                 mIsFloat = value;
                 textData.ValueType = value ? ctlTextBox.EValueType.Float : ctlTextBox.EValueType.Int;
             }
         }
 
+        [DefaultValue(false)]
+        [Description("Enable horizontal scroll bar"), Category("Data")]
+        public bool EnableScroll
+        {
+            get { return mHasScroll; }
+            set { mHasScroll = value; PlaceElements();  Invalidate(); }
+        }
+
+        [DefaultValue(2.5f)]
+        [Description("When scroll bar is enabled this parameter determins the text box aspect ratio (w/h)"), Category("Data")]
+        public float TextAspectRatio
+        {
+            get { return mTextAspectRatio; }
+            set { mTextAspectRatio = value; PlaceElements();  Invalidate(); }
+        }
+        
         [DefaultValue(0)]
         [Description("Set/Get current integer value"), Category("Data")]
         public int IntVal
@@ -139,6 +158,17 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 buttMinus.BackColor = value;
                 buttPlus.BackColor = value;
                 textData.BackColor = value;
+                scrollData.BackColor = value;
+            }
+        }
+
+        public override Color ForeColor
+        {
+            get { return base.ForeColor; }
+            set
+            {
+                scrollData.ForeColor = value;
+                base.ForeColor = value;
             }
         }
 
@@ -152,6 +182,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             textData.ValueType = ctlTextBox.EValueType.Int;
             mIncrement = 1;
             PlaceElements();
+            mHasScroll = false;
+            mTextAspectRatio = 2.5f;
         }
 
         protected void PlaceElements()
@@ -168,7 +200,21 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             buttPlus.Location = new Point(Width - bs - mBorderWidth, mBorderWidth);
             buttPlus.Width = buttPlus.Height = bs;
             textData.Location = new Point(bs + mBorderWidth + mGap, mBorderWidth);
-            textData.Width = Width - 2 * (bs + mBorderWidth + mGap);
+            int fullwidth = w - 2 * (bs + mBorderWidth + mGap);
+            int tw = (int)(mTextAspectRatio * bs);
+            if (!mHasScroll || (tw > (fullwidth - 10)))
+            {
+                scrollData.Visible = false;
+                textData.Width = fullwidth;
+            }
+            else
+            {
+                textData.Width = tw;
+                scrollData.Location = new Point(textData.Location.X + tw + 1, mBorderWidth);
+                scrollData.Width = fullwidth - tw - 1;
+                scrollData.Height = bs;
+                scrollData.Visible = true;
+            }
             textData.Height = bs;
         }
 
@@ -220,6 +266,22 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         private void textData_TextChanged(object sender, EventArgs e)
         {
+            if (mIsFloat)
+                scrollData.Value = (int)textData.FloatVal;
+            else
+                scrollData.Value = textData.IntVal; 
+
+            if (ValueChanged != null)
+                ValueChanged(this, e);
+        }
+
+        private void scrollData_ValueChanged(object sender, EventArgs e)
+        {
+            if (mIsFloat)
+                textData.FloatVal = scrollData.Value;
+            else
+                textData.IntVal = scrollData.Value;
+
             if (ValueChanged != null)
                 ValueChanged(this, e);
         }

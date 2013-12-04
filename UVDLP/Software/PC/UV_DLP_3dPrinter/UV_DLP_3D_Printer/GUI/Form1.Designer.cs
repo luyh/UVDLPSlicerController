@@ -30,12 +30,6 @@ namespace UV_DLP_3D_Printer.GUI
         private void InitializeComponent()
         {
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.ctlNumber1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
-            this.ctlExpandPanel2 = new UV_DLP_3D_Printer.GUI.ctlExpandPanel();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new UV_DLP_3D_Printer.GUI.ctlExpandPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
@@ -47,11 +41,17 @@ namespace UV_DLP_3D_Printer.GUI
             this.listView2 = new System.Windows.Forms.ListView();
             this.ctlImageButton1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.button2 = new System.Windows.Forms.Button();
+            this.ctlExpandPanel2 = new UV_DLP_3D_Printer.GUI.ctlExpandPanel();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.ctlNumber1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
             this.flowLayoutPanel2.SuspendLayout();
-            this.ctlExpandPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             this.ctlExpandPanel1.SuspendLayout();
+            this.ctlExpandPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel2
@@ -64,85 +64,6 @@ namespace UV_DLP_3D_Printer.GUI
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(170, 357);
             this.flowLayoutPanel2.TabIndex = 2;
-            // 
-            // ctlNumber1
-            // 
-            this.ctlNumber1.BackColor = System.Drawing.Color.RoyalBlue;
-            this.ctlNumber1.Location = new System.Drawing.Point(52, 161);
-            this.ctlNumber1.MinimumSize = new System.Drawing.Size(20, 5);
-            this.ctlNumber1.Name = "ctlNumber1";
-            this.ctlNumber1.Size = new System.Drawing.Size(119, 24);
-            this.ctlNumber1.TabIndex = 5;
-            // 
-            // ctlExpandPanel2
-            // 
-            this.ctlExpandPanel2.BackColor = System.Drawing.Color.DarkGreen;
-            this.ctlExpandPanel2.Controls.Add(this.button3);
-            this.ctlExpandPanel2.Controls.Add(this.button4);
-            this.ctlExpandPanel2.Controls.Add(this.button5);
-            this.ctlExpandPanel2.Controls.Add(this.button6);
-            this.ctlExpandPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.ctlExpandPanel2.Location = new System.Drawing.Point(449, 54);
-            this.ctlExpandPanel2.Margin = new System.Windows.Forms.Padding(2);
-            this.ctlExpandPanel2.Name = "ctlExpandPanel2";
-            this.ctlExpandPanel2.Size = new System.Drawing.Size(154, 150);
-            this.ctlExpandPanel2.TabIndex = 4;
-            // 
-            // button3
-            // 
-            this.button3.BackColor = System.Drawing.Color.Gray;
-            this.button3.FlatAppearance.BorderSize = 0;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Location = new System.Drawing.Point(2, 43);
-            this.button3.Margin = new System.Windows.Forms.Padding(2);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(146, 25);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Move";
-            this.button3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button3.UseVisualStyleBackColor = false;
-            // 
-            // button4
-            // 
-            this.button4.BackColor = System.Drawing.Color.Gray;
-            this.button4.FlatAppearance.BorderSize = 0;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Location = new System.Drawing.Point(2, 72);
-            this.button4.Margin = new System.Windows.Forms.Padding(2);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(146, 25);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "Move";
-            this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button4.UseVisualStyleBackColor = false;
-            // 
-            // button5
-            // 
-            this.button5.BackColor = System.Drawing.Color.Gray;
-            this.button5.FlatAppearance.BorderSize = 0;
-            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button5.Location = new System.Drawing.Point(2, 101);
-            this.button5.Margin = new System.Windows.Forms.Padding(2);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(146, 25);
-            this.button5.TabIndex = 4;
-            this.button5.Text = "Move";
-            this.button5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button5.UseVisualStyleBackColor = false;
-            // 
-            // button6
-            // 
-            this.button6.BackColor = System.Drawing.Color.Gray;
-            this.button6.FlatAppearance.BorderSize = 0;
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button6.Location = new System.Drawing.Point(204, 2);
-            this.button6.Margin = new System.Windows.Forms.Padding(2);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(146, 25);
-            this.button6.TabIndex = 5;
-            this.button6.Text = "Move";
-            this.button6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button6.UseVisualStyleBackColor = false;
             // 
             // flowLayoutPanel1
             // 
@@ -279,6 +200,97 @@ namespace UV_DLP_3D_Printer.GUI
             this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button2.UseVisualStyleBackColor = false;
             // 
+            // ctlExpandPanel2
+            // 
+            this.ctlExpandPanel2.BackColor = System.Drawing.Color.DarkGreen;
+            this.ctlExpandPanel2.Controls.Add(this.button3);
+            this.ctlExpandPanel2.Controls.Add(this.button4);
+            this.ctlExpandPanel2.Controls.Add(this.button5);
+            this.ctlExpandPanel2.Controls.Add(this.button6);
+            this.ctlExpandPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.ctlExpandPanel2.Location = new System.Drawing.Point(449, 54);
+            this.ctlExpandPanel2.Margin = new System.Windows.Forms.Padding(2);
+            this.ctlExpandPanel2.Name = "ctlExpandPanel2";
+            this.ctlExpandPanel2.Size = new System.Drawing.Size(154, 150);
+            this.ctlExpandPanel2.TabIndex = 4;
+            // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.Color.Gray;
+            this.button3.FlatAppearance.BorderSize = 0;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Location = new System.Drawing.Point(2, 43);
+            this.button3.Margin = new System.Windows.Forms.Padding(2);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(146, 25);
+            this.button3.TabIndex = 2;
+            this.button3.Text = "Move";
+            this.button3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button3.UseVisualStyleBackColor = false;
+            // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.Color.Gray;
+            this.button4.FlatAppearance.BorderSize = 0;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Location = new System.Drawing.Point(2, 72);
+            this.button4.Margin = new System.Windows.Forms.Padding(2);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(146, 25);
+            this.button4.TabIndex = 3;
+            this.button4.Text = "Move";
+            this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button4.UseVisualStyleBackColor = false;
+            // 
+            // button5
+            // 
+            this.button5.BackColor = System.Drawing.Color.Gray;
+            this.button5.FlatAppearance.BorderSize = 0;
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button5.Location = new System.Drawing.Point(2, 101);
+            this.button5.Margin = new System.Windows.Forms.Padding(2);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(146, 25);
+            this.button5.TabIndex = 4;
+            this.button5.Text = "Move";
+            this.button5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button5.UseVisualStyleBackColor = false;
+            // 
+            // button6
+            // 
+            this.button6.BackColor = System.Drawing.Color.Gray;
+            this.button6.FlatAppearance.BorderSize = 0;
+            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button6.Location = new System.Drawing.Point(204, 2);
+            this.button6.Margin = new System.Windows.Forms.Padding(2);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(146, 25);
+            this.button6.TabIndex = 5;
+            this.button6.Text = "Move";
+            this.button6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button6.UseVisualStyleBackColor = false;
+            // 
+            // ctlNumber1
+            // 
+            this.ctlNumber1.BackColor = System.Drawing.Color.RoyalBlue;
+            this.ctlNumber1.ButtonsColor = System.Drawing.Color.Navy;
+            this.ctlNumber1.EnableScroll = true;
+            this.ctlNumber1.ErrorColor = System.Drawing.Color.Red;
+            this.ctlNumber1.FloatVal = 10F;
+            this.ctlNumber1.Increment = 1F;
+            this.ctlNumber1.IntVal = 1;
+            this.ctlNumber1.Location = new System.Drawing.Point(94, 406);
+            this.ctlNumber1.MaxFloat = 500F;
+            this.ctlNumber1.MaxInt = 1000;
+            this.ctlNumber1.MinFloat = -500F;
+            this.ctlNumber1.MinimumSize = new System.Drawing.Size(20, 5);
+            this.ctlNumber1.MinInt = 1;
+            this.ctlNumber1.Name = "ctlNumber1";
+            this.ctlNumber1.Size = new System.Drawing.Size(328, 22);
+            this.ctlNumber1.TabIndex = 5;
+            this.ctlNumber1.TextFont = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.ctlNumber1.ValidColor = System.Drawing.Color.White;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -291,12 +303,12 @@ namespace UV_DLP_3D_Printer.GUI
             this.Name = "Form1";
             this.Text = "Form1";
             this.flowLayoutPanel2.ResumeLayout(false);
-            this.ctlExpandPanel2.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.flowLayoutPanel3.ResumeLayout(false);
             this.ctlExpandPanel1.ResumeLayout(false);
             this.ctlExpandPanel1.PerformLayout();
+            this.ctlExpandPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

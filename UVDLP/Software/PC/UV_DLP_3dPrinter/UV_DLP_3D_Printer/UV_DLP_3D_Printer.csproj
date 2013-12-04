@@ -135,7 +135,13 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlAnchorable.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlHScroll.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlHScroll.Designer.cs">
+      <DependentUpon>ctlHScroll.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlImageButton.cs">
       <SubType>Component</SubType>
@@ -306,6 +312,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\ctlExpandPanel.resx">
       <DependentUpon>ctlExpandPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomGUI\ctlHScroll.resx">
+      <DependentUpon>ctlHScroll.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\ctlMove.resx">
       <DependentUpon>ctlMove.cs</DependentUpon>

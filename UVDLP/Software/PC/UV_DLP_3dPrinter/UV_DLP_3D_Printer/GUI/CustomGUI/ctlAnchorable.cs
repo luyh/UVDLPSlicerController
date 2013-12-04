@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
-    public class ctlAnchorable : Control
+    public class ctlAnchorable : UserControl
     {
         public enum AnchorTypes
         {

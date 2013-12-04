@@ -71,6 +71,7 @@ namespace UV_DLP_3D_Printer
 
             ctlViewOptions.TreeViewHolder = mainViewSplitContainer;
             ctlViewOptions.MessagePanelHolder = splitContainerMainWindow;
+            ctlViewOptions.LayerNumberScroll = numLayer;
             mainViewSplitContainer.Panel1Collapsed = true;
                         
             arcball = new ArcBall();
@@ -237,6 +238,14 @@ namespace UV_DLP_3D_Printer
                     val = 0;
                 vScrollBar1.Maximum = val + vScrollBar1.LargeChange - 2;
                 vScrollBar1.Value = 0;
+                if (UVDLPApp.Instance().m_appconfig.m_viewslice3d && (val > 0))
+                {
+                    numLayer.MaxInt = val;
+                    numLayer.IntVal = 1;
+                    numLayer.Visible = true;
+                }
+                else
+                    numLayer.Visible = false;
             }
             catch (Exception ex) 
             {
@@ -558,6 +567,19 @@ namespace UV_DLP_3D_Printer
                 ViewLayer(vscrollval, null, BuildManager.SLICE_NORMAL);
             }
             catch (Exception) 
+            {
+                // probably past the max.
+            }
+        }
+
+        private void numLayer_ValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int vscrollval = numLayer.IntVal - 1;
+                ViewLayer(vscrollval, null, BuildManager.SLICE_NORMAL);
+            }
+            catch (Exception)
             {
                 // probably past the max.
             }
@@ -1888,6 +1910,7 @@ namespace UV_DLP_3D_Printer
             try
             {
                 vScrollBar1.Value = val;
+                numLayer.IntVal = val;
             }
             catch (Exception ex) 
             {
@@ -2023,16 +2046,10 @@ namespace UV_DLP_3D_Printer
             // update inner control positions
             foreach (Control ctl in mainViewSplitContainer.Panel2.Controls)
             {
-                if (ctl.GetType() == typeof(ctlImageButton))
-                    ((ctlImageButton)ctl).UpdatePosition();
+                if (ctl.GetType().IsSubclassOf(typeof(ctlAnchorable)))
+                    ((ctlAnchorable)ctl).UpdatePosition();
             }
         }
-
-        private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
-        {
-
-        }
-
 
     }
 }
