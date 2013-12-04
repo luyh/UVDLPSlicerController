@@ -135,7 +135,40 @@ namespace UV_DLP_3D_Printer
             catch { return null; }
         }
 
-        private static SliceBuildConfig m_saved = new SliceBuildConfig();        
+        private static SliceBuildConfig m_saved = new SliceBuildConfig();
+        /// <summary>
+        /// This get slice immediate is currently for previewing only
+        /// </summary>
+        /// <param name="curz"></param>
+        /// <returns></returns>
+        public Slice GetSliceImmediate(float curz)
+        {
+            try
+            {
+                SliceBuildConfig sbf = new SliceBuildConfig(m_sf.m_config); // save it
+                Slice sl = new Slice();//create a new slice
+                sl.m_segments = new List<PolyLine3d>();
+                foreach (Object3d obj in UVDLPApp.Instance().Engine3D.m_objects)
+                {
+                    if (curz >= obj.m_min.z && curz <= obj.m_max.z) // only slice from the bottom to the top of the objects
+                    {
+                        List<Polygon> lstply = GetZPolys(obj, curz);//get a list of polygons at this slice z height that potentially intersect
+                        List<PolyLine3d> lstintersections = GetZIntersections(lstply, curz);//iterate through all the polygons and generate x/y line segments at this 3d z level                        
+                        sl.m_segments.AddRange(lstintersections);// Set the list of intersections                         
+                    }
+                }
+
+                return sl;
+            }
+            catch (Exception ex)
+            {
+                string s = ex.StackTrace;
+                DebugLogger.Instance().LogRecord(ex.Message);
+                return null;
+            }        
+        
+        }
+         
         /// <summary>
         /// This function will immediately return a bitmap slice at the specified Z-Level
         /// </summary>

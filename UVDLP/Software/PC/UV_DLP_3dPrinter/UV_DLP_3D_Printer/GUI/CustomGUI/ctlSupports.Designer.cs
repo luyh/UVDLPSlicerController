@@ -202,7 +202,7 @@
             this.label1.Font = new System.Drawing.Font("Arial", 17.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label1.Location = new System.Drawing.Point(3, 2);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(127, 21);
+            this.label1.Size = new System.Drawing.Size(134, 22);
             this.label1.TabIndex = 28;
             this.label1.Text = "Support shape";
             // 
@@ -369,7 +369,7 @@
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(49, 47);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(29, 14);
+            this.label4.Size = new System.Drawing.Size(33, 15);
             this.label4.TabIndex = 32;
             this.label4.Text = "Deg:";
             // 
@@ -414,6 +414,7 @@
             this.numDownAngle.TextFont = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.ctlToolTip1.SetToolTip(this.numDownAngle, "Downward facing degree");
             this.numDownAngle.ValidColor = System.Drawing.Color.White;
+            this.numDownAngle.ValueChanged += new System.EventHandler(this.numDownAngle_ValueChanged);
             // 
             // label2
             // 
@@ -421,7 +422,7 @@
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(3, 6);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(122, 21);
+            this.label2.Size = new System.Drawing.Size(126, 22);
             this.label2.TabIndex = 29;
             this.label2.Text = "Manual config";
             // 
@@ -448,7 +449,7 @@
             this.label7.ForeColor = System.Drawing.Color.White;
             this.label7.Location = new System.Drawing.Point(3, 100);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(45, 14);
+            this.label7.Size = new System.Drawing.Size(50, 15);
             this.label7.TabIndex = 32;
             this.label7.Text = "Y (mm):";
             // 
@@ -458,7 +459,7 @@
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(4, 78);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(44, 14);
+            this.label6.Size = new System.Drawing.Size(50, 15);
             this.label6.TabIndex = 32;
             this.label6.Text = "X (mm):";
             // 
@@ -468,7 +469,7 @@
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(4, 59);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(122, 14);
+            this.label5.Size = new System.Drawing.Size(136, 15);
             this.label5.TabIndex = 32;
             this.label5.Text = "Automatic Support Grid:";
             // 
@@ -542,7 +543,7 @@
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(3, 2);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(141, 21);
+            this.label3.Size = new System.Drawing.Size(151, 22);
             this.label3.TabIndex = 29;
             this.label3.Text = "Automatic config";
             // 

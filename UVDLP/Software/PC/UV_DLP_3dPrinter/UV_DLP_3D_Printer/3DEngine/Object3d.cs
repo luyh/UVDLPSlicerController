@@ -149,6 +149,7 @@ namespace Engine3D
         /// <returns></returns>
         public List<Polygon> FindHoles() 
         {
+            Update();
             List<Polygon> lstholes = new List<Polygon>();
             Dictionary<Polygon, int> map = new Dictionary<Polygon, int>();
             try
@@ -157,23 +158,26 @@ namespace Engine3D
                 {
                     foreach (Polygon ply2 in m_lstpolys)
                     {
-                        if (ply != ply2)
+                        if (ply != ply2) // if it's not the same poly
                         {
-                            if (ply.SharesEdge(ply2))
+                            if (ply.SpheresIntersect(ply2)) // and the 2 bounding spheres of the polygon intersect
                             {
-                                if (map.ContainsKey(ply))
+                                if (ply.SharesEdge(ply2)) // and it shares an edge
                                 {
-                                    map[ply]++;
-                                }
-                                else
-                                {
-                                    map.Add(ply, 1);
+                                    if (map.ContainsKey(ply)) // check to see if it's in the map already
+                                    {
+                                        map[ply]++; // increment it
+                                    }
+                                    else
+                                    {
+                                        map.Add(ply, 1); // or add it
+                                    }
                                 }
                             }
                         }
                     }
                 }
-
+                // generate some results to pass back
                 foreach (Polygon ply in m_lstpolys)
                 {
                     if (map.ContainsKey(ply))

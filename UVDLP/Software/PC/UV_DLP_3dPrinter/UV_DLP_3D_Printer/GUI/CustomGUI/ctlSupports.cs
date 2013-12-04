@@ -39,6 +39,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 numFB1.FloatVal = (float)m_sc.fbrad2;
                 numX.FloatVal = (float)m_sc.xspace;
                 numY.FloatVal = (float)m_sc.yspace;
+                chkOnlyDownward.Checked = m_sc.m_onlydownward;
             }
             catch (Exception ex)
             {
@@ -128,8 +129,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             try
             {
-                //GetData();
-                //UVDLPApp.Instance().m_supportconfig = m_sc; // should copy really
+                GetData();
+                UVDLPApp.Instance().m_supportconfig = m_sc; // should copy really
                 UVDLPApp.Instance().StartAddSupports(); // start the support generation
                 UVDLPApp.Instance().SaveSupportConfig(UVDLPApp.Instance().m_appconfig.SupportConfigName);
             }
@@ -163,6 +164,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (chkDownPolys.Checked == true)
             {
                 double angle = (double)numDownAngle.FloatVal;
+                // I think this should affect all objects in the scene
+                // and it should be more of a global setting 
                 UVDLPApp.Instance().SelectedObject.MarkPolysDown(angle);
             }
             else
@@ -269,6 +272,19 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             m_numFBSelected = false;
             pictureSupport.Invalidate();
+        }
+
+        private void numDownAngle_ValueChanged(object sender, EventArgs e)
+        {
+            if (UVDLPApp.Instance().SelectedObject == null)
+                return;
+            //UVDLPApp.Instance().SelectedObject.
+            if (chkDownPolys.Checked == true)
+            {
+                double angle = (double)numDownAngle.FloatVal;
+                UVDLPApp.Instance().SelectedObject.MarkPolysDown(angle);
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
+            }
         }
     
     }

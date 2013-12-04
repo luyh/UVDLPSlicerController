@@ -20,6 +20,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             InitializeComponent();
             mTreeViewHolder = null;
+            //set some initial states
+            buttShowSliceHeight.Checked = UVDLPApp.Instance().m_appconfig.m_viewslice3dheight;
+            buttShowSlice.Checked = UVDLPApp.Instance().m_appconfig.m_viewslice3d;
         }
 
         public SplitContainer MessagePanelHolder
@@ -63,6 +66,10 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         private void buttShowSlice_Click(object sender, EventArgs e)
         {
             buttShowSliceHeight.Enabled = buttShowSlice.Checked;
+            UVDLPApp.Instance().m_appconfig.m_viewslice3d = buttShowSlice.Checked;
+            // now save it
+            UVDLPApp.Instance().m_appconfig.Save(UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + UVDLPApp.m_appconfigname);            
+            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
         }
 
         private void buttTreeView_Click(object sender, EventArgs e)
@@ -84,6 +91,13 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             {
                 mMessagePanelHolder.Panel2Collapsed = !buttShowConsole.Checked;
             }
+        }
+
+        private void buttShowSliceHeight_Click(object sender, EventArgs e)
+        {
+            UVDLPApp.Instance().m_appconfig.m_viewslice3dheight = buttShowSliceHeight.Checked;
+            UVDLPApp.Instance().m_appconfig.Save(UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + UVDLPApp.m_appconfigname);
+            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
         }
 
     }

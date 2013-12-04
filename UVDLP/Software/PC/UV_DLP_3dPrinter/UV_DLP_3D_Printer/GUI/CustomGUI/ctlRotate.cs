@@ -27,6 +27,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 y *= val;
                 z *= val;
                 UVDLPApp.Instance().SelectedObject.Rotate(x,y,z);
+                UVDLPApp.Instance().SelectedObject.Update(); // make sure we update
                 //ShowObjectInfo();
                 UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
             }
