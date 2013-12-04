@@ -47,6 +47,7 @@
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.ctlSupport1 = new UV_DLP_3D_Printer.GUI.Controls.ctlSupport();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tbMove = new System.Windows.Forms.TabPage();
             this.txtZTrans = new System.Windows.Forms.TextBox();
@@ -92,6 +93,19 @@
             this.tabModel1 = new System.Windows.Forms.TabPage();
             this.mainViewSplitContainer = new System.Windows.Forms.SplitContainer();
             this.treeScene = new System.Windows.Forms.TreeView();
+            this.objectInfoPanel = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlObjectInfo();
+            this.numLayer = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
+            this.buttGlHome = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttView = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.ctlViewOptions = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlView();
+            this.buttScale = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttMove = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.ctlSupport = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlSupports();
+            this.buttSupports = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.ctlObjRotate = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlRotate();
+            this.buttRotate = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.ctlObjScale = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlScale();
+            this.ctlObjMove = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMove();
             this.glControl1 = new OpenTK.GLControl();
             this.tabGCode = new System.Windows.Forms.TabPage();
             this.txtGCode = new System.Windows.Forms.TextBox();
@@ -106,8 +120,11 @@
             this.label4 = new System.Windows.Forms.Label();
             this.lblSliceNum = new System.Windows.Forms.Label();
             this.tabMachineControl = new System.Windows.Forms.TabPage();
+            this.ctlMachineControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineControl();
             this.tabMachineConfig = new System.Windows.Forms.TabPage();
+            this.ctlMachineConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineConfig();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.ctlToolpathGenConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlToolpathGenConfig();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.cmdLoad = new System.Windows.Forms.ToolStripButton();
@@ -126,6 +143,7 @@
             this.lblTime = new System.Windows.Forms.ToolStripLabel();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.txtLog = new System.Windows.Forms.TextBox();
+            this.heatTempCtl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlHeatTemp();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmdRemoveObject = new System.Windows.Forms.ToolStripMenuItem();
@@ -134,23 +152,6 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.ctlSupport1 = new UV_DLP_3D_Printer.GUI.Controls.ctlSupport();
-            this.numLayer = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
-            this.buttGlHome = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.buttView = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.ctlViewOptions = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlView();
-            this.buttScale = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.buttMove = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.ctlSupport = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlSupports();
-            this.buttSupports = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.ctlObjRotate = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlRotate();
-            this.buttRotate = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.ctlObjScale = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlScale();
-            this.ctlObjMove = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMove();
-            this.ctlMachineControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineControl();
-            this.ctlMachineConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineConfig();
-            this.ctlToolpathGenConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlToolpathGenConfig();
-            this.heatTempCtl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlHeatTemp();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
             this.menuStrip1.SuspendLayout();
             this.splitContainerMainWindow.Panel1.SuspendLayout();
@@ -344,7 +345,7 @@
             // 
             this.splitContainer4.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer4.Size = new System.Drawing.Size(307, 638);
-            this.splitContainer4.SplitterDistance = 430;
+            this.splitContainer4.SplitterDistance = 429;
             this.splitContainer4.TabIndex = 9;
             // 
             // tabControl2
@@ -356,7 +357,7 @@
             this.tabControl2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(307, 430);
+            this.tabControl2.Size = new System.Drawing.Size(307, 429);
             this.tabControl2.TabIndex = 8;
             // 
             // tabPage1
@@ -365,7 +366,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(299, 404);
+            this.tabPage1.Size = new System.Drawing.Size(299, 403);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Scene";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -377,10 +378,19 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage2.Size = new System.Drawing.Size(299, 404);
+            this.tabPage2.Size = new System.Drawing.Size(299, 403);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Support Tools";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // ctlSupport1
+            // 
+            this.ctlSupport1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctlSupport1.Location = new System.Drawing.Point(3, 2);
+            this.ctlSupport1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ctlSupport1.Name = "ctlSupport1";
+            this.ctlSupport1.Size = new System.Drawing.Size(293, 399);
+            this.ctlSupport1.TabIndex = 0;
             // 
             // tabControl1
             // 
@@ -394,7 +404,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(307, 204);
+            this.tabControl1.Size = new System.Drawing.Size(307, 205);
             this.tabControl1.TabIndex = 7;
             // 
             // tbMove
@@ -414,7 +424,7 @@
             this.tbMove.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbMove.Name = "tbMove";
             this.tbMove.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tbMove.Size = new System.Drawing.Size(299, 178);
+            this.tbMove.Size = new System.Drawing.Size(299, 179);
             this.tbMove.TabIndex = 0;
             this.tbMove.Text = "Move";
             this.tbMove.UseVisualStyleBackColor = true;
@@ -552,7 +562,7 @@
             this.tbRotate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbRotate.Name = "tbRotate";
             this.tbRotate.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tbRotate.Size = new System.Drawing.Size(299, 178);
+            this.tbRotate.Size = new System.Drawing.Size(299, 179);
             this.tbRotate.TabIndex = 1;
             this.tbRotate.Text = "Rotate";
             this.tbRotate.UseVisualStyleBackColor = true;
@@ -661,7 +671,7 @@
             this.tbScale.Location = new System.Drawing.Point(4, 22);
             this.tbScale.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbScale.Name = "tbScale";
-            this.tbScale.Size = new System.Drawing.Size(299, 178);
+            this.tbScale.Size = new System.Drawing.Size(299, 179);
             this.tbScale.TabIndex = 2;
             this.tbScale.Text = "Scale";
             this.tbScale.UseVisualStyleBackColor = true;
@@ -802,7 +812,7 @@
             this.tabView.Location = new System.Drawing.Point(4, 22);
             this.tabView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabView.Name = "tabView";
-            this.tabView.Size = new System.Drawing.Size(299, 178);
+            this.tabView.Size = new System.Drawing.Size(299, 179);
             this.tabView.TabIndex = 3;
             this.tabView.Text = "View";
             this.tabView.UseVisualStyleBackColor = true;
@@ -898,6 +908,7 @@
             // 
             // mainViewSplitContainer.Panel2
             // 
+            this.mainViewSplitContainer.Panel2.Controls.Add(this.objectInfoPanel);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.numLayer);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.buttGlHome);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.buttView);
@@ -928,6 +939,193 @@
             this.treeScene.Size = new System.Drawing.Size(158, 553);
             this.treeScene.TabIndex = 6;
             this.treeScene.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeScene_NodeMouseClick);
+            // 
+            // objectInfoPanel
+            // 
+            this.objectInfoPanel.Checked = false;
+            this.objectInfoPanel.Gapx = 10;
+            this.objectInfoPanel.Gapy = 10;
+            this.objectInfoPanel.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
+            this.objectInfoPanel.Location = new System.Drawing.Point(176, 321);
+            this.objectInfoPanel.Name = "objectInfoPanel";
+            this.objectInfoPanel.Size = new System.Drawing.Size(206, 167);
+            this.objectInfoPanel.TabIndex = 28;
+            this.objectInfoPanel.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
+            this.objectInfoPanel.Visible = false;
+            // 
+            // numLayer
+            // 
+            this.numLayer.BackColor = System.Drawing.Color.RoyalBlue;
+            this.numLayer.ButtonsColor = System.Drawing.Color.Navy;
+            this.numLayer.Checked = false;
+            this.numLayer.EnableScroll = true;
+            this.numLayer.ErrorColor = System.Drawing.Color.Red;
+            this.numLayer.FloatVal = 10F;
+            this.numLayer.Gapx = 0;
+            this.numLayer.Gapy = 10;
+            this.numLayer.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Center;
+            this.numLayer.Increment = 1F;
+            this.numLayer.IntVal = 1000;
+            this.numLayer.Location = new System.Drawing.Point(253, 519);
+            this.numLayer.MaxFloat = 500F;
+            this.numLayer.MaxInt = 1000;
+            this.numLayer.MinFloat = -500F;
+            this.numLayer.MinimumSize = new System.Drawing.Size(20, 5);
+            this.numLayer.MinInt = 1;
+            this.numLayer.Name = "numLayer";
+            this.numLayer.Size = new System.Drawing.Size(425, 24);
+            this.numLayer.TabIndex = 27;
+            this.numLayer.TextFont = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.ctlToolTip1.SetToolTip(this.numLayer, "Layer view slider");
+            this.numLayer.ValidColor = System.Drawing.Color.White;
+            this.numLayer.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
+            this.numLayer.Visible = false;
+            this.numLayer.ValueChanged += new System.EventHandler(this.numLayer_ValueChanged);
+            // 
+            // buttGlHome
+            // 
+            this.buttGlHome.BackColor = System.Drawing.Color.Navy;
+            this.buttGlHome.Checked = false;
+            this.buttGlHome.CheckImage = null;
+            this.buttGlHome.Gapx = 10;
+            this.buttGlHome.Gapy = 10;
+            this.buttGlHome.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
+            this.buttGlHome.Image = global::UV_DLP_3D_Printer.Properties.Resources.homeButt;
+            this.buttGlHome.Location = new System.Drawing.Point(15, 15);
+            this.buttGlHome.Name = "buttGlHome";
+            this.buttGlHome.Size = new System.Drawing.Size(48, 48);
+            this.buttGlHome.TabIndex = 16;
+            this.buttGlHome.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
+            this.buttGlHome.Click += new System.EventHandler(this.buttGlHome_Click);
+            // 
+            // buttView
+            // 
+            this.buttView.BackColor = System.Drawing.Color.Navy;
+            this.buttView.Checked = false;
+            this.buttView.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttOpenClose;
+            this.buttView.Gapx = 10;
+            this.buttView.Gapy = 230;
+            this.buttView.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
+            this.buttView.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttView;
+            this.buttView.Location = new System.Drawing.Point(10, 270);
+            this.buttView.Name = "buttView";
+            this.buttView.Size = new System.Drawing.Size(48, 48);
+            this.buttView.TabIndex = 25;
+            this.ctlToolTip1.SetToolTip(this.buttView, "View options");
+            this.buttView.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
+            this.buttView.Click += new System.EventHandler(this.buttView_Click);
+            // 
+            // ctlViewOptions
+            // 
+            this.ctlViewOptions.LayerNumberScroll = null;
+            this.ctlViewOptions.Location = new System.Drawing.Point(284, 117);
+            this.ctlViewOptions.MessagePanelHolder = null;
+            this.ctlViewOptions.Name = "ctlViewOptions";
+            this.ctlViewOptions.ObjectInfoPanel = null;
+            this.ctlViewOptions.Size = new System.Drawing.Size(170, 125);
+            this.ctlViewOptions.TabIndex = 26;
+            this.ctlViewOptions.TreeViewHolder = null;
+            this.ctlViewOptions.Visible = false;
+            // 
+            // buttScale
+            // 
+            this.buttScale.BackColor = System.Drawing.Color.Navy;
+            this.buttScale.Checked = false;
+            this.buttScale.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttOpenClose;
+            this.buttScale.Gapx = 10;
+            this.buttScale.Gapy = 10;
+            this.buttScale.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
+            this.buttScale.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttScale;
+            this.buttScale.Location = new System.Drawing.Point(10, 490);
+            this.buttScale.Name = "buttScale";
+            this.buttScale.Size = new System.Drawing.Size(48, 48);
+            this.buttScale.TabIndex = 17;
+            this.ctlToolTip1.SetToolTip(this.buttScale, "Scale object");
+            this.buttScale.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
+            this.buttScale.Click += new System.EventHandler(this.buttScale_Click);
+            // 
+            // buttMove
+            // 
+            this.buttMove.BackColor = System.Drawing.Color.Navy;
+            this.buttMove.Checked = false;
+            this.buttMove.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttOpenClose;
+            this.buttMove.Gapx = 10;
+            this.buttMove.Gapy = 110;
+            this.buttMove.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
+            this.buttMove.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMove;
+            this.buttMove.Location = new System.Drawing.Point(10, 390);
+            this.buttMove.Name = "buttMove";
+            this.buttMove.Size = new System.Drawing.Size(48, 48);
+            this.buttMove.TabIndex = 19;
+            this.ctlToolTip1.SetToolTip(this.buttMove, "Move object");
+            this.buttMove.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
+            this.buttMove.Click += new System.EventHandler(this.buttMove_Click);
+            // 
+            // ctlSupport
+            // 
+            this.ctlSupport.Location = new System.Drawing.Point(284, 15);
+            this.ctlSupport.Name = "ctlSupport";
+            this.ctlSupport.Size = new System.Drawing.Size(170, 96);
+            this.ctlSupport.TabIndex = 24;
+            this.ctlSupport.Visible = false;
+            // 
+            // buttSupports
+            // 
+            this.buttSupports.BackColor = System.Drawing.Color.Navy;
+            this.buttSupports.Checked = false;
+            this.buttSupports.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttOpenClose;
+            this.buttSupports.Gapx = 10;
+            this.buttSupports.Gapy = 170;
+            this.buttSupports.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
+            this.buttSupports.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttSupport;
+            this.buttSupports.Location = new System.Drawing.Point(10, 330);
+            this.buttSupports.Name = "buttSupports";
+            this.buttSupports.Size = new System.Drawing.Size(48, 48);
+            this.buttSupports.TabIndex = 23;
+            this.ctlToolTip1.SetToolTip(this.buttSupports, "Supports");
+            this.buttSupports.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
+            this.buttSupports.Click += new System.EventHandler(this.buttSupports_Click);
+            // 
+            // ctlObjRotate
+            // 
+            this.ctlObjRotate.Location = new System.Drawing.Point(665, 15);
+            this.ctlObjRotate.Name = "ctlObjRotate";
+            this.ctlObjRotate.Size = new System.Drawing.Size(170, 156);
+            this.ctlObjRotate.TabIndex = 22;
+            this.ctlObjRotate.Visible = false;
+            // 
+            // buttRotate
+            // 
+            this.buttRotate.BackColor = System.Drawing.Color.Navy;
+            this.buttRotate.Checked = false;
+            this.buttRotate.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttOpenClose;
+            this.buttRotate.Gapx = 10;
+            this.buttRotate.Gapy = 60;
+            this.buttRotate.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
+            this.buttRotate.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttRotate;
+            this.buttRotate.Location = new System.Drawing.Point(10, 440);
+            this.buttRotate.Name = "buttRotate";
+            this.buttRotate.Size = new System.Drawing.Size(48, 48);
+            this.buttRotate.TabIndex = 18;
+            this.ctlToolTip1.SetToolTip(this.buttRotate, "Rotate object");
+            this.buttRotate.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
+            this.buttRotate.Click += new System.EventHandler(this.buttRotate_Click);
+            // 
+            // ctlObjScale
+            // 
+            this.ctlObjScale.Location = new System.Drawing.Point(474, 15);
+            this.ctlObjScale.Name = "ctlObjScale";
+            this.ctlObjScale.Size = new System.Drawing.Size(171, 199);
+            this.ctlObjScale.TabIndex = 21;
+            this.ctlObjScale.Visible = false;
+            // 
+            // ctlObjMove
+            // 
+            this.ctlObjMove.Location = new System.Drawing.Point(94, 15);
+            this.ctlObjMove.Name = "ctlObjMove";
+            this.ctlObjMove.Size = new System.Drawing.Size(170, 219);
+            this.ctlObjMove.TabIndex = 20;
+            this.ctlObjMove.Visible = false;
             // 
             // glControl1
             // 
@@ -1104,6 +1302,14 @@
             this.tabMachineControl.UseVisualStyleBackColor = true;
             this.tabMachineControl.Enter += new System.EventHandler(this.tabMachineControl_Enter);
             // 
+            // ctlMachineControl1
+            // 
+            this.ctlMachineControl1.Location = new System.Drawing.Point(3, 2);
+            this.ctlMachineControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ctlMachineControl1.Name = "ctlMachineControl1";
+            this.ctlMachineControl1.Size = new System.Drawing.Size(949, 558);
+            this.ctlMachineControl1.TabIndex = 0;
+            // 
             // tabMachineConfig
             // 
             this.tabMachineConfig.Controls.Add(this.ctlMachineConfig1);
@@ -1115,6 +1321,15 @@
             this.tabMachineConfig.Text = "Machine Config";
             this.tabMachineConfig.UseVisualStyleBackColor = true;
             // 
+            // ctlMachineConfig1
+            // 
+            this.ctlMachineConfig1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctlMachineConfig1.Location = new System.Drawing.Point(0, 0);
+            this.ctlMachineConfig1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ctlMachineConfig1.Name = "ctlMachineConfig1";
+            this.ctlMachineConfig1.Size = new System.Drawing.Size(1099, 557);
+            this.ctlMachineConfig1.TabIndex = 0;
+            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.ctlToolpathGenConfig1);
@@ -1125,6 +1340,14 @@
             this.tabPage3.TabIndex = 5;
             this.tabPage3.Text = "Slice Profile Config";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // ctlToolpathGenConfig1
+            // 
+            this.ctlToolpathGenConfig1.Location = new System.Drawing.Point(3, 4);
+            this.ctlToolpathGenConfig1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ctlToolpathGenConfig1.Name = "ctlToolpathGenConfig1";
+            this.ctlToolpathGenConfig1.Size = new System.Drawing.Size(1036, 505);
+            this.ctlToolpathGenConfig1.TabIndex = 0;
             // 
             // vScrollBar1
             // 
@@ -1300,6 +1523,16 @@
             this.txtLog.Size = new System.Drawing.Size(990, 123);
             this.txtLog.TabIndex = 0;
             // 
+            // heatTempCtl1
+            // 
+            this.heatTempCtl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.heatTempCtl1.Location = new System.Drawing.Point(0, 0);
+            this.heatTempCtl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.heatTempCtl1.MonitorTemps = false;
+            this.heatTempCtl1.Name = "heatTempCtl1";
+            this.heatTempCtl1.Size = new System.Drawing.Size(463, 123);
+            this.heatTempCtl1.TabIndex = 0;
+            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1335,223 +1568,6 @@
             this.toolStripMenuItem1.Size = new System.Drawing.Size(173, 22);
             this.toolStripMenuItem1.Text = "Remove All Supports";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
-            // 
-            // ctlSupport1
-            // 
-            this.ctlSupport1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ctlSupport1.Location = new System.Drawing.Point(3, 2);
-            this.ctlSupport1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ctlSupport1.Name = "ctlSupport1";
-            this.ctlSupport1.Size = new System.Drawing.Size(293, 400);
-            this.ctlSupport1.TabIndex = 0;
-            // 
-            // numLayer
-            // 
-            this.numLayer.BackColor = System.Drawing.Color.RoyalBlue;
-            this.numLayer.ButtonsColor = System.Drawing.Color.Navy;
-            this.numLayer.Checked = false;
-            this.numLayer.EnableScroll = true;
-            this.numLayer.ErrorColor = System.Drawing.Color.Red;
-            this.numLayer.FloatVal = 10F;
-            this.numLayer.Gapx = 0;
-            this.numLayer.Gapy = 10;
-            this.numLayer.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Center;
-            this.numLayer.Increment = 1F;
-            this.numLayer.IntVal = 1000;
-            this.numLayer.Location = new System.Drawing.Point(253, 519);
-            this.numLayer.MaxFloat = 500F;
-            this.numLayer.MaxInt = 1000;
-            this.numLayer.MinFloat = -500F;
-            this.numLayer.MinimumSize = new System.Drawing.Size(20, 5);
-            this.numLayer.MinInt = 1;
-            this.numLayer.Name = "numLayer";
-            this.numLayer.Size = new System.Drawing.Size(425, 24);
-            this.numLayer.TabIndex = 27;
-            this.numLayer.TextFont = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.ctlToolTip1.SetToolTip(this.numLayer, "Layer view slider");
-            this.numLayer.ValidColor = System.Drawing.Color.White;
-            this.numLayer.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
-            this.numLayer.Visible = false;
-            this.numLayer.ValueChanged += new System.EventHandler(this.numLayer_ValueChanged);
-            // 
-            // buttGlHome
-            // 
-            this.buttGlHome.BackColor = System.Drawing.Color.Navy;
-            this.buttGlHome.Checked = false;
-            this.buttGlHome.CheckImage = null;
-            this.buttGlHome.Gapx = 10;
-            this.buttGlHome.Gapy = 10;
-            this.buttGlHome.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
-            this.buttGlHome.Image = global::UV_DLP_3D_Printer.Properties.Resources.homeButt;
-            this.buttGlHome.Location = new System.Drawing.Point(15, 15);
-            this.buttGlHome.Name = "buttGlHome";
-            this.buttGlHome.Size = new System.Drawing.Size(48, 48);
-            this.buttGlHome.TabIndex = 16;
-            this.buttGlHome.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
-            this.buttGlHome.Click += new System.EventHandler(this.buttGlHome_Click);
-            // 
-            // buttView
-            // 
-            this.buttView.BackColor = System.Drawing.Color.Navy;
-            this.buttView.Checked = false;
-            this.buttView.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttOpenClose;
-            this.buttView.Gapx = 10;
-            this.buttView.Gapy = 230;
-            this.buttView.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
-            this.buttView.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttView;
-            this.buttView.Location = new System.Drawing.Point(10, 270);
-            this.buttView.Name = "buttView";
-            this.buttView.Size = new System.Drawing.Size(48, 48);
-            this.buttView.TabIndex = 25;
-            this.ctlToolTip1.SetToolTip(this.buttView, "View options");
-            this.buttView.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
-            this.buttView.Click += new System.EventHandler(this.buttView_Click);
-            // 
-            // ctlViewOptions
-            // 
-            this.ctlViewOptions.LayerNumberScroll = null;
-            this.ctlViewOptions.Location = new System.Drawing.Point(284, 117);
-            this.ctlViewOptions.MessagePanelHolder = null;
-            this.ctlViewOptions.Name = "ctlViewOptions";
-            this.ctlViewOptions.Size = new System.Drawing.Size(170, 125);
-            this.ctlViewOptions.TabIndex = 26;
-            this.ctlViewOptions.TreeViewHolder = null;
-            this.ctlViewOptions.Visible = false;
-            // 
-            // buttScale
-            // 
-            this.buttScale.BackColor = System.Drawing.Color.Navy;
-            this.buttScale.Checked = false;
-            this.buttScale.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttOpenClose;
-            this.buttScale.Gapx = 10;
-            this.buttScale.Gapy = 10;
-            this.buttScale.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
-            this.buttScale.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttScale;
-            this.buttScale.Location = new System.Drawing.Point(10, 490);
-            this.buttScale.Name = "buttScale";
-            this.buttScale.Size = new System.Drawing.Size(48, 48);
-            this.buttScale.TabIndex = 17;
-            this.ctlToolTip1.SetToolTip(this.buttScale, "Scale object");
-            this.buttScale.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
-            this.buttScale.Click += new System.EventHandler(this.buttScale_Click);
-            // 
-            // buttMove
-            // 
-            this.buttMove.BackColor = System.Drawing.Color.Navy;
-            this.buttMove.Checked = false;
-            this.buttMove.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttOpenClose;
-            this.buttMove.Gapx = 10;
-            this.buttMove.Gapy = 110;
-            this.buttMove.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
-            this.buttMove.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMove;
-            this.buttMove.Location = new System.Drawing.Point(10, 390);
-            this.buttMove.Name = "buttMove";
-            this.buttMove.Size = new System.Drawing.Size(48, 48);
-            this.buttMove.TabIndex = 19;
-            this.ctlToolTip1.SetToolTip(this.buttMove, "Move object");
-            this.buttMove.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
-            this.buttMove.Click += new System.EventHandler(this.buttMove_Click);
-            // 
-            // ctlSupport
-            // 
-            this.ctlSupport.Location = new System.Drawing.Point(284, 15);
-            this.ctlSupport.Name = "ctlSupport";
-            this.ctlSupport.Size = new System.Drawing.Size(170, 96);
-            this.ctlSupport.TabIndex = 24;
-            this.ctlSupport.Visible = false;
-            // 
-            // buttSupports
-            // 
-            this.buttSupports.BackColor = System.Drawing.Color.Navy;
-            this.buttSupports.Checked = false;
-            this.buttSupports.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttOpenClose;
-            this.buttSupports.Gapx = 10;
-            this.buttSupports.Gapy = 170;
-            this.buttSupports.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
-            this.buttSupports.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttSupport;
-            this.buttSupports.Location = new System.Drawing.Point(10, 330);
-            this.buttSupports.Name = "buttSupports";
-            this.buttSupports.Size = new System.Drawing.Size(48, 48);
-            this.buttSupports.TabIndex = 23;
-            this.ctlToolTip1.SetToolTip(this.buttSupports, "Supports");
-            this.buttSupports.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
-            this.buttSupports.Click += new System.EventHandler(this.buttSupports_Click);
-            // 
-            // ctlObjRotate
-            // 
-            this.ctlObjRotate.Location = new System.Drawing.Point(665, 15);
-            this.ctlObjRotate.Name = "ctlObjRotate";
-            this.ctlObjRotate.Size = new System.Drawing.Size(170, 156);
-            this.ctlObjRotate.TabIndex = 22;
-            this.ctlObjRotate.Visible = false;
-            // 
-            // buttRotate
-            // 
-            this.buttRotate.BackColor = System.Drawing.Color.Navy;
-            this.buttRotate.Checked = false;
-            this.buttRotate.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttOpenClose;
-            this.buttRotate.Gapx = 10;
-            this.buttRotate.Gapy = 60;
-            this.buttRotate.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
-            this.buttRotate.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttRotate;
-            this.buttRotate.Location = new System.Drawing.Point(10, 440);
-            this.buttRotate.Name = "buttRotate";
-            this.buttRotate.Size = new System.Drawing.Size(48, 48);
-            this.buttRotate.TabIndex = 18;
-            this.ctlToolTip1.SetToolTip(this.buttRotate, "Rotate object");
-            this.buttRotate.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
-            this.buttRotate.Click += new System.EventHandler(this.buttRotate_Click);
-            // 
-            // ctlObjScale
-            // 
-            this.ctlObjScale.Location = new System.Drawing.Point(474, 15);
-            this.ctlObjScale.Name = "ctlObjScale";
-            this.ctlObjScale.Size = new System.Drawing.Size(171, 199);
-            this.ctlObjScale.TabIndex = 21;
-            this.ctlObjScale.Visible = false;
-            // 
-            // ctlObjMove
-            // 
-            this.ctlObjMove.Location = new System.Drawing.Point(94, 15);
-            this.ctlObjMove.Name = "ctlObjMove";
-            this.ctlObjMove.Size = new System.Drawing.Size(170, 219);
-            this.ctlObjMove.TabIndex = 20;
-            this.ctlObjMove.Visible = false;
-            // 
-            // ctlMachineControl1
-            // 
-            this.ctlMachineControl1.Location = new System.Drawing.Point(3, 2);
-            this.ctlMachineControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ctlMachineControl1.Name = "ctlMachineControl1";
-            this.ctlMachineControl1.Size = new System.Drawing.Size(949, 558);
-            this.ctlMachineControl1.TabIndex = 0;
-            // 
-            // ctlMachineConfig1
-            // 
-            this.ctlMachineConfig1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ctlMachineConfig1.Location = new System.Drawing.Point(0, 0);
-            this.ctlMachineConfig1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ctlMachineConfig1.Name = "ctlMachineConfig1";
-            this.ctlMachineConfig1.Size = new System.Drawing.Size(1099, 557);
-            this.ctlMachineConfig1.TabIndex = 0;
-            // 
-            // ctlToolpathGenConfig1
-            // 
-            this.ctlToolpathGenConfig1.Location = new System.Drawing.Point(3, 4);
-            this.ctlToolpathGenConfig1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ctlToolpathGenConfig1.Name = "ctlToolpathGenConfig1";
-            this.ctlToolpathGenConfig1.Size = new System.Drawing.Size(1036, 505);
-            this.ctlToolpathGenConfig1.TabIndex = 0;
-            // 
-            // heatTempCtl1
-            // 
-            this.heatTempCtl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.heatTempCtl1.Location = new System.Drawing.Point(0, 0);
-            this.heatTempCtl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.heatTempCtl1.MonitorTemps = false;
-            this.heatTempCtl1.Name = "heatTempCtl1";
-            this.heatTempCtl1.Size = new System.Drawing.Size(463, 123);
-            this.heatTempCtl1.TabIndex = 0;
             // 
             // ctlToolTip1
             // 
@@ -1753,6 +1769,7 @@
         private GUI.CustomGUI.ctlToolTip ctlToolTip1;
         private System.Windows.Forms.SplitContainer mainViewSplitContainer;
         private GUI.CustomGUI.ctlNumber numLayer;
+        private GUI.CustomGUI.ctlObjectInfo objectInfoPanel;
     }
 }
 

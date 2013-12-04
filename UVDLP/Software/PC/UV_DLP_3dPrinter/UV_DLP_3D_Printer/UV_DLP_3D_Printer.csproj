@@ -144,7 +144,13 @@
       <DependentUpon>ctlHScroll.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlImageButton.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlInfoItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlInfoItem.Designer.cs">
+      <DependentUpon>ctlInfoItem.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlMove.cs">
       <SubType>UserControl</SubType>
@@ -157,6 +163,12 @@
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlNumber.Designer.cs">
       <DependentUpon>ctlNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlObjectInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlObjectInfo.Designer.cs">
+      <DependentUpon>ctlObjectInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlProgress.cs">
       <SubType>Component</SubType>
@@ -316,11 +328,17 @@
     <EmbeddedResource Include="GUI\CustomGUI\ctlHScroll.resx">
       <DependentUpon>ctlHScroll.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomGUI\ctlInfoItem.resx">
+      <DependentUpon>ctlInfoItem.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\ctlMove.resx">
       <DependentUpon>ctlMove.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\ctlNumber.resx">
       <DependentUpon>ctlNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomGUI\ctlObjectInfo.resx">
+      <DependentUpon>ctlObjectInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\ctlScale.resx">
       <DependentUpon>ctlScale.cs</DependentUpon>

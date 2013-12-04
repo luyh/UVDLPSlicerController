@@ -16,6 +16,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         SplitContainer mTreeViewHolder;
         SplitContainer mMessagePanelHolder;
         ctlNumber mLayerNumberScroll;
+        ctlObjectInfo mObjectInfoPanel;
 
         public ctlView()
         {
@@ -27,6 +28,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             mLayerNumberScroll = null;
             mMessagePanelHolder = null;
             mTreeViewHolder = null;
+            mObjectInfoPanel = null;
         }
 
         public SplitContainer MessagePanelHolder
@@ -47,6 +49,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             set { mLayerNumberScroll = value; }
         }
 
+        public ctlObjectInfo ObjectInfoPanel
+        {
+            get { return mObjectInfoPanel; }
+            set { mObjectInfoPanel = value; }
+        }
+
         private void SetAlpha(bool val)
         {
             if (val == true)
@@ -64,11 +72,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 //GL.Disable(EnableCap.Blend); // alpha blending
             }
         }
-        
-        private void buttAddSupport_Click(object sender, EventArgs e)
+
+        private void buttEnableTransparency_Click(object sender, EventArgs e)
         {
-            SetAlpha(buttAddSupport.Checked);
-            UVDLPApp.Instance().m_engine3d.m_alpha = buttAddSupport.Checked;
+            SetAlpha(buttEnableTransparency.Checked);
+            UVDLPApp.Instance().m_engine3d.m_alpha = buttEnableTransparency.Checked;
             UVDLPApp.Instance().m_engine3d.UpdateLists();
             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");            
         }
@@ -110,6 +118,14 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             UVDLPApp.Instance().m_appconfig.m_viewslice3dheight = buttShowSliceHeight.Checked;
             UVDLPApp.Instance().m_appconfig.Save(UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + UVDLPApp.m_appconfigname);
             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
+        }
+
+        private void buttObjectProperties_Click(object sender, EventArgs e)
+        {
+            if (mObjectInfoPanel != null)
+            {
+                mObjectInfoPanel.Visible = buttObjectProperties.Checked;
+            }
         }
 
     }

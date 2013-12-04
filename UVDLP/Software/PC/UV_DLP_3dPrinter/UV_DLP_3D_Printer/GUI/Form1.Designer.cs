@@ -46,7 +46,6 @@ namespace UV_DLP_3D_Printer.GUI
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.ctlNumber1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
@@ -183,7 +182,6 @@ namespace UV_DLP_3D_Printer.GUI
             this.ctlImageButton1.Name = "ctlImageButton1";
             this.ctlImageButton1.Size = new System.Drawing.Size(48, 52);
             this.ctlImageButton1.TabIndex = 3;
-            this.ctlImageButton1.Text = "ctlImageButton1";
             this.ctlImageButton1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
             // 
             // button2
@@ -270,33 +268,11 @@ namespace UV_DLP_3D_Printer.GUI
             this.button6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button6.UseVisualStyleBackColor = false;
             // 
-            // ctlNumber1
-            // 
-            this.ctlNumber1.BackColor = System.Drawing.Color.RoyalBlue;
-            this.ctlNumber1.ButtonsColor = System.Drawing.Color.Navy;
-            this.ctlNumber1.EnableScroll = true;
-            this.ctlNumber1.ErrorColor = System.Drawing.Color.Red;
-            this.ctlNumber1.FloatVal = 10F;
-            this.ctlNumber1.Increment = 1F;
-            this.ctlNumber1.IntVal = 1;
-            this.ctlNumber1.Location = new System.Drawing.Point(94, 406);
-            this.ctlNumber1.MaxFloat = 500F;
-            this.ctlNumber1.MaxInt = 1000;
-            this.ctlNumber1.MinFloat = -500F;
-            this.ctlNumber1.MinimumSize = new System.Drawing.Size(20, 5);
-            this.ctlNumber1.MinInt = 1;
-            this.ctlNumber1.Name = "ctlNumber1";
-            this.ctlNumber1.Size = new System.Drawing.Size(328, 22);
-            this.ctlNumber1.TabIndex = 5;
-            this.ctlNumber1.TextFont = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.ctlNumber1.ValidColor = System.Drawing.Color.White;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(628, 488);
-            this.Controls.Add(this.ctlNumber1);
             this.Controls.Add(this.ctlExpandPanel2);
             this.Controls.Add(this.flowLayoutPanel2);
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -332,7 +308,6 @@ namespace UV_DLP_3D_Printer.GUI
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
-        private CustomGUI.ctlNumber ctlNumber1;
 
     }
 }

@@ -72,6 +72,7 @@ namespace UV_DLP_3D_Printer
             ctlViewOptions.TreeViewHolder = mainViewSplitContainer;
             ctlViewOptions.MessagePanelHolder = splitContainerMainWindow;
             ctlViewOptions.LayerNumberScroll = numLayer;
+            ctlViewOptions.ObjectInfoPanel = objectInfoPanel;
             mainViewSplitContainer.Panel1Collapsed = true;
                         
             arcball = new ArcBall();
@@ -496,7 +497,7 @@ namespace UV_DLP_3D_Printer
                 else 
                 {
                     chkWireframe.Checked = false;
-
+                    objectInfoPanel.FillObjectInfo(UVDLPApp.Instance().SelectedObject);
                 }
             }
         }
@@ -1300,6 +1301,7 @@ namespace UV_DLP_3D_Printer
             if (e.Button == System.Windows.Forms.MouseButtons.Left && e.Node.Tag != null)
             {
                 UVDLPApp.Instance().SelectedObject = (Object3d)e.Node.Tag;
+                objectInfoPanel.FillObjectInfo(UVDLPApp.Instance().SelectedObject);
                 SetupSceneTree();
                 UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
             }
@@ -1863,6 +1865,7 @@ namespace UV_DLP_3D_Printer
                    if (i.obj.tag != Object3d.OBJ_GROUND) 
                    {
                        UVDLPApp.Instance().SelectedObject = i.obj;
+                       objectInfoPanel.FillObjectInfo(i.obj);
                        UVDLPApp.Instance().m_engine3d.UpdateLists();
                        break; 
                    }
