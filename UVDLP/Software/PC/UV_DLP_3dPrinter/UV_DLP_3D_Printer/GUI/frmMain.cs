@@ -754,10 +754,21 @@ namespace UV_DLP_3D_Printer
                 return;
             if (UVDLPApp.Instance().m_appconfig.m_viewslice3d == false)
                 return;
+            if (m_curslice.m_opsegs == null)
+            {
+                m_curslice.Optimize();
+                m_curslice.ColorLines();
+            }
+            foreach (PolyLine3d ply in m_curslice.m_opsegs)
+            {
+                ply.RenderGL();
+            }            
+            /*
             foreach (PolyLine3d ply in m_curslice.m_segments) 
             {
                 ply.RenderGL();
             }
+             * */
         }
 
         private void glControl1_Load(object sender, EventArgs e)

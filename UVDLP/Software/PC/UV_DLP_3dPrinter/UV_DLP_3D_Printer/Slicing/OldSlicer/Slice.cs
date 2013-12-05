@@ -132,6 +132,27 @@ namespace UV_DLP_3D_Printer
                 return false;
             }
         }
+        public void ColorLines() 
+        {
+            int idx = 0;
+            foreach (PolyLine3d pl in m_opsegs) 
+            {                
+                switch (idx % 3) 
+                {
+                    case 0:
+                        pl.m_color = Color.Red;
+                        break;
+                    case 1:
+                        pl.m_color = Color.Yellow;
+                        break;
+                    case 2:
+                        pl.m_color = Color.White;
+                        break;
+
+                }                                
+                idx++;
+            }
+        }
         /// <summary>
         /// This function trys to join together the short line segments into 
         /// a set of longer 3d polyines
@@ -144,6 +165,125 @@ namespace UV_DLP_3D_Printer
         /// The first pass of this algorithm may have to be N^2 search, I'll try
         /// to change it to log(N) or N as I go along
         /// </summary>
+        /// 
+
+        public void Optimize()
+        {
+            // copy all the polylines in segments into a list
+            List<PolyLine3d> allseg = new List<PolyLine3d>();
+            //create the final optimize segment list
+            m_opsegs = new List<PolyLine3d>();
+
+            // copy the list and clone the polyline segments 
+            foreach (PolyLine3d pl in m_segments)
+            {
+                allseg.Add(new PolyLine3d(pl));
+            }
+            // gotta keep track of lines to remove
+            List<PolyLine3d> removelist = new List<PolyLine3d>();
+            bool done = false;
+            // matchcount is a counter that tracks how many endpoints we've matched this trip around
+            int matchcount = 0;
+            while (!done)
+            {                
+                // set the current line to be the first polyline segement
+                PolyLine3d curline = allseg[0];
+                //iterate through all the line segments in allsegs
+                for (int cnt = 0; cnt < allseg.Count; cnt ++)
+                {
+                    PolyLine3d pl = allseg[cnt];
+                    if (cnt != 0) // the first polyline is the one we're always trying to match
+                    {                        
+                        // if the last point in the current polyline matches the first point
+                        // in the line we're testing, add the second point of the line we're testing 
+                        // to the end of the current line
+                        if (curline.m_points[curline.m_points.Count - 1].Matches(pl.m_points[0])) // case 2
+                        {
+                            curline.m_points.AddRange(pl.m_points);
+                            //curline.m_points.Remove(pl.m_points[0]);
+
+                            removelist.Add(pl); // add the test line to the list of lines to remove, now that we've used it
+                            matchcount++;
+                        }
+                        else if (curline.m_points[curline.m_points.Count - 1].Matches(pl.m_points[pl.m_points.Count - 1])) // case 4 last point matches last
+                        {
+                            pl.m_points.Reverse();
+                            curline.m_points.AddRange(pl.m_points);
+                            //curline.m_points.Remove(pl.m_points[pl.m_points.Count - 1]);
+                            // add the test line to the list of lines to remove, now that we've used it
+                            removelist.Add(pl);
+                            matchcount++;
+                        }
+                        else if (curline.m_points[0].Matches(pl.m_points[pl.m_points.Count - 1])) //case 1
+                        {
+                            curline.m_points.Reverse();
+                            pl.m_points.Reverse();
+                            curline.m_points.AddRange(pl.m_points);
+                            //curline.m_points.Remove(pl.m_points[pl.m_points.Count - 1]);
+                            // add the test line to the list of lines to remove, now that we've used it
+                            removelist.Add(pl);
+                            matchcount++;
+                        }
+                        else if (curline.m_points[0].Matches(pl.m_points[0])) // case 3
+                        {
+                            curline.m_points.Reverse();
+                            curline.m_points.AddRange(pl.m_points);
+                            //curline.m_points.Remove(pl.m_points[0]);
+                            removelist.Add(pl);
+                            matchcount++;
+                        }
+                    }
+                }
+                // now remove all the matched segments from all segment list
+                foreach (PolyLine3d seg in removelist)
+                {
+                    allseg.Remove(seg);
+                }
+                removelist.Clear();                            
+
+                if (matchcount > 0)
+                {
+                    matchcount = 0; // reset the match counter
+                }
+                else
+                {                    
+                    // the current segment is not longer matching
+                    // add it to the final list of optimized segments
+                    m_opsegs.Add(curline);
+                    //and remove it from the list of all segments
+                    allseg.Remove(curline);
+                    //check for end condition
+                    if (allseg.Count == 0)
+                        done = true;
+                }
+            }
+            RemoveDoublePoints(); // make really clean
+        }
+        private void RemoveDoublePoints() 
+        {
+            try
+            {
+                List<Point3d> lstRpnts = new List<Point3d>(); // points to remove
+                foreach (PolyLine3d pl in m_opsegs)
+                {
+                    for (int c = 0; c < pl.m_points.Count - 1; c++)
+                    {
+                        if (pl.m_points[c].Matches(pl.m_points[c + 1]))
+                        {
+                            lstRpnts.Add(pl.m_points[c + 1]);
+
+                        }
+                    }
+                    foreach (Point3d pnt in lstRpnts)
+                        pl.m_points.Remove(pnt);
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
+        }
+        /*
         public void Optimize() 
         {
             // copy all the polylines in segments into a list
@@ -155,8 +295,16 @@ namespace UV_DLP_3D_Printer
             m_opsegs = new List<PolyLine3d>();
 
             // copy the list and clone the polyline segments 
-            foreach (PolyLine3d pl in m_segments) 
+            string tmpstr = "";
+            int ix = 0;
+            foreach (PolyLine3d pl in m_segments)
+            {
                 allseg.Add(new PolyLine3d(pl));
+              //  tmpstr += "" + ix++.ToString() + ": " + pl.m_points[0].x.ToString() +","+ pl.m_points[0].y.ToString();
+              //  tmpstr += " - " + pl.m_points[1].x.ToString() +","+ pl.m_points[1].y.ToString();
+              //  tmpstr += "\r\n";
+            }
+
 
             // gotta keep track of lines to remove
             List<PolyLine3d> removelist = new List<PolyLine3d>();
@@ -173,7 +321,7 @@ namespace UV_DLP_3D_Printer
             while (!done)
             {
                 
-                while (allseg.Count > 0)
+                while (allseg.Count > 0)                
                 {
                     idx = 0;
                     // set the current line to be the first polyline segement
@@ -192,41 +340,43 @@ namespace UV_DLP_3D_Printer
                             // if the last point in the current polyline matches the first point
                             // in the line we're testing, add the second point of the line we're testing 
                             // to the end of the current line
-                            if (curline.m_points[curline.m_points.Count - 1].Matches(pl.m_points[0]))
+                            if (curline.m_points[curline.m_points.Count - 1].Matches(pl.m_points[0])) // case 2
                             {
-                                //curline.AddPoint(pl.m_points[pl.m_points.Count - 1]);
-                                for (int c = 1; c < pl.m_points.Count; c++)
-                                    curline.AddPoint(pl.m_points[c]);
+                                curline.m_points.AddRange(pl.m_points);
+                                curline.m_points.Remove(pl.m_points[0]);
+
                                 removelist.Add(pl); // add the test line to the list of lines to remove, now that we've used it
                                 matchcount++;
+                                cnt = 1; //reset back to beginning of loop upon a match
                             }
-                            else if (curline.m_points[curline.m_points.Count - 1].Matches(pl.m_points[pl.m_points.Count - 1])) // last point matches last
+                            else if (curline.m_points[curline.m_points.Count - 1].Matches(pl.m_points[pl.m_points.Count - 1])) // case 4 last point matches last
                             {
-                                //curline.AddPoint(pl.m_points[0]);
-                                for (int c = pl.m_points.Count -1; c == 0; c--)
-                                    curline.AddPoint(pl.m_points[c]);
+                                pl.m_points.Reverse();
+                                curline.m_points.AddRange(pl.m_points);
+                                curline.m_points.Remove(pl.m_points[pl.m_points.Count - 1]);
                                 // add the test line to the list of lines to remove, now that we've used it
                                 removelist.Add(pl);
+                                cnt = 1; //reset back to beginning of loop
                                 matchcount++;
                             }
-                            else if (curline.m_points[0].Matches(pl.m_points[pl.m_points.Count - 1]))
+                            else if (curline.m_points[0].Matches(pl.m_points[pl.m_points.Count - 1])) //case 1
                             {
-                                // test to see if this test line's second point matches the curline's first point
-                                //curline.m_points.Insert(0, pl.m_points[0]); // insert it at the head
-                                for (int c = 0; c < pl.m_points.Count -1; c++)
-                                    curline.m_points.Insert(0, pl.m_points[c]);
-                                    // add the test line to the list of lines to remove, now that we've used it
+                                curline.m_points.Reverse();
+                                pl.m_points.Reverse();
+                                curline.m_points.AddRange(pl.m_points);
+                                curline.m_points.Remove(pl.m_points[pl.m_points.Count - 1]);
+                                // add the test line to the list of lines to remove, now that we've used it
                                 removelist.Add(pl);
+                                cnt = 1; //reset back to beginning of loop
                                 matchcount++;
                             }
-                            else if (curline.m_points[0].Matches(pl.m_points[0]))
+                            else if (curline.m_points[0].Matches(pl.m_points[0])) // case 3
                             {
-                                // test to see if this test line's second point matches the curline's first point
-                                //curline.m_points.Insert(0, pl.m_points[pl.m_points.Count - 1]); // insert it at the head
-                                for (int c = 1; c < pl.m_points.Count; c++)
-                                    curline.m_points.Insert(0, pl.m_points[c]);
-                                    // add the test line to the list of lines to remove, now that we've used it
-                                    removelist.Add(pl);
+                                curline.m_points.Reverse();
+                                curline.m_points.AddRange(pl.m_points);
+                                curline.m_points.Remove(pl.m_points[0]);
+                                removelist.Add(pl);
+                                cnt = 1; //reset back to beginning of loop
                                 matchcount++;
                             }
                         }
@@ -245,18 +395,21 @@ namespace UV_DLP_3D_Printer
                 {                    
                     foreach (PolyLine3d pl in tmpsegs)
                         allseg.Add(pl);
+                    tmpsegs.Clear();
                 }
                 else 
                 {
                     done = true;
                     foreach (PolyLine3d pl in tmpsegs)
                         m_opsegs.Add(pl);
+                    tmpsegs.Clear();
                         
                 }
-                done = true;
+               // done = true;
                 matchcount = 0; // reset match count
             }
         }
+         */ 
         /*
          This function calculates the min and max x/y coordinates of this slice
          */
