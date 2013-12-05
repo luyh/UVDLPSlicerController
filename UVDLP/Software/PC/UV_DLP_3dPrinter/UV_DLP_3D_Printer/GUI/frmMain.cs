@@ -496,7 +496,7 @@ namespace UV_DLP_3D_Printer
                 }
                 else 
                 {
-                    chkWireframe.Checked = false;
+                    //chkWireframe.Checked = false;
                     objectInfoPanel.FillObjectInfo(UVDLPApp.Instance().SelectedObject);
                 }
             }
@@ -1015,22 +1015,13 @@ namespace UV_DLP_3D_Printer
             //should cancel any move commands
         }
 
-        private void chkWireframe_CheckedChanged(object sender, EventArgs e)
+        /*private void chkWireframe_CheckedChanged(object sender, EventArgs e)
         {
             if (UVDLPApp.Instance().SelectedObject == null) return;
             UVDLPApp.Instance().SelectedObject.m_wireframe = chkWireframe.Checked;
             DisplayFunc();
             Refresh();
-        }
-
-        private void cmdCenter_Click(object sender, EventArgs e)
-        {
-            if (UVDLPApp.Instance().SelectedObject == null) return;
-            Point3d center = UVDLPApp.Instance().SelectedObject.CalcCenter();
-            UVDLPApp.Instance().SelectedObject.Translate((float)-center.x, (float)-center.y,(float) -center.z);
-            ShowObjectInfo();
-            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
-        }
+        }*/
 
         private void cmdStartPrint_Click(object sender, EventArgs e)
         {
@@ -1088,37 +1079,6 @@ namespace UV_DLP_3D_Printer
             //UVDLPApp.Instance().m_buildmgr.StartPrint(UVDLPApp.Instance().m_slicefile, UVDLPApp.Instance().m_gcode);
         }
          */ 
-        private void cmdPlace_Click(object sender, EventArgs e)
-        {
-            if (UVDLPApp.Instance().SelectedObject == null) 
-                return;
-            Point3d center = UVDLPApp.Instance().SelectedObject.CalcCenter();
-            UVDLPApp.Instance().SelectedObject.FindMinMax();
-            float zlev = (float)UVDLPApp.Instance().SelectedObject.m_min.z;
-            float epsilon = .05f; // add in a the level of 1 slice 
-            UVDLPApp.Instance().SelectedObject.Translate((float)0, (float)0, (float)-zlev);
-            UVDLPApp.Instance().SelectedObject.Translate((float)0, (float)0, (float)-epsilon);
-            ShowObjectInfo();
-            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
-        }
-
-        private void cmdScale_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (UVDLPApp.Instance().SelectedObject == null) 
-                    return;
-                float sf = Single.Parse(txtScale.Text);
-                UVDLPApp.Instance().SelectedObject.Scale(sf);
-                ShowObjectInfo();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
-
-            }
-            catch (Exception) 
-            {
-            
-            }
-        }
         /*
         private void cmdSliceOptions_Click(object sender, EventArgs e)
         {
@@ -1335,278 +1295,8 @@ namespace UV_DLP_3D_Printer
         }
         #endregion
 
-        #region Move functions
-        private void cmdXDec_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (UVDLPApp.Instance().SelectedObject == null)
-                    return;
-                float val = float.Parse(txtXTrans.Text);
-                val *= -1;
-                UVDLPApp.Instance().SelectedObject.Translate(val, 0, 0);
-                ShowObjectInfo();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
-            }
-            catch (Exception ex) 
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
+ 
 
-        private void cmdXInc_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (UVDLPApp.Instance().SelectedObject == null)
-                    return;
-                float val = float.Parse(txtXTrans.Text);
-                UVDLPApp.Instance().SelectedObject.Translate(val, 0, 0);
-                ShowObjectInfo();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
-
-        private void cmdYDec_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (UVDLPApp.Instance().SelectedObject == null)
-                    return;
-                float val = float.Parse(txtYTrans.Text);
-                val *= -1;
-                UVDLPApp.Instance().SelectedObject.Translate(0, val, 0);
-                ShowObjectInfo();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
-
-        private void cmdYInc_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (UVDLPApp.Instance().SelectedObject == null)
-                    return;
-                float val = float.Parse(txtYTrans.Text);
-                val *= 1;
-                UVDLPApp.Instance().SelectedObject.Translate(0, val, 0);
-                ShowObjectInfo();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
-
-        private void cmdZdec_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (UVDLPApp.Instance().SelectedObject == null)
-                    return;
-                float val = float.Parse(txtZTrans.Text);
-                val *= -1;
-                UVDLPApp.Instance().SelectedObject.Translate(0, 0,val);
-                ShowObjectInfo();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
-
-        private void cmdZInc_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (UVDLPApp.Instance().SelectedObject == null)
-                    return;
-                float val = float.Parse(txtZTrans.Text);
-                val *= 1;
-                UVDLPApp.Instance().SelectedObject.Translate(0, 0,val);
-                ShowObjectInfo();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
-        #endregion Move functions
-
-        #region Rotate functions
-        private void cmdXRDec_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (UVDLPApp.Instance().SelectedObject == null)
-                    return;
-                float dx = 90.0f;
-                Single.TryParse(txtRx.Text, out dx);                
-                UVDLPApp.Instance().SelectedObject.Rotate(-(dx * 0.0174532925f), 0, 0);
-                ShowObjectInfo();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
-
-        private void cmdXRInc_Click(object sender, EventArgs e)
-        {
-            try
-            {
-
-                if (UVDLPApp.Instance().SelectedObject == null)
-                    return;
-                //get R-x val
-                float dx=90.0f;
-                Single.TryParse(txtRx.Text, out dx);
-                UVDLPApp.Instance().SelectedObject.Rotate((dx * 0.0174532925f), 0, 0);
-                ShowObjectInfo();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
-
-        private void cmdYRDec_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (UVDLPApp.Instance().SelectedObject == null)
-                    return;
-                float dy = 90.0f;
-                Single.TryParse(txtRy.Text, out dy);
-                UVDLPApp.Instance().SelectedObject.Rotate(0,-(dy*0.0174532925f), 0);
-                ShowObjectInfo();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
-
-        private void cmdYRInc_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (UVDLPApp.Instance().SelectedObject == null)
-                    return;
-                float dy = 90.0f;
-                Single.TryParse(txtRy.Text, out dy);
-                UVDLPApp.Instance().SelectedObject.Rotate(0, dy * 0.0174532925f, 0);
-                ShowObjectInfo();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
-
-        private void cmdZRDec_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (UVDLPApp.Instance().SelectedObject == null)
-                    return;
-                float dz = 90.0f;
-                Single.TryParse(txtRz.Text, out dz);
-
-                UVDLPApp.Instance().SelectedObject.Rotate(0, 0, -(dz*0.0174532925f));
-                ShowObjectInfo();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
-
-        private void cmdZRInc_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (UVDLPApp.Instance().SelectedObject == null)
-                    return;
-                float dz = 90.0f;
-                Single.TryParse(txtRz.Text, out dz);
-                UVDLPApp.Instance().SelectedObject.Rotate(0, 0, dz * 0.0174532925f);
-                ShowObjectInfo();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
-        #endregion
-
-        #region Mouse Move/Scale/Rotate/View
-        /*
-        private void mnuView_Click(object sender, EventArgs e)
-        {
-            m_mousemode = eMOUSEMODE.eView;
-            SetMouseModeChecks();
-        }
-
-        private void mnuMove_Click(object sender, EventArgs e)
-        {
-            m_mousemode = eMOUSEMODE.eModelMove;
-            SetMouseModeChecks();
-        }
-
-        private void mnuRotate_Click(object sender, EventArgs e)
-        {
-            m_mousemode = eMOUSEMODE.eModelRotate;
-            SetMouseModeChecks();
-        }
-
-        private void mnuScale_Click(object sender, EventArgs e)
-        {
-            m_mousemode = eMOUSEMODE.eModelScale;
-            SetMouseModeChecks();
-        }
-        private void SetMouseModeChecks()
-        {
-            mnuMove.Checked = false;
-            mnuView.Checked = false;
-            mnuScale.Checked = false;
-            mnuRotate.Checked = false;
-            switch (m_mousemode)
-            {
-                case eMOUSEMODE.eModelMove:
-                    mnuMove.Checked = true;
-                    break;
-                case eMOUSEMODE.eModelRotate:
-                    mnuRotate.Checked = true;
-                    break;
-                case eMOUSEMODE.eModelScale:
-                    mnuScale.Checked = true;
-                    break;
-                case eMOUSEMODE.eView:
-                    mnuView.Checked = true;
-                    break;
-            }
-
-        }
-         * */
-        #endregion 
         #region DLP Screen Controls
         private void showBlankDLP()
         {
@@ -1764,7 +1454,7 @@ namespace UV_DLP_3D_Printer
             SetupSceneTree();
         }
 
-        private void chkAlpha_CheckedChanged(object sender, EventArgs e)
+        /*private void chkAlpha_CheckedChanged(object sender, EventArgs e)
         {
             //if (UVDLPApp.Instance().m_selectedobject == null) return;
             //UVDLPApp.Instance().m_selectedobject.m_showalpha = chkAlpha.Checked;
@@ -1772,7 +1462,7 @@ namespace UV_DLP_3D_Printer
             UVDLPApp.Instance().m_engine3d.m_alpha = chkAlpha.Checked;
             UVDLPApp.Instance().m_engine3d.UpdateLists();
             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");            
-        }
+        }*/
 
         private void cmdLoadGCode_Click(object sender, EventArgs e)
         {
@@ -1792,56 +1482,8 @@ namespace UV_DLP_3D_Printer
             }
         }
 
-        private void cmdScaleX_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (UVDLPApp.Instance().SelectedObject == null)
-                    return;
-                float sfx = Single.Parse(txtScaleX.Text);
-                UVDLPApp.Instance().SelectedObject.Scale(sfx,1,1);
-                ShowObjectInfo();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
-            }
-            catch (Exception)
-            {
 
-            }
-        }
-
-        private void cmdScaleY_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (UVDLPApp.Instance().SelectedObject == null)
-                    return;
-                float sfy = Single.Parse(txtScaleY.Text);
-                UVDLPApp.Instance().SelectedObject.Scale(1, sfy, 1);
-                ShowObjectInfo();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
-            }
-            catch (Exception)
-            {
-
-            }
-        }
-
-        private void cmdScaleZ_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (UVDLPApp.Instance().SelectedObject == null)
-                    return;
-                float sfz = Single.Parse(txtScaleZ.Text);
-                UVDLPApp.Instance().SelectedObject.Scale( 1, 1, sfz);
-                ShowObjectInfo();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
-            }
-            catch (Exception)
-            {
-
-            }
-        }
+ 
         private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmPrefs prefs = new frmPrefs();
@@ -1960,11 +1602,11 @@ namespace UV_DLP_3D_Printer
             frm.Show();
         }
 
-        private void chkPreviewSlice_CheckedChanged(object sender, EventArgs e)
+        /*private void chkPreviewSlice_CheckedChanged(object sender, EventArgs e)
         {
             UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay = chkPreviewSlice.Checked;
             UVDLPApp.Instance().m_appconfig.Save(UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + UVDLPApp.m_appconfigname);
-        }
+        }*/
 
         private void buttGlHome_Click(object sender, EventArgs e)
         {

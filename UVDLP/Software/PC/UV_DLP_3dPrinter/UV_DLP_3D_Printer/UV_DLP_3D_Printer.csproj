@@ -119,12 +119,6 @@
     <Compile Include="GUI\Controls\ctlMachineControl.Designer.cs">
       <DependentUpon>ctlMachineControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Controls\ctlSupport.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Controls\ctlSupport.Designer.cs">
-      <DependentUpon>ctlSupport.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\Controls\ctlToolpathGenConfig.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -315,9 +309,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\ctlMachineControl.resx">
       <DependentUpon>ctlMachineControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Controls\ctlSupport.resx">
-      <DependentUpon>ctlSupport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\ctlToolpathGenConfig.resx">
       <DependentUpon>ctlToolpathGenConfig.cs</DependentUpon>
