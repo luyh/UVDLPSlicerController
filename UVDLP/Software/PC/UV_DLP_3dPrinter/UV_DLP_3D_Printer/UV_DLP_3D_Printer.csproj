@@ -357,6 +357,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmDLP.resx">
       <DependentUpon>frmDLP.cs</DependentUpon>
@@ -449,6 +450,13 @@
     <None Include="resources\CustomGUI\buttViewDown.png" />
     <None Include="resources\CustomGUI\buttautoDown.png" />
     <None Include="resources\CustomGUI\buttConsole.png" />
+    <None Include="resources\CustomGUI\buttPlay.png" />
+    <None Include="resources\CustomGUI\buttSlice.png" />
+    <None Include="resources\CustomGUI\buttStop.png" />
+    <None Include="resources\CustomGUI\buttConnect.png" />
+    <None Include="resources\CustomGUI\buttDisconnect.png" />
+    <None Include="resources\CustomGUI\buttOpenFile.png" />
+    <None Include="resources\CustomGUI\buttPause.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

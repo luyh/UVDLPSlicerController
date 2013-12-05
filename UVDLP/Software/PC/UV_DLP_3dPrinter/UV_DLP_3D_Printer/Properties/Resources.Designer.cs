@@ -151,9 +151,23 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap buttConnect {
+            get {
+                object obj = ResourceManager.GetObject("buttConnect", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap buttConsole {
             get {
                 object obj = ResourceManager.GetObject("buttConsole", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttDisconnect {
+            get {
+                object obj = ResourceManager.GetObject("buttDisconnect", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -200,6 +214,27 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap buttOpenFile {
+            get {
+                object obj = ResourceManager.GetObject("buttOpenFile", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttPause {
+            get {
+                object obj = ResourceManager.GetObject("buttPause", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttPlay {
+            get {
+                object obj = ResourceManager.GetObject("buttPlay", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap buttPlus {
             get {
                 object obj = ResourceManager.GetObject("buttPlus", resourceCulture);
@@ -231,6 +266,20 @@ namespace UV_DLP_3D_Printer.Properties {
         public static System.Drawing.Bitmap buttShowsliceh {
             get {
                 object obj = ResourceManager.GetObject("buttShowsliceh", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttSlice {
+            get {
+                object obj = ResourceManager.GetObject("buttSlice", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttStop {
+            get {
+                object obj = ResourceManager.GetObject("buttStop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

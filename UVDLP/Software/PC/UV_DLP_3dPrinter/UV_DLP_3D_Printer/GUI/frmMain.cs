@@ -259,6 +259,8 @@ namespace UV_DLP_3D_Printer
             {
                 cmdConnect.Enabled = false;
                 cmdDisconnect.Enabled = true;
+                buttConnect.Enabled = false;
+                buttDisconnect.Enabled = true;
 
                 if (UVDLPApp.Instance().m_buildmgr.IsPrinting)
                 {
@@ -267,12 +269,18 @@ namespace UV_DLP_3D_Printer
                         cmdBuild.Enabled = true;
                         cmdStop.Enabled = true;
                         cmdPause.Enabled = false;
+                        buttPlay.Enabled = true;
+                        buttStop.Enabled = true;
+                        buttPause.Enabled = false;
                     }
                     else
                     {
                         cmdBuild.Enabled = false;
                         cmdStop.Enabled = true;
                         cmdPause.Enabled = true;
+                        buttPlay.Enabled = false;
+                        buttStop.Enabled = true;
+                        buttPause.Enabled = true;
                     }
                 }
                 else
@@ -280,6 +288,9 @@ namespace UV_DLP_3D_Printer
                     cmdBuild.Enabled = true;
                     cmdStop.Enabled = false;
                     cmdPause.Enabled = false;
+                    buttPlay.Enabled = true;
+                    buttStop.Enabled = false;
+                    buttPause.Enabled = false;
                 }
             }
             else 
@@ -290,6 +301,12 @@ namespace UV_DLP_3D_Printer
                 cmdBuild.Enabled = false;
                 cmdStop.Enabled = false;
                 cmdPause.Enabled = false; // disable
+
+                buttConnect.Enabled = true;
+                buttDisconnect.Enabled = false;
+                buttPlay.Enabled = false;
+                buttStop.Enabled = false;
+                buttPause.Enabled = false;
 
             }
             Refresh();
