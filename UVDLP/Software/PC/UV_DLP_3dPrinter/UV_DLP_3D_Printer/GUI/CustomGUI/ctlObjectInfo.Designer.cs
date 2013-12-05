@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.layoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.tTitle = new System.Windows.Forms.Label();
             this.tName = new System.Windows.Forms.Label();
             this.tVolume = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlInfoItem();
             this.tCost = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlInfoItem();
@@ -44,7 +44,7 @@
             // layoutPanel
             // 
             this.layoutPanel.BackColor = System.Drawing.Color.Navy;
-            this.layoutPanel.Controls.Add(this.label1);
+            this.layoutPanel.Controls.Add(this.tTitle);
             this.layoutPanel.Controls.Add(this.tName);
             this.layoutPanel.Controls.Add(this.tVolume);
             this.layoutPanel.Controls.Add(this.tCost);
@@ -60,17 +60,17 @@
             this.layoutPanel.TabIndex = 0;
             this.layoutPanel.Resize += new System.EventHandler(this.layoutPanel_Resize);
             // 
-            // label1
+            // tTitle
             // 
-            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.Font = new System.Drawing.Font("Arial", 17.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(3, 2);
-            this.label1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(144, 23);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Object Info";
+            this.tTitle.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tTitle.Font = new System.Drawing.Font("Arial", 17.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.tTitle.ForeColor = System.Drawing.Color.White;
+            this.tTitle.Location = new System.Drawing.Point(3, 2);
+            this.tTitle.Margin = new System.Windows.Forms.Padding(3, 2, 3, 0);
+            this.tTitle.Name = "tTitle";
+            this.tTitle.Size = new System.Drawing.Size(144, 23);
+            this.tTitle.TabIndex = 0;
+            this.tTitle.Text = "Object Info";
             // 
             // tName
             // 
@@ -217,7 +217,7 @@
         #endregion
 
         private System.Windows.Forms.FlowLayoutPanel layoutPanel;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label tTitle;
         private System.Windows.Forms.Label tName;
         private ctlInfoItem tVolume;
         private ctlInfoItem tCost;
