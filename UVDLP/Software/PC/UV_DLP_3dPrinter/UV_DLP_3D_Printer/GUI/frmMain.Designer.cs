@@ -946,9 +946,9 @@
             this.objectInfoPanel.Gapx = 10;
             this.objectInfoPanel.Gapy = 10;
             this.objectInfoPanel.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
-            this.objectInfoPanel.Location = new System.Drawing.Point(176, 321);
+            this.objectInfoPanel.Location = new System.Drawing.Point(628, 238);
             this.objectInfoPanel.Name = "objectInfoPanel";
-            this.objectInfoPanel.Size = new System.Drawing.Size(206, 167);
+            this.objectInfoPanel.Size = new System.Drawing.Size(300, 240);
             this.objectInfoPanel.TabIndex = 28;
             this.objectInfoPanel.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
             this.objectInfoPanel.Visible = false;
