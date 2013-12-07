@@ -197,20 +197,20 @@ namespace UV_DLP_3D_Printer
                         // if the last point in the current polyline matches the first point
                         // in the line we're testing, add the second point of the line we're testing 
                         // to the end of the current line
-                        if (curline.m_points[curline.m_points.Count - 1].Matches(pl.m_points[0])) // case 2
+                        if (curline.m_points[curline.m_points.Count - 1].Matches(pl.m_points[0]) ) // case 2
                         {
-                            curline.m_points.AddRange(pl.m_points);
-                            //curline.m_points.Remove(pl.m_points[0]);
-
-                            removelist.Add(pl); // add the test line to the list of lines to remove, now that we've used it
-                            matchcount++;
+                            //if ((curline.m_derived.SharesEdge(pl.m_derived)))
+                            {
+                                curline.m_points.AddRange(pl.m_points);
+                                removelist.Add(pl); // add the test line to the list of lines to remove, now that we've used it
+                                matchcount++;
+                            }
                         }
                         else if (curline.m_points[curline.m_points.Count - 1].Matches(pl.m_points[pl.m_points.Count - 1])) // case 4 last point matches last
                         {
+                            // && (curline.m_derived.SharesEdge(pl.m_derived))
                             pl.m_points.Reverse();
                             curline.m_points.AddRange(pl.m_points);
-                            //curline.m_points.Remove(pl.m_points[pl.m_points.Count - 1]);
-                            // add the test line to the list of lines to remove, now that we've used it
                             removelist.Add(pl);
                             matchcount++;
                         }
@@ -219,16 +219,13 @@ namespace UV_DLP_3D_Printer
                             curline.m_points.Reverse();
                             pl.m_points.Reverse();
                             curline.m_points.AddRange(pl.m_points);
-                            //curline.m_points.Remove(pl.m_points[pl.m_points.Count - 1]);
-                            // add the test line to the list of lines to remove, now that we've used it
                             removelist.Add(pl);
                             matchcount++;
                         }
-                        else if (curline.m_points[0].Matches(pl.m_points[0])) // case 3
+                        else if (curline.m_points[0].Matches(pl.m_points[0]) ) // case 3
                         {
                             curline.m_points.Reverse();
                             curline.m_points.AddRange(pl.m_points);
-                            //curline.m_points.Remove(pl.m_points[0]);
                             removelist.Add(pl);
                             matchcount++;
                         }

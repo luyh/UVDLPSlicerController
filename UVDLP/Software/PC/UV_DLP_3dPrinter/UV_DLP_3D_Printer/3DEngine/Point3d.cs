@@ -7,7 +7,8 @@ namespace Engine3D
 {
     public class Point3d
     {
-        private static float epsilon = .0001f; // define an epsilon value for matching
+        // private static float epsilon = .0001f; // define an epsilon value for matching
+        private static float epsilon = Single.Epsilon; // define an epsilon value for matching
         public float x, y, z;
         public Point3d() 
         {

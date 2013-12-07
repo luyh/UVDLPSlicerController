@@ -33,7 +33,7 @@ namespace Engine3D
         {
             tag = 0;
             m_color = src.m_color;
-            m_derived = null;
+            m_derived = src.m_derived;
             minx = src.minx;
             miny = src.miny;
             minz = src.minz;
