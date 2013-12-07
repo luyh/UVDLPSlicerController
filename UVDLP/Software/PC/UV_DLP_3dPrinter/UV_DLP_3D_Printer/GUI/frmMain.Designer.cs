@@ -34,7 +34,6 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadBinarySTLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.estimateVolumeCostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveSceneSTLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,7 +80,6 @@
             this.lblMainMessage = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.lblTime = new System.Windows.Forms.ToolStripLabel();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.txtLog = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -98,6 +96,7 @@
             this.buttConnect = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttDisconnect = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttSlice = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttConfig = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.objectInfoPanel = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlObjectInfo();
             this.numLayer = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
             this.buttGlHome = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
@@ -114,9 +113,7 @@
             this.ctlMachineControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineControl();
             this.ctlMachineConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineConfig();
             this.ctlToolpathGenConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlToolpathGenConfig();
-            this.heatTempCtl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlHeatTemp();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
-            this.buttConfig = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.menuStrip1.SuspendLayout();
             this.splitContainerMainWindow.Panel1.SuspendLayout();
             this.splitContainerMainWindow.Panel2.SuspendLayout();
@@ -139,9 +136,6 @@
             this.tabMachineConfig.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            this.splitContainer3.Panel1.SuspendLayout();
-            this.splitContainer3.Panel2.SuspendLayout();
-            this.splitContainer3.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
@@ -167,7 +161,6 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadBinarySTLToolStripMenuItem,
-            this.estimateVolumeCostToolStripMenuItem,
             this.saveSceneSTLToolStripMenuItem,
             this.preferencesToolStripMenuItem,
             this.exitToolStripMenuItem,
@@ -180,49 +173,42 @@
             // loadBinarySTLToolStripMenuItem
             // 
             this.loadBinarySTLToolStripMenuItem.Name = "loadBinarySTLToolStripMenuItem";
-            this.loadBinarySTLToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.loadBinarySTLToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.loadBinarySTLToolStripMenuItem.Text = "Load Model";
             this.loadBinarySTLToolStripMenuItem.Click += new System.EventHandler(this.loadBinarySTLToolStripMenuItem_Click);
-            // 
-            // estimateVolumeCostToolStripMenuItem
-            // 
-            this.estimateVolumeCostToolStripMenuItem.Name = "estimateVolumeCostToolStripMenuItem";
-            this.estimateVolumeCostToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            this.estimateVolumeCostToolStripMenuItem.Text = "Estimate Volume && Cost";
-            this.estimateVolumeCostToolStripMenuItem.Click += new System.EventHandler(this.estimateVolumeCostToolStripMenuItem_Click);
             // 
             // saveSceneSTLToolStripMenuItem
             // 
             this.saveSceneSTLToolStripMenuItem.Name = "saveSceneSTLToolStripMenuItem";
-            this.saveSceneSTLToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.saveSceneSTLToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.saveSceneSTLToolStripMenuItem.Text = "Save Scene STL";
             this.saveSceneSTLToolStripMenuItem.Click += new System.EventHandler(this.saveSceneSTLToolStripMenuItem_Click);
             // 
             // preferencesToolStripMenuItem
             // 
             this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.preferencesToolStripMenuItem.Text = "Preferences";
             this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // testToolStripMenuItem
             // 
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.testToolStripMenuItem.Text = "test";
             this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
             // findHolesInMeshToolStripMenuItem
             // 
             this.findHolesInMeshToolStripMenuItem.Name = "findHolesInMeshToolStripMenuItem";
-            this.findHolesInMeshToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.findHolesInMeshToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.findHolesInMeshToolStripMenuItem.Text = "Find Holes In Mesh";
             this.findHolesInMeshToolStripMenuItem.Click += new System.EventHandler(this.findHolesInMeshToolStripMenuItem_Click);
             // 
@@ -257,7 +243,7 @@
             // 
             // splitContainerMainWindow.Panel2
             // 
-            this.splitContainerMainWindow.Panel2.Controls.Add(this.splitContainer3);
+            this.splitContainerMainWindow.Panel2.Controls.Add(this.txtLog);
             this.splitContainerMainWindow.Size = new System.Drawing.Size(1457, 793);
             this.splitContainerMainWindow.SplitterDistance = 666;
             this.splitContainerMainWindow.TabIndex = 21;
@@ -715,24 +701,6 @@
             this.lblTime.Name = "lblTime";
             this.lblTime.Size = new System.Drawing.Size(0, 52);
             // 
-            // splitContainer3
-            // 
-            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.splitContainer3.Name = "splitContainer3";
-            // 
-            // splitContainer3.Panel1
-            // 
-            this.splitContainer3.Panel1.Controls.Add(this.txtLog);
-            // 
-            // splitContainer3.Panel2
-            // 
-            this.splitContainer3.Panel2.Controls.Add(this.heatTempCtl1);
-            this.splitContainer3.Size = new System.Drawing.Size(1457, 123);
-            this.splitContainer3.SplitterDistance = 990;
-            this.splitContainer3.TabIndex = 1;
-            // 
             // txtLog
             // 
             this.txtLog.BackColor = System.Drawing.Color.White;
@@ -744,7 +712,7 @@
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtLog.Size = new System.Drawing.Size(990, 123);
+            this.txtLog.Size = new System.Drawing.Size(1457, 123);
             this.txtLog.TabIndex = 0;
             // 
             // contextMenuStrip1
@@ -908,6 +876,24 @@
             this.ctlToolTip1.SetToolTip(this.buttSlice, "Slice!");
             this.buttSlice.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
             this.buttSlice.Click += new System.EventHandler(this.cmdSlice1_Click);
+            // 
+            // buttConfig
+            // 
+            this.buttConfig.BackColor = System.Drawing.Color.Navy;
+            this.buttConfig.Checked = false;
+            this.buttConfig.CheckImage = null;
+            this.buttConfig.Gapx = 10;
+            this.buttConfig.Gapy = 10;
+            this.buttConfig.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
+            this.buttConfig.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttGear;
+            this.buttConfig.Location = new System.Drawing.Point(398, 4);
+            this.buttConfig.Margin = new System.Windows.Forms.Padding(4, 4, 0, 4);
+            this.buttConfig.Name = "buttConfig";
+            this.buttConfig.Size = new System.Drawing.Size(48, 48);
+            this.buttConfig.TabIndex = 18;
+            this.ctlToolTip1.SetToolTip(this.buttConfig, "Configuration");
+            this.buttConfig.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
+            this.buttConfig.Click += new System.EventHandler(this.cmdSlice1_Click);
             // 
             // objectInfoPanel
             // 
@@ -1121,16 +1107,6 @@
             this.ctlToolpathGenConfig1.Size = new System.Drawing.Size(1036, 505);
             this.ctlToolpathGenConfig1.TabIndex = 0;
             // 
-            // heatTempCtl1
-            // 
-            this.heatTempCtl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.heatTempCtl1.Location = new System.Drawing.Point(0, 0);
-            this.heatTempCtl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.heatTempCtl1.MonitorTemps = false;
-            this.heatTempCtl1.Name = "heatTempCtl1";
-            this.heatTempCtl1.Size = new System.Drawing.Size(463, 123);
-            this.heatTempCtl1.TabIndex = 0;
-            // 
             // ctlToolTip1
             // 
             this.ctlToolTip1.AutoPopDelay = 5000;
@@ -1139,24 +1115,6 @@
             this.ctlToolTip1.InitialDelay = 1500;
             this.ctlToolTip1.ReshowDelay = 100;
             this.ctlToolTip1.ShowAlways = true;
-            // 
-            // buttConfig
-            // 
-            this.buttConfig.BackColor = System.Drawing.Color.Navy;
-            this.buttConfig.Checked = false;
-            this.buttConfig.CheckImage = null;
-            this.buttConfig.Gapx = 10;
-            this.buttConfig.Gapy = 10;
-            this.buttConfig.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
-            this.buttConfig.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttGear;
-            this.buttConfig.Location = new System.Drawing.Point(398, 4);
-            this.buttConfig.Margin = new System.Windows.Forms.Padding(4, 4, 0, 4);
-            this.buttConfig.Name = "buttConfig";
-            this.buttConfig.Size = new System.Drawing.Size(48, 48);
-            this.buttConfig.TabIndex = 18;
-            this.ctlToolTip1.SetToolTip(this.buttConfig, "Configuration");
-            this.buttConfig.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
-            this.buttConfig.Click += new System.EventHandler(this.cmdSlice1_Click);
             // 
             // frmMain
             // 
@@ -1176,6 +1134,7 @@
             this.splitContainerMainWindow.Panel1.ResumeLayout(false);
             this.splitContainerMainWindow.Panel1.PerformLayout();
             this.splitContainerMainWindow.Panel2.ResumeLayout(false);
+            this.splitContainerMainWindow.Panel2.PerformLayout();
             this.splitContainerMainWindow.ResumeLayout(false);
             this.splitContainerTop.Panel1.ResumeLayout(false);
             this.splitContainerTop.Panel2.ResumeLayout(false);
@@ -1198,10 +1157,6 @@
             this.tabPage3.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.splitContainer3.Panel1.ResumeLayout(false);
-            this.splitContainer3.Panel1.PerformLayout();
-            this.splitContainer3.Panel2.ResumeLayout(false);
-            this.splitContainer3.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -1255,8 +1210,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.Button cmdLoadGCode;
-        private System.Windows.Forms.SplitContainer splitContainer3;
-        private GUI.Controls.ctlHeatTemp heatTempCtl1;
         private System.Windows.Forms.TabPage tabMachineControl;
         //private GUI.Controls.ctlMachineControl machineControl1;
         private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
@@ -1271,7 +1224,6 @@
         private System.Windows.Forms.TabPage tabPage3;
         private GUI.Controls.ctlToolpathGenConfig ctlToolpathGenConfig1;
         private GUI.Controls.ctlMachineControl ctlMachineControl1;
-        private System.Windows.Forms.ToolStripMenuItem estimateVolumeCostToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private GUI.CustomGUI.ctlImageButton buttGlHome;
         private GUI.CustomGUI.ctlImageButton buttScale;

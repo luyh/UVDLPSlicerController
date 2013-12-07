@@ -35,10 +35,16 @@
             this.txtRateXY = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.grpHoming = new System.Windows.Forms.GroupBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.cmdGetPosition = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
+            this.cmdHomeAll = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.lblX = new System.Windows.Forms.Label();
+            this.cmdYHome = new System.Windows.Forms.Button();
+            this.cmdXHome = new System.Windows.Forms.Button();
+            this.cmdZHome = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cmdMotorsOn = new System.Windows.Forms.Button();
             this.cmdMotorsOff = new System.Windows.Forms.Button();
@@ -78,18 +84,13 @@
             this.cmdHide = new System.Windows.Forms.Button();
             this.cmdShowBlank = new System.Windows.Forms.Button();
             this.cmdShowCalib = new System.Windows.Forms.Button();
-            this.cmdGetPosition = new System.Windows.Forms.Button();
-            this.cmdHomeAll = new System.Windows.Forms.Button();
-            this.cmdYHome = new System.Windows.Forms.Button();
-            this.cmdXHome = new System.Windows.Forms.Button();
-            this.cmdZHome = new System.Windows.Forms.Button();
             this.cmdYDown = new System.Windows.Forms.Button();
             this.cmdYUp = new System.Windows.Forms.Button();
             this.cmdXDown = new System.Windows.Forms.Button();
             this.cmdXUp = new System.Windows.Forms.Button();
             this.cmdDown = new System.Windows.Forms.Button();
             this.cmdUp = new System.Windows.Forms.Button();
-            this.label18 = new System.Windows.Forms.Label();
+            this.ctlHeatTemp1 = new UV_DLP_3D_Printer.GUI.Controls.ctlHeatTemp();
             this.grpHoming.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.grpExtrudeControls.SuspendLayout();
@@ -172,26 +173,58 @@
             this.grpHoming.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpHoming.Name = "grpHoming";
             this.grpHoming.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpHoming.Size = new System.Drawing.Size(300, 127);
+            this.grpHoming.Size = new System.Drawing.Size(300, 111);
             this.grpHoming.TabIndex = 43;
             this.grpHoming.TabStop = false;
             this.grpHoming.Text = "Homing";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(238, 82);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(46, 23);
+            this.label18.TabIndex = 25;
+            this.label18.Text = "Pos";
+            // 
+            // cmdGetPosition
+            // 
+            this.cmdGetPosition.Image = global::UV_DLP_3D_Printer.Properties.Resources.position;
+            this.cmdGetPosition.Location = new System.Drawing.Point(236, 23);
+            this.cmdGetPosition.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmdGetPosition.Name = "cmdGetPosition";
+            this.cmdGetPosition.Size = new System.Drawing.Size(48, 52);
+            this.cmdGetPosition.TabIndex = 24;
+            this.cmdGetPosition.UseVisualStyleBackColor = true;
+            this.cmdGetPosition.Click += new System.EventHandler(this.cmdGetPosition_Click);
             // 
             // label15
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(181, 91);
+            this.label15.Location = new System.Drawing.Point(181, 82);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(46, 23);
             this.label15.TabIndex = 23;
             this.label15.Text = "All";
             // 
+            // cmdHomeAll
+            // 
+            this.cmdHomeAll.Image = global::UV_DLP_3D_Printer.Properties.Resources.rounded_blue_home_button_4805;
+            this.cmdHomeAll.Location = new System.Drawing.Point(180, 23);
+            this.cmdHomeAll.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmdHomeAll.Name = "cmdHomeAll";
+            this.cmdHomeAll.Size = new System.Drawing.Size(48, 52);
+            this.cmdHomeAll.TabIndex = 22;
+            this.cmdHomeAll.UseVisualStyleBackColor = true;
+            this.cmdHomeAll.Click += new System.EventHandler(this.cmdHomeAll_Click);
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(139, 91);
+            this.label5.Location = new System.Drawing.Point(139, 82);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(22, 23);
             this.label5.TabIndex = 21;
@@ -201,7 +234,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(82, 91);
+            this.label4.Location = new System.Drawing.Point(82, 82);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(22, 23);
             this.label4.TabIndex = 20;
@@ -211,11 +244,44 @@
             // 
             this.lblX.AutoSize = true;
             this.lblX.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblX.Location = new System.Drawing.Point(24, 91);
+            this.lblX.Location = new System.Drawing.Point(24, 82);
             this.lblX.Name = "lblX";
             this.lblX.Size = new System.Drawing.Size(22, 23);
             this.lblX.TabIndex = 19;
             this.lblX.Text = "X";
+            // 
+            // cmdYHome
+            // 
+            this.cmdYHome.Image = global::UV_DLP_3D_Printer.Properties.Resources.rounded_blue_home_button_4805;
+            this.cmdYHome.Location = new System.Drawing.Point(68, 23);
+            this.cmdYHome.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmdYHome.Name = "cmdYHome";
+            this.cmdYHome.Size = new System.Drawing.Size(48, 52);
+            this.cmdYHome.TabIndex = 18;
+            this.cmdYHome.UseVisualStyleBackColor = true;
+            this.cmdYHome.Click += new System.EventHandler(this.cmdYHome_Click);
+            // 
+            // cmdXHome
+            // 
+            this.cmdXHome.Image = global::UV_DLP_3D_Printer.Properties.Resources.rounded_blue_home_button_4805;
+            this.cmdXHome.Location = new System.Drawing.Point(11, 23);
+            this.cmdXHome.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmdXHome.Name = "cmdXHome";
+            this.cmdXHome.Size = new System.Drawing.Size(48, 52);
+            this.cmdXHome.TabIndex = 17;
+            this.cmdXHome.UseVisualStyleBackColor = true;
+            this.cmdXHome.Click += new System.EventHandler(this.cmdXHome_Click);
+            // 
+            // cmdZHome
+            // 
+            this.cmdZHome.Image = global::UV_DLP_3D_Printer.Properties.Resources.rounded_blue_home_button_4805;
+            this.cmdZHome.Location = new System.Drawing.Point(124, 23);
+            this.cmdZHome.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmdZHome.Name = "cmdZHome";
+            this.cmdZHome.Size = new System.Drawing.Size(48, 52);
+            this.cmdZHome.TabIndex = 16;
+            this.cmdZHome.UseVisualStyleBackColor = true;
+            this.cmdZHome.Click += new System.EventHandler(this.cmdZHome_Click);
             // 
             // groupBox1
             // 
@@ -264,14 +330,14 @@
             this.grpExtrudeControls.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpExtrudeControls.Name = "grpExtrudeControls";
             this.grpExtrudeControls.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpExtrudeControls.Size = new System.Drawing.Size(229, 127);
+            this.grpExtrudeControls.Size = new System.Drawing.Size(229, 97);
             this.grpExtrudeControls.TabIndex = 41;
             this.grpExtrudeControls.TabStop = false;
             this.grpExtrudeControls.Text = "Toolhead 0 (Extruder)";
             // 
             // udTool0Rate
             // 
-            this.udTool0Rate.Location = new System.Drawing.Point(87, 80);
+            this.udTool0Rate.Location = new System.Drawing.Point(86, 62);
             this.udTool0Rate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.udTool0Rate.Maximum = new decimal(new int[] {
             5000,
@@ -294,7 +360,7 @@
             // 
             // udext0len
             // 
-            this.udext0len.Location = new System.Drawing.Point(87, 33);
+            this.udext0len.Location = new System.Drawing.Point(86, 28);
             this.udext0len.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.udext0len.Minimum = new decimal(new int[] {
             1,
@@ -313,7 +379,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(167, 85);
+            this.label16.Location = new System.Drawing.Point(161, 62);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(56, 17);
             this.label16.TabIndex = 22;
@@ -324,7 +390,7 @@
             this.cmdExtrude1.Location = new System.Drawing.Point(5, 21);
             this.cmdExtrude1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdExtrude1.Name = "cmdExtrude1";
-            this.cmdExtrude1.Size = new System.Drawing.Size(75, 44);
+            this.cmdExtrude1.Size = new System.Drawing.Size(75, 34);
             this.cmdExtrude1.TabIndex = 14;
             this.cmdExtrude1.Text = "Extrude";
             this.cmdExtrude1.UseVisualStyleBackColor = true;
@@ -333,7 +399,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(175, 38);
+            this.label2.Location = new System.Drawing.Point(161, 32);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(30, 17);
             this.label2.TabIndex = 20;
@@ -341,10 +407,10 @@
             // 
             // cmdReverse
             // 
-            this.cmdReverse.Location = new System.Drawing.Point(5, 71);
+            this.cmdReverse.Location = new System.Drawing.Point(5, 59);
             this.cmdReverse.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdReverse.Name = "cmdReverse";
-            this.cmdReverse.Size = new System.Drawing.Size(75, 44);
+            this.cmdReverse.Size = new System.Drawing.Size(75, 34);
             this.cmdReverse.TabIndex = 15;
             this.cmdReverse.Text = "Reverse";
             this.cmdReverse.UseVisualStyleBackColor = true;
@@ -475,18 +541,18 @@
             this.groupBox2.Controls.Add(this.cmdExtrude2);
             this.groupBox2.Controls.Add(this.label14);
             this.groupBox2.Controls.Add(this.cmdReverse2);
-            this.groupBox2.Location = new System.Drawing.Point(13, 382);
+            this.groupBox2.Location = new System.Drawing.Point(13, 350);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox2.Size = new System.Drawing.Size(229, 127);
+            this.groupBox2.Size = new System.Drawing.Size(229, 99);
             this.groupBox2.TabIndex = 57;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Toolhead 1 (Extruder)";
             // 
             // udTool1Rate
             // 
-            this.udTool1Rate.Location = new System.Drawing.Point(87, 81);
+            this.udTool1Rate.Location = new System.Drawing.Point(87, 65);
             this.udTool1Rate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.udTool1Rate.Maximum = new decimal(new int[] {
             5000,
@@ -509,7 +575,7 @@
             // 
             // udext1len
             // 
-            this.udext1len.Location = new System.Drawing.Point(87, 33);
+            this.udext1len.Location = new System.Drawing.Point(87, 26);
             this.udext1len.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.udext1len.Minimum = new decimal(new int[] {
             1,
@@ -528,7 +594,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(167, 82);
+            this.label17.Location = new System.Drawing.Point(161, 66);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(56, 17);
             this.label17.TabIndex = 22;
@@ -536,10 +602,10 @@
             // 
             // cmdExtrude2
             // 
-            this.cmdExtrude2.Location = new System.Drawing.Point(5, 21);
+            this.cmdExtrude2.Location = new System.Drawing.Point(5, 20);
             this.cmdExtrude2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdExtrude2.Name = "cmdExtrude2";
-            this.cmdExtrude2.Size = new System.Drawing.Size(75, 44);
+            this.cmdExtrude2.Size = new System.Drawing.Size(75, 34);
             this.cmdExtrude2.TabIndex = 14;
             this.cmdExtrude2.Text = "Extrude";
             this.cmdExtrude2.UseVisualStyleBackColor = true;
@@ -548,7 +614,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(176, 33);
+            this.label14.Location = new System.Drawing.Point(161, 26);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(30, 17);
             this.label14.TabIndex = 20;
@@ -557,10 +623,10 @@
             // 
             // cmdReverse2
             // 
-            this.cmdReverse2.Location = new System.Drawing.Point(5, 71);
+            this.cmdReverse2.Location = new System.Drawing.Point(5, 61);
             this.cmdReverse2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdReverse2.Name = "cmdReverse2";
-            this.cmdReverse2.Size = new System.Drawing.Size(75, 44);
+            this.cmdReverse2.Size = new System.Drawing.Size(75, 34);
             this.cmdReverse2.TabIndex = 15;
             this.cmdReverse2.Text = "Reverse";
             this.cmdReverse2.UseVisualStyleBackColor = true;
@@ -603,7 +669,7 @@
             this.groupProjector.Controls.Add(this.cmdHide);
             this.groupProjector.Controls.Add(this.cmdShowBlank);
             this.groupProjector.Controls.Add(this.cmdShowCalib);
-            this.groupProjector.Location = new System.Drawing.Point(251, 383);
+            this.groupProjector.Location = new System.Drawing.Point(250, 364);
             this.groupProjector.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupProjector.Name = "groupProjector";
             this.groupProjector.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -687,61 +753,6 @@
             this.cmdShowCalib.UseVisualStyleBackColor = true;
             this.cmdShowCalib.Click += new System.EventHandler(this.cmdShowCalib_Click);
             // 
-            // cmdGetPosition
-            // 
-            this.cmdGetPosition.Image = global::UV_DLP_3D_Printer.Properties.Resources.position;
-            this.cmdGetPosition.Location = new System.Drawing.Point(236, 32);
-            this.cmdGetPosition.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdGetPosition.Name = "cmdGetPosition";
-            this.cmdGetPosition.Size = new System.Drawing.Size(48, 52);
-            this.cmdGetPosition.TabIndex = 24;
-            this.cmdGetPosition.UseVisualStyleBackColor = true;
-            this.cmdGetPosition.Click += new System.EventHandler(this.cmdGetPosition_Click);
-            // 
-            // cmdHomeAll
-            // 
-            this.cmdHomeAll.Image = global::UV_DLP_3D_Printer.Properties.Resources.rounded_blue_home_button_4805;
-            this.cmdHomeAll.Location = new System.Drawing.Point(180, 32);
-            this.cmdHomeAll.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdHomeAll.Name = "cmdHomeAll";
-            this.cmdHomeAll.Size = new System.Drawing.Size(48, 52);
-            this.cmdHomeAll.TabIndex = 22;
-            this.cmdHomeAll.UseVisualStyleBackColor = true;
-            this.cmdHomeAll.Click += new System.EventHandler(this.cmdHomeAll_Click);
-            // 
-            // cmdYHome
-            // 
-            this.cmdYHome.Image = global::UV_DLP_3D_Printer.Properties.Resources.rounded_blue_home_button_4805;
-            this.cmdYHome.Location = new System.Drawing.Point(68, 32);
-            this.cmdYHome.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdYHome.Name = "cmdYHome";
-            this.cmdYHome.Size = new System.Drawing.Size(48, 52);
-            this.cmdYHome.TabIndex = 18;
-            this.cmdYHome.UseVisualStyleBackColor = true;
-            this.cmdYHome.Click += new System.EventHandler(this.cmdYHome_Click);
-            // 
-            // cmdXHome
-            // 
-            this.cmdXHome.Image = global::UV_DLP_3D_Printer.Properties.Resources.rounded_blue_home_button_4805;
-            this.cmdXHome.Location = new System.Drawing.Point(11, 32);
-            this.cmdXHome.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdXHome.Name = "cmdXHome";
-            this.cmdXHome.Size = new System.Drawing.Size(48, 52);
-            this.cmdXHome.TabIndex = 17;
-            this.cmdXHome.UseVisualStyleBackColor = true;
-            this.cmdXHome.Click += new System.EventHandler(this.cmdXHome_Click);
-            // 
-            // cmdZHome
-            // 
-            this.cmdZHome.Image = global::UV_DLP_3D_Printer.Properties.Resources.rounded_blue_home_button_4805;
-            this.cmdZHome.Location = new System.Drawing.Point(124, 32);
-            this.cmdZHome.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdZHome.Name = "cmdZHome";
-            this.cmdZHome.Size = new System.Drawing.Size(48, 52);
-            this.cmdZHome.TabIndex = 16;
-            this.cmdZHome.UseVisualStyleBackColor = true;
-            this.cmdZHome.Click += new System.EventHandler(this.cmdZHome_Click);
-            // 
             // cmdYDown
             // 
             this.cmdYDown.Image = global::UV_DLP_3D_Printer.Properties.Resources.Down1Blue;
@@ -808,20 +819,19 @@
             this.cmdUp.UseVisualStyleBackColor = true;
             this.cmdUp.Click += new System.EventHandler(this.cmdUp_Click);
             // 
-            // label18
+            // ctlHeatTemp1
             // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(238, 91);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(46, 23);
-            this.label18.TabIndex = 25;
-            this.label18.Text = "Pos";
+            this.ctlHeatTemp1.Location = new System.Drawing.Point(9, 454);
+            this.ctlHeatTemp1.MonitorTemps = false;
+            this.ctlHeatTemp1.Name = "ctlHeatTemp1";
+            this.ctlHeatTemp1.Size = new System.Drawing.Size(237, 148);
+            this.ctlHeatTemp1.TabIndex = 61;
             // 
             // ctlMachineControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.ctlHeatTemp1);
             this.Controls.Add(this.groupProjector);
             this.Controls.Add(this.cmdClear);
             this.Controls.Add(this.groupBox3);
@@ -849,7 +859,7 @@
             this.Controls.Add(this.cmdUp);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ctlMachineControl";
-            this.Size = new System.Drawing.Size(949, 558);
+            this.Size = new System.Drawing.Size(949, 596);
             this.grpHoming.ResumeLayout(false);
             this.grpHoming.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -933,5 +943,6 @@
         private System.Windows.Forms.ComboBox cmbCommands;
         private System.Windows.Forms.Button cmdGetPosition;
         private System.Windows.Forms.Label label18;
+        private ctlHeatTemp ctlHeatTemp1;
     }
 }

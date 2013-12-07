@@ -218,17 +218,7 @@ namespace UV_DLP_3D_Printer
         private void SetupForMachineType() 
         {
             MachineConfig mc = UVDLPApp.Instance().m_printerinfo;
-            //we actually might need to show the heat control, for people like nick, trying to monitor temps...
-            /*
-            if (mc.m_machinetype == MachineConfig.eMachineType.UV_DLP)
-            {
-                heatTempCtl1.Visible = false;
-            }
-            else if (mc.m_machinetype == MachineConfig.eMachineType.FDM)
-            {
-                heatTempCtl1.Visible = true;
-            }
-             */ 
+
             m_camera.UpdateBuildVolume((float)mc.m_PlatXSize, (float)mc.m_PlatYSize, (float)mc.m_PlatZSize);
         }
         private void SetVScrollMax(int val) 
@@ -1616,14 +1606,14 @@ namespace UV_DLP_3D_Printer
         {
             ctlMachineControl1.UpdateControl(); // update control display -SHS
         }
-
+        /*
         private void estimateVolumeCostToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmVolEst frmvol = new frmVolEst();
            // UVDLPApp.Instance().m_estimator.Setup(UVDLPApp.Instance().m_slicefile, UVDLPApp.Instance().m_buildparms);
             frmvol.ShowDialog();
         }
-
+        */
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form1 frm = new Form1();
