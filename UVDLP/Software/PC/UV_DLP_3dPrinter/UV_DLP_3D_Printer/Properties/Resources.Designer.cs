@@ -326,6 +326,27 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap buttViewGcode {
+            get {
+                object obj = ResourceManager.GetObject("buttViewGcode", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttViewModel {
+            get {
+                object obj = ResourceManager.GetObject("buttViewModel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttViewSlice {
+            get {
+                object obj = ResourceManager.GetObject("buttViewSlice", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap Connect {
             get {
                 object obj = ResourceManager.GetObject("Connect", resourceCulture);

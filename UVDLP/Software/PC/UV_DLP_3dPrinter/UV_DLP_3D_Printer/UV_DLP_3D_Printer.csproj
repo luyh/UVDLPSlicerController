@@ -101,6 +101,12 @@
     <Compile Include="Device_Interface\DriverFactory.cs" />
     <Compile Include="Device_Interface\GenericDriver.cs" />
     <Compile Include="Device_Interface\RobotFactorySRL_3DLPrinter.cs" />
+    <Compile Include="GUI\Controls\ctl3DView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\ctl3DView.Designer.cs">
+      <DependentUpon>ctl3DView.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Controls\ctlHeatTemp.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -118,6 +124,12 @@
     </Compile>
     <Compile Include="GUI\Controls\ctlMachineControl.Designer.cs">
       <DependentUpon>ctlMachineControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\ctlSliceView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\ctlSliceView.Designer.cs">
+      <DependentUpon>ctlSliceView.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Controls\ctlToolpathGenConfig.cs">
       <SubType>UserControl</SubType>
@@ -295,6 +307,9 @@
     <Compile Include="BuildManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GUI\Controls\ctl3DView.resx">
+      <DependentUpon>ctl3DView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\ctlHeatTemp.resx">
       <DependentUpon>ctlHeatTemp.cs</DependentUpon>
     </EmbeddedResource>
@@ -303,6 +318,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\ctlMachineControl.resx">
       <DependentUpon>ctlMachineControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\ctlSliceView.resx">
+      <DependentUpon>ctlSliceView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\ctlToolpathGenConfig.resx">
       <DependentUpon>ctlToolpathGenConfig.cs</DependentUpon>
@@ -448,6 +466,9 @@
     <None Include="resources\CustomGUI\buttDisconnect.png" />
     <None Include="resources\CustomGUI\buttOpenFile.png" />
     <None Include="resources\CustomGUI\buttPause.png" />
+    <None Include="resources\CustomGUI\buttViewGcode.png" />
+    <None Include="resources\CustomGUI\buttViewModel.png" />
+    <None Include="resources\CustomGUI\buttViewSlice.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

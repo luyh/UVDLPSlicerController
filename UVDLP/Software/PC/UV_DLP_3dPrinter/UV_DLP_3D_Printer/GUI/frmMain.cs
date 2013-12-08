@@ -70,10 +70,19 @@ namespace UV_DLP_3D_Printer
             UVDLPApp.Instance().m_supportgenerator.SupportEvent += new SupportGeneratorEvent(SupEvent);
 
             ctlViewOptions.TreeViewHolder = mainViewSplitContainer;
+            ctl3DView1.SetMessagePanelHolder(splitContainerMainWindow);
+            ctl3DView1.Dock = DockStyle.Fill;
+            ctl3DView1.Enable3dView(true);
             ctlViewOptions.MessagePanelHolder = splitContainerMainWindow;
             ctlViewOptions.LayerNumberScroll = numLayer;
             ctlViewOptions.ObjectInfoPanel = objectInfoPanel;
             mainViewSplitContainer.Panel1Collapsed = true;
+            tabMain.Dock = DockStyle.Fill;
+            tabMain.Visible = false;
+            vScrollBar1.Visible = false;
+
+            ctlSliceView1.Visible = false;
+            ctlSliceView1.Dock = DockStyle.Fill;
                         
             arcball = new ArcBall();
             m_quat = new Quaternion();
@@ -114,6 +123,7 @@ namespace UV_DLP_3D_Printer
                     switch (ev)
                     {
                         case SupportEvent.eCompleted:
+                            ctl3DView1.UpdateSceneTree();
                             SetupSceneTree();
                             break;
                         case SupportEvent.eCancel:
@@ -166,12 +176,15 @@ namespace UV_DLP_3D_Printer
                         DebugLogger.Instance().LogRecord(Message);
                         ShowObjectInfo();
                         UVDLPApp.Instance().m_engine3d.UpdateLists();
-                        DisplayFunc();
+                        ctl3DView1.UpdateView();
+                        //DisplayFunc();
                         break;
                     case eAppEvent.eSlicedLoaded: // update the gui to view
                         DebugLogger.Instance().LogRecord(Message);
                         int totallayers = UVDLPApp.Instance().m_slicefile.NumSlices;
                         SetVScrollMax(totallayers);
+                        ctl3DView1.SetNumLayers(totallayers);
+                        ctlSliceView1.SetNumLayers(totallayers);
                         //show the slice in the slice view
                         ViewLayer(0, null, BuildManager.SLICE_NORMAL);
                         break;
@@ -185,10 +198,12 @@ namespace UV_DLP_3D_Printer
                     case eAppEvent.eModelAdded:
                         ShowObjectInfo();
                         UVDLPApp.Instance().m_engine3d.UpdateLists();
-                        DisplayFunc();
+                        //DisplayFunc();
+                        ctl3DView1.UpdateView();
                         DebugLogger.Instance().LogRecord(Message);
                         break;
                     case eAppEvent.eMachineTypeChanged:
+                        // FIXFIX : activate SetupForMachineType on 3dview control
                         SetupForMachineType();
                         break;
                     case eAppEvent.eShowBlank:
@@ -204,7 +219,8 @@ namespace UV_DLP_3D_Printer
                         HideDLPScreen();
                         break;
                     case eAppEvent.eReDraw: // redraw the 3d display
-                        DisplayFunc();
+                        //DisplayFunc();
+                        ctl3DView1.UpdateView();
                         break;
                     case eAppEvent.eMachineConnected:
                         showBlankDLP();
@@ -218,9 +234,10 @@ namespace UV_DLP_3D_Printer
         private void SetupForMachineType() 
         {
             MachineConfig mc = UVDLPApp.Instance().m_printerinfo;
-
             m_camera.UpdateBuildVolume((float)mc.m_PlatXSize, (float)mc.m_PlatYSize, (float)mc.m_PlatZSize);
         }
+
+
         private void SetVScrollMax(int val) 
         {
             try
@@ -462,6 +479,8 @@ namespace UV_DLP_3D_Printer
                             //show the gcode
                             txtGCode.Text = UVDLPApp.Instance().m_gcode.RawGCode;
                             SetVScrollMax(totallayers);
+                            ctl3DView1.SetNumLayers(totallayers);
+                            ctlSliceView1.SetNumLayers(totallayers);
                             SetMainMessage("Slicing Completed");
                             String timeest = BuildManager.EstimateBuildTime(UVDLPApp.Instance().m_gcode);
                             SetTimeMessage("Estimated Build Time: " + timeest);
@@ -483,6 +502,7 @@ namespace UV_DLP_3D_Printer
             {
                 
                 //UVDLPApp.Instance().m_selectedobject.FindMinMax();
+                ctl3DView1.UpdateSceneTree();
                 SetupSceneTree();
             }
             catch (Exception) { }
@@ -504,6 +524,7 @@ namespace UV_DLP_3D_Printer
                 else 
                 {
                     //chkWireframe.Checked = false;
+                    ctl3DView1.UpdateObjectInfo();
                     objectInfoPanel.FillObjectInfo(UVDLPApp.Instance().SelectedObject);
                 }
             }
@@ -711,6 +732,7 @@ namespace UV_DLP_3D_Printer
         {
             if (!loaded)
                 return;
+            glControl1.MakeCurrent();
             DisplayFunc();
         }
         // draw the intersection of the current mouse point into the scene
@@ -1712,6 +1734,31 @@ namespace UV_DLP_3D_Printer
                 if (ctl.GetType().IsSubclassOf(typeof(ctlAnchorable)))
                     ((ctlAnchorable)ctl).UpdatePosition();
             }
+        }
+
+        private void buttView3D_Click(object sender, EventArgs e)
+        {
+            tabMain.Visible = false;
+            vScrollBar1.Visible = false;
+            ctlSliceView1.Visible = false;
+            ctl3DView1.Visible = true;
+        }
+
+        private void buttViewSlice_Click(object sender, EventArgs e)
+        {
+            tabMain.Visible = false;
+            vScrollBar1.Visible = false;
+            ctl3DView1.Visible = false;
+            ctlSliceView1.Visible = true;
+        }
+
+        private void buttViewGcode_Click(object sender, EventArgs e)
+        {
+            ctl3DView1.Visible = false;
+            ctlSliceView1.Visible = false;
+            tabMain.Visible = true;
+            vScrollBar1.Visible = true;
+
         }
 
     }
