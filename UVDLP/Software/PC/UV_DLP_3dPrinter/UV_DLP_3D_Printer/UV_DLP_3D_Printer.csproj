@@ -107,6 +107,12 @@
     <Compile Include="GUI\Controls\ctl3DView.Designer.cs">
       <DependentUpon>ctl3DView.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\ctlGcodeView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\ctlGcodeView.Designer.cs">
+      <DependentUpon>ctlGcodeView.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Controls\ctlHeatTemp.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -310,6 +316,9 @@
     <EmbeddedResource Include="GUI\Controls\ctl3DView.resx">
       <DependentUpon>ctl3DView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\ctlGcodeView.resx">
+      <DependentUpon>ctlGcodeView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\ctlHeatTemp.resx">
       <DependentUpon>ctlHeatTemp.cs</DependentUpon>
     </EmbeddedResource>
@@ -469,6 +478,7 @@
     <None Include="resources\CustomGUI\buttViewGcode.png" />
     <None Include="resources\CustomGUI\buttViewModel.png" />
     <None Include="resources\CustomGUI\buttViewSlice.png" />
+    <None Include="resources\CustomGUI\buttSave.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

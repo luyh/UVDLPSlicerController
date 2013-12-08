@@ -43,6 +43,18 @@
             this.splitContainerMainWindow = new System.Windows.Forms.SplitContainer();
             this.splitContainerTop = new System.Windows.Forms.SplitContainer();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.tabMain = new System.Windows.Forms.TabControl();
+            this.tabMachineControl = new System.Windows.Forms.TabPage();
+            this.tabMachineConfig = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.txtLog = new System.Windows.Forms.TextBox();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.printDialog1 = new System.Windows.Forms.PrintDialog();
+            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.lblTime = new System.Windows.Forms.Label();
+            this.lblMainMessage = new System.Windows.Forms.Label();
             this.buttOpenFile = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttPlay = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttPause = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
@@ -54,40 +66,12 @@
             this.buttView3D = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttViewSlice = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttViewGcode = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.ctlGcodeView1 = new UV_DLP_3D_Printer.GUI.Controls.ctlGcodeView();
             this.ctlSliceView1 = new UV_DLP_3D_Printer.GUI.Controls.ctlSliceView();
             this.ctl3DView1 = new UV_DLP_3D_Printer.GUI.Controls.ctl3DView();
-            this.tabMain = new System.Windows.Forms.TabControl();
-            this.tabGCode = new System.Windows.Forms.TabPage();
-            this.txtGCode = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.cmdLoadGCode = new System.Windows.Forms.Button();
-            this.cmdSaveGCode = new System.Windows.Forms.Button();
-            this.tabMachineControl = new System.Windows.Forms.TabPage();
             this.ctlMachineControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineControl();
-            this.tabMachineConfig = new System.Windows.Forms.TabPage();
             this.ctlMachineConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineConfig();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.ctlToolpathGenConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlToolpathGenConfig();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.cmdLoad = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.cmdBuild = new System.Windows.Forms.ToolStripButton();
-            this.cmdPause = new System.Windows.Forms.ToolStripButton();
-            this.cmdStop = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.cmdConnect = new System.Windows.Forms.ToolStripButton();
-            this.cmdDisconnect = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.cmdSlice1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.lblMainMessage = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.lblTime = new System.Windows.Forms.ToolStripLabel();
-            this.txtLog = new System.Windows.Forms.TextBox();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.printDialog1 = new System.Windows.Forms.PrintDialog();
-            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
             this.menuStrip1.SuspendLayout();
             this.splitContainerMainWindow.Panel1.SuspendLayout();
@@ -98,12 +82,10 @@
             this.splitContainerTop.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabMain.SuspendLayout();
-            this.tabGCode.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.tabMachineControl.SuspendLayout();
             this.tabMachineConfig.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
+            this.flowLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -195,6 +177,7 @@
             // 
             // splitContainerMainWindow
             // 
+            this.splitContainerMainWindow.BackColor = System.Drawing.Color.Navy;
             this.splitContainerMainWindow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerMainWindow.Location = new System.Drawing.Point(0, 0);
             this.splitContainerMainWindow.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -204,7 +187,6 @@
             // splitContainerMainWindow.Panel1
             // 
             this.splitContainerMainWindow.Panel1.Controls.Add(this.splitContainerTop);
-            this.splitContainerMainWindow.Panel1.Controls.Add(this.toolStrip1);
             this.splitContainerMainWindow.Panel1.Controls.Add(this.menuStrip1);
             // 
             // splitContainerMainWindow.Panel2
@@ -230,6 +212,7 @@
             // 
             // splitContainerTop.Panel2
             // 
+            this.splitContainerTop.Panel2.Controls.Add(this.ctlGcodeView1);
             this.splitContainerTop.Panel2.Controls.Add(this.ctlSliceView1);
             this.splitContainerTop.Panel2.Controls.Add(this.ctl3DView1);
             this.splitContainerTop.Panel2.Controls.Add(this.tabMain);
@@ -252,11 +235,113 @@
             this.flowLayoutPanel1.Controls.Add(this.buttView3D);
             this.flowLayoutPanel1.Controls.Add(this.buttViewSlice);
             this.flowLayoutPanel1.Controls.Add(this.buttViewGcode);
+            this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel2);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(1457, 56);
             this.flowLayoutPanel1.TabIndex = 0;
+            // 
+            // tabMain
+            // 
+            this.tabMain.Controls.Add(this.tabMachineControl);
+            this.tabMain.Controls.Add(this.tabMachineConfig);
+            this.tabMain.Controls.Add(this.tabPage3);
+            this.tabMain.Location = new System.Drawing.Point(398, 17);
+            this.tabMain.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabMain.Name = "tabMain";
+            this.tabMain.SelectedIndex = 0;
+            this.tabMain.Size = new System.Drawing.Size(1047, 567);
+            this.tabMain.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.tabMain.TabIndex = 18;
+            // 
+            // tabMachineControl
+            // 
+            this.tabMachineControl.Controls.Add(this.ctlMachineControl1);
+            this.tabMachineControl.Location = new System.Drawing.Point(4, 25);
+            this.tabMachineControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabMachineControl.Name = "tabMachineControl";
+            this.tabMachineControl.Size = new System.Drawing.Size(1039, 538);
+            this.tabMachineControl.TabIndex = 3;
+            this.tabMachineControl.Text = "Machine Control";
+            this.tabMachineControl.UseVisualStyleBackColor = true;
+            this.tabMachineControl.Enter += new System.EventHandler(this.tabMachineControl_Enter);
+            // 
+            // tabMachineConfig
+            // 
+            this.tabMachineConfig.Controls.Add(this.ctlMachineConfig1);
+            this.tabMachineConfig.Location = new System.Drawing.Point(4, 25);
+            this.tabMachineConfig.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabMachineConfig.Name = "tabMachineConfig";
+            this.tabMachineConfig.Size = new System.Drawing.Size(1039, 538);
+            this.tabMachineConfig.TabIndex = 4;
+            this.tabMachineConfig.Text = "Machine Config";
+            this.tabMachineConfig.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.ctlToolpathGenConfig1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 25);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(1039, 538);
+            this.tabPage3.TabIndex = 5;
+            this.tabPage3.Text = "Slice Profile Config";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // txtLog
+            // 
+            this.txtLog.BackColor = System.Drawing.Color.White;
+            this.txtLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtLog.Font = new System.Drawing.Font("Courier New", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLog.Location = new System.Drawing.Point(0, 0);
+            this.txtLog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtLog.Multiline = true;
+            this.txtLog.Name = "txtLog";
+            this.txtLog.ReadOnly = true;
+            this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtLog.Size = new System.Drawing.Size(1457, 123);
+            this.txtLog.TabIndex = 0;
+            // 
+            // printDialog1
+            // 
+            this.printDialog1.UseEXDialog = true;
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.RestoreDirectory = true;
+            // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.Controls.Add(this.lblTime);
+            this.flowLayoutPanel2.Controls.Add(this.lblMainMessage);
+            this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(615, 3);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(377, 49);
+            this.flowLayoutPanel2.TabIndex = 19;
+            // 
+            // lblTime
+            // 
+            this.lblTime.AutoSize = true;
+            this.lblTime.Font = new System.Drawing.Font("Arial", 17.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblTime.ForeColor = System.Drawing.Color.White;
+            this.lblTime.Location = new System.Drawing.Point(3, 0);
+            this.lblTime.Name = "lblTime";
+            this.lblTime.Size = new System.Drawing.Size(50, 21);
+            this.lblTime.TabIndex = 0;
+            this.lblTime.Text = "Time";
+            // 
+            // lblMainMessage
+            // 
+            this.lblMainMessage.AutoSize = true;
+            this.lblMainMessage.Font = new System.Drawing.Font("Arial", 17.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblMainMessage.ForeColor = System.Drawing.Color.White;
+            this.lblMainMessage.Location = new System.Drawing.Point(3, 21);
+            this.lblMainMessage.Name = "lblMainMessage";
+            this.lblMainMessage.Size = new System.Drawing.Size(83, 21);
+            this.lblMainMessage.TabIndex = 0;
+            this.lblMainMessage.Text = "Message";
             // 
             // buttOpenFile
             // 
@@ -400,6 +485,7 @@
             this.buttConfig.TabIndex = 18;
             this.ctlToolTip1.SetToolTip(this.buttConfig, "Configuration");
             this.buttConfig.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
+            this.buttConfig.Click += new System.EventHandler(this.buttConfig_Click);
             // 
             // buttView3D
             // 
@@ -455,106 +541,26 @@
             this.buttViewGcode.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
             this.buttViewGcode.Click += new System.EventHandler(this.buttViewGcode_Click);
             // 
+            // ctlGcodeView1
+            // 
+            this.ctlGcodeView1.Location = new System.Drawing.Point(52, 369);
+            this.ctlGcodeView1.Name = "ctlGcodeView1";
+            this.ctlGcodeView1.Size = new System.Drawing.Size(314, 153);
+            this.ctlGcodeView1.TabIndex = 23;
+            // 
             // ctlSliceView1
             // 
-            this.ctlSliceView1.Location = new System.Drawing.Point(52, 349);
+            this.ctlSliceView1.Location = new System.Drawing.Point(52, 261);
             this.ctlSliceView1.Name = "ctlSliceView1";
-            this.ctlSliceView1.Size = new System.Drawing.Size(314, 198);
+            this.ctlSliceView1.Size = new System.Drawing.Size(314, 86);
             this.ctlSliceView1.TabIndex = 22;
             // 
             // ctl3DView1
             // 
             this.ctl3DView1.Location = new System.Drawing.Point(52, 17);
             this.ctl3DView1.Name = "ctl3DView1";
-            this.ctl3DView1.Size = new System.Drawing.Size(314, 317);
+            this.ctl3DView1.Size = new System.Drawing.Size(314, 216);
             this.ctl3DView1.TabIndex = 21;
-            // 
-            // tabMain
-            // 
-            this.tabMain.Controls.Add(this.tabGCode);
-            this.tabMain.Controls.Add(this.tabMachineControl);
-            this.tabMain.Controls.Add(this.tabMachineConfig);
-            this.tabMain.Controls.Add(this.tabPage3);
-            this.tabMain.Location = new System.Drawing.Point(398, 17);
-            this.tabMain.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabMain.Name = "tabMain";
-            this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(842, 567);
-            this.tabMain.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.tabMain.TabIndex = 18;
-            // 
-            // tabGCode
-            // 
-            this.tabGCode.Controls.Add(this.txtGCode);
-            this.tabGCode.Controls.Add(this.panel1);
-            this.tabGCode.Location = new System.Drawing.Point(4, 25);
-            this.tabGCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabGCode.Name = "tabGCode";
-            this.tabGCode.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabGCode.Size = new System.Drawing.Size(834, 538);
-            this.tabGCode.TabIndex = 1;
-            this.tabGCode.Text = "GCode";
-            this.tabGCode.UseVisualStyleBackColor = true;
-            // 
-            // txtGCode
-            // 
-            this.txtGCode.AcceptsReturn = true;
-            this.txtGCode.BackColor = System.Drawing.Color.White;
-            this.txtGCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtGCode.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtGCode.Location = new System.Drawing.Point(3, 2);
-            this.txtGCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtGCode.Multiline = true;
-            this.txtGCode.Name = "txtGCode";
-            this.txtGCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtGCode.Size = new System.Drawing.Size(828, 456);
-            this.txtGCode.TabIndex = 0;
-            this.txtGCode.WordWrap = false;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.cmdLoadGCode);
-            this.panel1.Controls.Add(this.cmdSaveGCode);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(3, 458);
-            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(828, 78);
-            this.panel1.TabIndex = 1;
-            // 
-            // cmdLoadGCode
-            // 
-            this.cmdLoadGCode.Location = new System.Drawing.Point(164, 17);
-            this.cmdLoadGCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdLoadGCode.Name = "cmdLoadGCode";
-            this.cmdLoadGCode.Size = new System.Drawing.Size(128, 50);
-            this.cmdLoadGCode.TabIndex = 2;
-            this.cmdLoadGCode.Text = " Load GCode";
-            this.cmdLoadGCode.UseVisualStyleBackColor = true;
-            this.cmdLoadGCode.Click += new System.EventHandler(this.cmdLoadGCode_Click);
-            // 
-            // cmdSaveGCode
-            // 
-            this.cmdSaveGCode.Location = new System.Drawing.Point(17, 17);
-            this.cmdSaveGCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdSaveGCode.Name = "cmdSaveGCode";
-            this.cmdSaveGCode.Size = new System.Drawing.Size(128, 50);
-            this.cmdSaveGCode.TabIndex = 0;
-            this.cmdSaveGCode.Text = "Save GCode";
-            this.cmdSaveGCode.UseVisualStyleBackColor = true;
-            this.cmdSaveGCode.Click += new System.EventHandler(this.cmdSaveGCode_Click);
-            // 
-            // tabMachineControl
-            // 
-            this.tabMachineControl.Controls.Add(this.ctlMachineControl1);
-            this.tabMachineControl.Location = new System.Drawing.Point(4, 25);
-            this.tabMachineControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabMachineControl.Name = "tabMachineControl";
-            this.tabMachineControl.Size = new System.Drawing.Size(834, 538);
-            this.tabMachineControl.TabIndex = 3;
-            this.tabMachineControl.Text = "Machine Control";
-            this.tabMachineControl.UseVisualStyleBackColor = true;
-            this.tabMachineControl.Enter += new System.EventHandler(this.tabMachineControl_Enter);
             // 
             // ctlMachineControl1
             // 
@@ -564,36 +570,14 @@
             this.ctlMachineControl1.Size = new System.Drawing.Size(949, 558);
             this.ctlMachineControl1.TabIndex = 0;
             // 
-            // tabMachineConfig
-            // 
-            this.tabMachineConfig.Controls.Add(this.ctlMachineConfig1);
-            this.tabMachineConfig.Location = new System.Drawing.Point(4, 25);
-            this.tabMachineConfig.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabMachineConfig.Name = "tabMachineConfig";
-            this.tabMachineConfig.Size = new System.Drawing.Size(834, 538);
-            this.tabMachineConfig.TabIndex = 4;
-            this.tabMachineConfig.Text = "Machine Config";
-            this.tabMachineConfig.UseVisualStyleBackColor = true;
-            // 
             // ctlMachineConfig1
             // 
             this.ctlMachineConfig1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ctlMachineConfig1.Location = new System.Drawing.Point(0, 0);
             this.ctlMachineConfig1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ctlMachineConfig1.Name = "ctlMachineConfig1";
-            this.ctlMachineConfig1.Size = new System.Drawing.Size(834, 538);
+            this.ctlMachineConfig1.Size = new System.Drawing.Size(1039, 538);
             this.ctlMachineConfig1.TabIndex = 0;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.ctlToolpathGenConfig1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 25);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(834, 538);
-            this.tabPage3.TabIndex = 5;
-            this.tabPage3.Text = "Slice Profile Config";
-            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // ctlToolpathGenConfig1
             // 
@@ -602,161 +586,6 @@
             this.ctlToolpathGenConfig1.Name = "ctlToolpathGenConfig1";
             this.ctlToolpathGenConfig1.Size = new System.Drawing.Size(1036, 505);
             this.ctlToolpathGenConfig1.TabIndex = 0;
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(48, 48);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmdLoad,
-            this.toolStripSeparator3,
-            this.cmdBuild,
-            this.cmdPause,
-            this.cmdStop,
-            this.toolStripSeparator1,
-            this.cmdConnect,
-            this.cmdDisconnect,
-            this.toolStripSeparator2,
-            this.cmdSlice1,
-            this.toolStripSeparator4,
-            this.lblMainMessage,
-            this.toolStripSeparator5,
-            this.lblTime});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 26);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1457, 55);
-            this.toolStrip1.Stretch = true;
-            this.toolStrip1.TabIndex = 17;
-            this.toolStrip1.Text = "toolStrip1";
-            this.toolStrip1.Visible = false;
-            // 
-            // cmdLoad
-            // 
-            this.cmdLoad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.cmdLoad.Image = global::UV_DLP_3D_Printer.Properties.Resources.Load;
-            this.cmdLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.cmdLoad.Name = "cmdLoad";
-            this.cmdLoad.Size = new System.Drawing.Size(52, 52);
-            this.cmdLoad.Text = "Load Model";
-            this.cmdLoad.Click += new System.EventHandler(this.LoadSTLModel_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 55);
-            // 
-            // cmdBuild
-            // 
-            this.cmdBuild.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.cmdBuild.Image = global::UV_DLP_3D_Printer.Properties.Resources.bfzn_004;
-            this.cmdBuild.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.cmdBuild.Name = "cmdBuild";
-            this.cmdBuild.Size = new System.Drawing.Size(52, 52);
-            this.cmdBuild.Text = "Start Build";
-            this.cmdBuild.Click += new System.EventHandler(this.cmdStartPrint_Click);
-            // 
-            // cmdPause
-            // 
-            this.cmdPause.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.cmdPause.Image = global::UV_DLP_3D_Printer.Properties.Resources.bfzn_003;
-            this.cmdPause.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.cmdPause.Name = "cmdPause";
-            this.cmdPause.Size = new System.Drawing.Size(52, 52);
-            this.cmdPause.Text = "Pause";
-            this.cmdPause.Click += new System.EventHandler(this.cmdPause_Click_1);
-            // 
-            // cmdStop
-            // 
-            this.cmdStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.cmdStop.Image = global::UV_DLP_3D_Printer.Properties.Resources.bfzn_006;
-            this.cmdStop.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.cmdStop.Name = "cmdStop";
-            this.cmdStop.Size = new System.Drawing.Size(52, 52);
-            this.cmdStop.Text = "Stop Build";
-            this.cmdStop.Click += new System.EventHandler(this.cmdStop_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 55);
-            // 
-            // cmdConnect
-            // 
-            this.cmdConnect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.cmdConnect.Image = global::UV_DLP_3D_Printer.Properties.Resources.Connect;
-            this.cmdConnect.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.cmdConnect.Name = "cmdConnect";
-            this.cmdConnect.Size = new System.Drawing.Size(52, 52);
-            this.cmdConnect.Text = "Connect";
-            this.cmdConnect.Click += new System.EventHandler(this.cmdConnect1_Click);
-            // 
-            // cmdDisconnect
-            // 
-            this.cmdDisconnect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.cmdDisconnect.Image = global::UV_DLP_3D_Printer.Properties.Resources.Disconnect;
-            this.cmdDisconnect.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.cmdDisconnect.Name = "cmdDisconnect";
-            this.cmdDisconnect.Size = new System.Drawing.Size(52, 52);
-            this.cmdDisconnect.Text = "Disconnect";
-            this.cmdDisconnect.Click += new System.EventHandler(this.cmdDisconnect_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 55);
-            // 
-            // cmdSlice1
-            // 
-            this.cmdSlice1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.cmdSlice1.Image = global::UV_DLP_3D_Printer.Properties.Resources.slice;
-            this.cmdSlice1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.cmdSlice1.Name = "cmdSlice1";
-            this.cmdSlice1.Size = new System.Drawing.Size(52, 52);
-            this.cmdSlice1.Text = "Slice!";
-            this.cmdSlice1.Click += new System.EventHandler(this.cmdSlice1_Click);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 55);
-            // 
-            // lblMainMessage
-            // 
-            this.lblMainMessage.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMainMessage.Name = "lblMainMessage";
-            this.lblMainMessage.Size = new System.Drawing.Size(0, 52);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 55);
-            // 
-            // lblTime
-            // 
-            this.lblTime.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTime.Name = "lblTime";
-            this.lblTime.Size = new System.Drawing.Size(0, 52);
-            // 
-            // txtLog
-            // 
-            this.txtLog.BackColor = System.Drawing.Color.White;
-            this.txtLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtLog.Font = new System.Drawing.Font("Courier New", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLog.Location = new System.Drawing.Point(0, 0);
-            this.txtLog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtLog.Multiline = true;
-            this.txtLog.Name = "txtLog";
-            this.txtLog.ReadOnly = true;
-            this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtLog.Size = new System.Drawing.Size(1457, 123);
-            this.txtLog.TabIndex = 0;
-            // 
-            // printDialog1
-            // 
-            this.printDialog1.UseEXDialog = true;
-            // 
-            // saveFileDialog1
-            // 
-            this.saveFileDialog1.RestoreDirectory = true;
             // 
             // ctlToolTip1
             // 
@@ -792,14 +621,11 @@
             this.splitContainerTop.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.tabMain.ResumeLayout(false);
-            this.tabGCode.ResumeLayout(false);
-            this.tabGCode.PerformLayout();
-            this.panel1.ResumeLayout(false);
             this.tabMachineControl.ResumeLayout(false);
             this.tabMachineConfig.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.flowLayoutPanel2.ResumeLayout(false);
+            this.flowLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -811,40 +637,20 @@
         private System.Windows.Forms.SplitContainer splitContainerMainWindow;
         private System.Windows.Forms.TextBox txtLog;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private System.Windows.Forms.TextBox txtGCode;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadBinarySTLToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton cmdBuild;
-        private System.Windows.Forms.ToolStripButton cmdStop;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton cmdConnect;
-        private System.Windows.Forms.ToolStripButton cmdDisconnect;
-        private System.Windows.Forms.ToolStripButton cmdSlice1;
         private System.Windows.Forms.TabControl tabMain;
-        private System.Windows.Forms.TabPage tabGCode;
-        private System.Windows.Forms.ToolStripButton cmdLoad;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button cmdSaveGCode;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripLabel lblMainMessage;
-        private System.Windows.Forms.ToolStripLabel lblTime;
-        private System.Windows.Forms.ToolStripButton cmdPause;
         private System.Windows.Forms.PrintDialog printDialog1;
         private System.Drawing.Printing.PrintDocument printDocument1;
         private System.Windows.Forms.ToolStripMenuItem saveSceneSTLToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
-        private System.Windows.Forms.Button cmdLoadGCode;
         private System.Windows.Forms.TabPage tabMachineControl;
         //private GUI.Controls.ctlMachineControl machineControl1;
         private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
         private System.Windows.Forms.TabPage tabMachineConfig;
         private GUI.Controls.ctlMachineConfig ctlMachineConfig1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage3;
@@ -867,6 +673,10 @@
         private GUI.CustomGUI.ctlImageButton buttViewGcode;
         private GUI.Controls.ctl3DView ctl3DView1;
         private GUI.Controls.ctlSliceView ctlSliceView1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.Label lblTime;
+        private System.Windows.Forms.Label lblMainMessage;
+        private GUI.Controls.ctlGcodeView ctlGcodeView1;
     }
 }
 

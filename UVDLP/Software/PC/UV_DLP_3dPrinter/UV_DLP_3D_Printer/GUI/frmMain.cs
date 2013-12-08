@@ -60,10 +60,16 @@ namespace UV_DLP_3D_Printer
 
             ctlSliceView1.Visible = false;
             ctlSliceView1.Dock = DockStyle.Fill;
+
+            ctlGcodeView1.Visible = false;
+            ctlGcodeView1.Dock = DockStyle.Fill;
                         
             arcball = new ArcBall();
             m_camera = new GLCamera();
             ResetCameraView();
+
+            lblTime.Text = "";
+            lblMainMessage.Text = "";
 
             SetButtonStatuses();                        
             //PopulateBuildProfilesMenu();
@@ -161,7 +167,7 @@ namespace UV_DLP_3D_Printer
                         break;
                     case eAppEvent.eGCodeLoaded:
                         DebugLogger.Instance().LogRecord(Message);
-                        txtGCode.Text = UVDLPApp.Instance().m_gcode.RawGCode;
+                        ctlGcodeView1.Text = UVDLPApp.Instance().m_gcode.RawGCode;
                         break;
                     case eAppEvent.eGCodeSaved:
                         DebugLogger.Instance().LogRecord(Message);
@@ -213,8 +219,6 @@ namespace UV_DLP_3D_Printer
         {
             if (UVDLPApp.Instance().m_deviceinterface.Connected)
             {
-                cmdConnect.Enabled = false;
-                cmdDisconnect.Enabled = true;
                 buttConnect.Enabled = false;
                 buttDisconnect.Enabled = true;
 
@@ -222,18 +226,12 @@ namespace UV_DLP_3D_Printer
                 {
                     if (UVDLPApp.Instance().m_buildmgr.IsPaused())
                     {
-                        cmdBuild.Enabled = true;
-                        cmdStop.Enabled = true;
-                        cmdPause.Enabled = false;
                         buttPlay.Enabled = true;
                         buttStop.Enabled = true;
                         buttPause.Enabled = false;
                     }
                     else
                     {
-                        cmdBuild.Enabled = false;
-                        cmdStop.Enabled = true;
-                        cmdPause.Enabled = true;
                         buttPlay.Enabled = false;
                         buttStop.Enabled = true;
                         buttPause.Enabled = true;
@@ -241,9 +239,6 @@ namespace UV_DLP_3D_Printer
                 }
                 else
                 {
-                    cmdBuild.Enabled = true;
-                    cmdStop.Enabled = false;
-                    cmdPause.Enabled = false;
                     buttPlay.Enabled = true;
                     buttStop.Enabled = false;
                     buttPause.Enabled = false;
@@ -251,12 +246,6 @@ namespace UV_DLP_3D_Printer
             }
             else 
             {
-                cmdConnect.Enabled = true;
-                cmdDisconnect.Enabled = false;
-               // cmdControl.Enabled = false;
-                cmdBuild.Enabled = false;
-                cmdStop.Enabled = false;
-                cmdPause.Enabled = false; // disable
 
                 buttConnect.Enabled = true;
                 buttDisconnect.Enabled = false;
@@ -426,7 +415,7 @@ namespace UV_DLP_3D_Printer
                             break;
                         case Slicer.eSliceEvent.eSliceCompleted:
                             //show the gcode
-                            txtGCode.Text = UVDLPApp.Instance().m_gcode.RawGCode;
+                            ctlGcodeView1.Text = UVDLPApp.Instance().m_gcode.RawGCode;
                             ctl3DView1.SetNumLayers(totallayers);
                             ctlSliceView1.SetNumLayers(totallayers);
                             SetMainMessage("Slicing Completed");
@@ -704,29 +693,7 @@ namespace UV_DLP_3D_Printer
                 m_frmSlice = new frmSlice();
             }
             m_frmSlice.Show();
-        }
-
-        #region Save/Load GCode
-        private void cmdSaveGCode_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    // get the gcode from the textbox, save it...
-                    UVDLPApp.Instance().m_gcode.RawGCode = txtGCode.Text;
-                    UVDLPApp.Instance().SaveGCode(saveFileDialog1.FileName);
-                }
-            }
-            catch (Exception ex) 
-            {
-                DebugLogger.Instance().LogRecord(ex.Message);
-            }
-        }
-
-        
-        #endregion Save/ Load GCode
- 
+        } 
 
         #region DLP Screen Controls
         private void showBlankDLP()
@@ -887,26 +854,6 @@ namespace UV_DLP_3D_Printer
             UVDLPApp.Instance().m_engine3d.UpdateLists();
             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");            
         }*/
-
-        private void cmdLoadGCode_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                openFileDialog1.FileName = "";
-                openFileDialog1.Filter = "GCode Files(*.gcode)|*.gcode|All files (*.*)|*.*";
-                if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    UVDLPApp.Instance().LoadGCode(openFileDialog1.FileName);
-                   // txtGCode.Text = UVDLPApp.Instance().m_gcode.RawGCode;
-                }
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogRecord(ex.Message);
-            }
-        }
-
-
  
         private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -956,6 +903,7 @@ namespace UV_DLP_3D_Printer
         {
             tabMain.Visible = false;
             ctlSliceView1.Visible = false;
+            ctlGcodeView1.Visible = false;
             ctl3DView1.Visible = true;
         }
 
@@ -963,11 +911,21 @@ namespace UV_DLP_3D_Printer
         {
             tabMain.Visible = false;
             ctl3DView1.Visible = false;
+            ctlGcodeView1.Visible = false;
             ctlSliceView1.Visible = true;
         }
 
         private void buttViewGcode_Click(object sender, EventArgs e)
         {
+            ctl3DView1.Visible = false;
+            ctlSliceView1.Visible = false;
+            tabMain.Visible = false;
+            ctlGcodeView1.Visible = true;
+        }
+
+        private void buttConfig_Click(object sender, EventArgs e)
+        {
+            ctlGcodeView1.Visible = false;
             ctl3DView1.Visible = false;
             ctlSliceView1.Visible = false;
             tabMain.Visible = true;
