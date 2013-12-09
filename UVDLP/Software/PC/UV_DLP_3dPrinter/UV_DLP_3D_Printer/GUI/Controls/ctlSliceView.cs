@@ -21,7 +21,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             if (val < 0)
                 val = 0;
-            if (UVDLPApp.Instance().m_appconfig.m_viewslice3d && (val > 0))
+            if (val > 0)
             {
                 numLayer.MaxInt = val;
                 numLayer.IntVal = 1;
