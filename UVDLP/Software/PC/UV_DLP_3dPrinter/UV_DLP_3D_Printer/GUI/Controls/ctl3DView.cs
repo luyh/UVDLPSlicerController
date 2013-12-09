@@ -132,33 +132,22 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 int w = glControl1.Width;
                 int h = glControl1.Height;
 
-                //GL.MatrixMode(MatrixMode.Projection);
-                //GL.LoadIdentity();
-                //GL.Ortho(0, w, 0, h, 1, 2000); // Bottom-left corner pixel has coordinate (0, 0)
-
                 GL.Viewport(0, 0, w, h); // Use all of the glControl painting area
                 aspect = ((float)glControl1.Width) / ((float)glControl1.Height);
 
-                //GL.Matr
-                //GL.Enable(EnableCap.DepthTest); // for z buffer
                 SetAlpha(false); // start off with alpha off
 
                 GL.Enable(EnableCap.CullFace); // enable culling of faces
                 GL.CullFace(CullFaceMode.Back); // specify culling backfaces               
 
                 m_projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(0.55f, aspect, 1, 2000);
-                //OpenTK.Matrix4 projection = OpenTK.Matrix4.CreateOrthographic(w/8,h/8,1,2000);
                 m_modelView = OpenTK.Matrix4.LookAt(new OpenTK.Vector3(5, 0, -5), new OpenTK.Vector3(0, 0, 0), new OpenTK.Vector3(0, 0, 1));
                 
                 m_ortho = OpenTK.Matrix4.CreateOrthographicOffCenter(0, w, 0, h, 1, 2000);
-                //OpenTK.Matrix4 projection = OpenTK.Matrix4.CreateOrthographic(w/8,h/8,1,2000);
                 m_2dView = OpenTK.Matrix4.LookAt(new OpenTK.Vector3(0, 0, 10), new OpenTK.Vector3(0, 0, 0), new OpenTK.Vector3(0, 1, 0));
 
-                //GL.MatrixMode(MatrixMode.Projection);
-                //GL.LoadIdentity();
-                //GL.LoadMatrix(ref projection);
-
                 GL.ShadeModel(ShadingModel.Smooth); // tell it to shade smoothly
+
                 // properties of materials
                 GL.Enable(EnableCap.ColorMaterial); // allow polys to have color
                 float[] mat_specular = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -188,9 +177,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 float[] light_position = { 1.0f, 1.0f, 1.0f, 0.0f };
                 GL.Light(LightName.Light0, LightParameter.Position, light_position);
 
-                //GL.MatrixMode(MatrixMode.Modelview);
-                //GL.LoadIdentity();
-                //GL.LoadMatrix(ref modelView);
                 Set3DView();
             }
             catch (Exception ex)
