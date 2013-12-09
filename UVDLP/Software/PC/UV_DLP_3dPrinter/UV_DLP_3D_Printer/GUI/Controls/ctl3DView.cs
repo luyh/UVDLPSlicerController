@@ -36,6 +36,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         OpenTK.Matrix4 m_modelView;
         OpenTK.Matrix4 m_ortho;
         OpenTK.Matrix4 m_2dView;
+        private bool firstTime = true;
 
         public ctl3DView()
         {
@@ -167,17 +168,17 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 //GL.Hint(HintTarget.PolygonSmoothHint, HintMode.Nicest); 
 
                 // lighting
-                GL.Enable(EnableCap.Lighting);
-                GL.Enable(EnableCap.Light0);
-                float[] lightpos = new float[4];
-                lightpos[0] = 5.0f;
-                lightpos[1] = 15.0f;
-                lightpos[2] = 10.0f;
-                lightpos[3] = 1.0f;
-                float[] light_position = { 1.0f, 1.0f, 1.0f, 0.0f };
-                GL.Light(LightName.Light0, LightParameter.Position, light_position);
+                if (firstTime)
+                {
+                    GL.Enable(EnableCap.Lighting);
+                    GL.Enable(EnableCap.Light0);
+                    float[] light_position = { 1.0f, 1.0f, 1.0f, 0.0f };
+                    GL.Light(LightName.Light0, LightParameter.Position, light_position);
+                    //GL.Light(LightName.Light0, LightParameter.Ambient, Color.Gray);
+                }
 
                 Set3DView();
+                firstTime = false;
             }
             catch (Exception ex)
             {
