@@ -31,14 +31,16 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         Slice m_curslice = null; // for previewing only
         private bool lmdown, rmdown, mmdown;
         private int mdx, mdy;
-        IGraphicsContext m_context = null; 
-       
+        IGraphicsContext m_context = null;
+        OpenTK.Matrix4 m_projection;
+        OpenTK.Matrix4 m_modelView;
+        OpenTK.Matrix4 m_ortho;
+        OpenTK.Matrix4 m_2dView;
+
         public ctl3DView()
         {
             InitializeComponent();
 
-            //glControl1.Enabled = true;
-            //glControl1.Visible = true;
             SetupSceneTree();
             m_modelAnimTmr = null;
             m_camera = new GLCamera();
@@ -100,6 +102,26 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             m_camera.UpdateBuildVolume((float)mc.m_PlatXSize, (float)mc.m_PlatYSize, (float)mc.m_PlatZSize);
         }
 
+        protected void Set2DView()
+        {
+            GL.MatrixMode(MatrixMode.Projection);
+            //GL.LoadIdentity();
+            GL.LoadMatrix(ref m_ortho);
+            GL.MatrixMode(MatrixMode.Modelview);
+            //GL.LoadIdentity();
+            GL.LoadMatrix(ref m_2dView);
+        }
+
+        protected void Set3DView()
+        {
+            GL.MatrixMode(MatrixMode.Projection);
+            //GL.LoadIdentity();
+            GL.LoadMatrix(ref m_projection);
+            GL.MatrixMode(MatrixMode.Modelview);
+            //GL.LoadIdentity();
+            GL.LoadMatrix(ref m_modelView);
+        }
+
         private void SetupViewport()
         {
             if (!loaded)
@@ -110,9 +132,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 int w = glControl1.Width;
                 int h = glControl1.Height;
 
-                GL.MatrixMode(MatrixMode.Projection);
-                GL.LoadIdentity();
-                GL.Ortho(0, w, 0, h, 1, 2000); // Bottom-left corner pixel has coordinate (0, 0)
+                //GL.MatrixMode(MatrixMode.Projection);
+                //GL.LoadIdentity();
+                //GL.Ortho(0, w, 0, h, 1, 2000); // Bottom-left corner pixel has coordinate (0, 0)
 
                 GL.Viewport(0, 0, w, h); // Use all of the glControl painting area
                 aspect = ((float)glControl1.Width) / ((float)glControl1.Height);
@@ -124,13 +146,17 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 GL.Enable(EnableCap.CullFace); // enable culling of faces
                 GL.CullFace(CullFaceMode.Back); // specify culling backfaces               
 
-                OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(0.55f, aspect, 1, 2000);
+                m_projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(0.55f, aspect, 1, 2000);
                 //OpenTK.Matrix4 projection = OpenTK.Matrix4.CreateOrthographic(w/8,h/8,1,2000);
-                OpenTK.Matrix4 modelView = OpenTK.Matrix4.LookAt(new OpenTK.Vector3(5, 0, -5), new OpenTK.Vector3(0, 0, 0), new OpenTK.Vector3(0, 0, 1));
+                m_modelView = OpenTK.Matrix4.LookAt(new OpenTK.Vector3(5, 0, -5), new OpenTK.Vector3(0, 0, 0), new OpenTK.Vector3(0, 0, 1));
+                
+                m_ortho = OpenTK.Matrix4.CreateOrthographicOffCenter(0, w, 0, h, 1, 2000);
+                //OpenTK.Matrix4 projection = OpenTK.Matrix4.CreateOrthographic(w/8,h/8,1,2000);
+                m_2dView = OpenTK.Matrix4.LookAt(new OpenTK.Vector3(0, 0, 10), new OpenTK.Vector3(0, 0, 0), new OpenTK.Vector3(0, 1, 0));
 
-                GL.MatrixMode(MatrixMode.Projection);
-                GL.LoadIdentity();
-                GL.LoadMatrix(ref projection);
+                //GL.MatrixMode(MatrixMode.Projection);
+                //GL.LoadIdentity();
+                //GL.LoadMatrix(ref projection);
 
                 GL.ShadeModel(ShadingModel.Smooth); // tell it to shade smoothly
                 // properties of materials
@@ -162,9 +188,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 float[] light_position = { 1.0f, 1.0f, 1.0f, 0.0f };
                 GL.Light(LightName.Light0, LightParameter.Position, light_position);
 
-                GL.MatrixMode(MatrixMode.Modelview);
-                GL.LoadIdentity();
-                GL.LoadMatrix(ref modelView);
+                //GL.MatrixMode(MatrixMode.Modelview);
+                //GL.LoadIdentity();
+                //GL.LoadMatrix(ref modelView);
+                Set3DView();
             }
             catch (Exception ex)
             {
@@ -221,6 +248,31 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             GL.End();
         }
 
+        void DrawBackground()
+        {
+            int w = glControl1.Width;
+            int h = glControl1.Height;
+            Set2DView();
+            GL.Disable(EnableCap.Lighting);
+            GL.Disable(EnableCap.DepthTest);
+            GL.Begin(BeginMode.Quads);
+            GL.Color3(Color.LightBlue);
+            GL.Vertex3(0, 0, 0);
+            GL.Color3(Color.SkyBlue);
+            GL.Vertex3(w, 0, 0);
+            GL.Color3(Color.AliceBlue);
+            GL.Vertex3(w, h, 0);
+            GL.Color3(Color.AliceBlue);
+            GL.Vertex3(0, h, 0);
+            GL.End();
+            if (!m_showalpha)
+                GL.Enable(EnableCap.DepthTest); 
+            GL.Enable(EnableCap.Lighting);
+
+            //SetAlpha(m_showalpha);
+            Set3DView();
+        }
+
         private void DisplayFunc()
         {
             if (!loaded)
@@ -232,8 +284,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 
-            GL.LoadIdentity(); // assuming we're in the model matrix still
+            //GL.LoadIdentity(); // assuming we're in the model matrix still
 
+            DrawBackground();
             m_camera.SetViewGL();
 
             UVDLPApp.Instance().Engine3D.RenderGL();
@@ -535,6 +588,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             if (!loaded)
                 return;
             SetupViewport();
+            glControl1.Invalidate();
         }
 
         private void glControl1_DoubleClick(object sender, EventArgs e)
@@ -807,7 +861,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             #endregion Scene tree
 
         }
-
 
 
  
