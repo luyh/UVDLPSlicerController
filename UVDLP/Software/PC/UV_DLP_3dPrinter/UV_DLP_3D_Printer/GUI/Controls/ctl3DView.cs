@@ -656,8 +656,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_modelAnimTmr.Stop();
                 m_modelAnimTmr = null;
             }
-            //glControl1.Invalidate();
-            UpdateView();
+            glControl1.Invalidate();
         }
 
         private void ShowPanel(ctlImageButton butt, Control ctl)
