@@ -37,6 +37,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         OpenTK.Matrix4 m_2dView;
         private bool firstTime = true;
 
+        public Form m_splash = null;
+
         public ctl3DView()
         {
             InitializeComponent();
@@ -567,6 +569,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         
         private void glControl1_Paint(object sender, PaintEventArgs e)
         {
+            if (m_splash != null)
+                return;
             DisplayFunc();
         }
 

@@ -215,6 +215,12 @@
     <Compile Include="GUI\CustomGUI\ctlView.Designer.cs">
       <DependentUpon>ctlView.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\CustomGUI\frmBmpSplash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\frmBmpSplash.Designer.cs">
+      <DependentUpon>frmBmpSplash.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -364,6 +370,9 @@
     <EmbeddedResource Include="GUI\CustomGUI\ctlView.resx">
       <DependentUpon>ctlView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomGUI\frmBmpSplash.resx">
+      <DependentUpon>frmBmpSplash.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -479,6 +488,7 @@
     <None Include="resources\CustomGUI\buttViewModel.png" />
     <None Include="resources\CustomGUI\buttViewSlice.png" />
     <None Include="resources\CustomGUI\buttSave.png" />
+    <None Include="resources\splash.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

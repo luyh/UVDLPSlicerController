@@ -931,5 +931,13 @@ namespace UV_DLP_3D_Printer
             tabMain.Visible = true;
         }
 
+        private void splashToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form frm = new frmBmpSplash();
+            ctl3DView1.m_splash = frm;
+            frm.ShowDialog();
+            ctl3DView1.m_splash = null;
+        }
+
     }
 }
