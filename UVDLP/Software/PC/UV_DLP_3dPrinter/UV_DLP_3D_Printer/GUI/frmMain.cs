@@ -58,8 +58,10 @@ namespace UV_DLP_3D_Printer
             tabMain.Dock = DockStyle.Fill;
             tabMain.Visible = false;
 
+            m_frmdlp.HideDLPScreen();
             ctlSliceView1.Visible = false;
             ctlSliceView1.Dock = DockStyle.Fill;
+            ctlSliceView1.DlpForm = m_frmdlp;
 
             ctlGcodeView1.Visible = false;
             ctlGcodeView1.Dock = DockStyle.Fill;
@@ -190,10 +192,10 @@ namespace UV_DLP_3D_Printer
                         showCalibrationToolStripMenuItem_Click(null, null);
                         break;
                     case eAppEvent.eShowDLP:
-                        ShowDLPScreen();
+                        m_frmdlp.ShowDLPScreen();
                         break;
                     case eAppEvent.eHideDLP:
-                        HideDLPScreen();
+                        m_frmdlp.HideDLPScreen();
                         break;
                     case eAppEvent.eReDraw: // redraw the 3d display
                         //DisplayFunc();
@@ -358,7 +360,7 @@ namespace UV_DLP_3D_Printer
                         // if the current machine type is a UVDLP printer, make sure we can show the screen
                         if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
                         {
-                            if (!ShowDLPScreen())
+                            if (!m_frmdlp.ShowDLPScreen())
                             {
                                 MessageBox.Show("Monitor " + UVDLPApp.Instance().m_printerinfo.m_monitorconfig.Monitorid + " not found, cancelling build", "Error");
                                 UVDLPApp.Instance().m_buildmgr.CancelPrint();
@@ -505,7 +507,7 @@ namespace UV_DLP_3D_Printer
                         //make sure we show the screen
                         if (m_frmdlp == null) 
                         {
-                            ShowDLPScreen(); 
+                            m_frmdlp.ShowDLPScreen(); 
                         }
                         m_frmdlp.ShowImage(bmp);
                     }
@@ -698,8 +700,8 @@ namespace UV_DLP_3D_Printer
         #region DLP Screen Controls
         private void showBlankDLP()
         {
-            ShowDLPScreen();
-            Screen dlpscreen = GetDLPScreen();
+            m_frmdlp.ShowDLPScreen();
+            Screen dlpscreen = m_frmdlp.GetDLPScreen();
             if (dlpscreen != null)
             {
                 UVDLPApp.Instance().m_buildmgr.ShowBlank(dlpscreen.Bounds.Width, dlpscreen.Bounds.Height);
@@ -709,51 +711,14 @@ namespace UV_DLP_3D_Printer
         private void showCalibrationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UVDLPApp.Instance().m_buildparms.UpdateFrom(UVDLPApp.Instance().m_printerinfo);
-            ShowDLPScreen();
-            Screen dlpscreen = GetDLPScreen();
+            m_frmdlp.ShowDLPScreen();
+            Screen dlpscreen = m_frmdlp.GetDLPScreen();
             if (dlpscreen != null)
             {
                 UVDLPApp.Instance().m_buildmgr.ShowCalibration(dlpscreen.Bounds.Width, dlpscreen.Bounds.Height, UVDLPApp.Instance().m_buildparms);
             }
         }
 
-        private void HideDLPScreen()
-        {
-            m_frmdlp.Hide();    
-        }
-        private string CleanMonitorString(string str) 
-        {
-            string tmp = str.Replace("\\",string.Empty);
-            tmp = tmp.Replace(".", string.Empty);
-            tmp = tmp.Trim();
-            return tmp;
-        }
-        /// <summary>
-        /// This function will return the Screen specified in the machine configuration file
-        /// If the screen cannot be found, it will return null. 
-        /// This is a change in behaviour from before
-        /// </summary>
-        /// <returns></returns>
-        private Screen GetDLPScreen()
-        {
-            Screen dlpscreen = null;
-            foreach (Screen s in Screen.AllScreens)
-            {
-                string mn = CleanMonitorString(s.DeviceName);
-                string mid = CleanMonitorString(UVDLPApp.Instance().m_printerinfo.m_monitorconfig.Monitorid);
-                if (mn.Contains(mid))
-                {
-                    dlpscreen = s;
-                    break;
-                }
-            }
-            if (dlpscreen == null)
-            {
-                //dlpscreen = Screen.AllScreens[0]; // default to the first if we can't find it
-                DebugLogger.Instance().LogRecord("Can't find screen " + UVDLPApp.Instance().m_printerinfo.m_monitorconfig.Monitorid);
-            }
-            return dlpscreen;
-        }
         /*
         private Screen GetDLPScreen() 
         {
@@ -774,32 +739,6 @@ namespace UV_DLP_3D_Printer
             return dlpscreen;
         }
          * */
-
-        private bool ShowDLPScreen()
-        {
-            try
-            {
-                Screen dlpscreen = GetDLPScreen();
-                if (m_frmdlp.IsDisposed)
-                {
-                    m_frmdlp = new frmDLP();//recreate
-                }
-                m_frmdlp.Show();
-                if (dlpscreen != null)
-                {
-                    m_frmdlp.SetDesktopBounds(dlpscreen.Bounds.X, dlpscreen.Bounds.Y, dlpscreen.Bounds.Width, dlpscreen.Bounds.Height);
-                    m_frmdlp.WindowState = FormWindowState.Maximized;
-                    m_frmdlp.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-                }
-                
-                return true;
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogRecord(ex.Message);
-                return false;
-            }
-        }
         
         #endregion DLP screen controls
 

@@ -489,6 +489,7 @@
     <None Include="resources\CustomGUI\buttViewSlice.png" />
     <None Include="resources\CustomGUI\buttSave.png" />
     <None Include="resources\splash.png" />
+    <None Include="resources\CustomGUI\buttPrevDisp.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

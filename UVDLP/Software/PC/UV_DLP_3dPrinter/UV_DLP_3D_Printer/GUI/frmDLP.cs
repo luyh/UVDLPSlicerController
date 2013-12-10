@@ -27,5 +27,69 @@ namespace UV_DLP_3D_Printer
         {
             picDLP.Image = i;
         }
+ 
+        private string CleanMonitorString(string str)
+        {
+            string tmp = str.Replace("\\", string.Empty);
+            tmp = tmp.Replace(".", string.Empty);
+            tmp = tmp.Trim();
+            return tmp;
+        }
+
+        /// <summary>
+        /// This function will return the Screen specified in the machine configuration file
+        /// If the screen cannot be found, it will return null. 
+        /// This is a change in behaviour from before
+        /// </summary>
+        /// <returns></returns>
+        public Screen GetDLPScreen()
+        {
+            Screen dlpscreen = null;
+            foreach (Screen s in Screen.AllScreens)
+            {
+                string mn = CleanMonitorString(s.DeviceName);
+                string mid = CleanMonitorString(UVDLPApp.Instance().m_printerinfo.m_monitorconfig.Monitorid);
+                if (mn.Contains(mid))
+                {
+                    dlpscreen = s;
+                    break;
+                }
+            }
+            if (dlpscreen == null)
+            {
+                //dlpscreen = Screen.AllScreens[0]; // default to the first if we can't find it
+                DebugLogger.Instance().LogRecord("Can't find screen " + UVDLPApp.Instance().m_printerinfo.m_monitorconfig.Monitorid);
+            }
+            return dlpscreen;
+        }
+
+        public bool ShowDLPScreen()
+        {
+            try
+            {
+                Screen dlpscreen = GetDLPScreen();
+                Show();
+                if (dlpscreen != null)
+                {
+                    SetDesktopBounds(dlpscreen.Bounds.X, dlpscreen.Bounds.Y, dlpscreen.Bounds.Width, dlpscreen.Bounds.Height);
+                    WindowState = FormWindowState.Maximized;
+                    FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogRecord(ex.Message);
+                return false;
+            }
+        }
+
+        public bool HideDLPScreen()
+        {
+            Hide();
+            return true;
+        }
+
     }
 }

@@ -12,10 +12,19 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 {
     public partial class ctlSliceView : UserControl
     {
+        frmDLP m_frmdlp = null;
+
         public ctlSliceView()
         {
             InitializeComponent();
         }
+
+        public frmDLP DlpForm
+        {
+            get { return m_frmdlp; }
+            set { m_frmdlp = value; }
+        }
+
 
         public void SetNumLayers(int val)
         {
@@ -35,6 +44,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             ViewLayer(0);
         }
 
+        
         public void ViewLayer(int layer)
         {
             try
@@ -45,6 +55,21 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
                 picSlice.Image = bmp;//now show the 2d slice
                 picSlice.Refresh();
+                // if we're a UV DLP printer, show on the frmDLP
+                if ((UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP) && (m_frmdlp != null))
+                {
+                    // only show the image on the dlp if we're previewing
+                    //need to make sure we show the layer if building
+                    if (UVDLPApp.Instance().m_buildmgr.IsPrinting == true || UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay == true)
+                    {
+                        //make sure we show the screen
+                        if (m_frmdlp.Visible != true)
+                        {
+                            m_frmdlp.ShowDLPScreen();
+                        }
+                        m_frmdlp.ShowImage(bmp);
+                    }
+                }
             }
             catch (Exception) { }
 
@@ -72,6 +97,12 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 if (ctl.GetType().IsSubclassOf(typeof(ctlAnchorable)))
                     ((ctlAnchorable)ctl).UpdatePosition();
             }
+        }
+
+        private void buttPreviewOnDisplay_Click(object sender, EventArgs e)
+        {
+            UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay = buttPreviewOnDisplay.Checked;
+            ViewLayer(numLayer.IntVal - 1);
         }
     }
 }
