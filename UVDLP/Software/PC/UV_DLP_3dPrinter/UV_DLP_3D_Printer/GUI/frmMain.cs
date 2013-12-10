@@ -30,7 +30,7 @@ namespace UV_DLP_3D_Printer
         frmDLP m_frmdlp = new frmDLP();        
         frm3DLPrinterControl m_frm3DLPControl = new frm3DLPrinterControl();
         frmSlice m_frmSlice = new frmSlice();
-        ArcBall arcball;// = new ArcBall();
+        //ArcBall arcball;// = new ArcBall();
         GLCamera m_camera;
         Slice m_curslice = null; // for previewing only
 
@@ -64,7 +64,7 @@ namespace UV_DLP_3D_Printer
             ctlGcodeView1.Visible = false;
             ctlGcodeView1.Dock = DockStyle.Fill;
                         
-            arcball = new ArcBall();
+            //arcball = new ArcBall();
             m_camera = new GLCamera();
             ResetCameraView();
 

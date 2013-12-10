@@ -70,7 +70,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 GL.Disable(EnableCap.AlphaTest);
                 GL.Enable(EnableCap.DepthTest); // for z buffer        
                 //GL.Disable(EnableCap.Blend); // alpha blending
-            }
+            }            
         }
 
         private void buttEnableTransparency_Click(object sender, EventArgs e)

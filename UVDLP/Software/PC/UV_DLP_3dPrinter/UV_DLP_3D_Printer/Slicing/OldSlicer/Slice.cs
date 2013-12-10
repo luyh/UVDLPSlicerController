@@ -169,90 +169,97 @@ namespace UV_DLP_3D_Printer
 
         public void Optimize()
         {
-            // copy all the polylines in segments into a list
-            List<PolyLine3d> allseg = new List<PolyLine3d>();
-            //create the final optimize segment list
-            m_opsegs = new List<PolyLine3d>();
-
-            // copy the list and clone the polyline segments 
-            foreach (PolyLine3d pl in m_segments)
+            try
             {
-                allseg.Add(new PolyLine3d(pl));
-            }
-            // gotta keep track of lines to remove
-            List<PolyLine3d> removelist = new List<PolyLine3d>();
-            bool done = false;
-            // matchcount is a counter that tracks how many endpoints we've matched this trip around
-            int matchcount = 0;
-            while (!done)
-            {                
-                // set the current line to be the first polyline segement
-                PolyLine3d curline = allseg[0];
-                //iterate through all the line segments in allsegs
-                for (int cnt = 0; cnt < allseg.Count; cnt ++)
+                // copy all the polylines in segments into a list
+                List<PolyLine3d> allseg = new List<PolyLine3d>();
+                //create the final optimize segment list
+                m_opsegs = new List<PolyLine3d>();
+
+                // copy the list and clone the polyline segments 
+                foreach (PolyLine3d pl in m_segments)
                 {
-                    PolyLine3d pl = allseg[cnt];
-                    if (cnt != 0) // the first polyline is the one we're always trying to match
-                    {                        
-                        // if the last point in the current polyline matches the first point
-                        // in the line we're testing, add the second point of the line we're testing 
-                        // to the end of the current line
-                        if (curline.m_points[curline.m_points.Count - 1].Matches(pl.m_points[0]) ) // case 2
+                    allseg.Add(new PolyLine3d(pl));
+                }
+                // gotta keep track of lines to remove
+                List<PolyLine3d> removelist = new List<PolyLine3d>();
+                bool done = false;
+                // matchcount is a counter that tracks how many endpoints we've matched this trip around
+                int matchcount = 0;
+                while (!done)
+                {
+                    // set the current line to be the first polyline segement
+                    PolyLine3d curline = allseg[0];
+                    //iterate through all the line segments in allsegs
+                    for (int cnt = 0; cnt < allseg.Count; cnt++)
+                    {
+                        PolyLine3d pl = allseg[cnt];
+                        if (cnt != 0) // the first polyline is the one we're always trying to match
                         {
-                            //if ((curline.m_derived.SharesEdge(pl.m_derived)))
+                            // if the last point in the current polyline matches the first point
+                            // in the line we're testing, add the second point of the line we're testing 
+                            // to the end of the current line
+                            if (curline.m_points[curline.m_points.Count - 1].Matches(pl.m_points[0])) // case 2
                             {
+                                //if ((curline.m_derived.SharesEdge(pl.m_derived)))
+                                {
+                                    curline.m_points.AddRange(pl.m_points);
+                                    removelist.Add(pl); // add the test line to the list of lines to remove, now that we've used it
+                                    matchcount++;
+                                }
+                            }
+                            else if (curline.m_points[curline.m_points.Count - 1].Matches(pl.m_points[pl.m_points.Count - 1])) // case 4 last point matches last
+                            {
+                                // && (curline.m_derived.SharesEdge(pl.m_derived))
+                                pl.m_points.Reverse();
                                 curline.m_points.AddRange(pl.m_points);
-                                removelist.Add(pl); // add the test line to the list of lines to remove, now that we've used it
+                                removelist.Add(pl);
+                                matchcount++;
+                            }
+                            else if (curline.m_points[0].Matches(pl.m_points[pl.m_points.Count - 1])) //case 1
+                            {
+                                curline.m_points.Reverse();
+                                pl.m_points.Reverse();
+                                curline.m_points.AddRange(pl.m_points);
+                                removelist.Add(pl);
+                                matchcount++;
+                            }
+                            else if (curline.m_points[0].Matches(pl.m_points[0])) // case 3
+                            {
+                                curline.m_points.Reverse();
+                                curline.m_points.AddRange(pl.m_points);
+                                removelist.Add(pl);
                                 matchcount++;
                             }
                         }
-                        else if (curline.m_points[curline.m_points.Count - 1].Matches(pl.m_points[pl.m_points.Count - 1])) // case 4 last point matches last
-                        {
-                            // && (curline.m_derived.SharesEdge(pl.m_derived))
-                            pl.m_points.Reverse();
-                            curline.m_points.AddRange(pl.m_points);
-                            removelist.Add(pl);
-                            matchcount++;
-                        }
-                        else if (curline.m_points[0].Matches(pl.m_points[pl.m_points.Count - 1])) //case 1
-                        {
-                            curline.m_points.Reverse();
-                            pl.m_points.Reverse();
-                            curline.m_points.AddRange(pl.m_points);
-                            removelist.Add(pl);
-                            matchcount++;
-                        }
-                        else if (curline.m_points[0].Matches(pl.m_points[0]) ) // case 3
-                        {
-                            curline.m_points.Reverse();
-                            curline.m_points.AddRange(pl.m_points);
-                            removelist.Add(pl);
-                            matchcount++;
-                        }
+                    }
+                    // now remove all the matched segments from all segment list
+                    foreach (PolyLine3d seg in removelist)
+                    {
+                        allseg.Remove(seg);
+                    }
+                    removelist.Clear();
+
+                    if (matchcount > 0)
+                    {
+                        matchcount = 0; // reset the match counter
+                    }
+                    else
+                    {
+                        // the current segment is not longer matching
+                        // add it to the final list of optimized segments
+                        m_opsegs.Add(curline);
+                        //and remove it from the list of all segments
+                        allseg.Remove(curline);
+                        //check for end condition
+                        if (allseg.Count == 0)
+                            done = true;
                     }
                 }
-                // now remove all the matched segments from all segment list
-                foreach (PolyLine3d seg in removelist)
-                {
-                    allseg.Remove(seg);
-                }
-                removelist.Clear();                            
-
-                if (matchcount > 0)
-                {
-                    matchcount = 0; // reset the match counter
-                }
-                else
-                {                    
-                    // the current segment is not longer matching
-                    // add it to the final list of optimized segments
-                    m_opsegs.Add(curline);
-                    //and remove it from the list of all segments
-                    allseg.Remove(curline);
-                    //check for end condition
-                    if (allseg.Count == 0)
-                        done = true;
-                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
             }
             RemoveDoublePoints(); // make really clean
         }
