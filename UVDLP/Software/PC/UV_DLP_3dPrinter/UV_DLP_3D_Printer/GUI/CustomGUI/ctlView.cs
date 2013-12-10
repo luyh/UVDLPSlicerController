@@ -55,27 +55,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             set { mObjectInfoPanel = value; }
         }
 
-        private void SetAlpha(bool val)
-        {
-            if (val == true)
-            {
-                GL.Disable(EnableCap.DepthTest); // need to disable z buffering for proper display
-                //alpha blending
-                //GL.Enable(EnableCap.Blend); // alpha blending
-                GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-                GL.Enable(EnableCap.AlphaTest);
-            }
-            else
-            {
-                GL.Disable(EnableCap.AlphaTest);
-                GL.Enable(EnableCap.DepthTest); // for z buffer        
-                //GL.Disable(EnableCap.Blend); // alpha blending
-            }            
-        }
 
         private void buttEnableTransparency_Click(object sender, EventArgs e)
         {
-            SetAlpha(buttEnableTransparency.Checked);
             UVDLPApp.Instance().m_engine3d.m_alpha = buttEnableTransparency.Checked;
             UVDLPApp.Instance().m_engine3d.UpdateLists();
             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");            

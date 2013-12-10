@@ -26,7 +26,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         System.Timers.Timer m_modelAnimTmr;
         GLCamera m_camera;
         bool loaded = false;
-        bool m_showalpha = false;
         float m_ix = 0.0f, m_iy = 0.0f, m_iz = 2.0f;
         Slice m_curslice = null; // for previewing only
         private bool lmdown, rmdown, mmdown;
@@ -176,10 +175,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     GL.Enable(EnableCap.Light0);
                     float[] light_position = { 1.0f, 1.0f, 1.0f, 0.0f };
                     GL.Light(LightName.Light0, LightParameter.Position, light_position);
-                    //GL.Light(LightName.Light0, LightParameter.Ambient, Color.Gray);
+                    GL.Light(LightName.Light0, LightParameter.Diffuse, Color.LightGray);
                 }
-
                 Set3DView();
+
                 firstTime = false;
             }
             catch (Exception ex)
@@ -200,24 +199,17 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             if (!loaded)
                 return;
 
-            m_showalpha = val;
             if (val == true)
             {
                 GL.Disable(EnableCap.DepthTest); // need to disable z buffering for proper display
-                //alpha blending
-               // GL.CullFace(CullFaceMode.FrontAndBack); 
-               // GL.Disable(EnableCap.CullFace);
-                GL.Enable(EnableCap.Blend); // alpha blending
-                GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                 GL.Enable(EnableCap.AlphaTest);
+                //GL.Disable(EnableCap.CullFace); // enable culling of faces
             }
             else
             {
-                //GL.Enable(EnableCap.CullFace);
-                //GL.CullFace(CullFaceMode.FrontAndBack);
+                //GL.Enable(EnableCap.CullFace); // enable culling of faces
                 GL.Disable(EnableCap.AlphaTest);
                 GL.Enable(EnableCap.DepthTest); // for z buffer        
-                GL.Disable(EnableCap.Blend); // alpha blending
             }
         }
 
@@ -258,7 +250,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             GL.Color3(Color.AliceBlue);
             GL.Vertex3(0, h, 0);
             GL.End();
-            if (!m_showalpha)
+            if (!UVDLPApp.Instance().m_engine3d.m_alpha)
                 GL.Enable(EnableCap.DepthTest); 
             GL.Enable(EnableCap.Lighting);
 
@@ -278,7 +270,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
 
             //GL.LoadIdentity(); // assuming we're in the model matrix still
-
+            SetAlpha(UVDLPApp.Instance().m_engine3d.m_alpha);
             DrawBackground();
             m_camera.SetViewGL();
 
