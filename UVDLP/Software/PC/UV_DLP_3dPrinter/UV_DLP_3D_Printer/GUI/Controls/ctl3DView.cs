@@ -89,12 +89,14 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         public void ResetCameraView()
         {
             m_camera.ResetView(0, -200, 0, 20, 20);
-            glControl1.Invalidate();
+           // glControl1.Invalidate();            
+            UpdateView();
         }
 
         public void UpdateView()
         {
-            glControl1.Invalidate();
+            //glControl1.Invalidate();
+            DisplayFunc();
         }
 
         private void SetupForMachineType()
@@ -203,12 +205,16 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 GL.Disable(EnableCap.DepthTest); // need to disable z buffering for proper display
                 //alpha blending
+               // GL.CullFace(CullFaceMode.FrontAndBack); 
+               // GL.Disable(EnableCap.CullFace);
                 GL.Enable(EnableCap.Blend); // alpha blending
                 GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                 GL.Enable(EnableCap.AlphaTest);
             }
             else
             {
+                //GL.Enable(EnableCap.CullFace);
+                //GL.CullFace(CullFaceMode.FrontAndBack);
                 GL.Disable(EnableCap.AlphaTest);
                 GL.Enable(EnableCap.DepthTest); // for z buffer        
                 GL.Disable(EnableCap.Blend); // alpha blending
@@ -539,7 +545,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     }
                 }
             }
-            glControl1.Invalidate();
+            //glControl1.Invalidate();
+            UpdateView();
         }
 
         private void glControl1_MouseUp(object sender, MouseEventArgs e)
@@ -562,7 +569,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         void glControl1_MouseWheel(object sender, MouseEventArgs e)
         {
             m_camera.MoveForward(e.Delta / 10);
-            glControl1.Invalidate();
+            //glControl1.Invalidate();
+            UpdateView();
         }
         
         private void glControl1_Paint(object sender, PaintEventArgs e)
@@ -575,7 +583,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             if (!loaded)
                 return;
             SetupViewport();
-            glControl1.Invalidate();
+            //glControl1.Invalidate();
+            UpdateView();
         }
 
         private void glControl1_DoubleClick(object sender, EventArgs e)
@@ -647,7 +656,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_modelAnimTmr.Stop();
                 m_modelAnimTmr = null;
             }
-            glControl1.Invalidate();
+            //glControl1.Invalidate();
+            UpdateView();
         }
 
         private void ShowPanel(ctlImageButton butt, Control ctl)
@@ -714,7 +724,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     if (m_curslice != null)
                     {
                         //UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
-                        glControl1.Invalidate();
+
+                        UpdateView();//glControl1.Invalidate();
                     }
                 }
                 else

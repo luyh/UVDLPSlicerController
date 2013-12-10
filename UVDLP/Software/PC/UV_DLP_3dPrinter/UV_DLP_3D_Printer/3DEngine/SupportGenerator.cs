@@ -104,6 +104,49 @@ namespace UV_DLP_3D_Printer
             RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eStarted, "Support Generation Started", null);
             GenerateSupportObjects();
         }
+        /// <summary>
+        /// This is the adaptive support generation, it should automatically 
+        /// detect overhangs
+        /// </summary>
+        public void GenerateAdaptive() 
+        {
+            //iterate through all the layers starting from z=0            
+            // check every polyline in the current layer to make sure it is encased or overlaps polylines in the previous layer
+            // generate a list of unsupported polylines
+            // 'check' to see if the polyline can be dropped straight down
+            // this has to do slicing of the scene
+            SliceBuildConfig config =  UVDLPApp.Instance().m_buildparms;
+            int numslices = UVDLPApp.Instance().m_slicer.GetNumberOfSlices(config);
+            float zlev = 0.0f;
+            Slice curslice = null;
+            Slice prevslice = null;
+            for (int c = 0; c < numslices; c++) 
+            {
+                Slice sl = UVDLPApp.Instance().m_slicer.GetSliceImmediate(zlev);
+                sl.Optimize();// find loops
+                zlev += (float)config.ZThick;
+                prevslice = curslice;
+                curslice = sl;
+                if (prevslice != null && curslice != null) 
+                {
+                    //see if regions in the curslice 
+                    //iterate through all closed polylines in the current level
+                    foreach (PolyLine3d pl in curslice.m_opsegs) 
+                    {
+                        if (!pl.cached)
+                            pl.CalcBBox();
+                        //iterate through all polylines in previous level
+                        foreach(PolyLine3d pl1 in prevslice.m_opsegs)
+                        {
+                            if (!pl1.cached)
+                                pl1.CalcBBox();
+                            //check the bounding box of pl against pl1
+                        }
+                    }
+                }
+
+            }
+        }
         public List<Object3d> GenerateSupportObjects()
         {
 

@@ -15,6 +15,11 @@ namespace UV_DLP_3D_Printer.Configs
 [Serializable]
     public class SupportConfig
     {
+        public enum eAUTOSUPPORTTYPE 
+        {
+            eBON, // bed of nails
+            eADAPTIVE, // a tree-like structure
+        }
         public const int FILE_VERSION = 1; // this should change every time the format changes
         public double xspace, yspace;
         public double htrad; // head top radius 
@@ -22,11 +27,13 @@ namespace UV_DLP_3D_Printer.Configs
         public double ftrad; // foot top radius
         public double fbrad; // foot bottom radius
         public double fbrad2; // foot bottom radius 2
-        public int vdivs;
+        public int vdivs; // vertical divisions, not used
         public bool m_onlydownward;
+        public eAUTOSUPPORTTYPE eSupType;
 
         public SupportConfig() 
         {
+            eSupType = eAUTOSUPPORTTYPE.eBON;
             xspace = 5.0; // 5 mm spacing
             yspace = 5.0; // 5 mm spacing
             htrad = .2;//

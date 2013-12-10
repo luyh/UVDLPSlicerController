@@ -21,37 +21,31 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             if (val < 0)
                 val = 0;
-            if (UVDLPApp.Instance().m_appconfig.m_viewslice3d && (val > 0))
+            //if (UVDLPApp.Instance().m_appconfig.m_viewslice3d && (val > 0))
+            if (val > 0)
             {
                 numLayer.MaxInt = val;
                 numLayer.IntVal = 1;
                 numLayer.Visible = true;
             }
             else
+            {
                 numLayer.Visible = false;
+            }
             itemNumLayers.DataText = val.ToString();
-            ViewLayer(0, null, BuildManager.SLICE_NORMAL);
+            ViewLayer(0);
         }
 
-        private void ViewLayer(int layer, Bitmap image, int layertype)
+        public void ViewLayer(int layer)
         {
             try
             {
                 //render the 2d slice
                 Bitmap bmp = null;
-                if (image == null) // we're here because of the scroll bar in the gui
-                {
-                    bmp = UVDLPApp.Instance().m_slicefile.GetSliceImage(layer);
-                }
-                else // the image was specified from the build manager
-                {
-                    bmp = image;
-                }
+                bmp = UVDLPApp.Instance().m_slicefile.GetSliceImage(layer);
 
-                //this bmp could be a normal, blank, or calibration image
                 picSlice.Image = bmp;//now show the 2d slice
-                picSlice.Invalidate();
-                // if we're a UV DLP printer, show on the frmDLP
+                picSlice.Refresh();
             }
             catch (Exception) { }
 
@@ -62,7 +56,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             try
             {
                 int vscrollval = numLayer.IntVal - 1;
-                ViewLayer(vscrollval, null, BuildManager.SLICE_NORMAL);
+                ViewLayer(vscrollval);
+                numLayer.Refresh();
             }
             catch (Exception)
             {
