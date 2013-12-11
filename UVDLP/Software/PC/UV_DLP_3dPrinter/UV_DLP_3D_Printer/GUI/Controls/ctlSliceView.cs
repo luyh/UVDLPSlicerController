@@ -17,6 +17,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         public ctlSliceView()
         {
             InitializeComponent();
+            buttPreviewOnDisplay.Checked = UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay; // set the initial check state
         }
 
         public frmDLP DlpForm
@@ -101,7 +102,13 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         private void buttPreviewOnDisplay_Click(object sender, EventArgs e)
         {
+            if (buttPreviewOnDisplay.Checked == false) // if the user unchecks the preview on dlp button, blank the dlp display.
+            {
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eShowBlank, "");
+            }
             UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay = buttPreviewOnDisplay.Checked;
+            //save the check value
+            UVDLPApp.Instance().m_appconfig.Save(UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + UVDLPApp.m_appconfigname);   
             ViewLayer(numLayer.IntVal - 1);
         }
     }
