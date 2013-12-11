@@ -46,6 +46,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         void m_frmdlp_VisibleChanged(object sender, EventArgs e)
         {
+            if (m_frmdlp.Visible == false)
+            {
+                UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay = false;
+                UVDLPApp.Instance().m_appconfig.Save(UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + UVDLPApp.m_appconfigname);
+            }
             UpdateChecked();
         }
 

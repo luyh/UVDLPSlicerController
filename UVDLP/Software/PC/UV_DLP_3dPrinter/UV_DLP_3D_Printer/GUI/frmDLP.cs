@@ -114,6 +114,11 @@ namespace UV_DLP_3D_Printer
                     SetDesktopBounds(m_dlpscreen.Bounds.X, m_dlpscreen.Bounds.Y, m_dlpscreen.Bounds.Width, m_dlpscreen.Bounds.Height);
                     WindowState = FormWindowState.Maximized;
                     FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+                    if (m_dlpscreen == Screen.PrimaryScreen)
+                    {
+                        BringToFront();
+                        Focus();
+                    }
                 }
 
                 return true;
@@ -141,5 +146,27 @@ namespace UV_DLP_3D_Printer
             }
         }
 
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            if ((e.KeyCode == Keys.Escape) && (m_dlpscreen == Screen.PrimaryScreen) 
+                && (WindowState == FormWindowState.Maximized))
+            {
+                WindowState = FormWindowState.Normal;
+                FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
+            }
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == 0x0112) // WM_SYSCOMMAND
+            {
+                if (m.WParam == new IntPtr(0xF030)) // Maximize event - SC_MAXIMIZE from Winuser.h
+                {
+                    FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;                   
+                }
+            }
+            base.WndProc(ref m);
+        }
     }
 }

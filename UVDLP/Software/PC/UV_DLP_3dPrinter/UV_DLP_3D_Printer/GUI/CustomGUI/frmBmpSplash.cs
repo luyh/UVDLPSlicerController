@@ -92,6 +92,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             //Call our drawing function
             UpdateFormDisplay(this.BackgroundImage);
         }
+
         #endregion
 
         private void frmBmpSplash_MouseDown(object sender, MouseEventArgs e)
