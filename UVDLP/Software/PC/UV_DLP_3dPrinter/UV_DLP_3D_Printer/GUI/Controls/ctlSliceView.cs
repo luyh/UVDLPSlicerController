@@ -22,7 +22,22 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         public frmDLP DlpForm
         {
             get { return m_frmdlp; }
-            set { m_frmdlp = value; }
+            set 
+            { 
+                m_frmdlp = value;
+                m_frmdlp.VisibleChanged += new EventHandler(m_frmdlp_VisibleChanged);
+                buttPreviewOnDisplay.Checked = m_frmdlp.Visible;
+            }
+        }
+
+        void m_frmdlp_VisibleChanged(object sender, EventArgs e)
+        {
+            buttPreviewOnDisplay.Checked = m_frmdlp.Visible;
+        }
+
+        void m_frmdlp_UserClosing(object sender, EventArgs e)
+        {
+            buttPreviewOnDisplay.Checked = false;
         }
 
 
@@ -102,7 +117,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         private void buttPreviewOnDisplay_Click(object sender, EventArgs e)
         {
             UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay = buttPreviewOnDisplay.Checked;
-            ViewLayer(numLayer.IntVal - 1);
+            if (buttPreviewOnDisplay.Checked)
+                ViewLayer(numLayer.IntVal - 1);
+            else
+                m_frmdlp.HideDLPScreen();
         }
     }
 }
