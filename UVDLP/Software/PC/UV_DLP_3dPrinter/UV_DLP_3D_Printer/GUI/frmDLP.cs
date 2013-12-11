@@ -110,6 +110,7 @@ namespace UV_DLP_3D_Printer
                 }
                 else
                 {
+                    WindowState = FormWindowState.Normal;
                     SetDesktopBounds(m_dlpscreen.Bounds.X, m_dlpscreen.Bounds.Y, m_dlpscreen.Bounds.Width, m_dlpscreen.Bounds.Height);
                     WindowState = FormWindowState.Maximized;
                     FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

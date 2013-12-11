@@ -32,6 +32,7 @@
             this.picSlice = new System.Windows.Forms.PictureBox();
             this.numLayer = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
             this.buttPreviewOnDisplay = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
             ((System.ComponentModel.ISupportInitialize)(this.picSlice)).BeginInit();
             this.SuspendLayout();
             // 
@@ -106,8 +107,17 @@
             this.buttPreviewOnDisplay.Name = "buttPreviewOnDisplay";
             this.buttPreviewOnDisplay.Size = new System.Drawing.Size(48, 48);
             this.buttPreviewOnDisplay.TabIndex = 29;
+            this.ctlToolTip1.SetToolTip(this.buttPreviewOnDisplay, "View slice on device display");
             this.buttPreviewOnDisplay.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
             this.buttPreviewOnDisplay.Click += new System.EventHandler(this.buttPreviewOnDisplay_Click);
+            // 
+            // ctlToolTip1
+            // 
+            this.ctlToolTip1.AutoPopDelay = 5000;
+            this.ctlToolTip1.BackColor = System.Drawing.Color.Turquoise;
+            this.ctlToolTip1.ForeColor = System.Drawing.Color.Navy;
+            this.ctlToolTip1.InitialDelay = 1500;
+            this.ctlToolTip1.ReshowDelay = 100;
             // 
             // ctlSliceView
             // 
@@ -131,5 +141,6 @@
         private CustomGUI.ctlInfoItem itemNumLayers;
         private CustomGUI.ctlNumber numLayer;
         private CustomGUI.ctlImageButton buttPreviewOnDisplay;
+        private CustomGUI.ctlToolTip ctlToolTip1;
     }
 }

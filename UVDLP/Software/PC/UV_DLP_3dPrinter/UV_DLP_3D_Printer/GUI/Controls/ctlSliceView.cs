@@ -17,6 +17,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         public ctlSliceView()
         {
             InitializeComponent();
+            buttPreviewOnDisplay.Checked = UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay; // set the initial check state
         }
 
         public frmDLP DlpForm
@@ -25,21 +26,28 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             set 
             { 
                 m_frmdlp = value;
-                m_frmdlp.VisibleChanged += new EventHandler(m_frmdlp_VisibleChanged);
-                buttPreviewOnDisplay.Checked = m_frmdlp.Visible;
+                if (m_frmdlp != null)
+                {
+                    m_frmdlp.VisibleChanged += new EventHandler(m_frmdlp_VisibleChanged);
+                    UpdateChecked();
+                }
             }
+        }
+
+        void UpdateChecked()
+        {
+            if ((m_frmdlp == null) || m_frmdlp.IsDisposed)
+            {
+                buttPreviewOnDisplay.Checked = false;
+                return;
+            }
+            buttPreviewOnDisplay.Checked = m_frmdlp.Visible && UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay;
         }
 
         void m_frmdlp_VisibleChanged(object sender, EventArgs e)
         {
-            buttPreviewOnDisplay.Checked = m_frmdlp.Visible;
+            UpdateChecked();
         }
-
-        void m_frmdlp_UserClosing(object sender, EventArgs e)
-        {
-            buttPreviewOnDisplay.Checked = false;
-        }
-
 
         public void SetNumLayers(int val)
         {
@@ -116,11 +124,19 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         private void buttPreviewOnDisplay_Click(object sender, EventArgs e)
         {
-            UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay = buttPreviewOnDisplay.Checked;
             if (buttPreviewOnDisplay.Checked)
+            {
+                UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay = true;
                 ViewLayer(numLayer.IntVal - 1);
+            }
             else
-                m_frmdlp.HideDLPScreen();
+            {
+                // if the user unchecks the preview on dlp button, blank the dlp display.
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eShowBlank, "");
+                UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay = false;
+            }
+            //save the check value
+            UVDLPApp.Instance().m_appconfig.Save(UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + UVDLPApp.m_appconfigname);
         }
     }
 }

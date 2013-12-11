@@ -33,8 +33,8 @@ namespace UV_DLP_3D_Printer
         eSlicedLoaded,
         eMachineTypeChanged,
         eShowDLP,  // this event is raised when someone wants to show the DLP screen
-        eShowCalib,
-        eShowBlank,
+        eShowCalib, // request to show calibration screen
+        eShowBlank, // request to show blank screen 
         eHideDLP,
         eMachineConnected, // the main serial port for the machine was opened - aka - we connected
         eMachineDisconnected, // the machine disconnected
