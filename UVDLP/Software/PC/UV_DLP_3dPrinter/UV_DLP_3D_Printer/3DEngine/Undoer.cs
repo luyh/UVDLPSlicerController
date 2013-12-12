@@ -125,6 +125,7 @@ namespace Engine3D
             }
             item.obj.Update();
             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
+            UpdateButton();
         }
 
         public void AsociateButton(ctlImageButton butt)
@@ -144,7 +145,6 @@ namespace Engine3D
         void m_undoButt_Click(object sender, EventArgs e)
         {
             Undo();
-            UpdateButton();
         }
 
         public bool isEmpty()

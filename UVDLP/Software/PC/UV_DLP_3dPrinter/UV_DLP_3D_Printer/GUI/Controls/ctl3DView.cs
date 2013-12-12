@@ -407,6 +407,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 UVDLPApp.Instance().RemoveCurrentModel();
             }
+            if ((e.KeyCode == Keys.Z) && (e.Modifiers == Keys.Control))
+            {
+                UVDLPApp.Instance().m_undoer.Undo();
+            }
             if (e.KeyCode == Keys.ShiftKey)
             {
                 if (m_movingobjectmode == false)
@@ -425,7 +429,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         private void glControl1_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-
+            
         }
 
         private void glControl1_KeyUp(object sender, KeyEventArgs e)
