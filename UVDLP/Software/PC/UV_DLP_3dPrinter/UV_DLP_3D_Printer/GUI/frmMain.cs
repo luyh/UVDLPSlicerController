@@ -490,21 +490,7 @@ namespace UV_DLP_3D_Printer
                 {
                     bmp = image;
                 }
-                /*
-                // if we're printing, or just moving the scroll bar, try to show the slice
-                if (UVDLPApp.Instance().m_appconfig.m_viewslice3d == true)
-                {
-                    m_curslice = UVDLPApp.Instance().m_slicefile.GetSlice(layer);
-                    if (m_curslice != null)
-                    {
-                        UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
-                    }
-                }
-                else
-                {
-                    m_curslice = null;
-                }
-                 * */
+               
                 // if we're a UV DLP printer, show on the frmDLP
                 if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
                 {
