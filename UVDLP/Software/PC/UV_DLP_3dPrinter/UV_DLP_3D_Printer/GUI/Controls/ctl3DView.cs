@@ -36,7 +36,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         OpenTK.Matrix4 m_ortho;
         OpenTK.Matrix4 m_2dView;
         private bool firstTime = true;
-        float m_savex, m_savey, m_savez, m_saveh;
+        float m_savex, m_savey, m_saveh; // m_savez
 
         public Form m_splash = null;
 

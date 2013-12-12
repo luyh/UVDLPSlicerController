@@ -382,6 +382,13 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Icon cwlogo_dl {
+            get {
+                object obj = ResourceManager.GetObject("cwlogo_dl", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap Disconnect {
             get {
                 object obj = ResourceManager.GetObject("Disconnect", resourceCulture);

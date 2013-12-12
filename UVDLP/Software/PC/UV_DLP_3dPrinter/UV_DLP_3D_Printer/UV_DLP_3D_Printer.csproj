@@ -50,6 +50,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>resources\cwlogo_dl.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip">
       <HintPath>.\Ionic.Zip.dll</HintPath>
@@ -85,6 +88,8 @@
     <Compile Include="3DEngine\GLCamera.cs" />
     <Compile Include="3DEngine\ISectData.cs" />
     <Compile Include="3DEngine\Material.cs" />
+    <Compile Include="3DEngine\ModelLoader.cs" />
+    <Compile Include="3DEngine\ModelLoaderAmf.cs" />
     <Compile Include="3DEngine\RTUtils.cs" />
     <Compile Include="3DEngine\Support.cs" />
     <Compile Include="3DEngine\ThreeDSFile.cs" />
@@ -493,6 +498,7 @@
     <None Include="resources\CustomGUI\buttPrevDisp.png" />
     <None Include="resources\CustomGUI\buttUndo.png" />
     <None Include="resources\CustomGUI\buttRedo.png" />
+    <None Include="resources\cwlogo_dl.ico" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />
