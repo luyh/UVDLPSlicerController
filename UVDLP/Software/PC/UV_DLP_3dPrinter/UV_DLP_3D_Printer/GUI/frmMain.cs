@@ -154,7 +154,7 @@ namespace UV_DLP_3D_Printer
                     case eAppEvent.eModelRemoved: 
                         //the current model was removed
                         DebugLogger.Instance().LogRecord(Message);
-                        ShowObjectInfo();
+                        UpdateSceneInfo();
                         UVDLPApp.Instance().m_engine3d.UpdateLists();
                         ctl3DView1.UpdateView();
                         //DisplayFunc();
@@ -175,7 +175,7 @@ namespace UV_DLP_3D_Printer
                         DebugLogger.Instance().LogRecord(Message);
                         break;
                     case eAppEvent.eModelAdded:
-                        ShowObjectInfo();
+                        UpdateSceneInfo();
                         UVDLPApp.Instance().m_engine3d.UpdateLists();
                         //DisplayFunc();
                         ctl3DView1.UpdateView();
@@ -204,7 +204,7 @@ namespace UV_DLP_3D_Printer
                     case eAppEvent.eReDraw: // redraw the 3d display
                         //DisplayFunc();
                         ctl3DView1.UpdateView();
-                        ctl3DView1.UpdateObjectInfo();
+                        UpdateSceneInfo();
                         break;
                     case eAppEvent.eMachineConnected:
                         showBlankDLP();
@@ -441,7 +441,7 @@ namespace UV_DLP_3D_Printer
             }
         }
 
-        private void ShowObjectInfo() 
+        private void UpdateSceneInfo() 
         {
             try
             {

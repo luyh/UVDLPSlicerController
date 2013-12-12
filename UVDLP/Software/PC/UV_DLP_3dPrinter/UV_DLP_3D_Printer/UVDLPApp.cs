@@ -86,6 +86,8 @@ namespace UV_DLP_3D_Printer
         public static String m_pathsep = "\\";
         public List<IPlugin> m_plugins; // list of plug-ins
 
+        public Undoer m_undoer;
+
         public static UVDLPApp Instance() 
         {
             if (m_instance == null) 
@@ -111,6 +113,7 @@ namespace UV_DLP_3D_Printer
             m_supportgenerator.SupportEvent+= new SupportGeneratorEvent(SupEvent);
             m_proj_cmd_lst = new prjcmdlst();
             m_plugins = new List<IPlugin>(); // list of user plug-ins
+            m_undoer = new Undoer();
         }
         public enum Platform
         {
@@ -132,6 +135,7 @@ namespace UV_DLP_3D_Printer
                         {
                             foreach (Object3d o in lstobjs) 
                             {
+                                UVDLPApp.Instance().m_undoer.SaveAddition((Object3d)o);
                                 m_engine3d.AddObject((Object3d)o);    
                             }
                             RaiseAppEvent(eAppEvent.eModelAdded, message);
@@ -234,6 +238,7 @@ namespace UV_DLP_3D_Printer
             }
             foreach (Object3d obj in lst) 
             {
+                m_undoer.SaveDelition(obj);
                 m_engine3d.RemoveObject(obj);
             }
         }
@@ -250,6 +255,7 @@ namespace UV_DLP_3D_Printer
             s.Create((float)m_supportconfig.fbrad, (float)m_supportconfig.ftrad, (float)m_supportconfig.hbrad,
                 (float)m_supportconfig.htrad, 2f, 5f, 2f, 11);
             m_engine3d.AddObject(s);
+            UVDLPApp.Instance().m_undoer.SaveAddition(s);
             RaiseAppEvent(eAppEvent.eModelAdded, "Model Created");
         }
         /// <summary>
@@ -257,6 +263,7 @@ namespace UV_DLP_3D_Printer
         /// </summary>
         public void RemoveCurrentModel() 
         {
+            UVDLPApp.Instance().m_undoer.SaveDelition(SelectedObject);
             m_engine3d.RemoveObject(SelectedObject);
             SelectedObject = null;
             RaiseAppEvent(eAppEvent.eModelRemoved, "model removed");
@@ -307,6 +314,7 @@ namespace UV_DLP_3D_Printer
                 if (ret == true)
                 {
                     m_engine3d.AddObject(obj);
+                    m_undoer.SaveAddition(obj);
                     SelectedObject = obj;
                     UVDLPApp.Instance().m_engine3d.UpdateLists();
                     m_slicefile = null; // the slice file is not longer current

@@ -88,6 +88,7 @@
     <Compile Include="3DEngine\RTUtils.cs" />
     <Compile Include="3DEngine\Support.cs" />
     <Compile Include="3DEngine\ThreeDSFile.cs" />
+    <Compile Include="3DEngine\Undoer.cs" />
     <Compile Include="Configs\AppConfig.cs" />
     <Compile Include="Configs\ConnectionConfig.cs" />
     <Compile Include="Configs\DeviceDriverConfig.cs" />
@@ -490,6 +491,7 @@
     <None Include="resources\CustomGUI\buttSave.png" />
     <None Include="resources\splash.png" />
     <None Include="resources\CustomGUI\buttPrevDisp.png" />
+    <None Include="resources\CustomGUI\buttUndo.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

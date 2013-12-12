@@ -31,11 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.mainViewSplitContainer = new System.Windows.Forms.SplitContainer();
             this.treeScene = new System.Windows.Forms.TreeView();
-            this.glControl1 = new OpenTK.GLControl();
-            this.contextMenuSupport = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cmdRemoveAllSupports = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuObject = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cmdRemoveObject = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttUndo = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.objectInfoPanel = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlObjectInfo();
             this.numLayer = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
             this.buttGlHome = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
@@ -49,6 +45,12 @@
             this.buttRotate = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.ctlObjScale = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlScale();
             this.ctlObjMove = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMove();
+            this.glControl1 = new OpenTK.GLControl();
+            this.contextMenuSupport = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cmdRemoveAllSupports = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuObject = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cmdRemoveObject = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
             this.mainViewSplitContainer.Panel1.SuspendLayout();
             this.mainViewSplitContainer.Panel2.SuspendLayout();
             this.mainViewSplitContainer.SuspendLayout();
@@ -70,6 +72,7 @@
             // 
             // mainViewSplitContainer.Panel2
             // 
+            this.mainViewSplitContainer.Panel2.Controls.Add(this.buttUndo);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.objectInfoPanel);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.numLayer);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.buttGlHome);
@@ -102,57 +105,21 @@
             this.treeScene.TabIndex = 6;
             this.treeScene.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeScene_NodeMouseClick);
             // 
-            // glControl1
+            // buttUndo
             // 
-            this.glControl1.BackColor = System.Drawing.Color.Black;
-            this.glControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.glControl1.Enabled = false;
-            this.glControl1.Location = new System.Drawing.Point(0, 0);
-            this.glControl1.Margin = new System.Windows.Forms.Padding(5);
-            this.glControl1.Name = "glControl1";
-            this.glControl1.Size = new System.Drawing.Size(858, 550);
-            this.glControl1.TabIndex = 15;
-            this.glControl1.Visible = false;
-            this.glControl1.VSync = false;
-            this.glControl1.Load += new System.EventHandler(this.glControl1_Load);
-            this.glControl1.Paint += new System.Windows.Forms.PaintEventHandler(this.glControl1_Paint);
-            this.glControl1.DoubleClick += new System.EventHandler(this.glControl1_DoubleClick);
-            this.glControl1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.glControl1_KeyDown);
-            this.glControl1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.glControl1_KeyPress);
-            this.glControl1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.glControl1_KeyUp);
-            this.glControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.glControl1_MouseDown);
-            this.glControl1.MouseLeave += new System.EventHandler(this.glControl1_MouseLeave);
-            this.glControl1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.glControl1_MouseMove);
-            this.glControl1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.glControl1_MouseUp);
-            this.glControl1.Resize += new System.EventHandler(this.glControl1_Resize);
-            // 
-            // contextMenuSupport
-            // 
-            this.contextMenuSupport.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmdRemoveAllSupports});
-            this.contextMenuSupport.Name = "contextMenuStrip2";
-            this.contextMenuSupport.Size = new System.Drawing.Size(211, 26);
-            // 
-            // cmdRemoveAllSupports
-            // 
-            this.cmdRemoveAllSupports.Name = "cmdRemoveAllSupports";
-            this.cmdRemoveAllSupports.Size = new System.Drawing.Size(210, 22);
-            this.cmdRemoveAllSupports.Text = "Remove All Supports";
-            this.cmdRemoveAllSupports.Click += new System.EventHandler(this.cmdRemoveAllSupports_Click);
-            // 
-            // contextMenuObject
-            // 
-            this.contextMenuObject.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmdRemoveObject});
-            this.contextMenuObject.Name = "contextMenuStrip1";
-            this.contextMenuObject.Size = new System.Drawing.Size(179, 26);
-            // 
-            // cmdRemoveObject
-            // 
-            this.cmdRemoveObject.Name = "cmdRemoveObject";
-            this.cmdRemoveObject.Size = new System.Drawing.Size(178, 22);
-            this.cmdRemoveObject.Text = "Remove Object";
-            this.cmdRemoveObject.Click += new System.EventHandler(this.cmdRemoveObject_Click);
+            this.buttUndo.BackColor = System.Drawing.Color.Navy;
+            this.buttUndo.Checked = false;
+            this.buttUndo.CheckImage = null;
+            this.buttUndo.Gapx = 10;
+            this.buttUndo.Gapy = 10;
+            this.buttUndo.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
+            this.buttUndo.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttUndo;
+            this.buttUndo.Location = new System.Drawing.Point(15, 79);
+            this.buttUndo.Name = "buttUndo";
+            this.buttUndo.Size = new System.Drawing.Size(48, 48);
+            this.buttUndo.TabIndex = 29;
+            this.ctlToolTip1.SetToolTip(this.buttUndo, "Undo");
+            this.buttUndo.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
             // 
             // objectInfoPanel
             // 
@@ -208,6 +175,7 @@
             this.buttGlHome.Name = "buttGlHome";
             this.buttGlHome.Size = new System.Drawing.Size(48, 48);
             this.buttGlHome.TabIndex = 16;
+            this.ctlToolTip1.SetToolTip(this.buttGlHome, "Home");
             this.buttGlHome.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
             this.buttGlHome.Click += new System.EventHandler(this.buttGlHome_Click);
             // 
@@ -224,6 +192,7 @@
             this.buttView.Name = "buttView";
             this.buttView.Size = new System.Drawing.Size(48, 48);
             this.buttView.TabIndex = 25;
+            this.ctlToolTip1.SetToolTip(this.buttView, "View Options");
             this.buttView.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
             this.buttView.Click += new System.EventHandler(this.buttView_Click);
             // 
@@ -252,6 +221,7 @@
             this.buttScale.Name = "buttScale";
             this.buttScale.Size = new System.Drawing.Size(48, 48);
             this.buttScale.TabIndex = 17;
+            this.ctlToolTip1.SetToolTip(this.buttScale, "Scale object");
             this.buttScale.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
             this.buttScale.Click += new System.EventHandler(this.buttScale_Click);
             // 
@@ -268,6 +238,7 @@
             this.buttMove.Name = "buttMove";
             this.buttMove.Size = new System.Drawing.Size(48, 48);
             this.buttMove.TabIndex = 19;
+            this.ctlToolTip1.SetToolTip(this.buttMove, "Move object");
             this.buttMove.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
             this.buttMove.Click += new System.EventHandler(this.buttMove_Click);
             // 
@@ -292,6 +263,7 @@
             this.buttSupports.Name = "buttSupports";
             this.buttSupports.Size = new System.Drawing.Size(48, 48);
             this.buttSupports.TabIndex = 23;
+            this.ctlToolTip1.SetToolTip(this.buttSupports, "Support operations");
             this.buttSupports.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
             this.buttSupports.Click += new System.EventHandler(this.buttSupports_Click);
             // 
@@ -316,6 +288,7 @@
             this.buttRotate.Name = "buttRotate";
             this.buttRotate.Size = new System.Drawing.Size(48, 48);
             this.buttRotate.TabIndex = 18;
+            this.ctlToolTip1.SetToolTip(this.buttRotate, "Rotate object");
             this.buttRotate.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
             this.buttRotate.Click += new System.EventHandler(this.buttRotate_Click);
             // 
@@ -334,6 +307,66 @@
             this.ctlObjMove.Size = new System.Drawing.Size(170, 219);
             this.ctlObjMove.TabIndex = 20;
             this.ctlObjMove.Visible = false;
+            // 
+            // glControl1
+            // 
+            this.glControl1.BackColor = System.Drawing.Color.Black;
+            this.glControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.glControl1.Enabled = false;
+            this.glControl1.Location = new System.Drawing.Point(0, 0);
+            this.glControl1.Margin = new System.Windows.Forms.Padding(5);
+            this.glControl1.Name = "glControl1";
+            this.glControl1.Size = new System.Drawing.Size(858, 550);
+            this.glControl1.TabIndex = 15;
+            this.glControl1.Visible = false;
+            this.glControl1.VSync = false;
+            this.glControl1.Load += new System.EventHandler(this.glControl1_Load);
+            this.glControl1.Paint += new System.Windows.Forms.PaintEventHandler(this.glControl1_Paint);
+            this.glControl1.DoubleClick += new System.EventHandler(this.glControl1_DoubleClick);
+            this.glControl1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.glControl1_KeyDown);
+            this.glControl1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.glControl1_KeyPress);
+            this.glControl1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.glControl1_KeyUp);
+            this.glControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.glControl1_MouseDown);
+            this.glControl1.MouseLeave += new System.EventHandler(this.glControl1_MouseLeave);
+            this.glControl1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.glControl1_MouseMove);
+            this.glControl1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.glControl1_MouseUp);
+            this.glControl1.Resize += new System.EventHandler(this.glControl1_Resize);
+            // 
+            // contextMenuSupport
+            // 
+            this.contextMenuSupport.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmdRemoveAllSupports});
+            this.contextMenuSupport.Name = "contextMenuStrip2";
+            this.contextMenuSupport.Size = new System.Drawing.Size(211, 26);
+            // 
+            // cmdRemoveAllSupports
+            // 
+            this.cmdRemoveAllSupports.Name = "cmdRemoveAllSupports";
+            this.cmdRemoveAllSupports.Size = new System.Drawing.Size(210, 22);
+            this.cmdRemoveAllSupports.Text = "Remove All Supports";
+            this.cmdRemoveAllSupports.Click += new System.EventHandler(this.cmdRemoveAllSupports_Click);
+            // 
+            // contextMenuObject
+            // 
+            this.contextMenuObject.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmdRemoveObject});
+            this.contextMenuObject.Name = "contextMenuStrip1";
+            this.contextMenuObject.Size = new System.Drawing.Size(179, 26);
+            // 
+            // cmdRemoveObject
+            // 
+            this.cmdRemoveObject.Name = "cmdRemoveObject";
+            this.cmdRemoveObject.Size = new System.Drawing.Size(178, 22);
+            this.cmdRemoveObject.Text = "Remove Object";
+            this.cmdRemoveObject.Click += new System.EventHandler(this.cmdRemoveObject_Click);
+            // 
+            // ctlToolTip1
+            // 
+            this.ctlToolTip1.AutoPopDelay = 5000;
+            this.ctlToolTip1.BackColor = System.Drawing.Color.Turquoise;
+            this.ctlToolTip1.ForeColor = System.Drawing.Color.Navy;
+            this.ctlToolTip1.InitialDelay = 1500;
+            this.ctlToolTip1.ReshowDelay = 100;
             // 
             // ctl3DView
             // 
@@ -374,5 +407,7 @@
         private System.Windows.Forms.ToolStripMenuItem cmdRemoveAllSupports;
         private System.Windows.Forms.ContextMenuStrip contextMenuObject;
         private System.Windows.Forms.ToolStripMenuItem cmdRemoveObject;
+        private CustomGUI.ctlImageButton buttUndo;
+        private CustomGUI.ctlToolTip ctlToolTip1;
     }
 }

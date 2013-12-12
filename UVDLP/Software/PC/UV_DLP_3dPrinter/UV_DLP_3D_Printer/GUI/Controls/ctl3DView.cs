@@ -36,6 +36,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         OpenTK.Matrix4 m_ortho;
         OpenTK.Matrix4 m_2dView;
         private bool firstTime = true;
+        float m_savex, m_savey, m_savez;
 
         public Form m_splash = null;
 
@@ -52,6 +53,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             ctlViewOptions.LayerNumberScroll = numLayer;
             ctlViewOptions.ObjectInfoPanel = objectInfoPanel;
             mainViewSplitContainer.Panel1Collapsed = true;
+
+            UVDLPApp.Instance().m_undoer.AsociateButton(buttUndo);
         }
 
         public void SetMessagePanelHolder(SplitContainer holder)
@@ -406,7 +409,17 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             }
             if (e.KeyCode == Keys.ShiftKey)
             {
-                m_movingobjectmode = true;
+                if (m_movingobjectmode == false)
+                {
+                    m_movingobjectmode = true;
+                    Object3d obj = UVDLPApp.Instance().SelectedObject;
+                    if (obj != null)
+                    {
+                        m_savex = obj.m_center.x;
+                        m_savey = obj.m_center.y;
+                        m_savez = obj.m_center.z;
+                    }
+                }
             }
         }
 
@@ -423,6 +436,15 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 // update object info
                 UpdateObjectInfo();
                 //SetupSceneTree();
+                Object3d obj = UVDLPApp.Instance().SelectedObject;
+                if (obj != null)
+                {
+                    m_savex = obj.m_center.x - m_savex;
+                    m_savey = obj.m_center.y - m_savey;
+                    m_savez = obj.m_center.z - m_savez;
+                    UVDLPApp.Instance().m_undoer.SaveTranslation(obj, m_savex, m_savey, m_savez);
+                }
+
             }
         }
 
