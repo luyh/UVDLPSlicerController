@@ -14,7 +14,6 @@ namespace Engine3D
             Translate = 0,
             Scale,
             Rotate,
-            AbsLocation,
             Add,
             Del
         }
@@ -24,57 +23,62 @@ namespace Engine3D
             public Object3d obj;
             public eOperationType opType;
             public double x, y, z;
+            public bool linkedToPrev;
         }
 
         List<UndoItem> m_undoItemList;
         ctlImageButton m_undoButt = null;
+        ctlImageButton m_redoButt = null;
+        int m_undopointer;
 
         public Undoer()
         {
             m_undoItemList = new List<UndoItem>();
+            m_undopointer = 0;
         }
 
         protected void AddItem(eOperationType type, Object3d obj, double x, double y, double z)
         {
             if (obj == null)
                 return;
+            while (m_undopointer < m_undoItemList.Count)
+            {
+                m_undoItemList.RemoveAt(m_undopointer);
+            }
             UndoItem item = new UndoItem();
             item.opType = type;
             item.obj = obj;
             item.x = x;
             item.y = y;
             item.z = z;
+            item.linkedToPrev = false;
             m_undoItemList.Add(item);
-            UpdateButton();
+            m_undopointer++;
+            UpdateButtons();
         }
 
         public void SaveTranslation(Object3d obj, double x, double y, double z)
         {
             if ((x == 0) && (y == 0) && (z == 0))
                 return;
-            AddItem(eOperationType.Translate, obj, -x, -y, -z);
-        }
-
-        public void SaveLocation(Object3d obj, double x, double y, double z)
-        {
-            if ((x == obj.m_center.x) && (y == obj.m_center.y) && (z == obj.m_center.z))
-                return;
-            AddItem(eOperationType.AbsLocation, obj, x, y, z);
+            AddItem(eOperationType.Translate, obj, x, y, z);
         }
 
         public void SaveRotation(Object3d obj, double x, double y, double z)
         {
             if ((x == 0) && (y == 0) && (z == 0))
                 return;
-            AddItem(eOperationType.Rotate, obj, -x, -y, -z);
+            AddItem(eOperationType.Rotate, obj, x, y, z);
         }
 
         public void SaveScale(Object3d obj, double x, double y, double z)
         {
             if ((x == 1) && (y == 1) && (z == 1))
                 return;
-            if ((x != 0) && (y != 0) && (z != 0)) 
-                AddItem(eOperationType.Scale, obj, 1/x, 1/y, 1/z);
+            if ((x == 0) || (y == 0) || (z == 0))
+                return;
+
+            AddItem(eOperationType.Scale, obj, x, y, z);
         }
 
         public void SaveAddition(Object3d obj)
@@ -87,64 +91,122 @@ namespace Engine3D
             AddItem(eOperationType.Del, obj, 0, 0, 0);
         }
 
-        public void Undo()
+        // link last action to the one before. all linked actions will undo together
+        public void LinkToPrev()
         {
-            int count = m_undoItemList.Count;
-            if (count == 0)
-                return;
-
-            UndoItem item = m_undoItemList[count - 1];
-            m_undoItemList.RemoveAt(count - 1);
-            switch (item.opType)
-            {
-                case eOperationType.Translate:
-                    item.obj.Translate((float)item.x, (float)item.y, (float)item.z);
-                    break;
-
-                case eOperationType.Rotate:
-                    item.obj.Rotate((float)item.x, (float)item.y, (float)item.z);
-                    break;
-
-                case eOperationType.Scale:
-                    item.obj.Scale((float)item.x, (float)item.y, (float)item.z);
-                    break;
-
-                case eOperationType.AbsLocation:
-                    item.obj.Translate((float)item.x - item.obj.m_center.x,
-                        (float)item.y - item.obj.m_center.y, (float)item.z - item.obj.m_center.z);
-                    break;
-
-                case eOperationType.Add:
-                    UVDLPApp.Instance().m_engine3d.RemoveObject(item.obj);
-                    break;
-
-                case eOperationType.Del:
-                    UVDLPApp.Instance().m_engine3d.AddObject(item.obj);
-                    break;
-
-            }
-            item.obj.Update();
-            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
-            UpdateButton();
+            if (m_undopointer > 0)
+                m_undoItemList[m_undopointer - 1].linkedToPrev = true;
         }
 
-        public void AsociateButton(ctlImageButton butt)
+        public void Undo()
+        {
+            while (m_undopointer > 0)
+            {
+                UndoItem item = m_undoItemList[m_undopointer - 1];
+                m_undopointer--;
+                switch (item.opType)
+                {
+                    case eOperationType.Translate:
+                        item.obj.Translate(-(float)item.x, -(float)item.y, -(float)item.z);
+                        break;
+
+                    case eOperationType.Rotate:
+                        item.obj.Rotate(-(float)item.x, -(float)item.y, -(float)item.z);
+                        break;
+
+                    case eOperationType.Scale:
+                        item.obj.Scale((float)(1.0 / item.x), (float)(1.0 / item.y), (float)(1.0 / item.z));
+                        break;
+
+                    case eOperationType.Add:
+                        UVDLPApp.Instance().m_engine3d.RemoveObject(item.obj);
+                        break;
+
+                    case eOperationType.Del:
+                        UVDLPApp.Instance().m_engine3d.AddObject(item.obj);
+                        break;
+
+                }
+                item.obj.Update();
+                if (item.linkedToPrev == false)
+                    break;
+            }
+            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
+            UpdateButtons();
+        }
+
+        public void Redo()
+        {
+            while (m_undopointer < m_undoItemList.Count)
+            {
+                UndoItem item = m_undoItemList[m_undopointer];
+                m_undopointer++;
+                switch (item.opType)
+                {
+                    case eOperationType.Translate:
+                        item.obj.Translate((float)item.x, (float)item.y, (float)item.z);
+                        break;
+
+                    case eOperationType.Rotate:
+                        item.obj.Rotate((float)item.x, (float)item.y, (float)item.z);
+                        break;
+
+                    case eOperationType.Scale:
+                        item.obj.Scale((float)item.x, (float)item.y, (float)item.z);
+                        break;
+
+                    case eOperationType.Add:
+                        UVDLPApp.Instance().m_engine3d.AddObject(item.obj);
+                        break;
+
+                    case eOperationType.Del:
+                        UVDLPApp.Instance().m_engine3d.RemoveObject(item.obj);
+                        break;
+
+                }
+                item.obj.Update();
+                if ((m_undopointer < m_undoItemList.Count)
+                    && (m_undoItemList[m_undopointer].linkedToPrev == false))
+                    break;
+            }
+            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
+            UpdateButtons();
+        }
+
+        public void AsociateUndoButton(ctlImageButton butt)
         {
             m_undoButt = butt;
             m_undoButt.Click += new EventHandler(m_undoButt_Click);
-            UpdateButton();
+            UpdateButtons();
         }
 
-        protected void UpdateButton()
+        public void AsociateRedoButton(ctlImageButton butt)
         {
-            if (m_undoButt == null)
-                return;
-            m_undoButt.Enabled = m_undoItemList.Count != 0;
+            m_redoButt = butt;
+            m_redoButt.Click += new EventHandler(m_redoButt_Click);
+            UpdateButtons();
+        }
+
+        protected void UpdateButtons()
+        {
+            if (m_undoButt != null)
+            {
+                m_undoButt.Enabled = m_undopointer != 0;
+            }
+            if (m_redoButt != null)
+            {
+                m_redoButt.Enabled = m_undopointer < m_undoItemList.Count;
+            }
         }
 
         void m_undoButt_Click(object sender, EventArgs e)
         {
             Undo();
+        }
+
+        void m_redoButt_Click(object sender, EventArgs e)
+        {
+            Redo();
         }
 
         public bool isEmpty()

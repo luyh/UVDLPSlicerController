@@ -36,7 +36,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         OpenTK.Matrix4 m_ortho;
         OpenTK.Matrix4 m_2dView;
         private bool firstTime = true;
-        float m_savex, m_savey, m_savez;
+        float m_savex, m_savey, m_savez, m_saveh;
 
         public Form m_splash = null;
 
@@ -54,7 +54,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             ctlViewOptions.ObjectInfoPanel = objectInfoPanel;
             mainViewSplitContainer.Panel1Collapsed = true;
 
-            UVDLPApp.Instance().m_undoer.AsociateButton(buttUndo);
+            UVDLPApp.Instance().m_undoer.AsociateUndoButton(buttUndo);
+            UVDLPApp.Instance().m_undoer.AsociateRedoButton(buttRedo);
         }
 
         public void SetMessagePanelHolder(SplitContainer holder)
@@ -421,7 +422,12 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     {
                         m_savex = obj.m_center.x;
                         m_savey = obj.m_center.y;
-                        m_savez = obj.m_center.z;
+                        //m_savez = obj.m_center.z;
+                        if (obj.tag == Object3d.OBJ_SUPPORT)
+                        {
+                            obj.CalcMinMaxes();
+                            m_saveh = obj.m_max.z - obj.m_min.z;
+                        }
                     }
                 }
             }
@@ -445,8 +451,15 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 {
                     m_savex = obj.m_center.x - m_savex;
                     m_savey = obj.m_center.y - m_savey;
-                    m_savez = obj.m_center.z - m_savez;
-                    UVDLPApp.Instance().m_undoer.SaveTranslation(obj, m_savex, m_savey, m_savez);
+                    //m_savez = obj.m_center.z - m_savez;
+                    UVDLPApp.Instance().m_undoer.SaveTranslation(obj, m_savex, m_savey, 0);
+                    if (obj.tag == Object3d.OBJ_SUPPORT)
+                    {
+                        obj.CalcMinMaxes();
+                        m_saveh = (obj.m_max.z - obj.m_min.z) / m_saveh;
+                        UVDLPApp.Instance().m_undoer.SaveScale(obj, 1, 1, m_saveh);
+                        UVDLPApp.Instance().m_undoer.LinkToPrev();
+                    }
                 }
 
             }

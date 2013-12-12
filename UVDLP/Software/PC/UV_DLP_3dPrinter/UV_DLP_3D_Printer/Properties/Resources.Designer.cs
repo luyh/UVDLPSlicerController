@@ -249,6 +249,13 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap buttRedo {
+            get {
+                object obj = ResourceManager.GetObject("buttRedo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap buttRotate {
             get {
                 object obj = ResourceManager.GetObject("buttRotate", resourceCulture);

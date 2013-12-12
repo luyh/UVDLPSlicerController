@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.mainViewSplitContainer = new System.Windows.Forms.SplitContainer();
             this.treeScene = new System.Windows.Forms.TreeView();
+            this.buttRedo = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttUndo = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.objectInfoPanel = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlObjectInfo();
             this.numLayer = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
@@ -72,6 +73,7 @@
             // 
             // mainViewSplitContainer.Panel2
             // 
+            this.mainViewSplitContainer.Panel2.Controls.Add(this.buttRedo);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.buttUndo);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.objectInfoPanel);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.numLayer);
@@ -104,6 +106,22 @@
             this.treeScene.Size = new System.Drawing.Size(144, 550);
             this.treeScene.TabIndex = 6;
             this.treeScene.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeScene_NodeMouseClick);
+            // 
+            // buttRedo
+            // 
+            this.buttRedo.BackColor = System.Drawing.Color.Navy;
+            this.buttRedo.Checked = false;
+            this.buttRedo.CheckImage = null;
+            this.buttRedo.Gapx = 60;
+            this.buttRedo.Gapy = 10;
+            this.buttRedo.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
+            this.buttRedo.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttRedo;
+            this.buttRedo.Location = new System.Drawing.Point(15, 133);
+            this.buttRedo.Name = "buttRedo";
+            this.buttRedo.Size = new System.Drawing.Size(48, 48);
+            this.buttRedo.TabIndex = 30;
+            this.ctlToolTip1.SetToolTip(this.buttRedo, "Undo");
+            this.buttRedo.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
             // 
             // buttUndo
             // 
@@ -409,5 +427,6 @@
         private System.Windows.Forms.ToolStripMenuItem cmdRemoveObject;
         private CustomGUI.ctlImageButton buttUndo;
         private CustomGUI.ctlToolTip ctlToolTip1;
+        private CustomGUI.ctlImageButton buttRedo;
     }
 }
