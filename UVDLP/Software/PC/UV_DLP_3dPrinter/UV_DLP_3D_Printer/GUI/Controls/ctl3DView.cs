@@ -420,8 +420,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             if (e.KeyCode == Keys.ShiftKey)
             {
                 m_movingobjectmode = false;
-                //redraw the scene graph
-                SetupSceneTree();
+                // update object info
+                UpdateObjectInfo();
+                //SetupSceneTree();
             }
         }
 

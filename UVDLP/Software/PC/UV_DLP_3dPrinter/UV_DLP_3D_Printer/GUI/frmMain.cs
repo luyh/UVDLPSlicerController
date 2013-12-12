@@ -204,6 +204,7 @@ namespace UV_DLP_3D_Printer
                     case eAppEvent.eReDraw: // redraw the 3d display
                         //DisplayFunc();
                         ctl3DView1.UpdateView();
+                        ctl3DView1.UpdateObjectInfo();
                         break;
                     case eAppEvent.eMachineConnected:
                         showBlankDLP();
@@ -447,6 +448,7 @@ namespace UV_DLP_3D_Printer
                 
                 //UVDLPApp.Instance().m_selectedobject.FindMinMax();
                 ctl3DView1.UpdateSceneTree();
+                ctl3DView1.UpdateObjectInfo();
             }
             catch (Exception) { }
         
