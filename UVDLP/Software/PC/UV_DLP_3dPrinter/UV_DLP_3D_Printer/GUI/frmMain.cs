@@ -32,7 +32,7 @@ namespace UV_DLP_3D_Printer
         frmSlice m_frmSlice = new frmSlice();
         //ArcBall arcball;// = new ArcBall();
         GLCamera m_camera;
-        Slice m_curslice = null; // for previewing only
+        //Slice m_curslice = null; // for previewing only
 
         //float ipx = 0.0f, ipy = 0.0f, ipz = 2.0f;
         public frmMain()
@@ -181,9 +181,13 @@ namespace UV_DLP_3D_Printer
                         ctl3DView1.UpdateView();
                         DebugLogger.Instance().LogRecord(Message);
                         break;
+                    case eAppEvent.eSliceProfileChanged:
+                        SetTitle();
+                        break;
                     case eAppEvent.eMachineTypeChanged:
                         // FIXFIX : activate SetupForMachineType on 3dview control
                         SetupForMachineType();
+                        SetTitle();
                         break;
                     case eAppEvent.eShowBlank:
                         showBlankDLP();
@@ -387,6 +391,7 @@ namespace UV_DLP_3D_Printer
             else
             {
                 ViewLayer(layer,bmp,layertype);
+                ctl3DView1.ViewLayer(layer);
                 // display info only if it's a normal layer
                 if (layertype == BuildManager.SLICE_NORMAL)
                 {
@@ -479,24 +484,27 @@ namespace UV_DLP_3D_Printer
                 if (image == null) // we're here because of the scroll bar in the gui
                 {
                     bmp = UVDLPApp.Instance().m_slicefile.GetSliceImage(layer);
-                    if (UVDLPApp.Instance().m_appconfig.m_viewslice3d == true)
-                    {
-                        m_curslice = UVDLPApp.Instance().m_slicefile.GetSlice(layer);
-                        if (m_curslice != null) 
-                        {
-                            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
-                        }
-                    }
-                    else 
-                    {
-                        m_curslice = null;
-                    }
+
                 }
                 else // the image was specified from the build manager
                 {
                     bmp = image;
                 }
-
+                /*
+                // if we're printing, or just moving the scroll bar, try to show the slice
+                if (UVDLPApp.Instance().m_appconfig.m_viewslice3d == true)
+                {
+                    m_curslice = UVDLPApp.Instance().m_slicefile.GetSlice(layer);
+                    if (m_curslice != null)
+                    {
+                        UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
+                    }
+                }
+                else
+                {
+                    m_curslice = null;
+                }
+                 * */
                 // if we're a UV DLP printer, show on the frmDLP
                 if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
                 {

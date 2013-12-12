@@ -32,6 +32,7 @@ namespace UV_DLP_3D_Printer
         eSupportGenerated,
         eSlicedLoaded,
         eMachineTypeChanged,
+        eSliceProfileChanged,
         eShowDLP,  // this event is raised when someone wants to show the DLP screen
         eShowCalib, // request to show calibration screen
         eShowBlank, // request to show blank screen 
@@ -518,6 +519,7 @@ namespace UV_DLP_3D_Printer
             {
                 m_appconfig.m_cursliceprofilename = filename;
                 m_appconfig.Save(m_apppath + m_pathsep + m_appconfigname);// this name doesn't change
+                RaiseAppEvent(eAppEvent.eSliceProfileChanged, "");
             }
             return ret;
         }

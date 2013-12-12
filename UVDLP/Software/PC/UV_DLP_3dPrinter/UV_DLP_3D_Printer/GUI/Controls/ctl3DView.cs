@@ -709,7 +709,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         #region 3d View controls
 
-        private void ViewLayer(int layer)
+        public void ViewLayer(int layer)
         {
             try
             {
@@ -741,6 +741,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             try
             {
                 int vscrollval = numLayer.IntVal - 1;
+                numLayer.Refresh(); // redraw this
                 ViewLayer(vscrollval);
             }
             catch (Exception)
