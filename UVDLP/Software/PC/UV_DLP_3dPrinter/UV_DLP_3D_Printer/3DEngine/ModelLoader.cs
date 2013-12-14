@@ -2,28 +2,57 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace Engine3D
 {
-    public abstract class ModelLoader
+    class ModelLoader
     {
-        String m_lastError = null;
-        protected String m_fileExt;
-        public abstract Object3d LoadModel(String filename);
+        protected List<ModelLoaderType> m_loaders = null;
 
-        protected void LogError(String err)
+        public ModelLoader()
         {
-            m_lastError = err;
+            m_loaders = new List<ModelLoaderType>();
+            m_loaders.Add(new ModelLoaderAmf());
         }
 
-        String FileExt
+        public List<Object3d> Load(string filename)
         {
-            get { return m_fileExt; }
-        }
+            string ext = Path.GetExtension(filename).ToLower();
+            // special loaders
+            foreach (ModelLoaderType loader in m_loaders)
+            {
+                if (ext == loader.FileExtension)
+                    return loader.LoadModel(filename);
+            }
 
-        String LastError
-        {
-            get { return m_lastError; }
+            // built in loaders
+            Object3d obj = new Object3d();
+            bool ret = false;
+            if (ext.Equals(".dxf"))
+            {
+                ret = obj.LoadDXF(filename);
+            }
+            if (ext.Equals(".stl"))
+            {
+                ret = obj.LoadSTL(filename);
+            }
+            if (ext.Equals(".obj"))
+            {
+                ret = obj.LoadObjFile(filename);
+            }
+            if (ext.Equals(".3ds"))
+            {
+                ret = obj.Load3ds(filename);
+            }
+            if (ret == true)
+            {
+                List<Object3d> objlist = new List<Object3d>();
+                objlist.Add(obj);
+                return objlist;
+            }
+
+            return null;
         }
     }
 }

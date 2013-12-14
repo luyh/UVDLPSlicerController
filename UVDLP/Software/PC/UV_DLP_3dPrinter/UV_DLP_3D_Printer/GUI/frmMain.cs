@@ -459,7 +459,7 @@ namespace UV_DLP_3D_Printer
         private void LoadSTLModel_Click(object sender, EventArgs e)
         {
             openFileDialog1.FileName = "";
-            openFileDialog1.Filter = "3D Model Files(*.stl;*.obj;*3ds)|*.stl;*.obj;*.3ds|All files (*.*)|*.*";
+            openFileDialog1.Filter = "3D Model Files(*.stl;*.obj;*.3ds;*.amf)|*.stl;*.obj;*.3ds;*.amf|All files (*.*)|*.*";
             if (openFileDialog1.ShowDialog() == DialogResult.OK) 
             {
                 if (UVDLPApp.Instance().LoadModel(openFileDialog1.FileName) == false)

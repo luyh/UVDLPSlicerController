@@ -290,32 +290,16 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                Object3d obj = new Object3d();
-
-                string ext = Path.GetExtension(filename);
-                bool ret = false;
-                ext = ext.ToLower();
-                if (ext.Equals(".dxf")) 
+                ModelLoader ml = new ModelLoader();
+                List<Object3d> objs = ml.Load(filename);
+                if (objs != null)
                 {
-                    ret = obj.LoadDXF(filename);
-                }
-                if (ext.Equals(".stl"))
-                {    
-                    ret = obj.LoadSTL(filename);               
-                }
-                if (ext.Equals(".obj")) 
-                {
-                    ret = obj.LoadObjFile(filename);
-                }
-                if (ext.Equals(".3ds")) 
-                {
-                    ret = obj.Load3ds(filename);
-                }
-                if (ret == true)
-                {
-                    m_engine3d.AddObject(obj);
-                    m_undoer.SaveAddition(obj);
-                    SelectedObject = obj;
+                    foreach (Object3d obj in objs)
+                    {
+                        m_engine3d.AddObject(obj);
+                        m_undoer.SaveAddition(obj);
+                        SelectedObject = obj;
+                    }
                     UVDLPApp.Instance().m_engine3d.UpdateLists();
                     m_slicefile = null; // the slice file is not longer current
                     RaiseAppEvent(eAppEvent.eModelAdded, "Model Loaded " + filename);
@@ -356,7 +340,7 @@ namespace UV_DLP_3D_Printer
                         yres = m_gcode.GetVar("Projector Y Res");
                         numslices = m_gcode.GetVar("Number of Slices");
                         m_slicefile = new SliceFile(xres,yres,numslices);
-                        m_slicefile.modelname = obj.m_fullname;
+                        m_slicefile.modelname = SelectedObject.m_fullname;
                         m_slicefile.m_config = null; //this can be null if we're loading it...
                         RaiseAppEvent(eAppEvent.eSlicedLoaded, "SliceFile Created");
                     }
@@ -366,7 +350,7 @@ namespace UV_DLP_3D_Printer
                     RaiseAppEvent(eAppEvent.eModelNotLoaded, "Model " + filename + " Failed to load");
                 }
 
-                return ret;
+                return (objs != null);
             }
             catch (Exception ex) 
             {

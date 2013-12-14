@@ -89,6 +89,7 @@
     <Compile Include="3DEngine\ISectData.cs" />
     <Compile Include="3DEngine\Material.cs" />
     <Compile Include="3DEngine\ModelLoader.cs" />
+    <Compile Include="3DEngine\ModelLoaderType.cs" />
     <Compile Include="3DEngine\ModelLoaderAmf.cs" />
     <Compile Include="3DEngine\RTUtils.cs" />
     <Compile Include="3DEngine\Support.cs" />
