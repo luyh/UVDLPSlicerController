@@ -9,7 +9,7 @@ namespace Engine3D
 {
     public abstract class ModelLoaderType
     {
-        String m_lastError = null;
+        protected String m_lastError = null;
         protected String m_fileExt = null;
         protected String m_fileDesc = null;
         public abstract List<Object3d> LoadModel(String filename);

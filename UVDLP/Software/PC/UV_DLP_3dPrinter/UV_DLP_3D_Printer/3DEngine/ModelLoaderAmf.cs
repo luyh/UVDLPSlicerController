@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.IO;
+using Ionic.Zip;
 
 namespace Engine3D
 {
@@ -40,7 +41,14 @@ namespace Engine3D
             try
             {
                 m_xdoc = new XmlDocument();
-                m_xdoc.Load(filename);
+                MemoryStream mstream = TryReadZip(filename);
+                if (mstream != null) {
+                    m_xdoc.Load(mstream);
+                }
+                else
+                {
+                    m_xdoc.Load(filename);
+                }
                 m_toplevel = m_xdoc["amf"];
                 m_objList = new List<Object3d>();
                 ParseBody(m_toplevel);
@@ -53,6 +61,23 @@ namespace Engine3D
             return null;
         }
 
+        private MemoryStream TryReadZip(string filename)
+        {
+            try
+            {
+                ZipFile zpf = ZipFile.Read(filename);
+                ZipEntry ze = zpf[Path.GetFileName(filename)];
+                MemoryStream mstream = new MemoryStream();
+                ze.Extract(mstream);
+                mstream.Seek(0, SeekOrigin.Begin);
+                return mstream;
+            }
+            catch (Exception ex) 
+            {
+                m_lastError = ex.Message;
+            }
+            return null;
+        }
 
         String GetAttr(XmlNode node, String attr, String defval)
         {
