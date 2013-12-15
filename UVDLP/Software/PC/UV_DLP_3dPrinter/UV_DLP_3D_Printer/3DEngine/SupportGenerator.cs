@@ -103,10 +103,44 @@ namespace UV_DLP_3D_Printer
         {
             RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eStarted, "Support Generation Started", null);
             GenerateSupportObjects();
+           // GenerateAdaptive(); // testing adaptive generation
         }
         /// <summary>
+        /// This is a helper function that converts 3d polylines to 2d
+        /// </summary>
+        /// <param name="sp"></param>
+        /// <returns></returns>
+        private List<Line2d> Get2dLines(SliceBuildConfig sp, List<PolyLine3d> segments)
+        {
+            List<Line2d> lst = new List<Line2d>();
+            // this can be changed at some point to assume that the 3d polyline has more than 2 points
+            // I'll need to do this when I want to properly generate inside / outside countours
+            foreach (PolyLine3d ply in segments)
+            {
+                Line2d ln = new Line2d();
+                //get the 3d points of the line
+                Point3d p3d1 = (Point3d)ply.m_points[0];
+                Point3d p3d2 = (Point3d)ply.m_points[1];
+                //convert them to 2d (probably should add an offset to center them)
+                ln.p1.x = (int)(p3d1.x * sp.dpmmX);// +hxres;
+                ln.p1.y = (int)(p3d1.y * sp.dpmmY);// +hyres;
+                ln.p2.x = (int)(p3d2.x * sp.dpmmX);// +hxres;
+                ln.p2.y = (int)(p3d2.y * sp.dpmmY);// +hyres;
+                lst.Add(ln);
+            }
+            return lst; // return the list
+        }
+
+        private class UnsupportedRegions 
+        {
+            public UnsupportedRegions(PolyLine3d p) { ply = p; }
+            public PolyLine3d ply;
+        };
+        /// <summary>
         /// This is the adaptive support generation, it should automatically 
-        /// detect overhangs
+        /// detect overhangs,
+        /// The way that it does this is by generating a closed polyline loop for each layer
+        /// and checking the 2d projection of the current layer with the previous layer
         /// </summary>
         public void GenerateAdaptive() 
         {
@@ -116,36 +150,112 @@ namespace UV_DLP_3D_Printer
             // 'check' to see if the polyline can be dropped straight down
             // this has to do slicing of the scene
             SliceBuildConfig config =  UVDLPApp.Instance().m_buildparms;
+            List<UnsupportedRegions> lstunsup = new List<UnsupportedRegions>();
+            List<Object3d> lstsupports = new List<Object3d>(); // final list of supports
+
             int numslices = UVDLPApp.Instance().m_slicer.GetNumberOfSlices(config);
             float zlev = 0.0f;
             Slice curslice = null;
             Slice prevslice = null;
+            int hxres = config.xres / 2;
+            int hyres = config.yres / 2;
             for (int c = 0; c < numslices; c++) 
             {
+                if (m_cancel)
+                {
+                    RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eCancel, "Support Generation Cancelled", null);
+                    return;
+                }
+                RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eProgress, "" + c + "/" + numslices, null);
+
                 Slice sl = UVDLPApp.Instance().m_slicer.GetSliceImmediate(zlev);
                 sl.Optimize();// find loops
                 zlev += (float)config.ZThick;
                 prevslice = curslice;
                 curslice = sl;
+                Bitmap bm = new Bitmap(config.xres,config.yres);
                 if (prevslice != null && curslice != null) 
                 {
-                    //see if regions in the curslice 
-                    //iterate through all closed polylines in the current level
-                    foreach (PolyLine3d pl in curslice.m_opsegs) 
+                    //render current slice
+                    curslice.RenderSlice(config,ref bm);
+                    //now render the previous slice overtop the current slice in another color
+                    Color savecol = UVDLPApp.Instance().m_appconfig.m_foregroundcolor;
+                    UVDLPApp.Instance().m_appconfig.m_foregroundcolor = Color.HotPink;
+                    //render previous slice over top
+                    prevslice.RenderSlice(config, ref bm);
+                    UVDLPApp.Instance().m_appconfig.m_foregroundcolor = savecol; // restore the color
+                    // create a lock bitmap for faster pixel access
+                    LockBitmap lbm = new LockBitmap(bm);
+                    lbm.LockBits();
+                    // now, iterate through all optimized polylines in current slice
+                    // this approach isn't going to work, we need to iterate through all polyline
+                    //segments in a slice at once, each individual segment needs to know 1 thing
+                    // 1) the optimized segment it came from
+                    foreach (PolyLine3d pln in curslice.m_opsegs) 
                     {
-                        if (!pl.cached)
-                            pl.CalcBBox();
-                        //iterate through all polylines in previous level
-                        foreach(PolyLine3d pl1 in prevslice.m_opsegs)
+                        // each polyline region is checked separately
+                        bool plysupported = false;
+                        //split this optimized polyline back into 2-point segments for easier use
+                        List<PolyLine3d> segments = pln.Split();
+                        List<Line2d> lines2d = Get2dLines(config, segments);
+                        // find the x/y min/max
+                        MinMax_XY mm = Slice.CalcMinMax_XY(lines2d);
+                        // iterate from the ymin to the ymax
+                        for (int y = mm.ymin; y < mm.ymax; y++) // this needs to be in scaled value 
                         {
-                            if (!pl1.cached)
-                                pl1.CalcBBox();
-                            //check the bounding box of pl against pl1
+                            //      get a line of lines that intersect this 2d line
+                            List<Line2d> intersecting = Slice.GetIntersecting2dYLines(y, lines2d);
+                            //      get the list of point intersections
+                            List<Point2d> points = Slice.GetIntersectingPoints(y, intersecting);
+                            // sort the points in increasing x order                           
+                            points.Sort();
+                            if (points.Count % 2 == 0)  // is even
+                            {
+                                for (int cnt = 0; cnt < points.Count; cnt += 2)  // increment by 2
+                                {
+                                    Point2d p1 = (Point2d)points[cnt];
+                                    Point2d p2 = (Point2d)points[cnt + 1];
+                                    Point pnt1 = new Point(); // create some points for drawing
+                                    Point pnt2 = new Point();
+                                    pnt1.X = (int)(p1.x + config.XOffset + hxres);
+                                    pnt1.Y = (int)(p1.y + config.YOffset + hyres);
+                                    pnt2.X = (int)(p2.x + config.XOffset + hxres);
+                                    pnt2.Y = (int)(p2.y + config.YOffset + hyres);
+                                    //iterate from pnt1.X to pnt2.x and check colors
+                                    for (int xc = pnt1.X; xc < pnt2.X; xc++) 
+                                    {
+                                        Color checkcol = lbm.GetPixel(xc, pnt1.Y);
+                                        // need to check the locked BM here for the right color
+                                        // if the pixel color is the hot pink, then this region has some support
+                                        // we're going to need to beef this up and probably divide this all into regions on a grid
+                                        if (checkcol.R == Color.HotPink.R && checkcol.G == Color.HotPink.G && checkcol.B == Color.HotPink.B) 
+                                        {
+                                            plysupported = true;
+                                        }
+                                    }
+                                }
+                            }
+                            else  // flag error
+                            {
+                                DebugLogger.Instance().LogRecord("Row y=" + y + " odd # of points = " + points.Count + " - Model may have holes");
+                            }
+                        }// for y = startminY to endY
+                        if (plysupported == false)
+                        {
+                            //generate a support, or mark where a support should be...
+                            lstunsup.Add(new UnsupportedRegions(pln));
                         }
-                    }
-                }
+                        else 
+                        {
+                            plysupported = true;
 
-            }
+                        }
+                    } // for each optimized polyline
+                    lbm.UnlockBits(); // unlock the bitmap
+                } // prev and current slice are not null
+            } // iterating through all slices
+            RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eCompleted, "Support Generation Completed", lstsupports);
+            m_generating = false;
         }
         public List<Object3d> GenerateSupportObjects()
         {

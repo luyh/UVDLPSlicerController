@@ -22,7 +22,7 @@ namespace UV_DLP_3D_Printer.Drivers
                 {
                     m_connected = true;
                     RaiseDeviceStatus(this, eDeviceStatus.eConnect);
-                    Logging = true;
+                    Logging = false;
                     return true;
                 }
             }catch(Exception ex)

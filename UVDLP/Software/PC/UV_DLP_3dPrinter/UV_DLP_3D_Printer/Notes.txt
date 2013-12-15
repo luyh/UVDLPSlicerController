@@ -159,3 +159,28 @@ Support generation
 		An intra-support is one that extends from one z-plane/slice to another verticaly along the z axis to a second intersection of the same object.
 		When dragging, try to detect intern/vs extern and change support type automatically.
 		give the support the ability to change types
+
+
+Support generation part 2
+generate closed polyline for each slice layer (optimize function)
+2 approaches
+3d approach
+	iterate all layer from z=0 to z=max
+	skip the first layer
+	check to see if current layer is touching, intersecting, or emcompassing previous layer
+
+2d approach - I think this is a workable approach...
+	iterate through all layers
+	skip the first
+	clear a bm
+	render layer Z with color A
+	render layer Z+1 adding (or modifying) in a value to color A
+	perform the scanline rasterization of slice at Z again, this time examining the pixels
+	some color in the area MUST be different or it is a hanging area
+	if no changed color is detected, then  mark the unsupported region in a table and march on...
+
+	This approach means we don't have to examine every pixel in the image, just the regions where the polylines appear
+	I already have code to do a faster read from pixels
+
+
+
