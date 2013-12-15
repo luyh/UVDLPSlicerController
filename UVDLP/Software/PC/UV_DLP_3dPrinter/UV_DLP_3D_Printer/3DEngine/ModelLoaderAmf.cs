@@ -277,13 +277,13 @@ namespace Engine3D
         {
             m_curObject = new Object3d();
             m_curObject.m_lstpoints = new List<Point3d>();
-            foreach (PointAmf pamf in m_pointList)
-                m_curObject.m_lstpoints.Add(pamf.pt);
             foreach (XmlNode xnode in xVolume.ChildNodes)
             {
                 if (xnode.Name == "triangle")
                     ParseTriangle(xnode);
             }
+            foreach (PointAmf pamf in m_pointList)
+                m_curObject.m_lstpoints.Add(pamf.pt);
         }
 
         void ParseTriangle(XmlNode xTri)
@@ -387,8 +387,16 @@ namespace Engine3D
             Vector3d tanget = new Vector3d(x, y, z);
             pamf.normal = GetNormalFromTanget(tanget, t2);
 
-            if (edge != null)
-                edge.v12 = m_pointList.Count - 1; // save double computation
+            if (edge == null)
+            {
+                // create a simple edge just to remember center point. saves some computation
+                // for the next triangle using that edge
+                edge = new EdgeAmf();
+                edge.v1 = v1;
+                edge.v2 = v2;
+                pamf1.AddEdge(edge);
+            }
+            edge.v12 = m_pointList.Count - 1; // save double computation
 
             return m_pointList.Count - 1;
         }
@@ -405,6 +413,9 @@ namespace Engine3D
                 Vector3d normxdir = Vector3d.cross(norm, dir);
                 res = Vector3d.cross(normxdir, norm);
             }
+            if ((Math.Abs(res.x) < Epsilon) && (Math.Abs(res.y) < Epsilon) && (Math.Abs(res.z) < Epsilon))
+                return null;
+
             res.Normalize();
             return res;
         }
@@ -412,6 +423,8 @@ namespace Engine3D
         Vector3d GetNormalFromTanget(Vector3d tanget, Vector3d dir)
         {
             Vector3d norm = GetTangetFromNormal(tanget, dir);
+            if (norm == null)
+                return null;
             norm.x = -norm.x;
             norm.y = -norm.y;
             norm.z = -norm.z;
