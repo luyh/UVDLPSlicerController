@@ -417,7 +417,7 @@ namespace UV_DLP_3D_Printer
         /*
          This function calculates the min and max x/y coordinates of this slice
          */
-        public MinMax_XY CalcMinMax_XY(List<Line2d> lines2d) 
+        public static MinMax_XY CalcMinMax_XY(List<Line2d> lines2d) 
         {
             Line2d l1 = (Line2d)lines2d[0];
             MinMax_XY mm = new MinMax_XY();
@@ -543,7 +543,7 @@ namespace UV_DLP_3D_Printer
             points.Sort();            
         }
         // this function will return a list of 2d point intersections on the specified y line
-        private List<Point2d> GetIntersectingPoints(int ypos, List<Line2d> lines) 
+        public static List<Point2d> GetIntersectingPoints(int ypos, List<Line2d> lines) 
         {
             List<Point2d> points = new List<Point2d>();
             //if the ypos intersects with an endpoint, add it twice, because it must be used twice to make an even number
@@ -618,7 +618,7 @@ namespace UV_DLP_3D_Printer
         /*
          This function will return a list of lines that intersect with the specified Y scanline
          */
-        private List<Line2d> GetIntersecting2dYLines(int ypos, List<Line2d> all2dlines) 
+        public static List<Line2d> GetIntersecting2dYLines(int ypos, List<Line2d> all2dlines) 
         {
             List<Line2d> intersecting = new List<Line2d>();
             foreach (Line2d ln in all2dlines) 

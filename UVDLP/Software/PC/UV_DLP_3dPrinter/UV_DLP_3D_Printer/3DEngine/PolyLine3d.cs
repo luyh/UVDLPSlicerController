@@ -74,6 +74,29 @@ namespace Engine3D
             visible = true;
         }
         /// <summary>
+        /// Split this long polyline into a list of shorter segments
+        /// </summary>
+        /// <returns></returns>
+        public List<PolyLine3d> Split() 
+        {
+            List<PolyLine3d> segments = new List<PolyLine3d>();
+            try
+            {
+                for (int c = 0; c < m_points.Count - 1; c++)
+                {
+                    PolyLine3d ply = new PolyLine3d();
+                    ply.m_points.Add(m_points[c]);
+                    ply.m_points.Add(m_points[c + 1]);
+                    segments.Add(ply);
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
+            return segments;
+        }
+        /// <summary>
         /// returns true if the bounding box for the specified polyline
         /// overlaps with this bounding box
         /// </summary>
