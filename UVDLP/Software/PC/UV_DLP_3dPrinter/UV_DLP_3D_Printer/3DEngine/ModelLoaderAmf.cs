@@ -260,15 +260,17 @@ namespace Engine3D
         {
             EdgeAmf edge = new EdgeAmf();
             edge.v1 = int.Parse(xEdge["v1"].InnerText);
-            float x = float.Parse(xEdge["dx1"].InnerText) * m_scaleFactor;
-            float y = float.Parse(xEdge["dy1"].InnerText) * m_scaleFactor;
-            float z = float.Parse(xEdge["dz1"].InnerText) * m_scaleFactor;
+            float x = float.Parse(xEdge["dx1"].InnerText); // *m_scaleFactor;
+            float y = float.Parse(xEdge["dy1"].InnerText); // *m_scaleFactor;
+            float z = float.Parse(xEdge["dz1"].InnerText); // *m_scaleFactor;
             edge.t1 = new Vector3d(x, y, z);
+            edge.t1.Normalize();
             edge.v2 = int.Parse(xEdge["v2"].InnerText);
-            x = float.Parse(xEdge["dx2"].InnerText) * m_scaleFactor;
-            y = float.Parse(xEdge["dy2"].InnerText) * m_scaleFactor;
-            z = float.Parse(xEdge["dz2"].InnerText) * m_scaleFactor;
+            x = float.Parse(xEdge["dx2"].InnerText); // *m_scaleFactor;
+            y = float.Parse(xEdge["dy2"].InnerText); // *m_scaleFactor;
+            z = float.Parse(xEdge["dz2"].InnerText); // *m_scaleFactor;
             edge.t2 = new Vector3d(x, y, z);
+            edge.t2.Normalize();
             m_edgeList.Add(edge);
             m_smoothObj = true;
         }
@@ -316,17 +318,36 @@ namespace Engine3D
 
             // do smooth
             level--;
-            int v12 = SplitEdge(v1, v2);
-            int v23 = SplitEdge(v2, v3);
-            int v31 = SplitEdge(v3, v1);
+            int v12 = SplitEdge(v1, v2, v3);
+            int v23 = SplitEdge(v2, v3, v1);
+            int v31 = SplitEdge(v3, v1, v2);
             SmoothTriangle(v1, v12, v31, level);
             SmoothTriangle(v12, v2, v23, level);
             SmoothTriangle(v23, v3, v31, level);
             SmoothTriangle(v12, v23, v31, level);
         }
 
-        int SplitEdge(int v1, int v2)
+        // split edge v1-v2. v3 is the last corner in the triangle and is used for computing normals
+        int SplitEdge(int v1, int v2, int v3)
         {
+            Vector3d norm1 = CalcNormal(v1, v2, v3);
+            Vector3d norm2 = CalcNormal(v2, v3, v1);
+            EdgeAmf edge = m_pointList[v1].FindEdge(v2);
+            if (edge == null)
+            {
+                edge = m_pointList[v2].FindEdge(v1);
+                if (edge != null)
+                {
+                    // swap verteces tomatch edge
+                    int tv = v1;
+                    v1 = v2;
+                    v2 = tv;
+                    Vector3d tnorm = norm1;
+                    norm1 = norm2;
+                    norm2 = tnorm;
+                }
+            }
+
             Vector3d t1, t2;
             PointAmf pamf1 = m_pointList[v1];
             PointAmf pamf2 = m_pointList[v2];
@@ -340,10 +361,8 @@ namespace Engine3D
             y = pt2.y - pt1.y;
             z = pt2.z - pt1.z;
             Vector3d edgeDir = new Vector3d(x, y, z);
-            float d = Vector3d.length(edgeDir);
-
+ 
             // first see if we have an edge for this segment
-            EdgeAmf edge = FindEdge(v1, v2);
             if (edge != null)
             {
                 // if this edge was already split, return result
@@ -367,14 +386,16 @@ namespace Engine3D
             {
                 // calculate tangets from normals.
                 //edgeDir.Normalize();
-                t1 = GetTangetFromNormal(pamf1.normal, edgeDir) * d;
-                t2 = GetTangetFromNormal(pamf2.normal, edgeDir) * d;
+                t1 = GetTangetFromNormal(norm1, edgeDir);
+                t2 = GetTangetFromNormal(norm2, edgeDir);
             }
 
+            float d = edgeDir.Mag();
+
             // calculate mid point using Hermite interpolation
-            x = 0.5f * pt1.x + 0.125f * t1.x + 0.5f * pt2.x - 0.125f * t2.x;
-            y = 0.5f * pt1.y + 0.125f * t1.y + 0.5f * pt2.y - 0.125f * t2.y;
-            z = 0.5f * pt1.z + 0.125f * t1.z + 0.5f * pt2.z - 0.125f * t2.z;
+            x = 0.5f * pt1.x + 0.125f * t1.x * d + 0.5f * pt2.x - 0.125f * t2.x * d;
+            y = 0.5f * pt1.y + 0.125f * t1.y * d + 0.5f * pt2.y - 0.125f * t2.y * d;
+            z = 0.5f * pt1.z + 0.125f * t1.z * d + 0.5f * pt2.z - 0.125f * t2.z * d;
 
             pamf = new PointAmf();
             pamf.pt = new Point3d(x, y, z);
@@ -382,24 +403,26 @@ namespace Engine3D
             m_pointList.Add(pamf);
 
             // calculate new tanget and new normal
-            x = -1.5f * pt1.x - 0.25f * t1.x + 1.5f * pt2.x - 0.25f * t2.x;
-            y = -1.5f * pt1.y - 0.25f * t1.y + 1.5f * pt2.y - 0.25f * t2.y;
-            z = -1.5f * pt1.z - 0.25f * t1.z + 1.5f * pt2.z - 0.25f * t2.z;
+            x = -1.5f * pt1.x - 0.25f * t1.x * d + 1.5f * pt2.x - 0.25f * t2.x * d;
+            y = -1.5f * pt1.y - 0.25f * t1.y * d + 1.5f * pt2.y - 0.25f * t2.y * d;
+            z = -1.5f * pt1.z - 0.25f * t1.z * d + 1.5f * pt2.z - 0.25f * t2.z * d;
             Vector3d tanget = new Vector3d(x, y, z);
-            pamf.normal = GetNormalFromTanget(tanget, t2);
+            tanget.Normalize();
 
             if (edge == null)
             {
-                // create a simple edge just to remember center point. saves some computation
+                /* // create a simple edge just to remember center point. saves some computation
                 // for the next triangle using that edge
                 edge = new EdgeAmf();
                 edge.v1 = v1;
                 edge.v2 = v2;
-                pamf1.AddEdge(edge);
+                pamf1.AddEdge(edge);*/
             }
             else
             {
-                /*
+
+                edge.v12 = m_pointList.Count - 1; // saves double computation 
+                
                 //tanget.Normalize();
                 // save 2 split edges
                 EdgeAmf edge1 = new EdgeAmf();
@@ -415,49 +438,49 @@ namespace Engine3D
                 edge2.t1 = tanget;
                 edge2.t2 = t2;
                 pamf.AddEdge(edge2);
-                 * */
+                
             }
-            edge.v12 = m_pointList.Count - 1; // save double computation
-
+ 
             return v;
+        }
+
+        // calc normal at corner v (looking at the triangle when corner v is at the bottom, v1 at top right, and v2 is at to left
+        Vector3d CalcNormal(int v, int v1, int v2)
+        {
+            PointAmf pamf = m_pointList[v];
+            if (pamf.normal != null)
+                return pamf.normal;
+            Vector3d t1 = GetTanget(v, v1);
+            Vector3d t2 = GetTanget(v, v2);
+            Vector3d normal = Vector3d.cross(t1, t2);
+            normal.Normalize();
+            return normal;
+        }
+
+        // get a tanget of an egde, at point v
+        Vector3d GetTanget(int v, int v1)
+        {
+            EdgeAmf edge = m_pointList[v].FindEdge(v1);
+            if (edge != null)
+                return edge.t1;
+            edge = m_pointList[v1].FindEdge(v);
+            if (edge != null)
+                return Vector3d.negate(edge.t2);
+            Point3d pt1 = m_pointList[v].pt;
+            Point3d pt2 = m_pointList[v1].pt;
+            return new Vector3d(pt2.x - pt1.x, pt2.y - pt1.y, pt1.z - pt1.z);
         }
 
         Vector3d GetTangetFromNormal(Vector3d norm, Vector3d dir)
         {
-            Vector3d res;
-            if (norm == null)
-            {
-                res = dir.clone();
-            }
-            else
-            {
-                Vector3d normxdir = Vector3d.cross(norm, dir);
-                res = Vector3d.cross(normxdir, norm);
-            }
-            if ((Math.Abs(res.x) < Epsilon) && (Math.Abs(res.y) < Epsilon) && (Math.Abs(res.z) < Epsilon))
-                return null;
-
+            Vector3d normxdir = Vector3d.cross(norm, dir);
+            Vector3d res = Vector3d.cross(normxdir, norm);
+            //if ((Math.Abs(res.x) < Epsilon) && (Math.Abs(res.y) < Epsilon) && (Math.Abs(res.z) < Epsilon))
+            //    return null;
             res.Normalize();
+            //res = res * dir.Mag();
             return res;
         }
 
-        Vector3d GetNormalFromTanget(Vector3d tanget, Vector3d dir)
-        {
-            Vector3d norm = GetTangetFromNormal(tanget, dir);
-            if (norm == null)
-                return null;
-            norm.x = -norm.x;
-            norm.y = -norm.y;
-            norm.z = -norm.z;
-            return norm;
-        }
-
-        EdgeAmf FindEdge(int v1, int v2)
-        {
-            EdgeAmf edge = m_pointList[v1].FindEdge(v2);
-            if (edge != null)
-                return edge;
-            return m_pointList[v2].FindEdge(v1);
-        }
-    }
+     }
 }
