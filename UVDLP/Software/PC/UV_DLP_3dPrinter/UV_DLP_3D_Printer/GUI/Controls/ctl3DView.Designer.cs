@@ -388,8 +388,7 @@
             // 
             // ctl3DView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.mainViewSplitContainer);
             this.Name = "ctl3DView";
             this.Size = new System.Drawing.Size(1006, 550);

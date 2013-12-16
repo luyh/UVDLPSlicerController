@@ -260,14 +260,14 @@ namespace Engine3D
         {
             EdgeAmf edge = new EdgeAmf();
             edge.v1 = int.Parse(xEdge["v1"].InnerText);
-            float x = float.Parse(xEdge["dx1"].InnerText);
-            float y = float.Parse(xEdge["dy1"].InnerText);
-            float z = float.Parse(xEdge["dz1"].InnerText);
+            float x = float.Parse(xEdge["dx1"].InnerText) * m_scaleFactor;
+            float y = float.Parse(xEdge["dy1"].InnerText) * m_scaleFactor;
+            float z = float.Parse(xEdge["dz1"].InnerText) * m_scaleFactor;
             edge.t1 = new Vector3d(x, y, z);
             edge.v2 = int.Parse(xEdge["v2"].InnerText);
-            x = float.Parse(xEdge["dx2"].InnerText);
-            y = float.Parse(xEdge["dy2"].InnerText);
-            z = float.Parse(xEdge["dz2"].InnerText);
+            x = float.Parse(xEdge["dx2"].InnerText) * m_scaleFactor;
+            y = float.Parse(xEdge["dy2"].InnerText) * m_scaleFactor;
+            z = float.Parse(xEdge["dz2"].InnerText) * m_scaleFactor;
             edge.t2 = new Vector3d(x, y, z);
             m_edgeList.Add(edge);
             m_smoothObj = true;
@@ -349,8 +349,8 @@ namespace Engine3D
                 // if this edge was already split, return result
                 if (edge.v12 >= 0)
                     return edge.v12;
-                t1 = edge.t1 * d;
-                t2 = edge.t2 * d;
+                t1 = edge.t1;
+                t2 = edge.t2;
             }
             else if ((pamf1.normal == null) && (pamf2.normal == null))
             {
@@ -378,6 +378,7 @@ namespace Engine3D
 
             pamf = new PointAmf();
             pamf.pt = new Point3d(x, y, z);
+            int v = m_pointList.Count;
             m_pointList.Add(pamf);
 
             // calculate new tanget and new normal
@@ -396,9 +397,29 @@ namespace Engine3D
                 edge.v2 = v2;
                 pamf1.AddEdge(edge);
             }
+            else
+            {
+                /*
+                //tanget.Normalize();
+                // save 2 split edges
+                EdgeAmf edge1 = new EdgeAmf();
+                edge1.v1 = v1;
+                edge1.v2 = v;
+                edge1.t1 = t1;
+                edge1.t2 = tanget;
+                pamf1.AddEdge(edge1);
+
+                EdgeAmf edge2 = new EdgeAmf();
+                edge2.v1 = v;
+                edge2.v2 = v2;
+                edge2.t1 = tanget;
+                edge2.t2 = t2;
+                pamf.AddEdge(edge2);
+                 * */
+            }
             edge.v12 = m_pointList.Count - 1; // save double computation
 
-            return m_pointList.Count - 1;
+            return v;
         }
 
         Vector3d GetTangetFromNormal(Vector3d norm, Vector3d dir)
