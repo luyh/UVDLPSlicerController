@@ -696,6 +696,7 @@ namespace UV_DLP_3D_Printer
         #region DLP Screen Controls
         private void showBlankDLP()
         {
+            UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay = true; 
             m_frmdlp.ShowDLPScreen();
             Screen dlpscreen = m_frmdlp.GetDLPScreen();
             if (dlpscreen != null)
@@ -707,6 +708,7 @@ namespace UV_DLP_3D_Printer
         private void showCalibrationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UVDLPApp.Instance().m_buildparms.UpdateFrom(UVDLPApp.Instance().m_printerinfo);
+            UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay = true;
             m_frmdlp.ShowDLPScreen();
             Screen dlpscreen = m_frmdlp.GetDLPScreen();
             if (dlpscreen != null)
