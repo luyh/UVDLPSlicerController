@@ -171,6 +171,9 @@
     <Compile Include="GUI\CustomGUI\ctlInfoItem.Designer.cs">
       <DependentUpon>ctlInfoItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\CustomGUI\ctlMeshTools.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GUI\CustomGUI\ctlMove.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -361,6 +364,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\ctlInfoItem.resx">
       <DependentUpon>ctlInfoItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomGUI\ctlMeshTools.resx">
+      <DependentUpon>ctlMeshTools.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\ctlMove.resx">
       <DependentUpon>ctlMove.cs</DependentUpon>

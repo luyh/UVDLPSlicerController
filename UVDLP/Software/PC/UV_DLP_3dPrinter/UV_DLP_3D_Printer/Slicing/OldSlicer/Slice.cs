@@ -16,6 +16,7 @@ namespace UV_DLP_3D_Printer
     public class Point2d : IComparable
     {
         public int x, y;
+        public PolyLine3d m_parent;
 
         int IComparable.CompareTo(object obj)
         {
@@ -38,12 +39,18 @@ namespace UV_DLP_3D_Printer
     public class Line2d 
     {
         public Point2d p1, p2;
+        public PolyLine3d m_parent;
         public Line2d() 
         {
             p1 = new Point2d();
             p2 = new Point2d();
         }
-
+        public void SetParent(PolyLine3d parent) 
+        {
+            m_parent = parent;
+            p1.m_parent = parent;
+            p2.m_parent = parent;
+        }
         public Point2d IntersectY(int ypos) 
         {
             Point2d pnt = new Point2d();
@@ -137,6 +144,7 @@ namespace UV_DLP_3D_Printer
             int idx = 0;
             foreach (PolyLine3d pl in m_opsegs) 
             {                
+                /*
                 switch (idx % 3) 
                 {
                     case 0:
@@ -149,9 +157,63 @@ namespace UV_DLP_3D_Printer
                         pl.m_color = Color.White;
                         break;
 
-                }                                
+                } 
+                 * */
+                if (pl.tag == PolyLine3d.TAG_EXTERIOR)
+                {
+                    pl.m_color = Color.Red;
+                }
+                else 
+                {
+                    pl.m_color = Color.Yellow;
+                }
                 idx++;
             }
+        }
+        /// <summary>
+        /// This function will iterate through the optimized loops
+        /// and determine if they are interior or exterior and tag them appropriately
+        /// </summary>
+        public void DetermineInteriorExterior(SliceBuildConfig config) 
+        {
+            List<PolyLine3d> allsegments = new List<PolyLine3d>();
+            foreach (PolyLine3d pln in m_opsegs)
+            {
+                pln.tag = PolyLine3d.TAG_INTERIOR; // mark it as interior
+                List<PolyLine3d> segments = pln.Split(); // split them, retaining the parent
+                allsegments.AddRange(segments);                
+            }
+            List<Line2d> lines2d = Get2dLines(config, allsegments);
+            // find the x/y min/max
+            MinMax_XY mm = Slice.CalcMinMax_XY(lines2d);
+            // iterate from the ymin to the ymax
+            for (int y = mm.ymin; y < mm.ymax; y++) // this needs to be in scaled value 
+            {
+                //      get a line of lines that intersect this 2d line
+                List<Line2d> intersecting = Slice.GetIntersecting2dYLines(y, lines2d);
+                //      get the list of point intersections
+                List<Point2d> points = Slice.GetIntersectingPoints(y, intersecting);
+                // sort the points in increasing x order                           
+                points.Sort();
+                if (points.Count % 2 == 0)  // is even
+                {
+                    for (int cnt = 0; cnt < points.Count; cnt += 2)  // increment by 2
+                    {
+                        // the first point is always an exterior
+                        Point2d p1 = (Point2d)points[cnt];
+                        if (p1.m_parent != null)
+                        {
+                            p1.m_parent.tag = PolyLine3d.TAG_EXTERIOR; // mark as exterior
+                        }
+                        // the second point could be an exterior or interior
+                        Point2d p2 = (Point2d)points[cnt + 1];
+                    }
+                }
+                else  // flag error
+                {
+                    DebugLogger.Instance().LogRecord("Row y=" + y + " odd # of points = " + points.Count + " - Model may have holes");
+                }
+            }// for y = startminY to endY            
         }
         /// <summary>
         /// This function trys to join together the short line segments into 
@@ -287,133 +349,7 @@ namespace UV_DLP_3D_Printer
                 DebugLogger.Instance().LogError(ex.Message);
             }
         }
-        /*
-        public void Optimize() 
-        {
-            // copy all the polylines in segments into a list
-            List<PolyLine3d> allseg = new List<PolyLine3d>();
-            // 2 temp lists
-            List<PolyLine3d> tmpsegs = new List<PolyLine3d>();
-            //List<PolyLine3d> tmpsegs2 = new List<PolyLine3d>();
-            //create the final optimize segment list
-            m_opsegs = new List<PolyLine3d>();
 
-            // copy the list and clone the polyline segments 
-            string tmpstr = "";
-            int ix = 0;
-            foreach (PolyLine3d pl in m_segments)
-            {
-                allseg.Add(new PolyLine3d(pl));
-              //  tmpstr += "" + ix++.ToString() + ": " + pl.m_points[0].x.ToString() +","+ pl.m_points[0].y.ToString();
-              //  tmpstr += " - " + pl.m_points[1].x.ToString() +","+ pl.m_points[1].y.ToString();
-              //  tmpstr += "\r\n";
-            }
-
-
-            // gotta keep track of lines to remove
-            List<PolyLine3d> removelist = new List<PolyLine3d>();
-            int idx = 0;
-            bool done = false;
-            // matchcount is a counter that tracks how many endpoints we've matched this trip around
-            int matchcount = 0;
-            // get the first polyline
-            // look at it's end point
-            // try to match that endpoint to the starting point (hmm. or ending?)
-            // of another polyline
-            // if we match that starting point, remove the matched polyline from the list
-            // and add the end point to the current polyline we're growing
-            while (!done)
-            {
-                
-                while (allseg.Count > 0)                
-                {
-                    idx = 0;
-                    // set the current line to be the first polyline segement
-                    PolyLine3d curline = allseg[0];
-                    //add it to our temp list
-                    tmpsegs.Add(curline);
-                    //iterate through all the line segments in allsegs
-                    foreach (PolyLine3d pl in allseg)
-                    {
-                        if (idx == 0)
-                        {
-                            removelist.Add(pl);
-                        }
-                        else // if we're not examining ourselves
-                        {
-                            // if the last point in the current polyline matches the first point
-                            // in the line we're testing, add the second point of the line we're testing 
-                            // to the end of the current line
-                            if (curline.m_points[curline.m_points.Count - 1].Matches(pl.m_points[0])) // case 2
-                            {
-                                curline.m_points.AddRange(pl.m_points);
-                                curline.m_points.Remove(pl.m_points[0]);
-
-                                removelist.Add(pl); // add the test line to the list of lines to remove, now that we've used it
-                                matchcount++;
-                                cnt = 1; //reset back to beginning of loop upon a match
-                            }
-                            else if (curline.m_points[curline.m_points.Count - 1].Matches(pl.m_points[pl.m_points.Count - 1])) // case 4 last point matches last
-                            {
-                                pl.m_points.Reverse();
-                                curline.m_points.AddRange(pl.m_points);
-                                curline.m_points.Remove(pl.m_points[pl.m_points.Count - 1]);
-                                // add the test line to the list of lines to remove, now that we've used it
-                                removelist.Add(pl);
-                                cnt = 1; //reset back to beginning of loop
-                                matchcount++;
-                            }
-                            else if (curline.m_points[0].Matches(pl.m_points[pl.m_points.Count - 1])) //case 1
-                            {
-                                curline.m_points.Reverse();
-                                pl.m_points.Reverse();
-                                curline.m_points.AddRange(pl.m_points);
-                                curline.m_points.Remove(pl.m_points[pl.m_points.Count - 1]);
-                                // add the test line to the list of lines to remove, now that we've used it
-                                removelist.Add(pl);
-                                cnt = 1; //reset back to beginning of loop
-                                matchcount++;
-                            }
-                            else if (curline.m_points[0].Matches(pl.m_points[0])) // case 3
-                            {
-                                curline.m_points.Reverse();
-                                curline.m_points.AddRange(pl.m_points);
-                                curline.m_points.Remove(pl.m_points[0]);
-                                removelist.Add(pl);
-                                cnt = 1; //reset back to beginning of loop
-                                matchcount++;
-                            }
-                        }
-                        idx++;
-                    }
-                    // now remove all the used segments from all segment list
-                    foreach (PolyLine3d seg in removelist)
-                    {
-                        allseg.Remove(seg);
-                    }
-                    removelist.Clear();
-                }
-                // here, we've made a pass though all the segments in allsegs
-
-                if (matchcount > 0)
-                {                    
-                    foreach (PolyLine3d pl in tmpsegs)
-                        allseg.Add(pl);
-                    tmpsegs.Clear();
-                }
-                else 
-                {
-                    done = true;
-                    foreach (PolyLine3d pl in tmpsegs)
-                        m_opsegs.Add(pl);
-                    tmpsegs.Clear();
-                        
-                }
-               // done = true;
-                matchcount = 0; // reset match count
-            }
-        }
-         */ 
         /*
          This function calculates the min and max x/y coordinates of this slice
          */
@@ -490,7 +426,7 @@ namespace UV_DLP_3D_Printer
                 int hxres = sp.xres / 2;
                 int hyres = sp.yres / 2;
 
-                List<Line2d> lines2d = Get2dLines(sp);
+                List<Line2d> lines2d = Get2dLines(sp, m_segments);
                 if (lines2d.Count == 0) 
                     return; 
                 Render2dlines(graph, lines2d, sp);
@@ -552,9 +488,8 @@ namespace UV_DLP_3D_Printer
                 int ymin = Math.Min(ln.p1.y, ln.p2.y);
                 int ymax = Math.Max(ln.p1.y, ln.p2.y);
 
-                if (ln.p1.y == ypos && ln.p2.y == ypos)  // parallel line, both y positions lay on the line, don't add
+                if (ln.p1.y == ypos && ln.p2.y == ypos)  
                 {
-                    //cn++;
                     points.Add(ln.p1);
                     points.Add(ln.p2);
                 }                    
@@ -582,6 +517,7 @@ namespace UV_DLP_3D_Printer
                 { 
                  
                     Point2d isect = ln.IntersectY(ypos); // singled point of intersection
+                    isect.m_parent = ln.m_parent;
                     points.Add(isect);
                 }
             }
@@ -594,14 +530,15 @@ namespace UV_DLP_3D_Printer
         /// </summary>
         /// <param name="sp"></param>
         /// <returns></returns>
-        private List<Line2d> Get2dLines(SliceBuildConfig sp) 
+        private List<Line2d> Get2dLines(SliceBuildConfig sp, List<PolyLine3d> segments) 
         {
             List<Line2d> lst = new List<Line2d>();
             // this can be changed at some point to assume that the 3d polyline has more than 2 points
             // I'll need to do this when I want to properly generate inside / outside countours
-            foreach (PolyLine3d ply in m_segments)  
+            foreach (PolyLine3d ply in segments)  
             {
                 Line2d ln = new Line2d();
+                ln.SetParent(ply.m_plyderived);
                 //get the 3d points of the line
                 Point3d p3d1 = (Point3d)ply.m_points[0];
                 Point3d p3d2 = (Point3d)ply.m_points[1];

@@ -296,6 +296,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             if (m_curslice.m_opsegs == null)
             {
                 m_curslice.Optimize();
+                m_curslice.DetermineInteriorExterior(UVDLPApp.Instance().m_buildparms);
                 m_curslice.ColorLines();
             }
             foreach (PolyLine3d ply in m_curslice.m_opsegs)
@@ -740,6 +741,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             ShowPanel(buttRotate, ctlObjRotate);
         }
 
+        private void buttMeshTools_Click(object sender, EventArgs e)
+        {
+            ShowPanel(buttMeshTools,ctlMeshTools1);
+        }
+
         private void buttScale_Click(object sender, EventArgs e)
         {
             ShowPanel(buttScale, ctlObjScale);
@@ -895,6 +901,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             #endregion Scene tree
 
         }
+
+
 
 
  

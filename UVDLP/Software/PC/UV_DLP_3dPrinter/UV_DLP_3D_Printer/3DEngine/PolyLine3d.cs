@@ -28,6 +28,9 @@ namespace Engine3D
         // this derived reference is a cheat. Basically, we need to retain information
         // that this polygon was dereived from, so we can later look up it's neighbors
         public Polygon m_derived; // 
+        public PolyLine3d m_plyderived;
+        public static int TAG_EXTERIOR = 1;
+        public static int TAG_INTERIOR = 2;
 
         public PolyLine3d(PolyLine3d src) 
         {
@@ -85,6 +88,7 @@ namespace Engine3D
                 for (int c = 0; c < m_points.Count - 1; c++)
                 {
                     PolyLine3d ply = new PolyLine3d();
+                    ply.m_plyderived = this; // make all these children of the main
                     ply.m_points.Add(m_points[c]);
                     ply.m_points.Add(m_points[c + 1]);
                     segments.Add(ply);

@@ -8,6 +8,7 @@ using Engine3D;
 using UV_DLP_3D_Printer.Configs;
 using System.Drawing;
 using System.Threading;
+using System.IO;
 namespace UV_DLP_3D_Printer
 {
     /*
@@ -103,7 +104,7 @@ namespace UV_DLP_3D_Printer
         {
             RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eStarted, "Support Generation Started", null);
             GenerateSupportObjects();
-           // GenerateAdaptive(); // testing adaptive generation
+            //GenerateAdaptive(); // testing adaptive generation
         }
         /// <summary>
         /// This is a helper function that converts 3d polylines to 2d
@@ -161,6 +162,7 @@ namespace UV_DLP_3D_Printer
             int hyres = config.yres / 2;
             for (int c = 0; c < numslices; c++) 
             {
+                bool layerneedssupport = false;
                 if (m_cancel)
                 {
                     RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eCancel, "Support Generation Cancelled", null);
@@ -170,10 +172,17 @@ namespace UV_DLP_3D_Printer
 
                 Slice sl = UVDLPApp.Instance().m_slicer.GetSliceImmediate(zlev);
                 sl.Optimize();// find loops
+                //sl.DetermineInteriorExterior(config); // mark the interior/exterior loops
                 zlev += (float)config.ZThick;
                 prevslice = curslice;
                 curslice = sl;
                 Bitmap bm = new Bitmap(config.xres,config.yres);
+                using (Graphics gfx = Graphics.FromImage(bm))
+                using (SolidBrush brush = new SolidBrush(Color.Black))
+                {
+                    gfx.FillRectangle(brush, 0, 0, bm.Width, bm.Height);
+                }            
+
                 if (prevslice != null && curslice != null) 
                 {
                     //render current slice
@@ -191,13 +200,21 @@ namespace UV_DLP_3D_Printer
                     // this approach isn't going to work, we need to iterate through all polyline
                     //segments in a slice at once, each individual segment needs to know 1 thing
                     // 1) the optimized segment it came from
-                    foreach (PolyLine3d pln in curslice.m_opsegs) 
+
+                    //iterate through all optimized polygon segments
+                   
+                    Dictionary<PolyLine3d, bool> supportmap = new Dictionary<PolyLine3d, bool>();
+                    foreach (PolyLine3d pln in curslice.m_opsegs)
                     {
-                        // each polyline region is checked separately
                         bool plysupported = false;
+                        List<PolyLine3d> allsegments = new List<PolyLine3d>();
+                        List<PolyLine3d> segments = pln.Split(); // split them, retaining the parent
+                        allsegments.AddRange(segments);
+                        //add all optimized polyline segments into the supported map
+                        supportmap.Add(pln, true);                                            
                         //split this optimized polyline back into 2-point segments for easier use
-                        List<PolyLine3d> segments = pln.Split();
-                        List<Line2d> lines2d = Get2dLines(config, segments);
+
+                        List<Line2d> lines2d = Get2dLines(config, allsegments);
                         // find the x/y min/max
                         MinMax_XY mm = Slice.CalcMinMax_XY(lines2d);
                         // iterate from the ymin to the ymax
@@ -240,22 +257,30 @@ namespace UV_DLP_3D_Printer
                                 DebugLogger.Instance().LogRecord("Row y=" + y + " odd # of points = " + points.Count + " - Model may have holes");
                             }
                         }// for y = startminY to endY
-                        if (plysupported == false)
+                        if (plysupported == false) 
                         {
-                            //generate a support, or mark where a support should be...
-                            lstunsup.Add(new UnsupportedRegions(pln));
-                        }
-                        else 
-                        {
-                            plysupported = true;
 
+                            layerneedssupport = true;
+                            supportmap[pln] = false;
+                            lstunsup.Add(new UnsupportedRegions(pln));
                         }
                     } // for each optimized polyline
                     lbm.UnlockBits(); // unlock the bitmap
                 } // prev and current slice are not null
+                if (layerneedssupport)
+                    SaveBM(bm, c);
             } // iterating through all slices
             RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eCompleted, "Support Generation Completed", lstsupports);
             m_generating = false;
+        }
+        private void SaveBM(Bitmap bmp, int layer) 
+        {
+            String fn = UVDLPApp.Instance().SelectedObject.m_fullname;
+            string tmp = Path.GetDirectoryName(fn);
+            tmp += UVDLPApp.m_pathsep;
+            tmp += Path.GetFileNameWithoutExtension(fn);
+            tmp += "_" + layer + ".png";
+            bmp.Save(tmp);
         }
         public List<Object3d> GenerateSupportObjects()
         {
