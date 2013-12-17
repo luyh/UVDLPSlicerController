@@ -288,13 +288,73 @@ namespace Engine3D
                 m_curObject.m_lstpoints.Add(pamf.pt);
         }
 
+        // duplicate a vertex
+        int DuplicateVertex(int v)
+        {
+            PointAmf pamf = m_pointList[v];
+            PointAmf npamf = new PointAmf();
+            npamf.pt = new Point3d(pamf.pt);
+            if (pamf.edgeList != null)
+            {
+                npamf.edgeList = new List<EdgeAmf>();
+                foreach (EdgeAmf edge in pamf.edgeList)
+                {
+                    EdgeAmf nedge = new EdgeAmf();
+                    nedge.v1 = m_pointList.Count;
+                    nedge.v2 = edge.v2;
+                    nedge.t1 = edge.t1;
+                    nedge.t2 = edge.t2;
+                    npamf.AddEdge(nedge);
+                }
+            }
+            npamf.normal = pamf.normal;
+            m_pointList.Add(npamf);
+            return m_pointList.Count - 1;
+        }
+
+        bool HaveSmoothInfo(int v1, int v2)
+        {
+            if (m_pointList[v1].normal != null)
+                return true;
+            if (m_pointList[v1].FindEdge(v2) != null)
+                return true;
+            if (m_pointList[v2].FindEdge(v1) != null)
+                return true;
+            return false;
+        }
+
+        void UpdateEdge(int v, int v1, int v2, int nv1, int nv2)
+        {
+            EdgeAmf edge = m_pointList[v].FindEdge(v1);
+            if (edge != null)
+                edge.v2 = nv1;
+            edge = m_pointList[v].FindEdge(v2);
+            if (edge != null)
+                edge.v2 = nv2;
+        }
+
         void ParseTriangle(XmlNode xTri)
         {
-            int p0 = int.Parse(xTri["v1"].InnerText);
-            int p1 = int.Parse(xTri["v2"].InnerText);
-            int p2 = int.Parse(xTri["v3"].InnerText);
+            int v1 = int.Parse(xTri["v1"].InnerText);
+            int v2 = int.Parse(xTri["v2"].InnerText);
+            int v3 = int.Parse(xTri["v3"].InnerText);
             int level = m_smoothObj ? m_smoothLevel : 0;
-            SmoothTriangle(p0, p1, p2, level);
+            if ((level > 0) && !HaveSmoothInfo(v1, v2) && !HaveSmoothInfo(v2, v3) && !HaveSmoothInfo(v3, v1))
+                level = 0;
+            if (level > 0)
+            {
+                int nv1 = DuplicateVertex(v1);
+                int nv2 = DuplicateVertex(v2);
+                int nv3 = DuplicateVertex(v3);
+                UpdateEdge(nv1, v2, v3, nv2, nv3);
+                UpdateEdge(nv2, v1, v3, nv1, nv3);
+                UpdateEdge(nv3, v1, v2, nv1, nv2);
+                v1 = nv1;
+                v2 = nv2;
+                v3 = nv3;
+            }
+            
+            SmoothTriangle(v1, v2, v3, level);
         }
         
         void SmoothTriangle(int v1, int v2, int v3, int level)
@@ -413,10 +473,9 @@ namespace Engine3D
             Vector3d tanget = new Vector3d(x, y, z);
             tanget.Normalize();
 
-            /*if ((pamf1.normal != null) || (pamf2.normal != null))
-            {*/
-                
-            /*}*/
+            Vector3d tvec = (norm1 * 0.5f) + (norm2 * 0.5f);
+            tvec = Vector3d.cross(tvec, tanget);
+            pamf.normal = Vector3d.cross(tanget, tvec);
 
             if (edge == null)
             {
