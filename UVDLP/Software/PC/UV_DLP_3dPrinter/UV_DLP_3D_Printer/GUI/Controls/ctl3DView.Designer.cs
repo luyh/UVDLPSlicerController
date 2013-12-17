@@ -116,7 +116,7 @@
             this.ctlMeshTools1.BackColor = System.Drawing.Color.Navy;
             this.ctlMeshTools1.Location = new System.Drawing.Point(94, 241);
             this.ctlMeshTools1.Name = "ctlMeshTools1";
-            this.ctlMeshTools1.Size = new System.Drawing.Size(184, 99);
+            this.ctlMeshTools1.Size = new System.Drawing.Size(172, 98);
             this.ctlMeshTools1.TabIndex = 32;
             this.ctlMeshTools1.Visible = false;
             // 

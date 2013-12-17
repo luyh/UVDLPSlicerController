@@ -46,7 +46,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.flowLayoutPanel1.Controls.Add(this.buttSubtract);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 36);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(177, 59);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(164, 58);
             this.flowLayoutPanel1.TabIndex = 25;
             // 
             // buttUnion
@@ -76,8 +76,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.buttIntersect.Gapy = 5;
             this.buttIntersect.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttIntersect.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttIntersect;
-            this.buttIntersect.Location = new System.Drawing.Point(63, 5);
-            this.buttIntersect.Margin = new System.Windows.Forms.Padding(5);
+            this.buttIntersect.Location = new System.Drawing.Point(58, 5);
+            this.buttIntersect.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
             this.buttIntersect.Name = "buttIntersect";
             this.buttIntersect.Padding = new System.Windows.Forms.Padding(5);
             this.buttIntersect.Size = new System.Drawing.Size(48, 48);
@@ -94,8 +94,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.buttSubtract.Gapy = 5;
             this.buttSubtract.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttSubtract.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttSubtract;
-            this.buttSubtract.Location = new System.Drawing.Point(121, 5);
-            this.buttSubtract.Margin = new System.Windows.Forms.Padding(5);
+            this.buttSubtract.Location = new System.Drawing.Point(111, 5);
+            this.buttSubtract.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
             this.buttSubtract.Name = "buttSubtract";
             this.buttSubtract.Padding = new System.Windows.Forms.Padding(5);
             this.buttSubtract.Size = new System.Drawing.Size(48, 48);
@@ -119,7 +119,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(184, 99);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(172, 98);
             this.flowLayoutPanel2.TabIndex = 26;
             // 
             // progressTitle
@@ -144,7 +144,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.BackColor = System.Drawing.Color.Navy;
             this.Controls.Add(this.flowLayoutPanel2);
             this.Name = "ctlMeshTools";
-            this.Size = new System.Drawing.Size(184, 99);
+            this.Size = new System.Drawing.Size(172, 98);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
