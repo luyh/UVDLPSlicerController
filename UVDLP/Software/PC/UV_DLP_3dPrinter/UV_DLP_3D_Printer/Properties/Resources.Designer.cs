@@ -186,6 +186,20 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap buttIntersect {
+            get {
+                object obj = ResourceManager.GetObject("buttIntersect", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttMeshTools {
+            get {
+                object obj = ResourceManager.GetObject("buttMeshTools", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap buttMove {
             get {
                 object obj = ResourceManager.GetObject("buttMove", resourceCulture);
@@ -305,6 +319,13 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap buttSubtract {
+            get {
+                object obj = ResourceManager.GetObject("buttSubtract", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap buttSupport {
             get {
                 object obj = ResourceManager.GetObject("buttSupport", resourceCulture);
@@ -329,6 +350,13 @@ namespace UV_DLP_3D_Printer.Properties {
         public static System.Drawing.Bitmap buttUndo {
             get {
                 object obj = ResourceManager.GetObject("buttUndo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttUnion {
+            get {
+                object obj = ResourceManager.GetObject("buttUnion", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -515,6 +515,10 @@
     <None Include="resources\CustomGUI\buttUndo.png" />
     <None Include="resources\CustomGUI\buttRedo.png" />
     <None Include="resources\cwlogo_dl.ico" />
+    <None Include="resources\CustomGUI\buttUnion.png" />
+    <None Include="resources\CustomGUI\buttIntersect.png" />
+    <None Include="resources\CustomGUI\buttMeshTools.png" />
+    <None Include="resources\CustomGUI\buttSubtract.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

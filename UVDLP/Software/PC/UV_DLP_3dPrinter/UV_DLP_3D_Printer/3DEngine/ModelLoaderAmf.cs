@@ -371,7 +371,7 @@ namespace Engine3D
                 t1 = edge.t1;
                 t2 = edge.t2;
             }
-            else if ((pamf1.normal == null) && (pamf2.normal == null))
+            /*else if ((pamf1.normal == null) && (pamf2.normal == null))
             {
                 // its a linear line, return the center
                 x = (pamf1.pt.x + pamf2.pt.x) / 2.0f;
@@ -381,13 +381,17 @@ namespace Engine3D
                 pamf.pt = new Point3d(x, y, z);
                 m_pointList.Add(pamf);
                 return m_pointList.Count - 1;
-            }
+            }*/
             else
             {
                 // calculate tangets from normals.
                 //edgeDir.Normalize();
                 t1 = GetTangetFromNormal(norm1, edgeDir);
                 t2 = GetTangetFromNormal(norm2, edgeDir);
+                /*if (pamf1.normal == null)
+                    pamf1.normal = norm1;
+                if (pamf2.normal == null)
+                    pamf2.normal = norm2;*/
             }
 
             float d = edgeDir.Mag();
@@ -409,18 +413,22 @@ namespace Engine3D
             Vector3d tanget = new Vector3d(x, y, z);
             tanget.Normalize();
 
+            /*if ((pamf1.normal != null) || (pamf2.normal != null))
+            {*/
+                
+            /*}*/
+
             if (edge == null)
             {
-                /* // create a simple edge just to remember center point. saves some computation
-                // for the next triangle using that edge
+                //pamf.normal = GetNormalFromTanget(norm1, tanget);
+                // create an edge for this segment
                 edge = new EdgeAmf();
                 edge.v1 = v1;
                 edge.v2 = v2;
-                pamf1.AddEdge(edge);*/
+                edge.t1 = t1;
+                edge.t2 = t2;
+                pamf1.AddEdge(edge);
             }
-            else
-            {
-
                 edge.v12 = m_pointList.Count - 1; // saves double computation 
                 
                 //tanget.Normalize();
@@ -438,8 +446,6 @@ namespace Engine3D
                 edge2.t1 = tanget;
                 edge2.t2 = t2;
                 pamf.AddEdge(edge2);
-                
-            }
  
             return v;
         }
@@ -468,15 +474,26 @@ namespace Engine3D
                 return Vector3d.negate(edge.t2);
             Point3d pt1 = m_pointList[v].pt;
             Point3d pt2 = m_pointList[v1].pt;
-            return new Vector3d(pt2.x - pt1.x, pt2.y - pt1.y, pt1.z - pt1.z);
+            return new Vector3d(pt2.x - pt1.x, pt2.y - pt1.y, pt2.z - pt1.z);
         }
 
         Vector3d GetTangetFromNormal(Vector3d norm, Vector3d dir)
         {
             Vector3d normxdir = Vector3d.cross(norm, dir);
             Vector3d res = Vector3d.cross(normxdir, norm);
-            //if ((Math.Abs(res.x) < Epsilon) && (Math.Abs(res.y) < Epsilon) && (Math.Abs(res.z) < Epsilon))
-            //    return null;
+            if ((Math.Abs(res.x) < Epsilon) && (Math.Abs(res.y) < Epsilon) && (Math.Abs(res.z) < Epsilon))
+                res = dir.clone();
+            res.Normalize();
+            //res = res * dir.Mag();
+            return res;
+        }
+
+        Vector3d GetNormalFromTanget(Vector3d norm, Vector3d tanget)
+        {
+            Vector3d normtang = Vector3d.cross(norm, tanget);
+            Vector3d res = Vector3d.cross(tanget, normtang);
+            if ((Math.Abs(res.x) < Epsilon) && (Math.Abs(res.y) < Epsilon) && (Math.Abs(res.z) < Epsilon))
+                return null;
             res.Normalize();
             //res = res * dir.Mag();
             return res;

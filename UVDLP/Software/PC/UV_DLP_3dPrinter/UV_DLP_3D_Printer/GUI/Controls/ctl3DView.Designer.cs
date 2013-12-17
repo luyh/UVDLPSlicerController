@@ -31,11 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.mainViewSplitContainer = new System.Windows.Forms.SplitContainer();
             this.treeScene = new System.Windows.Forms.TreeView();
-            this.glControl1 = new OpenTK.GLControl();
-            this.contextMenuSupport = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cmdRemoveAllSupports = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuObject = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cmdRemoveObject = new System.Windows.Forms.ToolStripMenuItem();
             this.ctlMeshTools1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMeshTools();
             this.buttMeshTools = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttRedo = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
@@ -53,6 +48,11 @@
             this.buttRotate = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.ctlObjScale = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlScale();
             this.ctlObjMove = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMove();
+            this.glControl1 = new OpenTK.GLControl();
+            this.contextMenuSupport = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cmdRemoveAllSupports = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuObject = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cmdRemoveObject = new System.Windows.Forms.ToolStripMenuItem();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
             this.mainViewSplitContainer.Panel1.SuspendLayout();
             this.mainViewSplitContainer.Panel2.SuspendLayout();
@@ -111,64 +111,12 @@
             this.treeScene.TabIndex = 6;
             this.treeScene.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeScene_NodeMouseClick);
             // 
-            // glControl1
-            // 
-            this.glControl1.BackColor = System.Drawing.Color.Black;
-            this.glControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.glControl1.Enabled = false;
-            this.glControl1.Location = new System.Drawing.Point(0, 0);
-            this.glControl1.Margin = new System.Windows.Forms.Padding(5);
-            this.glControl1.Name = "glControl1";
-            this.glControl1.Size = new System.Drawing.Size(858, 550);
-            this.glControl1.TabIndex = 15;
-            this.glControl1.Visible = false;
-            this.glControl1.VSync = false;
-            this.glControl1.Load += new System.EventHandler(this.glControl1_Load);
-            this.glControl1.Paint += new System.Windows.Forms.PaintEventHandler(this.glControl1_Paint);
-            this.glControl1.DoubleClick += new System.EventHandler(this.glControl1_DoubleClick);
-            this.glControl1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.glControl1_KeyDown);
-            this.glControl1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.glControl1_KeyPress);
-            this.glControl1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.glControl1_KeyUp);
-            this.glControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.glControl1_MouseDown);
-            this.glControl1.MouseLeave += new System.EventHandler(this.glControl1_MouseLeave);
-            this.glControl1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.glControl1_MouseMove);
-            this.glControl1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.glControl1_MouseUp);
-            this.glControl1.Resize += new System.EventHandler(this.glControl1_Resize);
-            // 
-            // contextMenuSupport
-            // 
-            this.contextMenuSupport.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmdRemoveAllSupports});
-            this.contextMenuSupport.Name = "contextMenuStrip2";
-            this.contextMenuSupport.Size = new System.Drawing.Size(218, 28);
-            // 
-            // cmdRemoveAllSupports
-            // 
-            this.cmdRemoveAllSupports.Name = "cmdRemoveAllSupports";
-            this.cmdRemoveAllSupports.Size = new System.Drawing.Size(217, 24);
-            this.cmdRemoveAllSupports.Text = "Remove All Supports";
-            this.cmdRemoveAllSupports.Click += new System.EventHandler(this.cmdRemoveAllSupports_Click);
-            // 
-            // contextMenuObject
-            // 
-            this.contextMenuObject.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmdRemoveObject});
-            this.contextMenuObject.Name = "contextMenuStrip1";
-            this.contextMenuObject.Size = new System.Drawing.Size(181, 28);
-            // 
-            // cmdRemoveObject
-            // 
-            this.cmdRemoveObject.Name = "cmdRemoveObject";
-            this.cmdRemoveObject.Size = new System.Drawing.Size(180, 24);
-            this.cmdRemoveObject.Text = "Remove Object";
-            this.cmdRemoveObject.Click += new System.EventHandler(this.cmdRemoveObject_Click);
-            // 
             // ctlMeshTools1
             // 
             this.ctlMeshTools1.BackColor = System.Drawing.Color.Navy;
             this.ctlMeshTools1.Location = new System.Drawing.Point(94, 241);
             this.ctlMeshTools1.Name = "ctlMeshTools1";
-            this.ctlMeshTools1.Size = new System.Drawing.Size(68, 191);
+            this.ctlMeshTools1.Size = new System.Drawing.Size(184, 99);
             this.ctlMeshTools1.TabIndex = 32;
             this.ctlMeshTools1.Visible = false;
             // 
@@ -180,7 +128,7 @@
             this.buttMeshTools.Gapx = 10;
             this.buttMeshTools.Gapy = 288;
             this.buttMeshTools.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
-            this.buttMeshTools.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttGear;
+            this.buttMeshTools.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMeshTools;
             this.buttMeshTools.Location = new System.Drawing.Point(10, 214);
             this.buttMeshTools.Name = "buttMeshTools";
             this.buttMeshTools.Size = new System.Drawing.Size(48, 48);
@@ -407,6 +355,58 @@
             this.ctlObjMove.Size = new System.Drawing.Size(170, 219);
             this.ctlObjMove.TabIndex = 20;
             this.ctlObjMove.Visible = false;
+            // 
+            // glControl1
+            // 
+            this.glControl1.BackColor = System.Drawing.Color.Black;
+            this.glControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.glControl1.Enabled = false;
+            this.glControl1.Location = new System.Drawing.Point(0, 0);
+            this.glControl1.Margin = new System.Windows.Forms.Padding(5);
+            this.glControl1.Name = "glControl1";
+            this.glControl1.Size = new System.Drawing.Size(858, 550);
+            this.glControl1.TabIndex = 15;
+            this.glControl1.Visible = false;
+            this.glControl1.VSync = false;
+            this.glControl1.Load += new System.EventHandler(this.glControl1_Load);
+            this.glControl1.Paint += new System.Windows.Forms.PaintEventHandler(this.glControl1_Paint);
+            this.glControl1.DoubleClick += new System.EventHandler(this.glControl1_DoubleClick);
+            this.glControl1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.glControl1_KeyDown);
+            this.glControl1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.glControl1_KeyPress);
+            this.glControl1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.glControl1_KeyUp);
+            this.glControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.glControl1_MouseDown);
+            this.glControl1.MouseLeave += new System.EventHandler(this.glControl1_MouseLeave);
+            this.glControl1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.glControl1_MouseMove);
+            this.glControl1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.glControl1_MouseUp);
+            this.glControl1.Resize += new System.EventHandler(this.glControl1_Resize);
+            // 
+            // contextMenuSupport
+            // 
+            this.contextMenuSupport.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmdRemoveAllSupports});
+            this.contextMenuSupport.Name = "contextMenuStrip2";
+            this.contextMenuSupport.Size = new System.Drawing.Size(218, 28);
+            // 
+            // cmdRemoveAllSupports
+            // 
+            this.cmdRemoveAllSupports.Name = "cmdRemoveAllSupports";
+            this.cmdRemoveAllSupports.Size = new System.Drawing.Size(217, 24);
+            this.cmdRemoveAllSupports.Text = "Remove All Supports";
+            this.cmdRemoveAllSupports.Click += new System.EventHandler(this.cmdRemoveAllSupports_Click);
+            // 
+            // contextMenuObject
+            // 
+            this.contextMenuObject.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmdRemoveObject});
+            this.contextMenuObject.Name = "contextMenuStrip1";
+            this.contextMenuObject.Size = new System.Drawing.Size(181, 28);
+            // 
+            // cmdRemoveObject
+            // 
+            this.cmdRemoveObject.Name = "cmdRemoveObject";
+            this.cmdRemoveObject.Size = new System.Drawing.Size(180, 24);
+            this.cmdRemoveObject.Text = "Remove Object";
+            this.cmdRemoveObject.Click += new System.EventHandler(this.cmdRemoveObject_Click);
             // 
             // ctlToolTip1
             // 
