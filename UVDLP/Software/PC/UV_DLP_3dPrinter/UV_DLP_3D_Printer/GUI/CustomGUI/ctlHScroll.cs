@@ -6,10 +6,11 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Timers;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
-    public partial class ctlHScroll : UserControl
+    public partial class ctlHScroll : ctlAnchorable
     {
         protected int mBorderWidth;
         protected int mSliderWidth;
@@ -112,6 +113,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             base.OnPaint(e);
         }
 
+
         protected MousePos GetMousePos(int xpos)
         {
             if (xpos < (mBorderWidth + mSliderPos - mSliderWidth / 2))
@@ -121,31 +123,48 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             return MousePos.Slider;
         }
 
-        protected override void OnMouseDown(MouseEventArgs e)
+        protected void UpdateValue(int delta)
         {
-            switch (GetMousePos(e.X))
+            mSliderPos += delta;
+            if (mSliderPos <= 0)
+            {
+                mSliderPos = 0;
+                StopAutorepeat();
+            }
+            else if (mSliderPos >= mSliderMax)
+            {
+                mSliderPos = mSliderMax;
+                StopAutorepeat();
+            }
+            Invalidate();
+            NotifyClients();
+        }
+
+
+        protected void ScrollPressed(int x)
+        {
+            switch (GetMousePos(x))
             {
                 case MousePos.Left:
-                    mSliderPos -= mDelta;
-                    if (mSliderPos < 0)
-                        mSliderPos = 0;
-                    Invalidate();
-                    NotifyClients();
+                    UpdateValue(-mDelta);
                     break;
 
                 case MousePos.Right:
-                    mSliderPos += mDelta;
-                    if (mSliderPos > mSliderMax)
-                        mSliderPos = mSliderMax;
-                    Invalidate();
-                    NotifyClients();
+                    UpdateValue(mDelta);
                     break;
 
                 case MousePos.Slider:
                     Capture = true;
                     mDragging = true;
+                    StopAutorepeat();
                     break;
             }
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            ScrollPressed(e.X);
+            base.OnMouseDown(e);
         }
 
         protected void SetSliderPos(int newpos)
@@ -174,6 +193,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             Capture = false;
             mDragging = false;
+            StopAutorepeat();
             base.OnMouseUp(e);
         }
 
@@ -181,6 +201,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             base.OnResize(e);
             CalcSliderMax();
+        }
+
+        protected override void OnClick(EventArgs e)
+        {
+            ScrollPressed(mLastMouseArgs.X);
+            base.OnClick(e);
         }
     }
 }

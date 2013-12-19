@@ -6,17 +6,28 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Timers;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
     public partial class ctlNumber : ctlAnchorable
     {
+        protected enum eClickState
+        {
+            None = 0,
+            Plus,
+            Minus,
+            Left,
+            Right
+        }
+
         int mBorderWidth;
         int mGap;
         bool mIsFloat;
         float mIncrement;
         bool mHasScroll;
         float mTextAspectRatio;
+
 
         [Description("Called when value is changed"), Category("CatAction")]
         public event EventHandler ValueChanged;
@@ -63,6 +74,30 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             set { textData.ValidColor = value; }
         }
 
+        [DefaultValue(1000)]
+        [Description("Autorepeat initial wait (ms) 0 = No repeat"), Category("Data")]
+        public override int AutorepeatInitial
+        {
+            get { return  scrollData.AutorepeatInitial; }
+            set { 
+                scrollData.AutorepeatInitial = value;
+                buttPlus.AutorepeatInitial = value;
+                buttMinus.AutorepeatInitial = value;
+            }
+        }
+
+        [DefaultValue(100)]
+        [Description("Autorepeat period (ms)"), Category("Data")]
+        public override int AutorepeatPeriod
+        {
+            get { return scrollData.AutorepeatPeriod; }
+            set { 
+                scrollData.AutorepeatPeriod = value;
+                buttPlus.AutorepeatPeriod = value;
+                buttMinus.AutorepeatPeriod = value;
+            }
+        }
+        
         // true if entered number is valid
         public bool Valid
         {
@@ -184,7 +219,14 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             PlaceElements();
             mHasScroll = false;
             mTextAspectRatio = 2.5f;
-        }
+            scrollData.AutorepeatInitial = 1000;
+            scrollData.AutorepeatPeriod = 100;
+            buttPlus.AutorepeatInitial = 1000;
+            buttPlus.AutorepeatPeriod = 100;
+            buttMinus.AutorepeatInitial = 1000;
+            buttMinus.AutorepeatPeriod = 100;
+            
+       }
 
         protected void PlaceElements()
         {

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Timers;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
@@ -31,7 +32,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         AnchorTypes mAnchorHoriz;
         AnchorTypes mAnchorVert;
         bool mChecked;
-        //Control mCtlRefPos;
+        protected int mAutorepeatInitial;
+        protected int mAutorepeatPeriod;
+        protected System.Timers.Timer mAuturepTimer = null;
+        protected MouseEventArgs mLastMouseArgs;
+       //Control mCtlRefPos;
 
         // will apear in properties panel
         [Description("Horizontal space from anchored location"), Category("Anchoring")]
@@ -68,6 +73,22 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             set { mChecked = value; Invalidate();  }
         }
 
+        [DefaultValue(0)]
+        [Description("Autorepeat initial wait (ms) 0 = No repeat"), Category("Data")]
+        public virtual int AutorepeatInitial
+        {
+            get { return mAutorepeatInitial; }
+            set { mAutorepeatInitial = value; SetupAutorepeat();  }
+        }
+
+        [DefaultValue(100)]
+        [Description("Autorepeat period (ms)"), Category("Data")]
+        public virtual int AutorepeatPeriod
+        {
+            get { return mAutorepeatPeriod; }
+            set { mAutorepeatPeriod = value; }
+        }
+        
         public ctlAnchorable()
         {
             mCtlState = CtlState.Normal;
@@ -76,8 +97,54 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             mGapy = 5;
             mAnchorHoriz = AnchorTypes.None;
             mAnchorVert = AnchorTypes.None;
+            mAutorepeatInitial = 0;
+            mAutorepeatPeriod = 100;
         }
 
+        protected void SetupAutorepeat()
+        {
+            if (mAutorepeatInitial > 0)
+            {
+                if (mAuturepTimer == null)
+                {
+                    mAuturepTimer = new System.Timers.Timer();
+                    mAuturepTimer.Elapsed += new System.Timers.ElapsedEventHandler(mAuturepTimer_Elapsed);
+                }
+            }
+            else
+            {
+                if (mAuturepTimer != null)
+                {
+                    mAuturepTimer.Stop();
+                    mAuturepTimer.Dispose();
+                    mAuturepTimer = null;
+                }
+            }
+        }
+
+        private void StartAutorepeat(MouseEventArgs eargs)
+        {
+            if (mAutorepeatInitial == 0)
+                return;
+            //mCurX = xpos;
+            mLastMouseArgs = eargs;
+            mAuturepTimer.Interval = mAutorepeatInitial;
+            mAuturepTimer.Start();
+        }
+
+
+        private void mAuturepTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            mAuturepTimer.Interval = mAutorepeatPeriod;
+            BeginInvoke(new MethodInvoker(delegate() { OnClick(mLastMouseArgs); }));
+        }
+
+        protected void StopAutorepeat()
+        {
+            if (mAuturepTimer != null)
+                mAuturepTimer.Stop();
+        }
+        
         public void SetPositioning(AnchorTypes horiz, AnchorTypes vert, int gapx, int gapy)
         {
             mAnchorHoriz = horiz;
@@ -136,6 +203,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         protected override void OnMouseDown(MouseEventArgs mevent)
         {
             mCtlState = CtlState.Pressed;
+            if ((mAuturepTimer != null) && (!mAuturepTimer.Enabled))
+                StartAutorepeat(mevent);
             Invalidate();
             base.OnMouseDown(mevent);
         }
@@ -143,6 +212,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         protected override void OnMouseUp(MouseEventArgs mevent)
         {
             mCtlState = CtlState.Hover;
+            StopAutorepeat();
             Invalidate();
             base.OnMouseUp(mevent);
         }
