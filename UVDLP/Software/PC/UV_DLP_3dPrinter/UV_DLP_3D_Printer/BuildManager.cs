@@ -286,108 +286,125 @@ namespace UV_DLP_3D_Printer
             int nextlayertime = 0;
             while (m_running)
             {
-                Thread.Sleep(0); // moved this sleep here for if the 
-                switch (m_state) 
+                try
                 {
-                    case BuildManager.STATE_START:
-                        //start things off, reset some variables
-                        RaiseStatusEvent(eBuildStatus.eBuildStarted,"Build Started");
-                        m_state = BuildManager.STATE_DO_NEXT_LAYER; // go to the first layer
-                        m_gcodeline = 0; // set the start line
-                        m_curlayer = 0;
-                        m_printstarttime = new DateTime();
-                        break;
-                    case BuildManager.STATE_WAITING_FOR_LAYER:
-                        //check time var
-                        if(Environment.TickCount >= nextlayertime)
-                        {
-                            m_state = BuildManager.STATE_DO_NEXT_LAYER; // move onto next layer
-                        }
-                        break;
-                    case BuildManager.STATE_IDLE:
-                        // do nothing
-                        break;
-                    case BuildManager.STATE_DO_NEXT_LAYER:
-                        //check for done
-                        if(m_gcodeline >= m_gcode.Lines.Length)
-                        {
-                            //we're done..
-                            m_state = BuildManager.STATE_DONE;
-                            continue;
-                        }
-                        string line = "";
-                        if (UVDLPApp.Instance().m_deviceinterface.ReadyForCommand())
-                        {
-                            // go through the gcode, line by line
-                            line = m_gcode.Lines[m_gcodeline++];
-                        }
-                        else 
-                        {
-                            continue; // device is not ready
-                        }
-                        line = line.Trim();
-                        if (line.Length > 0) // if the line is not blank
-                        {
-                            // send  the line, whether or not it's a comment
-                            // should check to see if the firmware is ready for another line
-
-                            UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(line + "\r\n");
-                            // if the line is a comment, parse it to see if we need to take action
-                            if (line.Contains("<Delay> "))// get the delay
-                            {                                
-                                nextlayertime = Environment.TickCount + getvarfromline(line);
-                                m_state = STATE_WAITING_FOR_LAYER;
+                    Thread.Sleep(0); // moved this sleep here for if the 
+                    switch (m_state)
+                    {
+                        case BuildManager.STATE_START:
+                            //start things off, reset some variables
+                            RaiseStatusEvent(eBuildStatus.eBuildStarted, "Build Started");
+                            m_state = BuildManager.STATE_DO_NEXT_LAYER; // go to the first layer
+                            m_gcodeline = 0; // set the start line
+                            m_curlayer = 0;
+                            m_printstarttime = new DateTime();
+                            break;
+                        case BuildManager.STATE_WAITING_FOR_LAYER:
+                            //check time var
+                            if (Environment.TickCount >= nextlayertime)
+                            {
+                                m_state = BuildManager.STATE_DO_NEXT_LAYER; // move onto next layer
+                            }
+                            break;
+                        case BuildManager.STATE_IDLE:
+                            // do nothing
+                            break;
+                        case BuildManager.STATE_DO_NEXT_LAYER:
+                            //check for done
+                            if (m_gcodeline >= m_gcode.Lines.Length)
+                            {
+                                //we're done..
+                                m_state = BuildManager.STATE_DONE;
                                 continue;
                             }
-                            else if (line.Contains("<Slice> "))//get the slice number
+                            string line = "";
+                            if (UVDLPApp.Instance().m_deviceinterface.ReadyForCommand())
                             {
-                                int layer = getvarfromline(line);
-                                int curtype = BuildManager.SLICE_NORMAL; // assume it's a normal image to begin with
-                                Bitmap bmp = null;
+                                // go through the gcode, line by line
+                                line = m_gcode.Lines[m_gcodeline++];
+                            }
+                            else
+                            {
+                                continue; // device is not ready
+                            }
+                            line = line.Trim();
+                            if (line.Length > 0) // if the line is not blank
+                            {
+                                // send  the line, whether or not it's a comment
+                                // should check to see if the firmware is ready for another line
 
-                                if (layer == SLICE_BLANK)
+                                UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(line + "\r\n");
+                                // if the line is a comment, parse it to see if we need to take action
+                                if (line.Contains("<Delay> "))// get the delay
                                 {
-                                    if (m_blankimage == null)  // blank image is null, create it
+                                    nextlayertime = Environment.TickCount + getvarfromline(line);
+                                    m_state = STATE_WAITING_FOR_LAYER;
+                                    continue;
+                                }
+                                else if (line.Contains("<Slice> "))//get the slice number
+                                {
+                                    int layer = getvarfromline(line);
+                                    int curtype = BuildManager.SLICE_NORMAL; // assume it's a normal image to begin with
+                                    Bitmap bmp = null;
+
+                                    if (layer == SLICE_BLANK)
                                     {
-                                        m_blankimage = new Bitmap(m_sf.XProjRes, m_sf.YProjRes);
-                                        // fill it with black
-                                        using (Graphics gfx = Graphics.FromImage(m_blankimage))
-                                        using (SolidBrush brush = new SolidBrush(Color.Black))
+                                        if (m_blankimage == null)  // blank image is null, create it
                                         {
-                                            gfx.FillRectangle(brush, 0, 0, m_sf.XProjRes, m_sf.YProjRes);
+                                            m_blankimage = new Bitmap(m_sf.XProjRes, m_sf.YProjRes);
+                                            // fill it with black
+                                            using (Graphics gfx = Graphics.FromImage(m_blankimage))
+                                            using (SolidBrush brush = new SolidBrush(Color.Black))
+                                            {
+                                                gfx.FillRectangle(brush, 0, 0, m_sf.XProjRes, m_sf.YProjRes);
+                                            }
+                                        }
+                                        bmp = m_blankimage;
+                                        curtype = BuildManager.SLICE_BLANK;
+                                    }
+                                    else
+                                    {
+                                        m_curlayer = layer;
+                                        bmp = m_sf.GetSliceImage(m_curlayer); // get the rendered image slice or load it if already rendered                                    
+                                        if (bmp == null) 
+                                        {
+                                            DebugLogger.Instance().LogError("Buildmanager bitmap is null layer = " + m_curlayer + " ");
                                         }
                                     }
-                                    bmp = m_blankimage;
-                                    curtype = BuildManager.SLICE_BLANK;
+
+                                    //raise a delegate so the main form can catch it and display layer information.
+                                    if (PrintLayer != null)
+                                    {
+                                        PrintLayer(bmp, m_curlayer, curtype);
+                                    }
                                 }
-                                else 
-                                {
-                                    m_curlayer = layer;
-                                    bmp = m_sf.GetSliceImage(m_curlayer); // get the rendered image slice or load it if already rendered                                    
-                                }
-                                
-                                //raise a delegate so the main form can catch it and display layer information.
-                                if (PrintLayer != null)
-                                {
-                                    PrintLayer(bmp, m_curlayer, curtype);
-                                }
-                            }                           
-                        }
-                        break;
-                    case BuildManager.STATE_DONE:
-                        m_running = false;
-                        m_state = BuildManager.STATE_IDLE;
-                        StopBuildTimer();
-                        DateTime endtime = new DateTime();
-                        double totalminutes = (endtime - m_printstarttime).TotalMinutes;
-                        
-                        m_printing = false; // mark printing doe
-                        //raise done message
-                        RaiseStatusEvent(eBuildStatus.eBuildStatusUpdate, "Build 100% Completed");
-                        RaiseStatusEvent(eBuildStatus.eBuildCompleted, "Build Completed");
-                        break;
+                            }
+                            break;
+                        case BuildManager.STATE_DONE:
+                            try
+                            {
+                                m_running = false;
+                                m_state = BuildManager.STATE_IDLE;
+                                StopBuildTimer();
+                                DateTime endtime = new DateTime();
+                                double totalminutes = (endtime - m_printstarttime).TotalMinutes;
+
+                                m_printing = false; // mark printing doe
+                                //raise done message
+                                RaiseStatusEvent(eBuildStatus.eBuildStatusUpdate, "Build 100% Completed");
+                                RaiseStatusEvent(eBuildStatus.eBuildCompleted, "Build Completed");
+                            }
+                            catch (Exception ex)
+                            {
+                                DebugLogger.Instance().LogError(ex.StackTrace);
+                            }
+                            break;
+                    }
                 }
-                
+                catch (Exception ex) 
+                {
+                    DebugLogger.Instance().LogError(ex.StackTrace);
+                }
             }
         }
 

@@ -775,8 +775,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 }
 
             }
-            catch (Exception) 
+            catch (Exception ex) 
             {
+                DebugLogger.Instance().LogError(ex.Message);
+                DebugLogger.Instance().LogError(ex.StackTrace);
                 m_curslice = null;
             }
 

@@ -184,6 +184,7 @@
             this.buttShowConsole.Name = "buttShowConsole";
             this.buttShowConsole.Size = new System.Drawing.Size(48, 48);
             this.buttShowConsole.TabIndex = 25;
+            this.ctlToolTip1.SetToolTip(this.buttShowConsole, "Show Console");
             this.buttShowConsole.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttShowConsole.Click += new System.EventHandler(this.buttShowConsole_Click);
             // 
@@ -192,7 +193,7 @@
             this.ctlToolTip1.AutoPopDelay = 5000;
             this.ctlToolTip1.BackColor = System.Drawing.Color.Turquoise;
             this.ctlToolTip1.ForeColor = System.Drawing.Color.Navy;
-            this.ctlToolTip1.InitialDelay = 1500;
+            this.ctlToolTip1.InitialDelay = 500;
             this.ctlToolTip1.ReshowDelay = 100;
             // 
             // ctlView

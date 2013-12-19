@@ -132,7 +132,14 @@ namespace UV_DLP_3D_Printer
         }
         private void SetMainMessage(String message) 
         {
-            lblMainMessage.Text = message;
+            try
+            {
+                lblMainMessage.Text = message;
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.StackTrace);
+            }
         }
         /*
          This handles specific events triggered by the app
@@ -224,44 +231,51 @@ namespace UV_DLP_3D_Printer
 
         private void SetButtonStatuses() 
         {
-            if (UVDLPApp.Instance().m_deviceinterface.Connected)
+            try
             {
-                buttConnect.Enabled = false;
-                buttDisconnect.Enabled = true;
-
-                if (UVDLPApp.Instance().m_buildmgr.IsPrinting)
+                if (UVDLPApp.Instance().m_deviceinterface.Connected)
                 {
-                    if (UVDLPApp.Instance().m_buildmgr.IsPaused())
+                    buttConnect.Enabled = false;
+                    buttDisconnect.Enabled = true;
+
+                    if (UVDLPApp.Instance().m_buildmgr.IsPrinting)
                     {
-                        buttPlay.Enabled = true;
-                        buttStop.Enabled = true;
-                        buttPause.Enabled = false;
+                        if (UVDLPApp.Instance().m_buildmgr.IsPaused())
+                        {
+                            buttPlay.Enabled = true;
+                            buttStop.Enabled = true;
+                            buttPause.Enabled = false;
+                        }
+                        else
+                        {
+                            buttPlay.Enabled = false;
+                            buttStop.Enabled = true;
+                            buttPause.Enabled = true;
+                        }
                     }
                     else
                     {
-                        buttPlay.Enabled = false;
-                        buttStop.Enabled = true;
-                        buttPause.Enabled = true;
+                        buttPlay.Enabled = true;
+                        buttStop.Enabled = false;
+                        buttPause.Enabled = false;
                     }
                 }
                 else
                 {
-                    buttPlay.Enabled = true;
+
+                    buttConnect.Enabled = true;
+                    buttDisconnect.Enabled = false;
+                    buttPlay.Enabled = false;
                     buttStop.Enabled = false;
                     buttPause.Enabled = false;
+
                 }
+                Refresh();
             }
-            else 
+            catch (Exception ex) 
             {
-
-                buttConnect.Enabled = true;
-                buttDisconnect.Enabled = false;
-                buttPlay.Enabled = false;
-                buttStop.Enabled = false;
-                buttPause.Enabled = false;
-
+                DebugLogger.Instance().LogError(ex.StackTrace);
             }
-            Refresh();
         }
 
 
@@ -351,12 +365,19 @@ namespace UV_DLP_3D_Printer
                         message = "Layer Completed";
                         break;
                     case eBuildStatus.eBuildCompleted:
-                        message = "Print Completed";
-                        SetButtonStatuses();
-                        ctlMachineControl1.BuildStopped();
-                        MessageBox.Show("Build Completed");
-                        SetMainMessage(message);
-                        DebugLogger.Instance().LogRecord(message);
+                        try
+                        {
+                            message = "Print Completed";
+                            SetButtonStatuses();
+                            ctlMachineControl1.BuildStopped();
+                            MessageBox.Show("Build Completed");
+                            SetMainMessage(message);
+                            DebugLogger.Instance().LogRecord(message);
+                        }
+                        catch (Exception ex) 
+                        {
+                            DebugLogger.Instance().LogError(ex.Message);
+                        }
                         break;
                     case eBuildStatus.eBuildStarted:
                         message = "Print Started";
@@ -385,22 +406,30 @@ namespace UV_DLP_3D_Printer
         //This delegate is called when the print manager is printing a new layer
         void PrintLayer(Bitmap bmp, int layer,int layertype) 
         {
-            if (InvokeRequired)
+            try
             {
-                BeginInvoke(new MethodInvoker(delegate() { PrintLayer(bmp, layer,layertype); }));
-            }
-            else
-            {
-                ViewLayer(layer,bmp,layertype);
-                ctl3DView1.ViewLayer(layer);
-                // display info only if it's a normal layer
-                if (layertype == BuildManager.SLICE_NORMAL)
+                if (InvokeRequired)
                 {
-                    
-                    String txt = "Printing layer " + (layer + 1) + " of " + UVDLPApp.Instance().m_slicefile.NumSlices;
-                    DebugLogger.Instance().LogRecord(txt);
+                    BeginInvoke(new MethodInvoker(delegate() { PrintLayer(bmp, layer, layertype); }));
                 }
+                else
+                {
+                    ViewLayer(layer, bmp, layertype);
+                    ctl3DView1.ViewLayer(layer);
+                    // display info only if it's a normal layer
+                    if (layertype == BuildManager.SLICE_NORMAL)
+                    {
 
+                        String txt = "Printing layer " + (layer + 1) + " of " + UVDLPApp.Instance().m_slicefile.NumSlices;
+                        DebugLogger.Instance().LogRecord(txt);
+                    }
+
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+                DebugLogger.Instance().LogError(ex.StackTrace);
             }
         }
 
@@ -509,7 +538,10 @@ namespace UV_DLP_3D_Printer
                     }
                 }               
             }
-            catch (Exception) { }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex.StackTrace);
+            }
         
         }
 
