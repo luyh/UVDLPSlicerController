@@ -229,7 +229,7 @@ namespace Engine3D
 	        }
         }
         
-        public void RenderGL(bool wireframe,bool alpha, bool selected) 
+        public void RenderGL(int wireframe,bool alpha, bool selected) 
         {
             // clip test before rendering 
             // use center point and radius to determine visibility (3d test)
@@ -238,10 +238,10 @@ namespace Engine3D
             Color clr = m_color;
             if (m_hidden == true)
                 return; // not displaying this poly...
-            if (wireframe)
+            if (wireframe > 0)
             {
                 GL.Begin(BeginMode.LineLoop);//.LineStrip);
-                GL.LineWidth(1);
+                GL.LineWidth(wireframe);
             }else
             {
                 GL.Begin(BeginMode.Triangles);

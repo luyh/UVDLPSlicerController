@@ -18,6 +18,17 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         private ctlImageButton buttSubtract;
         private FlowLayoutPanel flowLayoutPanel2;
         private ctlProgress progressTitle;
+        private FlowLayoutPanel flowLayoutPanel4;
+        private ctlImageButton buttAddCube;
+        private ctlImageButton buttAddSphere;
+        private ctlImageButton buttAddCone;
+        private FlowLayoutPanel flowLayoutPanel5;
+        private ctlImageButton ctlImageButton7;
+        private ctlImageButton ctlImageButton8;
+        private ctlImageButton ctlImageButton9;
+        private FlowLayoutPanel flowLayoutPanel3;
+        private ctlImageButton buttAddTorus;
+        private ctlImageButton buttAddCylinder;
         private ctlToolTip ctlToolTip1;
     
         public ctlMeshTools() 
@@ -34,8 +45,22 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.progressTitle = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlProgress();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.buttAddTorus = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttAddCylinder = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
+            this.buttAddCube = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttAddSphere = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttAddCone = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
+            this.ctlImageButton7 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.ctlImageButton8 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.ctlImageButton9 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
+            this.flowLayoutPanel3.SuspendLayout();
+            this.flowLayoutPanel4.SuspendLayout();
+            this.flowLayoutPanel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -115,11 +140,13 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             // 
             this.flowLayoutPanel2.Controls.Add(this.progressTitle);
             this.flowLayoutPanel2.Controls.Add(this.flowLayoutPanel1);
+            this.flowLayoutPanel2.Controls.Add(this.flowLayoutPanel4);
+            this.flowLayoutPanel2.Controls.Add(this.flowLayoutPanel3);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(172, 98);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(170, 214);
             this.flowLayoutPanel2.TabIndex = 26;
             // 
             // progressTitle
@@ -139,14 +166,196 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.progressTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.progressTitle.Value = 0;
             // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.BackColor = System.Drawing.Color.RoyalBlue;
+            this.flowLayoutPanel3.Controls.Add(this.buttAddTorus);
+            this.flowLayoutPanel3.Controls.Add(this.buttAddCylinder);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 153);
+            this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(164, 58);
+            this.flowLayoutPanel3.TabIndex = 28;
+            // 
+            // buttAddTorus
+            // 
+            this.buttAddTorus.BackColor = System.Drawing.Color.Navy;
+            this.buttAddTorus.Checked = false;
+            this.buttAddTorus.CheckImage = null;
+            this.buttAddTorus.Gapx = 5;
+            this.buttAddTorus.Gapy = 5;
+            this.buttAddTorus.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttAddTorus.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPTorus;
+            this.buttAddTorus.Location = new System.Drawing.Point(5, 5);
+            this.buttAddTorus.Margin = new System.Windows.Forms.Padding(5);
+            this.buttAddTorus.Name = "buttAddTorus";
+            this.buttAddTorus.Padding = new System.Windows.Forms.Padding(5);
+            this.buttAddTorus.Size = new System.Drawing.Size(48, 48);
+            this.buttAddTorus.TabIndex = 25;
+            this.ctlToolTip1.SetToolTip(this.buttAddTorus, "Add Torus");
+            this.buttAddTorus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            // 
+            // buttAddCylinder
+            // 
+            this.buttAddCylinder.BackColor = System.Drawing.Color.Navy;
+            this.buttAddCylinder.Checked = false;
+            this.buttAddCylinder.CheckImage = null;
+            this.buttAddCylinder.Gapx = 5;
+            this.buttAddCylinder.Gapy = 5;
+            this.buttAddCylinder.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttAddCylinder.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPCylinder;
+            this.buttAddCylinder.Location = new System.Drawing.Point(58, 5);
+            this.buttAddCylinder.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
+            this.buttAddCylinder.Name = "buttAddCylinder";
+            this.buttAddCylinder.Padding = new System.Windows.Forms.Padding(5);
+            this.buttAddCylinder.Size = new System.Drawing.Size(48, 48);
+            this.buttAddCylinder.TabIndex = 26;
+            this.ctlToolTip1.SetToolTip(this.buttAddCylinder, "Add Cylinder");
+            this.buttAddCylinder.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            // 
+            // flowLayoutPanel4
+            // 
+            this.flowLayoutPanel4.BackColor = System.Drawing.Color.RoyalBlue;
+            this.flowLayoutPanel4.Controls.Add(this.buttAddCube);
+            this.flowLayoutPanel4.Controls.Add(this.buttAddSphere);
+            this.flowLayoutPanel4.Controls.Add(this.buttAddCone);
+            this.flowLayoutPanel4.Controls.Add(this.flowLayoutPanel5);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 100);
+            this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(164, 53);
+            this.flowLayoutPanel4.TabIndex = 29;
+            // 
+            // buttAddCube
+            // 
+            this.buttAddCube.BackColor = System.Drawing.Color.Navy;
+            this.buttAddCube.Checked = false;
+            this.buttAddCube.CheckImage = null;
+            this.buttAddCube.Gapx = 5;
+            this.buttAddCube.Gapy = 5;
+            this.buttAddCube.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttAddCube.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPCube;
+            this.buttAddCube.Location = new System.Drawing.Point(5, 5);
+            this.buttAddCube.Margin = new System.Windows.Forms.Padding(5, 5, 5, 0);
+            this.buttAddCube.Name = "buttAddCube";
+            this.buttAddCube.Padding = new System.Windows.Forms.Padding(5);
+            this.buttAddCube.Size = new System.Drawing.Size(48, 48);
+            this.buttAddCube.TabIndex = 25;
+            this.ctlToolTip1.SetToolTip(this.buttAddCube, "Add Box");
+            this.buttAddCube.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            // 
+            // buttAddSphere
+            // 
+            this.buttAddSphere.BackColor = System.Drawing.Color.Navy;
+            this.buttAddSphere.Checked = false;
+            this.buttAddSphere.CheckImage = null;
+            this.buttAddSphere.Gapx = 5;
+            this.buttAddSphere.Gapy = 5;
+            this.buttAddSphere.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttAddSphere.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPSphere;
+            this.buttAddSphere.Location = new System.Drawing.Point(58, 5);
+            this.buttAddSphere.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
+            this.buttAddSphere.Name = "buttAddSphere";
+            this.buttAddSphere.Padding = new System.Windows.Forms.Padding(5);
+            this.buttAddSphere.Size = new System.Drawing.Size(48, 48);
+            this.buttAddSphere.TabIndex = 26;
+            this.ctlToolTip1.SetToolTip(this.buttAddSphere, "Add Sphere");
+            this.buttAddSphere.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            // 
+            // buttAddCone
+            // 
+            this.buttAddCone.BackColor = System.Drawing.Color.Navy;
+            this.buttAddCone.Checked = false;
+            this.buttAddCone.CheckImage = null;
+            this.buttAddCone.Gapx = 5;
+            this.buttAddCone.Gapy = 5;
+            this.buttAddCone.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttAddCone.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPCone;
+            this.buttAddCone.Location = new System.Drawing.Point(111, 5);
+            this.buttAddCone.Margin = new System.Windows.Forms.Padding(0, 5, 5, 0);
+            this.buttAddCone.Name = "buttAddCone";
+            this.buttAddCone.Padding = new System.Windows.Forms.Padding(5);
+            this.buttAddCone.Size = new System.Drawing.Size(48, 48);
+            this.buttAddCone.TabIndex = 27;
+            this.ctlToolTip1.SetToolTip(this.buttAddCone, "Add Cone");
+            this.buttAddCone.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            // 
+            // flowLayoutPanel5
+            // 
+            this.flowLayoutPanel5.BackColor = System.Drawing.Color.RoyalBlue;
+            this.flowLayoutPanel5.Controls.Add(this.ctlImageButton7);
+            this.flowLayoutPanel5.Controls.Add(this.ctlImageButton8);
+            this.flowLayoutPanel5.Controls.Add(this.ctlImageButton9);
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(3, 56);
+            this.flowLayoutPanel5.Name = "flowLayoutPanel5";
+            this.flowLayoutPanel5.Size = new System.Drawing.Size(164, 58);
+            this.flowLayoutPanel5.TabIndex = 28;
+            // 
+            // ctlImageButton7
+            // 
+            this.ctlImageButton7.BackColor = System.Drawing.Color.Navy;
+            this.ctlImageButton7.Checked = false;
+            this.ctlImageButton7.CheckImage = null;
+            this.ctlImageButton7.Gapx = 5;
+            this.ctlImageButton7.Gapy = 5;
+            this.ctlImageButton7.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.ctlImageButton7.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttUnion;
+            this.ctlImageButton7.Location = new System.Drawing.Point(5, 5);
+            this.ctlImageButton7.Margin = new System.Windows.Forms.Padding(5);
+            this.ctlImageButton7.Name = "ctlImageButton7";
+            this.ctlImageButton7.Padding = new System.Windows.Forms.Padding(5);
+            this.ctlImageButton7.Size = new System.Drawing.Size(48, 48);
+            this.ctlImageButton7.TabIndex = 25;
+            this.ctlToolTip1.SetToolTip(this.ctlImageButton7, "Union Selected");
+            this.ctlImageButton7.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            // 
+            // ctlImageButton8
+            // 
+            this.ctlImageButton8.BackColor = System.Drawing.Color.Navy;
+            this.ctlImageButton8.Checked = false;
+            this.ctlImageButton8.CheckImage = null;
+            this.ctlImageButton8.Gapx = 5;
+            this.ctlImageButton8.Gapy = 5;
+            this.ctlImageButton8.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.ctlImageButton8.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttIntersect;
+            this.ctlImageButton8.Location = new System.Drawing.Point(58, 5);
+            this.ctlImageButton8.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
+            this.ctlImageButton8.Name = "ctlImageButton8";
+            this.ctlImageButton8.Padding = new System.Windows.Forms.Padding(5);
+            this.ctlImageButton8.Size = new System.Drawing.Size(48, 48);
+            this.ctlImageButton8.TabIndex = 26;
+            this.ctlToolTip1.SetToolTip(this.ctlImageButton8, "Intersect Selected");
+            this.ctlImageButton8.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            // 
+            // ctlImageButton9
+            // 
+            this.ctlImageButton9.BackColor = System.Drawing.Color.Navy;
+            this.ctlImageButton9.Checked = false;
+            this.ctlImageButton9.CheckImage = null;
+            this.ctlImageButton9.Gapx = 5;
+            this.ctlImageButton9.Gapy = 5;
+            this.ctlImageButton9.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.ctlImageButton9.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttSubtract;
+            this.ctlImageButton9.Location = new System.Drawing.Point(111, 5);
+            this.ctlImageButton9.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
+            this.ctlImageButton9.Name = "ctlImageButton9";
+            this.ctlImageButton9.Padding = new System.Windows.Forms.Padding(5);
+            this.ctlImageButton9.Size = new System.Drawing.Size(48, 48);
+            this.ctlImageButton9.TabIndex = 27;
+            this.ctlToolTip1.SetToolTip(this.ctlImageButton9, "Subtract Selected");
+            this.ctlImageButton9.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            // 
             // ctlMeshTools
             // 
             this.BackColor = System.Drawing.Color.Navy;
             this.Controls.Add(this.flowLayoutPanel2);
             this.Name = "ctlMeshTools";
-            this.Size = new System.Drawing.Size(172, 98);
+            this.Size = new System.Drawing.Size(170, 214);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);
+            this.flowLayoutPanel3.ResumeLayout(false);
+            this.flowLayoutPanel4.ResumeLayout(false);
+            this.flowLayoutPanel5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

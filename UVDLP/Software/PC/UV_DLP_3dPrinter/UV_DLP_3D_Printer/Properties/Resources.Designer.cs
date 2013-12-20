@@ -242,6 +242,27 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap buttPCone {
+            get {
+                object obj = ResourceManager.GetObject("buttPCone", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttPCube {
+            get {
+                object obj = ResourceManager.GetObject("buttPCube", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttPCylinder {
+            get {
+                object obj = ResourceManager.GetObject("buttPCylinder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap buttPlay {
             get {
                 object obj = ResourceManager.GetObject("buttPlay", resourceCulture);
@@ -259,6 +280,20 @@ namespace UV_DLP_3D_Printer.Properties {
         public static System.Drawing.Bitmap buttPrevDisp {
             get {
                 object obj = ResourceManager.GetObject("buttPrevDisp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttPSphere {
+            get {
+                object obj = ResourceManager.GetObject("buttPSphere", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttPTorus {
+            get {
+                object obj = ResourceManager.GetObject("buttPTorus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

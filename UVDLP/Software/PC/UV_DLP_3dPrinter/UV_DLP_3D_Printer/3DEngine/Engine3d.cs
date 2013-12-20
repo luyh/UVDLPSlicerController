@@ -172,11 +172,11 @@ namespace Engine3D
 
             try
             {
+                GL.Enable(EnableCap.Lighting);
+                GL.Enable(EnableCap.Light0);
+                GL.Disable(EnableCap.LineSmooth);
                 foreach (Object3d obj in m_objects)
                 {
-                    GL.Enable(EnableCap.Lighting);
-                    GL.Enable(EnableCap.Light0);
-                    GL.Disable(EnableCap.LineSmooth);
                     if (UVDLPApp.Instance().SelectedObject == obj)                    {
                         obj.RenderGL(alpha,true);
                     }
@@ -185,11 +185,11 @@ namespace Engine3D
                         obj.RenderGL(alpha, false);
                     }
                 }
+                GL.Disable(EnableCap.Lighting);
+                GL.Disable(EnableCap.Light0);
+                GL.Enable(EnableCap.LineSmooth);
                 foreach (PolyLine3d ply in m_lines)
                 {
-                    GL.Disable(EnableCap.Lighting);
-                    GL.Disable(EnableCap.Light0);
-                    GL.Enable(EnableCap.LineSmooth);
                     ply.RenderGL();
                 }
             }

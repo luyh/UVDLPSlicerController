@@ -519,6 +519,11 @@
     <None Include="resources\CustomGUI\buttIntersect.png" />
     <None Include="resources\CustomGUI\buttMeshTools.png" />
     <None Include="resources\CustomGUI\buttSubtract.png" />
+    <None Include="resources\CustomGUI\buttPTorus.png" />
+    <None Include="resources\CustomGUI\buttPCone.png" />
+    <None Include="resources\CustomGUI\buttPCube.png" />
+    <None Include="resources\CustomGUI\buttPCylinder.png" />
+    <None Include="resources\CustomGUI\buttPSphere.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

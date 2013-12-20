@@ -21,7 +21,7 @@ namespace Engine3D
         public string m_fullname; // full path with filename
         private bool m_visible;
         public Point3d m_min, m_max,m_center;
-        public bool m_wireframe = false;
+        public int m_wireframe = 0; // wireframe thickness 0 = no wireframe
         public float m_radius;
         public Material material;// = new Material();
         public int tag = -1; // acting as an object ID
