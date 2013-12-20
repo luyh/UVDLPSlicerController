@@ -269,7 +269,8 @@ namespace UV_DLP_3D_Printer
             }
             catch (Exception ex) 
             {
-                DebugLogger.Instance().LogRecord(ex.Message);
+                DebugLogger.Instance().LogError(line);
+                DebugLogger.Instance().LogError(ex);
                 return 0;
             }            
         }
@@ -318,7 +319,9 @@ namespace UV_DLP_3D_Printer
                                 continue;
                             }
                             string line = "";
-                            if (UVDLPApp.Instance().m_deviceinterface.ReadyForCommand())
+                            // if the driver reports we're ready for the next command, or
+                            // if we choose to ignore the driver ready status
+                            if (UVDLPApp.Instance().m_deviceinterface.ReadyForCommand() || (UVDLPApp.Instance().m_appconfig.m_ignoreGCrsp == true))
                             {
                                 // go through the gcode, line by line
                                 line = m_gcode.Lines[m_gcodeline++];

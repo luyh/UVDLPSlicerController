@@ -30,6 +30,8 @@ namespace UV_DLP_3D_Printer
         public bool m_viewslice3d; // view the 3d polyline of the slice while previewing with the scrollbar
         public bool m_viewslice3dheight; // view the height of the slice in 3d
         public bool m_previewslicesbuilddisplay; // show the 2d slice on the DLP display while previewing with the scrollbar
+        public bool m_driverdebuglog;  // enable driver level debug logging of communication
+        public bool m_ignoreGCrsp; // ignore the gcode responses, and go by timing
 
         public void CreateDefault() 
         {
@@ -44,6 +46,8 @@ namespace UV_DLP_3D_Printer
             m_backgroundcolor = Color.Black;
             m_viewslice3d = false;
             m_viewslice3dheight = false;
+            m_driverdebuglog = false;
+            m_ignoreGCrsp = false;
            // m_drivertype = eDriverType.eNULL_DRIVER;
         }
 
@@ -65,6 +69,9 @@ namespace UV_DLP_3D_Printer
                 m_previewslicesbuilddisplay = xh.GetBool(ac, "PreviewSlices", false);
                 m_viewslice3d = xh.GetBool(ac, "Preview3dSlice", false);
                 m_viewslice3dheight = xh.GetBool(ac, "Preview3dSliceHeight", false);
+                m_driverdebuglog = xh.GetBool(ac, "DriverLogging", false);
+                m_ignoreGCrsp = xh.GetBool(ac, "IgnoreGCRsp", false);
+                
                 if (!fileExist)
                 {
                     xh.Save(FILE_VERSION);
@@ -95,6 +102,8 @@ namespace UV_DLP_3D_Printer
                 xh.SetParameter(ac, "PreviewSlices", m_previewslicesbuilddisplay);
                 xh.SetParameter(ac, "Preview3dSlice", m_viewslice3d);
                 xh.SetParameter(ac, "Preview3dSliceHeight", m_viewslice3dheight);
+                xh.SetParameter(ac, "DriverLogging", m_driverdebuglog);
+                xh.SetParameter(ac, "IgnoreGCRsp", m_ignoreGCrsp);
                 xh.Save(FILE_VERSION);
                 return true;
             }catch(Exception ex)

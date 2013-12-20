@@ -70,6 +70,11 @@ namespace UV_DLP_3D_Printer
         {
             LogRecord("Err :" + message);
         }
+        public void LogError(Exception ex)
+        {
+            LogRecord("Err :" + ex.Message);
+            LogRecord("Err :" + ex.StackTrace);
+        }
 
     }
 }

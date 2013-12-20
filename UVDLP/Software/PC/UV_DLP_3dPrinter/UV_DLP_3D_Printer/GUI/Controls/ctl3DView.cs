@@ -293,13 +293,15 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 return;
             if (UVDLPApp.Instance().m_appconfig.m_viewslice3d == false)
                 return;
+            /*
             if (m_curslice.m_opsegs == null)
             {
                 m_curslice.Optimize();
                 m_curslice.DetermineInteriorExterior(UVDLPApp.Instance().m_buildparms);
                 m_curslice.ColorLines();
             }
-            foreach (PolyLine3d ply in m_curslice.m_opsegs)
+             * */
+            foreach (PolyLine3d ply in m_curslice.m_segments)
             {
                 ply.RenderGL();
             }
@@ -761,12 +763,15 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 if (UVDLPApp.Instance().m_appconfig.m_viewslice3d == true)
                 {
-                    m_curslice = UVDLPApp.Instance().m_slicefile.GetSlice(layer);
-                    if (m_curslice != null)
+                    if (UVDLPApp.Instance().m_slicefile != null) // check to make sure we have a slicefile
                     {
-                        //UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
+                        m_curslice = UVDLPApp.Instance().m_slicefile.GetSlice(layer);
+                        if (m_curslice != null)
+                        {
+                            //UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
 
-                        UpdateView();//glControl1.Invalidate();
+                            UpdateView();//glControl1.Invalidate();
+                        }
                     }
                 }
                 else
