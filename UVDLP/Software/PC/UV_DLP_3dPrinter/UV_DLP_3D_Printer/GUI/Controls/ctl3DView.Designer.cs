@@ -48,7 +48,7 @@
             this.buttRotate = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.ctlObjScale = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlScale();
             this.ctlObjMove = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMove();
-            this.glControl1 = new OpenTK.GLControl();
+            this.glControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlGL();
             this.contextMenuSupport = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmdRemoveAllSupports = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuObject = new System.Windows.Forms.ContextMenuStrip(this.components);

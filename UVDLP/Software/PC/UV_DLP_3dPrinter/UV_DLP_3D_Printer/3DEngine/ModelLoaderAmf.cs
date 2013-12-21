@@ -211,7 +211,7 @@ namespace Engine3D
             m_curObject.m_fullname = m_filepath;
             m_curObject.Name = Path.GetFileName(m_filepath);
             m_curObject.Update();
-            //m_curObject.m_wireframe = 1;
+            //m_curObject.m_wireframe = 4;
             m_objList.Add(m_curObject);
             m_nobjects++;
         }

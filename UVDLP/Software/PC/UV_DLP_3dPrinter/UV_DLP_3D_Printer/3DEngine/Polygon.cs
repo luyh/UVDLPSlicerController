@@ -238,10 +238,12 @@ namespace Engine3D
             Color clr = m_color;
             if (m_hidden == true)
                 return; // not displaying this poly...
+            float oldLineWidth = 1;
             if (wireframe > 0)
             {
-                GL.Begin(BeginMode.LineLoop);//.LineStrip);
+                GL.GetFloat(GetPName.LineWidth, out oldLineWidth);
                 GL.LineWidth(wireframe);
+                GL.Begin(BeginMode.LineLoop);//.LineStrip);
             }else
             {
                 GL.Begin(BeginMode.Triangles);
@@ -255,7 +257,7 @@ namespace Engine3D
             {
                 if (selected)
                 {
-                    clr = Color.Green;
+                    clr = Color.Orange;
                 }
                // else 
                // {
@@ -284,7 +286,9 @@ namespace Engine3D
             {               
                 GL.Vertex3(p.x, p.y, p.z);
             }
-            GL.End();            
+            GL.End();
+            if (wireframe > 0)
+                GL.LineWidth(oldLineWidth);
         }
         
 

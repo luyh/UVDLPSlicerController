@@ -200,13 +200,35 @@ namespace Engine3D
         {
             if (m_listid == -1)
             {
-                m_listid = GetListID();
-                GL.NewList(m_listid, ListMode.CompileAndExecute);
+                //m_listid = GetListID();
+                //GL.NewList(m_listid, ListMode.CompileAndExecute);
+                if (selected)
+                {
+                    GL.Enable(EnableCap.StencilTest);
+                    GL.StencilFunc(StencilFunction.Always, 1, 0xFF);
+                    GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Replace);
+                    GL.StencilMask(0xFF);
+                    //GL.DepthMask(false);
+                    GL.Clear(ClearBufferMask.StencilBufferBit);
+                }
                 foreach (Polygon poly in m_lstpolys)
                 {
-                    poly.RenderGL(this.m_wireframe, showalpha, selected);
+                    poly.RenderGL(this.m_wireframe, showalpha, false);
                 }
-                GL.EndList();
+                if (selected)
+                {
+                    GL.Disable(EnableCap.Lighting);
+                    GL.StencilFunc(StencilFunction.Notequal, 1, 0xFF);
+                    GL.StencilMask(0);
+                    GL.DepthMask(true);
+                    foreach (Polygon poly in m_lstpolys)
+                    {
+                        poly.RenderGL(4, showalpha, true);
+                    }
+                    GL.Disable(EnableCap.StencilTest);
+                    GL.Enable(EnableCap.Lighting);
+                }
+                //GL.EndList();
             }
             else
             {
