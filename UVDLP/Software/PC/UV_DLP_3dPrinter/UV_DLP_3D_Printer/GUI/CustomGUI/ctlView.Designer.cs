@@ -32,7 +32,7 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.buttEnableTransparency = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttShowSlice = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.buttShowSliceHeight = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttBoundingBox = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.buttObjectProperties = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttTreeView = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
@@ -60,7 +60,7 @@
             this.flowLayoutPanel1.BackColor = System.Drawing.Color.RoyalBlue;
             this.flowLayoutPanel1.Controls.Add(this.buttEnableTransparency);
             this.flowLayoutPanel1.Controls.Add(this.buttShowSlice);
-            this.flowLayoutPanel1.Controls.Add(this.buttShowSliceHeight);
+            this.flowLayoutPanel1.Controls.Add(this.buttBoundingBox);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -103,24 +103,23 @@
             this.buttShowSlice.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttShowSlice.Click += new System.EventHandler(this.buttShowSlice_Click);
             // 
-            // buttShowSliceHeight
+            // buttBoundingBox
             // 
-            this.buttShowSliceHeight.BackColor = System.Drawing.Color.Navy;
-            this.buttShowSliceHeight.Checked = false;
-            this.buttShowSliceHeight.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
-            this.buttShowSliceHeight.Enabled = false;
-            this.buttShowSliceHeight.Gapx = 5;
-            this.buttShowSliceHeight.Gapy = 5;
-            this.buttShowSliceHeight.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.buttShowSliceHeight.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttShowsliceh;
-            this.buttShowSliceHeight.Location = new System.Drawing.Point(111, 5);
-            this.buttShowSliceHeight.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
-            this.buttShowSliceHeight.Name = "buttShowSliceHeight";
-            this.buttShowSliceHeight.Size = new System.Drawing.Size(48, 48);
-            this.buttShowSliceHeight.TabIndex = 25;
-            this.ctlToolTip1.SetToolTip(this.buttShowSliceHeight, "Show slice thickness");
-            this.buttShowSliceHeight.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.buttShowSliceHeight.Click += new System.EventHandler(this.buttShowSliceHeight_Click);
+            this.buttBoundingBox.BackColor = System.Drawing.Color.Navy;
+            this.buttBoundingBox.Checked = false;
+            this.buttBoundingBox.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.buttBoundingBox.Gapx = 5;
+            this.buttBoundingBox.Gapy = 5;
+            this.buttBoundingBox.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttBoundingBox.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttBoundingBox;
+            this.buttBoundingBox.Location = new System.Drawing.Point(111, 5);
+            this.buttBoundingBox.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
+            this.buttBoundingBox.Name = "buttBoundingBox";
+            this.buttBoundingBox.Size = new System.Drawing.Size(48, 48);
+            this.buttBoundingBox.TabIndex = 25;
+            this.ctlToolTip1.SetToolTip(this.buttBoundingBox, "Show bounding box\r\naround selected objects");
+            this.buttBoundingBox.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttBoundingBox.Click += new System.EventHandler(this.buttBoundingBox_Click);
             // 
             // flowLayoutPanel3
             // 
@@ -215,7 +214,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private ctlImageButton buttEnableTransparency;
         private ctlImageButton buttShowSlice;
-        private ctlImageButton buttShowSliceHeight;
+        private ctlImageButton buttBoundingBox;
         private ctlToolTip ctlToolTip1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
         private ctlImageButton buttObjectProperties;

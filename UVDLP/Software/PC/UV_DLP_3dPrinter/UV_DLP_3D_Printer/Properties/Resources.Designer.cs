@@ -137,6 +137,13 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap buttBoundingBox {
+            get {
+                object obj = ResourceManager.GetObject("buttBoundingBox", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap buttCenter {
             get {
                 object obj = ResourceManager.GetObject("buttCenter", resourceCulture);

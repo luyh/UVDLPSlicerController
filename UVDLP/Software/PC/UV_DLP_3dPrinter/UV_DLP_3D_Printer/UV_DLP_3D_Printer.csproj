@@ -527,6 +527,7 @@
     <None Include="resources\CustomGUI\buttPCube.png" />
     <None Include="resources\CustomGUI\buttPCylinder.png" />
     <None Include="resources\CustomGUI\buttPSphere.png" />
+    <None Include="resources\CustomGUI\buttBoundingBox.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

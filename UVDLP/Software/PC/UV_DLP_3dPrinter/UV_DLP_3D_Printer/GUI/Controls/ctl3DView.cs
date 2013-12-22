@@ -646,9 +646,16 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 if (i.obj.tag != Object3d.OBJ_GROUND)
                 {
-                    UVDLPApp.Instance().SelectedObject = i.obj;
-                    objectInfoPanel.FillObjectInfo(i.obj);
-                    UVDLPApp.Instance().m_engine3d.UpdateLists();
+                    if (ModifierKeys == Keys.Control)
+                    {
+                        UVDLPApp.Instance().AddToSelectionList(i.obj);
+                    }
+                    else
+                    {
+                        UVDLPApp.Instance().SelectedObject = i.obj;
+                        objectInfoPanel.FillObjectInfo(i.obj);
+                        UVDLPApp.Instance().m_engine3d.UpdateLists();
+                    }
                     break;
                 }
             }

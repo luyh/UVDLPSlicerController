@@ -32,6 +32,7 @@ namespace UV_DLP_3D_Printer
         public bool m_previewslicesbuilddisplay; // show the 2d slice on the DLP display while previewing with the scrollbar
         public bool m_driverdebuglog;  // enable driver level debug logging of communication
         public bool m_ignoreGCrsp; // ignore the gcode responses, and go by timing
+        public bool m_showBoundingBox;
 
         public void CreateDefault() 
         {
@@ -48,7 +49,8 @@ namespace UV_DLP_3D_Printer
             m_viewslice3dheight = false;
             m_driverdebuglog = false;
             m_ignoreGCrsp = false;
-           // m_drivertype = eDriverType.eNULL_DRIVER;
+            m_showBoundingBox = true;
+            // m_drivertype = eDriverType.eNULL_DRIVER;
         }
 
         public bool Load(String filename) 
@@ -71,6 +73,7 @@ namespace UV_DLP_3D_Printer
                 m_viewslice3dheight = xh.GetBool(ac, "Preview3dSliceHeight", false);
                 m_driverdebuglog = xh.GetBool(ac, "DriverLogging", false);
                 m_ignoreGCrsp = xh.GetBool(ac, "IgnoreGCRsp", false);
+                m_showBoundingBox = xh.GetBool(ac, "ShowBoundingBox", false);
                 
                 if (!fileExist)
                 {
@@ -104,6 +107,7 @@ namespace UV_DLP_3D_Printer
                 xh.SetParameter(ac, "Preview3dSliceHeight", m_viewslice3dheight);
                 xh.SetParameter(ac, "DriverLogging", m_driverdebuglog);
                 xh.SetParameter(ac, "IgnoreGCRsp", m_ignoreGCrsp);
+                xh.SetParameter(ac, "ShowBoundingBox", m_showBoundingBox);
                 xh.Save(FILE_VERSION);
                 return true;
             }catch(Exception ex)

@@ -60,7 +60,8 @@ namespace UV_DLP_3D_Printer
         // the simple 3d graphic engine we're using along with OpenGL
         public Engine3d m_engine3d = new Engine3d();
         // the current model we're working with
-        private Object3d m_selectedobject = null;
+        //private Object3d m_selectedobject = null;
+        private List<Object3d> m_selectedobjects = null;
         // the scene object used for slicing
         private Object3d m_sceneobject = null;
         // the current machine configuration
@@ -217,6 +218,9 @@ namespace UV_DLP_3D_Printer
             }
         }
 
+        //private Object3d m_selectedobject = null;
+
+        
         public void StartAddSupports()
         {
 
@@ -268,16 +272,52 @@ namespace UV_DLP_3D_Printer
             SelectedObject = null;
             RaiseAppEvent(eAppEvent.eModelRemoved, "model removed");
         }
+
         public Object3d SelectedObject
         {
             get 
             {
-                return m_selectedobject;
+                if (m_selectedobjects == null)
+                    return null;
+                return m_selectedobjects[0];
             }
             set 
             {
-                m_selectedobject = value;
+                if (m_selectedobjects != null)
+                {
+                    foreach (Object3d obj in m_selectedobjects)
+                    {
+                        obj.m_inSelectedList = false;
+                    }
+                }
+                if (value == null)
+                    m_selectedobjects = null;
+                else
+                {
+                    m_selectedobjects = new List<Object3d>();
+                    m_selectedobjects.Add(value);
+                    value.m_inSelectedList = true;
+                }
                 m_engine3d.UpdateLists(); // need to re-update the selected object lists
+            }
+        }
+
+        public List<Object3d> SelectedObjectList
+        {
+            get { return m_selectedobjects; }
+        }
+
+
+        public void AddToSelectionList(Object3d obj)
+        {
+            if (obj == null)
+                return;
+            if (m_selectedobjects == null)
+                SelectedObject = obj;
+            else
+            {
+                m_selectedobjects.Add(obj);
+                obj.m_inSelectedList = true;
             }
         }
 

@@ -92,6 +92,11 @@ namespace Engine3D
             m_formSmooth = new frmAmfSmoothing();
         }
 
+        public eUnit Unit
+        {
+            get { return m_unit; }
+        }
+
         public override List<Object3d> LoadModel(string filename)
         {
             m_filepath = filename;
