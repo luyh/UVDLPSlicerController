@@ -23,7 +23,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             InitializeComponent();
             mTreeViewHolder = null;
             //set some initial states
-            buttShowSliceHeight.Checked = UVDLPApp.Instance().m_appconfig.m_viewslice3dheight;
+            buttBoundingBox.Checked = UVDLPApp.Instance().m_appconfig.m_showBoundingBox;
             buttShowSlice.Checked = UVDLPApp.Instance().m_appconfig.m_viewslice3d;
             mLayerNumberScroll = null;
             mMessagePanelHolder = null;
@@ -65,7 +65,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         private void buttShowSlice_Click(object sender, EventArgs e)
         {
-            buttShowSliceHeight.Enabled = buttShowSlice.Checked;
+            //buttSliceHeight.Enabled = buttShowSlice.Checked;
             if (mLayerNumberScroll != null)
                 mLayerNumberScroll.Visible = buttShowSlice.Checked;
             UVDLPApp.Instance().m_appconfig.m_viewslice3d = buttShowSlice.Checked;
@@ -95,12 +95,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
         }
 
-        private void buttShowSliceHeight_Click(object sender, EventArgs e)
+        /*private void buttShowSliceHeight_Click(object sender, EventArgs e)
         {
-            UVDLPApp.Instance().m_appconfig.m_viewslice3dheight = buttShowSliceHeight.Checked;
+            UVDLPApp.Instance().m_appconfig.m_viewslice3dheight = buttSliceHeight.Checked;
             UVDLPApp.Instance().m_appconfig.Save(UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + UVDLPApp.m_appconfigname);
             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
-        }
+        }*/
 
         private void buttObjectProperties_Click(object sender, EventArgs e)
         {
@@ -108,6 +108,13 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             {
                 mObjectInfoPanel.Visible = buttObjectProperties.Checked;
             }
+        }
+
+        private void buttBoundingBox_Click(object sender, EventArgs e)
+        {
+            UVDLPApp.Instance().m_appconfig.m_showBoundingBox = buttBoundingBox.Checked;
+            UVDLPApp.Instance().m_appconfig.Save(UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + UVDLPApp.m_appconfigname);
+            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
         }
 
     }

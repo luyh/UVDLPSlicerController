@@ -92,6 +92,11 @@ namespace Engine3D
             m_formSmooth = new frmAmfSmoothing();
         }
 
+        public eUnit Unit
+        {
+            get { return m_unit; }
+        }
+
         public override List<Object3d> LoadModel(string filename)
         {
             m_filepath = filename;
@@ -211,7 +216,7 @@ namespace Engine3D
             m_curObject.m_fullname = m_filepath;
             m_curObject.Name = Path.GetFileName(m_filepath);
             m_curObject.Update();
-            //m_curObject.m_wireframe = 1;
+            //m_curObject.m_wireframe = 4;
             m_objList.Add(m_curObject);
             m_nobjects++;
         }

@@ -151,6 +151,9 @@
     <Compile Include="GUI\Controls\ctlToolpathGenConfig.Designer.cs">
       <DependentUpon>ctlToolpathGenConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\ctlGL.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GUI\ctlExpandPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -525,6 +528,7 @@
     <None Include="resources\CustomGUI\buttPCube.png" />
     <None Include="resources\CustomGUI\buttPCylinder.png" />
     <None Include="resources\CustomGUI\buttPSphere.png" />
+    <None Include="resources\CustomGUI\buttBoundingBox.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

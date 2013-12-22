@@ -177,7 +177,7 @@ namespace Engine3D
                 GL.Disable(EnableCap.LineSmooth);
                 foreach (Object3d obj in m_objects)
                 {
-                    if (UVDLPApp.Instance().SelectedObject == obj)                    {
+                    if (UVDLPApp.Instance().SelectedObject == obj) {
                         obj.RenderGL(alpha,true);
                     }
                     else 
@@ -188,9 +188,24 @@ namespace Engine3D
                 GL.Disable(EnableCap.Lighting);
                 GL.Disable(EnableCap.Light0);
                 GL.Enable(EnableCap.LineSmooth);
+                GL.LineWidth(1);
                 foreach (PolyLine3d ply in m_lines)
                 {
                     ply.RenderGL();
+                }
+                if (UVDLPApp.Instance().m_appconfig.m_showBoundingBox && (UVDLPApp.Instance().SelectedObjectList != null))
+                {
+                    GL.LineWidth(2);
+                    Color clr = Color.Red;
+                    foreach (Object3d obj in UVDLPApp.Instance().SelectedObjectList)
+                    {
+                        foreach (PolyLine3d ply in obj.m_boundingBox)
+                        {
+                            ply.m_color = clr;
+                            ply.RenderGL();
+                        }
+                        clr = Color.Orange;
+                    }
                 }
             }
             catch (Exception) { }

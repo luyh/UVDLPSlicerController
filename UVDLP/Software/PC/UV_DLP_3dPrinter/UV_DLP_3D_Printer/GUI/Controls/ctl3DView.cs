@@ -56,6 +56,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
             UVDLPApp.Instance().m_undoer.AsociateUndoButton(buttUndo);
             UVDLPApp.Instance().m_undoer.AsociateRedoButton(buttRedo);
+
+            //glControl1. = new GraphicsMode(GraphicsMode.Default.ColorFormat, GraphicsMode.Default.Depth, 8);
         }
 
         public void SetMessagePanelHolder(SplitContainer holder)
@@ -172,7 +174,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 GL.Enable(EnableCap.Blend);
                 GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                 GL.Hint(HintTarget.LineSmoothHint, HintMode.Nicest);
-                //GL.Hint(HintTarget.PolygonSmoothHint, HintMode.Nicest); 
+                //GL.Hint(HintTarget.PolygonSmoothHint, HintMode.Nicest);
+                float[] res = new float[2];
+                GL.GetFloat(GetPName.SmoothLineWidthRange, res);
+                DebugLogger.Instance().LogInfo("Stencil depth: " + glControl1.GraphicsMode.Stencil.ToString());
 
                 // lighting
                 if (firstTime)
@@ -223,20 +228,20 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         private void DrawISect()
         {
             // draw some lines
-            GL.Begin(BeginMode.Lines);
+            GL.LineWidth(2);
             GL.Color3(Color.Red);
-            GL.LineWidth(50);
+ 
+            GL.Begin(BeginMode.Lines);
             GL.Vertex3(m_ix - 5, m_iy, m_iz);
             GL.Vertex3(m_ix + 5, m_iy, m_iz);
-
             GL.End();
 
             GL.Begin(BeginMode.Lines);
-            GL.Color3(Color.Red);
-            GL.LineWidth(50);
             GL.Vertex3(m_ix, m_iy - 5, m_iz);
             GL.Vertex3(m_ix, m_iy + 5, m_iz);
             GL.End();
+
+            GL.LineWidth(1);
         }
 
         void DrawBackground()
@@ -641,9 +646,16 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 if (i.obj.tag != Object3d.OBJ_GROUND)
                 {
-                    UVDLPApp.Instance().SelectedObject = i.obj;
-                    objectInfoPanel.FillObjectInfo(i.obj);
-                    UVDLPApp.Instance().m_engine3d.UpdateLists();
+                    if (ModifierKeys == Keys.Control)
+                    {
+                        UVDLPApp.Instance().AddToSelectionList(i.obj);
+                    }
+                    else
+                    {
+                        UVDLPApp.Instance().SelectedObject = i.obj;
+                        objectInfoPanel.FillObjectInfo(i.obj);
+                        UVDLPApp.Instance().m_engine3d.UpdateLists();
+                    }
                     break;
                 }
             }

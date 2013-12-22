@@ -229,38 +229,28 @@ namespace Engine3D
 	        }
         }
         
-        public void RenderGL(int wireframe,bool alpha, bool selected) 
+        public void RenderGL(int wireframe,bool alpha, Color clr) 
         {
             // clip test before rendering 
             // use center point and radius to determine visibility (3d test)
             // 
             // test dot product of the transformed normal
-            Color clr = m_color;
+            //Color clr = m_color;
             if (m_hidden == true)
                 return; // not displaying this poly...
+            float oldLineWidth = 1;
             if (wireframe > 0)
             {
-                GL.Begin(BeginMode.LineLoop);//.LineStrip);
+                GL.GetFloat(GetPName.LineWidth, out oldLineWidth);
                 GL.LineWidth(wireframe);
+                GL.Begin(BeginMode.LineLoop);//.LineStrip);
             }else
             {
                 GL.Begin(BeginMode.Triangles);
-            }
-
-            if (tag == TAG_MARKDOWN)
-            {
-                clr = Color.Red;
-            }
-            else
-            {
-                if (selected)
+                if (tag == TAG_MARKDOWN)
                 {
-                    clr = Color.Green;
+                    clr = Color.Red;
                 }
-               // else 
-               // {
-               //     clr = Color.Gray;
-               // }
             }
 
             if (alpha)
@@ -284,7 +274,9 @@ namespace Engine3D
             {               
                 GL.Vertex3(p.x, p.y, p.z);
             }
-            GL.End();            
+            GL.End();
+            if (wireframe > 0)
+                GL.LineWidth(oldLineWidth);
         }
         
 

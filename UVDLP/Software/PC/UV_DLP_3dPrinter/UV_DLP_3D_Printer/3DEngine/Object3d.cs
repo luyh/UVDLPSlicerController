@@ -17,6 +17,7 @@ namespace Engine3D
     {
         public List<Point3d> m_lstpoints; // list of 3d points in object
         public List<Polygon> m_lstpolys;// list of polygons
+        public List<PolyLine3d> m_boundingBox;
         private string m_name; // just the filename
         public string m_fullname; // full path with filename
         private bool m_visible;
@@ -28,7 +29,9 @@ namespace Engine3D
         public static int OBJ_NORMAL        =0; // a regular old object
         public static int OBJ_SUPPORT = 1; // a generated support
         public static int OBJ_GROUND = 2; // ground plane usewd for hit-testing
+        public bool m_inSelectedList = false;
         private int m_listid; // gl call list id 
+
         public Object3d() 
         {
             Init();
@@ -200,13 +203,38 @@ namespace Engine3D
         {
             if (m_listid == -1)
             {
-                m_listid = GetListID();
-                GL.NewList(m_listid, ListMode.CompileAndExecute);
+                //m_listid = GetListID();
+                //GL.NewList(m_listid, ListMode.CompileAndExecute);
+                if (m_inSelectedList)
+                {
+                    GL.Enable(EnableCap.StencilTest);
+                    GL.StencilFunc(StencilFunction.Always, 1, 0xFF);
+                    GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Replace);
+                    GL.StencilMask(0xFF);
+                    //GL.DepthMask(false);
+                    GL.Clear(ClearBufferMask.StencilBufferBit);
+                }
                 foreach (Polygon poly in m_lstpolys)
                 {
-                    poly.RenderGL(this.m_wireframe, showalpha, selected);
+                    poly.RenderGL(this.m_wireframe, showalpha, poly.m_color);
                 }
-                GL.EndList();
+                if (m_inSelectedList)
+                {
+                    GL.Disable(EnableCap.Lighting);
+                    GL.StencilFunc(StencilFunction.Notequal, 1, 0xFF);
+                    GL.StencilMask(0);
+                    GL.DepthMask(true);
+                    Color selcol = Color.Orange;
+                    if (selected)
+                        selcol = Color.Red;
+                    foreach (Polygon poly in m_lstpolys)
+                    {
+                        poly.RenderGL(4, showalpha, selcol);
+                    }
+                    GL.Disable(EnableCap.StencilTest);
+                    GL.Enable(EnableCap.Lighting);
+                }
+                //GL.EndList();
             }
             else
             {
@@ -461,6 +489,7 @@ namespace Engine3D
                 CalcCenter();
                 CalcRadius();
                 FindMinMax();
+                UpdateBoundingBox();
                 foreach (Polygon p in m_lstpolys)
                 {
                     p.Update();
@@ -486,6 +515,41 @@ namespace Engine3D
                 m_lstpolys.Add(ply);
             }
             Update();
+        }
+
+        public void UpdateBoundingBox()
+        {
+            m_boundingBox = new List<PolyLine3d>();
+            PolyLine3d face = new PolyLine3d();
+            face.AddPoint(new Point3d(m_min.x, m_min.y, m_min.z));
+            face.AddPoint(new Point3d(m_max.x, m_min.y, m_min.z));
+            face.AddPoint(new Point3d(m_max.x, m_max.y, m_min.z));
+            face.AddPoint(new Point3d(m_min.x, m_max.y, m_min.z));
+            face.AddPoint(new Point3d(m_min.x, m_min.y, m_min.z));
+            m_boundingBox.Add(face);
+            face = new PolyLine3d();
+            face.AddPoint(new Point3d(m_min.x, m_min.y, m_max.z));
+            face.AddPoint(new Point3d(m_max.x, m_min.y, m_max.z));
+            face.AddPoint(new Point3d(m_max.x, m_max.y, m_max.z));
+            face.AddPoint(new Point3d(m_min.x, m_max.y, m_max.z));
+            face.AddPoint(new Point3d(m_min.x, m_min.y, m_max.z));
+            m_boundingBox.Add(face);
+            face = new PolyLine3d();
+            face.AddPoint(new Point3d(m_min.x, m_min.y, m_min.z));
+            face.AddPoint(new Point3d(m_min.x, m_min.y, m_max.z));
+            m_boundingBox.Add(face);
+            face = new PolyLine3d();
+            face.AddPoint(new Point3d(m_max.x, m_min.y, m_min.z));
+            face.AddPoint(new Point3d(m_max.x, m_min.y, m_max.z));
+            m_boundingBox.Add(face);
+            face = new PolyLine3d();
+            face.AddPoint(new Point3d(m_max.x, m_max.y, m_min.z));
+            face.AddPoint(new Point3d(m_max.x, m_max.y, m_max.z));
+            m_boundingBox.Add(face);
+            face = new PolyLine3d();
+            face.AddPoint(new Point3d(m_min.x, m_max.y, m_min.z));
+            face.AddPoint(new Point3d(m_min.x, m_max.y, m_max.z));
+            m_boundingBox.Add(face);
         }
 
         /*Move the model in object space */
