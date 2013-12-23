@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Timers;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
@@ -34,7 +33,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         bool mChecked;
         protected int mAutorepeatInitial;
         protected int mAutorepeatPeriod;
-        protected System.Timers.Timer mAuturepTimer = null;
+        protected Timer mAuturepTimer = null;
         protected MouseEventArgs mLastMouseArgs;
        //Control mCtlRefPos;
 
@@ -99,6 +98,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             mAnchorVert = AnchorTypes.None;
             mAutorepeatInitial = 0;
             mAutorepeatPeriod = 100;
+            
         }
 
         protected void SetupAutorepeat()
@@ -107,8 +107,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             {
                 if (mAuturepTimer == null)
                 {
-                    mAuturepTimer = new System.Timers.Timer();
-                    mAuturepTimer.Elapsed += new System.Timers.ElapsedEventHandler(mAuturepTimer_Elapsed);
+                    mAuturepTimer = new Timer();
+                    mAuturepTimer.Tick += new EventHandler(mAuturepTimer_Tick);
                 }
             }
             else
@@ -133,10 +133,10 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         }
 
 
-        private void mAuturepTimer_Elapsed(object sender, ElapsedEventArgs e)
+        void mAuturepTimer_Tick(object sender, EventArgs e)
         {
             mAuturepTimer.Interval = mAutorepeatPeriod;
-            BeginInvoke(new MethodInvoker(delegate() { OnClick(mLastMouseArgs); }));
+            OnClick(mLastMouseArgs);
         }
 
         protected void StopAutorepeat()
@@ -144,7 +144,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (mAuturepTimer != null)
                 mAuturepTimer.Stop();
         }
-        
+
         public void SetPositioning(AnchorTypes horiz, AnchorTypes vert, int gapx, int gapy)
         {
             mAnchorHoriz = horiz;
@@ -196,6 +196,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         protected override void OnMouseLeave(EventArgs e)
         {
             mCtlState = CtlState.Normal;
+            StopAutorepeat();
             Invalidate();
             base.OnMouseLeave(e);
         }

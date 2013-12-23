@@ -194,7 +194,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             Capture = false;
             mDragging = false;
             StopAutorepeat();
-            base.OnMouseUp(e);
+            //base.OnMouseUp(e);
         }
 
         protected override void OnResize(EventArgs e)
@@ -205,7 +205,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         protected override void OnClick(EventArgs e)
         {
-            ScrollPressed(mLastMouseArgs.X);
+            if (MouseButtons == System.Windows.Forms.MouseButtons.Left)
+                ScrollPressed(mLastMouseArgs.X);
             base.OnClick(e);
         }
     }
