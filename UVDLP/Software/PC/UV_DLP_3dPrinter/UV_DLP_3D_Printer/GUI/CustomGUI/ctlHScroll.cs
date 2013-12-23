@@ -6,7 +6,6 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Timers;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {

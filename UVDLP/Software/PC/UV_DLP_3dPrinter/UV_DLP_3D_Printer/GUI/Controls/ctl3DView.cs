@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Timers;
 using System.Windows.Forms;
 using UV_DLP_3D_Printer.GUI.CustomGUI;
 using Engine3D;
@@ -23,7 +22,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         bool m_movingobjectmode = false; // for moving objects while the shift key is held down
         ctlImageButton m_pressedButt = null;
         Control m_selectedControl = null;
-        System.Timers.Timer m_modelAnimTmr;
+        Timer m_modelAnimTmr;
         GLCamera m_camera;
         bool loaded = false;
         float m_ix = 0.0f, m_iy = 0.0f, m_iz = 2.0f;
@@ -694,13 +693,13 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             if (m_modelAnimTmr != null)
                 return;
             m_camera.ResetViewAnim(0, -200, 0, 20, 20);
-            m_modelAnimTmr = new System.Timers.Timer(25);
-            m_modelAnimTmr.Elapsed += new ElapsedEventHandler(ModelAnimTimerElapsed);
-            m_modelAnimTmr.AutoReset = true;
+            m_modelAnimTmr = new Timer();
+            m_modelAnimTmr.Interval = 25;
+            m_modelAnimTmr.Tick += new EventHandler(m_modelAnimTmr_Tick);
             m_modelAnimTmr.Start();
         }
 
-        void ModelAnimTimerElapsed(Object sender, ElapsedEventArgs args)
+        void m_modelAnimTmr_Tick(object sender, EventArgs e)
         {
             if (m_camera.AnimTick() == false)
             {
