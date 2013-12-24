@@ -162,8 +162,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            ScrollPressed(e.X);
             base.OnMouseDown(e);
+            ScrollPressed(e.X);
         }
 
         protected void SetSliderPos(int newpos)
