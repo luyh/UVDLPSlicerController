@@ -104,16 +104,22 @@ namespace UV_DLP_3D_Printer.GUI
                     {
                         SliceBuildConfig sp = UVDLPApp.Instance().m_buildparms;
                         sp.UpdateFrom(UVDLPApp.Instance().m_printerinfo); // make sure we've got the correct display size and PixPerMM values                        
-                        int numslices = UVDLPApp.Instance().m_slicer.GetNumberOfSlices(sp); // determine the number of slices
-                        if(sp.export == true)
+                        int numslices = UVDLPApp.Instance().m_slicer.GetNumberOfSlices(sp); // determine the number of slices\
+                        /*
+                        if (UVDLPApp.Instance().m_slicefile != null) // questioning this...
                         {
-                            // here we tell the slicefile that after slicing, we're loading images from disk/zip
-                            UVDLPApp.Instance().m_slicefile.m_mode = SliceFile.SFMode.eLoaded; 
-                        }else
-                        {
-                            // here, we're telling the slicefile to render the slice files on a per-needed basis
-                            UVDLPApp.Instance().m_slicefile.m_mode = SliceFile.SFMode.eImmediate; 
+                            if (sp.export == true)
+                            {
+                                // here we tell the slicefile that after slicing, we're loading images from disk/zip
+                                UVDLPApp.Instance().m_slicefile.m_mode = SliceFile.SFMode.eLoaded;
+                            }
+                            else
+                            {
+                                // here, we're telling the slicefile to render the slice files on a per-needed basis
+                                UVDLPApp.Instance().m_slicefile.m_mode = SliceFile.SFMode.eImmediate;
+                            }
                         }
+                         * */
                         UVDLPApp.Instance().m_slicefile = UVDLPApp.Instance().m_slicer.Slice(sp); // start slicing the scene
                     }
                 }
@@ -141,7 +147,7 @@ namespace UV_DLP_3D_Printer.GUI
             }
             catch (Exception ex)
             {
-                DebugLogger.Instance().LogRecord(ex.Message);
+                DebugLogger.Instance().LogError(ex);
             }
         }
         private void SetProgressSpinner(bool val) 

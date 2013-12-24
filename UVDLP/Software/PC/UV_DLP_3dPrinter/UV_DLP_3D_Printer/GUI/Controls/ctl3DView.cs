@@ -648,6 +648,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     if (ModifierKeys == Keys.Control)
                     {
                         UVDLPApp.Instance().AddToSelectionList(i.obj);
+                        UVDLPApp.Instance().m_engine3d.UpdateLists();
                     }
                     else
                     {

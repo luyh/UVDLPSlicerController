@@ -203,8 +203,8 @@ namespace Engine3D
         {
             if (m_listid == -1)
             {
-                //m_listid = GetListID();
-                //GL.NewList(m_listid, ListMode.CompileAndExecute);
+                m_listid = GetListID();
+                GL.NewList(m_listid, ListMode.CompileAndExecute);
                 if (m_inSelectedList)
                 {
                     GL.Enable(EnableCap.StencilTest);
@@ -234,7 +234,7 @@ namespace Engine3D
                     GL.Disable(EnableCap.StencilTest);
                     GL.Enable(EnableCap.Lighting);
                 }
-                //GL.EndList();
+                GL.EndList();
             }
             else
             {

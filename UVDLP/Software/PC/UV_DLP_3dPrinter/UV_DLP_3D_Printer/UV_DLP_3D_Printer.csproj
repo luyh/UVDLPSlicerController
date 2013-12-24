@@ -265,6 +265,12 @@
     <Compile Include="GUI\frmConnection.Designer.cs">
       <DependentUpon>frmConnection.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\frmLicense.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmLicense.Designer.cs">
+      <DependentUpon>frmLicense.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frmMeshHoles.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -309,6 +315,7 @@
     <Compile Include="Slicing\PreProcessor.cs" />
     <Compile Include="Slicing\SliceFile.cs" />
     <Compile Include="3DEngine\SupportGenerator.cs" />
+    <Compile Include="Utility\Authentication.cs" />
     <Compile Include="Utility\DebugLogger.cs" />
     <Compile Include="GUI\frmDLP.cs">
       <SubType>Form</SubType>
@@ -410,6 +417,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmConnection.resx">
       <DependentUpon>frmConnection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmLicense.resx">
+      <DependentUpon>frmLicense.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>

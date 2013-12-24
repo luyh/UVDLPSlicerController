@@ -33,6 +33,7 @@ namespace UV_DLP_3D_Printer
         public bool m_driverdebuglog;  // enable driver level debug logging of communication
         public bool m_ignoreGCrsp; // ignore the gcode responses, and go by timing
         public bool m_showBoundingBox;
+        public string m_licensekey;
 
         public void CreateDefault() 
         {
@@ -50,6 +51,7 @@ namespace UV_DLP_3D_Printer
             m_driverdebuglog = false;
             m_ignoreGCrsp = false;
             m_showBoundingBox = true;
+            m_licensekey = "00000000000000000000";// default to 20 0's
             // m_drivertype = eDriverType.eNULL_DRIVER;
         }
 
@@ -74,7 +76,7 @@ namespace UV_DLP_3D_Printer
                 m_driverdebuglog = xh.GetBool(ac, "DriverLogging", false);
                 m_ignoreGCrsp = xh.GetBool(ac, "IgnoreGCRsp", false);
                 m_showBoundingBox = xh.GetBool(ac, "ShowBoundingBox", false);
-                
+                m_licensekey = xh.GetString(ac, "LicenseKey", "00000000000000000000");
                 if (!fileExist)
                 {
                     xh.Save(FILE_VERSION);
@@ -108,6 +110,7 @@ namespace UV_DLP_3D_Printer
                 xh.SetParameter(ac, "DriverLogging", m_driverdebuglog);
                 xh.SetParameter(ac, "IgnoreGCRsp", m_ignoreGCrsp);
                 xh.SetParameter(ac, "ShowBoundingBox", m_showBoundingBox);
+                xh.SetParameter(ac, "LicenseKey", m_licensekey);
                 xh.Save(FILE_VERSION);
                 return true;
             }catch(Exception ex)
