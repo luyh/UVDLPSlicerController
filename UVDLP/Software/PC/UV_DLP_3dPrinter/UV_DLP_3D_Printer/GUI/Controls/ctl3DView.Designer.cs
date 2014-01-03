@@ -116,7 +116,7 @@
             this.ctlMeshTools1.BackColor = System.Drawing.Color.Navy;
             this.ctlMeshTools1.Location = new System.Drawing.Point(94, 241);
             this.ctlMeshTools1.Name = "ctlMeshTools1";
-            this.ctlMeshTools1.Size = new System.Drawing.Size(170, 214);
+            this.ctlMeshTools1.Size = new System.Drawing.Size(343, 214);
             this.ctlMeshTools1.TabIndex = 32;
             this.ctlMeshTools1.Visible = false;
             // 
@@ -449,7 +449,6 @@
         private CustomGUI.ctlImageButton buttRotate;
         private CustomGUI.ctlScale ctlObjScale;
         private CustomGUI.ctlMove ctlObjMove;
-        private OpenTK.GLControl glControl1;
         private System.Windows.Forms.ContextMenuStrip contextMenuSupport;
         private System.Windows.Forms.ToolStripMenuItem cmdRemoveAllSupports;
         private System.Windows.Forms.ContextMenuStrip contextMenuObject;
@@ -459,5 +458,6 @@
         private CustomGUI.ctlImageButton buttRedo;
         private CustomGUI.ctlImageButton buttMeshTools;
         private CustomGUI.ctlMeshTools ctlMeshTools1;
+        private ctlGL glControl1;
     }
 }

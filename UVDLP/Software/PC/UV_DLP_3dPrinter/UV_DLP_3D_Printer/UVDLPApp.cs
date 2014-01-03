@@ -19,6 +19,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UV_DLP_3D_Printer.Plugin;
 using System.Windows;
 using System.Reflection;
+using UV_DLP_3D_Printer._3DEngine.CSG;
 
 namespace UV_DLP_3D_Printer
 {
@@ -112,6 +113,7 @@ namespace UV_DLP_3D_Printer
             m_supportconfig = new SupportConfig();
             m_supportgenerator = new SupportGenerator();
             m_supportgenerator.SupportEvent+= new SupportGeneratorEvent(SupEvent);
+            CSG.Instance().CSGEvent += new CSG.CSGEventDel(CSGEvent);
             m_proj_cmd_lst = new prjcmdlst();
             m_plugins = new List<IPlugin>(); // list of user plug-ins
             m_undoer = new Undoer();
@@ -121,6 +123,29 @@ namespace UV_DLP_3D_Printer
             Windows,
             Linux,
             Mac
+        }
+        public void CSGEvent(CSG.eCSGEvent ev, string msg, Object3d dat) 
+        {
+            try
+            {
+                switch (ev)
+                {
+                    case CSG.eCSGEvent.eCompleted:
+                        m_engine3d.AddObject(dat);
+                        RaiseAppEvent(eAppEvent.eReDraw, "");
+                        break;
+                    case CSG.eCSGEvent.eError:
+                        break;
+                    case CSG.eCSGEvent.eProgress:
+                        break;
+                    case CSG.eCSGEvent.eStarted:
+                        break;
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
         }
         public void SupEvent(SupportEvent ev, string message, Object obj) 
         {
