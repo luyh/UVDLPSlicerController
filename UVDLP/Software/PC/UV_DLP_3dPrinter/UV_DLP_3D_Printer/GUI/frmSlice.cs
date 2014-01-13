@@ -90,6 +90,7 @@ namespace UV_DLP_3D_Printer.GUI
 
         private void cmdSlice_Click(object sender, EventArgs e)
         {
+            LoadSelectedProfile();
             try
             {
                 if (cmbSliceEngine.SelectedIndex == -1) 
@@ -264,6 +265,47 @@ namespace UV_DLP_3D_Printer.GUI
             }
         }
 
+        private void PopulateProfiles()
+        {
+            try
+            {
+                cmbSliceProfiles.Items.Clear();
+                foreach (string prof in UVDLPApp.Instance().SliceProfiles())
+                {
+                    cmbSliceProfiles.Items.Add(prof);
+                }
+                //get the current profile name
+                string curprof = UVDLPApp.Instance().GetCurrentSliceProfileName();
+                cmbSliceProfiles.SelectedItem = curprof;
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            PopulateProfiles();
+            base.OnShown(e);
+        }
+
+        private void LoadSelectedProfile()
+        {
+            if (cmbSliceProfiles.SelectedIndex == -1)
+            {
+                //blank items
+                return;
+            }
+            else
+            {
+                //set this profile to be the active one for the program                
+                string shortname = cmbSliceProfiles.SelectedItem.ToString();
+                string fname = UVDLPApp.Instance().m_PathProfiles + UVDLPApp.m_pathsep + shortname + ".slicing";
+                UVDLPApp.Instance().LoadBuildSliceProfile(fname);
+            }
+
+        }
 
     }
 }

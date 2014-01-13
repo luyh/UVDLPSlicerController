@@ -35,12 +35,14 @@
             this.cmbSliceEngine = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.cmbSliceProfiles = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // cmdSliceOptions
             // 
-            this.cmdSliceOptions.Location = new System.Drawing.Point(166, 12);
+            this.cmdSliceOptions.Location = new System.Drawing.Point(353, 12);
             this.cmdSliceOptions.Name = "cmdSliceOptions";
             this.cmdSliceOptions.Size = new System.Drawing.Size(122, 36);
             this.cmdSliceOptions.TabIndex = 27;
@@ -52,7 +54,7 @@
             // lblMessage
             // 
             this.lblMessage.AutoSize = true;
-            this.lblMessage.Location = new System.Drawing.Point(150, 65);
+            this.lblMessage.Location = new System.Drawing.Point(150, 22);
             this.lblMessage.Name = "lblMessage";
             this.lblMessage.Size = new System.Drawing.Size(0, 17);
             this.lblMessage.TabIndex = 26;
@@ -80,7 +82,7 @@
             this.cmbSliceEngine.Items.AddRange(new object[] {
             "UV DLP Slicer",
             "Slic3r"});
-            this.cmbSliceEngine.Location = new System.Drawing.Point(166, 148);
+            this.cmbSliceEngine.Location = new System.Drawing.Point(237, 146);
             this.cmbSliceEngine.Name = "cmbSliceEngine";
             this.cmbSliceEngine.Size = new System.Drawing.Size(194, 24);
             this.cmbSliceEngine.TabIndex = 29;
@@ -89,7 +91,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(38, 154);
+            this.label1.Location = new System.Drawing.Point(100, 150);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(97, 17);
             this.label1.TabIndex = 30;
@@ -105,11 +107,31 @@
             this.pictureBox1.TabIndex = 31;
             this.pictureBox1.TabStop = false;
             // 
+            // cmbSliceProfiles
+            // 
+            this.cmbSliceProfiles.FormattingEnabled = true;
+            this.cmbSliceProfiles.Location = new System.Drawing.Point(204, 57);
+            this.cmbSliceProfiles.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmbSliceProfiles.Name = "cmbSliceProfiles";
+            this.cmbSliceProfiles.Size = new System.Drawing.Size(193, 24);
+            this.cmbSliceProfiles.TabIndex = 32;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(101, 60);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(97, 17);
+            this.label2.TabIndex = 33;
+            this.label2.Text = "Slicing Profile:";
+            // 
             // frmSlice
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(490, 248);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.cmbSliceProfiles);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmbSliceEngine);
@@ -140,5 +162,7 @@
         private System.Windows.Forms.ComboBox cmbSliceEngine;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ComboBox cmbSliceProfiles;
+        private System.Windows.Forms.Label label2;
     }
 }
