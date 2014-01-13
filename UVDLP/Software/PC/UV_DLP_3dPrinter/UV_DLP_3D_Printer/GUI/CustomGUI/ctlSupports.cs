@@ -25,6 +25,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             SetData();
             m_changingData = false;
             m_numFBSelected = true;
+            numDownAngle.FloatVal = 45;
+            numDownAngle.IntVal = 45;
         }
 
         private void SetData()
