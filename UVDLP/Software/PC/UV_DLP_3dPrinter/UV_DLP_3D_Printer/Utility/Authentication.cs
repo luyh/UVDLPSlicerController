@@ -6,17 +6,16 @@ using System.Security.Cryptography;
 
 namespace UV_DLP_3D_Printer
 {
-    public enum eVendorIDs 
-    {
-        eDefault                = 0, // no vendor - Default License
-        ePro                    = 1, // pro license
-        eALT3                   = 2, // Alt3 technologies
-        eStalagtite3D_SPOTA     = 3  
-    }
     public class AuthenticationManager
     {
+        public static int VID_Default  = 0; // no vendor - Default License
+        public static int VID_Pro                    = 1; // pro license
+        public static int VID_ALT3                   = 2; // Alt3 technologies
+        public static int VID_Stalagtite3D_SPOTA     = 3;
+        public static int VID_Elite = 4;
+
         private bool auth;
-        private eVendorIDs vendorid;
+        private int vendorid;
         private static AuthenticationManager m_instance = null;
 
         public AuthenticationManager Instance() 
@@ -31,7 +30,7 @@ namespace UV_DLP_3D_Printer
         public AuthenticationManager() 
         {
             auth = false;
-            vendorid = eVendorIDs.eDefault; // no vendor
+            vendorid = VID_Default; // no vendor
         }
         /// <summary>
         /// This returns whether or not the key has been authenticated
@@ -58,7 +57,7 @@ namespace UV_DLP_3D_Printer
         /// The validateKey function must be called first
         /// </summary>
         /// <returns></returns>
-        public eVendorIDs GetVendorID() 
+        public int GetVendorID() 
         {
             return vendorid;
         }

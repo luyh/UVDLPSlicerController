@@ -371,7 +371,7 @@ namespace UV_DLP_3D_Printer
                             message = "Print Completed";
                             SetButtonStatuses();
                             ctlMachineControl1.BuildStopped();
-                            MessageBox.Show("Build Completed");
+                            //MessageBox.Show("Build Completed");
                             SetMainMessage(message);
                             DebugLogger.Instance().LogRecord(message);
                         }
