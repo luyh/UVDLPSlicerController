@@ -109,6 +109,7 @@
             // 
             // cmbSliceProfiles
             // 
+            this.cmbSliceProfiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSliceProfiles.FormattingEnabled = true;
             this.cmbSliceProfiles.Location = new System.Drawing.Point(204, 57);
             this.cmbSliceProfiles.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
