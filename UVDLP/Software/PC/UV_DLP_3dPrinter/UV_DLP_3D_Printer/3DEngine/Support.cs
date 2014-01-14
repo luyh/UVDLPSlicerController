@@ -180,7 +180,7 @@ namespace Engine3D
             sval = 1/sval;
             Scale(1.0f, 1.0f,(float)sval);        
         }
-         public override void RenderGL(bool showalpha, bool selected)
+        public override void RenderGL(bool showalpha, bool selected, bool renderSelection)
          {
              GL.Begin(BeginMode.Lines);//.LineStrip);
              GL.Color4(Color4.Red);
@@ -217,7 +217,7 @@ namespace Engine3D
                  GL.Vertex3(p.x, p.y, p.z);
              }
              GL.End();
-             base.RenderGL(showalpha, selected);
+             base.RenderGL(showalpha, selected, renderSelection);
          }
          
         /*

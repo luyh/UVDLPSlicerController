@@ -178,11 +178,11 @@ namespace Engine3D
                 foreach (Object3d obj in m_objects)
                 {
                     if (UVDLPApp.Instance().SelectedObject == obj) {
-                        obj.RenderGL(alpha,true);
+                        obj.RenderGL(alpha, true, !UVDLPApp.Instance().m_appconfig.m_showBoundingBox);
                     }
                     else 
                     {
-                        obj.RenderGL(alpha, false);
+                        obj.RenderGL(alpha, false, !UVDLPApp.Instance().m_appconfig.m_showBoundingBox);
                     }
                 }
                 GL.Disable(EnableCap.Lighting);
