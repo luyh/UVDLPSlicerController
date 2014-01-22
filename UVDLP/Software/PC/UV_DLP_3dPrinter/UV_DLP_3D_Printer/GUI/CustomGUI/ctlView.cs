@@ -11,7 +11,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
-    public partial class ctlView : UserControl
+    public partial class ctlView : ctlUserPanel
     {
         SplitContainer mTreeViewHolder;
         SplitContainer mMessagePanelHolder;

@@ -853,6 +853,8 @@ namespace UV_DLP_3D_Printer
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form1 frm = new Form1();
+            frm.Set3DviewControl(ctl3DView1);
+            frm.TopMost = true;
             frm.Show();
         }
 

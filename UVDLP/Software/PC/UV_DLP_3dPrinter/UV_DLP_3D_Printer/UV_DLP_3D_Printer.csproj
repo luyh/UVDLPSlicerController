@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="3DEngine\ArcBall.cs" />
+    <Compile Include="3DEngine\C2DGraphics.cs" />
     <Compile Include="3DEngine\CSG\CSG.cs" />
     <Compile Include="3DEngine\CSG\csgjs_csnode.cs" />
     <Compile Include="3DEngine\CSG\csgjs_model.cs" />
@@ -222,6 +223,9 @@
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlToolTip.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlUserPanel.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlView.cs">
       <SubType>UserControl</SubType>
@@ -474,6 +478,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Notes.txt" />
+    <None Include="resources\cwtexture1.pack" />
     <None Include="resources\IconsLandVistaArrowIconsDemo\PNG\64x64\Left1Blue.png" />
     <None Include="resources\IconsLandVistaArrowIconsDemo\PNG\64x64\Right1Blue.png" />
     <None Include="resources\9-4-2013 12-40-20 PM.png" />
@@ -539,6 +544,11 @@
     <None Include="resources\CustomGUI\buttPCylinder.png" />
     <None Include="resources\CustomGUI\buttPSphere.png" />
     <None Include="resources\CustomGUI\buttBoundingBox.png" />
+    <None Include="resources\move_bgnd.png" />
+    <None Include="resources\cwlogo_round.png" />
+    <None Include="resources\cwtexture1.txt" />
+    <None Include="resources\cwtexture1.png" />
+    <None Include="resources\cwtexture1_index.txt" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

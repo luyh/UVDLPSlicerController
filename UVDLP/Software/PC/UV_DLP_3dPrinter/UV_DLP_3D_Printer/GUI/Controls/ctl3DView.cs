@@ -36,6 +36,12 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         OpenTK.Matrix4 m_2dView;
         private bool firstTime = true;
         float m_savex, m_savey, m_saveh; // m_savez
+        C2DGraphics gr2d;
+        public List<ctlBgnd> ctlBgndList;
+        
+
+        public delegate void On3dViewRedraw();
+        public event On3dViewRedraw Event3DViewRedraw;
 
         public Form m_splash = null;
 
@@ -57,6 +63,16 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             UVDLPApp.Instance().m_undoer.AsociateRedoButton(buttRedo);
 
             //glControl1. = new GraphicsMode(GraphicsMode.Default.ColorFormat, GraphicsMode.Default.Depth, 8);
+            gr2d = new C2DGraphics();
+            ctlBgndList = new List<ctlBgnd>();
+
+            ctlObjScale.c3d = this;
+            ctlObjRotate.c3d = this;
+            ctlObjMove.c3d = this;
+            ctlSupport.c3d = this;
+            objectInfoPanel.c3d = this;
+            ctlViewOptions.c3d = this;
+            ctlMeshTools1.c3d = this;
         }
 
         public void SetMessagePanelHolder(SplitContainer holder)
@@ -119,16 +135,24 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             GL.MatrixMode(MatrixMode.Modelview);
             //GL.LoadIdentity();
             GL.LoadMatrix(ref m_2dView);
+            GL.Disable(EnableCap.Lighting);
+            GL.Disable(EnableCap.DepthTest);
+            GL.CullFace(CullFaceMode.Front); // the 2d view is reverse looking             
         }
 
         protected void Set3DView()
         {
+            GL.CullFace(CullFaceMode.Back); // specify culling backfaces               
+            if (!UVDLPApp.Instance().m_engine3d.m_alpha)
+                GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.Lighting);
             GL.MatrixMode(MatrixMode.Projection);
             //GL.LoadIdentity();
             GL.LoadMatrix(ref m_projection);
             GL.MatrixMode(MatrixMode.Modelview);
             //GL.LoadIdentity();
             GL.LoadMatrix(ref m_modelView);
+            m_camera.SetViewGL();
         }
 
         private void SetupViewport()
@@ -152,7 +176,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(0.55f, aspect, 1, 2000);
                 m_modelView = OpenTK.Matrix4.LookAt(new OpenTK.Vector3(5, 0, -5), new OpenTK.Vector3(0, 0, 0), new OpenTK.Vector3(0, 0, 1));
                 
-                m_ortho = OpenTK.Matrix4.CreateOrthographicOffCenter(0, w, 0, h, 1, 2000);
+                m_ortho = OpenTK.Matrix4.CreateOrthographicOffCenter(0, w, h, 0, 1, 2000);
                 m_2dView = OpenTK.Matrix4.LookAt(new OpenTK.Vector3(0, 0, 10), new OpenTK.Vector3(0, 0, 0), new OpenTK.Vector3(0, 1, 0));
 
                 GL.ShadeModel(ShadingModel.Smooth); // tell it to shade smoothly
@@ -188,6 +212,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     GL.Light(LightName.Light0, LightParameter.Diffuse, Color.LightGray);
                 }
                 Set3DView();
+
+                gr2d.LoadTexture(global::UV_DLP_3D_Printer.Properties.Resources.cwtexture1,
+                    global::UV_DLP_3D_Printer.Properties.Resources.cwtexture1_index);
 
                 firstTime = false;
             }
@@ -248,22 +275,34 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             int w = glControl1.Width;
             int h = glControl1.Height;
             Set2DView();
-            GL.Disable(EnableCap.Lighting);
-            GL.Disable(EnableCap.DepthTest);
             GL.Begin(BeginMode.Quads);
-            GL.Color3(Color.LightBlue);
+            GL.Color3(Color.AliceBlue);
             GL.Vertex3(0, 0, 0);
-            GL.Color3(Color.SkyBlue);
+            GL.Color3(Color.AliceBlue);
             GL.Vertex3(w, 0, 0);
-            GL.Color3(Color.AliceBlue);
+            GL.Color3(Color.SkyBlue);
             GL.Vertex3(w, h, 0);
-            GL.Color3(Color.AliceBlue);
+            GL.Color3(Color.LightBlue);
             GL.Vertex3(0, h, 0);
             GL.End();
-            if (!UVDLPApp.Instance().m_engine3d.m_alpha)
-                GL.Enable(EnableCap.DepthTest); 
-            GL.Enable(EnableCap.Lighting);
 
+            //SetAlpha(m_showalpha);
+            Set3DView();
+        }
+
+        void DrawForeground()
+        {
+            int w = glControl1.Width;
+            int h = glControl1.Height;
+            Set2DView();
+            gr2d.Rectangle(0,0,w,70,Color.RoyalBlue);
+            GL.Color3(Color.White);
+            gr2d.Image("cwlogo_round", w / 2 - 50, 0);
+            foreach (ctlBgnd cb in ctlBgndList)
+            {
+                GL.Color3(cb.col);
+                gr2d.Panel9("trimpanel", cb.x, cb.y, cb.w, cb.h);
+            }
             //SetAlpha(m_showalpha);
             Set3DView();
         }
@@ -282,13 +321,16 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             //GL.LoadIdentity(); // assuming we're in the model matrix still
             SetAlpha(UVDLPApp.Instance().m_engine3d.m_alpha);
             DrawBackground();
-            m_camera.SetViewGL();
-
+ 
             UVDLPApp.Instance().Engine3D.RenderGL();
             DrawISect();
             Render3dSlice();
+            //GL.Flush();
+            DrawForeground();
             GL.Flush();
             glControl1.SwapBuffers();
+            if (Event3DViewRedraw != null)
+                Event3DViewRedraw();
         }
 
         private void Render3dSlice()
@@ -729,8 +771,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_pressedButt = butt;
                 m_selectedControl = ctl;
                 butt.Gapx += 5;
-                ctl.Location = new Point(butt.Location.X + butt.Width,
-                    butt.Location.Y + butt.Height - ctl.Height);
+                ctl.Location = new Point(butt.Location.X + butt.Width + 16,
+                    butt.Location.Y + butt.Height - ctl.Height - 14);
                 ctl.Visible = true;
             }
         }
@@ -764,6 +806,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             ShowPanel(buttScale, ctlObjScale);
         }
+
         #endregion 3d View buttons
 
 
@@ -920,10 +963,15 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             #endregion Scene tree
 
         }
-
-
-
-
  
     }
+
+    public class ctlBgnd
+    {
+        public int x, y;
+        public int w, h;
+        public Color col;
+    }
+
+
 }
