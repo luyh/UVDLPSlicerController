@@ -12,7 +12,7 @@ using UV_DLP_3D_Printer._3DEngine.CSG;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
-    public partial class ctlMeshTools : UserControl
+    public partial class ctlMeshTools : ctlUserPanel
     {
         private enum ePrimType 
         {

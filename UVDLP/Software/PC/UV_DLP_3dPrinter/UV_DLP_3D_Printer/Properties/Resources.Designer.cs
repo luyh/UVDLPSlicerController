@@ -459,6 +459,48 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap cwlogo_round {
+            get {
+                object obj = ResourceManager.GetObject("cwlogo_round", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap cwtexture1 {
+            get {
+                object obj = ResourceManager.GetObject("cwtexture1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///cwtexture1.png
+        ///format: RGBA8888
+        ///filter: Linear,Linear
+        ///repeat: none
+        ///cwlogo_round
+        ///  rotate: false
+        ///  xy: 1, 1
+        ///  size: 100, 100
+        ///  orig: 100, 100
+        ///  offset: 0, 0
+        ///  index: -1
+        ///trimpanel
+        ///  rotate: false
+        ///  xy: 103, 11
+        ///  size: 90, 90
+        ///  orig: 90, 90
+        ///  offset: 0, 0
+        ///  index: -1
+        ///.
+        /// </summary>
+        public static string cwtexture1_index {
+            get {
+                return ResourceManager.GetString("cwtexture1_index", resourceCulture);
+            }
+        }
+        
         public static System.Drawing.Bitmap Disconnect {
             get {
                 object obj = ResourceManager.GetObject("Disconnect", resourceCulture);
@@ -511,6 +553,13 @@ namespace UV_DLP_3D_Printer.Properties {
         public static System.Drawing.Bitmap move {
             get {
                 object obj = ResourceManager.GetObject("move", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap move_bgnd {
+            get {
+                object obj = ResourceManager.GetObject("move_bgnd", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

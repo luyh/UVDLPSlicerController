@@ -10,7 +10,7 @@ using Engine3D;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
-    public partial class ctlMove : UserControl
+    public partial class ctlMove : ctlUserPanel
     {
         public ctlMove()
         {

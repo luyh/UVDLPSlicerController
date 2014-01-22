@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
-    public partial class ctlRotate : UserControl
+    public partial class ctlRotate : ctlUserPanel
     {
         public ctlRotate()
         {

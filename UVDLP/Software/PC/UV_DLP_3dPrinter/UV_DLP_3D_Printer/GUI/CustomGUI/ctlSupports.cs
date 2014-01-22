@@ -10,7 +10,7 @@ using UV_DLP_3D_Printer.Configs;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
-    public partial class ctlSupports : UserControl
+    public partial class ctlSupports : ctlUserPanel
     {
         private SupportConfig m_sc;
         private bool m_settingData;
