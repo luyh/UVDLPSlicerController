@@ -264,7 +264,8 @@ namespace UV_DLP_3D_Printer
                 //UVDLPApp.Instance().Scene.FindMinMax();
 
                 MinMax mm = UVDLPApp.Instance().Engine3D.CalcSceneExtents();
-                int numslices = (int)((mm.m_max - mm.m_min) / m_sf.m_config.ZThick);
+                //int numslices = (int)((mm.m_max - mm.m_min) / m_sf.m_config.ZThick);
+                int numslices = (int)((mm.m_max) / m_sf.m_config.ZThick);
                 //int numslices = (int)((UVDLPApp.Instance().Scene.m_max.z) / m_sf.m_config.ZThick);
                 // I should start slicing at Wz 0, not Oz 0
                 float curz = 0; // start at Wz0

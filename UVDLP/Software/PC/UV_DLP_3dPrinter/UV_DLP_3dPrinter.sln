@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UV_DLP_3D_Printer", "UV_DLP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "plugTest", "plugTest\plugTest.csproj", "{E92C1ABE-0CAE-40E7-9AD6-9E088CB5D9AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CWKeygen", "CWKeygen\CWKeygen.csproj", "{1ED6049F-8907-4C43-89F5-5CD7FF517222}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,16 +35,6 @@ Global
 		{E92C1ABE-0CAE-40E7-9AD6-9E088CB5D9AC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E92C1ABE-0CAE-40E7-9AD6-9E088CB5D9AC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E92C1ABE-0CAE-40E7-9AD6-9E088CB5D9AC}.Release|x86.ActiveCfg = Release|Any CPU
-		{1ED6049F-8907-4C43-89F5-5CD7FF517222}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{1ED6049F-8907-4C43-89F5-5CD7FF517222}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{1ED6049F-8907-4C43-89F5-5CD7FF517222}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{1ED6049F-8907-4C43-89F5-5CD7FF517222}.Debug|x86.ActiveCfg = Debug|x86
-		{1ED6049F-8907-4C43-89F5-5CD7FF517222}.Debug|x86.Build.0 = Debug|x86
-		{1ED6049F-8907-4C43-89F5-5CD7FF517222}.Release|Any CPU.ActiveCfg = Release|x86
-		{1ED6049F-8907-4C43-89F5-5CD7FF517222}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{1ED6049F-8907-4C43-89F5-5CD7FF517222}.Release|Mixed Platforms.Build.0 = Release|x86
-		{1ED6049F-8907-4C43-89F5-5CD7FF517222}.Release|x86.ActiveCfg = Release|x86
-		{1ED6049F-8907-4C43-89F5-5CD7FF517222}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

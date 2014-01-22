@@ -22,7 +22,7 @@ namespace UV_DLP_3D_Printer
             Application.SetCompatibleTextRenderingDefault(false);
             //init the app object
             frmSplash splash = new frmSplash();
-            splash.Show();
+            //splash.Show();
             UVDLPApp.Instance().DoAppStartup();
             Application.Run(new frmMain());
 

@@ -109,6 +109,7 @@ namespace Engine3D
                 makeWalls(s3i, s4i - (2*divs) - 1, divs);
                 Update();
                 SetColor(Color.Yellow);
+                ScaleToHeight(d1 + d2 + d3);
             }
             catch (Exception ex) 
             {
@@ -178,7 +179,24 @@ namespace Engine3D
             //assuming the h= 1.5, and I want it to be height = 4
             double sval = h/height;
             sval = 1/sval;
-            Scale(1.0f, 1.0f,(float)sval);        
+            Scale(1.0f, 1.0f, (float)sval); // scale to the height   
+            if (height > 3.0d)
+            {
+                float bpos = m_lstpoints[0].z;
+                for (int c = s2i; c < s3i; c++ )
+                {
+                    m_lstpoints[c].z = (float)(bpos + 1.0f);
+                }
+
+                for (int c = s3i; c < s4i; c++)
+                {
+                    m_lstpoints[c].z = (float)(height + bpos - 2.0f);
+                }
+
+                // the distance from the top of the foot to the bottom should be 1
+                // the tip should be 2 mm (or more)
+            }
+                
         }
         public override void RenderGL(bool showalpha, bool selected, bool renderSelection)
          {

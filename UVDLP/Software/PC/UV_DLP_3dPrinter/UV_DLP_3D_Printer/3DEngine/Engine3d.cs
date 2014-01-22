@@ -35,9 +35,15 @@ namespace Engine3D
                 obj.InvalidateList();
             }
         }
+        /// <summary>
+        /// This function calculates the Z scene extents.
+        /// It will always incude z=0 to the max object z extent
+        /// </summary>
+        /// <returns></returns>
         public MinMax CalcSceneExtents() 
         {
             MinMax mm = new MinMax();
+            mm.m_min = 0.0f;
             try
             {
                 int c = 0;
