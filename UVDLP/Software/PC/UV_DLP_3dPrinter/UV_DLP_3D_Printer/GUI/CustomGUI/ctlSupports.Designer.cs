@@ -50,6 +50,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.cmbSupType = new System.Windows.Forms.ComboBox();
             this.chkOnlyDownward = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.numY = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
             this.numX = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
@@ -78,7 +79,7 @@
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(370, 294);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(381, 335);
             this.flowLayoutPanel2.TabIndex = 23;
             // 
             // progressTitle
@@ -171,7 +172,7 @@
             this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 97);
             this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(366, 196);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(370, 233);
             this.flowLayoutPanel3.TabIndex = 26;
             // 
             // panelSuppotShape
@@ -189,7 +190,7 @@
             this.panelSuppotShape.Margin = new System.Windows.Forms.Padding(0);
             this.panelSuppotShape.Name = "panelSuppotShape";
             this.panelSuppotShape.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panelSuppotShape.Size = new System.Drawing.Size(201, 194);
+            this.panelSuppotShape.Size = new System.Drawing.Size(201, 221);
             this.panelSuppotShape.TabIndex = 25;
             this.panelSuppotShape.Text = "Support Parameters";
             // 
@@ -368,7 +369,7 @@
             this.flowLayoutPanel4.Location = new System.Drawing.Point(204, 0);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(162, 196);
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(162, 224);
             this.flowLayoutPanel4.TabIndex = 26;
             // 
             // panel1
@@ -381,7 +382,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0, 0, 3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(162, 69);
+            this.panel1.Size = new System.Drawing.Size(162, 67);
             this.panel1.TabIndex = 0;
             // 
             // chkDownPolys
@@ -408,7 +409,7 @@
             this.numDownAngle.ButtonsColor = System.Drawing.Color.Navy;
             this.numDownAngle.Checked = false;
             this.numDownAngle.ErrorColor = System.Drawing.Color.Red;
-            this.numDownAngle.FloatVal = 45F;
+            this.numDownAngle.FloatVal = 1000F;
             this.numDownAngle.Gapx = 5;
             this.numDownAngle.Gapy = 5;
             this.numDownAngle.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -455,6 +456,7 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.RoyalBlue;
+            this.panel2.Controls.Add(this.cmbSupType);
             this.panel2.Controls.Add(this.chkOnlyDownward);
             this.panel2.Controls.Add(this.numY);
             this.panel2.Controls.Add(this.numX);
@@ -462,11 +464,24 @@
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.label5);
             this.panel2.Controls.Add(this.label3);
-            this.panel2.Location = new System.Drawing.Point(0, 72);
+            this.panel2.Location = new System.Drawing.Point(0, 70);
             this.panel2.Margin = new System.Windows.Forms.Padding(0, 0, 3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(162, 122);
+            this.panel2.Size = new System.Drawing.Size(162, 151);
             this.panel2.TabIndex = 1;
+            // 
+            // cmbSupType
+            // 
+            this.cmbSupType.BackColor = System.Drawing.Color.RoyalBlue;
+            this.cmbSupType.ForeColor = System.Drawing.SystemColors.Info;
+            this.cmbSupType.FormattingEnabled = true;
+            this.cmbSupType.Items.AddRange(new object[] {
+            "Bed of Nails",
+            "Adaptive"});
+            this.cmbSupType.Location = new System.Drawing.Point(7, 25);
+            this.cmbSupType.Name = "cmbSupType";
+            this.cmbSupType.Size = new System.Drawing.Size(147, 24);
+            this.cmbSupType.TabIndex = 35;
             // 
             // chkOnlyDownward
             // 
@@ -477,7 +492,7 @@
             this.chkOnlyDownward.Gapy = 5;
             this.chkOnlyDownward.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.chkOnlyDownward.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttAutoDown;
-            this.chkOnlyDownward.Location = new System.Drawing.Point(7, 24);
+            this.chkOnlyDownward.Location = new System.Drawing.Point(7, 56);
             this.chkOnlyDownward.Margin = new System.Windows.Forms.Padding(5);
             this.chkOnlyDownward.Name = "chkOnlyDownward";
             this.chkOnlyDownward.Size = new System.Drawing.Size(32, 32);
@@ -498,7 +513,7 @@
             this.numY.Increment = 0.1F;
             this.numY.IntVal = 1;
             this.numY.IsFloat = true;
-            this.numY.Location = new System.Drawing.Point(49, 97);
+            this.numY.Location = new System.Drawing.Point(49, 129);
             this.numY.Margin = new System.Windows.Forms.Padding(4);
             this.numY.MaxFloat = 20F;
             this.numY.MaxInt = 1000;
@@ -526,7 +541,7 @@
             this.numX.Increment = 0.1F;
             this.numX.IntVal = 1;
             this.numX.IsFloat = true;
-            this.numX.Location = new System.Drawing.Point(49, 73);
+            this.numX.Location = new System.Drawing.Point(49, 105);
             this.numX.Margin = new System.Windows.Forms.Padding(4);
             this.numX.MaxFloat = 20F;
             this.numX.MaxInt = 1000;
@@ -546,7 +561,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Arial", 10.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(3, 100);
+            this.label7.Location = new System.Drawing.Point(3, 128);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(45, 14);
             this.label7.TabIndex = 32;
@@ -556,7 +571,7 @@
             // 
             this.label6.Font = new System.Drawing.Font("Arial", 10.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(4, 78);
+            this.label6.Location = new System.Drawing.Point(4, 110);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(50, 15);
             this.label6.TabIndex = 32;
@@ -566,7 +581,7 @@
             // 
             this.label5.Font = new System.Drawing.Font("Arial", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(4, 59);
+            this.label5.Location = new System.Drawing.Point(4, 91);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(136, 15);
             this.label5.TabIndex = 32;
@@ -576,7 +591,7 @@
             // 
             this.label3.Font = new System.Drawing.Font("Arial", 17.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(3, 2);
+            this.label3.Location = new System.Drawing.Point(3, -1);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(151, 22);
             this.label3.TabIndex = 29;
@@ -595,7 +610,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.flowLayoutPanel2);
             this.Name = "ctlSupports";
-            this.Size = new System.Drawing.Size(370, 294);
+            this.Size = new System.Drawing.Size(381, 335);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel3.ResumeLayout(false);
@@ -643,5 +658,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox cmbSupType;
     }
 }

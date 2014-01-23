@@ -361,6 +361,7 @@ namespace UV_DLP_3D_Printer
                 {
                     foreach (Object3d obj in objs)
                     {
+                        obj.CenterOnPlatform();
                         m_engine3d.AddObject(obj);
                         m_undoer.SaveAddition(obj);
                         SelectedObject = obj;

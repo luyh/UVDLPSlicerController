@@ -1,4 +1,19 @@
-﻿Hardware objectives:
+﻿
+
+
+ToDo:
+	-Make controls on ctl3dview moveable
+	-Save/Load their positions and visibility as a set
+
+	group icons on the bottom panel so that the on/off visibilty switches of the panels	
+
+
+
+
+
+
+
+Hardware objectives:
 Use as much standard 3d printing hardware as possible.
 A Ramps / Gen4 board or compatible should be using to control the Z Axis of the device
 

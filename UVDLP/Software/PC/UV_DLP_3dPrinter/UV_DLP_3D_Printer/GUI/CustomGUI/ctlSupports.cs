@@ -16,7 +16,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         private bool m_settingData;
         private bool m_changingData;
         private bool m_numFBSelected;
-        
+        private static int widthopen = 372;
+        private static int heightopen = 330;
+
         public ctlSupports()
         {
             InitializeComponent();
@@ -42,6 +44,15 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 numX.FloatVal = (float)m_sc.xspace;
                 numY.FloatVal = (float)m_sc.yspace;
                 chkOnlyDownward.Checked = m_sc.m_onlydownward;
+                switch (m_sc.eSupType)
+                {
+                    case SupportConfig.eAUTOSUPPORTTYPE.eBON:
+                        cmbSupType.SelectedIndex = 0;
+                        break;
+                    case SupportConfig.eAUTOSUPPORTTYPE.eADAPTIVE: 
+                        cmbSupType.SelectedIndex = 1;
+                        break;
+                }
             }
             catch (Exception ex)
             {
@@ -62,6 +73,15 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 m_sc.yspace = (double)numY.FloatVal;
                 m_sc.m_onlydownward = chkOnlyDownward.Checked;
                 pictureSupport.Invalidate();
+                switch (cmbSupType.SelectedIndex) 
+                {
+                    case 0:
+                        m_sc.eSupType = SupportConfig.eAUTOSUPPORTTYPE.eBON;
+                        break;
+                    case 1:
+                        m_sc.eSupType = SupportConfig.eAUTOSUPPORTTYPE.eADAPTIVE;
+                        break;
+                }
                 return true;
             }
             catch (Exception ex)
@@ -147,9 +167,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             if (buttSetup.Checked)
             {
-                Width = 372;
-                Location = new Point(Location.X, Location.Y - (294 - Height));
-                Height = 294;
+                Width = widthopen;
+                Location = new Point(Location.X, Location.Y - (heightopen - Height));
+                Height = heightopen;
             }
             else
             {

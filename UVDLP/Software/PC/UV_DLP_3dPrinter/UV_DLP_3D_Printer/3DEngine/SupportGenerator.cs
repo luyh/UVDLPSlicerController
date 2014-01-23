@@ -103,8 +103,15 @@ namespace UV_DLP_3D_Printer
         private void StartGenerating() 
         {
             RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eStarted, "Support Generation Started", null);
-            GenerateSupportObjects();
-           // GenerateAdaptive(); // testing adaptive generation
+            switch (m_sc.eSupType) 
+            {
+                case SupportConfig.eAUTOSUPPORTTYPE.eBON:
+                    GenerateSupportObjects();
+                    break;
+                case SupportConfig.eAUTOSUPPORTTYPE.eADAPTIVE:
+                    GenerateAdaptive();
+                    break;
+            }            
         }
         /// <summary>
         /// This is a helper function that converts 3d polylines to 2d
@@ -188,11 +195,16 @@ namespace UV_DLP_3D_Printer
                     RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eProgress, "" + c + "/" + numslices, null);
 
                     Slice sl = UVDLPApp.Instance().m_slicer.GetSliceImmediate(zlev);
+                    zlev += (float)config.ZThick;
+
+                    if (sl == null) 
+                        continue;
+                    if (sl.m_segments == null) 
+                        continue;
                     if (sl.m_segments.Count == 0)
                         continue;
                     sl.Optimize();// find loops
                     //sl.DetermineInteriorExterior(config); // mark the interior/exterior loops
-                    zlev += (float)config.ZThick;
                     prevslice = curslice;
                     curslice = sl;
                     Bitmap bm = new Bitmap(config.xres, config.yres);

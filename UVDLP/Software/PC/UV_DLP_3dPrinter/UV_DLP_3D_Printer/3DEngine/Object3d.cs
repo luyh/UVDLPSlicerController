@@ -127,6 +127,21 @@ namespace Engine3D
             }
             Translate((float)center.x, (float)center.y, 0);
         }
+        /// <summary>
+        /// this function is called after an object is loaded to center the object
+        /// at x/y 0,0 and to place the bottom of the object touching the platform at z position 0
+        /// </summary>
+        public void CenterOnPlatform() 
+        {
+            Point3d center = CalcCenter();
+            FindMinMax();
+            float zlev = (float)m_min.z;
+            float epsilon = 0.0f;// .05f; // add in a the level of 1 slice
+            float zmove = -zlev - epsilon;
+            Translate((float)-center.x, (float)-center.y, (float)zmove);
+            
+        
+        }
         public void Render() 
         {
             
