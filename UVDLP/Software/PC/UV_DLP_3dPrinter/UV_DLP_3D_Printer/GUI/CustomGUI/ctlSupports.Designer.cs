@@ -482,6 +482,7 @@
             this.cmbSupType.Name = "cmbSupType";
             this.cmbSupType.Size = new System.Drawing.Size(147, 24);
             this.cmbSupType.TabIndex = 35;
+            this.cmbSupType.SelectedIndexChanged += new System.EventHandler(this.cmbSupType_SelectedIndexChanged);
             // 
             // chkOnlyDownward
             // 

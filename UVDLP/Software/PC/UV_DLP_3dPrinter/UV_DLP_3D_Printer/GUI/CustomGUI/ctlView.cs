@@ -17,6 +17,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         SplitContainer mMessagePanelHolder;
         ctlNumber mLayerNumberScroll;
         ctlObjectInfo mObjectInfoPanel;
+        ctlScene mctlScene;
 
         public ctlView()
         {
@@ -49,6 +50,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             set { mLayerNumberScroll = value; }
         }
 
+        public ctlScene SceneControl 
+        {
+            get { return mctlScene; }
+            set { mctlScene = value; }
+        }
         public ctlObjectInfo ObjectInfoPanel
         {
             get { return mObjectInfoPanel; }
@@ -76,10 +82,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         private void buttTreeView_Click(object sender, EventArgs e)
         {
-            if (mTreeViewHolder != null)
-            {
-                mTreeViewHolder.Panel1Collapsed = !buttTreeView.Checked;
-            }
+            SceneControl.Visible = buttTreeView.Checked;
         }
 
         private void ctlImageButton3_Click(object sender, EventArgs e)

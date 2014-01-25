@@ -20,6 +20,8 @@ namespace UV_DLP_3D_Printer.GUI
             label2.BackColor = Color.Transparent;
             label3.Parent = pictureBox1;
             label3.BackColor = Color.Transparent;
+            label4.Parent = pictureBox1;
+            label4.BackColor = Color.Transparent;
             version.Parent = pictureBox1;
             version.BackColor = Color.Transparent;
             version.Text = "Version " + Application.ProductVersion;

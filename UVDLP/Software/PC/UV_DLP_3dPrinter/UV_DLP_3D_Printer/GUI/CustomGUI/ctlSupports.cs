@@ -53,6 +53,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                         cmbSupType.SelectedIndex = 1;
                         break;
                 }
+                UpdateForSupportType();
             }
             catch (Exception ex)
             {
@@ -307,6 +308,35 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 UVDLPApp.Instance().SelectedObject.MarkPolysDown(angle);
                 UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
             }
+        }
+        private void UpdateForSupportType() 
+        {
+            switch (m_sc.eSupType)
+            {
+                case SupportConfig.eAUTOSUPPORTTYPE.eBON:
+                    chkOnlyDownward.Visible = true;
+                    label5.Visible = true;
+                    label6.Visible = true;
+                    label7.Visible = true;
+                    numX.Visible = true;
+                    numY.Visible = true;
+                    
+                    break;
+                case SupportConfig.eAUTOSUPPORTTYPE.eADAPTIVE:
+                    chkOnlyDownward.Visible = false;
+                    label5.Visible = false;
+                    label6.Visible = false;
+                    label7.Visible = false;
+                    numX.Visible = false;
+                    numY.Visible = false;
+
+                    break;
+            }        
+        }
+        private void cmbSupType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GetData();
+            UpdateForSupportType();
         }
     
     }

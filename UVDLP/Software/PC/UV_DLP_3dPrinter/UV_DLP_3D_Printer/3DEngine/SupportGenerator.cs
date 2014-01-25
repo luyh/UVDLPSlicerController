@@ -9,6 +9,7 @@ using UV_DLP_3D_Printer.Configs;
 using System.Drawing;
 using System.Threading;
 using System.IO;
+using UV_DLP_3D_Printer.Slicing;
 namespace UV_DLP_3D_Printer
 {
     /*
@@ -174,7 +175,17 @@ namespace UV_DLP_3D_Printer
             // this has to do slicing of the scene
             try
             {
-                SliceBuildConfig config = UVDLPApp.Instance().m_buildparms;
+                
+                SliceBuildConfig config = UVDLPApp.Instance().m_buildparms;                
+                config.UpdateFrom(UVDLPApp.Instance().m_printerinfo); // make sure we've got the correct display size and PixPerMM values   
+                 
+                if (UVDLPApp.Instance().m_slicer.SliceFile == null) 
+                {
+                    SliceFile sf = new SliceFile(config);
+                    sf.m_mode = SliceFile.SFMode.eImmediate;
+                    UVDLPApp.Instance().m_slicer.SliceFile = sf; // wasn't set
+                }
+                
                 List<UnsupportedRegions> lstunsup = new List<UnsupportedRegions>();
                 List<Object3d> lstsupports = new List<Object3d>(); // final list of supports
 
@@ -274,13 +285,22 @@ namespace UV_DLP_3D_Printer
                                         //iterate from pnt1.X to pnt2.x and check colors
                                         for (int xc = pnt1.X; xc < pnt2.X; xc++)
                                         {
-                                            Color checkcol = lbm.GetPixel(xc, pnt1.Y);
-                                            // need to check the locked BM here for the right color
-                                            // if the pixel color is the hot pink, then this region has some support
-                                            // we're going to need to beef this up and probably divide this all into regions on a grid
-                                            if (checkcol.R == Color.HotPink.R && checkcol.G == Color.HotPink.G && checkcol.B == Color.HotPink.B)
+                                            if (xc >= lbm.Width || xc <=0 ) continue;
+                                            if (pnt1.Y >= lbm.Height || pnt1.Y <= 0) continue;
+                                            try
                                             {
-                                                plysupported = true;
+                                                Color checkcol = lbm.GetPixel(xc, pnt1.Y);
+                                                // need to check the locked BM here for the right color
+                                                // if the pixel color is the hot pink, then this region has some support
+                                                // we're going to need to beef this up and probably divide this all into regions on a grid
+                                                if (checkcol.R == Color.HotPink.R && checkcol.G == Color.HotPink.G && checkcol.B == Color.HotPink.B)
+                                                {
+                                                    plysupported = true;
+                                                }
+                                            }
+                                            catch (Exception ex) 
+                                            {
+                                                DebugLogger.Instance().LogError(ex);
                                             }
                                         }
                                     }
@@ -300,8 +320,8 @@ namespace UV_DLP_3D_Printer
                         } // for each optimized polyline
                         lbm.UnlockBits(); // unlock the bitmap
                     } // prev and current slice are not null
-                    if (layerneedssupport)
-                        SaveBM(bm, c);
+                    //if (layerneedssupport)
+                    //    SaveBM(bm, c); // uncomment this to see the layers that need support
                 } // iterating through all slices
                 // iterate through all unsupported regions
                 // calculate the center

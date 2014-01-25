@@ -42,6 +42,7 @@ namespace UV_DLP_3D_Printer
         eMachineDisconnected, // the machine disconnected
         eDisplayConnected,
         eDisplayDisconnected,
+        eObjectSelected, // object selection has changed
         eReDraw, // this is used when an application action needs to re-draw the 3d display
     }
     public delegate void AppEventDelegate(eAppEvent ev, String Message);
@@ -324,6 +325,7 @@ namespace UV_DLP_3D_Printer
                     value.m_inSelectedList = true;
                 }
                 m_engine3d.UpdateLists(); // need to re-update the selected object lists
+                RaiseAppEvent(eAppEvent.eObjectSelected, "Object Selection Changed");
             }
         }
 

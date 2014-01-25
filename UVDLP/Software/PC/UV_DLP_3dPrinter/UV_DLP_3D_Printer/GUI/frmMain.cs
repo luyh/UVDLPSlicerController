@@ -104,7 +104,7 @@ namespace UV_DLP_3D_Printer
                     switch (ev)
                     {
                         case SupportEvent.eCompleted:
-                            ctl3DView1.UpdateSceneTree();
+                            //ctl3DView1.UpdateSceneTree();
                             break;
                         case SupportEvent.eCancel:
                             break;
@@ -477,7 +477,7 @@ namespace UV_DLP_3D_Printer
             {
                 
                 //UVDLPApp.Instance().m_selectedobject.FindMinMax();
-                ctl3DView1.UpdateSceneTree();
+                //ctl3DView1.UpdateSceneTree();
                 ctl3DView1.UpdateObjectInfo();
             }
             catch (Exception) { }

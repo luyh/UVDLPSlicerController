@@ -36,6 +36,11 @@ namespace UV_DLP_3D_Printer
         {
         
         }
+        public SliceFile SliceFile 
+        {
+            get { return m_sf; }
+            set { m_sf = value; }
+        }
         public bool IsSlicing { get { return isslicing; } }
         public void CancelSlicing() 
         {

@@ -28,9 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.mainViewSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.treeScene = new System.Windows.Forms.TreeView();
+            this.ctlScene1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlScene();
             this.ctlMeshTools1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMeshTools();
             this.buttMeshTools = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttRedo = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
@@ -49,16 +48,9 @@
             this.ctlObjScale = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlScale();
             this.ctlObjMove = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMove();
             this.glControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlGL();
-            this.contextMenuSupport = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cmdRemoveAllSupports = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuObject = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cmdRemoveObject = new System.Windows.Forms.ToolStripMenuItem();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
-            this.mainViewSplitContainer.Panel1.SuspendLayout();
             this.mainViewSplitContainer.Panel2.SuspendLayout();
             this.mainViewSplitContainer.SuspendLayout();
-            this.contextMenuSupport.SuspendLayout();
-            this.contextMenuObject.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainViewSplitContainer
@@ -69,12 +61,9 @@
             this.mainViewSplitContainer.Margin = new System.Windows.Forms.Padding(0);
             this.mainViewSplitContainer.Name = "mainViewSplitContainer";
             // 
-            // mainViewSplitContainer.Panel1
-            // 
-            this.mainViewSplitContainer.Panel1.Controls.Add(this.treeScene);
-            // 
             // mainViewSplitContainer.Panel2
             // 
+            this.mainViewSplitContainer.Panel2.Controls.Add(this.ctlScene1);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.ctlMeshTools1);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.buttMeshTools);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.buttRedo);
@@ -98,18 +87,18 @@
             this.mainViewSplitContainer.SplitterDistance = 144;
             this.mainViewSplitContainer.TabIndex = 28;
             // 
-            // treeScene
+            // ctlScene1
             // 
-            this.treeScene.BackColor = System.Drawing.Color.Navy;
-            this.treeScene.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeScene.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.treeScene.ForeColor = System.Drawing.Color.White;
-            this.treeScene.Location = new System.Drawing.Point(0, 0);
-            this.treeScene.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.treeScene.Name = "treeScene";
-            this.treeScene.Size = new System.Drawing.Size(144, 550);
-            this.treeScene.TabIndex = 6;
-            this.treeScene.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeScene_NodeMouseClick);
+            this.ctlScene1.Checked = false;
+            this.ctlScene1.Gapx = 24;
+            this.ctlScene1.Gapy = 100;
+            this.ctlScene1.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
+            this.ctlScene1.Location = new System.Drawing.Point(524, 100);
+            this.ctlScene1.Name = "ctlScene1";
+            this.ctlScene1.Size = new System.Drawing.Size(310, 297);
+            this.ctlScene1.TabIndex = 33;
+            this.ctlScene1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
+            this.ctlScene1.Visible = false;
             // 
             // ctlMeshTools1
             // 
@@ -252,6 +241,7 @@
             this.ctlViewOptions.MessagePanelHolder = null;
             this.ctlViewOptions.Name = "ctlViewOptions";
             this.ctlViewOptions.ObjectInfoPanel = null;
+            this.ctlViewOptions.SceneControl = null;
             this.ctlViewOptions.Size = new System.Drawing.Size(170, 125);
             this.ctlViewOptions.TabIndex = 26;
             this.ctlViewOptions.TreeViewHolder = null;
@@ -381,34 +371,6 @@
             this.glControl1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.glControl1_MouseUp);
             this.glControl1.Resize += new System.EventHandler(this.glControl1_Resize);
             // 
-            // contextMenuSupport
-            // 
-            this.contextMenuSupport.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmdRemoveAllSupports});
-            this.contextMenuSupport.Name = "contextMenuStrip2";
-            this.contextMenuSupport.Size = new System.Drawing.Size(218, 28);
-            // 
-            // cmdRemoveAllSupports
-            // 
-            this.cmdRemoveAllSupports.Name = "cmdRemoveAllSupports";
-            this.cmdRemoveAllSupports.Size = new System.Drawing.Size(217, 24);
-            this.cmdRemoveAllSupports.Text = "Remove All Supports";
-            this.cmdRemoveAllSupports.Click += new System.EventHandler(this.cmdRemoveAllSupports_Click);
-            // 
-            // contextMenuObject
-            // 
-            this.contextMenuObject.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmdRemoveObject});
-            this.contextMenuObject.Name = "contextMenuStrip1";
-            this.contextMenuObject.Size = new System.Drawing.Size(181, 28);
-            // 
-            // cmdRemoveObject
-            // 
-            this.cmdRemoveObject.Name = "cmdRemoveObject";
-            this.cmdRemoveObject.Size = new System.Drawing.Size(180, 24);
-            this.cmdRemoveObject.Text = "Remove Object";
-            this.cmdRemoveObject.Click += new System.EventHandler(this.cmdRemoveObject_Click);
-            // 
             // ctlToolTip1
             // 
             this.ctlToolTip1.AutoPopDelay = 5000;
@@ -424,11 +386,8 @@
             this.Name = "ctl3DView";
             this.Size = new System.Drawing.Size(1006, 550);
             this.Load += new System.EventHandler(this.ctl3DView_Load);
-            this.mainViewSplitContainer.Panel1.ResumeLayout(false);
             this.mainViewSplitContainer.Panel2.ResumeLayout(false);
             this.mainViewSplitContainer.ResumeLayout(false);
-            this.contextMenuSupport.ResumeLayout(false);
-            this.contextMenuObject.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -436,7 +395,6 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer mainViewSplitContainer;
-        private System.Windows.Forms.TreeView treeScene;
         private CustomGUI.ctlObjectInfo objectInfoPanel;
         private CustomGUI.ctlNumber numLayer;
         private CustomGUI.ctlImageButton buttGlHome;
@@ -450,15 +408,12 @@
         private CustomGUI.ctlImageButton buttRotate;
         private CustomGUI.ctlScale ctlObjScale;
         private CustomGUI.ctlMove ctlObjMove;
-        private System.Windows.Forms.ContextMenuStrip contextMenuSupport;
-        private System.Windows.Forms.ToolStripMenuItem cmdRemoveAllSupports;
-        private System.Windows.Forms.ContextMenuStrip contextMenuObject;
-        private System.Windows.Forms.ToolStripMenuItem cmdRemoveObject;
         private CustomGUI.ctlImageButton buttUndo;
         private CustomGUI.ctlToolTip ctlToolTip1;
         private CustomGUI.ctlImageButton buttRedo;
         private CustomGUI.ctlImageButton buttMeshTools;
         private CustomGUI.ctlMeshTools ctlMeshTools1;
         private ctlGL glControl1;
+        private CustomGUI.ctlScene ctlScene1;
     }
 }
