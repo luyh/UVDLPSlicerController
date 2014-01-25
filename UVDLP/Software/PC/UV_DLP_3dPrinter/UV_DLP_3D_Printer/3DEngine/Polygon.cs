@@ -243,10 +243,10 @@ namespace Engine3D
             {
                 GL.GetFloat(GetPName.LineWidth, out oldLineWidth);
                 GL.LineWidth(wireframe);
-                GL.Begin(BeginMode.LineLoop);//.LineStrip);
+                GL.Begin(PrimitiveType.LineLoop);//.LineStrip);
             }else
             {
-                GL.Begin(BeginMode.Triangles);
+                GL.Begin(PrimitiveType.Triangles);
                 if (tag == TAG_MARKDOWN)
                 {
                     clr = Color.Red;

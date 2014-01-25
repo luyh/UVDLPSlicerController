@@ -256,7 +256,7 @@ namespace Engine3D
         {
             if (!visible)
                 return;
-            GL.Begin(BeginMode.LineStrip);//.Lines);
+            GL.Begin(PrimitiveType.LineStrip);//.Lines);
             GL.Color3(m_color);
             GL.LineWidth(linewidth);
             foreach (Point3d p in this.m_points) 

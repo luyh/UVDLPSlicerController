@@ -200,7 +200,7 @@ namespace Engine3D
         }
         public override void RenderGL(bool showalpha, bool selected, bool renderSelection)
          {
-             GL.Begin(BeginMode.Lines);//.LineStrip);
+             GL.Begin(PrimitiveType.Lines);//.LineStrip);
              GL.Color4(Color4.Red);
              for (int c = 0; c < cdivs; c++) 
              {
@@ -209,7 +209,7 @@ namespace Engine3D
              }
              GL.End();
 
-             GL.Begin(BeginMode.Lines);//.LineStrip);
+             GL.Begin(PrimitiveType.Lines);//.LineStrip);
              GL.Color4(Color4.Red);
              for (int c = 0; c < cdivs; c++)
              {
@@ -218,7 +218,7 @@ namespace Engine3D
              }
              GL.End();
 
-             GL.Begin(BeginMode.Lines);//.LineStrip);
+             GL.Begin(PrimitiveType.Lines);//.LineStrip);
              GL.Color4(Color4.Red);
              for (int c = 0; c < cdivs; c++)
              {
@@ -227,7 +227,7 @@ namespace Engine3D
              }
              GL.End();
 
-             GL.Begin(BeginMode.Lines);//.LineStrip);
+             GL.Begin(PrimitiveType.Lines);//.LineStrip);
              GL.Color4(Color4.Red);
              for (int c = 0; c < cdivs; c++)
              {

@@ -258,13 +258,13 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             // draw some lines
             GL.LineWidth(2);
             GL.Color3(Color.Red);
- 
-            GL.Begin(BeginMode.Lines);
+
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex3(m_ix - 5, m_iy, m_iz);
             GL.Vertex3(m_ix + 5, m_iy, m_iz);
             GL.End();
 
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex3(m_ix, m_iy - 5, m_iz);
             GL.Vertex3(m_ix, m_iy + 5, m_iz);
             GL.End();
@@ -277,7 +277,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             int w = glControl1.Width;
             int h = glControl1.Height;
             Set2DView();
-            GL.Begin(BeginMode.Quads);
+            GL.Begin(PrimitiveType.Quads);
             GL.Color3(Color.AliceBlue);
             GL.Vertex3(0, 0, 0);
             GL.Color3(Color.AliceBlue);

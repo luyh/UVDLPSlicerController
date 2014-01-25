@@ -35,7 +35,8 @@ namespace UV_DLP_3D_Printer._3DEngine
 
         public void Rectangle(float x, float y, float w, float h, Color col)
         {
-            GL.Begin(BeginMode.Quads);
+            //GL.Begin(BeginMode.Quads);
+            GL.Begin(PrimitiveType.Quads);
             GL.Color3(col);
             GL.Vertex3(x, y, 0);
             GL.Vertex3(x+w, y, 0);
@@ -117,7 +118,8 @@ namespace UV_DLP_3D_Printer._3DEngine
         public void Image(int tex, float x1, float x2, float y1, float y2, float dx, float dy, float dw, float dh)
         {
             GL.Enable(EnableCap.Texture2D);
-            GL.Begin(BeginMode.Quads);
+            //GL.Begin(BeginMode.Quads);
+            GL.Begin(PrimitiveType.Quads);
 
             GL.TexCoord2(x1, y1);
             GL.Vertex3(dx, dy, 0);
