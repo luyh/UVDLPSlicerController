@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using UV_DLP_3D_Printer.Plugin;
 using System.Drawing;
+using UV_DLP_3D_Printer;
+using System.Resources;
+using System.Windows.Forms;
+using System.IO;
 
 namespace plugTest
 {
@@ -11,6 +15,13 @@ namespace plugTest
     // it serves as the main entry point  
     public class PlugIn : IPlugin
     {
+        /// <summary>
+        /// This is the manifest contents of this plugin
+        /// all data, functions, controls, strings, xml files,
+        /// binary resources, etc are defined in this manifest
+        /// and served by the get functions below
+        /// This interface also needs to have a method to call functions defined in this plugin
+        /// </summary>
         private static PluginItem[] manifest =
         {
             new  PluginItem ("VendorName",ePlItemType.eString,0),
@@ -18,16 +29,20 @@ namespace plugTest
             new  PluginItem("Icon",ePlItemType.eImage,0),
             new  PluginItem("Splash",ePlItemType.eImage,0),
             new PluginItem("VendorID",ePlItemType.eInt,0),
+            new PluginItem("TestControl",ePlItemType.eControl,0),
+            new PluginItem("TestXML",ePlItemType.eString,PluginItem.TAG_XML), // string resource - xml file
+            new PluginItem("TestBinary",ePlItemType.eBin,PluginItem.TAG_ZIP), // binary zip file
+            new PluginItem("TestFunction",ePlItemType.eFunction,PluginItem.TAG_GENERIC), // exposed function interface
         };
         private IPluginHost m_host;
         private bool inited;
         private static string m_Vendorname =    "TestVendor";
         private static int m_VendorID =         1234;
-        private static string m_PluginName =    "TestPlugin";
+        private static string m_PluginName =    "TestPlugin"; 
         private byte []m_hash; // simple SHA1 hash for validating against license keys
         public String Name { get { return m_PluginName; } }
         /// <summary>
-        /// This function returns a list of everything in the plugin
+        /// This function returns a manifest list of everything in the plugin
         /// </summary>
         public List<PluginItem> GetPluginItems 
         { 
@@ -39,17 +54,81 @@ namespace plugTest
             } 
         }
         /// <summary>
+        /// This function will retrieve a binary resource from the dll
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public byte[] GetBinary(string name)
+        {
+            if (name.Equals("TestBinary"))
+                return Properties.Resources.binarytest;
+            return null;
+        }
+        /// <summary>
         /// public interface funcxtion to return bitmaps based on name from this plugin
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
         public Bitmap GetImage(string name) 
         {
+            try
+            {
+                if (name.Equals("Icon"))
+                    return Properties.Resources.index;
+                if (name.Equals("Splash"))
+                    return Properties.Resources.doge;
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
             return null; 
+        }
+        public UserControl GetControl(string name) 
+        {
+            if (name.Equals("TestControl")) 
+            {
+                return new ctlTestControl();
+            }
+            return null;
+        }
+        public int GetInt(string name) 
+        {
+            if (name.Equals("VendorID"))
+                return m_VendorID;
+            return -1;
+            
         }
         public String GetString(string name) 
         {
-            return "";
+            if (name.Equals("VendorName"))
+                return m_Vendorname;
+            if (name.Equals("PluginName"))
+                return m_PluginName;
+            if (name.Equals("TestXML"))
+                return Properties.Resources.text;
+
+            return "Unknown Name";
+        }
+
+        /// <summary>
+        /// This maps string names to a function to be called
+        /// </summary>
+        /// <param name="name"></param>
+        public void ExecuteFunction(string name) 
+        {
+            if (name.Equals("TestFunction"))
+                MyTestFunc();
+        
+        }
+        /// <summary>
+        /// This is an example of a test function that can
+        /// be called from the plug in host.
+        /// Anything could really be in here
+        /// </summary>
+        private void MyTestFunc() 
+        {
+            DebugLogger.Instance().LogInfo("Plugin Test - Test function executed");
         }
         public PlugIn() 
         {

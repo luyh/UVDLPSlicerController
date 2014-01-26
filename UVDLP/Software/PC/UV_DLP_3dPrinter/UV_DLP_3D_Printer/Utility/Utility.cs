@@ -51,6 +51,14 @@ namespace UV_DLP_3D_Printer
             }
         
         }
+        public static string ByteArrayToString(byte[] ba)
+        {
+            StringBuilder hex = new StringBuilder(ba.Length * 2);
+            foreach (byte b in ba)
+                hex.AppendFormat("{0:x2}", b);
+            return hex.ToString();
+        }
+
         public static byte[] HexStringToByteArray(string hexString)
         {
             if (hexString.Length % 2 != 0)

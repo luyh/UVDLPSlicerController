@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Windows.Forms;
+using System.IO;
 
 namespace UV_DLP_3D_Printer.Plugin
 {
@@ -15,10 +17,12 @@ namespace UV_DLP_3D_Printer.Plugin
         //void Show();
         // this function will return a manifest of plugin items
         List<PluginItem> GetPluginItems { get; }
-        //Bitmap IconImage { get; }
-        //Bitmap SplashImage { get; }
         Bitmap GetImage(string name);
         String GetString(string name);
+        UserControl GetControl(string name);
+        byte[] GetBinary(string name);
+        int GetInt(string name);
+        void ExecuteFunction(string name);
         String Name { get; }
         /*I'm thinking a plugin can host controls, XML resources, scripts, etc... 
          * It should also have functions that it can run, maybe through a delegate 
