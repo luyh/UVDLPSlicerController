@@ -245,6 +245,7 @@
     <Compile Include="GUI\CustomGUI\frmBmpSplash.Designer.cs">
       <DependentUpon>frmBmpSplash.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\CustomGUI\GuiConfig.cs" />
     <Compile Include="GUI\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -568,6 +569,7 @@
     <None Include="resources\cwtexture1.txt" />
     <None Include="resources\cwtexture1.png" />
     <None Include="resources\cwtexture1_index.txt" />
+    <None Include="resources\GuiConfig.txt" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

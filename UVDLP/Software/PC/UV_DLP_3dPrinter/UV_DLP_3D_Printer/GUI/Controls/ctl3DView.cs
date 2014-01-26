@@ -13,6 +13,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform.Windows;
 using UV_DLP_3D_Printer._3DEngine;
+using UV_DLP_3D_Printer.GUI.CustomGUI;
 
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
@@ -37,6 +38,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         private bool firstTime = true;
         float m_savex, m_savey, m_saveh; // m_savez
         C2DGraphics gr2d;
+        GuiConfig guiconf;
         public List<ctlBgnd> ctlBgndList;
         
 
@@ -66,6 +68,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             //glControl1. = new GraphicsMode(GraphicsMode.Default.ColorFormat, GraphicsMode.Default.Depth, 8);
             gr2d = new C2DGraphics();
             ctlBgndList = new List<ctlBgnd>();
+            guiconf = new GuiConfig();
+            guiconf.LoadConfiguration(global::UV_DLP_3D_Printer.Properties.Resources.GuiConfig);
 
             ctlObjScale.c3d = this;
             ctlObjRotate.c3d = this;
@@ -274,10 +278,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         void DrawBackground()
         {
-            int w = glControl1.Width;
-            int h = glControl1.Height;
+            /*int w = glControl1.Width;
+            int h = glControl1.Height;*/
             Set2DView();
-            GL.Begin(PrimitiveType.Quads);
+            /*GL.Begin(PrimitiveType.Quads);
             GL.Color3(Color.AliceBlue);
             GL.Vertex3(0, 0, 0);
             GL.Color3(Color.AliceBlue);
@@ -286,7 +290,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             GL.Vertex3(w, h, 0);
             GL.Color3(Color.LightBlue);
             GL.Vertex3(0, h, 0);
-            GL.End();
+            GL.End();*/
+            guiconf.DrawBackground(gr2d, glControl1.Width, glControl1.Height);
 
             //SetAlpha(m_showalpha);
             Set3DView();
@@ -297,9 +302,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             int w = glControl1.Width;
             int h = glControl1.Height;
             Set2DView();
-            gr2d.Rectangle(0,0,w,70,Color.RoyalBlue);
+            /*gr2d.Rectangle(0,0,w,70,Color.RoyalBlue);
             GL.Color3(Color.White);
-            gr2d.Image("cwlogo_round", w / 2 - 50, 0);
+            gr2d.Image("cwlogo_round", w / 2 - 50, 0);*/
+            guiconf.DrawForeground(gr2d, glControl1.Width, glControl1.Height);
+
             foreach (ctlBgnd cb in ctlBgndList)
             {
                 GL.Color3(cb.col);

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GuiConfig FileVersion="1">
+	<buttons>
+		<colorscheme back="#FFFFFF" fore="Green"/>
+		<button name="bmove" dock="bl" x="10" y="10" image="immove" w="32" h="32"/>
+		<button name="bscale" dock="bl" x="10" y="42" image="imscale" w="32" h="32"/>
+	</buttons>
+	<panels>
+		<colorscheme back="#FFFFFF" fore="Green"/>
+		<panel name="pmove" doc="bl" x="10" y="50" shape="shpanel"/>
+		<panel name="pscale" doc="bl" x="100" y="50" shape="shpanel"/>
+	</panels>
+	<decals>
+		<bar dock="n" tlcolor="AliceBlue" trcolor="AliceBlue" blcolor="LightBlue" brcolor="SkyBlue" level="background"/>
+		<bar dock="t" width="70" color="RoyalBlue"/>
+		<image name="cwlogo_round" dock="tc" x="0" y="0" />
+	</decals>
+</GuiConfig>
+
+

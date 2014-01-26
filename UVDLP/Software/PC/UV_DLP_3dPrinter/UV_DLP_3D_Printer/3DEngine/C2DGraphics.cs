@@ -37,11 +37,26 @@ namespace UV_DLP_3D_Printer._3DEngine
         {
             //GL.Begin(BeginMode.Quads);
             GL.Begin(PrimitiveType.Quads);
-            GL.Color3(col);
+            GL.Color4(col);
             GL.Vertex3(x, y, 0);
-            GL.Vertex3(x+w, y, 0);
-            GL.Vertex3(x+w, y+h, 0);
-            GL.Vertex3(x, y+h, 0);
+            GL.Vertex3(x + w, y, 0);
+            GL.Vertex3(x + w, y + h, 0);
+            GL.Vertex3(x, y + h, 0);
+            GL.End();
+        }
+
+        public void GradientRect(float x, float y, float w, float h, Color coltl, Color coltr, Color colbl, Color colbr)
+        {
+            //GL.Begin(BeginMode.Quads);
+            GL.Begin(PrimitiveType.Quads);
+            GL.Color4(coltl);
+            GL.Vertex3(x, y, 0);
+            GL.Color4(coltr);
+            GL.Vertex3(x + w, y, 0);
+            GL.Color4(colbr);
+            GL.Vertex3(x + w, y + h, 0);
+            GL.Color4(colbl);
+            GL.Vertex3(x, y + h, 0);
             GL.End();
         }
 
@@ -143,6 +158,21 @@ namespace UV_DLP_3D_Printer._3DEngine
             }
         }
 
+        public void GetImageDim(String name, out int w, out int h)
+        {
+            if (ImgDbase.ContainsKey(name))
+            {
+                C2DImage img = ImgDbase[name];
+                w = img.w;
+                h = img.h;
+            }
+            else
+            {
+                w = 0;
+                h = 0;
+            }
+        }
+
         public void Panel9(String name, float x, float y, float w, float h)
         {
             if (!ImgDbase.ContainsKey(name))
@@ -178,6 +208,11 @@ namespace UV_DLP_3D_Printer._3DEngine
             {
                 Image(img.tex, img.x1, img.x2, sy3, sy4, x, y + y3, w, h - 2 * y3);
             }
+        }
+
+        public void SetColor(Color col)
+        {
+            GL.Color4(col);
         }
     }
 }

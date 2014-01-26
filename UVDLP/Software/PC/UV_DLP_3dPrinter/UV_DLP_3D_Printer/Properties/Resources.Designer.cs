@@ -529,6 +529,28 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;GuiConfig FileVersion=&quot;1&quot;&gt;
+        ///	&lt;buttons&gt;
+        ///		&lt;colorscheme back=&quot;#FFFFFF&quot; fore=&quot;Green&quot;/&gt;
+        ///		&lt;button name=&quot;bmove&quot; dock=&quot;bl&quot; x=&quot;10&quot; y=&quot;10&quot; image=&quot;immove&quot; w=&quot;32&quot; h=&quot;32&quot;/&gt;
+        ///		&lt;button name=&quot;bscale&quot; dock=&quot;bl&quot; x=&quot;10&quot; y=&quot;42&quot; image=&quot;imscale&quot; w=&quot;32&quot; h=&quot;32&quot;/&gt;
+        ///	&lt;/buttons&gt;
+        ///	&lt;panels&gt;
+        ///		&lt;colorscheme back=&quot;#FFFFFF&quot; fore=&quot;Green&quot;/&gt;
+        ///		&lt;panel name=&quot;pmove&quot; doc=&quot;bl&quot; x=&quot;10&quot; y=&quot;50&quot; shape=&quot;shpanel&quot;/&gt;
+        ///		&lt;panel name=&quot;pscale&quot; doc=&quot;bl&quot; x=&quot;100&quot; y=&quot;50&quot; shape=&quot;shpanel&quot;/&gt;
+        ///	&lt;/panels&gt;
+        ///	&lt;decals&gt;
+        ///		&lt;bar dock=&quot;n&quot; [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string GuiConfig {
+            get {
+                return ResourceManager.GetString("GuiConfig", resourceCulture);
+            }
+        }
+        
         public static System.Drawing.Bitmap homeButt {
             get {
                 object obj = ResourceManager.GetObject("homeButt", resourceCulture);
