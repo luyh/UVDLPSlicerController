@@ -287,6 +287,12 @@
     <Compile Include="GUI\frmMeshHoles.Designer.cs">
       <DependentUpon>frmMeshHoles.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\frmPluginTester.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmPluginTester.Designer.cs">
+      <DependentUpon>frmPluginTester.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frmPrefs.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -319,6 +325,7 @@
     </Compile>
     <Compile Include="Plugin\IPlugin.cs" />
     <Compile Include="Plugin\IPluginHost.cs" />
+    <Compile Include="Plugin\PluginItem.cs" />
     <Compile Include="Projector_LCD\prjcmdlst.cs" />
     <Compile Include="Projector_LCD\ProjectorCommand.cs" />
     <Compile Include="Configs\Parm.cs" />
@@ -443,6 +450,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmMeshHoles.resx">
       <DependentUpon>frmMeshHoles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmPluginTester.resx">
+      <DependentUpon>frmPluginTester.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmPrefs.resx">
       <DependentUpon>frmPrefs.cs</DependentUpon>

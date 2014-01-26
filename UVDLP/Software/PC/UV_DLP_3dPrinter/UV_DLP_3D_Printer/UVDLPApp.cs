@@ -830,7 +830,7 @@ namespace UV_DLP_3D_Printer
         /// <returns></returns>
         public bool Register(IPlugin ipi)
         {
-            DebugLogger.Instance().LogInfo("Registered: " + ipi.Name);
+            //DebugLogger.Instance().LogInfo("Registered: " + ipi.Name);
             return true;
         }     
     }

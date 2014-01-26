@@ -74,6 +74,7 @@
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
+            this.pluginTesterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.splitContainerMainWindow.Panel1.SuspendLayout();
             this.splitContainerMainWindow.Panel2.SuspendLayout();
@@ -102,7 +103,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1457, 26);
+            this.menuStrip1.Size = new System.Drawing.Size(1457, 28);
             this.menuStrip1.TabIndex = 16;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -115,57 +116,58 @@
             this.exitToolStripMenuItem,
             this.testToolStripMenuItem,
             this.findHolesInMeshToolStripMenuItem,
-            this.splashToolStripMenuItem});
+            this.splashToolStripMenuItem,
+            this.pluginTesterToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(40, 22);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // loadBinarySTLToolStripMenuItem
             // 
             this.loadBinarySTLToolStripMenuItem.Name = "loadBinarySTLToolStripMenuItem";
-            this.loadBinarySTLToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.loadBinarySTLToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
             this.loadBinarySTLToolStripMenuItem.Text = "Load Model";
             this.loadBinarySTLToolStripMenuItem.Click += new System.EventHandler(this.loadBinarySTLToolStripMenuItem_Click);
             // 
             // saveSceneSTLToolStripMenuItem
             // 
             this.saveSceneSTLToolStripMenuItem.Name = "saveSceneSTLToolStripMenuItem";
-            this.saveSceneSTLToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.saveSceneSTLToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
             this.saveSceneSTLToolStripMenuItem.Text = "Save Scene STL";
             this.saveSceneSTLToolStripMenuItem.Click += new System.EventHandler(this.saveSceneSTLToolStripMenuItem_Click);
             // 
             // preferencesToolStripMenuItem
             // 
             this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
             this.preferencesToolStripMenuItem.Text = "Preferences";
             this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // testToolStripMenuItem
             // 
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
             this.testToolStripMenuItem.Text = "test";
             this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
             // findHolesInMeshToolStripMenuItem
             // 
             this.findHolesInMeshToolStripMenuItem.Name = "findHolesInMeshToolStripMenuItem";
-            this.findHolesInMeshToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.findHolesInMeshToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
             this.findHolesInMeshToolStripMenuItem.Text = "Find Holes In Mesh";
             this.findHolesInMeshToolStripMenuItem.Click += new System.EventHandler(this.findHolesInMeshToolStripMenuItem_Click);
             // 
             // splashToolStripMenuItem
             // 
             this.splashToolStripMenuItem.Name = "splashToolStripMenuItem";
-            this.splashToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.splashToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
             this.splashToolStripMenuItem.Text = "Splash";
             this.splashToolStripMenuItem.Click += new System.EventHandler(this.splashToolStripMenuItem_Click);
             // 
@@ -174,13 +176,13 @@
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(48, 22);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(119, 24);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -210,7 +212,7 @@
             this.splitContainerTop.BackColor = System.Drawing.Color.Navy;
             this.splitContainerTop.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerTop.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainerTop.Location = new System.Drawing.Point(0, 26);
+            this.splitContainerTop.Location = new System.Drawing.Point(0, 28);
             this.splitContainerTop.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.splitContainerTop.Name = "splitContainerTop";
             this.splitContainerTop.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -225,7 +227,7 @@
             this.splitContainerTop.Panel2.Controls.Add(this.ctlSliceView1);
             this.splitContainerTop.Panel2.Controls.Add(this.ctl3DView1);
             this.splitContainerTop.Panel2.Controls.Add(this.tabMain);
-            this.splitContainerTop.Size = new System.Drawing.Size(1457, 640);
+            this.splitContainerTop.Size = new System.Drawing.Size(1457, 638);
             this.splitContainerTop.SplitterDistance = 56;
             this.splitContainerTop.SplitterWidth = 5;
             this.splitContainerTop.TabIndex = 20;
@@ -476,7 +478,7 @@
             this.lblTime.ForeColor = System.Drawing.Color.White;
             this.lblTime.Location = new System.Drawing.Point(92, 0);
             this.lblTime.Name = "lblTime";
-            this.lblTime.Size = new System.Drawing.Size(50, 21);
+            this.lblTime.Size = new System.Drawing.Size(49, 21);
             this.lblTime.TabIndex = 0;
             this.lblTime.Text = "Time";
             // 
@@ -605,6 +607,13 @@
             this.ctlToolTip1.ReshowDelay = 100;
             this.ctlToolTip1.ShowAlways = true;
             // 
+            // pluginTesterToolStripMenuItem
+            // 
+            this.pluginTesterToolStripMenuItem.Name = "pluginTesterToolStripMenuItem";
+            this.pluginTesterToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
+            this.pluginTesterToolStripMenuItem.Text = "Plugin Tester";
+            this.pluginTesterToolStripMenuItem.Click += new System.EventHandler(this.pluginTesterToolStripMenuItem_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -688,6 +697,7 @@
         private System.Windows.Forms.Label lblMainMessage;
         private GUI.Controls.ctlGcodeView ctlGcodeView1;
         private System.Windows.Forms.ToolStripMenuItem splashToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pluginTesterToolStripMenuItem;
     }
 }
 

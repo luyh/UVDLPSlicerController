@@ -11,13 +11,46 @@ namespace plugTest
     // it serves as the main entry point  
     public class PlugIn : IPlugin
     {
+        private static PluginItem[] manifest =
+        {
+            new  PluginItem ("VendorName",ePlItemType.eString,0),
+            new  PluginItem ("PluginName",ePlItemType.eString,0),
+            new  PluginItem("Icon",ePlItemType.eImage,0),
+            new  PluginItem("Splash",ePlItemType.eImage,0),
+            new PluginItem("VendorID",ePlItemType.eInt,0),
+        };
         private IPluginHost m_host;
         private bool inited;
         private static string m_Vendorname =    "TestVendor";
         private static int m_VendorID =         1234;
         private static string m_PluginName =    "TestPlugin";
         private byte []m_hash; // simple SHA1 hash for validating against license keys
-
+        public String Name { get { return m_PluginName; } }
+        /// <summary>
+        /// This function returns a list of everything in the plugin
+        /// </summary>
+        public List<PluginItem> GetPluginItems 
+        { 
+            get 
+            {
+                List<PluginItem> items = new List<PluginItem>();
+                items.AddRange(manifest);
+                return items;
+            } 
+        }
+        /// <summary>
+        /// public interface funcxtion to return bitmaps based on name from this plugin
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Bitmap GetImage(string name) 
+        {
+            return null; 
+        }
+        public String GetString(string name) 
+        {
+            return "";
+        }
         public PlugIn() 
         {
             inited = false;
@@ -32,7 +65,6 @@ namespace plugTest
             m_hash = new byte[20];
         }
 
-        public string Name {get { return m_PluginName; }}
         public IPluginHost Host 
         {
             get { return m_host; }
@@ -41,17 +73,6 @@ namespace plugTest
                 m_host = value;  // set the host
                 Initialize(); // initialize any local resources
             }
-        }
-        public string Vendorname{ get { return m_Vendorname; }} // name of the Vendor who wrote this
-        public int VendorID {get { return m_VendorID; }} // identifier of the vendor
-        
-        public Bitmap IconImage 
-        {
-            get { return null; }
-        }
-        public Bitmap SplashImage 
-        {
-            get { return null; }
         }
     }
 }

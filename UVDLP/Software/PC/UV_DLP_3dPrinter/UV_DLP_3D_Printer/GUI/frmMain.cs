@@ -911,5 +911,12 @@ namespace UV_DLP_3D_Printer
             ctl3DView1.m_splash = null;
         }
 
+        private void pluginTesterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmPluginTester pit = new frmPluginTester();
+            pit.Show();
+
+        }
+
     }
 }

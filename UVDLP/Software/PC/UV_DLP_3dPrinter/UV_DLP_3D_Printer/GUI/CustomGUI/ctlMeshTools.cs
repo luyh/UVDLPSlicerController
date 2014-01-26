@@ -192,6 +192,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.buttIntersect.BackColor = System.Drawing.Color.Navy;
             this.buttIntersect.Checked = false;
             this.buttIntersect.CheckImage = null;
+            this.buttIntersect.Enabled = false;
             this.buttIntersect.Gapx = 5;
             this.buttIntersect.Gapy = 5;
             this.buttIntersect.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -211,6 +212,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.buttSubtract.BackColor = System.Drawing.Color.Navy;
             this.buttSubtract.Checked = false;
             this.buttSubtract.CheckImage = null;
+            this.buttSubtract.Enabled = false;
             this.buttSubtract.Gapx = 5;
             this.buttSubtract.Gapy = 5;
             this.buttSubtract.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -278,6 +280,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.buttAddCube.BackColor = System.Drawing.Color.Navy;
             this.buttAddCube.Checked = false;
             this.buttAddCube.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.buttAddCube.Enabled = false;
             this.buttAddCube.Gapx = 5;
             this.buttAddCube.Gapy = 5;
             this.buttAddCube.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -411,6 +414,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.buttAddTorus.BackColor = System.Drawing.Color.Navy;
             this.buttAddTorus.Checked = false;
             this.buttAddTorus.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.buttAddTorus.Enabled = false;
             this.buttAddTorus.Gapx = 5;
             this.buttAddTorus.Gapy = 5;
             this.buttAddTorus.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -492,7 +496,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.nbrSPVdivs.Gapy = 5;
             this.nbrSPVdivs.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.nbrSPVdivs.Increment = 1F;
-            this.nbrSPVdivs.IntVal = 15;
+            this.nbrSPVdivs.IntVal = 1000;
             this.nbrSPVdivs.Location = new System.Drawing.Point(3, 20);
             this.nbrSPVdivs.MaxFloat = 500F;
             this.nbrSPVdivs.MaxInt = 1000;
@@ -527,7 +531,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.nbrSPHdivs.Gapy = 5;
             this.nbrSPHdivs.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.nbrSPHdivs.Increment = 1F;
-            this.nbrSPHdivs.IntVal = 17;
+            this.nbrSPHdivs.IntVal = 1000;
             this.nbrSPHdivs.Location = new System.Drawing.Point(3, 70);
             this.nbrSPHdivs.MaxFloat = 500F;
             this.nbrSPHdivs.MaxInt = 1000;
@@ -557,7 +561,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.nbrSPRad.ButtonsColor = System.Drawing.Color.Navy;
             this.nbrSPRad.Checked = false;
             this.nbrSPRad.ErrorColor = System.Drawing.Color.Red;
-            this.nbrSPRad.FloatVal = 5F;
+            this.nbrSPRad.FloatVal = 519F;
             this.nbrSPRad.Gapx = 5;
             this.nbrSPRad.Gapy = 5;
             this.nbrSPRad.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -612,7 +616,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.nbrCNVdivs.Gapy = 5;
             this.nbrCNVdivs.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.nbrCNVdivs.Increment = 1F;
-            this.nbrCNVdivs.IntVal = 15;
+            this.nbrCNVdivs.IntVal = 1000;
             this.nbrCNVdivs.Location = new System.Drawing.Point(3, 20);
             this.nbrCNVdivs.MaxFloat = 500F;
             this.nbrCNVdivs.MaxInt = 1000;
@@ -642,7 +646,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.nbrCNRad.ButtonsColor = System.Drawing.Color.Navy;
             this.nbrCNRad.Checked = false;
             this.nbrCNRad.ErrorColor = System.Drawing.Color.Red;
-            this.nbrCNRad.FloatVal = 5F;
+            this.nbrCNRad.FloatVal = 519F;
             this.nbrCNRad.Gapx = 5;
             this.nbrCNRad.Gapy = 5;
             this.nbrCNRad.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -678,7 +682,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.nbrCNHeight.ButtonsColor = System.Drawing.Color.Navy;
             this.nbrCNHeight.Checked = false;
             this.nbrCNHeight.ErrorColor = System.Drawing.Color.Red;
-            this.nbrCNHeight.FloatVal = 10F;
+            this.nbrCNHeight.FloatVal = 1000F;
             this.nbrCNHeight.Gapx = 5;
             this.nbrCNHeight.Gapy = 5;
             this.nbrCNHeight.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -729,7 +733,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.ctlNumber1.Gapy = 5;
             this.ctlNumber1.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.ctlNumber1.Increment = 1F;
-            this.ctlNumber1.IntVal = 15;
+            this.ctlNumber1.IntVal = 1000;
             this.ctlNumber1.Location = new System.Drawing.Point(3, 20);
             this.ctlNumber1.MaxFloat = 500F;
             this.ctlNumber1.MaxInt = 1000;
@@ -773,7 +777,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.ctlNumber2.ButtonsColor = System.Drawing.Color.Navy;
             this.ctlNumber2.Checked = false;
             this.ctlNumber2.ErrorColor = System.Drawing.Color.Red;
-            this.ctlNumber2.FloatVal = 4F;
+            this.ctlNumber2.FloatVal = 422F;
             this.ctlNumber2.Gapx = 5;
             this.ctlNumber2.Gapy = 5;
             this.ctlNumber2.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -799,7 +803,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.ctlNumber3.ButtonsColor = System.Drawing.Color.Navy;
             this.ctlNumber3.Checked = false;
             this.ctlNumber3.ErrorColor = System.Drawing.Color.Red;
-            this.ctlNumber3.FloatVal = 8F;
+            this.ctlNumber3.FloatVal = 823F;
             this.ctlNumber3.Gapx = 5;
             this.ctlNumber3.Gapy = 5;
             this.ctlNumber3.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -840,7 +844,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.ctlNumber4.Gapy = 5;
             this.ctlNumber4.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.ctlNumber4.Increment = 1F;
-            this.ctlNumber4.IntVal = 15;
+            this.ctlNumber4.IntVal = 1000;
             this.ctlNumber4.Location = new System.Drawing.Point(3, 103);
             this.ctlNumber4.MaxFloat = 500F;
             this.ctlNumber4.MaxInt = 1000;
@@ -865,7 +869,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             this.ctlNumber5.Gapy = 5;
             this.ctlNumber5.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.ctlNumber5.Increment = 1F;
-            this.ctlNumber5.IntVal = 15;
+            this.ctlNumber5.IntVal = 1000;
             this.ctlNumber5.Location = new System.Drawing.Point(3, 135);
             this.ctlNumber5.MaxFloat = 500F;
             this.ctlNumber5.MaxInt = 1000;

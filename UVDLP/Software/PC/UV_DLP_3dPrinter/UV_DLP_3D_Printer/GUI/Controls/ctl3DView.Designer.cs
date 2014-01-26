@@ -124,7 +124,6 @@
             this.buttMeshTools.TabIndex = 31;
             this.ctlToolTip1.SetToolTip(this.buttMeshTools, "Mesh Tools");
             this.buttMeshTools.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
-            this.buttMeshTools.Visible = false;
             this.buttMeshTools.Click += new System.EventHandler(this.buttMeshTools_Click);
             // 
             // buttRedo

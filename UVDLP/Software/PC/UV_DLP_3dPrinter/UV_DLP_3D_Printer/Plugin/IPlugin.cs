@@ -11,12 +11,22 @@ namespace UV_DLP_3D_Printer.Plugin
     /// </summary>
     public interface IPlugin
     {
-        string Name { get;  } // name of the plugin
-        string Vendorname { get;  } // name of the Vendor who wrote this
-        int VendorID { get; }
         IPluginHost Host { get; set; } // this will set the plugin host
         //void Show();
-        Bitmap IconImage { get; }
-        Bitmap SplashImage { get; }
+        // this function will return a manifest of plugin items
+        List<PluginItem> GetPluginItems { get; }
+        //Bitmap IconImage { get; }
+        //Bitmap SplashImage { get; }
+        Bitmap GetImage(string name);
+        String GetString(string name);
+        String Name { get; }
+        /*I'm thinking a plugin can host controls, XML resources, scripts, etc... 
+         * It should also have functions that it can run, maybe through a delegate 
+         * graphical resources
+            Images, Icons, etc..
+         We should be able to report everything listed in the manifest through
+         * some sort of enumeration function
+         * we should also be able to return 
+         */
     }
 }
