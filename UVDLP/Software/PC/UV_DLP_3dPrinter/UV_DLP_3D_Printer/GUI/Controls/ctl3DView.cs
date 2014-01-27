@@ -13,7 +13,6 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform.Windows;
 using UV_DLP_3D_Printer._3DEngine;
-using UV_DLP_3D_Printer.GUI.CustomGUI;
 
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
@@ -69,7 +68,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             gr2d = new C2DGraphics();
             ctlBgndList = new List<ctlBgnd>();
             guiconf = new GuiConfig();
+            UpdateButtonList();
             guiconf.LoadConfiguration(global::UV_DLP_3D_Printer.Properties.Resources.GuiConfig);
+            guiconf.LayoutGui(Width, Height);
 
             ctlObjScale.c3d = this;
             ctlObjRotate.c3d = this;
@@ -731,10 +732,14 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             // update inner control positions
             foreach (Control ctl in mainViewSplitContainer.Panel2.Controls)
             {
+                if (ctl.GetType() == typeof(ctlImageButton))
+                    continue;
                 if (ctl.GetType().IsSubclassOf(typeof(ctlAnchorable)))
                     ((ctlAnchorable)ctl).UpdatePosition();
             }
 
+            if (guiconf != null)
+                guiconf.LayoutGui(Width, Height);
         }
 
         #endregion GL control events
@@ -765,7 +770,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             if (ctl == m_selectedControl)
             {
-                butt.Gapx -= 5;
+                //butt.Gapx -= 5;
                 m_pressedButt = null;
                 ctl.Visible = false;
                 m_selectedControl = null;
@@ -774,14 +779,15 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 if (m_selectedControl != null)
                 {
-                    m_pressedButt.Gapx -= 5;
+                    //m_pressedButt.Gapx -= 5;
+                    m_pressedButt.Checked = false;
                     m_selectedControl.Visible = false;
                 }
                 m_pressedButt = butt;
                 m_selectedControl = ctl;
-                butt.Gapx += 5;
-                ctl.Location = new Point(butt.Location.X + butt.Width + 16,
-                    butt.Location.Y + butt.Height - ctl.Height - 14);
+                //butt.Gapx += 5;
+                ctl.Location = new Point(butt.Location.X + 10,
+                    butt.Location.Y  - ctl.Height - 30);
                 ctl.Visible = true;
             }
         }
@@ -865,6 +871,19 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 // probably past the max.
             }
+        }
+
+        void UpdateButtonList()
+        {
+            guiconf.AddButton("home", buttGlHome); 
+            guiconf.AddButton("undo", buttUndo); 
+            guiconf.AddButton("redo", buttRedo); 
+            guiconf.AddButton("meshop", buttMeshTools);
+            guiconf.AddButton("view", buttView); 
+            guiconf.AddButton("support", buttSupports);
+            guiconf.AddButton("move", buttMove); 
+            guiconf.AddButton("rotate", buttRotate); 
+            guiconf.AddButton("scale", buttScale); 
         }
 
         #endregion 3d View controls
