@@ -39,6 +39,7 @@
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.findHolesInMeshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splashToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pluginTesterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainerMainWindow = new System.Windows.Forms.SplitContainer();
@@ -74,7 +75,7 @@
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
-            this.pluginTesterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.plugInsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.splitContainerMainWindow.Panel1.SuspendLayout();
             this.splitContainerMainWindow.Panel2.SuspendLayout();
@@ -171,10 +172,18 @@
             this.splashToolStripMenuItem.Text = "Splash";
             this.splashToolStripMenuItem.Click += new System.EventHandler(this.splashToolStripMenuItem_Click);
             // 
+            // pluginTesterToolStripMenuItem
+            // 
+            this.pluginTesterToolStripMenuItem.Name = "pluginTesterToolStripMenuItem";
+            this.pluginTesterToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
+            this.pluginTesterToolStripMenuItem.Text = "Plugin Tester";
+            this.pluginTesterToolStripMenuItem.Click += new System.EventHandler(this.pluginTesterToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem});
+            this.aboutToolStripMenuItem,
+            this.plugInsToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.helpToolStripMenuItem.Text = "Help";
@@ -182,7 +191,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(119, 24);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -607,12 +616,12 @@
             this.ctlToolTip1.ReshowDelay = 100;
             this.ctlToolTip1.ShowAlways = true;
             // 
-            // pluginTesterToolStripMenuItem
+            // plugInsToolStripMenuItem
             // 
-            this.pluginTesterToolStripMenuItem.Name = "pluginTesterToolStripMenuItem";
-            this.pluginTesterToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
-            this.pluginTesterToolStripMenuItem.Text = "Plugin Tester";
-            this.pluginTesterToolStripMenuItem.Click += new System.EventHandler(this.pluginTesterToolStripMenuItem_Click);
+            this.plugInsToolStripMenuItem.Name = "plugInsToolStripMenuItem";
+            this.plugInsToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.plugInsToolStripMenuItem.Text = "Plug-Ins";
+            this.plugInsToolStripMenuItem.Click += new System.EventHandler(this.plugInsToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -698,6 +707,7 @@
         private GUI.Controls.ctlGcodeView ctlGcodeView1;
         private System.Windows.Forms.ToolStripMenuItem splashToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pluginTesterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem plugInsToolStripMenuItem;
     }
 }
 
