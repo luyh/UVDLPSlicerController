@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Resources;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -83,16 +84,64 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         }
     }
 
+    public class ColorScheme
+    {
+        public ColorScheme(Color forecol, Color backcol)
+        {
+            ForeColor = forecol;
+            BackColor = backcol;
+        }
+
+        public Color ForeColor;
+        public Color BackColor;
+    }
+
     public class GuiConfig
     {
+        public enum EntityType { Buttons, Panels, Decals }
+
         Dictionary<String, ctlAnchorable> Controls;
+        Dictionary<String, ctlImageButton> Buttons;
         List<DecorItem> BgndDecorList;
         List<DecorItem> FgndDecorList;
+        ColorScheme ControlsCS;
+        ColorScheme ButtonsCS;
+        ResourceManager Res;
+
 
         public GuiConfig()
         {
             BgndDecorList = new List<DecorItem>();
             FgndDecorList = new List<DecorItem>();
+            Controls = new Dictionary<string, ctlAnchorable>();
+            Buttons = new Dictionary<string, ctlImageButton>();
+            ControlsCS = new ColorScheme(Color.Black, Color.White);
+            ButtonsCS = new ColorScheme(Color.Black, Color.White);
+            Res = global::UV_DLP_3D_Printer.Properties.Resources.ResourceManager;
+        }
+
+        public void AddControl(string name, ctlAnchorable ctl)
+        {
+            Controls[name] = ctl;
+        }
+
+        public void AddButton(string name, ctlImageButton ctl)
+        {
+            Buttons[name] = ctl;
+        }
+
+        public void SetColorScheme(EntityType entity, ColorScheme colcs)
+        {
+            switch (entity)
+            {
+                case EntityType.Buttons:
+                    ButtonsCS = colcs;
+                    break;
+
+                case EntityType.Panels:
+                    ControlsCS = colcs;
+                    break;
+            }
         }
 
         public static int GetPosition(int refpos, int refwidth, int width, int gap, Char anchor)
@@ -136,12 +185,15 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                     switch (xnode.Name)
                     {
                         case "decals": HandleDecals(xnode); break;
+                        case "buttons": HandleButtons(xnode); break;
                     }
                 }
 
             }
             catch (Exception) { }
         }
+
+        #region Decals
 
         void HandleDecals(XmlNode decalnode)
         {
@@ -191,9 +243,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             string name = GetStrParam(imgnode, "name", null);
             if (name == null)
                 return;
-            string docking = GetStrParam(imgnode, "dock", "cc").ToLower();
-            while (docking.Length < 2)
-                docking += "c";
+            string docking = FixDockingVal(GetStrParam(imgnode, "dock", "cc"));
             int x = GetIntParam(imgnode, "x", 0);
             int y = GetIntParam(imgnode, "y", 0);
             Color col = GetColorParam(imgnode, "color", Color.White);
@@ -203,7 +253,57 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             List<DecorItem> dlist = GetListFromLevel(imgnode);
             dlist.Add(new DecorImage(name, docking, x, y, col));
         }
+        #endregion
 
+        #region Buttons
+        void HandleButtons(XmlNode buttnode)
+        {
+            foreach (XmlNode xnode in buttnode.ChildNodes)
+            {
+                switch (xnode.Name)
+                {
+                    case "colortheme": HandleButtColorTheme(xnode); break;
+                    case "button": HandleButton(xnode); break;
+                }
+            }
+        }
+
+        void HandleButtColorTheme(XmlNode xnode)
+        {
+            Color fcol = GetColorParam(xnode, "fore", Color.FromArgb(0));
+            if (fcol != Color.FromArgb(0))
+                ButtonsCS.ForeColor = fcol;
+            Color bcol = GetColorParam(xnode, "fore", Color.FromArgb(0));
+            if (bcol != Color.FromArgb(0))
+                ButtonsCS.BackColor = bcol;
+            foreach (KeyValuePair<String, ctlImageButton> pair in Buttons)
+            {
+                ctlImageButton butt = pair.Value;
+                if (fcol != Color.FromArgb(0))
+                    butt.ForeColor = fcol;
+                if (bcol != Color.FromArgb(0))
+                    butt.BackColor = bcol;
+            }
+        }
+
+        void HandleButton(XmlNode buttnode)
+        {
+            string name = GetStrParam(buttnode, "name", null);
+            if (name == null)
+                return;
+            if (!Buttons.ContainsKey(name))
+                return;
+            ctlImageButton butt = Buttons[name];
+            butt.GuiAnchor = FixDockingVal(GetStrParam(buttnode, "dock", butt.GuiAnchor));
+            butt.Gapx = GetIntParam(buttnode, "x", butt.Gapx);
+            butt.Gapy = GetIntParam(buttnode, "y", butt.Gapy);
+            butt.Image = GetImageParam(buttnode, "image", butt.Image);
+            butt.CheckImage = GetImageParam(buttnode, "check", butt.CheckImage);
+        }
+
+        #endregion
+
+        #region Attribute parsing
         string GetStrParam(XmlNode xnode, string paramName, string defVal)
         {
             try
@@ -229,7 +329,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 return defVal;
             }
         }
-
+ 
         Color GetColorParam(XmlNode xnode, string paramName, Color defVal)
         {
             Color res;
@@ -257,6 +357,30 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         }
 
+        Image GetImageParam(XmlNode xnode, string paramName, Image defVal)
+        {
+            string imgname = GetStrParam(xnode, paramName, null);
+            if (imgname == null)
+                return defVal;
+            Image img = (Image)Res.GetObject(imgname);
+            if (img == null)
+                return defVal;
+            return img;
+        }
+
+        string FixDockingVal(string origdock)
+        {
+            if (origdock == null)
+                return "cc";
+            string dock = origdock.ToLower();
+            while (dock.Length < 2)
+                dock += "c";
+            return dock;
+        }
+        #endregion
+
+        #region Perform layout
+
         void Draw(List<DecorItem> dlist, C2DGraphics g2d, int w, int h)
         {
             foreach (DecorItem di in dlist)
@@ -275,5 +399,22 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             Draw(BgndDecorList, g2d, w, h);
         }
 
+        public void LayoutGui(int w, int h)
+        {
+            LayoutButtons(w, h);
+        }
+
+        void LayoutButtons(int w, int h)
+        {
+            foreach (KeyValuePair<String, ctlImageButton> pair in Buttons)
+            {
+                ctlImageButton butt = pair.Value;
+                int px = GetPosition(0, w, butt.Width, butt.Gapx, butt.GuiAnchor[1]);
+                int py = GetPosition(0, h, butt.Height, butt.Gapy, butt.GuiAnchor[0]);
+                butt.Location = new System.Drawing.Point(px, py);
+            }
+        }
+
+        #endregion
     }
 }

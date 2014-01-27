@@ -30,6 +30,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         int mGapx, mGapy;
         AnchorTypes mAnchorHoriz;
         AnchorTypes mAnchorVert;
+        String mGuiAnchor;
         bool mChecked;
         protected int mAutorepeatInitial;
         protected int mAutorepeatPeriod;
@@ -63,6 +64,13 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             get { return mAnchorVert; }
             set { mAnchorVert = value; }
+        }
+
+        [Description("GUI anchor type, 2 letter combination of t,c,b and l,c,r"), Category("Data")]
+        public String GuiAnchor
+        {
+            get { return mGuiAnchor; }
+            set { mGuiAnchor = value; }
         }
 
         [Description("Check state"), Category("Data")]

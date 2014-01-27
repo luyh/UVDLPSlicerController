@@ -445,6 +445,13 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap checkRect {
+            get {
+                object obj = ResourceManager.GetObject("checkRect", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap Connect {
             get {
                 object obj = ResourceManager.GetObject("Connect", resourceCulture);
@@ -533,17 +540,12 @@ namespace UV_DLP_3D_Printer.Properties {
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         ///&lt;GuiConfig FileVersion=&quot;1&quot;&gt;
         ///	&lt;buttons&gt;
-        ///		&lt;colorscheme back=&quot;#FFFFFF&quot; fore=&quot;Green&quot;/&gt;
-        ///		&lt;button name=&quot;bmove&quot; dock=&quot;bl&quot; x=&quot;10&quot; y=&quot;10&quot; image=&quot;immove&quot; w=&quot;32&quot; h=&quot;32&quot;/&gt;
-        ///		&lt;button name=&quot;bscale&quot; dock=&quot;bl&quot; x=&quot;10&quot; y=&quot;42&quot; image=&quot;imscale&quot; w=&quot;32&quot; h=&quot;32&quot;/&gt;
-        ///	&lt;/buttons&gt;
-        ///	&lt;panels&gt;
-        ///		&lt;colorscheme back=&quot;#FFFFFF&quot; fore=&quot;Green&quot;/&gt;
-        ///		&lt;panel name=&quot;pmove&quot; doc=&quot;bl&quot; x=&quot;10&quot; y=&quot;50&quot; shape=&quot;shpanel&quot;/&gt;
-        ///		&lt;panel name=&quot;pscale&quot; doc=&quot;bl&quot; x=&quot;100&quot; y=&quot;50&quot; shape=&quot;shpanel&quot;/&gt;
-        ///	&lt;/panels&gt;
-        ///	&lt;decals&gt;
-        ///		&lt;bar dock=&quot;n&quot; [rest of string was truncated]&quot;;.
+        ///		&lt;colortheme back=&quot;#FFFFFF&quot; fore=&quot;RoyalBlue&quot;/&gt;
+        ///		&lt;button name=&quot;home&quot; dock=&quot;tr&quot; x=&quot;10&quot; y=&quot;10&quot; image=&quot;homeButt&quot; w=&quot;48&quot; h=&quot;48&quot;/&gt;
+        ///		&lt;button name=&quot;undo&quot; dock=&quot;tl&quot; x=&quot;10&quot; y=&quot;10&quot; image=&quot;buttUndo&quot; w=&quot;48&quot; h=&quot;48&quot;/&gt;
+        ///		&lt;button name=&quot;redo&quot; dock=&quot;tl&quot; x=&quot;60&quot; y=&quot;10&quot; image=&quot;buttRedo&quot; w=&quot;48&quot; h=&quot;48&quot;/&gt;
+        ///		&lt;button name=&quot;meshop&quot; dock=&quot;bl&quot; x=&quot;288&quot; y=&quot;10&quot; image=&quot;buttMeshTools&quot; w=&quot;48&quot; h=&quot;48&quot;/&gt;
+        ///		&lt;button name=&quot;view&quot; dock=&quot;bl&quot; x=&quot;230&quot; y=&quot;10&quot; image=&quot;buttView [rest of string was truncated]&quot;;.
         /// </summary>
         public static string GuiConfig {
             get {
