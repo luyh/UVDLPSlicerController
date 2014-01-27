@@ -65,7 +65,7 @@ namespace UV_DLP_3D_Printer
         //private Object3d m_selectedobject = null;
         private List<Object3d> m_selectedobjects = null;
         // the scene object used for slicing
-        private Object3d m_sceneobject = null;
+        private Object3d m_sceneobject = null; // need to get rid of this...
         // the current machine configuration
         public MachineConfig m_printerinfo = new MachineConfig();
         // the current building / slicing profile
@@ -79,7 +79,6 @@ namespace UV_DLP_3D_Printer
         public GCodeFile m_gcode;
         // the slicer we're using 
         public Slicer m_slicer;//
-        //public FlexSlice m_flexslice;
         //current slice file
         public SliceFile m_slicefile;
         public BuildManager m_buildmgr;
@@ -87,6 +86,7 @@ namespace UV_DLP_3D_Printer
 
         public static String m_appconfigname = "CreationConfig.xml";
         public static String m_pathsep = "\\";
+
         public List<IPlugin> m_plugins; // list of plug-ins
 
         public Undoer m_undoer;

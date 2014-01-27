@@ -918,5 +918,12 @@ namespace UV_DLP_3D_Printer
 
         }
 
+        private void plugInsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmPluginManager pim = new frmPluginManager();
+            pim.ShowDialog();
+
+        }
+
     }
 }
