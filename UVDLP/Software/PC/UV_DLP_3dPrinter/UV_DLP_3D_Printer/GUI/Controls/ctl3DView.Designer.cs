@@ -185,12 +185,12 @@
             this.numLayer.ErrorColor = System.Drawing.Color.Red;
             this.numLayer.FloatVal = 10F;
             this.numLayer.Gapx = 0;
-            this.numLayer.Gapy = 10;
+            this.numLayer.Gapy = 80;
             this.numLayer.GuiAnchor = null;
             this.numLayer.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Center;
             this.numLayer.Increment = 1F;
             this.numLayer.IntVal = 1000;
-            this.numLayer.Location = new System.Drawing.Point(253, 519);
+            this.numLayer.Location = new System.Drawing.Point(216, 446);
             this.numLayer.MaxFloat = 500F;
             this.numLayer.MaxInt = 1000;
             this.numLayer.MinFloat = -500F;

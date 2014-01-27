@@ -39,7 +39,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         C2DGraphics gr2d;
         GuiConfig guiconf;
         public List<ctlBgnd> ctlBgndList;
-        int sliceTex;
+        int m_sliceTex;
+        int m_sliceViewW, m_sliceViewH;
+        int m_sliceW, m_sliceH;
         
 
         public delegate void On3dViewRedraw();
@@ -82,7 +84,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             ctlMeshTools1.c3d = this;
             ctlScene1.c3d = this;
 
-            sliceTex = -1;
+            m_sliceTex = -1;
         }
 
         public void SetMessagePanelHolder(SplitContainer holder)
@@ -317,13 +319,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 gr2d.Panel9("trimpanel", cb.x, cb.y, cb.w, cb.h);
             }
 
-            if (ctlViewOptions.SliceVisible && (sliceTex != -1))
+            if (ctlViewOptions.SliceVisible && (m_sliceTex != -1))
             {
-                int ih = h/2;
-                int iw = ih * 1024 / 768;
-                int px = w - iw - 20;
+                int px = w - m_sliceViewW - 20;
                 gr2d.SetColor(Color.FromArgb(50, 255, 255, 255));
-                gr2d.Image(sliceTex, 0, 1, 0, 1, px, 90, iw, ih);
+                gr2d.Image(m_sliceTex, 0, 1, 0, 1, px, 90, m_sliceViewW, m_sliceViewH);
             }
             //SetAlpha(m_showalpha);
             Set3DView();
@@ -690,6 +690,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             if (!loaded)
                 return;
             SetupViewport();
+            CalcSliceLocation();
             //glControl1.Invalidate();
             UpdateView();
         }
@@ -839,13 +840,31 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         #region 3d View controls
 
+
+        void CalcSliceLocation()
+        {
+            if ((m_sliceH <= 0) || (m_sliceW <= 0))
+                return;
+            m_sliceViewH = Height / 2;
+            m_sliceViewW = m_sliceViewH * m_sliceW / m_sliceH;
+            if (m_sliceViewW > (Width / 2))
+            {
+                m_sliceViewW = Width / 2;
+                m_sliceViewH = m_sliceViewW * m_sliceH / m_sliceW;
+            }
+        }
+
         void LoadSlice(int layer)
         {
             Bitmap bmp = null;
             bmp = UVDLPApp.Instance().m_slicefile.GetSliceImage(layer);
-            if (sliceTex != -1)
-                gr2d.DeleteTexture(sliceTex);
-            sliceTex = gr2d.LoadTextureImage(bmp);
+            m_sliceW = bmp.Width;
+            m_sliceH = bmp.Height;
+            CalcSliceLocation();
+
+            if (m_sliceTex != -1)
+                gr2d.DeleteTexture(m_sliceTex);
+            m_sliceTex = gr2d.LoadTextureImage(bmp);
         }
 
         public void ViewLayer(int layer)
