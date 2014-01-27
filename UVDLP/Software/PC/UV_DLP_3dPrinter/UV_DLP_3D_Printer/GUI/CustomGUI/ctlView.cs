@@ -60,7 +60,10 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             get { return mObjectInfoPanel; }
             set { mObjectInfoPanel = value; }
         }
-
+        public bool SliceVisible
+        {
+            get { return buttSliceView.Checked; }
+        }
 
         private void buttEnableTransparency_Click(object sender, EventArgs e)
         {
@@ -118,6 +121,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             UVDLPApp.Instance().m_appconfig.m_showBoundingBox = buttBoundingBox.Checked;
             UVDLPApp.Instance().m_appconfig.Save(UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + UVDLPApp.m_appconfigname);
             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
+        }
+
+        private void buttSliceView_Click(object sender, EventArgs e)
+        {
+            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");            
         }
 
     }

@@ -39,6 +39,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         C2DGraphics gr2d;
         GuiConfig guiconf;
         public List<ctlBgnd> ctlBgndList;
+        int sliceTex;
         
 
         public delegate void On3dViewRedraw();
@@ -80,6 +81,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             ctlViewOptions.c3d = this;
             ctlMeshTools1.c3d = this;
             ctlScene1.c3d = this;
+
+            sliceTex = -1;
         }
 
         public void SetMessagePanelHolder(SplitContainer holder)
@@ -310,8 +313,17 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
             foreach (ctlBgnd cb in ctlBgndList)
             {
-                GL.Color3(cb.col);
+                gr2d.SetColor(cb.col);
                 gr2d.Panel9("trimpanel", cb.x, cb.y, cb.w, cb.h);
+            }
+
+            if (ctlViewOptions.SliceVisible && (sliceTex != -1))
+            {
+                int ih = h/2;
+                int iw = ih * 1024 / 768;
+                int px = w - iw - 20;
+                gr2d.SetColor(Color.FromArgb(50, 255, 255, 255));
+                gr2d.Image(sliceTex, 0, 1, 0, 1, px, 90, iw, ih);
             }
             //SetAlpha(m_showalpha);
             Set3DView();
@@ -827,6 +839,15 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         #region 3d View controls
 
+        void LoadSlice(int layer)
+        {
+            Bitmap bmp = null;
+            bmp = UVDLPApp.Instance().m_slicefile.GetSliceImage(layer);
+            if (sliceTex != -1)
+                gr2d.DeleteTexture(sliceTex);
+            sliceTex = gr2d.LoadTextureImage(bmp);
+        }
+
         public void ViewLayer(int layer)
         {
             try
@@ -839,7 +860,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                         if (m_curslice != null)
                         {
                             //UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
-
+                            LoadSlice(layer);
                             UpdateView();//glControl1.Invalidate();
                         }
                     }

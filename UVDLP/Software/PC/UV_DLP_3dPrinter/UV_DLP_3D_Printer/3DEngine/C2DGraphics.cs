@@ -133,6 +133,7 @@ namespace UV_DLP_3D_Printer._3DEngine
         public void Image(int tex, float x1, float x2, float y1, float y2, float dx, float dy, float dw, float dh)
         {
             GL.Enable(EnableCap.Texture2D);
+            GL.BindTexture(TextureTarget.Texture2D, tex);
             //GL.Begin(BeginMode.Quads);
             GL.Begin(PrimitiveType.Quads);
 
@@ -208,6 +209,11 @@ namespace UV_DLP_3D_Printer._3DEngine
             {
                 Image(img.tex, img.x1, img.x2, sy3, sy4, x, y + y3, w, h - 2 * y3);
             }
+        }
+
+        public void DeleteTexture(int tex)
+        {
+            GL.DeleteTexture(tex);
         }
 
         public void SetColor(Color col)
