@@ -190,7 +190,7 @@
             this.numLayer.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Center;
             this.numLayer.Increment = 1F;
             this.numLayer.IntVal = 1000;
-            this.numLayer.Location = new System.Drawing.Point(216, 446);
+            this.numLayer.Location = new System.Drawing.Point(103, 514);
             this.numLayer.MaxFloat = 500F;
             this.numLayer.MaxInt = 1000;
             this.numLayer.MinFloat = -500F;

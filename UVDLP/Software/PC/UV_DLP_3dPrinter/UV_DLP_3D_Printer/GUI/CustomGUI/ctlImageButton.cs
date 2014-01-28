@@ -104,6 +104,15 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             //base.OnPaint(pevent);
         }
 
+        public override void ApplyTheme(ControlTheme ct)
+        {
+            base.ApplyTheme(ct);
+            if (ct.ForeColor != ControlTheme.NullColor)
+                ForeColor = ct.ForeColor;
+            if (ct.BackColor != ControlTheme.NullColor)
+                BackColor = ct.BackColor;
+        }
+
         protected override void OnDoubleClick(EventArgs e)
         {
             base.OnClick(e);

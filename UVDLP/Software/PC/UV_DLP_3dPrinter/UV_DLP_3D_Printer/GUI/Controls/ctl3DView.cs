@@ -316,7 +316,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             foreach (ctlBgnd cb in ctlBgndList)
             {
                 gr2d.SetColor(cb.col);
-                gr2d.Panel9("trimpanel", cb.x, cb.y, cb.w, cb.h);
+                gr2d.Panel9(cb.imageName, cb.x, cb.y, cb.w, cb.h);
             }
 
             if (ctlViewOptions.SliceVisible && (m_sliceTex != -1))
@@ -779,8 +779,12 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             glControl1.Invalidate();
         }
 
-        private void ShowPanel(ctlImageButton butt, Control ctl)
+        private void ShowPanel(ctlImageButton butt, string ctlname)
         {
+            ctlUserPanel ctl = guiconf.GetControl(ctlname);
+            if (ctl == null)
+                return;
+
             if (ctl == m_selectedControl)
             {
                 //butt.Gapx -= 5;
@@ -798,41 +802,38 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 }
                 m_pressedButt = butt;
                 m_selectedControl = ctl;
-                //butt.Gapx += 5;
-                ctl.Location = new Point(butt.Location.X + 10,
-                    butt.Location.Y  - ctl.Height - 30);
                 ctl.Visible = true;
             }
         }
         
         private void buttView_Click(object sender, EventArgs e)
         {
-            ShowPanel(buttView, ctlViewOptions);
+            ShowPanel(buttView, "pviewopts");
         }
 
         private void buttSupports_Click(object sender, EventArgs e)
         {
-            ShowPanel(buttSupports, ctlSupport);
+            ShowPanel(buttSupports, "psupport");
         }
 
         private void buttMove_Click(object sender, EventArgs e)
         {
-            ShowPanel(buttMove, ctlObjMove);
+            ShowPanel(buttMove, "pmove");
         }
 
         private void buttRotate_Click(object sender, EventArgs e)
         {
-            ShowPanel(buttRotate, ctlObjRotate);
+            ShowPanel(buttRotate, "protate");
         }
 
         private void buttMeshTools_Click(object sender, EventArgs e)
         {
-            ShowPanel(buttMeshTools,ctlMeshTools1);
+            ShowPanel(buttMeshTools,"pmeshtools");
         }
 
         private void buttScale_Click(object sender, EventArgs e)
         {
-            ShowPanel(buttScale, ctlObjScale);
+            ShowPanel(buttScale, "pscale");
         }
 
         #endregion 3d View buttons
@@ -923,7 +924,16 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             guiconf.AddButton("support", buttSupports);
             guiconf.AddButton("move", buttMove); 
             guiconf.AddButton("rotate", buttRotate); 
-            guiconf.AddButton("scale", buttScale); 
+            guiconf.AddButton("scale", buttScale);
+            guiconf.AddControl("pmove", ctlObjMove);
+            guiconf.AddControl("pscale", ctlObjScale);
+            guiconf.AddControl("protate", ctlObjRotate);
+            guiconf.AddControl("psupport", ctlSupport);
+            guiconf.AddControl("pviewopts", ctlViewOptions);
+            guiconf.AddControl("pmeshtools", ctlMeshTools1);
+            guiconf.AddControl("pscenetree", ctlScene1);
+            guiconf.AddControl("pobjectinf", objectInfoPanel);
+            guiconf.AddControl("clayernum", numLayer);
         }
 
         #endregion 3d View controls
@@ -934,6 +944,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         public int x, y;
         public int w, h;
         public Color col;
+        public string imageName;
     }
 
 

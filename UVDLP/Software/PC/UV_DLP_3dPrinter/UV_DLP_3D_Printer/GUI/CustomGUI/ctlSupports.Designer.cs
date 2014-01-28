@@ -118,6 +118,7 @@
             this.buttAddSupport.CheckImage = null;
             this.buttAddSupport.Gapx = 5;
             this.buttAddSupport.Gapy = 5;
+            this.buttAddSupport.GuiAnchor = null;
             this.buttAddSupport.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttAddSupport.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttAddSupport;
             this.buttAddSupport.Location = new System.Drawing.Point(5, 5);
@@ -136,6 +137,7 @@
             this.buttAutoSupport.CheckImage = null;
             this.buttAutoSupport.Gapx = 5;
             this.buttAutoSupport.Gapy = 5;
+            this.buttAutoSupport.GuiAnchor = null;
             this.buttAutoSupport.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttAutoSupport.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttAutoSupport;
             this.buttAutoSupport.Location = new System.Drawing.Point(58, 5);
@@ -154,6 +156,7 @@
             this.buttSetup.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
             this.buttSetup.Gapx = 5;
             this.buttSetup.Gapy = 5;
+            this.buttSetup.GuiAnchor = null;
             this.buttSetup.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttSetup.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttGear;
             this.buttSetup.Location = new System.Drawing.Point(111, 5);
@@ -213,6 +216,7 @@
             this.numFB1.FloatVal = 1F;
             this.numFB1.Gapx = 5;
             this.numFB1.Gapy = 5;
+            this.numFB1.GuiAnchor = null;
             this.numFB1.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.numFB1.Increment = 0.1F;
             this.numFB1.IntVal = 1;
@@ -243,6 +247,7 @@
             this.numFB.FloatVal = 1F;
             this.numFB.Gapx = 5;
             this.numFB.Gapy = 5;
+            this.numFB.GuiAnchor = null;
             this.numFB.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.numFB.Increment = 0.1F;
             this.numFB.IntVal = 1;
@@ -273,6 +278,7 @@
             this.numFT.FloatVal = 1F;
             this.numFT.Gapx = 5;
             this.numFT.Gapy = 5;
+            this.numFT.GuiAnchor = null;
             this.numFT.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.numFT.Increment = 0.1F;
             this.numFT.IntVal = 1;
@@ -302,6 +308,7 @@
             this.numHB.FloatVal = 1F;
             this.numHB.Gapx = 5;
             this.numHB.Gapy = 5;
+            this.numHB.GuiAnchor = null;
             this.numHB.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.numHB.Increment = 0.1F;
             this.numHB.IntVal = 1;
@@ -331,6 +338,7 @@
             this.numHT.FloatVal = 1F;
             this.numHT.Gapx = 5;
             this.numHT.Gapy = 5;
+            this.numHT.GuiAnchor = null;
             this.numHT.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.numHT.Increment = 0.1F;
             this.numHT.IntVal = 1;
@@ -353,7 +361,6 @@
             // 
             // pictureSupport
             // 
-            this.pictureSupport.BackColor = System.Drawing.Color.RoyalBlue;
             this.pictureSupport.Location = new System.Drawing.Point(5, 31);
             this.pictureSupport.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureSupport.Name = "pictureSupport";
@@ -392,6 +399,7 @@
             this.chkDownPolys.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
             this.chkDownPolys.Gapx = 5;
             this.chkDownPolys.Gapy = 5;
+            this.chkDownPolys.GuiAnchor = null;
             this.chkDownPolys.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.chkDownPolys.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttViewDown;
             this.chkDownPolys.Location = new System.Drawing.Point(7, 32);
@@ -412,6 +420,7 @@
             this.numDownAngle.FloatVal = 1000F;
             this.numDownAngle.Gapx = 5;
             this.numDownAngle.Gapy = 5;
+            this.numDownAngle.GuiAnchor = null;
             this.numDownAngle.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.numDownAngle.Increment = 1F;
             this.numDownAngle.IntVal = 1;
@@ -480,7 +489,7 @@
             "Adaptive"});
             this.cmbSupType.Location = new System.Drawing.Point(7, 25);
             this.cmbSupType.Name = "cmbSupType";
-            this.cmbSupType.Size = new System.Drawing.Size(147, 24);
+            this.cmbSupType.Size = new System.Drawing.Size(147, 21);
             this.cmbSupType.TabIndex = 35;
             this.cmbSupType.SelectedIndexChanged += new System.EventHandler(this.cmbSupType_SelectedIndexChanged);
             // 
@@ -491,6 +500,7 @@
             this.chkOnlyDownward.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
             this.chkOnlyDownward.Gapx = 5;
             this.chkOnlyDownward.Gapy = 5;
+            this.chkOnlyDownward.GuiAnchor = null;
             this.chkOnlyDownward.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.chkOnlyDownward.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttAutoDown;
             this.chkOnlyDownward.Location = new System.Drawing.Point(7, 56);
@@ -510,6 +520,7 @@
             this.numY.FloatVal = 1F;
             this.numY.Gapx = 5;
             this.numY.Gapy = 5;
+            this.numY.GuiAnchor = null;
             this.numY.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.numY.Increment = 0.1F;
             this.numY.IntVal = 1;
@@ -538,6 +549,7 @@
             this.numX.FloatVal = 1F;
             this.numX.Gapx = 5;
             this.numX.Gapy = 5;
+            this.numX.GuiAnchor = null;
             this.numX.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.numX.Increment = 0.1F;
             this.numX.IntVal = 1;

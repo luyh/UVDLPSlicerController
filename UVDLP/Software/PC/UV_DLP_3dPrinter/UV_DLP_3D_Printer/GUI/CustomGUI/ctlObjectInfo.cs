@@ -76,5 +76,23 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             double cost = vol * (UVDLPApp.Instance().m_buildparms.m_resinprice / 1000.0);
             tCost.DataText = string.Format("{0:0.000}", cost);
        }
+
+        public override void ApplyTheme(ControlTheme ct)
+        {
+            base.ApplyTheme(ct);
+            if (ct.ForeColor != ControlTheme.NullColor)
+            {
+                tTitle.ForeColor = ct.ForeColor;
+                tName.ForeColor = ct.ForeColor;
+            }
+            if (ct.BackColor != ControlTheme.NullColor)
+            {
+                BackColor = ct.BackColor;
+                layoutPanel.BackColor = ct.BackColor;
+                tTitle.BackColor = ct.BackColor;
+                tName.BackColor = ct.BackColor;
+            }
+
+        }
     }
 }

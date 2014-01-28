@@ -35,8 +35,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         public override void Show(C2DGraphics g2d, int w, int h)
         {
-            int iw, ih;
-            g2d.GetImageDim(name, out iw, out ih);
+            int iw = 0, ih = 0;
+            g2d.GetImageDim(name, ref iw, ref ih);
             int px = GuiConfig.GetPosition(0, w, iw, x, docking[1]);
             int py = GuiConfig.GetPosition(0, h, ih, y, docking[0]);
             g2d.SetColor(color);
@@ -84,28 +84,39 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         }
     }
 
-    public class ColorScheme
+    public class ControlTheme
     {
-        public ColorScheme(Color forecol, Color backcol)
+        public static Color NullColor = Color.FromArgb(0);
+
+        public ControlTheme(Color forecol, Color backcol)
         {
             ForeColor = forecol;
             BackColor = backcol;
+            FrameColor = NullColor;
+        }
+
+        public ControlTheme()
+        {
+            ForeColor = NullColor;
+            BackColor = NullColor;
+            FrameColor = NullColor;
         }
 
         public Color ForeColor;
         public Color BackColor;
+        public Color FrameColor;
     }
 
     public class GuiConfig
     {
         public enum EntityType { Buttons, Panels, Decals }
 
-        Dictionary<String, ctlAnchorable> Controls;
+        Dictionary<String, ctlUserPanel> Controls;
         Dictionary<String, ctlImageButton> Buttons;
         List<DecorItem> BgndDecorList;
         List<DecorItem> FgndDecorList;
-        ColorScheme ControlsCS;
-        ColorScheme ButtonsCS;
+        ControlTheme ControlsCT;
+        ControlTheme ButtonsCT;
         ResourceManager Res;
 
 
@@ -113,14 +124,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             BgndDecorList = new List<DecorItem>();
             FgndDecorList = new List<DecorItem>();
-            Controls = new Dictionary<string, ctlAnchorable>();
+            Controls = new Dictionary<string, ctlUserPanel>();
             Buttons = new Dictionary<string, ctlImageButton>();
-            ControlsCS = new ColorScheme(Color.Black, Color.White);
-            ButtonsCS = new ColorScheme(Color.Black, Color.White);
             Res = global::UV_DLP_3D_Printer.Properties.Resources.ResourceManager;
         }
 
-        public void AddControl(string name, ctlAnchorable ctl)
+        public void AddControl(string name, ctlUserPanel ctl)
         {
             Controls[name] = ctl;
         }
@@ -130,16 +139,30 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             Buttons[name] = ctl;
         }
 
-        public void SetColorScheme(EntityType entity, ColorScheme colcs)
+        public ctlUserPanel GetControl(string name)
+        {
+            if (!Controls.ContainsKey(name))
+                return null;
+            return Controls[name];
+        }
+
+        public ctlImageButton GetButton(string name)
+        {
+            if (!Buttons.ContainsKey(name))
+                return null;
+            return Buttons[name];
+        }
+
+        public void SetControlTheme(EntityType entity, ControlTheme colcs)
         {
             switch (entity)
             {
                 case EntityType.Buttons:
-                    ButtonsCS = colcs;
+                    ButtonsCT = colcs;
                     break;
 
                 case EntityType.Panels:
-                    ControlsCS = colcs;
+                    ControlsCT = colcs;
                     break;
             }
         }
@@ -186,6 +209,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                     {
                         case "decals": HandleDecals(xnode); break;
                         case "buttons": HandleButtons(xnode); break;
+                        case "controls": HandleControls(xnode); break;
                     }
                 }
 
@@ -262,27 +286,20 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             {
                 switch (xnode.Name)
                 {
-                    case "colortheme": HandleButtColorTheme(xnode); break;
+                    case "theme": HandleButtonTheme(xnode); break;
                     case "button": HandleButton(xnode); break;
                 }
             }
         }
 
-        void HandleButtColorTheme(XmlNode xnode)
+        void HandleButtonTheme(XmlNode xnode)
         {
-            Color fcol = GetColorParam(xnode, "fore", Color.FromArgb(0));
-            if (fcol != Color.FromArgb(0))
-                ButtonsCS.ForeColor = fcol;
-            Color bcol = GetColorParam(xnode, "fore", Color.FromArgb(0));
-            if (bcol != Color.FromArgb(0))
-                ButtonsCS.BackColor = bcol;
+            ButtonsCT = new ControlTheme();
+            UpdateTheme(xnode, ButtonsCT);
             foreach (KeyValuePair<String, ctlImageButton> pair in Buttons)
             {
                 ctlImageButton butt = pair.Value;
-                if (fcol != Color.FromArgb(0))
-                    butt.ForeColor = fcol;
-                if (bcol != Color.FromArgb(0))
-                    butt.BackColor = bcol;
+                butt.ApplyTheme(ButtonsCT);
             }
         }
 
@@ -302,6 +319,47 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         }
 
         #endregion
+
+        #region Controls
+        void HandleControls(XmlNode buttnode)
+        {
+            foreach (XmlNode xnode in buttnode.ChildNodes)
+            {
+                switch (xnode.Name)
+                {
+                    case "theme": HandleControlTheme(xnode); break;
+                    case "control": HandleControl(xnode); break;
+                }
+            }
+        }
+        
+        void HandleControlTheme(XmlNode xnode)
+        {
+            ControlsCT = new ControlTheme();
+            UpdateTheme(xnode, ControlsCT);
+            foreach (KeyValuePair<String, ctlUserPanel> pair in Controls)
+            {
+                ctlUserPanel ctl = pair.Value;
+                ctl.ApplyTheme(ControlsCT);
+            }
+        }
+
+        void HandleControl(XmlNode ctlnode)
+        {
+            string name = GetStrParam(ctlnode, "name", null);
+            if (name == null)
+                return;
+            if (!Controls.ContainsKey(name))
+                return;
+            ctlUserPanel ctl = Controls[name];
+            ctl.GuiAnchor = FixDockingVal(GetStrParam(ctlnode, "dock", ctl.GuiAnchor));
+            ctl.Gapx = GetIntParam(ctlnode, "x", ctl.Gapx);
+            ctl.Gapy = GetIntParam(ctlnode, "y", ctl.Gapy);
+            ctl.bgndPanel.imageName = GetStrParam(ctlnode, "shape", ctl.bgndPanel.imageName);
+        }
+
+        #endregion
+
 
         #region Attribute parsing
         string GetStrParam(XmlNode xnode, string paramName, string defVal)
@@ -377,6 +435,14 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 dock += "c";
             return dock;
         }
+
+        void UpdateTheme(XmlNode xnode, ControlTheme th)
+        {
+            th.ForeColor = GetColorParam(xnode, "forecolor", th.ForeColor);
+            th.BackColor = GetColorParam(xnode, "backcolor", th.BackColor);
+            th.FrameColor = GetColorParam(xnode, "framecolor", th.BackColor);
+        }
+
         #endregion
 
         #region Perform layout
@@ -402,6 +468,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public void LayoutGui(int w, int h)
         {
             LayoutButtons(w, h);
+            LayoutControls(w, h);
         }
 
         void LayoutButtons(int w, int h)
@@ -409,9 +476,24 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             foreach (KeyValuePair<String, ctlImageButton> pair in Buttons)
             {
                 ctlImageButton butt = pair.Value;
+                if (butt.GuiAnchor == null)
+                    continue;
                 int px = GetPosition(0, w, butt.Width, butt.Gapx, butt.GuiAnchor[1]);
                 int py = GetPosition(0, h, butt.Height, butt.Gapy, butt.GuiAnchor[0]);
                 butt.Location = new System.Drawing.Point(px, py);
+            }
+        }
+        
+        void LayoutControls(int w, int h)
+        {
+            foreach (KeyValuePair<String, ctlUserPanel> pair in Controls)
+            {
+                ctlUserPanel ctl = pair.Value;
+                if (ctl.GuiAnchor == null)
+                    continue;
+                int px = GetPosition(0, w, ctl.Width, ctl.Gapx, ctl.GuiAnchor[1]);
+                int py = GetPosition(0, h, ctl.Height, ctl.Gapy, ctl.GuiAnchor[0]);
+                ctl.Location = new System.Drawing.Point(px, py);
             }
         }
 

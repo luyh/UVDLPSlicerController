@@ -1073,5 +1073,42 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (UVDLPApp.Instance().SelectedObjectList.Count < 2) return; // must have morre than 2 objects
             CSG.Instance().StartOp(CSG.eCSGOp.eSubtraction, UVDLPApp.Instance().SelectedObjectList[0], UVDLPApp.Instance().SelectedObjectList[1]);
         }
+
+        public override void ApplyTheme(ControlTheme ct)
+        {
+            base.ApplyTheme(ct);
+            if (ct.ForeColor != ControlTheme.NullColor)
+            {
+                cmdCreatePrim.ForeColor = ct.ForeColor;
+                label1.ForeColor = ct.ForeColor;
+                label2.ForeColor = ct.ForeColor;
+                label3.ForeColor = ct.ForeColor;
+                label4.ForeColor = ct.ForeColor;
+                label5.ForeColor = ct.ForeColor;
+                label6.ForeColor = ct.ForeColor;
+                label7.ForeColor = ct.ForeColor;
+                label8.ForeColor = ct.ForeColor;
+                label9.ForeColor = ct.ForeColor;
+                progressTitle.ForeColor = ct.ForeColor;
+            }
+            if (ct.BackColor != ControlTheme.NullColor)
+            {
+                BackColor = ct.BackColor;
+                cmdCreatePrim.BackColor = ct.BackColor;
+                progressTitle.BackColor = ct.BackColor;
+            }
+            if (ct.FrameColor != ControlTheme.NullColor)
+            {
+                flowLayoutPanel1.BackColor = ct.FrameColor;
+                flowLayoutPanel3.BackColor = ct.FrameColor;
+                flowLayoutPanel4.BackColor = ct.FrameColor;
+                pnlSphere.BackColor = ct.FrameColor;
+                pnlCone.BackColor = ct.FrameColor;
+                pnlCube.BackColor = ct.FrameColor;
+                pnlTorus.BackColor = ct.FrameColor;
+            }
+
+        }
+
     }
 }

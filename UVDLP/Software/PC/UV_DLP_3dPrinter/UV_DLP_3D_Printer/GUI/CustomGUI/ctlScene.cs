@@ -64,6 +64,28 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             
         }
 
+        public override void ApplyTheme(ControlTheme ct)
+        {
+            base.ApplyTheme(ct);
+            if (ct.ForeColor != ControlTheme.NullColor)
+            {
+                lblTitle.ForeColor = ct.ForeColor;
+                treeScene.ForeColor = ct.ForeColor;
+                treeScene.LineColor = ct.ForeColor;
+            }
+            if (ct.BackColor != ControlTheme.NullColor)
+            {
+                BackColor = ct.BackColor;
+                manipObject.BackColor = ct.BackColor;
+            }
+            if (ct.FrameColor != ControlTheme.NullColor)
+            {
+                treeScene.BackColor = ct.FrameColor;
+            }
+
+        }
+
+
         #region Scene tree
 
         public void UpdateSceneTree()

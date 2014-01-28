@@ -59,5 +59,35 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ScaleObject(textScaleZ, 0, 0, 1);
         }
 
+        public override void ApplyTheme(ControlTheme ct)
+        {
+            base.ApplyTheme(ct);
+            if (ct.ForeColor != ControlTheme.NullColor)
+            {
+                labelManipType.ForeColor = ct.ForeColor;
+                textScaleX.ForeColor = ct.ForeColor;
+                textScaleY.ForeColor = ct.ForeColor;
+                textScaleZ.ForeColor = ct.ForeColor;
+                textScaleAll.ForeColor = ct.ForeColor;
+            }
+            if (ct.BackColor != ControlTheme.NullColor)
+            {
+                BackColor = ct.BackColor;
+                manipObject.BackColor = ct.BackColor;
+                textScaleX.BackColor = ct.BackColor;
+                textScaleY.BackColor = ct.BackColor;
+                textScaleZ.BackColor = ct.BackColor;
+                textScaleAll.BackColor = ct.BackColor;
+            }
+            if (ct.FrameColor != ControlTheme.NullColor)
+            {
+                flowLayoutPanel1.BackColor = ct.FrameColor;
+                flowLayoutPanel4.BackColor = ct.FrameColor;
+                flowLayoutPanel3.BackColor = ct.FrameColor;
+                flowLayoutPanel5.BackColor = ct.FrameColor;
+            }
+
+        }
+
     }
 }

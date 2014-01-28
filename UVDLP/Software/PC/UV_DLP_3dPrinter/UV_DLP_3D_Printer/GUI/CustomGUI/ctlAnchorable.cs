@@ -27,10 +27,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         }
 
         protected CtlState mCtlState;
-        int mGapx, mGapy;
         AnchorTypes mAnchorHoriz;
         AnchorTypes mAnchorVert;
-        String mGuiAnchor;
         bool mChecked;
         protected int mAutorepeatInitial;
         protected int mAutorepeatPeriod;
@@ -39,18 +37,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
        //Control mCtlRefPos;
 
         // will apear in properties panel
-        [Description("Horizontal space from anchored location"), Category("Anchoring")]
-        public int Gapx
-        {
-            get { return mGapx; }
-            set { mGapx = value; UpdatePosition(); }
-        }
-        [Description("Vertical space from anchored location"), Category("Data")]
-        public int Gapy
-        {
-            get { return mGapy; }
-            set { mGapy = value; UpdatePosition(); }
-        }
 
         [Description("Horizontal anchor type"), Category("Data")]
         public AnchorTypes HorizontalAnchor
@@ -64,13 +50,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             get { return mAnchorVert; }
             set { mAnchorVert = value; }
-        }
-
-        [Description("GUI anchor type, 2 letter combination of t,c,b and l,c,r"), Category("Data")]
-        public String GuiAnchor
-        {
-            get { return mGuiAnchor; }
-            set { mGuiAnchor = value; }
         }
 
         [Description("Check state"), Category("Data")]

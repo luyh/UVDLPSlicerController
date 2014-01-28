@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <GuiConfig FileVersion="1">
 	<buttons>
-		<colortheme back="#FFFFFF" fore="RoyalBlue"/>
+		<theme backcolor="Royalblue" forecolor="White"/>
 		<button name="home" dock="tr" x="10" y="10" image="homeButt" w="48" h="48"/>
 		<button name="undo" dock="tl" x="10" y="10" image="buttUndo" w="48" h="48"/>
 		<button name="redo" dock="tl" x="60" y="10" image="buttRedo" w="48" h="48"/>
@@ -12,11 +12,18 @@
 		<button name="rotate" dock="bl" x="60" y="10" image="buttRotate" check="checkRect" w="48" h="48"/>
 		<button name="scale" dock="bl" x="10" y="10" image="buttScale" check="checkRect" w="48" h="48"/>
 	</buttons>
-	<panels>
-		<colortheme back="#FFFFFF" fore="RoyalBlue"/>
-		<panel name="pmove" doc="bl" x="10" y="50" shape="shpanel"/>
-		<panel name="pscale" doc="bl" x="100" y="50" shape="shpanel"/>
-	</panels>
+	<controls>
+		<theme backcolor="Brown" forecolor="Yellow" framecolor="RosyBrown"/>
+		<control name="pmove" dock="bl" x="20" y="90" shape="trimpanel"/>
+		<control name="pscale" dock="bl" x="20" y="90" shape="trimpanel"/>
+		<control name="protate" dock="bl" x="20" y="90" shape="trimpanel"/>
+		<control name="psupport" dock="bl" x="20" y="90" shape="trimpanel"/>
+		<control name="pviewopts" dock="bl" x="20" y="90" shape="trimpanel"/>
+		<control name="pmeshtools" dock="bl" x="20" y="90" shape="trimpanel"/>
+		<control name="pscenetree" dock="tr" x="20" y="90" shape="trimpanel"/>
+		<control name="pobjectinf" dock="br" x="20" y="90" shape="trimpanel"/>
+		<control name="clayernum" dock="bc" x="0" y="80"/>
+	</controls>
 	<decals>
 		<bar dock="n" tlcolor="AliceBlue" trcolor="AliceBlue" blcolor="LightBlue" brcolor="SkyBlue" level="background"/>
 		<bar dock="t" width="70" color="RoyalBlue"/>

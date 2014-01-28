@@ -159,8 +159,10 @@ namespace UV_DLP_3D_Printer._3DEngine
             }
         }
 
-        public void GetImageDim(String name, out int w, out int h)
+        public void GetImageDim(String name, ref int w, ref int h)
         {
+            if (name == null)
+                return;
             if (ImgDbase.ContainsKey(name))
             {
                 C2DImage img = ImgDbase[name];
@@ -176,6 +178,8 @@ namespace UV_DLP_3D_Printer._3DEngine
 
         public void Panel9(String name, float x, float y, float w, float h)
         {
+            if (name == null)
+                return;
             if (!ImgDbase.ContainsKey(name))
                 return;
 

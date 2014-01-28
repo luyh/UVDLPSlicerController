@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
-    public partial class ctlInfoItem : UserControl
+    public partial class ctlInfoItem : ctlUserPanel
     {
         protected int mBorderWidth;
         protected int mTitleWidth;
@@ -130,6 +130,23 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             base.OnResize(e);
             PlaceElements();
+        }
+
+        public override void ApplyTheme(ControlTheme ct)
+        {
+            base.ApplyTheme(ct);
+            if (ct.BackColor != ControlTheme.NullColor)
+            {
+                BackColor = ct.BackColor;
+                labelTitle.BackColor = ct.BackColor;
+            }
+            if (ct.FrameColor != ControlTheme.NullColor)
+                labelData.BackColor = ct.FrameColor;
+            if (ct.ForeColor != ControlTheme.NullColor)
+            {
+                labelData.ForeColor = ct.ForeColor;
+                labelTitle.ForeColor = ct.ForeColor;
+            }
         }
     }
 }
