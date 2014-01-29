@@ -31,6 +31,6 @@ namespace UV_DLP_3D_Printer.Plugin
         byte[] GetBinary(string name);
         int GetInt(string name);
         void ExecuteFunction(string name);
-        String Name { get; }
+        String Name { get; } // required NOT to be part of the string plugin items
     }
 }

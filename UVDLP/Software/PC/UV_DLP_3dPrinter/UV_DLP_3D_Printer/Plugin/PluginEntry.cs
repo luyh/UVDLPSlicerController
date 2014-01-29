@@ -15,5 +15,11 @@ namespace UV_DLP_3D_Printer.Plugin
         public bool m_enabled;
         public bool m_licensed;
         public IPlugin m_plugin;
+        public PluginEntry(IPlugin plugin) 
+        {
+            m_plugin = plugin;
+            m_enabled = false;
+            m_licensed = false;
+        }
     }
 }

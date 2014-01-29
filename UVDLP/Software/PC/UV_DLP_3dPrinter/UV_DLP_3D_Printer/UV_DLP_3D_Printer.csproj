@@ -252,12 +252,6 @@
     <Compile Include="GUI\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\frm3DLPrinterControl.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\frm3DLPrinterControl.Designer.cs">
-      <DependentUpon>frm3DLPrinterControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\frmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -434,9 +428,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\frm3DLPrinterControl.resx">
-      <DependentUpon>frm3DLPrinterControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmAbout.resx">
       <DependentUpon>frmAbout.cs</DependentUpon>

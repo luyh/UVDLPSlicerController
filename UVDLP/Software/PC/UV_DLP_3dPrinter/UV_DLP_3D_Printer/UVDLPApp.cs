@@ -87,7 +87,7 @@ namespace UV_DLP_3D_Printer
         public static String m_appconfigname = "CreationConfig.xml";
         public static String m_pathsep = "\\";
 
-        public List<IPlugin> m_plugins; // list of plug-ins
+        public List<PluginEntry> m_plugins; // list of plug-ins
 
         public Undoer m_undoer;
 
@@ -116,7 +116,7 @@ namespace UV_DLP_3D_Printer
             m_supportgenerator.SupportEvent+= new SupportGeneratorEvent(SupEvent);
             CSG.Instance().CSGEvent += new CSG.CSGEventDel(CSGEvent);
             m_proj_cmd_lst = new prjcmdlst();
-            m_plugins = new List<IPlugin>(); // list of user plug-ins
+            m_plugins = new List<PluginEntry>(); // list of user plug-ins
             m_undoer = new Undoer();
         }
         public enum Platform
@@ -808,7 +808,7 @@ namespace UV_DLP_3D_Printer
                             if (ObjType != null)
                             {
                                 IPlugin plug = (IPlugin)Activator.CreateInstance(ObjType); 
-                                m_plugins.Add(plug);
+                                m_plugins.Add(new PluginEntry(plug));
                                 plug.Host = this;
                                 DebugLogger.Instance().LogInfo("Loaded plugin " + args);
                             }

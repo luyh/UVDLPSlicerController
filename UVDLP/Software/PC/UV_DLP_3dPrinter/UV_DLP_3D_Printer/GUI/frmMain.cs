@@ -28,13 +28,9 @@ namespace UV_DLP_3D_Printer
     public partial class frmMain : Form
     {
         frmDLP m_frmdlp = new frmDLP();        
-        frm3DLPrinterControl m_frm3DLPControl = new frm3DLPrinterControl();
         frmSlice m_frmSlice = new frmSlice();
-        //ArcBall arcball;// = new ArcBall();
         GLCamera m_camera;
-        //Slice m_curslice = null; // for previewing only
 
-        //float ipx = 0.0f, ipy = 0.0f, ipz = 2.0f;
         public frmMain()
         {
             // following 2 lines removed from designer - SHS to eliminate autoscale

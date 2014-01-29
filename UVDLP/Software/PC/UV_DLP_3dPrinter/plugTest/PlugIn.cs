@@ -8,6 +8,9 @@ using UV_DLP_3D_Printer;
 using System.Resources;
 using System.Windows.Forms;
 using System.IO;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace plugTest
 {
@@ -26,6 +29,8 @@ namespace plugTest
         {
             new  PluginItem ("VendorName",ePlItemType.eString,0),
             new  PluginItem ("PluginName",ePlItemType.eString,0),
+            new  PluginItem ("Version",ePlItemType.eString,0),
+            new  PluginItem ("Description",ePlItemType.eString,0),
             new  PluginItem("Icon",ePlItemType.eImage,0),
             new  PluginItem("Splash",ePlItemType.eImage,0),
             new PluginItem("VendorID",ePlItemType.eInt,0),
@@ -38,7 +43,8 @@ namespace plugTest
         private bool inited;
         private static string m_Vendorname =    "TestVendor";
         private static int m_VendorID =         1234;
-        private static string m_PluginName =    "TestPlugin"; 
+        private static string m_PluginName =    "TestPlugin";
+        private static string version = "1.0.0.1";
         private byte []m_hash; // simple SHA1 hash for validating against license keys
         public String Name { get { return m_PluginName; } }
         /// <summary>
@@ -107,6 +113,12 @@ namespace plugTest
                 return m_PluginName;
             if (name.Equals("TestXML"))
                 return Properties.Resources.text;
+            if (name.Equals("Description"))
+                return "Test Example Plugin";
+            if (name.Equals("Version"))
+            {
+                return version;// Assembly.GetCallingAssembly().GetName().Version.ToString();
+            }
 
             return "Unknown Name";
         }

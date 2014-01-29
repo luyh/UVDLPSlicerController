@@ -12,7 +12,7 @@ namespace UV_DLP_3D_Printer.GUI
 {
     public partial class frmPluginTester : Form
     {
-        IPlugin m_ip;
+        PluginEntry m_ip;
         public frmPluginTester()
         {
             InitializeComponent();
@@ -21,16 +21,16 @@ namespace UV_DLP_3D_Printer.GUI
         public void SetupPlugins() 
         {
             lvplugins.Clear();
-            foreach (IPlugin ip in UVDLPApp.Instance().m_plugins)
+            foreach (PluginEntry ip in UVDLPApp.Instance().m_plugins)
             {
-                lvplugins.Items.Add(ip.Name);
+                lvplugins.Items.Add(ip.m_plugin.Name);
             }
         }
         private void ListContents() 
         {
             if (m_ip == null) return;
             lvcontents.Items.Clear();
-            foreach (PluginItem pi in m_ip.GetPluginItems) 
+            foreach (PluginItem pi in m_ip.m_plugin.GetPluginItems) 
             {
                 lvcontents.Items.Add(pi.m_name + " / " + pi.m_type.ToString());
             }
@@ -73,26 +73,26 @@ namespace UV_DLP_3D_Printer.GUI
             try
             {
                 int idx = lvcontents.SelectedIndices[0]; // get the index
-                PluginItem pi = m_ip.GetPluginItems[idx]; // get the single manifest item
+                PluginItem pi = m_ip.m_plugin.GetPluginItems[idx]; // get the single manifest item
                 switch (pi.m_type)
                 {
                     case ePlItemType.eString:
-                        SetString(m_ip.GetString(pi.m_name));
+                        SetString(m_ip.m_plugin.GetString(pi.m_name));
                         break;
                     case ePlItemType.eInt:
-                        SetInt(m_ip.GetInt(pi.m_name));
+                        SetInt(m_ip.m_plugin.GetInt(pi.m_name));
                         break;
                     case ePlItemType.eImage:
-                        SetImage(m_ip.GetImage(pi.m_name));
+                        SetImage(m_ip.m_plugin.GetImage(pi.m_name));
                         break;
                     case ePlItemType.eControl:
-                        SetControl(m_ip.GetControl(pi.m_name));
+                        SetControl(m_ip.m_plugin.GetControl(pi.m_name));
                         break;
                     case ePlItemType.eBin:
-                        SetString(Utility.ByteArrayToString(m_ip.GetBinary(pi.m_name)));
+                        SetString(Utility.ByteArrayToString(m_ip.m_plugin.GetBinary(pi.m_name)));
                         break;
                     case ePlItemType.eFunction:
-                        m_ip.ExecuteFunction(pi.m_name);
+                        m_ip.m_plugin.ExecuteFunction(pi.m_name);
                         break;
                 }
             }
