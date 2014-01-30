@@ -5,12 +5,12 @@ ToDo:
 	-Make controls on ctl3dview moveable
 	-Save/Load their positions and visibility as a set
 
-	group icons on the bottom panel so that the on/off visibilty switches of the panels	
-
-
-
-
-
+	-Embed the GCode sections in the machine configuration, this way, we can completely manage it and still have the user be able to edit
+	it in a controlled way, we can even have a gcode helper functionality in the gui to help users configure thier machines.
+	-Have the Help menu (sub)item in mainform link to open the UserManual.pdf as well as the HardwareGuide.pdf in the /Docs subdirectory
+	-in the slicing configuration screen,
+		group icons on the bottom panel so that the on/off visibilty switches of the panels	
+	-Make the log view only visible by default in the debug build
 
 
 Hardware objectives:
@@ -28,84 +28,6 @@ How can I do this?
 		the image slices need to be sent from the machine anyway	
 	2) The z axis and slices are syncronized by time only
 		cons - this could quickly get out of sync, problems with pause
-
-GCode Generation:
-	use a start.gcode file
-	use an end.gcode file
-	use a layer.gcode file for in between layers
-
-	good reference:
-	 http://reprap.org/wiki/G-code
-
-
-
-	 I need several structures to keep this all straight, I could simplify things but I think
-	 it will bite me in the ass later if I do
-
-	 I need:
-
-		Machine Configuration  - this structure will hold information about a specific machine that we're using
-		it should be store in an XML file similar(or identical) to the replicator G xml file. this contains information
-		about the machine such as:						
-		   the X resolution of the DLP projector in pixels
-           the Y resolution of the DLP projector in pixels
-           the X size of the build platform in mm
-           the Y size of the build platform in mm
-           the Z size of the Z axis length in mm
-           the calculated pixels per mm
-           the calculated pixels per mm
-		   the Z max feed rate
-			Driver -
-				Baud rate, stop bits, parity, type of driver
-
-
-		Slicing/building Parameters - These are the specific parameters used to slice an object into a GCode file along
-			with a set of images. This structure should have the following information. The user should be able to generate multiple
-			slicing parameter profiles that can be used to slice models
-			-dots per mm x
-			-dots per mm y
-            -the X/Y resolution of the output image
-			-thickness of the z layer - slicing height
-			-Desired Platform Build temperature
-			-z axis travel speed
-			-time to project image per layer in milliseconds (relative build speed)
-
-		The Slicer takes the input model with the Slicing parameters and generates 2 things:
-			-A GCode file
-				The GCode file contains the fileanme of the slicing parameters file along with
-				a copy of the slicing parameter variables in it's header (for reference)
-			-A set of Images that represent each slice
-				The image files and the gcode file should follow a naming pattern based on the
-				original model filename (automatically generated).
-			-Alternative to a set of sliced images, the slicer can produce a sliced file and during runtime
-			 can dynamically generate slices from theses. This is a good space saver.*(Not true, slice files can be huge! Looking to reduce size...)
-			-Another alternative is to store the image slices in a movie format such as avi, mpg, etc.. as a 
-			 lossless movie *(Hmm)
-				
-
-		I think I need to separate the build parameters from the slicing parameters*(Done)
-		The slicing parameters hold info such as 
-			slice thickness
-			whether to export files, and where to export them
-
-
-
-		Application Configuration file. This application configuration represents some basic configuration parameters of the app
-			-Last model loaded (MRU list)
-			-Last Machine Configuration used
-			-Last Slicing/build parameters used
-
-
-
-			App Directory structure
-
-			/root
-				appconfig.xml - the application configuration file
-				/Machines   - (Machine Configurations profiles Directory)
-					-0 or more machine configuration XML files
-				/Slicing	- (slicing and building profiles)
-					-0 or more profiles used for slicing and building
-
 
 		Slice file
 			A slice file represents a model that has been sliced and is ready to be printed.
@@ -144,58 +66,5 @@ the slicer holds all the intermediate data that each module can operate upon.
 This set of configured slicing parameters can be saved as a slicing / building profile
 
 I think this approach will later allow other slicing types, such as for my makerbot or reprap
-
-
-Zsteps per mm
-20 tpi rod
-200 steps per revolution for stepper
-
-200 steps = 1/20 th of an inch = .05 inch / 200 = .00025 inch /step
-
-.00025 * 25.4 =  .00635 mm / step
-
-mm =in  / 0.039370
-
-*(All done)
-Change everything to use relative sub-paths
-make the profiles backwards compatible
--STL Save
-3DLPrinter notes:
-
-Improvement:
-
-Determination of ml volume consumed
-estimate to done for building
-ability to add buttons for the toolbar linked to gcode (or other) functions
-
-Support generation
-	Dragging:
-		A external -support is one that extends from the ground plane to the object
-		An intra-support is one that extends from one z-plane/slice to another verticaly along the z axis to a second intersection of the same object.
-		When dragging, try to detect intern/vs extern and change support type automatically.
-		give the support the ability to change types
-
-
-Support generation part 2
-generate closed polyline for each slice layer (optimize function)
-2 approaches
-3d approach
-	iterate all layer from z=0 to z=max
-	skip the first layer
-	check to see if current layer is touching, intersecting, or emcompassing previous layer
-
-2d approach - I think this is a workable approach...
-	iterate through all layers
-	skip the first
-	clear a bm
-	render layer Z with color A
-	render layer Z+1 adding (or modifying) in a value to color A
-	perform the scanline rasterization of slice at Z again, this time examining the pixels
-	some color in the area MUST be different or it is a hanging area
-	if no changed color is detected, then  mark the unsupported region in a table and march on...
-
-	This approach means we don't have to examine every pixel in the image, just the regions where the polylines appear
-	I already have code to do a faster read from pixels
-
 
 

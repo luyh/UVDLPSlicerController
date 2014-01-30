@@ -42,6 +42,7 @@
             this.pluginTesterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.plugInsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainerMainWindow = new System.Windows.Forms.SplitContainer();
             this.splitContainerTop = new System.Windows.Forms.SplitContainer();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -75,7 +76,8 @@
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
-            this.plugInsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.userManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hardwareGuideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.splitContainerMainWindow.Panel1.SuspendLayout();
             this.splitContainerMainWindow.Panel2.SuspendLayout();
@@ -183,7 +185,9 @@
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem,
-            this.plugInsToolStripMenuItem});
+            this.plugInsToolStripMenuItem,
+            this.userManualToolStripMenuItem,
+            this.hardwareGuideToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.helpToolStripMenuItem.Text = "Help";
@@ -191,9 +195,16 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // plugInsToolStripMenuItem
+            // 
+            this.plugInsToolStripMenuItem.Name = "plugInsToolStripMenuItem";
+            this.plugInsToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
+            this.plugInsToolStripMenuItem.Text = "Plug-Ins";
+            this.plugInsToolStripMenuItem.Click += new System.EventHandler(this.plugInsToolStripMenuItem_Click);
             // 
             // splitContainerMainWindow
             // 
@@ -269,6 +280,7 @@
             this.buttOpenFile.CheckImage = null;
             this.buttOpenFile.Gapx = 10;
             this.buttOpenFile.Gapy = 10;
+            this.buttOpenFile.GuiAnchor = null;
             this.buttOpenFile.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
             this.buttOpenFile.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttOpenFile;
             this.buttOpenFile.Location = new System.Drawing.Point(4, 4);
@@ -287,6 +299,7 @@
             this.buttPlay.CheckImage = null;
             this.buttPlay.Gapx = 10;
             this.buttPlay.Gapy = 10;
+            this.buttPlay.GuiAnchor = null;
             this.buttPlay.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
             this.buttPlay.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPlay;
             this.buttPlay.Location = new System.Drawing.Point(66, 4);
@@ -305,6 +318,7 @@
             this.buttPause.CheckImage = null;
             this.buttPause.Gapx = 10;
             this.buttPause.Gapy = 10;
+            this.buttPause.GuiAnchor = null;
             this.buttPause.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
             this.buttPause.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPause;
             this.buttPause.Location = new System.Drawing.Point(118, 4);
@@ -323,6 +337,7 @@
             this.buttStop.CheckImage = null;
             this.buttStop.Gapx = 10;
             this.buttStop.Gapy = 10;
+            this.buttStop.GuiAnchor = null;
             this.buttStop.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
             this.buttStop.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttStop;
             this.buttStop.Location = new System.Drawing.Point(170, 4);
@@ -341,6 +356,7 @@
             this.buttConnect.CheckImage = null;
             this.buttConnect.Gapx = 10;
             this.buttConnect.Gapy = 10;
+            this.buttConnect.GuiAnchor = null;
             this.buttConnect.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
             this.buttConnect.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttConnect;
             this.buttConnect.Location = new System.Drawing.Point(232, 4);
@@ -359,6 +375,7 @@
             this.buttDisconnect.CheckImage = null;
             this.buttDisconnect.Gapx = 10;
             this.buttDisconnect.Gapy = 10;
+            this.buttDisconnect.GuiAnchor = null;
             this.buttDisconnect.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
             this.buttDisconnect.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttDisconnect;
             this.buttDisconnect.Location = new System.Drawing.Point(284, 4);
@@ -377,6 +394,7 @@
             this.buttSlice.CheckImage = null;
             this.buttSlice.Gapx = 10;
             this.buttSlice.Gapy = 10;
+            this.buttSlice.GuiAnchor = null;
             this.buttSlice.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
             this.buttSlice.Image = ((System.Drawing.Image)(resources.GetObject("buttSlice.Image")));
             this.buttSlice.Location = new System.Drawing.Point(346, 4);
@@ -395,6 +413,7 @@
             this.buttConfig.CheckImage = null;
             this.buttConfig.Gapx = 10;
             this.buttConfig.Gapy = 10;
+            this.buttConfig.GuiAnchor = null;
             this.buttConfig.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
             this.buttConfig.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttGear;
             this.buttConfig.Location = new System.Drawing.Point(398, 4);
@@ -413,6 +432,7 @@
             this.buttView3D.CheckImage = null;
             this.buttView3D.Gapx = 10;
             this.buttView3D.Gapy = 10;
+            this.buttView3D.GuiAnchor = null;
             this.buttView3D.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
             this.buttView3D.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttViewModel;
             this.buttView3D.Location = new System.Drawing.Point(460, 4);
@@ -431,6 +451,7 @@
             this.buttViewSlice.CheckImage = null;
             this.buttViewSlice.Gapx = 10;
             this.buttViewSlice.Gapy = 10;
+            this.buttViewSlice.GuiAnchor = null;
             this.buttViewSlice.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
             this.buttViewSlice.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttViewSlice;
             this.buttViewSlice.Location = new System.Drawing.Point(512, 4);
@@ -449,6 +470,7 @@
             this.buttViewGcode.CheckImage = null;
             this.buttViewGcode.Gapx = 10;
             this.buttViewGcode.Gapy = 10;
+            this.buttViewGcode.GuiAnchor = null;
             this.buttViewGcode.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
             this.buttViewGcode.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttViewGcode;
             this.buttViewGcode.Location = new System.Drawing.Point(564, 4);
@@ -616,12 +638,19 @@
             this.ctlToolTip1.ReshowDelay = 100;
             this.ctlToolTip1.ShowAlways = true;
             // 
-            // plugInsToolStripMenuItem
+            // userManualToolStripMenuItem
             // 
-            this.plugInsToolStripMenuItem.Name = "plugInsToolStripMenuItem";
-            this.plugInsToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
-            this.plugInsToolStripMenuItem.Text = "Plug-Ins";
-            this.plugInsToolStripMenuItem.Click += new System.EventHandler(this.plugInsToolStripMenuItem_Click);
+            this.userManualToolStripMenuItem.Name = "userManualToolStripMenuItem";
+            this.userManualToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
+            this.userManualToolStripMenuItem.Text = "User Manual";
+            this.userManualToolStripMenuItem.Click += new System.EventHandler(this.userManualToolStripMenuItem_Click);
+            // 
+            // hardwareGuideToolStripMenuItem
+            // 
+            this.hardwareGuideToolStripMenuItem.Name = "hardwareGuideToolStripMenuItem";
+            this.hardwareGuideToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
+            this.hardwareGuideToolStripMenuItem.Text = "Hardware Guide";
+            this.hardwareGuideToolStripMenuItem.Click += new System.EventHandler(this.hardwareGuideToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -708,6 +737,8 @@
         private System.Windows.Forms.ToolStripMenuItem splashToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pluginTesterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem plugInsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem userManualToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hardwareGuideToolStripMenuItem;
     }
 }
 

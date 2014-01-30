@@ -921,5 +921,15 @@ namespace UV_DLP_3D_Printer
 
         }
 
+        private void userManualToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void hardwareGuideToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
