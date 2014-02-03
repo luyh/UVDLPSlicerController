@@ -18,6 +18,8 @@ namespace UV_DLP_3D_Printer.Plugin
         eFunction, // a function this plugin exposes
         eString, // a string resource from the plugin, could be an xml document 
         eInt,    // a simple integer resource
+        eTexture, // GL texture resource
+        eGuiConfig,  // an XML string containing gui configuration
     }
     public class PluginItem
     {
