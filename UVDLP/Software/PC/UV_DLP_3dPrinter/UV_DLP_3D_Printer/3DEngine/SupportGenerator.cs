@@ -332,7 +332,8 @@ namespace UV_DLP_3D_Printer
                     Support s = new Support();
                     Point3d center = region.Center();
                     float lz = center.z;
-                    s.Create((float)m_sc.fbrad, (float)m_sc.ftrad, (float)m_sc.hbrad, (float)m_sc.htrad, lz * .2f, lz * .6f, lz * .2f, 11);
+                    //region.ply.m_derived.
+                    s.Create(null,(float)m_sc.fbrad, (float)m_sc.ftrad, (float)m_sc.hbrad, (float)m_sc.htrad, lz * .2f, lz * .6f, lz * .2f, 11);
                     s.Translate((float)center.x, (float)center.y, 0);
                     s.Name = "Support " + scnt;
                     s.SetColor(Color.Yellow);
@@ -422,7 +423,7 @@ namespace UV_DLP_3D_Printer
                                 // this should be the closest intersected
                                 Support s = new Support();
                                 float lz = (float)htd.intersect.z;
-                                s.Create((float)m_sc.fbrad, (float)m_sc.ftrad, (float)m_sc.hbrad, (float)m_sc.htrad, lz * .2f, lz * .6f, lz * .2f, 11);
+                                s.Create(htd.obj,(float)m_sc.fbrad, (float)m_sc.ftrad, (float)m_sc.hbrad, (float)m_sc.htrad, lz * .2f, lz * .6f, lz * .2f, 11);
                                 s.Translate((float)x, (float)y, 0);
                                 s.Name = "Support " + scnt;
                                 s.SetColor(Color.Yellow);

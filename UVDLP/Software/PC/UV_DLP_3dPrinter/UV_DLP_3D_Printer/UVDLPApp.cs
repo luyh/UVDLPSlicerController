@@ -282,7 +282,7 @@ namespace UV_DLP_3D_Printer
            // cyl.Create(2.5, 1.5, 10, 15, 2);
             Support s = new Support();
             //s.Create((float)m_supportconfig.fbrad, 1.5f, 1.5f, .75f, 2f, 5f, 2f, 20);
-            s.Create((float)m_supportconfig.fbrad, (float)m_supportconfig.ftrad, (float)m_supportconfig.hbrad,
+            s.Create(null,(float)m_supportconfig.fbrad, (float)m_supportconfig.ftrad, (float)m_supportconfig.hbrad,
                 (float)m_supportconfig.htrad, 2f, 5f, 2f, 11);
             m_engine3d.AddObject(s);
             UVDLPApp.Instance().m_undoer.SaveAddition(s);

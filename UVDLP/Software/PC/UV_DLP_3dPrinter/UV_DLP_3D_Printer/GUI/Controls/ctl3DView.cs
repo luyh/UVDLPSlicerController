@@ -643,6 +643,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                                 {
                                     // this should be it...
                                     tmpsup.ScaleToHeight(htd.intersect.z);
+                                    //set the parent object
+                                    tmpsup.m_supporting = htd.obj;
                                     break;
                                 }
                             }
@@ -650,7 +652,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     }
                 }
             }
-            //glControl1.Invalidate();
             UpdateView();
         }
 

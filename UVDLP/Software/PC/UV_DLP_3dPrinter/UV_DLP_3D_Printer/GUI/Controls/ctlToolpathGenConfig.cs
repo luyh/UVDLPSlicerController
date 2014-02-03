@@ -108,6 +108,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 rbsub.Checked = true;
             }
+            txtAAVal.Text = "" + m_config.aaval.ToString();
             txtLayerTime.Text = "" + m_config.layertime_ms;
             txtFirstLayerTime.Text = m_config.firstlayertime_ms.ToString();
             txtBlankTime.Text = m_config.blanktime_ms.ToString();
@@ -166,6 +167,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_config.m_flipX = chkReflectX.Checked;
                 m_config.m_flipY = chkReflectY.Checked;
                 m_config.m_notes = txtNotes.Text;
+                m_config.aaval = double.Parse(txtAAVal.Text);
                 m_config.m_resinprice = double.Parse(txtResinPriceL.Text);
                 m_config.direction = (SliceBuildConfig.eBuildDirection)Enum.Parse(typeof(SliceBuildConfig.eBuildDirection), cmbBuildDirection.SelectedItem.ToString());
                 m_config.export = chkExport.Checked;
@@ -405,6 +407,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         private void chkmainliftgcode_CheckedChanged_1(object sender, EventArgs e)
         {
             grpLift.Enabled = !chkmainliftgcode.Checked;
+        }
+
+        private void chkantialiasing_CheckedChanged(object sender, EventArgs e)
+        {
+            txtAAVal.Enabled = chkantialiasing.Checked;
         }
     }
 }
