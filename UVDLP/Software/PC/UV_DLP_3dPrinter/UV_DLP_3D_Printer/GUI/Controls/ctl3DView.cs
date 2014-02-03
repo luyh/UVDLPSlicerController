@@ -73,7 +73,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             guiconf = new GuiConfig();
             UpdateButtonList();
             guiconf.LoadConfiguration(global::UV_DLP_3D_Printer.Properties.Resources.GuiConfig);
-            guiconf.LayoutGui(Width, Height);
+            RearrangeGui();
 
             ctlObjScale.c3d = this;
             ctlObjRotate.c3d = this;
@@ -85,6 +85,22 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             ctlScene1.c3d = this;
 
             m_sliceTex = -1;
+        }
+
+        public GuiConfig GuiConfig
+        {
+            get { return guiconf; }
+        }
+
+        public C2DGraphics Graphics2D
+        {
+            get { return gr2d; }
+        }
+
+        public void RearrangeGui()
+        {
+            if (guiconf != null)
+                guiconf.LayoutGui(Width, Height);
         }
 
         public void SetMessagePanelHolder(SplitContainer holder)
@@ -752,8 +768,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     ((ctlAnchorable)ctl).UpdatePosition();
             }
 
-            if (guiconf != null)
-                guiconf.LayoutGui(Width, Height);
+            RearrangeGui();
         }
 
         #endregion GL control events

@@ -20,6 +20,7 @@ using UV_DLP_3D_Printer.GUI.Controls;
 using UV_DLP_3D_Printer.GUI.CustomGUI;
 using UV_DLP_3D_Printer._3DEngine;
 using UV_DLP_3D_Printer.Slicing;
+using UV_DLP_3D_Printer.Plugin;
 
 using UV_DLP_3D_Printer._3DEngine.CSG;
 
@@ -929,6 +930,41 @@ namespace UV_DLP_3D_Printer
         private void hardwareGuideToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void stalactite3DToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GuiConfig gc = ctl3DView1.GuiConfig;
+            C2DGraphics gr2d = ctl3DView1.Graphics2D;
+            IPlugin plugin = null;
+            foreach (PluginEntry ip in UVDLPApp.Instance().m_plugins)
+            {
+                if (ip.m_plugin.Name == "Stalactite")
+                    plugin = ip.m_plugin;
+            }
+            if (plugin == null)
+                return;
+
+            string guiconf = null;
+            foreach (PluginItem pi in plugin.GetPluginItems)
+            {
+                switch (pi.m_type)
+                {
+                    case ePlItemType.eTexture:
+                        gr2d.LoadTexture(plugin.GetImage(pi.m_name), plugin.GetString(pi.m_name + "_index"));
+                        break;
+
+                    case ePlItemType.eGuiConfig:
+                        guiconf = plugin.GetString(pi.m_name);
+                        break;
+                }
+            }
+            if (guiconf != null)
+            {
+                gc.ClearLayout();
+                gc.LoadConfiguration(guiconf);
+                ctl3DView1.RearrangeGui();
+            }
         }
 
     }

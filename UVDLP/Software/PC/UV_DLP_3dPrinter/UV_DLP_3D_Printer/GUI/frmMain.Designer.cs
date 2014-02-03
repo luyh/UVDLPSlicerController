@@ -43,6 +43,8 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.plugInsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.userManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hardwareGuideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainerMainWindow = new System.Windows.Forms.SplitContainer();
             this.splitContainerTop = new System.Windows.Forms.SplitContainer();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -76,8 +78,7 @@
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
-            this.userManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hardwareGuideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stalactite3DToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.splitContainerMainWindow.Panel1.SuspendLayout();
             this.splitContainerMainWindow.Panel2.SuspendLayout();
@@ -106,7 +107,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1457, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1457, 24);
             this.menuStrip1.TabIndex = 16;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -120,64 +121,65 @@
             this.testToolStripMenuItem,
             this.findHolesInMeshToolStripMenuItem,
             this.splashToolStripMenuItem,
-            this.pluginTesterToolStripMenuItem});
+            this.pluginTesterToolStripMenuItem,
+            this.stalactite3DToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // loadBinarySTLToolStripMenuItem
             // 
             this.loadBinarySTLToolStripMenuItem.Name = "loadBinarySTLToolStripMenuItem";
-            this.loadBinarySTLToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
+            this.loadBinarySTLToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.loadBinarySTLToolStripMenuItem.Text = "Load Model";
             this.loadBinarySTLToolStripMenuItem.Click += new System.EventHandler(this.loadBinarySTLToolStripMenuItem_Click);
             // 
             // saveSceneSTLToolStripMenuItem
             // 
             this.saveSceneSTLToolStripMenuItem.Name = "saveSceneSTLToolStripMenuItem";
-            this.saveSceneSTLToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
+            this.saveSceneSTLToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.saveSceneSTLToolStripMenuItem.Text = "Save Scene STL";
             this.saveSceneSTLToolStripMenuItem.Click += new System.EventHandler(this.saveSceneSTLToolStripMenuItem_Click);
             // 
             // preferencesToolStripMenuItem
             // 
             this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
+            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.preferencesToolStripMenuItem.Text = "Preferences";
             this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // testToolStripMenuItem
             // 
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.testToolStripMenuItem.Text = "test";
             this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
             // findHolesInMeshToolStripMenuItem
             // 
             this.findHolesInMeshToolStripMenuItem.Name = "findHolesInMeshToolStripMenuItem";
-            this.findHolesInMeshToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
+            this.findHolesInMeshToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.findHolesInMeshToolStripMenuItem.Text = "Find Holes In Mesh";
             this.findHolesInMeshToolStripMenuItem.Click += new System.EventHandler(this.findHolesInMeshToolStripMenuItem_Click);
             // 
             // splashToolStripMenuItem
             // 
             this.splashToolStripMenuItem.Name = "splashToolStripMenuItem";
-            this.splashToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
+            this.splashToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.splashToolStripMenuItem.Text = "Splash";
             this.splashToolStripMenuItem.Click += new System.EventHandler(this.splashToolStripMenuItem_Click);
             // 
             // pluginTesterToolStripMenuItem
             // 
             this.pluginTesterToolStripMenuItem.Name = "pluginTesterToolStripMenuItem";
-            this.pluginTesterToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
+            this.pluginTesterToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.pluginTesterToolStripMenuItem.Text = "Plugin Tester";
             this.pluginTesterToolStripMenuItem.Click += new System.EventHandler(this.pluginTesterToolStripMenuItem_Click);
             // 
@@ -189,22 +191,36 @@
             this.userManualToolStripMenuItem,
             this.hardwareGuideToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // plugInsToolStripMenuItem
             // 
             this.plugInsToolStripMenuItem.Name = "plugInsToolStripMenuItem";
-            this.plugInsToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
+            this.plugInsToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.plugInsToolStripMenuItem.Text = "Plug-Ins";
             this.plugInsToolStripMenuItem.Click += new System.EventHandler(this.plugInsToolStripMenuItem_Click);
+            // 
+            // userManualToolStripMenuItem
+            // 
+            this.userManualToolStripMenuItem.Name = "userManualToolStripMenuItem";
+            this.userManualToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.userManualToolStripMenuItem.Text = "User Manual";
+            this.userManualToolStripMenuItem.Click += new System.EventHandler(this.userManualToolStripMenuItem_Click);
+            // 
+            // hardwareGuideToolStripMenuItem
+            // 
+            this.hardwareGuideToolStripMenuItem.Name = "hardwareGuideToolStripMenuItem";
+            this.hardwareGuideToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.hardwareGuideToolStripMenuItem.Text = "Hardware Guide";
+            this.hardwareGuideToolStripMenuItem.Click += new System.EventHandler(this.hardwareGuideToolStripMenuItem_Click);
             // 
             // splitContainerMainWindow
             // 
@@ -232,7 +248,7 @@
             this.splitContainerTop.BackColor = System.Drawing.Color.Navy;
             this.splitContainerTop.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerTop.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainerTop.Location = new System.Drawing.Point(0, 28);
+            this.splitContainerTop.Location = new System.Drawing.Point(0, 24);
             this.splitContainerTop.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.splitContainerTop.Name = "splitContainerTop";
             this.splitContainerTop.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -247,7 +263,7 @@
             this.splitContainerTop.Panel2.Controls.Add(this.ctlSliceView1);
             this.splitContainerTop.Panel2.Controls.Add(this.ctl3DView1);
             this.splitContainerTop.Panel2.Controls.Add(this.tabMain);
-            this.splitContainerTop.Size = new System.Drawing.Size(1457, 638);
+            this.splitContainerTop.Size = new System.Drawing.Size(1457, 642);
             this.splitContainerTop.SplitterDistance = 56;
             this.splitContainerTop.SplitterWidth = 5;
             this.splitContainerTop.TabIndex = 20;
@@ -509,7 +525,7 @@
             this.lblTime.ForeColor = System.Drawing.Color.White;
             this.lblTime.Location = new System.Drawing.Point(92, 0);
             this.lblTime.Name = "lblTime";
-            this.lblTime.Size = new System.Drawing.Size(49, 21);
+            this.lblTime.Size = new System.Drawing.Size(50, 21);
             this.lblTime.TabIndex = 0;
             this.lblTime.Text = "Time";
             // 
@@ -551,10 +567,10 @@
             // tabMachineControl
             // 
             this.tabMachineControl.Controls.Add(this.ctlMachineControl1);
-            this.tabMachineControl.Location = new System.Drawing.Point(4, 25);
+            this.tabMachineControl.Location = new System.Drawing.Point(4, 22);
             this.tabMachineControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabMachineControl.Name = "tabMachineControl";
-            this.tabMachineControl.Size = new System.Drawing.Size(1039, 538);
+            this.tabMachineControl.Size = new System.Drawing.Size(1039, 541);
             this.tabMachineControl.TabIndex = 3;
             this.tabMachineControl.Text = "Machine Control";
             this.tabMachineControl.UseVisualStyleBackColor = true;
@@ -571,10 +587,10 @@
             // tabMachineConfig
             // 
             this.tabMachineConfig.Controls.Add(this.ctlMachineConfig1);
-            this.tabMachineConfig.Location = new System.Drawing.Point(4, 25);
+            this.tabMachineConfig.Location = new System.Drawing.Point(4, 22);
             this.tabMachineConfig.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabMachineConfig.Name = "tabMachineConfig";
-            this.tabMachineConfig.Size = new System.Drawing.Size(1039, 538);
+            this.tabMachineConfig.Size = new System.Drawing.Size(1039, 541);
             this.tabMachineConfig.TabIndex = 4;
             this.tabMachineConfig.Text = "Machine Config";
             this.tabMachineConfig.UseVisualStyleBackColor = true;
@@ -585,16 +601,16 @@
             this.ctlMachineConfig1.Location = new System.Drawing.Point(0, 0);
             this.ctlMachineConfig1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ctlMachineConfig1.Name = "ctlMachineConfig1";
-            this.ctlMachineConfig1.Size = new System.Drawing.Size(1039, 538);
+            this.ctlMachineConfig1.Size = new System.Drawing.Size(1039, 541);
             this.ctlMachineConfig1.TabIndex = 0;
             // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.ctlToolpathGenConfig1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 25);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1039, 538);
+            this.tabPage3.Size = new System.Drawing.Size(1039, 541);
             this.tabPage3.TabIndex = 5;
             this.tabPage3.Text = "Slice Profile Config";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -638,19 +654,12 @@
             this.ctlToolTip1.ReshowDelay = 100;
             this.ctlToolTip1.ShowAlways = true;
             // 
-            // userManualToolStripMenuItem
+            // stalactite3DToolStripMenuItem
             // 
-            this.userManualToolStripMenuItem.Name = "userManualToolStripMenuItem";
-            this.userManualToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
-            this.userManualToolStripMenuItem.Text = "User Manual";
-            this.userManualToolStripMenuItem.Click += new System.EventHandler(this.userManualToolStripMenuItem_Click);
-            // 
-            // hardwareGuideToolStripMenuItem
-            // 
-            this.hardwareGuideToolStripMenuItem.Name = "hardwareGuideToolStripMenuItem";
-            this.hardwareGuideToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
-            this.hardwareGuideToolStripMenuItem.Text = "Hardware Guide";
-            this.hardwareGuideToolStripMenuItem.Click += new System.EventHandler(this.hardwareGuideToolStripMenuItem_Click);
+            this.stalactite3DToolStripMenuItem.Name = "stalactite3DToolStripMenuItem";
+            this.stalactite3DToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.stalactite3DToolStripMenuItem.Text = "Stalactite3D";
+            this.stalactite3DToolStripMenuItem.Click += new System.EventHandler(this.stalactite3DToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -739,6 +748,7 @@
         private System.Windows.Forms.ToolStripMenuItem plugInsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem userManualToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hardwareGuideToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem stalactite3DToolStripMenuItem;
     }
 }
 

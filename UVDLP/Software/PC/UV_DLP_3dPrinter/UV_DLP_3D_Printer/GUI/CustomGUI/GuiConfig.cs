@@ -497,6 +497,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
         }
 
+        public void ClearLayout()
+        {
+            BgndDecorList = new List<DecorItem>();
+            FgndDecorList = new List<DecorItem>();
+        }
+
         #endregion
     }
 }
