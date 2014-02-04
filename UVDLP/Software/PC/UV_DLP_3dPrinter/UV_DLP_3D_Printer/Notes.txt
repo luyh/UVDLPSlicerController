@@ -1,16 +1,22 @@
 ﻿
-
-
 ToDo:
 	-Make controls on ctl3dview moveable
 	-Save/Load their positions and visibility as a set
 
 	-Embed the GCode sections in the machine configuration, this way, we can completely manage it and still have the user be able to edit
-	it in a controlled way, we can even have a gcode helper functionality in the gui to help users configure thier machines.
+	it in a controlled way, we can even have a gcode helper functionality in the gui to help users configure thier machines (Eventually).
+
 	-Have the Help menu (sub)item in mainform link to open the UserManual.pdf as well as the HardwareGuide.pdf in the /Docs subdirectory
 	-in the slicing configuration screen,
 		group icons on the bottom panel so that the on/off visibilty switches of the panels	
 	-Make the log view only visible by default in the debug build
+
+	-Support generation improvements
+		-make the bottom of the support a cylinder, not a cone
+		-hold a reference in each support to the object it touches
+		-make supports move and rotate along with object, have them fixed to the ground
+		- ability to angle the tip of the support to match the surface normal it intersects
+	-Make platform walls light up when objects are not fully enclosed in platform
 
 
 Hardware objectives:

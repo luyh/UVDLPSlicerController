@@ -17,7 +17,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         private bool m_changingData;
         private bool m_numFBSelected;
         private static int widthopen = 372;
-        private static int heightopen = 330;
+        private static int heightopen = 390;
 
         public ctlSupports()
         {
@@ -367,6 +367,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 panelSuppotShape.BackColor = ct.FrameColor;
             }
 
+        }
+
+        private void buttManualEdit_Click(object sender, EventArgs e)
+        {
+            // the manual edit of support button is clicked
         }
    
     }

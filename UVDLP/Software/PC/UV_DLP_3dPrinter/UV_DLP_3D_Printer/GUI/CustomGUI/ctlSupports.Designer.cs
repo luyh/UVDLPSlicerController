@@ -59,6 +59,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
+            this.buttManualEdit = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
@@ -75,11 +76,10 @@
             this.flowLayoutPanel2.Controls.Add(this.progressTitle);
             this.flowLayoutPanel2.Controls.Add(this.flowLayoutPanel1);
             this.flowLayoutPanel2.Controls.Add(this.flowLayoutPanel3);
-            this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(381, 335);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(396, 412);
             this.flowLayoutPanel2.TabIndex = 23;
             // 
             // progressTitle
@@ -175,7 +175,7 @@
             this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 97);
             this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(370, 233);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(370, 281);
             this.flowLayoutPanel3.TabIndex = 26;
             // 
             // panelSuppotShape
@@ -193,7 +193,7 @@
             this.panelSuppotShape.Margin = new System.Windows.Forms.Padding(0);
             this.panelSuppotShape.Name = "panelSuppotShape";
             this.panelSuppotShape.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panelSuppotShape.Size = new System.Drawing.Size(201, 221);
+            this.panelSuppotShape.Size = new System.Drawing.Size(201, 280);
             this.panelSuppotShape.TabIndex = 25;
             this.panelSuppotShape.Text = "Support Parameters";
             // 
@@ -376,12 +376,13 @@
             this.flowLayoutPanel4.Location = new System.Drawing.Point(204, 0);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(162, 224);
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(162, 281);
             this.flowLayoutPanel4.TabIndex = 26;
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.RoyalBlue;
+            this.panel1.Controls.Add(this.buttManualEdit);
             this.panel1.Controls.Add(this.chkDownPolys);
             this.panel1.Controls.Add(this.numDownAngle);
             this.panel1.Controls.Add(this.label4);
@@ -389,7 +390,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0, 0, 3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(162, 67);
+            this.panel1.Size = new System.Drawing.Size(162, 127);
             this.panel1.TabIndex = 0;
             // 
             // chkDownPolys
@@ -473,7 +474,7 @@
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.label5);
             this.panel2.Controls.Add(this.label3);
-            this.panel2.Location = new System.Drawing.Point(0, 70);
+            this.panel2.Location = new System.Drawing.Point(0, 130);
             this.panel2.Margin = new System.Windows.Forms.Padding(0, 0, 3, 3);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(162, 151);
@@ -489,7 +490,7 @@
             "Adaptive"});
             this.cmbSupType.Location = new System.Drawing.Point(7, 25);
             this.cmbSupType.Name = "cmbSupType";
-            this.cmbSupType.Size = new System.Drawing.Size(147, 21);
+            this.cmbSupType.Size = new System.Drawing.Size(147, 24);
             this.cmbSupType.TabIndex = 35;
             this.cmbSupType.SelectedIndexChanged += new System.EventHandler(this.cmbSupType_SelectedIndexChanged);
             // 
@@ -618,12 +619,31 @@
             this.ctlToolTip1.InitialDelay = 1500;
             this.ctlToolTip1.ReshowDelay = 100;
             // 
+            // buttManualEdit
+            // 
+            this.buttManualEdit.BackColor = System.Drawing.Color.Navy;
+            this.buttManualEdit.Checked = false;
+            this.buttManualEdit.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.buttManualEdit.Gapx = 5;
+            this.buttManualEdit.Gapy = 5;
+            this.buttManualEdit.GuiAnchor = null;
+            this.buttManualEdit.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttManualEdit.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttViewDown;
+            this.buttManualEdit.Location = new System.Drawing.Point(5, 90);
+            this.buttManualEdit.Margin = new System.Windows.Forms.Padding(5);
+            this.buttManualEdit.Name = "buttManualEdit";
+            this.buttManualEdit.Size = new System.Drawing.Size(72, 32);
+            this.buttManualEdit.TabIndex = 33;
+            this.ctlToolTip1.SetToolTip(this.buttManualEdit, "Show downward facing \r\nsurfaces by angle");
+            this.buttManualEdit.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttManualEdit.Click += new System.EventHandler(this.buttManualEdit_Click);
+            // 
             // ctlSupports
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.flowLayoutPanel2);
             this.Name = "ctlSupports";
-            this.Size = new System.Drawing.Size(381, 335);
+            this.Size = new System.Drawing.Size(406, 390);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel3.ResumeLayout(false);
@@ -672,5 +692,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cmbSupType;
+        private ctlImageButton buttManualEdit;
     }
 }

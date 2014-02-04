@@ -86,6 +86,7 @@
             this.lstSliceProfiles = new System.Windows.Forms.ListBox();
             this.cmdDelete = new System.Windows.Forms.Button();
             this.cmdNew = new System.Windows.Forms.Button();
+            this.txtAAVal = new System.Windows.Forms.TextBox();
             this.tabOptions.SuspendLayout();
             this.tbOptions.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -109,6 +110,7 @@
             // 
             // tbOptions
             // 
+            this.tbOptions.Controls.Add(this.txtAAVal);
             this.tbOptions.Controls.Add(this.chkExport);
             this.tbOptions.Controls.Add(this.txtResinPriceL);
             this.tbOptions.Controls.Add(this.label17);
@@ -244,7 +246,7 @@
             this.groupBox2.Controls.Add(this.rbzip);
             this.groupBox2.Location = new System.Drawing.Point(28, 320);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 81);
+            this.groupBox2.Size = new System.Drawing.Size(218, 81);
             this.groupBox2.TabIndex = 50;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Image Slice Export Options";
@@ -436,6 +438,7 @@
             this.chkantialiasing.TabIndex = 45;
             this.chkantialiasing.Text = "Enable Anti-Aliasing";
             this.chkantialiasing.UseVisualStyleBackColor = true;
+            this.chkantialiasing.CheckedChanged += new System.EventHandler(this.chkantialiasing_CheckedChanged);
             // 
             // label1
             // 
@@ -460,7 +463,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(103, 244);
+            this.label8.Location = new System.Drawing.Point(121, 242);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(63, 17);
             this.label8.TabIndex = 42;
@@ -468,7 +471,7 @@
             // 
             // txtnumbottom
             // 
-            this.txtnumbottom.Location = new System.Drawing.Point(169, 242);
+            this.txtnumbottom.Location = new System.Drawing.Point(190, 242);
             this.txtnumbottom.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtnumbottom.Name = "txtnumbottom";
             this.txtnumbottom.Size = new System.Drawing.Size(56, 22);
@@ -711,6 +714,15 @@
             this.cmdNew.UseVisualStyleBackColor = true;
             this.cmdNew.Click += new System.EventHandler(this.cmdNew_Click);
             // 
+            // txtAAVal
+            // 
+            this.txtAAVal.Location = new System.Drawing.Point(190, 273);
+            this.txtAAVal.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtAAVal.Name = "txtAAVal";
+            this.txtAAVal.Size = new System.Drawing.Size(56, 22);
+            this.txtAAVal.TabIndex = 60;
+            this.txtAAVal.Text = "1.5";
+            // 
             // ctlToolpathGenConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -801,5 +813,6 @@
         private System.Windows.Forms.TextBox txtResinPriceL;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.CheckBox chkExport;
+        private System.Windows.Forms.TextBox txtAAVal;
     }
 }

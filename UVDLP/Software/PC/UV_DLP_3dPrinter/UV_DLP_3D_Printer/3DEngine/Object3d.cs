@@ -15,6 +15,8 @@ namespace Engine3D
 {
     public class Object3d
     {
+        //public delegate void ObjectEvent(); // this indicates something happened to this object
+
         public List<Point3d> m_lstpoints; // list of 3d points in object
         public List<Polygon> m_lstpolys;// list of polygons
         public List<PolyLine3d> m_boundingBox;

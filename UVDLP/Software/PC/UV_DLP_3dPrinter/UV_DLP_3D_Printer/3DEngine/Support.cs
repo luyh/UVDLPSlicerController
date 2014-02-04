@@ -21,6 +21,15 @@ namespace Engine3D
      |  |
      |__|
     /____\
+      __
+     /__\
+     |  |
+     |  |
+    _|__|_
+   |______|
+     
+     * 
+     * 
     
      //typical support acting as a suport between object parts
       __
@@ -53,13 +62,15 @@ namespace Engine3D
 
         private int s1i; // the starting index of the bottom of the foot 
         private int s2i; // the starting index of the top of the foot/ bottom of the body
-        private int s3i; // top of the body, bottom of the head
-        private int s4i; // top of the head
+        private int s3i; // the starting index of the top of the foot/ bottom of the body
+        private int s4i; // top of the body, bottom of the head
+        private int s5i; // top of the head
         private int cdivs;
+        public Object3d m_supporting; // the obeject that this is attached to
         public Support() 
         {
             tag = Object3d.OBJ_SUPPORT; // tag for support
-
+            m_supporting = null;
         }
         /// <summary>
         /// This function creates a new support structure
@@ -79,11 +90,11 @@ namespace Engine3D
         /// <param name="d1"></param>
         /// <param name="d2"></param>
         /// <param name="d3"></param>
-        public void Create(float fbrad,float ftrad, float hbrad,float htrad, float d1,float d2,float d3, int divs)
+        public void Create(Object3d supporting, float fbrad, float ftrad, float hbrad, float htrad, float d1, float d2, float d3, int divs)
         {
             try
             {
-                
+                m_supporting = supporting;
                 cdivs = divs;
                 float zlev = 0.0f; // start at the bottom of the cylinder
                 s1i = 0; // set 0 to be the starting index for the bottom of the foot
@@ -91,22 +102,32 @@ namespace Engine3D
                 zlev += d1;
                 //now the top of the foot
                 s2i = m_lstpoints.Count;
-                GenerateCirclePoints(ftrad, divs, zlev, false); // foot top
-                zlev += d2;
-                //now the bottom of the head
+                GenerateCirclePoints(fbrad, divs, zlev, false); // foot top
+
+                //zlev += d1;
                 s3i = m_lstpoints.Count;
+                GenerateCirclePoints(ftrad, divs, zlev, false); // foot top
+                
+                zlev += d2;
+
+                //now the bottom of the shaft
+                s4i = m_lstpoints.Count;
                 GenerateCirclePoints(hbrad, divs, zlev, false); // bottom of head
                 zlev += d3;
-                //now the top of the head
-                s4i = m_lstpoints.Count;
+                //now the top of the shaft, bottom of the head
+                s5i = m_lstpoints.Count;
                 GenerateCirclePoints(htrad, divs, zlev, true); // top of head
 
                 MakeTopBottomFace(s1i, divs, false);// bottom
-                MakeTopBottomFace(s4i, divs, true);// top
-
-                makeWalls(s1i, s2i, divs);
+                MakeTopBottomFace(s5i, divs, true);// top
+                //MakeTopBottomFace(s4i, divs, true);// top
+                
+                makeWalls(s1i, s2i, divs);               
                 makeWalls(s2i, s3i - divs - 1, divs);
                 makeWalls(s3i, s4i - (2*divs) - 1, divs);
+
+                makeWalls(s4i, s5i - (3 * divs) - 1, divs);
+
                 Update();
                 SetColor(Color.Yellow);
                 ScaleToHeight(d1 + d2 + d3);
@@ -183,12 +204,12 @@ namespace Engine3D
             if (height > 3.0d)
             {
                 float bpos = m_lstpoints[0].z;
-                for (int c = s2i; c < s3i; c++ )
+                for (int c = s2i; c < s4i; c++ )
                 {
                     m_lstpoints[c].z = (float)(bpos + 1.0f);
                 }
 
-                for (int c = s3i; c < s4i; c++)
+                for (int c = s4i; c < s5i; c++)
                 {
                     m_lstpoints[c].z = (float)(height + bpos - 2.0f);
                 }
@@ -237,33 +258,5 @@ namespace Engine3D
              GL.End();
              base.RenderGL(showalpha, selected, renderSelection);
          }
-         
-        /*
-        protected override void GenerateCirclePoints(double radius, int numdivscirc, double zlev, bool addcenter)
-        {
-            double step = (double)(Math.PI * 2) / numdivscirc;
-            double t = 0.0;
-            if (addcenter) // make center the 
-            {
-                // add another point right in the center for the triangulating the face
-                Point3d centerpnt = new Point3d(); // bottom points
-                centerpnt.x = 0;
-                centerpnt.y = 0;
-                centerpnt.z = zlev;
-
-                m_lstpoints.Add(centerpnt);
-            }
-            for (int cnt = 0; cnt < numdivscirc; cnt++)
-            {
-                Point3d pnt = new Point3d(); // bottom points
-                pnt.x = radius * Math.Cos(t);
-                pnt.y = radius * Math.Sin(t);
-                pnt.z = zlev;
-                m_lstpoints.Add(pnt);
-                t += step;
-            }
-            
-        }
-         * */
     }
 }
