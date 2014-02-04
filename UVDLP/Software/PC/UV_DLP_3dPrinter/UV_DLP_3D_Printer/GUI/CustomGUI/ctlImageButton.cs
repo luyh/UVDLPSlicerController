@@ -84,8 +84,17 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ScaleImage();
         }
 
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            if (mGLVisible)
+                return;
+            base.OnPaintBackground(e);
+        }
+
         protected override void OnPaint(PaintEventArgs pevent)
         {
+            if (mGLVisible)
+                return;
             Graphics gr = pevent.Graphics;
             int index = (int)mCtlState;
             if (Enabled == false)

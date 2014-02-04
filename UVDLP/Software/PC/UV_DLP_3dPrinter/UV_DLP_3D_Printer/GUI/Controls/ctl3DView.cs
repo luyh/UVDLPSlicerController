@@ -32,8 +32,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         IGraphicsContext m_context = null;
         OpenTK.Matrix4 m_projection;
         OpenTK.Matrix4 m_modelView;
-        OpenTK.Matrix4 m_ortho;
-        OpenTK.Matrix4 m_2dView;
         private bool firstTime = true;
         float m_savex, m_savey, m_saveh; // m_savez
         C2DGraphics gr2d;
@@ -42,6 +40,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         int m_sliceTex;
         int m_sliceViewW, m_sliceViewH;
         int m_sliceW, m_sliceH;
+
+        //ctlImageButton imbtn;
         
 
         public delegate void On3dViewRedraw();
@@ -83,6 +83,22 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             ctlViewOptions.c3d = this;
             ctlMeshTools1.c3d = this;
             ctlScene1.c3d = this;
+
+            /*imbtn = new ctlImageButton();
+            imbtn.BackColor = System.Drawing.Color.Navy;
+            imbtn.CheckImage = null;
+            imbtn.Image = global::UV_DLP_3D_Printer.Properties.Resources.homeButt;
+            imbtn.Location = new System.Drawing.Point(200, 200);
+            imbtn.Name = "buttGlHome";
+            imbtn.Size = new System.Drawing.Size(48, 48);
+            imbtn.TabIndex = 16;
+            imbtn.Visible = true;
+
+
+            Controls.Add(imbtn);*/
+            //buttGlHome.GLVisible = true;
+            //buttGlHome.FixStyle();
+            //buttGlHome.BackColor = Color.FromArgb(60,0,0,0);
 
             m_sliceTex = -1;
         }
@@ -157,15 +173,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         protected void Set2DView()
         {
-            GL.MatrixMode(MatrixMode.Projection);
-            //GL.LoadIdentity();
-            GL.LoadMatrix(ref m_ortho);
-            GL.MatrixMode(MatrixMode.Modelview);
-            //GL.LoadIdentity();
-            GL.LoadMatrix(ref m_2dView);
-            GL.Disable(EnableCap.Lighting);
-            GL.Disable(EnableCap.DepthTest);
-            GL.CullFace(CullFaceMode.Front); // the 2d view is reverse looking             
+            gr2d.SetupViewport(glControl1.Width, glControl1.Height);
         }
 
         protected void Set3DView()
@@ -204,9 +212,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(0.55f, aspect, 1, 2000);
                 m_modelView = OpenTK.Matrix4.LookAt(new OpenTK.Vector3(5, 0, -5), new OpenTK.Vector3(0, 0, 0), new OpenTK.Vector3(0, 0, 1));
                 
-                m_ortho = OpenTK.Matrix4.CreateOrthographicOffCenter(0, w, h, 0, 1, 2000);
-                m_2dView = OpenTK.Matrix4.LookAt(new OpenTK.Vector3(0, 0, 10), new OpenTK.Vector3(0, 0, 0), new OpenTK.Vector3(0, 1, 0));
-
                 GL.ShadeModel(ShadingModel.Smooth); // tell it to shade smoothly
 
                 // properties of materials
@@ -341,6 +346,16 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 gr2d.SetColor(Color.FromArgb(50, 255, 255, 255));
                 gr2d.Image(m_sliceTex, 0, 1, 0, 1, px, 90, m_sliceViewW, m_sliceViewH);
             }
+
+            foreach (Control subctl in mainViewSplitContainer.Panel2.Controls)
+            {
+                if (subctl.GetType().IsSubclassOf(typeof(ctlUserPanel)))
+                {
+                    ((ctlUserPanel)subctl).GLRedraw(gr2d, subctl.Location.X, subctl.Location.Y);
+                }
+            }
+            
+            gr2d.ResetDrawingRegion();
             //SetAlpha(m_showalpha);
             Set3DView();
         }

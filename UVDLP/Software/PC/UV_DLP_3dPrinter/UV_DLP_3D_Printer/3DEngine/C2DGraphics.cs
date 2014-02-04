@@ -27,11 +27,51 @@ namespace UV_DLP_3D_Printer._3DEngine
     public class C2DGraphics
     {
         Dictionary<String, C2DImage> ImgDbase;
+        int mWidth, mHeight;
+        OpenTK.Matrix4 m_ortho;
+        OpenTK.Matrix4 m_2dView;
 
         public C2DGraphics()
         {
             ImgDbase = new Dictionary<String, C2DImage>();
+            m_2dView = OpenTK.Matrix4.LookAt(new OpenTK.Vector3(0, 0, 10), new OpenTK.Vector3(0, 0, 0), new OpenTK.Vector3(0, 1, 0));
+         }
+
+        public void SetupViewport(int w, int h)
+        {
+            mWidth = w;
+            mHeight = h;
+            m_ortho = OpenTK.Matrix4.CreateOrthographicOffCenter(0, w, h, 0, 1, 2000);
+            GL.MatrixMode(MatrixMode.Projection);
+            //GL.LoadIdentity();
+            GL.LoadMatrix(ref m_ortho);
+            GL.MatrixMode(MatrixMode.Modelview);
+            //GL.LoadIdentity();
+            GL.LoadMatrix(ref m_2dView);
+            GL.Disable(EnableCap.Lighting);
+            GL.Disable(EnableCap.DepthTest);
+            GL.CullFace(CullFaceMode.Front); // the 2d view is reverse looking             
         }
+
+        public void SetDrawingRegion(int x, int y, int w, int h)
+        {
+            GL.Flush();
+            m_ortho = OpenTK.Matrix4.CreateOrthographicOffCenter(-x, mWidth - x, mHeight - y, -y, 1, 2000);
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadMatrix(ref m_ortho);
+            GL.Scissor(x, mHeight - y - h, w, h);
+            GL.Enable(EnableCap.ScissorTest);
+        }
+
+        public void ResetDrawingRegion()
+        {
+            GL.Flush();
+            m_ortho = OpenTK.Matrix4.CreateOrthographicOffCenter(0, mWidth, mHeight, 0, 1, 2000);
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadMatrix(ref m_ortho);
+            GL.Disable(EnableCap.ScissorTest);
+        }
+
 
         public void Rectangle(float x, float y, float w, float h, Color col)
         {
