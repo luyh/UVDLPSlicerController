@@ -67,10 +67,13 @@ namespace Engine3D
         private int s5i; // top of the head
         private int cdivs;
         public Object3d m_supporting; // the obeject that this is attached to
+        private static int supcnt = 0;
         public Support() 
         {
             tag = Object3d.OBJ_SUPPORT; // tag for support
             m_supporting = null;
+            this.Name = "Support_" + supcnt.ToString();
+            supcnt++;
         }
         /// <summary>
         /// This function creates a new support structure

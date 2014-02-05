@@ -43,8 +43,10 @@
             this.cmdselectback = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.grpDebug = new System.Windows.Forms.GroupBox();
-            this.chkDriverLog = new System.Windows.Forms.CheckBox();
             this.chkIgnoreGCRsp = new System.Windows.Forms.CheckBox();
+            this.chkDriverLog = new System.Windows.Forms.CheckBox();
+            this.txtSlic3rParams = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.grpDebug.SuspendLayout();
@@ -70,18 +72,20 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.txtSlic3rParams);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.lblSlic3rlocation);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(803, 100);
+            this.groupBox1.Size = new System.Drawing.Size(803, 150);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "FDM Slic3r Location";
             // 
             // cmdOK
             // 
-            this.cmdOK.Location = new System.Drawing.Point(128, 282);
+            this.cmdOK.Location = new System.Drawing.Point(128, 334);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
             this.cmdOK.TabIndex = 4;
@@ -91,7 +95,7 @@
             // 
             // cmdCancel
             // 
-            this.cmdCancel.Location = new System.Drawing.Point(252, 282);
+            this.cmdCancel.Location = new System.Drawing.Point(252, 334);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 5;
@@ -163,7 +167,7 @@
             this.groupBox2.Controls.Add(this.panelfore);
             this.groupBox2.Controls.Add(this.cmdselectback);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Location = new System.Drawing.Point(12, 123);
+            this.groupBox2.Location = new System.Drawing.Point(12, 168);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(315, 153);
             this.groupBox2.TabIndex = 12;
@@ -174,22 +178,12 @@
             // 
             this.grpDebug.Controls.Add(this.chkIgnoreGCRsp);
             this.grpDebug.Controls.Add(this.chkDriverLog);
-            this.grpDebug.Location = new System.Drawing.Point(333, 123);
+            this.grpDebug.Location = new System.Drawing.Point(333, 168);
             this.grpDebug.Name = "grpDebug";
             this.grpDebug.Size = new System.Drawing.Size(482, 153);
             this.grpDebug.TabIndex = 13;
             this.grpDebug.TabStop = false;
             this.grpDebug.Text = "Debugging";
-            // 
-            // chkDriverLog
-            // 
-            this.chkDriverLog.AutoSize = true;
-            this.chkDriverLog.Location = new System.Drawing.Point(7, 24);
-            this.chkDriverLog.Name = "chkDriverLog";
-            this.chkDriverLog.Size = new System.Drawing.Size(247, 21);
-            this.chkDriverLog.TabIndex = 0;
-            this.chkDriverLog.Text = "Log Driver debugging to comm.log";
-            this.chkDriverLog.UseVisualStyleBackColor = true;
             // 
             // chkIgnoreGCRsp
             // 
@@ -201,11 +195,37 @@
             this.chkIgnoreGCRsp.Text = "Ignore GCode Responses";
             this.chkIgnoreGCRsp.UseVisualStyleBackColor = true;
             // 
+            // chkDriverLog
+            // 
+            this.chkDriverLog.AutoSize = true;
+            this.chkDriverLog.Location = new System.Drawing.Point(7, 24);
+            this.chkDriverLog.Name = "chkDriverLog";
+            this.chkDriverLog.Size = new System.Drawing.Size(247, 21);
+            this.chkDriverLog.TabIndex = 0;
+            this.chkDriverLog.Text = "Log Driver debugging to comm.log";
+            this.chkDriverLog.UseVisualStyleBackColor = true;
+            // 
+            // txtSlic3rParams
+            // 
+            this.txtSlic3rParams.Location = new System.Drawing.Point(6, 106);
+            this.txtSlic3rParams.Name = "txtSlic3rParams";
+            this.txtSlic3rParams.Size = new System.Drawing.Size(755, 22);
+            this.txtSlic3rParams.TabIndex = 3;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(7, 86);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(194, 17);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Slic3r Command Line Options";
+            // 
             // frmPrefs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(827, 328);
+            this.ClientSize = new System.Drawing.Size(827, 369);
             this.Controls.Add(this.grpDebug);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.cmdCancel);
@@ -242,5 +262,7 @@
         private System.Windows.Forms.GroupBox grpDebug;
         private System.Windows.Forms.CheckBox chkIgnoreGCRsp;
         private System.Windows.Forms.CheckBox chkDriverLog;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtSlic3rParams;
     }
 }

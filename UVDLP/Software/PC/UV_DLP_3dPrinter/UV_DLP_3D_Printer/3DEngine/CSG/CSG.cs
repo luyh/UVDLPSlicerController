@@ -39,12 +39,12 @@ namespace UV_DLP_3D_Printer._3DEngine.CSG
 
         public const float csgjs_EPSILON = 0.00001f;
         public Thread m_runthread;
-        private bool m_running;
+        public bool m_running;
         private eCSGOp m_op;
         private Object3d m_obj1, m_obj2;
         private static CSG m_instance = null;
         private static int STACKSIZE = 256 * 1024 * 1024; // 16mb stack size
-        private bool m_cancel;
+        //private bool m_cancel;
         public CSGEventDel CSGEvent;
 
         public enum eCSGOp 
@@ -78,14 +78,14 @@ namespace UV_DLP_3D_Printer._3DEngine.CSG
             m_op = op;
             m_obj1 = obj1;
             m_obj2 = obj2;
-            m_cancel = false;
+            //m_cancel = false;
             m_runthread = new Thread(new ThreadStart(RunThread), STACKSIZE);
             m_running = true;
             m_runthread.Start();
         }
         public void Cancel() 
         {
-            m_cancel = true;
+           // m_cancel = true;
             m_running = false;
         }
         private void RunThread() 

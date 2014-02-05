@@ -21,6 +21,7 @@ namespace UV_DLP_3D_Printer
         bool m_autoconnect; // autoconnect to the machine
         bool m_loadlastmodel; // load and display the last model
         public string m_slic3rloc; // location of slicer exetutable- shouldn't be here?
+        public string m_slic3rparameters; // parameters to send to the command line invocation of slic3r
         public Color m_foregroundcolor;
         public Color m_backgroundcolor;
         
@@ -68,6 +69,7 @@ namespace UV_DLP_3D_Printer
                 m_autoconnect = xh.GetBool(ac, "AutoConnect", false);
                 m_loadlastmodel = xh.GetBool(ac, "LoadLastModel", true);
                 m_slic3rloc = xh.GetString(ac, "Slic3rLocation", "");
+                m_slic3rparameters = xh.GetString(ac,"Slic3rParams","");
                 m_foregroundcolor =  xh.GetColor(ac, "ForegroundColor", Color.White);
                 m_backgroundcolor = xh.GetColor(ac, "BackgroundColor", Color.Black);
                 m_previewslicesbuilddisplay = xh.GetBool(ac, "PreviewSlices", false);
@@ -102,6 +104,7 @@ namespace UV_DLP_3D_Printer
                 xh.SetParameter(ac, "AutoConnect", m_autoconnect ? "True" : "False");
                 xh.SetParameter(ac, "LoadLastModel", m_loadlastmodel ? "True" : "False");
                 xh.SetParameter(ac, "Slic3rLocation", m_slic3rloc);
+                xh.SetParameter(ac, "Slic3rParams", m_slic3rparameters);
                 xh.SetParameter(ac, "ForegroundColor", m_foregroundcolor);
                 xh.SetParameter(ac, "BackgroundColor", m_backgroundcolor);
                 xh.SetParameter(ac, "PreviewSlices", m_previewslicesbuilddisplay);
