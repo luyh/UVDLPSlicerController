@@ -20,6 +20,8 @@ using UV_DLP_3D_Printer.Plugin;
 using System.Windows;
 using System.Reflection;
 using UV_DLP_3D_Printer._3DEngine.CSG;
+using UV_DLP_3D_Printer.Licensing;
+using CreationWorkshop.Licensing;
 
 namespace UV_DLP_3D_Printer
 {
@@ -491,18 +493,6 @@ namespace UV_DLP_3D_Printer
 
             }
         }
-        /*
-        private void StartGCodeInterpret() 
-        {
-            if (gci == null) 
-            {
-                gci = new GCodeInterpreter();
-            }
-            gci.GCode = m_gcode.Lines;
-            gci.StartInterpret();
-        
-        }
-         */ 
         public void LoadGCode(String filename)
         {
             try
@@ -771,7 +761,56 @@ namespace UV_DLP_3D_Printer
             {
                 SaveSupportConfig(m_appconfig.SupportConfigName);
             }
-            ScanForPlugins(); // look for plug-ins
+            //load the license keys
+            LoadLicenseKeys();
+            //look for plug-ins
+            ScanForPlugins();
+            // validate those loaded plugins against license keys
+            CheckLicensing();
+        }
+
+        private void LoadLicenseKeys() 
+        {
+            try
+            {
+                string licensefile = m_apppath + m_pathsep + "licenses.key";
+                if (File.Exists(licensefile))
+                {
+                    KeyRing.Instance().Load(licensefile);
+                }
+                else 
+                {
+                    DebugLogger.Instance().LogInfo("No Key Ring found");
+                }
+            }
+            catch (Exception) 
+            {
+                DebugLogger.Instance().LogInfo("No License File");
+            }
+        }
+
+        private void CheckLicensing() 
+        {
+            foreach (PluginEntry pe in m_plugins)
+            {
+                try
+                {
+                    // iterate through all loaded plugins
+                    // get the vendor id
+                    int vid = pe.m_plugin.GetInt("VendorID");
+                    LicenseKey lk = KeyRing.Instance().Find(vid);
+                    if (lk != null) 
+                    {
+                        pe.m_licensed = true;
+                    }
+                }
+                catch (Exception ex)             
+                {
+                    DebugLogger.Instance().LogError(ex);
+                }
+
+            }
+
         }
         /// <summary>
         /// returns the name of the current build / slice profile
@@ -819,9 +858,7 @@ namespace UV_DLP_3D_Printer
                         DebugLogger.Instance().LogError(ex.Message);
                     }
                 }
-                //profiles.Add(pn);
             }
-
         }
         /// <summary>
         /// This is a plugin host implementation

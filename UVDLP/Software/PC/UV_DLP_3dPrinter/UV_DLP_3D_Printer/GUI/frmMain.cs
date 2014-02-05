@@ -924,12 +924,28 @@ namespace UV_DLP_3D_Printer
 
         private void userManualToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                String usermanualpath = UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + "UserManual.pdf";
+                System.Diagnostics.Process.Start(usermanualpath);
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
         }
 
         private void hardwareGuideToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                String hardwareGuide = UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + "HardwareGuide.pdf";
+                System.Diagnostics.Process.Start(hardwareGuide);
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
         }
 
         private void stalactite3DToolStripMenuItem_Click(object sender, EventArgs e)

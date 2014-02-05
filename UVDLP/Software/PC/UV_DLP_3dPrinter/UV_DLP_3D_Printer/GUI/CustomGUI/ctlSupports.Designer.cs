@@ -59,7 +59,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
-            this.buttManualEdit = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
@@ -79,7 +78,7 @@
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(396, 412);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(396, 351);
             this.flowLayoutPanel2.TabIndex = 23;
             // 
             // progressTitle
@@ -175,7 +174,7 @@
             this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 97);
             this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(370, 281);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(370, 242);
             this.flowLayoutPanel3.TabIndex = 26;
             // 
             // panelSuppotShape
@@ -193,7 +192,7 @@
             this.panelSuppotShape.Margin = new System.Windows.Forms.Padding(0);
             this.panelSuppotShape.Name = "panelSuppotShape";
             this.panelSuppotShape.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panelSuppotShape.Size = new System.Drawing.Size(201, 280);
+            this.panelSuppotShape.Size = new System.Drawing.Size(201, 233);
             this.panelSuppotShape.TabIndex = 25;
             this.panelSuppotShape.Text = "Support Parameters";
             // 
@@ -382,7 +381,6 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.RoyalBlue;
-            this.panel1.Controls.Add(this.buttManualEdit);
             this.panel1.Controls.Add(this.chkDownPolys);
             this.panel1.Controls.Add(this.numDownAngle);
             this.panel1.Controls.Add(this.label4);
@@ -390,7 +388,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0, 0, 3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(162, 127);
+            this.panel1.Size = new System.Drawing.Size(162, 79);
             this.panel1.TabIndex = 0;
             // 
             // chkDownPolys
@@ -474,7 +472,7 @@
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.label5);
             this.panel2.Controls.Add(this.label3);
-            this.panel2.Location = new System.Drawing.Point(0, 130);
+            this.panel2.Location = new System.Drawing.Point(0, 82);
             this.panel2.Margin = new System.Windows.Forms.Padding(0, 0, 3, 3);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(162, 151);
@@ -619,25 +617,6 @@
             this.ctlToolTip1.InitialDelay = 1500;
             this.ctlToolTip1.ReshowDelay = 100;
             // 
-            // buttManualEdit
-            // 
-            this.buttManualEdit.BackColor = System.Drawing.Color.Navy;
-            this.buttManualEdit.Checked = false;
-            this.buttManualEdit.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
-            this.buttManualEdit.Gapx = 5;
-            this.buttManualEdit.Gapy = 5;
-            this.buttManualEdit.GuiAnchor = null;
-            this.buttManualEdit.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.buttManualEdit.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttViewDown;
-            this.buttManualEdit.Location = new System.Drawing.Point(5, 90);
-            this.buttManualEdit.Margin = new System.Windows.Forms.Padding(5);
-            this.buttManualEdit.Name = "buttManualEdit";
-            this.buttManualEdit.Size = new System.Drawing.Size(72, 32);
-            this.buttManualEdit.TabIndex = 33;
-            this.ctlToolTip1.SetToolTip(this.buttManualEdit, "Show downward facing \r\nsurfaces by angle");
-            this.buttManualEdit.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.buttManualEdit.Click += new System.EventHandler(this.buttManualEdit_Click);
-            // 
             // ctlSupports
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -692,6 +671,5 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cmbSupType;
-        private ctlImageButton buttManualEdit;
     }
 }

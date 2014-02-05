@@ -28,15 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPluginManager));
             this.label1 = new System.Windows.Forms.Label();
-            this.cmdEnable = new System.Windows.Forms.Button();
             this.lvplugins = new System.Windows.Forms.ListView();
             this.clmName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmLicensed = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmVersion = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.cmdLicense = new System.Windows.Forms.Button();
+            this.txtLicense = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -48,21 +48,10 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Installed Plug-Ins";
             // 
-            // cmdEnable
-            // 
-            this.cmdEnable.Location = new System.Drawing.Point(16, 222);
-            this.cmdEnable.Name = "cmdEnable";
-            this.cmdEnable.Size = new System.Drawing.Size(130, 30);
-            this.cmdEnable.TabIndex = 2;
-            this.cmdEnable.Text = "Enable";
-            this.cmdEnable.UseVisualStyleBackColor = true;
-            this.cmdEnable.Click += new System.EventHandler(this.cmdEnable_Click);
-            // 
             // lvplugins
             // 
             this.lvplugins.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.clmName,
-            this.clmEnabled,
             this.clmLicensed,
             this.clmVersion,
             this.clmDescription});
@@ -83,11 +72,6 @@
             this.clmName.Text = "Name";
             this.clmName.Width = 117;
             // 
-            // clmEnabled
-            // 
-            this.clmEnabled.Text = "Enabled";
-            this.clmEnabled.Width = 80;
-            // 
             // clmLicensed
             // 
             this.clmLicensed.Text = "Licensed";
@@ -105,6 +89,7 @@
             // 
             // cmdLicense
             // 
+            this.cmdLicense.Enabled = false;
             this.cmdLicense.Location = new System.Drawing.Point(16, 258);
             this.cmdLicense.Name = "cmdLicense";
             this.cmdLicense.Size = new System.Drawing.Size(130, 30);
@@ -113,16 +98,25 @@
             this.cmdLicense.UseVisualStyleBackColor = true;
             this.cmdLicense.Click += new System.EventHandler(this.cmdLicense_Click);
             // 
+            // txtLicense
+            // 
+            this.txtLicense.Location = new System.Drawing.Point(166, 262);
+            this.txtLicense.Name = "txtLicense";
+            this.txtLicense.Size = new System.Drawing.Size(277, 22);
+            this.txtLicense.TabIndex = 5;
+            // 
             // frmPluginManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(651, 313);
+            this.Controls.Add(this.txtLicense);
             this.Controls.Add(this.cmdLicense);
             this.Controls.Add(this.lvplugins);
-            this.Controls.Add(this.cmdEnable);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmPluginManager";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Plugin and Licensing Management";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -132,13 +126,12 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button cmdEnable;
         private System.Windows.Forms.ListView lvplugins;
         private System.Windows.Forms.ColumnHeader clmName;
-        private System.Windows.Forms.ColumnHeader clmEnabled;
         private System.Windows.Forms.ColumnHeader clmLicensed;
         private System.Windows.Forms.ColumnHeader clmVersion;
         private System.Windows.Forms.ColumnHeader clmDescription;
         private System.Windows.Forms.Button cmdLicense;
+        private System.Windows.Forms.TextBox txtLicense;
     }
 }
