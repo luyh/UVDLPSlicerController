@@ -92,6 +92,8 @@
             this.ctlScene1.Checked = false;
             this.ctlScene1.Gapx = 24;
             this.ctlScene1.Gapy = 100;
+            this.ctlScene1.GLBackgroundImage = null;
+            this.ctlScene1.GLVisible = false;
             this.ctlScene1.GuiAnchor = null;
             this.ctlScene1.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
             this.ctlScene1.Location = new System.Drawing.Point(507, 47);
@@ -104,6 +106,11 @@
             // ctlMeshTools1
             // 
             this.ctlMeshTools1.BackColor = System.Drawing.Color.Navy;
+            this.ctlMeshTools1.Gapx = 0;
+            this.ctlMeshTools1.Gapy = 0;
+            this.ctlMeshTools1.GLBackgroundImage = null;
+            this.ctlMeshTools1.GLVisible = false;
+            this.ctlMeshTools1.GuiAnchor = null;
             this.ctlMeshTools1.Location = new System.Drawing.Point(94, 282);
             this.ctlMeshTools1.Name = "ctlMeshTools1";
             this.ctlMeshTools1.Size = new System.Drawing.Size(343, 214);
@@ -117,6 +124,9 @@
             this.buttMeshTools.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttOpenClose;
             this.buttMeshTools.Gapx = 10;
             this.buttMeshTools.Gapy = 288;
+            this.buttMeshTools.GLBackgroundImage = null;
+            this.buttMeshTools.GLImage = null;
+            this.buttMeshTools.GLVisible = false;
             this.buttMeshTools.GuiAnchor = null;
             this.buttMeshTools.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
             this.buttMeshTools.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMeshTools;
@@ -135,6 +145,9 @@
             this.buttRedo.CheckImage = null;
             this.buttRedo.Gapx = 60;
             this.buttRedo.Gapy = 10;
+            this.buttRedo.GLBackgroundImage = null;
+            this.buttRedo.GLImage = null;
+            this.buttRedo.GLVisible = false;
             this.buttRedo.GuiAnchor = null;
             this.buttRedo.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
             this.buttRedo.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttRedo;
@@ -152,6 +165,9 @@
             this.buttUndo.CheckImage = null;
             this.buttUndo.Gapx = 10;
             this.buttUndo.Gapy = 10;
+            this.buttUndo.GLBackgroundImage = null;
+            this.buttUndo.GLImage = null;
+            this.buttUndo.GLVisible = false;
             this.buttUndo.GuiAnchor = null;
             this.buttUndo.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
             this.buttUndo.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttUndo;
@@ -167,6 +183,8 @@
             this.objectInfoPanel.Checked = false;
             this.objectInfoPanel.Gapx = 24;
             this.objectInfoPanel.Gapy = 24;
+            this.objectInfoPanel.GLBackgroundImage = null;
+            this.objectInfoPanel.GLVisible = false;
             this.objectInfoPanel.GuiAnchor = null;
             this.objectInfoPanel.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
             this.objectInfoPanel.Location = new System.Drawing.Point(534, 286);
@@ -186,6 +204,8 @@
             this.numLayer.FloatVal = 10F;
             this.numLayer.Gapx = 0;
             this.numLayer.Gapy = 80;
+            this.numLayer.GLBackgroundImage = null;
+            this.numLayer.GLVisible = false;
             this.numLayer.GuiAnchor = null;
             this.numLayer.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Center;
             this.numLayer.Increment = 1F;
@@ -207,11 +227,14 @@
             // 
             // buttGlHome
             // 
-            this.buttGlHome.BackColor = System.Drawing.Color.Navy;
+            this.buttGlHome.BackColor = System.Drawing.Color.Transparent;
             this.buttGlHome.Checked = false;
             this.buttGlHome.CheckImage = null;
             this.buttGlHome.Gapx = 10;
             this.buttGlHome.Gapy = 10;
+            this.buttGlHome.GLBackgroundImage = null;
+            this.buttGlHome.GLImage = "glButtHome";
+            this.buttGlHome.GLVisible = true;
             this.buttGlHome.GuiAnchor = null;
             this.buttGlHome.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
             this.buttGlHome.Image = global::UV_DLP_3D_Printer.Properties.Resources.homeButt;
@@ -230,6 +253,9 @@
             this.buttView.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttOpenClose;
             this.buttView.Gapx = 10;
             this.buttView.Gapy = 230;
+            this.buttView.GLBackgroundImage = null;
+            this.buttView.GLImage = null;
+            this.buttView.GLVisible = false;
             this.buttView.GuiAnchor = null;
             this.buttView.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
             this.buttView.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttView;
@@ -243,6 +269,11 @@
             // 
             // ctlViewOptions
             // 
+            this.ctlViewOptions.Gapx = 0;
+            this.ctlViewOptions.Gapy = 0;
+            this.ctlViewOptions.GLBackgroundImage = null;
+            this.ctlViewOptions.GLVisible = false;
+            this.ctlViewOptions.GuiAnchor = null;
             this.ctlViewOptions.LayerNumberScroll = null;
             this.ctlViewOptions.Location = new System.Drawing.Point(284, 117);
             this.ctlViewOptions.MessagePanelHolder = null;
@@ -261,6 +292,9 @@
             this.buttScale.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttOpenClose;
             this.buttScale.Gapx = 10;
             this.buttScale.Gapy = 10;
+            this.buttScale.GLBackgroundImage = null;
+            this.buttScale.GLImage = null;
+            this.buttScale.GLVisible = false;
             this.buttScale.GuiAnchor = null;
             this.buttScale.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
             this.buttScale.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttScale;
@@ -279,6 +313,9 @@
             this.buttMove.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttOpenClose;
             this.buttMove.Gapx = 10;
             this.buttMove.Gapy = 110;
+            this.buttMove.GLBackgroundImage = null;
+            this.buttMove.GLImage = null;
+            this.buttMove.GLVisible = false;
             this.buttMove.GuiAnchor = null;
             this.buttMove.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
             this.buttMove.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMove;
@@ -292,6 +329,11 @@
             // 
             // ctlSupport
             // 
+            this.ctlSupport.Gapx = 0;
+            this.ctlSupport.Gapy = 0;
+            this.ctlSupport.GLBackgroundImage = null;
+            this.ctlSupport.GLVisible = false;
+            this.ctlSupport.GuiAnchor = null;
             this.ctlSupport.Location = new System.Drawing.Point(284, 15);
             this.ctlSupport.Name = "ctlSupport";
             this.ctlSupport.Size = new System.Drawing.Size(170, 96);
@@ -305,6 +347,9 @@
             this.buttSupports.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttOpenClose;
             this.buttSupports.Gapx = 10;
             this.buttSupports.Gapy = 170;
+            this.buttSupports.GLBackgroundImage = null;
+            this.buttSupports.GLImage = null;
+            this.buttSupports.GLVisible = false;
             this.buttSupports.GuiAnchor = null;
             this.buttSupports.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
             this.buttSupports.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttSupport;
@@ -318,6 +363,11 @@
             // 
             // ctlObjRotate
             // 
+            this.ctlObjRotate.Gapx = 0;
+            this.ctlObjRotate.Gapy = 0;
+            this.ctlObjRotate.GLBackgroundImage = null;
+            this.ctlObjRotate.GLVisible = false;
+            this.ctlObjRotate.GuiAnchor = null;
             this.ctlObjRotate.Location = new System.Drawing.Point(665, 15);
             this.ctlObjRotate.Name = "ctlObjRotate";
             this.ctlObjRotate.Size = new System.Drawing.Size(170, 156);
@@ -331,6 +381,9 @@
             this.buttRotate.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttOpenClose;
             this.buttRotate.Gapx = 10;
             this.buttRotate.Gapy = 60;
+            this.buttRotate.GLBackgroundImage = null;
+            this.buttRotate.GLImage = null;
+            this.buttRotate.GLVisible = false;
             this.buttRotate.GuiAnchor = null;
             this.buttRotate.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
             this.buttRotate.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttRotate;
@@ -344,6 +397,11 @@
             // 
             // ctlObjScale
             // 
+            this.ctlObjScale.Gapx = 0;
+            this.ctlObjScale.Gapy = 0;
+            this.ctlObjScale.GLBackgroundImage = null;
+            this.ctlObjScale.GLVisible = false;
+            this.ctlObjScale.GuiAnchor = null;
             this.ctlObjScale.Location = new System.Drawing.Point(474, 15);
             this.ctlObjScale.Name = "ctlObjScale";
             this.ctlObjScale.Size = new System.Drawing.Size(171, 199);
@@ -352,6 +410,11 @@
             // 
             // ctlObjMove
             // 
+            this.ctlObjMove.Gapx = 0;
+            this.ctlObjMove.Gapy = 0;
+            this.ctlObjMove.GLBackgroundImage = null;
+            this.ctlObjMove.GLVisible = false;
+            this.ctlObjMove.GuiAnchor = null;
             this.ctlObjMove.Location = new System.Drawing.Point(94, 15);
             this.ctlObjMove.Name = "ctlObjMove";
             this.ctlObjMove.Size = new System.Drawing.Size(170, 219);

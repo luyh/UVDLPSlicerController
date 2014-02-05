@@ -3,16 +3,23 @@ cwtexture1.png
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+glButtHome
+  rotate: false
+  xy: 1, 37
+  size: 256, 64
+  orig: 256, 64
+  offset: 0, 0
+  index: -1
 cwlogo_round
   rotate: false
-  xy: 1, 1
+  xy: 259, 1
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 trimpanel
   rotate: false
-  xy: 103, 11
+  xy: 361, 11
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
