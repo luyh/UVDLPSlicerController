@@ -21,8 +21,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public ctlBgnd bgndPanel = new ctlBgnd();
         public int panelWidth = 14;
         String mGuiAnchor;
+        String mGLBackgroundImage;
+        C2DImage mGLBackgroundImageCach;
         protected int mGapx, mGapy;
         protected bool mGLVisible;
+
 
         public ctlUserPanel()
             : base()
@@ -72,6 +75,16 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             set { 
                 mGLVisible = value;
                 DoubleBuffered = !mGLVisible;
+            }
+        }
+
+        [Description("GL background image name"), Category("Data")]
+        public String GLBackgroundImage
+        {
+            get { return mGLBackgroundImage; }
+            set { 
+                mGLBackgroundImage = value;
+                mGLBackgroundImageCach = null;
             }
         }
 
@@ -176,5 +189,14 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             gr.Rectangle(0, 0, Width, Height, BackColor);
         }
 
+        protected override void OnInvalidated(InvalidateEventArgs e)
+        {
+            if (mGLVisible)
+            {
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
+                return;
+            }
+            base.OnInvalidated(e);
+        }
     }
 }

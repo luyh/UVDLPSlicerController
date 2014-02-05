@@ -2,7 +2,7 @@
 <GuiConfig FileVersion="1">
 	<buttons>
 		<theme backcolor="Royalblue" forecolor="White"/>
-		<button name="home" dock="tr" x="10" y="10" image="homeButt" w="48" h="48"/>
+		<button name="home" dock="tr" x="10" y="100" image="homeButt" w="48" h="48"/>
 		<button name="undo" dock="tl" x="10" y="10" image="buttUndo" w="48" h="48"/>
 		<button name="redo" dock="tl" x="60" y="10" image="buttRedo" w="48" h="48"/>
 		<button name="meshop" dock="bl" x="288" y="10" image="buttMeshTools" check="checkRect" w="48" h="48"/>

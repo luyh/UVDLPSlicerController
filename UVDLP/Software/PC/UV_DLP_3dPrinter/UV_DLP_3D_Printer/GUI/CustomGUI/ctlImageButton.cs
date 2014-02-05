@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using UV_DLP_3D_Printer._3DEngine;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
@@ -18,6 +19,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         Rectangle mCheckrc;
         const int nSubImages = 4;
         int mSubImgWidth, mSubChkImgWidth;
+        String mGLImage;
+        C2DImage mGLImageCach;
 
         [Description("Image composesed of all 4 button states"), Category("Data")]
         public Image Image
@@ -49,6 +52,18 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 }
             }
         }
+
+        [Description("GL image name"), Category("Data")]
+        public String GLImage
+        {
+            get { return mGLImage; }
+            set
+            {
+                mGLImage = value;
+                mGLImageCach = null;
+            }
+        }
+
 
         public ctlImageButton()
         {
@@ -94,7 +109,10 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         protected override void OnPaint(PaintEventArgs pevent)
         {
             if (mGLVisible)
+            {
+                base.OnPaint(pevent);
                 return;
+            }
             Graphics gr = pevent.Graphics;
             int index = (int)mCtlState;
             if (Enabled == false)
@@ -129,6 +147,32 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         private void InitializeComponent()
         {
+        }
+
+        public override void OnGLPaint(_3DEngine.C2DGraphics gr)
+        {
+            base.OnGLPaint(gr);
+            if (mGLImageCach == null)
+            {
+                mGLImageCach = gr.GetImage(mGLImage);
+                if (mGLImageCach == null)
+                    return;
+                mSubImgWidth = mGLImageCach.w / nSubImages;
+            }
+            int index = (int)mCtlState;
+            if (Enabled == false)
+                index = 3;
+            if (mImage != null)
+            {
+                gr.SetColor(Color.White);
+                mSrcrc.X = mSubImgWidth * index;
+                gr.Image(mGLImageCach, mSubImgWidth * index, 0, mSubImgWidth, mGLImageCach.h, 0, 0, Width, Height);
+                /*if (Enabled && (mCheckImage != null))
+                {
+                    mCheckrc.X = Checked ? mSubChkImgWidth : 0;
+                    gr.DrawImage(mCheckImage, mDstrc, mCheckrc, GraphicsUnit.Pixel);
+                }*/
+            }
         }
     }
 }

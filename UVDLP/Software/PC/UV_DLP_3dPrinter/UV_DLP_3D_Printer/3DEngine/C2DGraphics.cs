@@ -13,7 +13,7 @@ using OpenTK.Platform.Windows;
 
 namespace UV_DLP_3D_Printer._3DEngine
 {
-    class C2DImage
+    public class C2DImage
     {
         public String name;
         public float x1, x2;
@@ -197,6 +197,32 @@ namespace UV_DLP_3D_Printer._3DEngine
                 C2DImage img = ImgDbase[name];
                 Image(img.tex, img.x1, img.x2, img.y1, img.y2, x, y, img.w, img.h);
             }
+        }
+
+        public void Image(String name, float sx, float sy, float sw, float sh, float dx, float dy, float dw, float dh)
+        {
+            if (ImgDbase.ContainsKey(name))
+            {
+                C2DImage img = ImgDbase[name];
+                Image(img, sx, sy, sw, sh, dx, dy, dw, dh);
+            }
+        }
+
+        public void Image(C2DImage img, float sx, float sy, float sw, float sh, float dx, float dy, float dw, float dh)
+        {
+            sx /= img.scalex;
+            sy /= img.scaley;
+            sw /= img.scalex;
+            sh /= img.scaley;
+            Image(img.tex, img.x1 + sx, img.x1 + sx + sw, img.y1 + sy, img.y1 + sy + sh, dx, dy, dw, dh);
+        }
+
+        
+        public C2DImage GetImage(String name)
+        {
+            if ((name == null) || !ImgDbase.ContainsKey(name))
+                return null;
+            return ImgDbase[name];
         }
 
         public void GetImageDim(String name, ref int w, ref int h)
