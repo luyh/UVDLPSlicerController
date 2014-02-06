@@ -314,7 +314,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             butt.GuiAnchor = FixDockingVal(GetStrParam(buttnode, "dock", butt.GuiAnchor));
             butt.Gapx = GetIntParam(buttnode, "x", butt.Gapx);
             butt.Gapy = GetIntParam(buttnode, "y", butt.Gapy);
-            butt.Image = GetImageParam(buttnode, "image", butt.Image);
+            butt.GLVisible = GetBoolParam(buttnode, "gl", false);
+            if (butt.GLVisible)
+                butt.GLImage = GetStrParam(buttnode, "image", null);
+            else
+                butt.Image = GetImageParam(buttnode, "image", butt.Image);
             butt.CheckImage = GetImageParam(buttnode, "check", butt.CheckImage);
         }
 
@@ -355,7 +359,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ctl.GuiAnchor = FixDockingVal(GetStrParam(ctlnode, "dock", ctl.GuiAnchor));
             ctl.Gapx = GetIntParam(ctlnode, "x", ctl.Gapx);
             ctl.Gapy = GetIntParam(ctlnode, "y", ctl.Gapy);
-            ctl.bgndPanel.imageName = GetStrParam(ctlnode, "shape", ctl.bgndPanel.imageName);
+            ctl.GLVisible = GetBoolParam(ctlnode, "gl", false);
+            if (ctl.GLVisible)
+                ctl.GLBackgroundImage = GetStrParam(ctlnode, "shape", ctl.GLBackgroundImage);
+            else
+                ctl.bgndPanel.imageName = GetStrParam(ctlnode, "shape", ctl.bgndPanel.imageName);
         }
 
         #endregion
@@ -387,7 +395,20 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 return defVal;
             }
         }
- 
+
+        bool GetBoolParam(XmlNode xnode, string paramName, bool defVal)
+        {
+            try
+            {
+                bool res = bool.Parse(xnode.Attributes[paramName].Value);
+                return res;
+            }
+            catch (Exception)
+            {
+                return defVal;
+            }
+        }
+
         Color GetColorParam(XmlNode xnode, string paramName, Color defVal)
         {
             Color res;

@@ -22,7 +22,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public int panelWidth = 14;
         String mGuiAnchor;
         String mGLBackgroundImage;
-        C2DImage mGLBackgroundImageCach;
         protected int mGapx, mGapy;
         protected bool mGLVisible;
 
@@ -84,7 +83,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             get { return mGLBackgroundImage; }
             set { 
                 mGLBackgroundImage = value;
-                mGLBackgroundImageCach = null;
             }
         }
 
@@ -160,7 +158,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         public virtual void GLRedraw(C2DGraphics gr, int x, int y)
         {
-            if (!GLVisible)
+            if (!GLVisible || !Visible)
                 return;
             gr.SetDrawingRegion(x, y, Width, Height);
             OnGLBackgroundPaint(gr);
@@ -186,6 +184,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         public virtual void OnGLBackgroundPaint(C2DGraphics gr)
         {
+            if (mGLBackgroundImage != null)
+            {
+                gr.Panel9(mGLBackgroundImage, 0, 0, Width, Height);
+                return;
+            }
             gr.Rectangle(0, 0, Width, Height, BackColor);
         }
 

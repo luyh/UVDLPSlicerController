@@ -2,7 +2,7 @@
 <GuiConfig FileVersion="1">
 	<buttons>
 		<theme backcolor="Royalblue" forecolor="White"/>
-		<button name="home" dock="tr" x="10" y="100" image="homeButt" w="48" h="48"/>
+		<button name="home" dock="tr" x="10" y="10" image="glButtHome" w="48" h="48" gl="true"/>
 		<button name="undo" dock="tl" x="10" y="10" image="buttUndo" w="48" h="48"/>
 		<button name="redo" dock="tl" x="60" y="10" image="buttRedo" w="48" h="48"/>
 		<button name="meshop" dock="bl" x="288" y="10" image="buttMeshTools" check="checkRect" w="48" h="48"/>
@@ -13,16 +13,17 @@
 		<button name="scale" dock="bl" x="10" y="10" image="buttScale" check="checkRect" w="48" h="48"/>
 	</buttons>
 	<controls>
-		<theme backcolor="Brown" forecolor="Yellow" framecolor="RosyBrown"/>
+		<theme backcolor="Navy" forecolor="White" framecolor="Royalblue"/>
 		<control name="pmove" dock="bl" x="20" y="90" shape="trimpanel"/>
 		<control name="pscale" dock="bl" x="20" y="90" shape="trimpanel"/>
-		<control name="protate" dock="bl" x="20" y="90" shape="trimpanel"/>
+		<control name="protate" dock="bl" x="20" y="90" shape="trimpanel" />
 		<control name="psupport" dock="bl" x="20" y="90" shape="trimpanel"/>
 		<control name="pviewopts" dock="bl" x="20" y="90" shape="trimpanel"/>
 		<control name="pmeshtools" dock="bl" x="20" y="90" shape="trimpanel"/>
 		<control name="pscenetree" dock="tr" x="20" y="90" shape="trimpanel"/>
 		<control name="pobjectinf" dock="br" x="20" y="90" shape="trimpanel"/>
 		<control name="clayernum" dock="bc" x="0" y="80"/>
+		<control name="progress" dock="br" x="10" y="90" gl="true" />
 	</controls>
 	<decals>
 		<bar dock="n" tlcolor="AliceBlue" trcolor="AliceBlue" blcolor="LightBlue" brcolor="SkyBlue" level="background"/>

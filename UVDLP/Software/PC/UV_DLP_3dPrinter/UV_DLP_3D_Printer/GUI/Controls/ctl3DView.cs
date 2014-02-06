@@ -249,6 +249,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
                 gr2d.LoadTexture(global::UV_DLP_3D_Printer.Properties.Resources.cwtexture1,
                     global::UV_DLP_3D_Printer.Properties.Resources.cwtexture1_index);
+                gr2d.LoadFont("Calibri22", global::UV_DLP_3D_Printer.Properties.Resources.Calibri22_metrics);
+                
 
                 firstTime = false;
             }
@@ -966,6 +968,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             guiconf.AddControl("pscenetree", ctlScene1);
             guiconf.AddControl("pobjectinf", objectInfoPanel);
             guiconf.AddControl("clayernum", numLayer);
+            guiconf.AddControl("progress", textProgress);
         }
 
         #endregion 3d View controls

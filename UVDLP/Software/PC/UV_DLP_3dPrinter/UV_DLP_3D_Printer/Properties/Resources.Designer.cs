@@ -445,6 +445,39 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;fontMetrics file=&quot;Texture.png&quot;&gt;
+        ///  &lt;character key=&quot;32&quot;&gt;
+        ///    &lt;x&gt;0&lt;/x&gt;
+        ///    &lt;y&gt;0&lt;/y&gt;
+        ///    &lt;width&gt;9&lt;/width&gt;
+        ///    &lt;height&gt;24&lt;/height&gt;
+        ///  &lt;/character&gt;
+        ///  &lt;character key=&quot;33&quot;&gt;
+        ///    &lt;x&gt;9&lt;/x&gt;
+        ///    &lt;y&gt;0&lt;/y&gt;
+        ///    &lt;width&gt;7&lt;/width&gt;
+        ///    &lt;height&gt;24&lt;/height&gt;
+        ///  &lt;/character&gt;
+        ///  &lt;character key=&quot;34&quot;&gt;
+        ///    &lt;x&gt;16&lt;/x&gt;
+        ///    &lt;y&gt;0&lt;/y&gt;
+        ///    &lt;width&gt;10&lt;/width&gt;
+        ///    &lt;height&gt;24&lt;/height&gt;
+        ///  &lt;/character&gt;
+        ///  &lt;character key=&quot;35&quot;&gt;
+        ///    &lt;x&gt;26&lt;/x&gt;
+        ///    &lt;y&gt;0&lt;/y&gt;
+        ///    &lt;width&gt;14&lt;/width&gt;
+        ///    &lt;height&gt;24&lt; [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Calibri22_metrics {
+            get {
+                return ResourceManager.GetString("Calibri22_metrics", resourceCulture);
+            }
+        }
+        
         public static System.Drawing.Bitmap checkRect {
             get {
                 object obj = ResourceManager.GetObject("checkRect", resourceCulture);
@@ -486,6 +519,20 @@ namespace UV_DLP_3D_Printer.Properties {
         ///format: RGBA8888
         ///filter: Linear,Linear
         ///repeat: none
+        ///Calibri22
+        ///  rotate: false
+        ///  xy: 1, 103
+        ///  size: 221, 144
+        ///  orig: 221, 144
+        ///  offset: 0, 0
+        ///  index: -1
+        ///glButtHome
+        ///  rotate: false
+        ///  xy: 224, 183
+        ///  size: 256, 64
+        ///  orig: 256, 64
+        ///  offset: 0, 0
+        ///  index: -1
         ///cwlogo_round
         ///  rotate: false
         ///  xy: 1, 1
@@ -540,12 +587,12 @@ namespace UV_DLP_3D_Printer.Properties {
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         ///&lt;GuiConfig FileVersion=&quot;1&quot;&gt;
         ///	&lt;buttons&gt;
-        ///		&lt;colortheme back=&quot;#FFFFFF&quot; fore=&quot;RoyalBlue&quot;/&gt;
-        ///		&lt;button name=&quot;home&quot; dock=&quot;tr&quot; x=&quot;10&quot; y=&quot;10&quot; image=&quot;homeButt&quot; w=&quot;48&quot; h=&quot;48&quot;/&gt;
+        ///		&lt;theme backcolor=&quot;Royalblue&quot; forecolor=&quot;White&quot;/&gt;
+        ///		&lt;button name=&quot;home&quot; dock=&quot;tr&quot; x=&quot;10&quot; y=&quot;10&quot; image=&quot;glButtHome&quot; w=&quot;48&quot; h=&quot;48&quot; gl=&quot;true&quot;/&gt;
         ///		&lt;button name=&quot;undo&quot; dock=&quot;tl&quot; x=&quot;10&quot; y=&quot;10&quot; image=&quot;buttUndo&quot; w=&quot;48&quot; h=&quot;48&quot;/&gt;
         ///		&lt;button name=&quot;redo&quot; dock=&quot;tl&quot; x=&quot;60&quot; y=&quot;10&quot; image=&quot;buttRedo&quot; w=&quot;48&quot; h=&quot;48&quot;/&gt;
-        ///		&lt;button name=&quot;meshop&quot; dock=&quot;bl&quot; x=&quot;288&quot; y=&quot;10&quot; image=&quot;buttMeshTools&quot; w=&quot;48&quot; h=&quot;48&quot;/&gt;
-        ///		&lt;button name=&quot;view&quot; dock=&quot;bl&quot; x=&quot;230&quot; y=&quot;10&quot; image=&quot;buttView [rest of string was truncated]&quot;;.
+        ///		&lt;button name=&quot;meshop&quot; dock=&quot;bl&quot; x=&quot;288&quot; y=&quot;10&quot; image=&quot;buttMeshTools&quot; check=&quot;checkRect&quot; w=&quot;48&quot; h=&quot;48&quot;/&gt;
+        ///		&lt;button name=&quot;view&quot; dock=&quot;b [rest of string was truncated]&quot;;.
         /// </summary>
         public static string GuiConfig {
             get {

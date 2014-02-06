@@ -221,14 +221,17 @@
     <Compile Include="GUI\CustomGUI\ctlSupports.Designer.cs">
       <DependentUpon>ctlSupports.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\CustomGUI\ctlTextBox.cs">
-      <SubType>Component</SubType>
+    <Compile Include="GUI\CustomGUI\ctlText.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlRotate.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlRotate.Designer.cs">
       <DependentUpon>ctlRotate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlTextBox.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlToolTip.cs">
       <SubType>Component</SubType>
@@ -503,7 +506,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Notes.txt" />
-    <None Include="resources\cwtexture1.pack" />
     <None Include="resources\IconsLandVistaArrowIconsDemo\PNG\64x64\Left1Blue.png" />
     <None Include="resources\IconsLandVistaArrowIconsDemo\PNG\64x64\Right1Blue.png" />
     <None Include="resources\9-4-2013 12-40-20 PM.png" />
@@ -571,11 +573,11 @@
     <None Include="resources\CustomGUI\buttBoundingBox.png" />
     <None Include="resources\move_bgnd.png" />
     <None Include="resources\cwlogo_round.png" />
-    <None Include="resources\cwtexture1.txt" />
     <None Include="resources\cwtexture1.png" />
     <None Include="resources\cwtexture1_index.txt" />
     <None Include="resources\GuiConfig.txt" />
     <None Include="resources\CustomGUI\checkRect.png" />
+    <None Include="resources\Calibri22_metrics.txt" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />
