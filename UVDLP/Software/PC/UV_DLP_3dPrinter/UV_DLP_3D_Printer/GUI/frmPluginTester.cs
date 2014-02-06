@@ -45,7 +45,7 @@ namespace UV_DLP_3D_Printer.GUI
             }
             catch (Exception ex) 
             {
-                
+                DebugLogger.Instance().LogError(ex);
             }
         }
         private void SetControl(UserControl ctl) 
@@ -96,7 +96,10 @@ namespace UV_DLP_3D_Printer.GUI
                         break;
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
         }
 
     }

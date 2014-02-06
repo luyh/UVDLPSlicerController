@@ -58,7 +58,12 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.lbSupports = new System.Windows.Forms.ListView();
+            this.Supports = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label9 = new System.Windows.Forms.Label();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
+            this.cmdRemoveSupports = new System.Windows.Forms.Button();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
@@ -67,6 +72,7 @@
             this.flowLayoutPanel4.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel2
@@ -78,7 +84,7 @@
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(396, 351);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(563, 340);
             this.flowLayoutPanel2.TabIndex = 23;
             // 
             // progressTitle
@@ -171,10 +177,11 @@
             // 
             this.flowLayoutPanel3.Controls.Add(this.panelSuppotShape);
             this.flowLayoutPanel3.Controls.Add(this.flowLayoutPanel4);
+            this.flowLayoutPanel3.Controls.Add(this.panel3);
             this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 97);
             this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(370, 242);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(558, 235);
             this.flowLayoutPanel3.TabIndex = 26;
             // 
             // panelSuppotShape
@@ -609,6 +616,50 @@
             this.label3.TabIndex = 29;
             this.label3.Text = "Automatic config";
             // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.RoyalBlue;
+            this.panel3.Controls.Add(this.cmdRemoveSupports);
+            this.panel3.Controls.Add(this.lbSupports);
+            this.panel3.Controls.Add(this.label9);
+            this.panel3.Location = new System.Drawing.Point(366, 0);
+            this.panel3.Margin = new System.Windows.Forms.Padding(0, 0, 3, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(182, 233);
+            this.panel3.TabIndex = 27;
+            // 
+            // lbSupports
+            // 
+            this.lbSupports.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.Supports});
+            this.lbSupports.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSupports.FullRowSelect = true;
+            this.lbSupports.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.lbSupports.HideSelection = false;
+            this.lbSupports.Location = new System.Drawing.Point(3, 32);
+            this.lbSupports.MultiSelect = false;
+            this.lbSupports.Name = "lbSupports";
+            this.lbSupports.Size = new System.Drawing.Size(176, 156);
+            this.lbSupports.TabIndex = 31;
+            this.lbSupports.UseCompatibleStateImageBehavior = false;
+            this.lbSupports.View = System.Windows.Forms.View.Details;
+            this.lbSupports.SelectedIndexChanged += new System.EventHandler(this.lbSupports_SelectedIndexChanged);
+            // 
+            // Supports
+            // 
+            this.Supports.Text = "Supports";
+            this.Supports.Width = 158;
+            // 
+            // label9
+            // 
+            this.label9.Font = new System.Drawing.Font("Arial", 17.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label9.ForeColor = System.Drawing.Color.White;
+            this.label9.Location = new System.Drawing.Point(3, 6);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(126, 22);
+            this.label9.TabIndex = 29;
+            this.label9.Text = "Supports";
+            // 
             // ctlToolTip1
             // 
             this.ctlToolTip1.AutoPopDelay = 5000;
@@ -617,12 +668,22 @@
             this.ctlToolTip1.InitialDelay = 1500;
             this.ctlToolTip1.ReshowDelay = 100;
             // 
+            // cmdRemoveSupports
+            // 
+            this.cmdRemoveSupports.Location = new System.Drawing.Point(3, 194);
+            this.cmdRemoveSupports.Name = "cmdRemoveSupports";
+            this.cmdRemoveSupports.Size = new System.Drawing.Size(176, 32);
+            this.cmdRemoveSupports.TabIndex = 32;
+            this.cmdRemoveSupports.Text = "Remove all Supports";
+            this.cmdRemoveSupports.UseVisualStyleBackColor = true;
+            this.cmdRemoveSupports.Click += new System.EventHandler(this.cmdRemoveSupports_Click);
+            // 
             // ctlSupports
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.flowLayoutPanel2);
             this.Name = "ctlSupports";
-            this.Size = new System.Drawing.Size(406, 390);
+            this.Size = new System.Drawing.Size(567, 346);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel3.ResumeLayout(false);
@@ -634,6 +695,7 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -671,5 +733,10 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cmbSupType;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ListView lbSupports;
+        private System.Windows.Forms.ColumnHeader Supports;
+        private System.Windows.Forms.Button cmdRemoveSupports;
     }
 }

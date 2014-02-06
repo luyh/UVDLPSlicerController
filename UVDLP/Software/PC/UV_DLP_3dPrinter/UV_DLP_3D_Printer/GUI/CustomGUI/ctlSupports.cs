@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using UV_DLP_3D_Printer.Configs;
+using Engine3D;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
@@ -16,19 +17,58 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         private bool m_settingData;
         private bool m_changingData;
         private bool m_numFBSelected;
-        private static int widthopen = 372;
-        private static int heightopen = 390;
+        //private static int widthopen = 372;
+        private static int widthopen = 563;
+        private static int heightopen = 340;
 
         public ctlSupports()
         {
             InitializeComponent();
             UVDLPApp.Instance().m_supportgenerator.SupportEvent += new SupportGeneratorEvent(SupEvent);
+            UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEvent);
             m_sc = UVDLPApp.Instance().m_supportconfig; // should copy really
             SetData();
             m_changingData = false;
             m_numFBSelected = true;
             numDownAngle.FloatVal = 45;
             numDownAngle.IntVal = 45;
+            ListSupports();
+        }
+        private void AppEvent(eAppEvent ev,string message)
+        {
+            switch (ev) 
+            {
+                case eAppEvent.eModelRemoved:
+                    ListSupports();
+                    break;
+                case eAppEvent.eModelAdded:
+                    ListSupports();
+                    break;
+                case eAppEvent.eObjectSelected:
+                    Object3d sel = UVDLPApp.Instance().SelectedObject;
+                    if (sel != null) 
+                    {
+                        //highlist the selected
+                        HighLightSelected(sel);
+                    }
+                    break;
+            }
+        }
+
+        private void HighLightSelected(Object3d sel) 
+        {
+            int idx = 0;
+            foreach (ListViewItem lvi in lbSupports.Items) 
+            {
+                Object3d obj = (Object3d)lvi.Tag;
+                if (obj == sel) 
+                {
+                    //lbSupports.sel
+                    lbSupports.Items[idx].Selected = true;
+                    break;
+                }
+                idx++;
+            }
         }
 
         private void SetData()
@@ -111,6 +151,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                             progressTitle.Text = "Supports";
                             //DialogResult = System.Windows.Forms.DialogResult.OK;
                             //Close();
+                            ListSupports();
                             break;
                         case SupportEvent.eCancel:
                             break;
@@ -132,6 +173,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                         case SupportEvent.eStarted:
                             break;
                         case SupportEvent.eSupportGenerated:
+                            ListSupports();
                             break;
                     }
                 }
@@ -338,7 +380,20 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             GetData();
             UpdateForSupportType();
         }
-
+        public void ListSupports() 
+        {
+            lbSupports.Items.Clear();
+            foreach (Object3d obj in UVDLPApp.Instance().Engine3D.m_objects) 
+            {
+                if (obj.tag == Object3d.OBJ_SUPPORT) 
+                {
+                    ListViewItem lvi = new ListViewItem(obj.Name);
+                    lvi.Tag = obj;
+                    lbSupports.Items.Add(lvi);
+                }
+            }
+        
+        }
         public override void ApplyTheme(ControlTheme ct)
         {
             base.ApplyTheme(ct);
@@ -351,7 +406,10 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 label5.ForeColor = ct.ForeColor;
                 label6.ForeColor = ct.ForeColor;
                 label7.ForeColor = ct.ForeColor;
+                label9.ForeColor = ct.ForeColor;
                 cmbSupType.ForeColor = ct.ForeColor;
+                lbSupports.ForeColor = ct.ForeColor;
+                cmdRemoveSupports.ForeColor = ct.ForeColor;
             }
             if (ct.BackColor != ControlTheme.NullColor)
             {
@@ -365,6 +423,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 panel1.BackColor = ct.FrameColor;
                 panel2.BackColor = ct.FrameColor;
                 panelSuppotShape.BackColor = ct.FrameColor;
+                panel3.BackColor = ct.FrameColor;
+                lbSupports.BackColor = ct.FrameColor;
+                cmdRemoveSupports.BackColor = ct.BackColor;
             }
 
         }
@@ -372,6 +433,32 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         private void buttManualEdit_Click(object sender, EventArgs e)
         {
             // the manual edit of support button is clicked
+        }
+
+        private void lbSupports_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // get the selected item
+            try
+            {
+                ListView.SelectedListViewItemCollection slvi =  lbSupports.SelectedItems;
+                if (slvi.Count > 0) 
+                {
+                    ListViewItem lvi = slvi[0];
+                    Object3d obj = (Object3d)lvi.Tag;
+                    UVDLPApp.Instance().SelectedObject = obj;
+                }
+                //Object3d obj = (Object3d)lbSupports.SelectedItems[0].Tag;
+                //UVDLPApp.Instance().SelectedObject = obj;
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
+        }
+
+        private void cmdRemoveSupports_Click(object sender, EventArgs e)
+        {
+            UVDLPApp.Instance().RemoveAllSupports();
         }
    
     }

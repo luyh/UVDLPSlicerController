@@ -271,8 +271,9 @@ namespace UV_DLP_3D_Printer
             foreach (Object3d obj in lst) 
             {
                 m_undoer.SaveDelition(obj);
-                m_engine3d.RemoveObject(obj);
+                m_engine3d.RemoveObject(obj);                
             }
+            RaiseAppEvent(eAppEvent.eModelRemoved, "model removed");
         }
 
         /// <summary>

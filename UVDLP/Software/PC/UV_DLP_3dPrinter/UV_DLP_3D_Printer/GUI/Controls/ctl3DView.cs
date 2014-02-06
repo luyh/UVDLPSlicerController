@@ -26,6 +26,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         GLCamera m_camera;
         bool loaded = false;
         float m_ix = 0.0f, m_iy = 0.0f, m_iz = 2.0f;
+        Engine3D.Vector3d m_isectnormal; // the normal at the intersection
         Slice m_curslice = null; // for previewing only
         private bool lmdown, rmdown, mmdown;
         private int mdx, mdy;
@@ -57,7 +58,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             m_modelAnimTmr = null;
             m_camera = new GLCamera();
             ResetCameraView();
-
+            m_isectnormal = new Engine3D.Vector3d();
             ctlViewOptions.TreeViewHolder = mainViewSplitContainer;
             ctlViewOptions.LayerNumberScroll = numLayer;
             ctlViewOptions.ObjectInfoPanel = objectInfoPanel;
@@ -302,6 +303,27 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             GL.Vertex3(m_ix, m_iy - 5, m_iz);
             GL.Vertex3(m_ix, m_iy + 5, m_iz);
             GL.End();
+             //
+            Point3d spnt = new Point3d();
+            Point3d epnt = new Point3d();
+            spnt.x = m_ix;
+            spnt.y = m_iy;
+            spnt.z = m_iz;
+            Engine3D.Vector3d tvec = new Engine3D.Vector3d();
+            tvec.x = m_isectnormal.x;
+            tvec.y = m_isectnormal.y;
+            tvec.z = m_isectnormal.z;
+            tvec.Scale(5.0f);
+            epnt.x = spnt.x + tvec.x;
+            epnt.y = spnt.y + tvec.y;
+            epnt.z = spnt.z + tvec.z;
+            GL.LineWidth(2);
+            GL.Color3(Color.Red);
+
+            GL.Begin(PrimitiveType.Lines);
+            GL.Vertex3(spnt.x, spnt.y, spnt.z);
+            GL.Vertex3(epnt.x, epnt.y, epnt.z);
+            GL.End();
 
             GL.LineWidth(1);
         }
@@ -490,6 +512,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                         m_ix = (float)isect.intersect.x; // show the closest
                         m_iy = (float)isect.intersect.y;
                         m_iz = (float)isect.intersect.z;
+                        isect.poly.CalcNormal();
+                        m_isectnormal.x = isect.poly.m_normal.x;
+                        m_isectnormal.y = isect.poly.m_normal.y;
+                        m_isectnormal.z = isect.poly.m_normal.z;
+
                         break;
                     }
                 }
@@ -684,6 +711,18 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                             }
                         }
                     }
+                }
+                else 
+                {
+                    // not moving object mode
+                    // just regular intersecting an object
+                    foreach (ISectData dat in hits)
+                    {
+                        if (dat.obj.tag == Object3d.OBJ_NORMAL) 
+                        {
+                        
+                        }
+                    }                
                 }
             }
             UpdateView();

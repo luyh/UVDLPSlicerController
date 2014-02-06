@@ -197,7 +197,7 @@ namespace UV_DLP_3D_Printer
                 int hyres = config.yres / 2;
                 for (int c = 0; c < numslices; c++)
                 {
-                    bool layerneedssupport = false;
+                    //bool layerneedssupport = false;
                     if (m_cancel)
                     {
                         RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eCancel, "Support Generation Cancelled", null);
@@ -313,7 +313,7 @@ namespace UV_DLP_3D_Printer
                             if (plysupported == false)
                             {
 
-                                layerneedssupport = true;
+                               // layerneedssupport = true;
                                 supportmap[pln] = false;
                                 lstunsup.Add(new UnsupportedRegions(pln));
                             }

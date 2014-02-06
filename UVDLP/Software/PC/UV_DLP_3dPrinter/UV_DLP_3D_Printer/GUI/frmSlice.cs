@@ -202,6 +202,7 @@ namespace UV_DLP_3D_Printer.GUI
             startInfo.CreateNoWindow = false;
             startInfo.UseShellExecute = false;
             startInfo.FileName = slicerexe;
+            startInfo.Arguments = UVDLPApp.Instance().m_appconfig.m_slic3rparameters;
             startInfo.WindowStyle = ProcessWindowStyle.Minimized;//.Hidden;
             startInfo.Arguments = parms;
             SetProgressSpinner(true);

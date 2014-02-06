@@ -25,9 +25,8 @@ namespace UV_DLP_3D_Printer
             //splash.Show();
             UVDLPApp.Instance().DoAppStartup();
             Application.Run(new frmMain());
-
-
         }
+
         /*Set up a methoid to use reflection to set the culture information*/
         static void SetDefaultCulture(CultureInfo culture)
         {
