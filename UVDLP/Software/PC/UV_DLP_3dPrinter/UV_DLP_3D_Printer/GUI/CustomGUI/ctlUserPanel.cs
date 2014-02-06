@@ -177,6 +177,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             GLRedraw(gr, Location.X, Location.Y);
         }
 
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            if (GLVisible)
+                return;
+            base.OnPaintBackground(e);
+        }
 
         public virtual void OnGLPaint(C2DGraphics gr)
         {
