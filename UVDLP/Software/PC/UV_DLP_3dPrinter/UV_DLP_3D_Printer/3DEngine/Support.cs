@@ -192,7 +192,64 @@ namespace Engine3D
                 DebugLogger.Instance().LogError(ex.Message);
             }
         }
+        /// <summary>
+        /// Calculate the centroid of the given points
+        /// </summary>
+        /// <param name="?"></param>
+        /// <param name="startidx"></param>
+        /// <param name="endidx"></param>
+        /// <returns></returns>
+        private Point3d CalcCentroid(int startidx, int endidx)
+        {
+            Point3d center = new Point3d();
+            //calculate the center
+            for (int c = startidx; c < endidx; c++) 
+            {
+                center.x += m_lstpoints[c].x;
+                center.y += m_lstpoints[c].y;
+                center.z += m_lstpoints[c].z;
+            }
+            float num = endidx - startidx;
+            center.x /= num;
+            center.y /= num;
+            center.z /= num;
+            return center;
+        }
 
+        private void TranslateRange(Point3d pnt, int startidx, int endidx) 
+        {
+            for (int c = startidx; c < endidx; c++)
+            {
+                m_lstpoints[c].x += pnt.x;
+                m_lstpoints[c].y += pnt.y;
+                m_lstpoints[c].z += pnt.z;
+            }        
+        }
+        /// <summary>
+        /// This function is designed to move a support by it's tip
+        /// it will angle up from the s5i index and position the points to intersect around the 
+        /// specified tip point,
+        /// all points below s5i  - 
+        /// 1) could stay where they are
+        /// 2) or move to be a relative distance from the tip - 5mm or so in the direction of vec
+        /// </summary>
+        /// <param name="tip"></param>
+        public void MoveFromTip(Point3d tip, Vector3d vec) 
+        {
+            //starting at s5i, center all points around this.
+            Point3d diff = new Point3d();
+            ScaleToHeight(tip.z * .85);
+            Point3d center;
+            // first, move along the vec in the direction of the vector
+            center = CalcCentroid(0,s5i);
+            diff.Set(tip.x + vec.x - center.x, tip.y + vec.y - center.y, 0.0f); // only slide along the x/y plane
+            TranslateRange(diff,0, s5i);
+
+            center = CalcCentroid(s5i, m_lstpoints.Count);            
+            diff.Set(tip.x - center.x,tip.y - center.y,tip.z - center.z);
+            TranslateRange(diff, s5i, m_lstpoints.Count);
+            Update();
+        }
         public void ScaleToHeight(double height) 
         {
             if (height == 0.0d) height = 1.0;

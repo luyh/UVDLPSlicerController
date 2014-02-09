@@ -20,6 +20,8 @@ namespace Engine3D
         public List<Point3d> m_lstpoints; // list of 3d points in object
         public List<Polygon> m_lstpolys;// list of polygons
         public List<PolyLine3d> m_boundingBox;
+        public List<Support> m_supports; // a list of support objects attached to this one
+
         private string m_name; // just the filename
         public string m_fullname; // full path with filename
         private bool m_visible;
@@ -34,6 +36,7 @@ namespace Engine3D
         public bool m_inSelectedList = false;
         private int m_listid; // gl call list id 
 
+
         public Object3d() 
         {
             Init();
@@ -46,6 +49,7 @@ namespace Engine3D
         {
             m_lstpolys = new List<Polygon>();
             m_lstpoints = new List<Point3d>();
+            m_supports = new List<Support>();
             m_center = new Point3d();
             m_name = "Model";
             m_fullname = "Model";
@@ -140,10 +144,9 @@ namespace Engine3D
             float zlev = (float)m_min.z;
             float epsilon = 0.0f;// .05f; // add in a the level of 1 slice
             float zmove = -zlev - epsilon;
-            Translate((float)-center.x, (float)-center.y, (float)zmove);
-            
-        
+            Translate((float)-center.x, (float)-center.y, (float)zmove);                   
         }
+
         public void Render() 
         {
             

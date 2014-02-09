@@ -55,6 +55,11 @@ namespace UV_DLP_3D_Printer
             tabMain.Dock = DockStyle.Fill;
             tabMain.Visible = false;
 
+            #if (DEBUG)
+            ShowLogPanel(true);
+            #else
+            ShowLogPanel(false);
+            #endif
             m_frmdlp.HideDLPScreen();
             ctlSliceView1.Visible = false;
             ctlSliceView1.Dock = DockStyle.Fill;
@@ -935,6 +940,7 @@ namespace UV_DLP_3D_Printer
             }
         }
 
+        
         private void hardwareGuideToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -946,6 +952,11 @@ namespace UV_DLP_3D_Printer
             {
                 DebugLogger.Instance().LogError(ex);
             }
+        }
+
+        public void ShowLogPanel(bool visible) 
+        {
+            splitContainerMainWindow.Panel2Collapsed = !visible;
         }
 
         private void stalactite3DToolStripMenuItem_Click(object sender, EventArgs e)

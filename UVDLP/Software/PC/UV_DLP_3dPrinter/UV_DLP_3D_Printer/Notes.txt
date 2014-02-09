@@ -1,76 +1,116 @@
 ﻿
 ToDo:
-	-Make controls on ctl3dview moveable
-	-Save/Load their positions and visibility as a set
 
-	-Embed the GCode sections in the machine configuration, this way, we can completely manage it and still have the user be able to edit
-	it in a controlled way, we can even have a gcode helper functionality in the gui to help users configure thier machines (Eventually).
+-Make controls on ctl3dview moveable
+-Save/Load their positions and visibility as a set
 
-	-Have the Help menu (sub)item in mainform link to open the UserManual.pdf as well as the HardwareGuide.pdf in the /Docs subdirectory
-	-in the slicing configuration screen,
-		group icons on the bottom panel so that the on/off visibilty switches of the panels	
-	-Make the log view only visible by default in the debug build
+Machine Controls
+	Move from tabbed view to main 3d view screen
+	Add a button on bottom tool panel to show/hide menu
+	Build Z-axis up/down ctl
+	Build X/Y/Z axis control
+	Homing control
+	Extruder / temperature control
+	
+Remove Image Slice view window
+	On preview slice view on 3d window, show a "preview on secondary display" checkbox
+	
+-in the slicing configuration screen,
+	group icons on the bottom panel so that the on/off visibilty switches of the panels	
+-Make the log view only visible by default in the debug build
 
-	-Support generation improvements
-		-make the bottom of the support a cylinder, not a cone
-		-hold a reference in each support to the object it touches
-		-make supports move and rotate along with object, have them fixed to the ground
-		- ability to angle the tip of the support to match the surface normal it intersects
-	-Make platform walls light up when objects are not fully enclosed in platform
-
-
-Hardware objectives:
-Use as much standard 3d printing hardware as possible.
-A Ramps / Gen4 board or compatible should be using to control the Z Axis of the device
-
-Ultimately, I want my application to be a replacement for apps such as replicatorG, printerface,etc...
-
-I need to be able to syncronize the GCode Zmovements with the display of the slices on the secondary monitor
-How can I do this?
-	1) one possible method -
-	The GCode file must be generated to contain special comments between z movements
-	The comments can trigger the display of a slice
-		cons - can only be built from host computer - not run from machine - this shouldn't be much of an issue, because
-		the image slices need to be sent from the machine anyway	
-	2) The z axis and slices are syncronized by time only
-		cons - this could quickly get out of sync, problems with pause
-
-		Slice file
-			A slice file represents a model that has been sliced and is ready to be printed.
-				It may contain the vectors on a per slice basic. In this configuration each vector would have to be rendered
-				at run time with the build configuration. The build configuration specifies items that are specific to the machine being buil on
-				such as x/y platform size, monitor resolution, etc.. This might be a good format to exchange between users because it represents a sliced
-				file (at a given z resolution), but (hopefully) would not be as large as a series of images.
-
-				A secondary version of the slice file could be compressed 2 color  4 bit or 8 bit RLE compressed images in a single file. This would removed the
-				need to transport dozens (or hundreds) of image files for even a moderately sized sliced model. These images would represent
-				a sliced and ready to print model for a specific machine. If the X/Y platform size or resolution differed, the model would 
-				have to be re-sliced. The advantage of this format is that it is ready to print, and allows for slices to be viewed and examined quickly
-
-				Another approach is not to generate image or vector slices at all, and only generate them at run-time. The model itself could be 
-				the only resource needed beyond the slicing and build parameters.*(Well, nice for us, but we should still import/export industry standard formats)
+-Support generation improvements
+		
+	-hold a reference in each support to the object it touches
+	-make supports move and rotate along with object, have them fixed to the ground
+		
+-Make platform walls light up when objects are not fully enclosed in platform
 
 
-Slicing re-write notes:
-slicing is a process
-this process consists of steps
-each step is done by a slicing module
-modules can do things like:
-raft
-bottom layer
-support generators
-image pre- and post processors
-image exporter
-svg exporter
-gcode generator
+Add PLY support
+Add ASCII support?
+Add Triangulate function
 
-The slicer is what holds the list of these actions
-and executes (calls) them in the correct order
-each module can save and load it's own parameters
-the slicer holds all the intermediate data that each module can operate upon.
 
-This set of configured slicing parameters can be saved as a slicing / building profile
+Support automatic time delay calculation in GUI for layer time
 
-I think this approach will later allow other slicing types, such as for my makerbot or reprap
+support generation
+	2d/3d
+Skirt/Brim/Raft functionality
+
+Better Exports/Imports of Slicing Data through one or more of the following:
+
+SVG import/export
+SLI Slice Layer Interface export
+CLI Common Layer Interface export <- http://www.forwiss.uni-passau.de/~welisch/papers/cli_format.html
+USF Universal Slice File
+SLC File
+SSL Statasys Layer File
+
+
+GCode reference help section loaded from file
+
+Add class to launch/ wait for an external process
+Firmware upload via AVRDude
+
+support for powder based printers
+
+Bugs**************************************
+
+
+Improvement Requests:***************************
+
+FEATURE-REQUESTS may be:
+1.
+A function to IMPORT Pictures and a coresponding  G-Codegenerator that creates the GCode for the number of Pictures Imported.
+This would give people the possibility to use Other slicers like "VISCam RP" an others!!!!!!!!!
+
+
+
+Completed**********************************
+*Embed the GCode sections in the machine configuration, this way, we can completely manage it and still have the user be able to edit
+it in a controlled way, we can even have a gcode helper functionality in the gui to help users configure thier machines (Eventually).
+
+*Can't select other build/slice profile - Fixed
+*Remove the comments being sent to the Firmware
+*Add homing for x/y/z in machine control section
+*Support Multiple Machine types:
+	Add in support for launching an external slicer (Slic3r)
+	Support multiple machine configuration types (import/export skeinforge types?)
+	add extruder controls (extrude,reverse,rate)
+	add temp controls (hot bed, extruder(s))
+
+*Implement projector controls 
+
+*Add Better messages for user events
+	Build started, stopped, layer, completed, etc...
+*Add optional homing commands for axises
+	this would help with shutter controls, as well as initial machine start
+
+*Add better controls on control panel
+*Fixed ASCII STL Loading
+*Added 3d view frustrum clipping
+*Add 3ds file support
+*Add 3d polygon backplane clipping via normal and dp to view vector
+
+*multiple config support
+	slice profiles
+*Image Anti-Aliasing
+	render image at 150% value and rescale to 100%
+*Update Documentation
+* Fix localization
+* Add preslice.gcode 
+* Add screen for GCode (preslice.gcode, prelift,postlist,start,end)
+* Lift fixes
+	go up lift dist
+	go back down (lift - layer height)
+* Add lift sequence prior to first layer
+* Add Coordinated Tilt / Slide support
+* Add Machine and profile names to:
+	slice display
+	main display
+* Add a control to show current slice # of total slice numbers
+*Add dxf file support
+*Add obj file support
 
 

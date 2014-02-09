@@ -80,20 +80,7 @@ namespace UV_DLP_3D_Printer
             ";********** Footer End ********\r\n", // 
         };
 
-        /* LL private String[] m_defprelift = 
-        {
-            ";(********** Pre-Lift Start ********)\r\n", //
-            ";(********** Pre-Lift End **********)\r\n",
-        };
-
-        private String[] m_defpostlift = 
-        {
-            ";(********** Post-Lift Start ********)\r\n", //
-            ";(Set up any GCode here to be executed after a lift)\r\n",
-            ";(E.g. M117 'text' to be shown on Display)\r\n",
-            ";(********** Post-Lift End **********)\r\n",
-        }; */
-
+        
         private String[] m_defpreslice = 
         {
             ";********** Pre-Slice Start ********\r\n", //
@@ -101,19 +88,6 @@ namespace UV_DLP_3D_Printer
             ";********** Pre-Slice End **********\r\n",
         };
         
-        /*private String[] m_deflift = 
-        {
-            ";(********** Lift Sequence ********)\r\n",// 
-            ";(Here you can set any G or M-Code, which )\r\n",
-            ";(should be executed as the Z axis Lift. You)\r\n",
-            ";(can use expressions for flexibility.)\r\n",
-            ";(Example by UV - DLP Slicer)\r\n",
-            "G1 Z($ZLiftDist/2) F$ZLiftRate\r\n", 
-            "G1 Z($ZLiftDist/2) F$ZRetractRate\r\n",
-            "G1 Z($LayerThickness-$ZLiftDist) F$ZRetractRate\r\n",
-            ";(********** Lift Sequence **********)\r\n", // 
-        };*/
-
         private String[] m_deflift = 
         {
             ";********** Lift Sequence ********\r\n",// 
@@ -123,51 +97,36 @@ namespace UV_DLP_3D_Printer
             ";********** Lift Sequence **********\r\n", // 
         };
 
-            
-
-        private void SetDefaultCodes()
+        private string DefGCodeHeader() 
         {
             StringBuilder sb = new StringBuilder();
             foreach (String s in m_defheader)
                 sb.Append(s);
-            HeaderCode = sb.ToString();
-
-            sb = new StringBuilder(); // clear
-            foreach (String s in m_deffooter)
-                sb.Append(s);
-            FooterCode = sb.ToString();
-
-            /*LL sb = new StringBuilder();
-            foreach (String s in m_defprelift)
-                sb.Append(s);
-            PreLiftCode = sb.ToString();
-
-            sb = new StringBuilder();
-            foreach (String s in m_defpostlift)
-                sb.Append(s);
-            PostLiftCode = sb.ToString(); */
-
-            sb = new StringBuilder();
-            foreach (String s in m_defpreslice)
-                sb.Append(s);
-            PreSliceCode = sb.ToString();
-
-            /*LL sb = new StringBuilder();
-            foreach (String s in m_defmainlift)
-                sb.Append(s);
-            MainLiftCode = sb.ToString(); */
-
-            sb = new StringBuilder();
-            foreach (String s in m_deflift)
-                sb.Append(s);
-            LiftCode = sb.ToString();
-
-            /*sb = new StringBuilder();
-            foreach (String s in m_deftiltlift)
-                sb.Append(s);
-            TiltLiftCode = sb.ToString();*/
+            return sb.ToString();        
         }
 
+        private string DefGCodeFooter()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (String s in m_deffooter)
+                sb.Append(s);
+            return sb.ToString();
+        }
+        private string DefGCodePreslice()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (String s in m_defpreslice)
+                sb.Append(s);
+            return sb.ToString();
+        }
+        private string DefGCodeLift()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (String s in m_deflift)
+                sb.Append(s);
+            return sb.ToString();
+        }
+        
         public String HeaderCode
         {
             get { return m_headercode; }
@@ -178,11 +137,6 @@ namespace UV_DLP_3D_Printer
             get { return m_footercode; }
             set { m_footercode = value; }
         }
-        /*public String PreLiftCode
-        {
-            get { return m_preliftcode; }
-            set { m_preliftcode = value; }
-        }*/
 
         public String LiftCode
         {
@@ -190,23 +144,12 @@ namespace UV_DLP_3D_Printer
             set { m_liftcode = value; }
         }
 
-        /*public String PostLiftCode
-        {
-            get { return m_postliftcode; }
-            set { m_postliftcode = value; }
-        }*/
 
         public String PreSliceCode
         {
             get { return m_preslicecode; }
             set { m_preslicecode = value; }
         }
-
-        /*public String MainLiftCode
-        {
-            get { return m_mainliftcode; }
-            set { m_mainliftcode = value; }
-        }*/
 
         /*
          Copy constructor
@@ -231,10 +174,7 @@ namespace UV_DLP_3D_Printer
             export = source.export; // export image slices when building
             m_headercode = source.m_headercode; // inserted at beginning of file
             m_footercode = source.m_footercode; // inserted at end of file
-            //LL m_preliftcode = source.m_preliftcode; // inserted between each slice            
-            //LL m_postliftcode = source.m_postliftcode; // inserted between each slice    
             m_preslicecode = source.m_preslicecode; // inserted before each slice
-            //LL m_mainliftcode = source.m_mainliftcode; // inserted before postlift and after prelift. its the main lift code
             m_liftcode = source.m_liftcode; // its the main lift code
 
             liftdistance = source.liftdistance;
@@ -297,20 +237,17 @@ namespace UV_DLP_3D_Printer
             aaval = 1.5;
             liftfeedrate = 50.0;// 50mm/s
             liftretractrate = 100.0;// 100mm/s
-            //m_generateautosupports = false; // for testing
             m_exportopt = "SUBDIR"; // default to saving in subdirectory
             m_flipX = false;
             m_flipY = false;
             m_notes = "";
             m_resinprice = 0.0;//
-            //m_sliceimmediate = false;
-            SetDefaultCodes(); // set up default gcodes
         }
+
         public bool Load(String filename) 
         {
              m_filename = filename;
 
-            LoadGCodes();
             XmlHelper xh = new XmlHelper();
             bool fileExist = xh.Start(filename, "SliceBuildConfig");
             XmlNode sbc = xh.m_toplevel;
@@ -342,8 +279,13 @@ namespace UV_DLP_3D_Printer
             m_flipX = xh.GetBool(sbc, "FlipX", false);
             m_flipY = xh.GetBool(sbc, "FlipY", false);
             m_notes = xh.GetString(sbc, "Notes", "");
-            m_resinprice = xh.GetDouble(sbc, "ResinPriceL", 0.0);            
-            
+            m_resinprice = xh.GetDouble(sbc, "ResinPriceL", 0.0);
+
+            m_headercode = xh.GetString(sbc, "GCodeHeader", DefGCodeHeader());
+            m_footercode = xh.GetString(sbc, "GCodeFooter", DefGCodeFooter()); 
+            m_preslicecode = xh.GetString(sbc, "GCodePreslice", DefGCodePreslice()); 
+            m_liftcode = xh.GetString(sbc, "GCodeLift", DefGCodeLift()); 
+
             if (!fileExist)
             {
                 return xh.Save(FILE_VERSION);
@@ -352,38 +294,7 @@ namespace UV_DLP_3D_Printer
             return true;
          
         }
-        /*This is used to serialize to the GCode post-header info*/
-        /*public bool Load(String filename) 
-        {
-            Stream stream = null;
-            try
-            {
-                m_filename = filename;
-                stream = new FileStream(filename, FileMode.Open);
-                if (Load(stream))
-                {
-                    stream.Close();
-                    return true;
-                }
-                else 
-                {
-                    stream.Close(); //close it anyway
-                }
-            }
-            catch (Exception ex)
-            {
-                try
-                {
-                    stream.Close();
-                }
-                catch (Exception e) 
-                {
-                    DebugLogger.Instance().LogError(e.Message);
-                }
-                DebugLogger.Instance().LogRecord(ex.Message);                
-            }
-            return false;
-        }*/
+
 
         public bool Save(String filename) 
         {
@@ -421,6 +332,10 @@ namespace UV_DLP_3D_Printer
             xh.SetParameter(sbc, "FlipY", m_flipY);
             xh.SetParameter(sbc, "Notes", m_notes);
             xh.SetParameter(sbc, "ResinPriceL", m_resinprice);
+            xh.SetParameter(sbc, "GCodeHeader", m_headercode);
+            xh.SetParameter(sbc, "GCodeFooter", m_footercode);
+            xh.SetParameter(sbc, "GCodePreslice", m_preslicecode);
+            xh.SetParameter(sbc, "GCodeLift", m_liftcode);
             // xh.SetParameter(sbc, "Raise_Time_Delay",raise_time_ms);
 
             try
@@ -436,28 +351,6 @@ namespace UV_DLP_3D_Printer
             return true;
         }
 
-        /*public bool Save(String filename)
-        {
-            try 
-            {
-                m_filename = filename;
-                Stream stream = new FileStream(filename, FileMode.Create);
-                if (Save(stream))
-                {
-                    stream.Close();
-                    return true;
-                }
-                else 
-                {
-                    stream.Close(); // close it anyway
-                }                
-            }
-            catch (Exception ex) 
-            {
-                DebugLogger.Instance().LogError(ex.Message);                
-            }
-            return false;
-        }*/
 
         // these get stored to the gcode file as a reference
         public override String ToString() 
@@ -488,51 +381,7 @@ namespace UV_DLP_3D_Printer
             return sb.ToString();
         }
 
-        public void LoadGCodes() 
-        {
-            try
-            {
-
-                String profilepath = Path.GetDirectoryName(m_filename);                
-                profilepath += UVDLPApp.m_pathsep;
-                profilepath += Path.GetFileNameWithoutExtension(m_filename);
-                if (!Directory.Exists(profilepath))
-                {
-                    Directory.CreateDirectory(profilepath);
-                    SetDefaultCodes();
-                    SaveGCodes();// save the default gcode files for this machine
-                }
-                else
-                {
-                    //load the files
-                    m_headercode = LoadFile(profilepath + UVDLPApp.m_pathsep + "start.gcode");
-                    m_footercode = LoadFile(profilepath + UVDLPApp.m_pathsep + "end.gcode");
-                    //LL m_preliftcode = LoadFile(profilepath + UVDLPApp.m_pathsep + "prelift.gcode");
-                    //LL m_postliftcode = LoadFile(profilepath + UVDLPApp.m_pathsep + "postlift.gcode");
-                    m_preslicecode = LoadFile(profilepath + UVDLPApp.m_pathsep + "preslice.gcode");
-                    //LL m_mainliftcode = LoadFile(profilepath + UVDLPApp.m_pathsep + "mainlift.gcode");
-                    m_liftcode = LoadFile(profilepath + UVDLPApp.m_pathsep + "lift.gcode");
-                }
-            }
-            catch (Exception ex) 
-            {
-                DebugLogger.Instance().LogRecord(ex.Message);
-            }
-        }
-
-        public String LoadFile(String filename) 
-        {
-            try
-            {
-                return File.ReadAllText(filename);
-            }
-            catch (Exception ex) 
-            {
-                DebugLogger.Instance().LogRecord(ex.Message);
-                return "";
-            }
-        }
-
+        
         public bool SaveFile(String filename, String contents) 
         {
             try

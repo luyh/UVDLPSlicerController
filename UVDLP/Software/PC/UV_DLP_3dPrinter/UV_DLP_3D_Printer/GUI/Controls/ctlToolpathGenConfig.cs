@@ -380,9 +380,14 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     case "Lift": m_config.LiftCode = gcode; break;
                     case "End": m_config.FooterCode = gcode; break;
                 }
-                m_config.SaveFile(CurPrefGcodePath() + GCodeSection2FName(), gcode);
+               // m_config.SaveFile(CurPrefGcodePath() + GCodeSection2FName(), gcode);
+                //really just need to save the profile name here.
                 // make sure main build params are updated if needed
                 string shortname = lstSliceProfiles.SelectedItem.ToString();
+                string fname = GetSlicingFilename(shortname);
+                m_config.Save(fname);
+
+                shortname = lstSliceProfiles.SelectedItem.ToString();
                 if (cmbSliceProfiles.SelectedItem.ToString() == shortname)
                 {
                     UVDLPApp.Instance().LoadBuildSliceProfile(GetSlicingFilename(shortname));

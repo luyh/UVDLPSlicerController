@@ -30,6 +30,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             mMessagePanelHolder = null;
             mTreeViewHolder = null;
             mObjectInfoPanel = null;
+            #if DEBUG
+            buttShowConsole.Checked = true;    
+            #else
+            buttShowConsole.Checked = false;
+            #endif
         }
 
         public SplitContainer MessagePanelHolder

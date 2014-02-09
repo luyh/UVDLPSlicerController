@@ -41,7 +41,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         int m_sliceTex;
         int m_sliceViewW, m_sliceViewH;
         int m_sliceW, m_sliceH;
-
+        bool ctrldown;// is the control key held down?
         //ctlImageButton imbtn;
         
 
@@ -433,8 +433,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             if (!loaded)
                 return null;
-            String mess = "";
-            mess = "Screen X,Y = (" + X.ToString() + "," + Y.ToString() + ")\r\n";
+           // String mess = "";
+           // mess = "Screen X,Y = (" + X.ToString() + "," + Y.ToString() + ")\r\n";
 
             /*
             (Note that most window systems place the mouse coordinate origin in the upper left of the window instead of the lower left. 
@@ -449,7 +449,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
              */
             int w = glControl1.Width;
             int h = glControl1.Height;
-            mess += "Screen Width/Height = " + w.ToString() + "," + h.ToString() + "\r\n";
+          //  mess += "Screen Width/Height = " + w.ToString() + "," + h.ToString() + "\r\n";
             float aspect = ((float)glControl1.Width) / ((float)glControl1.Height);
             //mess += "Screen Aspect = " + aspect.ToString() + "\r\n";
 
@@ -533,6 +533,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         #region GL control events
         private void glControl1_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.Modifiers == Keys.Control) 
+            {
+                ctrldown = true;
+            }
             // if the delete key is pressed, deleted the currently selected object 
             if (e.KeyCode == Keys.Delete)
             {
@@ -570,6 +574,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         private void glControl1_KeyUp(object sender, KeyEventArgs e)
         {
+            if (e.KeyCode == Keys.ControlKey)
+            {
+                ctrldown = false;
+            }
+
             if (e.KeyCode == Keys.ShiftKey)
             {
                 m_movingobjectmode = false;
@@ -782,7 +791,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 if (i.obj.tag != Object3d.OBJ_GROUND)
                 {
-                    if (ModifierKeys == Keys.Control)
+                    if (ModifierKeys == Keys.Control) // double click and control
                     {
                         UVDLPApp.Instance().AddToSelectionList(i.obj);
                         UVDLPApp.Instance().m_engine3d.UpdateLists();
@@ -1008,6 +1017,59 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         }
 
         #endregion 3d View controls
+
+        /// <summary>
+        /// For now this is the editing mode for the currently selected support
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void glControl1_Click(object sender, EventArgs e)
+        {
+            // single click on GL Control
+            Object3d obj = UVDLPApp.Instance().SelectedObject;
+            if (obj == null) return;
+            if (ctrldown == false) return; // ctrl need to be held down
+
+            // this object is a support
+            if (obj.tag == Object3d.OBJ_SUPPORT) 
+            {
+                Support sup = (Support)obj;// we can cast safely
+                // now we have to see if we clicked on an object
+                MouseEventArgs me = e as MouseEventArgs;
+                MouseButtons buttonPushed = me.Button;
+                int xPos = me.X;
+                int yPos = me.Y;
+                List<ISectData> isects = TestHitTest(xPos, yPos);
+                if (isects.Count == 0) return; // no intersections
+                ISectData isd1 =null;
+                foreach (ISectData isd in isects) 
+                {
+                    // find the closest object we clicked
+                    if (isd.obj.tag == Object3d.OBJ_NORMAL) 
+                    {
+                        isd1 = isd; //  save it
+                        break;
+                    }
+                }
+                if (isd1 == null) return; // no object intersection
+                isd1.poly.CalcNormal();
+                m_isectnormal.x = isd1.poly.m_normal.x;
+                m_isectnormal.y = isd1.poly.m_normal.y;
+                m_isectnormal.z = isd1.poly.m_normal.z;
+                // ok, we've got the normal, we know where we've intersected
+                // my best guess is that we should move the support 5mm in the direction of the camera
+                // the tip of the support should touch the intersection point
+                // let's start with scaling the height...
+                //sup.ScaleToHeight(isd1.intersect.z);
+                //m_camera.m_eye
+                Engine3D.Vector3d towardseye = new Engine3D.Vector3d();
+                towardseye = m_isectnormal;// -m_camera.m_eye;
+                towardseye.Normalize(); // make the unit length of 1
+                towardseye.Scale(4.0f); // scale to 5 mm
+                sup.MoveFromTip(isd1.intersect, towardseye);
+                //sup.
+            }
+        }
     }
 
     public class ctlBgnd
