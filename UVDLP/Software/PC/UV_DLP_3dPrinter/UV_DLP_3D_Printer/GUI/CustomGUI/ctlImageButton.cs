@@ -17,10 +17,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         Rectangle mDstrc;
         Rectangle mSrcrc;
         Rectangle mCheckrc;
-        const int nSubImages = 4;
+        int nSubImages = 4;
         int mSubImgWidth, mSubChkImgWidth;
         String mGLImage;
         C2DImage mGLImageCach;
+        ButtonStyle mButtStyle;
+
 
         [Description("Image composesed of all 4 button states"), Category("Data")]
         public Image Image
@@ -61,6 +63,18 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             {
                 mGLImage = value;
                 mGLImageCach = null;
+            }
+        }
+
+        public ButtonStyle ButtStyle
+        {
+            get
+            {
+                if (mButtStyle == null)
+                    mButtStyle = UVDLPApp.Instance().m_gui_config.GetButtonStyle(mStyleName);
+                if (mButtStyle == null)
+                    return UVDLPApp.Instance().m_gui_config.DefaultButtonStyle;
+                return mButtStyle;
             }
         }
 
@@ -131,12 +145,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             //base.OnPaint(pevent);
         }
 
-        public override void ApplyTheme(ControlTheme ct)
+        public override void ApplyStyle(ControlStyle ct)
         {
-            base.ApplyTheme(ct);
-            if (ct.ForeColor != ControlTheme.NullColor)
+            base.ApplyStyle(ct);
+            if (ct.ForeColor != ControlStyle.NullColor)
                 ForeColor = ct.ForeColor;
-            if (ct.BackColor != ControlTheme.NullColor)
+            if (ct.BackColor != ControlStyle.NullColor)
                 BackColor = ct.BackColor;
         }
 
@@ -149,16 +163,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
         }
 
-        public override void OnGLPaint(_3DEngine.C2DGraphics gr)
+        void GLPaint4(C2DGraphics gr)
         {
-            base.OnGLPaint(gr);
-            if (mGLImageCach == null)
-            {
-                mGLImageCach = gr.GetImage(mGLImage);
-                if (mGLImageCach == null)
-                    return;
-                mSubImgWidth = mGLImageCach.w / nSubImages;
-            }
             int index = (int)mCtlState;
             if (Enabled == false)
                 index = 3;
@@ -172,6 +178,66 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                     mCheckrc.X = Checked ? mSubChkImgWidth : 0;
                     gr.DrawImage(mCheckImage, mDstrc, mCheckrc, GraphicsUnit.Pixel);
                 }*/
+            }
+        }
+
+        void GLPaint1(C2DGraphics gr, ButtonStyle stl)
+        {
+            switch (mCtlState)
+            {
+                case CtlState.Hover:
+                    if (Checked)
+                        gr.SetColor(stl.CheckedColor);
+                    else
+                        gr.SetColor(stl.HoverColor);
+                    break;
+
+                case CtlState.Normal:
+                    if (Checked)
+                        gr.SetColor(stl.CheckedColor);
+                    else
+                        gr.SetColor(stl.ForeColor);
+                    break;
+
+                case CtlState.Pressed:
+                    gr.SetColor(stl.PressedColor);
+                    break;
+            }
+
+            if (mCtlState == CtlState.Hover)
+            {
+                float scx = (float)Width / 16f;
+                float scy = (float)Height / 16f;
+                gr.Image(mGLImageCach, 0, 0, mGLImageCach.w, mGLImageCach.h, -scx, -scy, Width + 2f * scx, Height + 2f * scy);
+            }
+            else
+            {
+                gr.Image(mGLImageCach, 0, 0, mGLImageCach.w, mGLImageCach.h, 0, 0, Width, Height);
+            }
+        }
+
+        public override void OnGLPaint(C2DGraphics gr)
+        {
+            base.OnGLPaint(gr);
+            if (mGLImageCach == null)
+            {
+                mGLImageCach = gr.GetImage(mGLImage);
+                if (mGLImageCach == null)
+                    return;
+                mSubImgWidth = mGLImageCach.w / nSubImages;
+            }
+            ButtonStyle stl = ButtStyle;
+            if (stl.SubImgCount == 4)
+                GLPaint4(gr);
+            if (stl.SubImgCount == 1)
+                GLPaint1(gr, stl);
+            C2DImage cimg = stl.CheckedImageCach;
+            if (Enabled && (cimg != null))
+            {
+                int chimgw = cimg.w / 2;
+                int posx = Checked ? chimgw : 0;
+                gr.SetColor(stl.CheckedColor);
+                gr.Image(cimg, posx, 0, chimgw, cimg.h, 0, 0, Width, Height);
             }
         }
     }

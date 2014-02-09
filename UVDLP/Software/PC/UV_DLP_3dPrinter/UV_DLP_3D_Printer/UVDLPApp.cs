@@ -19,9 +19,11 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UV_DLP_3D_Printer.Plugin;
 using System.Windows;
 using System.Reflection;
+using UV_DLP_3D_Printer._3DEngine;
 using UV_DLP_3D_Printer._3DEngine.CSG;
 using UV_DLP_3D_Printer.Licensing;
 using CreationWorkshop.Licensing;
+using UV_DLP_3D_Printer.GUI.CustomGUI;
 
 namespace UV_DLP_3D_Printer
 {
@@ -86,6 +88,9 @@ namespace UV_DLP_3D_Printer
         public BuildManager m_buildmgr;
         public prjcmdlst m_proj_cmd_lst; // projector command list
 
+        public GuiConfig m_gui_config;
+        public C2DGraphics m_2d_graphics;
+
         public static String m_appconfigname = "CreationConfig.xml";
         public static String m_pathsep = "\\";
 
@@ -120,6 +125,8 @@ namespace UV_DLP_3D_Printer
             m_proj_cmd_lst = new prjcmdlst();
             m_plugins = new List<PluginEntry>(); // list of user plug-ins
             m_undoer = new Undoer();
+            m_2d_graphics = new C2DGraphics();
+            m_gui_config = new GuiConfig();
         }
         public enum Platform
         {

@@ -3,24 +3,38 @@ cwtexture1.png
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+Calibri22
+  rotate: false
+  xy: 1, 103
+  size: 205, 138
+  orig: 205, 138
+  offset: 0, 0
+  index: -1
 glButtHome
   rotate: false
-  xy: 1, 37
+  xy: 208, 177
   size: 256, 64
   orig: 256, 64
   offset: 0, 0
   index: -1
 cwlogo_round
   rotate: false
-  xy: 259, 1
+  xy: 1, 1
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 trimpanel
   rotate: false
-  xy: 361, 11
+  xy: 103, 11
   size: 90, 90
   orig: 90, 90
+  offset: 0, 0
+  index: -1
+glButtHome1
+  rotate: false
+  xy: 208, 111
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1

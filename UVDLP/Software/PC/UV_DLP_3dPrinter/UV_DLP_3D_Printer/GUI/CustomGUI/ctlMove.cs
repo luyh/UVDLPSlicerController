@@ -97,17 +97,17 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
         }
 
-        public override void ApplyTheme(ControlTheme ct)
+        public override void ApplyStyle(ControlStyle ct)
         {
-            base.ApplyTheme(ct);
-            if (ct.ForeColor != ControlTheme.NullColor)
+            base.ApplyStyle(ct);
+            if (ct.ForeColor != ControlStyle.NullColor)
             {
                 label8.ForeColor = ct.ForeColor;
                 textMoveX.ForeColor = ct.ForeColor;
                 textMoveY.ForeColor = ct.ForeColor;
                 textMoveZ.ForeColor = ct.ForeColor;
             }
-            if (ct.BackColor != ControlTheme.NullColor)
+            if (ct.BackColor != ControlStyle.NullColor)
             {
                 BackColor = ct.BackColor;
                 flowLayoutPanel2.BackColor = ct.BackColor;
@@ -115,7 +115,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 textMoveY.BackColor = ct.BackColor;
                 textMoveZ.BackColor = ct.BackColor;
             }
-            if (ct.FrameColor != ControlTheme.NullColor)
+            if (ct.FrameColor != ControlStyle.NullColor)
             {
                 flowLayoutPanel1.BackColor = ct.FrameColor;
                 flowLayoutPanel7.BackColor = ct.FrameColor;

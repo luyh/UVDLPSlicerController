@@ -22,7 +22,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public int panelWidth = 14;
         String mGuiAnchor;
         String mGLBackgroundImage;
-        C2DImage mGLBackgroundImageCach;
+        protected String mStyleName;
+        protected ControlStyle mStyle;
         protected int mGapx, mGapy;
         protected bool mGLVisible;
 
@@ -82,9 +83,31 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public String GLBackgroundImage
         {
             get { return mGLBackgroundImage; }
-            set { 
+            set
+            {
                 mGLBackgroundImage = value;
-                mGLBackgroundImageCach = null;
+            }
+        }
+
+        [Description("Control display style name"), Category("Data")]
+        public String StyleName
+        {
+            get { return mStyleName; }
+            set
+            {
+                mStyleName = value;
+                mStyle = null;
+            }
+        }
+
+        public virtual ControlStyle Style
+        {
+            get {
+                if (mStyle == null)
+                    mStyle = UVDLPApp.Instance().m_gui_config.GetControlStyle(mStyleName);
+                if (mStyle == null)
+                    return UVDLPApp.Instance().m_gui_config.DefaultControlStyle;
+                return mStyle;
             }
         }
 
@@ -135,32 +158,32 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         }
 
 
-        public void ApplyThemeRecurse(Control ctl, ControlTheme ct)
+        public void ApplyStyleRecurse(Control ctl, ControlStyle ct)
         {
             foreach (Control subctl in ctl.Controls)
             {
                 if (subctl.GetType().IsSubclassOf(typeof(ctlUserPanel)))
                 {
-                    ((ctlUserPanel)subctl).ApplyTheme(ct);
+                    ((ctlUserPanel)subctl).ApplyStyle(ct);
                 }
                 else
                 {
-                    ApplyThemeRecurse(subctl, ct);
+                    ApplyStyleRecurse(subctl, ct);
                 }
             }
         }
 
 
-        public virtual void ApplyTheme(ControlTheme ct)
+        public virtual void ApplyStyle(ControlStyle ct)
         {
-            ApplyThemeRecurse(this, ct);
-            if (ct.BackColor != ControlTheme.NullColor)
+            ApplyStyleRecurse(this, ct);
+            if (ct.BackColor != ControlStyle.NullColor)
                 bgndPanel.col = ct.BackColor;
         }
 
         public virtual void GLRedraw(C2DGraphics gr, int x, int y)
         {
-            if (!GLVisible)
+            if (!GLVisible || !Visible)
                 return;
             gr.SetDrawingRegion(x, y, Width, Height);
             OnGLBackgroundPaint(gr);
@@ -179,6 +202,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             GLRedraw(gr, Location.X, Location.Y);
         }
 
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            if (GLVisible)
+                return;
+            base.OnPaintBackground(e);
+        }
 
         public virtual void OnGLPaint(C2DGraphics gr)
         {
@@ -186,7 +215,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         public virtual void OnGLBackgroundPaint(C2DGraphics gr)
         {
-            gr.Rectangle(0, 0, Width, Height, BackColor);
+            if (mGLBackgroundImage != null)
+            {
+                gr.Panel9(mGLBackgroundImage, 0, 0, Width, Height);
+                return;
+            }
+            gr.Rectangle(0, 0, Width, Height, Style.BackColor);
         }
 
         protected override void OnInvalidated(InvalidateEventArgs e)

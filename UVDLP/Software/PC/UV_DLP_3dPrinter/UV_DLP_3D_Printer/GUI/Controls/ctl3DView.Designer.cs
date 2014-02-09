@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.mainViewSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.textProgress = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlText();
             this.ctlScene1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlScene();
             this.ctlMeshTools1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMeshTools();
             this.buttMeshTools = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
@@ -63,6 +64,7 @@
             // 
             // mainViewSplitContainer.Panel2
             // 
+            this.mainViewSplitContainer.Panel2.Controls.Add(this.textProgress);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.ctlScene1);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.ctlMeshTools1);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.buttMeshTools);
@@ -86,6 +88,21 @@
             this.mainViewSplitContainer.Size = new System.Drawing.Size(1006, 550);
             this.mainViewSplitContainer.SplitterDistance = 144;
             this.mainViewSplitContainer.TabIndex = 28;
+            // 
+            // textProgress
+            // 
+            this.textProgress.BackColor = System.Drawing.Color.Transparent;
+            this.textProgress.Gapx = 0;
+            this.textProgress.Gapy = 0;
+            this.textProgress.GLBackgroundImage = null;
+            this.textProgress.GLFont = "Calibri22";
+            this.textProgress.GLVisible = false;
+            this.textProgress.GuiAnchor = null;
+            this.textProgress.Location = new System.Drawing.Point(452, 440);
+            this.textProgress.Name = "textProgress";
+            this.textProgress.Size = new System.Drawing.Size(76, 30);
+            this.textProgress.TabIndex = 34;
+            this.textProgress.Text = "79 %";
             // 
             // ctlScene1
             // 
@@ -234,7 +251,7 @@
             this.buttGlHome.Gapy = 10;
             this.buttGlHome.GLBackgroundImage = null;
             this.buttGlHome.GLImage = "glButtHome";
-            this.buttGlHome.GLVisible = true;
+            this.buttGlHome.GLVisible = false;
             this.buttGlHome.GuiAnchor = null;
             this.buttGlHome.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
             this.buttGlHome.Image = global::UV_DLP_3D_Printer.Properties.Resources.homeButt;
@@ -490,5 +507,6 @@
         private CustomGUI.ctlMeshTools ctlMeshTools1;
         private ctlGL glControl1;
         private CustomGUI.ctlScene ctlScene1;
+        private CustomGUI.ctlText textProgress;
     }
 }

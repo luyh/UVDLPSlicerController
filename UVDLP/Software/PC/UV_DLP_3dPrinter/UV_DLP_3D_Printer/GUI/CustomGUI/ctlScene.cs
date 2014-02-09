@@ -64,21 +64,21 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             
         }
 
-        public override void ApplyTheme(ControlTheme ct)
+        public override void ApplyStyle(ControlStyle ct)
         {
-            base.ApplyTheme(ct);
-            if (ct.ForeColor != ControlTheme.NullColor)
+            base.ApplyStyle(ct);
+            if (ct.ForeColor != ControlStyle.NullColor)
             {
                 lblTitle.ForeColor = ct.ForeColor;
                 treeScene.ForeColor = ct.ForeColor;
                 treeScene.LineColor = ct.ForeColor;
             }
-            if (ct.BackColor != ControlTheme.NullColor)
+            if (ct.BackColor != ControlStyle.NullColor)
             {
                 BackColor = ct.BackColor;
                 manipObject.BackColor = ct.BackColor;
             }
-            if (ct.FrameColor != ControlTheme.NullColor)
+            if (ct.FrameColor != ControlStyle.NullColor)
             {
                 treeScene.BackColor = ct.FrameColor;
             }
