@@ -220,7 +220,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 gr.Panel9(mGLBackgroundImage, 0, 0, Width, Height);
                 return;
             }
-            gr.Rectangle(0, 0, Width, Height, BackColor);
+            gr.Rectangle(0, 0, Width, Height, Style.BackColor);
         }
 
         protected override void OnInvalidated(InvalidateEventArgs e)
