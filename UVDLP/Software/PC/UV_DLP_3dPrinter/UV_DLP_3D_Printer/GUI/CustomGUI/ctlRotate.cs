@@ -69,17 +69,17 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             RotateObject(textRotateZ, 0, 0, 1);
         }
 
-        public override void ApplyTheme(ControlTheme ct)
+        public override void ApplyStyle(ControlStyle ct)
         {
-            base.ApplyTheme(ct);
-            if (ct.ForeColor != ControlTheme.NullColor)
+            base.ApplyStyle(ct);
+            if (ct.ForeColor != ControlStyle.NullColor)
             {
                 label8.ForeColor = ct.ForeColor;
                 textRotateX.ForeColor = ct.ForeColor;
                 textRotateY.ForeColor = ct.ForeColor;
                 textRotateZ.ForeColor = ct.ForeColor;
             }
-            if (ct.BackColor != ControlTheme.NullColor)
+            if (ct.BackColor != ControlStyle.NullColor)
             {
                 BackColor = ct.BackColor;
                 flowLayoutPanel2.BackColor = ct.BackColor;
@@ -87,7 +87,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 textRotateY.BackColor = ct.BackColor;
                 textRotateZ.BackColor = ct.BackColor;
             }
-            if (ct.FrameColor != ControlTheme.NullColor)
+            if (ct.FrameColor != ControlStyle.NullColor)
             {
                 flowLayoutPanel7.BackColor = ct.FrameColor;
                 flowLayoutPanel8.BackColor = ct.FrameColor;

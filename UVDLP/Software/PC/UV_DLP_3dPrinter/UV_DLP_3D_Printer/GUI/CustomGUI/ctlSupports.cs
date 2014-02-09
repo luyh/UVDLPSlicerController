@@ -394,10 +394,10 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
         
         }
-        public override void ApplyTheme(ControlTheme ct)
+        public override void ApplyStyle(ControlStyle ct)
         {
-            base.ApplyTheme(ct);
-            if (ct.ForeColor != ControlTheme.NullColor)
+            base.ApplyStyle(ct);
+            if (ct.ForeColor != ControlStyle.NullColor)
             {
                 label1.ForeColor = ct.ForeColor;
                 label2.ForeColor = ct.ForeColor;
@@ -411,13 +411,13 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 lbSupports.ForeColor = ct.ForeColor;
                 cmdRemoveSupports.ForeColor = ct.ForeColor;
             }
-            if (ct.BackColor != ControlTheme.NullColor)
+            if (ct.BackColor != ControlStyle.NullColor)
             {
                 BackColor = ct.BackColor;
                 cmbSupType.BackColor = ct.BackColor;
                 flowLayoutPanel2.BackColor = ct.BackColor;
             }
-            if (ct.FrameColor != ControlTheme.NullColor)
+            if (ct.FrameColor != ControlStyle.NullColor)
             {
                 flowLayoutPanel1.BackColor = ct.FrameColor;
                 panel1.BackColor = ct.FrameColor;

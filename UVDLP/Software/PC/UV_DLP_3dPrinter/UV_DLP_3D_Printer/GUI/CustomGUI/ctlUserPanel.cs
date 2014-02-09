@@ -22,6 +22,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public int panelWidth = 14;
         String mGuiAnchor;
         String mGLBackgroundImage;
+        protected String mStyleName;
+        protected ControlStyle mStyle;
         protected int mGapx, mGapy;
         protected bool mGLVisible;
 
@@ -81,8 +83,31 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public String GLBackgroundImage
         {
             get { return mGLBackgroundImage; }
-            set { 
+            set
+            {
                 mGLBackgroundImage = value;
+            }
+        }
+
+        [Description("Control display style name"), Category("Data")]
+        public String StyleName
+        {
+            get { return mStyleName; }
+            set
+            {
+                mStyleName = value;
+                mStyle = null;
+            }
+        }
+
+        public virtual ControlStyle Style
+        {
+            get {
+                if (mStyle == null)
+                    mStyle = UVDLPApp.Instance().m_gui_config.GetControlStyle(mStyleName);
+                if (mStyle == null)
+                    return UVDLPApp.Instance().m_gui_config.DefaultControlStyle;
+                return mStyle;
             }
         }
 
@@ -133,26 +158,26 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         }
 
 
-        public void ApplyThemeRecurse(Control ctl, ControlTheme ct)
+        public void ApplyStyleRecurse(Control ctl, ControlStyle ct)
         {
             foreach (Control subctl in ctl.Controls)
             {
                 if (subctl.GetType().IsSubclassOf(typeof(ctlUserPanel)))
                 {
-                    ((ctlUserPanel)subctl).ApplyTheme(ct);
+                    ((ctlUserPanel)subctl).ApplyStyle(ct);
                 }
                 else
                 {
-                    ApplyThemeRecurse(subctl, ct);
+                    ApplyStyleRecurse(subctl, ct);
                 }
             }
         }
 
 
-        public virtual void ApplyTheme(ControlTheme ct)
+        public virtual void ApplyStyle(ControlStyle ct)
         {
-            ApplyThemeRecurse(this, ct);
-            if (ct.BackColor != ControlTheme.NullColor)
+            ApplyStyleRecurse(this, ct);
+            if (ct.BackColor != ControlStyle.NullColor)
                 bgndPanel.col = ct.BackColor;
         }
 

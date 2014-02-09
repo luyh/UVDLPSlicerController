@@ -327,14 +327,14 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 ValueChanged(this, e);
         }
 
-        public override void ApplyTheme(ControlTheme ct)
+        public override void ApplyStyle(ControlStyle ct)
         {
-            base.ApplyTheme(ct);
-            if (ct.FrameColor != ControlTheme.NullColor)
+            base.ApplyStyle(ct);
+            if (ct.FrameColor != ControlStyle.NullColor)
                 BackColor = ct.FrameColor;
-            if (ct.ForeColor != ControlTheme.NullColor)
+            if (ct.ForeColor != ControlStyle.NullColor)
                 textData.ForeColor = ct.ForeColor;
-            if (ct.BackColor != ControlTheme.NullColor)
+            if (ct.BackColor != ControlStyle.NullColor)
                 textData.BackColor = ct.BackColor;
         }
     }

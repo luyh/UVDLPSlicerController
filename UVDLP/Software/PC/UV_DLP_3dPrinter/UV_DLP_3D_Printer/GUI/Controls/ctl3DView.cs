@@ -69,9 +69,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             UVDLPApp.Instance().m_undoer.AsociateRedoButton(buttRedo);
 
             //glControl1. = new GraphicsMode(GraphicsMode.Default.ColorFormat, GraphicsMode.Default.Depth, 8);
-            gr2d = new C2DGraphics();
+            gr2d = UVDLPApp.Instance().m_2d_graphics;
             ctlBgndList = new List<ctlBgnd>();
-            guiconf = new GuiConfig();
+            guiconf = UVDLPApp.Instance().m_gui_config;
             UpdateButtonList();
             guiconf.LoadConfiguration(global::UV_DLP_3D_Printer.Properties.Resources.GuiConfig);
             RearrangeGui();

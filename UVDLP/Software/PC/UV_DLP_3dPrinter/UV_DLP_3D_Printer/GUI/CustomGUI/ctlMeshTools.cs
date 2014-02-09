@@ -1074,10 +1074,10 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             CSG.Instance().StartOp(CSG.eCSGOp.eSubtraction, UVDLPApp.Instance().SelectedObjectList[0], UVDLPApp.Instance().SelectedObjectList[1]);
         }
 
-        public override void ApplyTheme(ControlTheme ct)
+        public override void ApplyStyle(ControlStyle ct)
         {
-            base.ApplyTheme(ct);
-            if (ct.ForeColor != ControlTheme.NullColor)
+            base.ApplyStyle(ct);
+            if (ct.ForeColor != ControlStyle.NullColor)
             {
                 cmdCreatePrim.ForeColor = ct.ForeColor;
                 label1.ForeColor = ct.ForeColor;
@@ -1091,13 +1091,13 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 label9.ForeColor = ct.ForeColor;
                 progressTitle.ForeColor = ct.ForeColor;
             }
-            if (ct.BackColor != ControlTheme.NullColor)
+            if (ct.BackColor != ControlStyle.NullColor)
             {
                 BackColor = ct.BackColor;
                 cmdCreatePrim.BackColor = ct.BackColor;
                 progressTitle.BackColor = ct.BackColor;
             }
-            if (ct.FrameColor != ControlTheme.NullColor)
+            if (ct.FrameColor != ControlStyle.NullColor)
             {
                 flowLayoutPanel1.BackColor = ct.FrameColor;
                 flowLayoutPanel3.BackColor = ct.FrameColor;

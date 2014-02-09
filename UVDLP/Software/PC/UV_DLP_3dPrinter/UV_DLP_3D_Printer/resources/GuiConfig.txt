@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <GuiConfig FileVersion="1">
 	<buttons>
-		<theme backcolor="Royalblue" forecolor="White"/>
-		<button name="home" dock="tr" x="10" y="10" image="glButtHome" w="48" h="48" gl="true"/>
+		<style backcolor="Royalblue" forecolor="White"/>
+		<style name="glbutt1" backcolor="Transparent" forecolor="White" nimages="1"/>
+		<button name="home" dock="tr" x="10" y="10" image="glButtHome1" w="48" h="48" style="glbutt1" gl="true"/>
 		<button name="undo" dock="tl" x="10" y="10" image="buttUndo" w="48" h="48"/>
 		<button name="redo" dock="tl" x="60" y="10" image="buttRedo" w="48" h="48"/>
 		<button name="meshop" dock="bl" x="288" y="10" image="buttMeshTools" check="checkRect" w="48" h="48"/>
@@ -13,7 +14,7 @@
 		<button name="scale" dock="bl" x="10" y="10" image="buttScale" check="checkRect" w="48" h="48"/>
 	</buttons>
 	<controls>
-		<theme backcolor="Navy" forecolor="White" framecolor="Royalblue"/>
+		<style backcolor="Navy" forecolor="White" framecolor="Royalblue"/>
 		<control name="pmove" dock="bl" x="20" y="90" shape="trimpanel"/>
 		<control name="pscale" dock="bl" x="20" y="90" shape="trimpanel"/>
 		<control name="protate" dock="bl" x="20" y="90" shape="trimpanel" />

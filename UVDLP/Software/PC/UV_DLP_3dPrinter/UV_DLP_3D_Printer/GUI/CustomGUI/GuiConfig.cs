@@ -84,27 +84,76 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         }
     }
 
-    public class ControlTheme
+    public class ControlStyle
     {
-        public static Color NullColor = Color.FromArgb(0);
+        public static Color NullColor = Color.FromArgb(1);
 
-        public ControlTheme(Color forecol, Color backcol)
+        public ControlStyle(Color forecol, Color backcol)
         {
             ForeColor = forecol;
             BackColor = backcol;
             FrameColor = NullColor;
+            BackImage = null;
         }
 
-        public ControlTheme()
+        public ControlStyle()
         {
             ForeColor = NullColor;
             BackColor = NullColor;
             FrameColor = NullColor;
+            BackImage = null;
         }
 
+        public String Name;
         public Color ForeColor;
         public Color BackColor;
         public Color FrameColor;
+        public String BackImage;
+        public virtual void SetDefault()
+        {
+            ForeColor = Color.White;
+            BackColor = Color.Transparent;
+        }
+    }
+
+    public class ButtonStyle : ControlStyle
+    {
+        public int SubImgCount;
+        public Color PressedColor;
+        public Color CheckedColor;
+        public Color DisabledColor;
+        public Color HoverColor;
+        String mCheckedImage;
+        C2DImage mCheckedImageCach;
+        public override void SetDefault()
+        {
+            base.SetDefault();
+            CheckedColor = Color.Orange;
+            PressedColor = Color.White;
+            HoverColor = Color.White;
+            DisabledColor = Color.FromArgb(60, 255, 255, 255);
+            SubImgCount = 4;
+        }
+
+        public String CheckedImage
+        {
+            get { return mCheckedImage; }
+            set
+            {
+                mCheckedImage = value;
+                mCheckedImageCach = null;
+            }
+        }
+
+        public C2DImage CheckedImageCach
+        {
+            get
+            {
+                if (mCheckedImageCach == null)
+                    mCheckedImageCach = UVDLPApp.Instance().m_2d_graphics.GetImage(mCheckedImage);
+                return mCheckedImageCach;
+            }
+        }
     }
 
     public class GuiConfig
@@ -113,11 +162,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         Dictionary<String, ctlUserPanel> Controls;
         Dictionary<String, ctlImageButton> Buttons;
+        Dictionary<String, ControlStyle> ControlStyles;
         List<DecorItem> BgndDecorList;
         List<DecorItem> FgndDecorList;
-        ControlTheme ControlsCT;
-        ControlTheme ButtonsCT;
         ResourceManager Res;
+        public ButtonStyle DefaultButtonStyle;
+        public ControlStyle DefaultControlStyle; 
 
 
         public GuiConfig()
@@ -126,7 +176,16 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             FgndDecorList = new List<DecorItem>();
             Controls = new Dictionary<string, ctlUserPanel>();
             Buttons = new Dictionary<string, ctlImageButton>();
+            ControlStyles = new Dictionary<string, ControlStyle>();
             Res = global::UV_DLP_3D_Printer.Properties.Resources.ResourceManager;
+            DefaultButtonStyle = new ButtonStyle();
+            DefaultButtonStyle.Name = "DefaultButton";
+            DefaultButtonStyle.SetDefault();
+            DefaultControlStyle = new ControlStyle();
+            DefaultControlStyle.Name = "DefaultControl";
+            DefaultControlStyle.SetDefault();
+            ControlStyles[DefaultButtonStyle.Name] = DefaultButtonStyle;
+            ControlStyles[DefaultControlStyle.Name] = DefaultControlStyle;
         }
 
         public void AddControl(string name, ctlUserPanel ctl)
@@ -138,6 +197,24 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             Buttons[name] = ctl;
         }
+
+        public ButtonStyle GetButtonStyle(string name)
+        {
+            if ((name == null) || !ControlStyles.ContainsKey(name))
+                return null;
+            ControlStyle ct = ControlStyles[name];
+            if (ct.GetType() == typeof(ButtonStyle))
+                return (ButtonStyle)ct;
+            return null;
+        }
+
+        public ControlStyle GetControlStyle(string name)
+        {
+            if ((name == null) || !ControlStyles.ContainsKey(name))
+                return null;
+            return ControlStyles[name];
+        }
+
 
         public ctlUserPanel GetControl(string name)
         {
@@ -151,20 +228,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (!Buttons.ContainsKey(name))
                 return null;
             return Buttons[name];
-        }
-
-        public void SetControlTheme(EntityType entity, ControlTheme colcs)
-        {
-            switch (entity)
-            {
-                case EntityType.Buttons:
-                    ButtonsCT = colcs;
-                    break;
-
-                case EntityType.Panels:
-                    ControlsCT = colcs;
-                    break;
-            }
         }
 
         public static int GetPosition(int refpos, int refwidth, int width, int gap, Char anchor)
@@ -286,20 +349,39 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             {
                 switch (xnode.Name)
                 {
-                    case "theme": HandleButtonTheme(xnode); break;
+                    case "style": HandleButtonStyle(xnode); break;
                     case "button": HandleButton(xnode); break;
                 }
             }
         }
 
-        void HandleButtonTheme(XmlNode xnode)
+        void HandleButtonStyle(XmlNode xnode)
         {
-            ButtonsCT = new ControlTheme();
-            UpdateTheme(xnode, ButtonsCT);
-            foreach (KeyValuePair<String, ctlImageButton> pair in Buttons)
+            string name = GetStrParam(xnode, "name", "DefaultButton");
+            ButtonStyle bt = GetButtonStyle(name);
+            if (bt == null)
             {
-                ctlImageButton butt = pair.Value;
-                butt.ApplyTheme(ButtonsCT);
+                bt = new ButtonStyle();
+                bt.Name = name;
+                ControlStyles[name] = bt;
+                bt.SetDefault();
+            }
+            UpdateStyle(xnode, bt);
+            bt.CheckedColor = GetColorParam(xnode, "checkcolor", bt.CheckedColor);
+            bt.HoverColor = GetColorParam(xnode, "hovercolor", bt.HoverColor);
+            bt.PressedColor = GetColorParam(xnode, "presscolor", bt.PressedColor);
+            bt.SubImgCount = GetIntParam(xnode, "nimages", bt.SubImgCount);
+            bt.BackImage = GetStrParam(xnode, "backimage", bt.BackImage);
+            bt.CheckedImage = GetStrParam(xnode, "checkimage", bt.CheckedImage);
+            bt.DisabledColor = GetColorParam(xnode, "disablecolor", bt.DisabledColor);
+
+            if (name == "DefaultButton")
+            {
+                foreach (KeyValuePair<String, ctlImageButton> pair in Buttons)
+                {
+                    ctlImageButton butt = pair.Value;
+                    butt.ApplyStyle(DefaultButtonStyle);
+                }
             }
         }
 
@@ -314,6 +396,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             butt.GuiAnchor = FixDockingVal(GetStrParam(buttnode, "dock", butt.GuiAnchor));
             butt.Gapx = GetIntParam(buttnode, "x", butt.Gapx);
             butt.Gapy = GetIntParam(buttnode, "y", butt.Gapy);
+            butt.StyleName = GetStrParam(buttnode, "style", butt.StyleName);
             butt.GLVisible = GetBoolParam(buttnode, "gl", false);
             if (butt.GLVisible)
                 butt.GLImage = GetStrParam(buttnode, "image", null);
@@ -331,20 +414,31 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             {
                 switch (xnode.Name)
                 {
-                    case "theme": HandleControlTheme(xnode); break;
+                    case "style": HandleControlStyle(xnode); break;
                     case "control": HandleControl(xnode); break;
                 }
             }
         }
         
-        void HandleControlTheme(XmlNode xnode)
+        void HandleControlStyle(XmlNode xnode)
         {
-            ControlsCT = new ControlTheme();
-            UpdateTheme(xnode, ControlsCT);
-            foreach (KeyValuePair<String, ctlUserPanel> pair in Controls)
+            string name = GetStrParam(xnode, "name", "DefaultControl");
+            ControlStyle ct = GetControlStyle(name);
+            if (ct == null)
             {
-                ctlUserPanel ctl = pair.Value;
-                ctl.ApplyTheme(ControlsCT);
+                ct = new ControlStyle();
+                ct.Name = name;
+                ControlStyles[name] = ct;
+                ct.SetDefault();
+            }
+            UpdateStyle(xnode, ct);
+            if (name == "DefaultControl")
+            {
+                foreach (KeyValuePair<String, ctlUserPanel> pair in Controls)
+                {
+                    ctlUserPanel ctl = pair.Value;
+                    ctl.ApplyStyle(DefaultControlStyle);
+                }
             }
         }
 
@@ -359,6 +453,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ctl.GuiAnchor = FixDockingVal(GetStrParam(ctlnode, "dock", ctl.GuiAnchor));
             ctl.Gapx = GetIntParam(ctlnode, "x", ctl.Gapx);
             ctl.Gapy = GetIntParam(ctlnode, "y", ctl.Gapy);
+            ctl.StyleName = GetStrParam(ctlnode, "style", ctl.StyleName);
             ctl.GLVisible = GetBoolParam(ctlnode, "gl", false);
             if (ctl.GLVisible)
                 ctl.GLBackgroundImage = GetStrParam(ctlnode, "shape", ctl.GLBackgroundImage);
@@ -457,11 +552,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             return dock;
         }
 
-        void UpdateTheme(XmlNode xnode, ControlTheme th)
+        void UpdateStyle(XmlNode xnode, ControlStyle ct)
         {
-            th.ForeColor = GetColorParam(xnode, "forecolor", th.ForeColor);
-            th.BackColor = GetColorParam(xnode, "backcolor", th.BackColor);
-            th.FrameColor = GetColorParam(xnode, "framecolor", th.BackColor);
+            ct.ForeColor = GetColorParam(xnode, "forecolor", ct.ForeColor);
+            ct.BackColor = GetColorParam(xnode, "backcolor", ct.BackColor);
+            ct.FrameColor = GetColorParam(xnode, "framecolor", ct.BackColor);
         }
 
         #endregion

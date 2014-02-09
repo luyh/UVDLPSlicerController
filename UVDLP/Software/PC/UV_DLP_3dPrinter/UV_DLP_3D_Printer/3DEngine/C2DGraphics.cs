@@ -218,6 +218,11 @@ namespace UV_DLP_3D_Printer._3DEngine
             GL.Disable(EnableCap.Texture2D);
         }
 
+        public void Image(C2DImage img, float x, float y)
+        {
+            Image(img.tex, img.x1, img.x2, img.y1, img.y2, x, y, img.w, img.h);
+        }
+
         public void Image(String name, float x, float y)
         {
             if (ImgDbase.ContainsKey(name))

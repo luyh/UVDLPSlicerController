@@ -59,10 +59,10 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ScaleObject(textScaleZ, 0, 0, 1);
         }
 
-        public override void ApplyTheme(ControlTheme ct)
+        public override void ApplyStyle(ControlStyle ct)
         {
-            base.ApplyTheme(ct);
-            if (ct.ForeColor != ControlTheme.NullColor)
+            base.ApplyStyle(ct);
+            if (ct.ForeColor != ControlStyle.NullColor)
             {
                 labelManipType.ForeColor = ct.ForeColor;
                 textScaleX.ForeColor = ct.ForeColor;
@@ -70,7 +70,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 textScaleZ.ForeColor = ct.ForeColor;
                 textScaleAll.ForeColor = ct.ForeColor;
             }
-            if (ct.BackColor != ControlTheme.NullColor)
+            if (ct.BackColor != ControlStyle.NullColor)
             {
                 BackColor = ct.BackColor;
                 manipObject.BackColor = ct.BackColor;
@@ -79,7 +79,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 textScaleZ.BackColor = ct.BackColor;
                 textScaleAll.BackColor = ct.BackColor;
             }
-            if (ct.FrameColor != ControlTheme.NullColor)
+            if (ct.FrameColor != ControlStyle.NullColor)
             {
                 flowLayoutPanel1.BackColor = ct.FrameColor;
                 flowLayoutPanel4.BackColor = ct.FrameColor;

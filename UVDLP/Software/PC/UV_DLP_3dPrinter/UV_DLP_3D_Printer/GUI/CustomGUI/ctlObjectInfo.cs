@@ -77,15 +77,15 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             tCost.DataText = string.Format("{0:0.000}", cost);
        }
 
-        public override void ApplyTheme(ControlTheme ct)
+        public override void ApplyStyle(ControlStyle ct)
         {
-            base.ApplyTheme(ct);
-            if (ct.ForeColor != ControlTheme.NullColor)
+            base.ApplyStyle(ct);
+            if (ct.ForeColor != ControlStyle.NullColor)
             {
                 tTitle.ForeColor = ct.ForeColor;
                 tName.ForeColor = ct.ForeColor;
             }
-            if (ct.BackColor != ControlTheme.NullColor)
+            if (ct.BackColor != ControlStyle.NullColor)
             {
                 BackColor = ct.BackColor;
                 layoutPanel.BackColor = ct.BackColor;
