@@ -98,7 +98,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
             Controls.Add(imbtn);*/
             //buttGlHome.GLVisible = true;
-            buttGlHome.BackColor = Color.Transparent;
+            //buttGlHome.BackColor = Color.Transparent;
             //buttGlHome.FixStyle();
             //buttGlHome.BackColor = Color.FromArgb(60,0,0,0);
 

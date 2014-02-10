@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <GuiConfig FileVersion="1">
 	<buttons>
-		<theme backcolor="Royalblue" forecolor="White"/>
-		<button name="home" dock="tr" x="10" y="100" image="homeButt" w="48" h="48"/>
+		<style backcolor="Royalblue" forecolor="White"/>
+		<style name="glbutt1" backcolor="Transparent" hovercolor="Black" forecolor="Black" checkcolor="Black" presscolor="Orange" nimages="1"/>
+		<button name="home" dock="tr" x="10" y="100" image="glButtHome1" w="48" h="48" style="glbutt1" gl="true"/>
 		<button name="undo" dock="tl" x="10" y="10" image="buttUndo" w="48" h="48"/>
 		<button name="redo" dock="tl" x="60" y="10" image="buttRedo" w="48" h="48"/>
 		<button name="meshop" dock="bl" x="288" y="10" image="buttMeshTools" check="checkRect" w="48" h="48"/>
@@ -13,7 +14,8 @@
 		<button name="scale" dock="bl" x="10" y="10" image="buttScale" check="checkRect" w="48" h="48"/>
 	</buttons>
 	<controls>		
-		<theme backcolor="Navy" forecolor="White" framecolor="RoyalBlue"/>
+		<style backcolor="Navy" forecolor="White" framecolor="RoyalBlue"/>
+		<style name="gltext1" backcolor="Transparent" forecolor="White"/>
 		<control name="pmove" dock="bl" x="20" y="90" shape="trimpanel"/>
 		<control name="pscale" dock="bl" x="20" y="90" shape="trimpanel"/>
 		<control name="protate" dock="bl" x="20" y="90" shape="trimpanel"/>
@@ -23,6 +25,7 @@
 		<control name="pscenetree" dock="tr" x="20" y="90" shape="trimpanel"/>
 		<control name="pobjectinf" dock="br" x="20" y="90" shape="trimpanel"/>
 		<control name="clayernum" dock="bc" x="0" y="80"/>
+		<control name="progress" dock="br" x="10" y="80" style="gltext1" gl="true"/>
 	</controls>
 	<decals>
 		<bar dock="n" tlcolor="AliceBlue" trcolor="AliceBlue" blcolor="LightBlue" brcolor="SkyBlue" level="background"/>
