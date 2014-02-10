@@ -277,6 +277,12 @@
     <Compile Include="GUI\frmConnection.Designer.cs">
       <DependentUpon>frmConnection.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\frmGCode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmGCode.Designer.cs">
+      <DependentUpon>frmGCode.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frmLicense.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -319,11 +325,23 @@
     <Compile Include="GUI\frmProjCommand.Designer.cs">
       <DependentUpon>frmProjCommand.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\frmSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmSettings.Designer.cs">
+      <DependentUpon>frmSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frmSlice.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\frmSlice.Designer.cs">
       <DependentUpon>frmSlice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmSliceView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmSliceView.Designer.cs">
+      <DependentUpon>frmSliceView.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\frmSplash.cs">
       <SubType>Form</SubType>
@@ -445,6 +463,9 @@
     <EmbeddedResource Include="GUI\frmConnection.resx">
       <DependentUpon>frmConnection.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmGCode.resx">
+      <DependentUpon>frmGCode.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmLicense.resx">
       <DependentUpon>frmLicense.cs</DependentUpon>
     </EmbeddedResource>
@@ -473,8 +494,14 @@
     <EmbeddedResource Include="GUI\frmProjCommand.resx">
       <DependentUpon>frmProjCommand.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmSettings.resx">
+      <DependentUpon>frmSettings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmSlice.resx">
       <DependentUpon>frmSlice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmSliceView.resx">
+      <DependentUpon>frmSliceView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmSplash.resx">
       <DependentUpon>frmSplash.cs</DependentUpon>

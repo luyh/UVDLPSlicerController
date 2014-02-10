@@ -31,6 +31,9 @@ namespace UV_DLP_3D_Printer
         frmDLP m_frmdlp = new frmDLP();        
         frmSlice m_frmSlice = new frmSlice();
         GLCamera m_camera;
+        frmSettings m_frmSettings = new frmSettings();
+        frmGCode m_frmGCode = new frmGCode();
+        frmSliceView m_frmSliceView = new frmSliceView();
 
         public frmMain()
         {
@@ -50,10 +53,7 @@ namespace UV_DLP_3D_Printer
             UVDLPApp.Instance().m_supportgenerator.SupportEvent += new SupportGeneratorEvent(SupEvent);
 
             ctl3DView1.SetMessagePanelHolder(splitContainerMainWindow);
-            ctl3DView1.Dock = DockStyle.Fill;
             ctl3DView1.Enable3dView(true);
-            tabMain.Dock = DockStyle.Fill;
-            tabMain.Visible = false;
 
             #if (DEBUG)
             ShowLogPanel(true);
@@ -61,12 +61,7 @@ namespace UV_DLP_3D_Printer
             ShowLogPanel(false);
             #endif
             m_frmdlp.HideDLPScreen();
-            ctlSliceView1.Visible = false;
-            ctlSliceView1.Dock = DockStyle.Fill;
-            ctlSliceView1.DlpForm = m_frmdlp;
-
-            ctlGcodeView1.Visible = false;
-            ctlGcodeView1.Dock = DockStyle.Fill;
+            m_frmSliceView.SliceView.DlpForm = m_frmdlp;
                         
             //arcball = new ArcBall();
             m_camera = new GLCamera();
@@ -172,13 +167,13 @@ namespace UV_DLP_3D_Printer
                         DebugLogger.Instance().LogRecord(Message);
                         int totallayers = UVDLPApp.Instance().m_slicefile.NumSlices;
                         ctl3DView1.SetNumLayers(totallayers);
-                        ctlSliceView1.SetNumLayers(totallayers);
+                        m_frmSliceView.SliceView.SetNumLayers(totallayers);
                         //show the slice in the slice view
                         ViewLayer(0, null, BuildManager.SLICE_NORMAL);
                         break;
                     case eAppEvent.eGCodeLoaded:
                         DebugLogger.Instance().LogRecord(Message);
-                        ctlGcodeView1.Text = UVDLPApp.Instance().m_gcode.RawGCode;
+                        m_frmGCode.GcodeView.Text = UVDLPApp.Instance().m_gcode.RawGCode;
                         break;
                     case eAppEvent.eGCodeSaved:
                         DebugLogger.Instance().LogRecord(Message);
@@ -359,7 +354,7 @@ namespace UV_DLP_3D_Printer
                     case eBuildStatus.eBuildCancelled:
                         message = "Print Cancelled";
                         SetButtonStatuses();
-                        ctlMachineControl1.BuildStopped();
+                        m_frmSettings.MachineControl.BuildStopped();
                         SetMainMessage(message);
                         DebugLogger.Instance().LogRecord(message);
 
@@ -372,7 +367,7 @@ namespace UV_DLP_3D_Printer
                         {
                             message = "Print Completed";
                             SetButtonStatuses();
-                            ctlMachineControl1.BuildStopped();
+                            m_frmSettings.MachineControl.BuildStopped();
                             //MessageBox.Show("Build Completed");
                             SetMainMessage(message);
                             DebugLogger.Instance().LogRecord(message);
@@ -385,7 +380,7 @@ namespace UV_DLP_3D_Printer
                     case eBuildStatus.eBuildStarted:
                         message = "Print Started";
                         SetButtonStatuses();
-                        ctlMachineControl1.BuildStarted();
+                        m_frmSettings.MachineControl.BuildStarted();
                         // if the current machine type is a UVDLP printer, make sure we can show the screen
                         if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
                         {
@@ -455,9 +450,9 @@ namespace UV_DLP_3D_Printer
                             break;
                         case Slicer.eSliceEvent.eSliceCompleted:
                             //show the gcode
-                            ctlGcodeView1.Text = UVDLPApp.Instance().m_gcode.RawGCode;
+                            m_frmGCode.GcodeView.Text = UVDLPApp.Instance().m_gcode.RawGCode;
                             ctl3DView1.SetNumLayers(totallayers);
-                            ctlSliceView1.SetNumLayers(totallayers);
+                            m_frmSliceView.SliceView.SetNumLayers(totallayers);
                             SetMainMessage("Slicing Completed");
                             String timeest = BuildManager.EstimateBuildTime(UVDLPApp.Instance().m_gcode);
                             SetTimeMessage("Estimated Build Time: " + timeest);
@@ -842,7 +837,7 @@ namespace UV_DLP_3D_Printer
 
         private void tabMachineControl_Enter(object sender, EventArgs e)
         {
-            ctlMachineControl1.UpdateControl(); // update control display -SHS
+            m_frmSettings.MachineControl.UpdateControl(); // update control display -SHS
         }
         /*
         private void estimateVolumeCostToolStripMenuItem_Click(object sender, EventArgs e)
@@ -873,36 +868,22 @@ namespace UV_DLP_3D_Printer
             mh.ShowDialog();
         }
 
-        private void buttView3D_Click(object sender, EventArgs e)
-        {
-            tabMain.Visible = false;
-            ctlSliceView1.Visible = false;
-            ctlGcodeView1.Visible = false;
-            ctl3DView1.Visible = true;
-        }
-
         private void buttViewSlice_Click(object sender, EventArgs e)
         {
-            tabMain.Visible = false;
-            ctl3DView1.Visible = false;
-            ctlGcodeView1.Visible = false;
-            ctlSliceView1.Visible = true;
+            m_frmSliceView.Show();
+            m_frmSliceView.BringToFront();
         }
 
         private void buttViewGcode_Click(object sender, EventArgs e)
         {
-            ctl3DView1.Visible = false;
-            ctlSliceView1.Visible = false;
-            tabMain.Visible = false;
-            ctlGcodeView1.Visible = true;
+            m_frmGCode.Show();
+            m_frmGCode.BringToFront();
         }
 
         private void buttConfig_Click(object sender, EventArgs e)
         {
-            ctlGcodeView1.Visible = false;
-            ctl3DView1.Visible = false;
-            ctlSliceView1.Visible = false;
-            tabMain.Visible = true;
+            m_frmSettings.Show();
+            m_frmSettings.BringToFront();
         }
 
         private void splashToolStripMenuItem_Click(object sender, EventArgs e)
