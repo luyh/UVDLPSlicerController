@@ -42,6 +42,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         int m_sliceViewW, m_sliceViewH;
         int m_sliceW, m_sliceH;
         bool ctrldown;// is the control key held down?
+        public frmMain m_mainForm = null;
         //ctlImageButton imbtn;
         
 
@@ -250,7 +251,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
                 gr2d.LoadTexture(global::UV_DLP_3D_Printer.Properties.Resources.cwtexture1,
                     global::UV_DLP_3D_Printer.Properties.Resources.cwtexture1_index);
-                gr2d.LoadFont("Calibri22", global::UV_DLP_3D_Printer.Properties.Resources.Calibri22_metrics);
+                gr2d.LoadFont("Arial18", global::UV_DLP_3D_Printer.Properties.Resources.Arial18_metrics);
                 
 
                 firstTime = false;
@@ -998,6 +999,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         void UpdateButtonList()
         {
+            // buttons
             guiconf.AddButton("home", buttGlHome); 
             guiconf.AddButton("undo", buttUndo); 
             guiconf.AddButton("redo", buttRedo); 
@@ -1007,6 +1009,18 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             guiconf.AddButton("move", buttMove); 
             guiconf.AddButton("rotate", buttRotate); 
             guiconf.AddButton("scale", buttScale);
+            guiconf.AddButton("openfile", buttOpenFile);
+            guiconf.AddButton("play", buttPlay);
+            guiconf.AddButton("pause", buttPause);
+            guiconf.AddButton("stop", buttStop);
+            guiconf.AddButton("connect", buttConnect);
+            guiconf.AddButton("disconnect", buttDisconnect);
+            guiconf.AddButton("slice", buttSlice);
+            guiconf.AddButton("config", buttConfig);
+            guiconf.AddButton("viewgcode", buttViewGcode);
+            guiconf.AddButton("viewslice", buttViewSlice);
+
+            // controls
             guiconf.AddControl("pmove", ctlObjMove);
             guiconf.AddControl("pscale", ctlObjScale);
             guiconf.AddControl("protate", ctlObjRotate);
@@ -1017,6 +1031,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             guiconf.AddControl("pobjectinf", objectInfoPanel);
             guiconf.AddControl("clayernum", numLayer);
             guiconf.AddControl("progress", textProgress);
+            guiconf.AddControl("mainmsg", textMainMessage);
+            guiconf.AddControl("timemsg", textTime);
         }
 
         #endregion 3d View controls
@@ -1073,6 +1089,77 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 //sup.
             }
         }
+
+        private void buttOpenFile_Click(object sender, EventArgs e)
+        {
+            m_mainForm.LoadSTLModel_Click(sender, e);
+        }
+
+        private void buttPlay_Click(object sender, EventArgs e)
+        {
+            m_mainForm.cmdStartPrint_Click(sender, e);
+        }
+
+        private void buttPause_Click(object sender, EventArgs e)
+        {
+            m_mainForm.cmdPause_Click_1(sender, e);
+        }
+
+        private void buttStop_Click(object sender, EventArgs e)
+        {
+            m_mainForm.cmdStop_Click(sender, e);
+        }
+
+        private void buttConnect_Click(object sender, EventArgs e)
+        {
+            m_mainForm.cmdConnect1_Click(sender, e);
+        }
+
+        private void buttDisconnect_Click(object sender, EventArgs e)
+        {
+            m_mainForm.cmdDisconnect_Click(sender, e);
+        }
+
+        private void buttSlice_Click(object sender, EventArgs e)
+        {
+            m_mainForm.cmdSlice1_Click(sender, e);
+        }
+
+        private void buttConfig_Click(object sender, EventArgs e)
+        {
+            m_mainForm.buttConfig_Click(sender, e);
+        }
+
+        private void buttViewSlice_Click(object sender, EventArgs e)
+        {
+            m_mainForm.buttViewSlice_Click(sender, e);
+        }
+
+        private void buttViewGcode_Click(object sender, EventArgs e)
+        {
+            m_mainForm.buttViewGcode_Click(sender, e);
+        }
+
+       public void SetButtonStatus(bool stButtConnect, bool stButtDisconnect, bool stButtPlay, bool stButtStop, bool stButtPause)
+       {
+           buttConnect.Enabled = stButtConnect;
+           buttDisconnect.Enabled = stButtDisconnect;
+           buttPlay.Enabled = stButtPlay;
+           buttStop.Enabled = stButtStop;
+           buttPause.Enabled = stButtPause;
+       }
+
+       public String MainMessage
+       {
+           get { return textMainMessage.Text; }
+           set { textMainMessage.Text = value; }
+       }
+    
+       public String TimeMessage
+       {
+           get { return textTime.Text; }
+           set { textTime.Text = value; }
+       }
     }
 
     public class ctlBgnd

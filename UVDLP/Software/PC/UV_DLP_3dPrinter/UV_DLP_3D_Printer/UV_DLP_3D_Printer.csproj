@@ -606,6 +606,7 @@
     <None Include="resources\GuiConfig.txt" />
     <None Include="resources\CustomGUI\checkRect.png" />
     <None Include="resources\Calibri22_metrics.txt" />
+    <None Include="resources\Arial18_metrics.txt" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

@@ -54,12 +54,15 @@ namespace UV_DLP_3D_Printer
 
             ctl3DView1.SetMessagePanelHolder(splitContainerMainWindow);
             ctl3DView1.Enable3dView(true);
+            ctl3DView1.m_mainForm = this;
 
             #if (DEBUG)
             ShowLogPanel(true);
             #else
             ShowLogPanel(false);
             #endif
+            splitContainerTop.Panel1Collapsed = true;
+
             m_frmdlp.HideDLPScreen();
             m_frmSliceView.SliceView.DlpForm = m_frmdlp;
                         
@@ -67,8 +70,8 @@ namespace UV_DLP_3D_Printer
             m_camera = new GLCamera();
             ResetCameraView();
 
-            lblTime.Text = "";
-            lblMainMessage.Text = "";
+            lblTime.Text = ctl3DView1.TimeMessage = "";
+            lblMainMessage.Text = ctl3DView1.MainMessage = "";
 
             SetButtonStatuses();                        
             //PopulateBuildProfilesMenu();
@@ -126,12 +129,14 @@ namespace UV_DLP_3D_Printer
         private void SetTimeMessage(String message) 
         {
             lblTime.Text = message;
+            ctl3DView1.TimeMessage = message;
         }
         private void SetMainMessage(String message) 
         {
             try
             {
                 lblMainMessage.Text = message;
+                ctl3DView1.MainMessage = message;
             }
             catch (Exception ex) 
             {
@@ -260,14 +265,13 @@ namespace UV_DLP_3D_Printer
                 }
                 else
                 {
-
                     buttConnect.Enabled = true;
                     buttDisconnect.Enabled = false;
                     buttPlay.Enabled = false;
                     buttStop.Enabled = false;
                     buttPause.Enabled = false;
-
                 }
+                ctl3DView1.SetButtonStatus(buttConnect.Enabled, buttDisconnect.Enabled, buttPlay.Enabled, buttStop.Enabled, buttPause.Enabled);
                 Refresh();
             }
             catch (Exception ex) 
@@ -483,7 +487,7 @@ namespace UV_DLP_3D_Printer
         /*
          Load Stl
          */
-        private void LoadSTLModel_Click(object sender, EventArgs e)
+        public void LoadSTLModel_Click(object sender, EventArgs e)
         {
             openFileDialog1.FileName = "";
             openFileDialog1.Filter = "3D Model Files(*.stl;*.obj;*.3ds;*.amf)|*.stl;*.obj;*.3ds;*.amf|All files (*.*)|*.*";
@@ -570,7 +574,7 @@ namespace UV_DLP_3D_Printer
             Refresh();
         }*/
 
-        private void cmdStartPrint_Click(object sender, EventArgs e)
+        public void cmdStartPrint_Click(object sender, EventArgs e)
         {
             if (UVDLPApp.Instance().m_buildmgr.IsPaused())
             {
@@ -643,14 +647,14 @@ namespace UV_DLP_3D_Printer
             LoadSTLModel_Click(this, null);
         }
 
-        private void cmdStop_Click(object sender, EventArgs e)
+        public void cmdStop_Click(object sender, EventArgs e)
         {
             UVDLPApp.Instance().m_buildmgr.CancelPrint();
         }
 
         
 
-        private void cmdConnect1_Click(object sender, EventArgs e)
+        public void cmdConnect1_Click(object sender, EventArgs e)
         {
             try
             {
@@ -698,7 +702,7 @@ namespace UV_DLP_3D_Printer
             }
         }
 
-        private void cmdDisconnect_Click(object sender, EventArgs e)
+        public void cmdDisconnect_Click(object sender, EventArgs e)
         {
             if (UVDLPApp.Instance().m_deviceinterface.Connected) // disconnect
             {
@@ -714,7 +718,7 @@ namespace UV_DLP_3D_Printer
             }
         }
 
-        private void cmdSlice1_Click(object sender, EventArgs e)
+        public void cmdSlice1_Click(object sender, EventArgs e)
         {
             if (m_frmSlice.IsDisposed) 
             {
@@ -770,7 +774,7 @@ namespace UV_DLP_3D_Printer
         
         #endregion DLP screen controls
 
-        private void cmdPause_Click_1(object sender, EventArgs e)
+        public void cmdPause_Click_1(object sender, EventArgs e)
         {
             UVDLPApp.Instance().m_buildmgr.PausePrint();
         }
@@ -868,19 +872,19 @@ namespace UV_DLP_3D_Printer
             mh.ShowDialog();
         }
 
-        private void buttViewSlice_Click(object sender, EventArgs e)
+        public void buttViewSlice_Click(object sender, EventArgs e)
         {
             m_frmSliceView.Show();
             m_frmSliceView.BringToFront();
         }
 
-        private void buttViewGcode_Click(object sender, EventArgs e)
+        public void buttViewGcode_Click(object sender, EventArgs e)
         {
             m_frmGCode.Show();
             m_frmGCode.BringToFront();
         }
 
-        private void buttConfig_Click(object sender, EventArgs e)
+        public void buttConfig_Click(object sender, EventArgs e)
         {
             m_frmSettings.Show();
             m_frmSettings.BringToFront();

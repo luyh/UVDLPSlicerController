@@ -4,14 +4,24 @@
 		<style backcolor="Royalblue" forecolor="White"/>
 		<style name="glbutt1" backcolor="Transparent" hovercolor="Black" forecolor="Black" checkcolor="Black" presscolor="Orange" nimages="1"/>
 		<button name="home" dock="tr" x="10" y="100" image="glButtHome1" w="48" h="48" style="glbutt1" gl="true"/>
-		<button name="undo" dock="tl" x="10" y="10" image="buttUndo" w="48" h="48"/>
-		<button name="redo" dock="tl" x="60" y="10" image="buttRedo" w="48" h="48"/>
-		<button name="meshop" dock="bl" x="288" y="10" image="buttMeshTools" check="checkRect" w="48" h="48"/>
+		<button name="undo" dock="tl" x="10" y="80" image="buttUndo" w="48" h="48"/>
+		<button name="redo" dock="tl" x="60" y="80" image="buttRedo" w="48" h="48"/>
+		<button name="meshop" dock="bl" x="290" y="10" image="buttMeshTools" check="checkRect" w="48" h="48"/>
 		<button name="view" dock="bl" x="230" y="10" image="buttView" w="48" check="checkRect" h="48"/>
 		<button name="support" dock="bl" x="170" y="10" image="buttSupport" check="checkRect" w="48" h="48"/>
 		<button name="move" dock="bl" x="110" y="10" image="buttMove" check="checkRect" w="48" h="48"/>
 		<button name="rotate" dock="bl" x="60" y="10" image="buttRotate" check="checkRect" w="48" h="48"/>
 		<button name="scale" dock="bl" x="10" y="10" image="buttScale" check="checkRect" w="48" h="48"/>
+		<button name="config" dock="bl" x="350" y="10" w="48" h="48"/>
+		<button name="openfile" dock="tl" x="10" y="10" w="48" h="48"/>
+		<button name="play" dock="tl" x="70" y="10" w="48" h="48"/>
+		<button name="pause" dock="tl" x="120" y="10" w="48" h="48"/>
+		<button name="stop" dock="tl" x="170" y="10" w="48" h="48"/>
+		<button name="connect" dock="tl" x="230" y="10" w="48" h="48"/>
+		<button name="disconnect" dock="tl" x="280" y="10" w="48" h="48"/>
+		<button name="slice" dock="tl" x="340" y="10" w="48" h="48"/>
+		<button name="viewgcode" dock="tl" x="400" y="10" w="48" h="48"/>
+		<button name="viewslice" dock="tl" x="450" y="10" w="48" h="48"/>
 	</buttons>
 	<controls>		
 		<style backcolor="Navy" forecolor="White" framecolor="RoyalBlue"/>
@@ -26,6 +36,8 @@
 		<control name="pobjectinf" dock="br" x="20" y="90" shape="trimpanel"/>
 		<control name="clayernum" dock="bc" x="0" y="80"/>
 		<control name="progress" dock="br" x="10" y="80" style="gltext1" gl="true"/>
+		<control name="mainmsg" dock="tr" x="10" y="8" style="gltext1" gl="true" w="400"/>
+		<control name="timemsg" dock="tr" x="10" y="34" style="gltext1" gl="true" w="400"/>
 	</controls>
 	<decals>
 		<bar dock="n" tlcolor="AliceBlue" trcolor="AliceBlue" blcolor="LightBlue" brcolor="SkyBlue" level="background"/>

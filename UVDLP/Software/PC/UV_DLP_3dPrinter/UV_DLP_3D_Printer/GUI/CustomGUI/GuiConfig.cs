@@ -393,9 +393,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (!Buttons.ContainsKey(name))
                 return;
             ctlImageButton butt = Buttons[name];
+            butt.Visible = true;
             butt.GuiAnchor = FixDockingVal(GetStrParam(buttnode, "dock", butt.GuiAnchor));
             butt.Gapx = GetIntParam(buttnode, "x", butt.Gapx);
             butt.Gapy = GetIntParam(buttnode, "y", butt.Gapy);
+            butt.Width = GetIntParam(buttnode, "w", butt.Width);
+            butt.Height = GetIntParam(buttnode, "h", butt.Height);
             butt.StyleName = GetStrParam(buttnode, "style", butt.StyleName);
             butt.GLVisible = GetBoolParam(buttnode, "gl", false);
             if (butt.GLVisible)
@@ -453,6 +456,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ctl.GuiAnchor = FixDockingVal(GetStrParam(ctlnode, "dock", ctl.GuiAnchor));
             ctl.Gapx = GetIntParam(ctlnode, "x", ctl.Gapx);
             ctl.Gapy = GetIntParam(ctlnode, "y", ctl.Gapy);
+            ctl.Width = GetIntParam(ctlnode, "w", ctl.Width);
+            ctl.Height = GetIntParam(ctlnode, "h", ctl.Height);
             ctl.StyleName = GetStrParam(ctlnode, "style", ctl.StyleName);
             ctl.GLVisible = GetBoolParam(ctlnode, "gl", false);
             if (ctl.GLVisible)

@@ -88,6 +88,39 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;fontMetrics file=&quot;Arial18.png&quot;&gt;
+        ///  &lt;character key=&quot;32&quot;&gt;
+        ///    &lt;x&gt;0&lt;/x&gt;
+        ///    &lt;y&gt;0&lt;/y&gt;
+        ///    &lt;width&gt;7&lt;/width&gt;
+        ///    &lt;height&gt;21&lt;/height&gt;
+        ///  &lt;/character&gt;
+        ///  &lt;character key=&quot;33&quot;&gt;
+        ///    &lt;x&gt;7&lt;/x&gt;
+        ///    &lt;y&gt;0&lt;/y&gt;
+        ///    &lt;width&gt;5&lt;/width&gt;
+        ///    &lt;height&gt;21&lt;/height&gt;
+        ///  &lt;/character&gt;
+        ///  &lt;character key=&quot;34&quot;&gt;
+        ///    &lt;x&gt;12&lt;/x&gt;
+        ///    &lt;y&gt;0&lt;/y&gt;
+        ///    &lt;width&gt;8&lt;/width&gt;
+        ///    &lt;height&gt;21&lt;/height&gt;
+        ///  &lt;/character&gt;
+        ///  &lt;character key=&quot;35&quot;&gt;
+        ///    &lt;x&gt;20&lt;/x&gt;
+        ///    &lt;y&gt;0&lt;/y&gt;
+        ///    &lt;width&gt;12&lt;/width&gt;
+        ///    &lt;height&gt;21&lt;/ [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Arial18_metrics {
+            get {
+                return ResourceManager.GetString("Arial18_metrics", resourceCulture);
+            }
+        }
+        
         public static System.Drawing.Bitmap bfzn_003 {
             get {
                 object obj = ResourceManager.GetObject("bfzn_003", resourceCulture);
@@ -445,39 +478,6 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-        ///&lt;fontMetrics file=&quot;Texture.png&quot;&gt;
-        ///  &lt;character key=&quot;32&quot;&gt;
-        ///    &lt;x&gt;0&lt;/x&gt;
-        ///    &lt;y&gt;0&lt;/y&gt;
-        ///    &lt;width&gt;9&lt;/width&gt;
-        ///    &lt;height&gt;24&lt;/height&gt;
-        ///  &lt;/character&gt;
-        ///  &lt;character key=&quot;33&quot;&gt;
-        ///    &lt;x&gt;9&lt;/x&gt;
-        ///    &lt;y&gt;0&lt;/y&gt;
-        ///    &lt;width&gt;7&lt;/width&gt;
-        ///    &lt;height&gt;24&lt;/height&gt;
-        ///  &lt;/character&gt;
-        ///  &lt;character key=&quot;34&quot;&gt;
-        ///    &lt;x&gt;16&lt;/x&gt;
-        ///    &lt;y&gt;0&lt;/y&gt;
-        ///    &lt;width&gt;10&lt;/width&gt;
-        ///    &lt;height&gt;24&lt;/height&gt;
-        ///  &lt;/character&gt;
-        ///  &lt;character key=&quot;35&quot;&gt;
-        ///    &lt;x&gt;26&lt;/x&gt;
-        ///    &lt;y&gt;0&lt;/y&gt;
-        ///    &lt;width&gt;14&lt;/width&gt;
-        ///    &lt;height&gt;24&lt; [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string Calibri22_metrics {
-            get {
-                return ResourceManager.GetString("Calibri22_metrics", resourceCulture);
-            }
-        }
-        
         public static System.Drawing.Bitmap checkRect {
             get {
                 object obj = ResourceManager.GetObject("checkRect", resourceCulture);
@@ -519,32 +519,32 @@ namespace UV_DLP_3D_Printer.Properties {
         ///format: RGBA8888
         ///filter: Linear,Linear
         ///repeat: none
-        ///Calibri22
+        ///Arial18
         ///  rotate: false
-        ///  xy: 1, 103
-        ///  size: 221, 144
-        ///  orig: 221, 144
-        ///  offset: 0, 0
-        ///  index: -1
-        ///glButtHome
-        ///  rotate: false
-        ///  xy: 224, 183
-        ///  size: 256, 64
-        ///  orig: 256, 64
+        ///  xy: 1, 1
+        ///  size: 208, 126
+        ///  orig: 208, 126
         ///  offset: 0, 0
         ///  index: -1
         ///cwlogo_round
         ///  rotate: false
-        ///  xy: 1, 1
+        ///  xy: 211, 27
         ///  size: 100, 100
         ///  orig: 100, 100
         ///  offset: 0, 0
         ///  index: -1
         ///trimpanel
         ///  rotate: false
-        ///  xy: 103, 11
+        ///  xy: 313, 37
         ///  size: 90, 90
         ///  orig: 90, 90
+        ///  offset: 0, 0
+        ///  index: -1
+        ///glButtHome1
+        ///  rotate: false
+        ///  xy: 405, 63
+        ///  size: 64, 64
+        ///  orig: 64, 64
         ///  offset: 0, 0
         ///  index: -1
         ///.
@@ -587,12 +587,11 @@ namespace UV_DLP_3D_Printer.Properties {
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         ///&lt;GuiConfig FileVersion=&quot;1&quot;&gt;
         ///	&lt;buttons&gt;
-        ///		&lt;theme backcolor=&quot;Royalblue&quot; forecolor=&quot;White&quot;/&gt;
-        ///		&lt;button name=&quot;home&quot; dock=&quot;tr&quot; x=&quot;10&quot; y=&quot;10&quot; image=&quot;glButtHome&quot; w=&quot;48&quot; h=&quot;48&quot; gl=&quot;true&quot;/&gt;
-        ///		&lt;button name=&quot;undo&quot; dock=&quot;tl&quot; x=&quot;10&quot; y=&quot;10&quot; image=&quot;buttUndo&quot; w=&quot;48&quot; h=&quot;48&quot;/&gt;
-        ///		&lt;button name=&quot;redo&quot; dock=&quot;tl&quot; x=&quot;60&quot; y=&quot;10&quot; image=&quot;buttRedo&quot; w=&quot;48&quot; h=&quot;48&quot;/&gt;
-        ///		&lt;button name=&quot;meshop&quot; dock=&quot;bl&quot; x=&quot;288&quot; y=&quot;10&quot; image=&quot;buttMeshTools&quot; check=&quot;checkRect&quot; w=&quot;48&quot; h=&quot;48&quot;/&gt;
-        ///		&lt;button name=&quot;view&quot; dock=&quot;b [rest of string was truncated]&quot;;.
+        ///		&lt;style backcolor=&quot;Royalblue&quot; forecolor=&quot;White&quot;/&gt;
+        ///		&lt;style name=&quot;glbutt1&quot; backcolor=&quot;Transparent&quot; hovercolor=&quot;Black&quot; forecolor=&quot;Black&quot; checkcolor=&quot;Black&quot; presscolor=&quot;Orange&quot; nimages=&quot;1&quot;/&gt;
+        ///		&lt;button name=&quot;home&quot; dock=&quot;tr&quot; x=&quot;10&quot; y=&quot;100&quot; image=&quot;glButtHome1&quot; w=&quot;48&quot; h=&quot;48&quot; style=&quot;glbutt1&quot; gl=&quot;true&quot;/&gt;
+        ///		&lt;button name=&quot;undo&quot; dock=&quot;tl&quot; x=&quot;10&quot; y=&quot;80&quot; image=&quot;buttUndo&quot; w=&quot;48&quot; h=&quot;48&quot;/&gt;
+        ///		&lt;button name=&quot;redo&quot; dock=&quot;tl&quot; x=&quot;60&quot; y=&quot;80&quot; image=&quot;butt [rest of string was truncated]&quot;;.
         /// </summary>
         public static string GuiConfig {
             get {
