@@ -109,6 +109,8 @@
     <Compile Include="Configs\ParmList.cs" />
     <Compile Include="Configs\SupportConfig.cs" />
     <Compile Include="Configs\XmlHelper.cs" />
+    <Compile Include="Device_Interface\DeepImager\DIDriverStatus.cs" />
+    <Compile Include="Device_Interface\DeepImager\DIDriver.cs" />
     <Compile Include="Device_Interface\DeviceDriver.cs" />
     <Compile Include="Device_Interface\NULLdriver.cs" />
     <Compile Include="Device_Interface\DriverFactory.cs" />
@@ -161,6 +163,12 @@
     </Compile>
     <Compile Include="GUI\ctlExpandPanel.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\ctlManualControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\ctlManualControl.Designer.cs">
+      <DependentUpon>ctlManualControl.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlScene.cs">
       <SubType>UserControl</SubType>
@@ -415,6 +423,9 @@
     <EmbeddedResource Include="GUI\ctlExpandPanel.resx">
       <DependentUpon>ctlExpandPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\ctlManualControl.resx">
+      <DependentUpon>ctlManualControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\ctlScene.resx">
       <DependentUpon>ctlScene.cs</DependentUpon>
     </EmbeddedResource>
@@ -607,6 +618,8 @@
     <None Include="resources\CustomGUI\checkRect.png" />
     <None Include="resources\Calibri22_metrics.txt" />
     <None Include="resources\Arial18_metrics.txt" />
+    <Content Include="resources\IconsLandVistaArrowIconsDemo\PNG\64x64\Down1.png" />
+    <Content Include="resources\IconsLandVistaArrowIconsDemo\PNG\64x64\Up1.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

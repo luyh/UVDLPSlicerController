@@ -18,6 +18,7 @@ namespace UV_DLP_3D_Printer.Drivers
         eNULL_DRIVER, // the driver for testing when a mavchine is not connected, it always returns OK
         eGENERIC, // whatever class of driver you call this, I've been using sailfish, and it seems to work great
         eRF_3DLPRINTER, // the Italian Robot Factory 3DLPrinter
+        eEIW_DEEPIMAGER, // Elite Image works  - deep imager 5
     }
     public enum eDeviceStatus 
     {
@@ -31,11 +32,15 @@ namespace UV_DLP_3D_Printer.Drivers
     {
         public delegate void DeviceStatusEvent(DeviceDriver device, eDeviceStatus status);
         public delegate void DataReceivedEvent(DeviceDriver device, byte[] data, int length);
+        // this is a generic interface for a device driver to report information to the main application
+        // it's data is deteremined by the driver type, check the individual driver classes to see values
+        public delegate void DriverMessageEvent(DeviceDriver device, string message, object data);
         protected bool m_connected = false;
         protected SerialPort m_serialport;
         protected eDriverType m_drivertype;
         public DataReceivedEvent DataReceived; // a delegate to notify when data is received
         public DeviceStatusEvent DeviceStatus;
+        public DriverMessageEvent DeviceMessages;
         protected ConnectionConfig m_config; // the serial port configuration
         protected byte[] m_buffer;
 
@@ -62,7 +67,7 @@ namespace UV_DLP_3D_Printer.Drivers
         {
             try
             {
-                if (m_readthreadrunning) 
+                while (m_readthreadrunning) 
                 {
                     // try to read from serial port,
                     // if we have one or more bytes available, pass it off to the m_serialport_DataReceived function
@@ -70,15 +75,21 @@ namespace UV_DLP_3D_Printer.Drivers
                     {
                         m_serialport_DataReceived(null, null);
                     }
-                }
-                Thread.Sleep(0); // yield the remainder of the timeslice
+                    Thread.Sleep(0); // yield the remainder of the timeslice      
+                }                          
             }
             catch (Exception ex) 
             {
                 DebugLogger.Instance().LogError(ex.Message);
             }
         }
-        void m_serialport_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        /// <summary>
+        /// This can be overridden in a sub-class
+        /// so the sub-classed driver can read the return data
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        virtual protected void m_serialport_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             int read = m_serialport.Read(m_buffer, 0, m_serialport.BytesToRead);
             byte []data = new byte[read];
@@ -91,6 +102,14 @@ namespace UV_DLP_3D_Printer.Drivers
         }
 
         public bool Connected { get { return m_connected; } }
+        protected void RaiseDeviceMessageEvent(DeviceDriver device, string message, object data) 
+        {
+            if (DeviceMessages != null) 
+            {
+                DeviceMessages(device, message, data);
+            }
+        }
+
         protected void RaiseDeviceStatus(DeviceDriver device,eDeviceStatus status) 
         {
             if (DeviceStatus != null) 

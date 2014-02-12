@@ -47,7 +47,7 @@ namespace UV_DLP_3D_Printer.Drivers
             }
             
         }
-        private readonly object _locker = new object();
+        protected readonly object _locker = new object();
         
         public override int Write(byte[] data, int len) 
         {
@@ -58,7 +58,7 @@ namespace UV_DLP_3D_Printer.Drivers
             }
         }
 
-        private string RemoveComment(string line) 
+        protected string RemoveComment(string line) 
         {
            
             string newln = "";
