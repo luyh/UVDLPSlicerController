@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Xml;
 using UV_DLP_3D_Printer._3DEngine;
+using UV_DLP_3D_Printer.Plugin;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
@@ -109,10 +110,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public Color BackColor;
         public Color FrameColor;
         public String BackImage;
+        public bool glMode;
         public virtual void SetDefault()
         {
             ForeColor = Color.White;
             BackColor = Color.Transparent;
+            glMode = false;
         }
     }
 
@@ -133,6 +136,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             HoverColor = Color.White;
             DisabledColor = Color.FromArgb(60, 255, 255, 255);
             SubImgCount = 4;
+            glMode = false;
         }
 
         public String CheckedImage
@@ -166,6 +170,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         List<DecorItem> BgndDecorList;
         List<DecorItem> FgndDecorList;
         ResourceManager Res;
+        IPlugin Plugin;
         public ButtonStyle DefaultButtonStyle;
         public ControlStyle DefaultControlStyle; 
 
@@ -178,6 +183,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             Buttons = new Dictionary<string, ctlImageButton>();
             ControlStyles = new Dictionary<string, ControlStyle>();
             Res = global::UV_DLP_3D_Printer.Properties.Resources.ResourceManager;
+            Plugin = null;
             DefaultButtonStyle = new ButtonStyle();
             DefaultButtonStyle.Name = "DefaultButton";
             DefaultButtonStyle.SetDefault();
@@ -255,8 +261,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             return retval;
         }
 
-        public void LoadConfiguration(String xmlConf)
+        public void LoadConfiguration(String xmlConf, IPlugin plugin)
         {
+            Plugin = plugin;
             try
             {
                 MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(xmlConf));
@@ -280,10 +287,17 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             catch (Exception) { }
         }
 
+        public void LoadConfiguration(String xmlConf)
+        {
+            LoadConfiguration(xmlConf, null);
+        }
+
         #region Decals
 
         void HandleDecals(XmlNode decalnode)
         {
+            if (GetBoolParam(decalnode, "HideAll", false))
+                ClearLayout();
             foreach (XmlNode xnode in decalnode.ChildNodes)
             {
                 switch (xnode.Name)
@@ -345,6 +359,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         #region Buttons
         void HandleButtons(XmlNode buttnode)
         {
+            if (GetBoolParam(buttnode, "HideAll", false))
+                HideAllButtons();
             foreach (XmlNode xnode in buttnode.ChildNodes)
             {
                 switch (xnode.Name)
@@ -400,7 +416,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             butt.Width = GetIntParam(buttnode, "w", butt.Width);
             butt.Height = GetIntParam(buttnode, "h", butt.Height);
             butt.StyleName = GetStrParam(buttnode, "style", butt.StyleName);
-            butt.GLVisible = GetBoolParam(buttnode, "gl", false);
+            ButtonStyle bstl = GetButtonStyle(butt.StyleName);
+            if (bstl != null)
+            {
+                butt.GLVisible = bstl.glMode;
+            }
+            //butt.GLVisible = GetBoolParam(buttnode, "gl", butt.GLVisible);
             if (butt.GLVisible)
                 butt.GLImage = GetStrParam(buttnode, "image", null);
             else
@@ -411,9 +432,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         #endregion
 
         #region Controls
-        void HandleControls(XmlNode buttnode)
+        void HandleControls(XmlNode ctlnode)
         {
-            foreach (XmlNode xnode in buttnode.ChildNodes)
+            if (GetBoolParam(ctlnode, "HideAll", false))
+                HideAllControls();
+            foreach (XmlNode xnode in ctlnode.ChildNodes)
             {
                 switch (xnode.Name)
                 {
@@ -459,7 +482,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ctl.Width = GetIntParam(ctlnode, "w", ctl.Width);
             ctl.Height = GetIntParam(ctlnode, "h", ctl.Height);
             ctl.StyleName = GetStrParam(ctlnode, "style", ctl.StyleName);
-            ctl.GLVisible = GetBoolParam(ctlnode, "gl", false);
+            ControlStyle bstl = GetControlStyle(ctl.StyleName);
+            if (bstl != null)
+            {
+                ctl.GLVisible = bstl.glMode;
+            }
+            //ctl.GLVisible = GetBoolParam(ctlnode, "gl", false);
             if (ctl.GLVisible)
                 ctl.GLBackgroundImage = GetStrParam(ctlnode, "shape", ctl.GLBackgroundImage);
             else
@@ -541,7 +569,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             string imgname = GetStrParam(xnode, paramName, null);
             if (imgname == null)
                 return defVal;
-            Image img = (Image)Res.GetObject(imgname);
+            Image img = null;
+            if (Plugin != null)
+                img = Plugin.GetImage(imgname);
+            if (img == null)
+                img = (Image)Res.GetObject(imgname);
             if (img == null)
                 return defVal;
             return img;
@@ -562,6 +594,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ct.ForeColor = GetColorParam(xnode, "forecolor", ct.ForeColor);
             ct.BackColor = GetColorParam(xnode, "backcolor", ct.BackColor);
             ct.FrameColor = GetColorParam(xnode, "framecolor", ct.BackColor);
+            ct.glMode = GetBoolParam(xnode, "gl", ct.glMode);
         }
 
         #endregion
@@ -622,6 +655,24 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             BgndDecorList = new List<DecorItem>();
             FgndDecorList = new List<DecorItem>();
+        }
+
+        public void HideAllButtons()
+        {
+            foreach (KeyValuePair<String, ctlImageButton> pair in Buttons)
+            {
+                ctlImageButton butt = pair.Value;
+                butt.Visible = false;
+            }
+        }
+
+        void HideAllControls()
+        {
+            foreach (KeyValuePair<String, ctlUserPanel> pair in Controls)
+            {
+                ctlUserPanel ctl = pair.Value;
+                ctl.Visible = false;
+            }
         }
 
         #endregion

@@ -183,25 +183,32 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         void GLPaint1(C2DGraphics gr, ButtonStyle stl)
         {
-            switch (mCtlState)
+            if (Enabled == false)
             {
-                case CtlState.Hover:
-                    if (Checked)
-                        gr.SetColor(stl.CheckedColor);
-                    else
-                        gr.SetColor(stl.HoverColor);
-                    break;
+                gr.SetColor(stl.DisabledColor);
+            }
+            else
+            {
+                switch (mCtlState)
+                {
+                    case CtlState.Hover:
+                        if (Checked)
+                            gr.SetColor(stl.CheckedColor);
+                        else
+                            gr.SetColor(stl.HoverColor);
+                        break;
 
-                case CtlState.Normal:
-                    if (Checked)
-                        gr.SetColor(stl.CheckedColor);
-                    else
-                        gr.SetColor(stl.ForeColor);
-                    break;
+                    case CtlState.Normal:
+                        if (Checked)
+                            gr.SetColor(stl.CheckedColor);
+                        else
+                            gr.SetColor(stl.ForeColor);
+                        break;
 
-                case CtlState.Pressed:
-                    gr.SetColor(stl.PressedColor);
-                    break;
+                    case CtlState.Pressed:
+                        gr.SetColor(stl.PressedColor);
+                        break;
+                }
             }
 
             if (mCtlState == CtlState.Hover)

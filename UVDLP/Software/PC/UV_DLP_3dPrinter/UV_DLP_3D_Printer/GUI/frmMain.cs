@@ -973,8 +973,8 @@ namespace UV_DLP_3D_Printer
             }
             if (guiconf != null)
             {
-                gc.ClearLayout();
-                gc.LoadConfiguration(guiconf);
+                //gc.ClearLayout();
+                gc.LoadConfiguration(guiconf, plugin);
                 ctl3DView1.RearrangeGui();
             }
         }

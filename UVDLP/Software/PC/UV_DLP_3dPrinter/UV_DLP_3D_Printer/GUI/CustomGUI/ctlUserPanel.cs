@@ -73,9 +73,13 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public bool GLVisible
         {
             get { return mGLVisible; }
-            set { 
-                mGLVisible = value;
-                DoubleBuffered = !mGLVisible;
+            set {
+                if (mGLVisible != value)
+                {
+                    mGLVisible = value;
+                    DoubleBuffered = !mGLVisible;
+                    RecreateHandle();
+                }
             }
         }
 
