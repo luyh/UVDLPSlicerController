@@ -31,13 +31,10 @@
             this.components = new System.ComponentModel.Container();
             this.contextMenuObject = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmdRemoveObject = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuSupport = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cmdRemoveAllSupports = new System.Windows.Forms.ToolStripMenuItem();
             this.manipObject = new System.Windows.Forms.FlowLayoutPanel();
             this.lblTitle = new System.Windows.Forms.Label();
             this.treeScene = new System.Windows.Forms.TreeView();
             this.contextMenuObject.SuspendLayout();
-            this.contextMenuSupport.SuspendLayout();
             this.manipObject.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,7 +43,7 @@
             this.contextMenuObject.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cmdRemoveObject});
             this.contextMenuObject.Name = "contextMenuStrip1";
-            this.contextMenuObject.Size = new System.Drawing.Size(181, 28);
+            this.contextMenuObject.Size = new System.Drawing.Size(181, 50);
             // 
             // cmdRemoveObject
             // 
@@ -54,20 +51,6 @@
             this.cmdRemoveObject.Size = new System.Drawing.Size(180, 24);
             this.cmdRemoveObject.Text = "Remove Object";
             this.cmdRemoveObject.Click += new System.EventHandler(this.cmdRemoveObject_Click);
-            // 
-            // contextMenuSupport
-            // 
-            this.contextMenuSupport.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmdRemoveAllSupports});
-            this.contextMenuSupport.Name = "contextMenuStrip2";
-            this.contextMenuSupport.Size = new System.Drawing.Size(218, 28);
-            // 
-            // cmdRemoveAllSupports
-            // 
-            this.cmdRemoveAllSupports.Name = "cmdRemoveAllSupports";
-            this.cmdRemoveAllSupports.Size = new System.Drawing.Size(217, 24);
-            this.cmdRemoveAllSupports.Text = "Remove All Supports";
-            this.cmdRemoveAllSupports.Click += new System.EventHandler(this.cmdRemoveAllSupports_Click);
             // 
             // manipObject
             // 
@@ -111,7 +94,6 @@
             this.Name = "ctlScene";
             this.Size = new System.Drawing.Size(310, 321);
             this.contextMenuObject.ResumeLayout(false);
-            this.contextMenuSupport.ResumeLayout(false);
             this.manipObject.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -124,8 +106,6 @@
         private System.Windows.Forms.TreeView treeScene;
         private System.Windows.Forms.ContextMenuStrip contextMenuObject;
         private System.Windows.Forms.ToolStripMenuItem cmdRemoveObject;
-        private System.Windows.Forms.ContextMenuStrip contextMenuSupport;
-        private System.Windows.Forms.ToolStripMenuItem cmdRemoveAllSupports;
 
     }
 }

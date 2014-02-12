@@ -16,33 +16,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             InitializeComponent();
             UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEventDel);
-            UVDLPApp.Instance().m_supportgenerator.SupportEvent += new SupportGeneratorEvent(SupEvent);
             UpdateSceneTree();
         }
-        public void SupEvent(SupportEvent ev, string message, Object obj)
-        {
-            if (InvokeRequired)
-            {
-                BeginInvoke(new MethodInvoker(delegate() { SupEvent(ev, message, obj); }));
-            }
-            else
-            {
-                try
-                {
-                    switch (ev)
-                    {
-                        case SupportEvent.eCompleted:
-                            UpdateSceneTree();
-                            break;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    DebugLogger.Instance().LogError(ex.Message);
-                }
-            }
-        }
-
         private void AppEventDel(eAppEvent ev, String Message) 
         {
             if (InvokeRequired)
@@ -99,25 +74,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
             TreeNode scenenode = new TreeNode("Scene");
             treeScene.Nodes.Add(scenenode);
-            TreeNode support3d = new TreeNode("3d Supports");
-            treeScene.Nodes.Add(support3d);
             TreeNode selNode = null;
 
             foreach (Object3d obj in UVDLPApp.Instance().Engine3D.m_objects)
             {
-                if (obj.tag == Object3d.OBJ_SUPPORT)
-                {
-                    TreeNode objnode = new TreeNode(obj.Name);
-                    objnode.Tag = obj;
-                    support3d.Nodes.Add(objnode);
-                    if (obj == UVDLPApp.Instance().SelectedObject)  // expand this node
-                    {
-                        //objnode.BackColor = Color.LightBlue;
-                        //treeScene.SelectedNode = objnode;
-                        selNode = objnode;
-                    }
-                }
-                else
+                
+                if(obj.tag == Object3d.OBJ_NORMAL)
                 {
                     TreeNode objnode = new TreeNode(obj.Name);
                     objnode.Tag = obj;
@@ -173,17 +135,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
             if (e.Button == System.Windows.Forms.MouseButtons.Right)  // we right clicked a menu item, check and see if it has a tag
             {
-                if (e.Node.Text.Equals("3d Supports"))
+                
+                if (e.Node.Tag != null)
                 {
-                    contextMenuSupport.Show(treeScene, e.Node.Bounds.Left, e.Node.Bounds.Top);
+                    contextMenuObject.Show(treeScene, e.Node.Bounds.Left, e.Node.Bounds.Top);
                 }
-                else
-                {
-                    if (e.Node.Tag != null)
-                    {
-                        contextMenuObject.Show(treeScene, e.Node.Bounds.Left, e.Node.Bounds.Top);
-                    }
-                }
+                
             }
         }
             #endregion Scene tree
