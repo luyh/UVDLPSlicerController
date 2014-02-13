@@ -59,6 +59,11 @@ namespace UV_DLP_3D_Printer
             ShowLogPanel(true);
             #else
             ShowLogPanel(false);
+            findHolesInMeshToolStripMenuItem.Visible = false;
+            splashToolStripMenuItem.Visible = false;
+            pluginTesterToolStripMenuItem.Visible = false;
+            stalactite3DToolStripMenuItem.Visible = false;
+            testToolStripMenuItem.Visible = false;
             #endif
             splitContainerTop.Panel1Collapsed = true;
 
