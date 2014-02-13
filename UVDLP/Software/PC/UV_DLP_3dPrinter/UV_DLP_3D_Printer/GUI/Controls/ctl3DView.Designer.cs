@@ -161,13 +161,13 @@
             this.buttViewSlice.Location = new System.Drawing.Point(842, 15);
             this.buttViewSlice.Margin = new System.Windows.Forms.Padding(4, 4, 0, 4);
             this.buttViewSlice.Name = "buttViewSlice";
+            this.buttViewSlice.OnClickCallback = "ViewSliceWindow";
             this.buttViewSlice.Size = new System.Drawing.Size(48, 48);
             this.buttViewSlice.StyleName = null;
             this.buttViewSlice.TabIndex = 44;
             this.ctlToolTip1.SetToolTip(this.buttViewSlice, "Slice view");
             this.buttViewSlice.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
             this.buttViewSlice.Visible = false;
-            this.buttViewSlice.Click += new System.EventHandler(this.buttViewSlice_Click);
             // 
             // buttViewGcode
             // 
@@ -185,13 +185,13 @@
             this.buttViewGcode.Location = new System.Drawing.Point(900, 490);
             this.buttViewGcode.Margin = new System.Windows.Forms.Padding(4, 4, 0, 4);
             this.buttViewGcode.Name = "buttViewGcode";
+            this.buttViewGcode.OnClickCallback = "ViewGCodeWindow";
             this.buttViewGcode.Size = new System.Drawing.Size(48, 48);
             this.buttViewGcode.StyleName = null;
             this.buttViewGcode.TabIndex = 43;
             this.ctlToolTip1.SetToolTip(this.buttViewGcode, "G-code view");
             this.buttViewGcode.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
             this.buttViewGcode.Visible = false;
-            this.buttViewGcode.Click += new System.EventHandler(this.buttViewGcode_Click);
             // 
             // buttConfig
             // 
@@ -209,13 +209,13 @@
             this.buttConfig.Location = new System.Drawing.Point(900, 432);
             this.buttConfig.Margin = new System.Windows.Forms.Padding(4, 4, 10, 4);
             this.buttConfig.Name = "buttConfig";
+            this.buttConfig.OnClickCallback = "ConfigDialog";
             this.buttConfig.Size = new System.Drawing.Size(48, 48);
             this.buttConfig.StyleName = null;
             this.buttConfig.TabIndex = 42;
             this.ctlToolTip1.SetToolTip(this.buttConfig, "Configuration");
             this.buttConfig.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
             this.buttConfig.Visible = false;
-            this.buttConfig.Click += new System.EventHandler(this.buttConfig_Click);
             // 
             // buttSlice
             // 
@@ -233,13 +233,13 @@
             this.buttSlice.Location = new System.Drawing.Point(900, 376);
             this.buttSlice.Margin = new System.Windows.Forms.Padding(4, 4, 0, 4);
             this.buttSlice.Name = "buttSlice";
+            this.buttSlice.OnClickCallback = "SliceDialog";
             this.buttSlice.Size = new System.Drawing.Size(48, 48);
             this.buttSlice.StyleName = null;
             this.buttSlice.TabIndex = 41;
             this.ctlToolTip1.SetToolTip(this.buttSlice, "Slice!");
             this.buttSlice.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
             this.buttSlice.Visible = false;
-            this.buttSlice.Click += new System.EventHandler(this.buttSlice_Click);
             // 
             // buttDisconnect
             // 
@@ -257,13 +257,13 @@
             this.buttDisconnect.Location = new System.Drawing.Point(900, 320);
             this.buttDisconnect.Margin = new System.Windows.Forms.Padding(4, 4, 10, 4);
             this.buttDisconnect.Name = "buttDisconnect";
+            this.buttDisconnect.OnClickCallback = "DisconnectPrinter";
             this.buttDisconnect.Size = new System.Drawing.Size(48, 48);
             this.buttDisconnect.StyleName = null;
             this.buttDisconnect.TabIndex = 40;
             this.ctlToolTip1.SetToolTip(this.buttDisconnect, "Disconnect");
             this.buttDisconnect.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
             this.buttDisconnect.Visible = false;
-            this.buttDisconnect.Click += new System.EventHandler(this.buttDisconnect_Click);
             // 
             // buttConnect
             // 
@@ -281,13 +281,13 @@
             this.buttConnect.Location = new System.Drawing.Point(900, 255);
             this.buttConnect.Margin = new System.Windows.Forms.Padding(4, 4, 0, 4);
             this.buttConnect.Name = "buttConnect";
+            this.buttConnect.OnClickCallback = "ConnectPrinter";
             this.buttConnect.Size = new System.Drawing.Size(48, 48);
             this.buttConnect.StyleName = null;
             this.buttConnect.TabIndex = 39;
             this.ctlToolTip1.SetToolTip(this.buttConnect, "Connect");
             this.buttConnect.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
             this.buttConnect.Visible = false;
-            this.buttConnect.Click += new System.EventHandler(this.buttConnect_Click);
             // 
             // buttStop
             // 
@@ -305,13 +305,13 @@
             this.buttStop.Location = new System.Drawing.Point(900, 191);
             this.buttStop.Margin = new System.Windows.Forms.Padding(4, 4, 10, 4);
             this.buttStop.Name = "buttStop";
+            this.buttStop.OnClickCallback = "StopPrint";
             this.buttStop.Size = new System.Drawing.Size(48, 48);
             this.buttStop.StyleName = null;
             this.buttStop.TabIndex = 38;
             this.ctlToolTip1.SetToolTip(this.buttStop, "Stop build process");
             this.buttStop.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
             this.buttStop.Visible = false;
-            this.buttStop.Click += new System.EventHandler(this.buttStop_Click);
             // 
             // buttPause
             // 
@@ -329,13 +329,13 @@
             this.buttPause.Location = new System.Drawing.Point(900, 135);
             this.buttPause.Margin = new System.Windows.Forms.Padding(4, 4, 0, 4);
             this.buttPause.Name = "buttPause";
+            this.buttPause.OnClickCallback = "PausePrint";
             this.buttPause.Size = new System.Drawing.Size(48, 48);
             this.buttPause.StyleName = null;
             this.buttPause.TabIndex = 37;
             this.ctlToolTip1.SetToolTip(this.buttPause, "Pause build process");
             this.buttPause.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
             this.buttPause.Visible = false;
-            this.buttPause.Click += new System.EventHandler(this.buttPause_Click);
             // 
             // buttPlay
             // 
@@ -353,13 +353,13 @@
             this.buttPlay.Location = new System.Drawing.Point(900, 79);
             this.buttPlay.Margin = new System.Windows.Forms.Padding(4, 4, 0, 4);
             this.buttPlay.Name = "buttPlay";
+            this.buttPlay.OnClickCallback = "StartPrint";
             this.buttPlay.Size = new System.Drawing.Size(48, 48);
             this.buttPlay.StyleName = null;
             this.buttPlay.TabIndex = 36;
             this.ctlToolTip1.SetToolTip(this.buttPlay, "Build!");
             this.buttPlay.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
             this.buttPlay.Visible = false;
-            this.buttPlay.Click += new System.EventHandler(this.buttPlay_Click);
             // 
             // buttOpenFile
             // 
@@ -377,13 +377,13 @@
             this.buttOpenFile.Location = new System.Drawing.Point(900, 15);
             this.buttOpenFile.Margin = new System.Windows.Forms.Padding(4, 4, 10, 4);
             this.buttOpenFile.Name = "buttOpenFile";
+            this.buttOpenFile.OnClickCallback = "LoadModel";
             this.buttOpenFile.Size = new System.Drawing.Size(48, 48);
             this.buttOpenFile.StyleName = null;
             this.buttOpenFile.TabIndex = 35;
             this.ctlToolTip1.SetToolTip(this.buttOpenFile, "Load model");
             this.buttOpenFile.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
             this.buttOpenFile.Visible = false;
-            this.buttOpenFile.Click += new System.EventHandler(this.buttOpenFile_Click);
             // 
             // textProgress
             // 
@@ -448,6 +448,7 @@
             this.buttMeshTools.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMeshTools;
             this.buttMeshTools.Location = new System.Drawing.Point(10, 214);
             this.buttMeshTools.Name = "buttMeshTools";
+            this.buttMeshTools.OnClickCallback = null;
             this.buttMeshTools.Size = new System.Drawing.Size(48, 48);
             this.buttMeshTools.StyleName = null;
             this.buttMeshTools.TabIndex = 31;
@@ -470,6 +471,7 @@
             this.buttRedo.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttRedo;
             this.buttRedo.Location = new System.Drawing.Point(15, 133);
             this.buttRedo.Name = "buttRedo";
+            this.buttRedo.OnClickCallback = null;
             this.buttRedo.Size = new System.Drawing.Size(48, 48);
             this.buttRedo.StyleName = null;
             this.buttRedo.TabIndex = 30;
@@ -491,6 +493,7 @@
             this.buttUndo.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttUndo;
             this.buttUndo.Location = new System.Drawing.Point(15, 79);
             this.buttUndo.Name = "buttUndo";
+            this.buttUndo.OnClickCallback = null;
             this.buttUndo.Size = new System.Drawing.Size(48, 48);
             this.buttUndo.StyleName = null;
             this.buttUndo.TabIndex = 29;
@@ -561,6 +564,7 @@
             this.buttGlHome.Image = global::UV_DLP_3D_Printer.Properties.Resources.homeButt;
             this.buttGlHome.Location = new System.Drawing.Point(15, 15);
             this.buttGlHome.Name = "buttGlHome";
+            this.buttGlHome.OnClickCallback = null;
             this.buttGlHome.Size = new System.Drawing.Size(48, 48);
             this.buttGlHome.StyleName = null;
             this.buttGlHome.TabIndex = 16;
@@ -583,6 +587,7 @@
             this.buttView.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttView;
             this.buttView.Location = new System.Drawing.Point(10, 282);
             this.buttView.Name = "buttView";
+            this.buttView.OnClickCallback = null;
             this.buttView.Size = new System.Drawing.Size(48, 48);
             this.buttView.StyleName = null;
             this.buttView.TabIndex = 25;
@@ -624,6 +629,7 @@
             this.buttScale.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttScale;
             this.buttScale.Location = new System.Drawing.Point(10, 490);
             this.buttScale.Name = "buttScale";
+            this.buttScale.OnClickCallback = null;
             this.buttScale.Size = new System.Drawing.Size(48, 48);
             this.buttScale.StyleName = null;
             this.buttScale.TabIndex = 17;
@@ -646,6 +652,7 @@
             this.buttMove.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMove;
             this.buttMove.Location = new System.Drawing.Point(10, 390);
             this.buttMove.Name = "buttMove";
+            this.buttMove.OnClickCallback = null;
             this.buttMove.Size = new System.Drawing.Size(48, 48);
             this.buttMove.StyleName = null;
             this.buttMove.TabIndex = 19;
@@ -682,6 +689,7 @@
             this.buttSupports.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttSupport;
             this.buttSupports.Location = new System.Drawing.Point(10, 336);
             this.buttSupports.Name = "buttSupports";
+            this.buttSupports.OnClickCallback = null;
             this.buttSupports.Size = new System.Drawing.Size(48, 48);
             this.buttSupports.StyleName = null;
             this.buttSupports.TabIndex = 23;
@@ -718,6 +726,7 @@
             this.buttRotate.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttRotate;
             this.buttRotate.Location = new System.Drawing.Point(10, 440);
             this.buttRotate.Name = "buttRotate";
+            this.buttRotate.OnClickCallback = null;
             this.buttRotate.Size = new System.Drawing.Size(48, 48);
             this.buttRotate.StyleName = null;
             this.buttRotate.TabIndex = 18;

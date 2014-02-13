@@ -22,6 +22,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         String mGLImage;
         C2DImage mGLImageCach;
         ButtonStyle mButtStyle;
+        String mOnClickCallback = null;
 
 
         [Description("Image composesed of all 4 button states"), Category("Data")]
@@ -66,6 +67,14 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
         }
 
+        [DefaultValue(null)]
+        [Description("On Click callback command name"), Category("Data")]
+        public String OnClickCallback
+        {
+            get { return mOnClickCallback; }
+            set { mOnClickCallback = value; }
+        }
+        
         public ButtonStyle ButtStyle
         {
             get
@@ -156,7 +165,15 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         protected override void OnDoubleClick(EventArgs e)
         {
+            OnClick(e);
+        }
+
+        protected override void OnClick(EventArgs e)
+        {
             base.OnClick(e);
+            if (mOnClickCallback == null)
+                return;
+            UVDLPApp.Instance().m_callbackhandler.Activate(mOnClickCallback, this);
         }
 
         private void InitializeComponent()

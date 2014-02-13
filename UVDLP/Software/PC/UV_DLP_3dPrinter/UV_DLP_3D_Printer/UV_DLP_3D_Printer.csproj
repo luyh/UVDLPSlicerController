@@ -361,6 +361,7 @@
     <Compile Include="Slicing\SliceFile.cs" />
     <Compile Include="3DEngine\SupportGenerator.cs" />
     <Compile Include="Utility\Authentication.cs" />
+    <Compile Include="Utility\CallbackHandler.cs" />
     <Compile Include="Utility\DebugLogger.cs" />
     <Compile Include="GUI\frmDLP.cs">
       <SubType>Form</SubType>

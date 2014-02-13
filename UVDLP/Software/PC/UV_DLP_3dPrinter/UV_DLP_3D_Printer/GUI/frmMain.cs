@@ -54,7 +54,6 @@ namespace UV_DLP_3D_Printer
 
             ctl3DView1.SetMessagePanelHolder(splitContainerMainWindow);
             ctl3DView1.Enable3dView(true);
-            ctl3DView1.m_mainForm = this;
 
             #if (DEBUG)
             ShowLogPanel(true);
@@ -75,8 +74,27 @@ namespace UV_DLP_3D_Printer
 
             SetButtonStatuses();                        
             //PopulateBuildProfilesMenu();
+
+            RegisterCallbacks();
             
             Refresh();
+        }
+
+        protected void RegisterCallbacks()
+        {
+            CallbackHandler cb = UVDLPApp.Instance().m_callbackhandler;
+            cb.RegisterCallback("ViewSliceWindow", buttViewSlice_Click, null, "Show the slice view window");
+            cb.RegisterCallback("LoadModel", LoadSTLModel_Click, null, "Load 3D model from disk");
+            cb.RegisterCallback("StartPrint", cmdStartPrint_Click, null, "Begin printing scene");
+            cb.RegisterCallback("PausePrint", cmdPause_Click_1, null, "Pause printing");
+            cb.RegisterCallback("StopPrint", cmdStop_Click, null, "Stop printing process");
+            cb.RegisterCallback("ConnectPrinter", cmdConnect1_Click, null, "Connect to the printer");
+            cb.RegisterCallback("DisconnectPrinter", cmdDisconnect_Click, null, "Disconnect from the printer");
+            cb.RegisterCallback("SliceDialog", cmdSlice1_Click, null, "Open the slice dialog box");
+            cb.RegisterCallback("ConfigDialog", buttConfig_Click, null, "Open the system configuration form");
+            cb.RegisterCallback("ViewGCodeWindow", buttViewGcode_Click, null, "Show the GCode window");
+            //cb.RegisterCallback("", , null, "");
+           
         }
 
         public void ResetCameraView()
@@ -487,7 +505,7 @@ namespace UV_DLP_3D_Printer
         /*
          Load Stl
          */
-        public void LoadSTLModel_Click(object sender, EventArgs e)
+        public void LoadSTLModel_Click(object sender, object e)
         {
             openFileDialog1.FileName = "";
             openFileDialog1.Filter = "3D Model Files(*.stl;*.obj;*.3ds;*.amf)|*.stl;*.obj;*.3ds;*.amf|All files (*.*)|*.*";
@@ -574,7 +592,7 @@ namespace UV_DLP_3D_Printer
             Refresh();
         }*/
 
-        public void cmdStartPrint_Click(object sender, EventArgs e)
+        public void cmdStartPrint_Click(object sender, object e)
         {
             if (UVDLPApp.Instance().m_buildmgr.IsPaused())
             {
@@ -647,14 +665,14 @@ namespace UV_DLP_3D_Printer
             LoadSTLModel_Click(this, null);
         }
 
-        public void cmdStop_Click(object sender, EventArgs e)
+        public void cmdStop_Click(object sender, object e)
         {
             UVDLPApp.Instance().m_buildmgr.CancelPrint();
         }
 
         
 
-        public void cmdConnect1_Click(object sender, EventArgs e)
+        public void cmdConnect1_Click(object sender, object e)
         {
             try
             {
@@ -702,7 +720,7 @@ namespace UV_DLP_3D_Printer
             }
         }
 
-        public void cmdDisconnect_Click(object sender, EventArgs e)
+        public void cmdDisconnect_Click(object sender, object e)
         {
             if (UVDLPApp.Instance().m_deviceinterface.Connected) // disconnect
             {
@@ -718,7 +736,7 @@ namespace UV_DLP_3D_Printer
             }
         }
 
-        public void cmdSlice1_Click(object sender, EventArgs e)
+        public void cmdSlice1_Click(object sender, object e)
         {
             if (m_frmSlice.IsDisposed) 
             {
@@ -774,7 +792,7 @@ namespace UV_DLP_3D_Printer
         
         #endregion DLP screen controls
 
-        public void cmdPause_Click_1(object sender, EventArgs e)
+        public void cmdPause_Click_1(object sender, object e)
         {
             UVDLPApp.Instance().m_buildmgr.PausePrint();
         }
@@ -853,10 +871,7 @@ namespace UV_DLP_3D_Printer
         */
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form1 frm = new Form1();
-            frm.Set3DviewControl(ctl3DView1);
-            frm.TopMost = true;
-            frm.Show();
+            UVDLPApp.Instance().m_callbackhandler.DumpCommands("CWCommands.txt");
         }
 
         /*private void chkPreviewSlice_CheckedChanged(object sender, EventArgs e)
@@ -872,19 +887,19 @@ namespace UV_DLP_3D_Printer
             mh.ShowDialog();
         }
 
-        public void buttViewSlice_Click(object sender, EventArgs e)
+        public void buttViewSlice_Click(object sender, object e)
         {
             m_frmSliceView.Show();
             m_frmSliceView.BringToFront();
         }
 
-        public void buttViewGcode_Click(object sender, EventArgs e)
+        public void buttViewGcode_Click(object sender, object e)
         {
             m_frmGCode.Show();
             m_frmGCode.BringToFront();
         }
 
-        public void buttConfig_Click(object sender, EventArgs e)
+        public void buttConfig_Click(object sender, object e)
         {
             m_frmSettings.Show();
             m_frmSettings.BringToFront();
@@ -969,6 +984,18 @@ namespace UV_DLP_3D_Printer
                     case ePlItemType.eGuiConfig:
                         guiconf = plugin.GetString(pi.m_name);
                         break;
+
+                    case ePlItemType.eControl:
+                        UserControl ctl = plugin.GetControl(pi.m_name);
+                        if ((ctl.GetType() == typeof(ctlImageButton)) || ctl.GetType().IsSubclassOf(typeof(ctlImageButton)))
+                        {
+                            gc.AddButton(pi.m_name, (ctlImageButton)ctl);
+                        }
+                        else if (ctl.GetType().IsSubclassOf(typeof(ctlUserPanel)))
+                        {
+                            gc.AddControl(pi.m_name, (ctlUserPanel)ctl);
+                        }
+                        break;
                 }
             }
             if (guiconf != null)
@@ -977,6 +1004,11 @@ namespace UV_DLP_3D_Printer
                 gc.LoadConfiguration(guiconf, plugin);
                 ctl3DView1.RearrangeGui();
             }
+        }
+
+        private void buttViewSlice_Click(object sender, EventArgs e)
+        {
+
         }
 
     }

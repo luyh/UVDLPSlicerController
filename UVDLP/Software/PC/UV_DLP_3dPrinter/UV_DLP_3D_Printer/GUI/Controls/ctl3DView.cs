@@ -42,8 +42,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         int m_sliceViewW, m_sliceViewH;
         int m_sliceW, m_sliceH;
         bool ctrldown;// is the control key held down?
-        public frmMain m_mainForm = null;
-        //ctlImageButton imbtn;
+         //ctlImageButton imbtn;
         
 
         public delegate void On3dViewRedraw();
@@ -73,6 +72,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             gr2d = UVDLPApp.Instance().m_2d_graphics;
             ctlBgndList = new List<ctlBgnd>();
             guiconf = UVDLPApp.Instance().m_gui_config;
+            guiconf.TopLevelControl = mainViewSplitContainer.Panel2;
             UpdateButtonList();
             guiconf.LoadConfiguration(global::UV_DLP_3D_Printer.Properties.Resources.GuiConfig);
             RearrangeGui();
@@ -86,7 +86,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             ctlMeshTools1.c3d = this;
             ctlScene1.c3d = this;
 
-            /*imbtn = new ctlImageButton();
+            /*ctlImageButton imbtn = new ctlImageButton();
             imbtn.BackColor = System.Drawing.Color.Navy;
             imbtn.CheckImage = null;
             imbtn.Image = global::UV_DLP_3D_Printer.Properties.Resources.homeButt;
@@ -97,7 +97,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             imbtn.Visible = true;
 
 
-            Controls.Add(imbtn);*/
+            mainViewSplitContainer.Panel2.Controls.Add(imbtn);
+            imbtn.BringToFront();*/
             //buttGlHome.GLVisible = true;
             //buttGlHome.BackColor = Color.Transparent;
             //buttGlHome.FixStyle();
@@ -1090,55 +1091,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             }
         }
 
-        private void buttOpenFile_Click(object sender, EventArgs e)
-        {
-            m_mainForm.LoadSTLModel_Click(sender, e);
-        }
-
-        private void buttPlay_Click(object sender, EventArgs e)
-        {
-            m_mainForm.cmdStartPrint_Click(sender, e);
-        }
-
-        private void buttPause_Click(object sender, EventArgs e)
-        {
-            m_mainForm.cmdPause_Click_1(sender, e);
-        }
-
-        private void buttStop_Click(object sender, EventArgs e)
-        {
-            m_mainForm.cmdStop_Click(sender, e);
-        }
-
-        private void buttConnect_Click(object sender, EventArgs e)
-        {
-            m_mainForm.cmdConnect1_Click(sender, e);
-        }
-
-        private void buttDisconnect_Click(object sender, EventArgs e)
-        {
-            m_mainForm.cmdDisconnect_Click(sender, e);
-        }
-
-        private void buttSlice_Click(object sender, EventArgs e)
-        {
-            m_mainForm.cmdSlice1_Click(sender, e);
-        }
-
-        private void buttConfig_Click(object sender, EventArgs e)
-        {
-            m_mainForm.buttConfig_Click(sender, e);
-        }
-
-        private void buttViewSlice_Click(object sender, EventArgs e)
-        {
-            m_mainForm.buttViewSlice_Click(sender, e);
-        }
-
-        private void buttViewGcode_Click(object sender, EventArgs e)
-        {
-            m_mainForm.buttViewGcode_Click(sender, e);
-        }
 
        public void SetButtonStatus(bool stButtConnect, bool stButtDisconnect, bool stButtPlay, bool stButtStop, bool stButtPause)
        {

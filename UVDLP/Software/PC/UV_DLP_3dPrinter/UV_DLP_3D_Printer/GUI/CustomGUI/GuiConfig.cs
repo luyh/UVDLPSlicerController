@@ -171,6 +171,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         List<DecorItem> FgndDecorList;
         ResourceManager Res;
         IPlugin Plugin;
+        Control mTopLevelControl = null;
         public ButtonStyle DefaultButtonStyle;
         public ControlStyle DefaultControlStyle; 
 
@@ -194,14 +195,24 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ControlStyles[DefaultControlStyle.Name] = DefaultControlStyle;
         }
 
+        public Control TopLevelControl
+        {
+            get { return mTopLevelControl; }
+            set { mTopLevelControl = value; }
+        }
+
         public void AddControl(string name, ctlUserPanel ctl)
         {
             Controls[name] = ctl;
+            if ((ctl.Parent == null) && (mTopLevelControl != null))
+                mTopLevelControl.Controls.Add(ctl);
         }
 
         public void AddButton(string name, ctlImageButton ctl)
         {
             Buttons[name] = ctl;
+            if ((ctl.Parent == null) && (mTopLevelControl != null))
+                mTopLevelControl.Controls.Add(ctl);
         }
 
         public ButtonStyle GetButtonStyle(string name)
@@ -407,7 +418,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (name == null)
                 return;
             if (!Buttons.ContainsKey(name))
-                return;
+            {
+                // create a new empty button
+                AddButton(name, new ctlImageButton());
+                Buttons[name].BringToFront();
+            }
             ctlImageButton butt = Buttons[name];
             butt.Visible = true;
             butt.GuiAnchor = FixDockingVal(GetStrParam(buttnode, "dock", butt.GuiAnchor));
@@ -416,6 +431,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             butt.Width = GetIntParam(buttnode, "w", butt.Width);
             butt.Height = GetIntParam(buttnode, "h", butt.Height);
             butt.StyleName = GetStrParam(buttnode, "style", butt.StyleName);
+            butt.OnClickCallback = GetStrParam(buttnode, "click", butt.OnClickCallback);
             ButtonStyle bstl = GetButtonStyle(butt.StyleName);
             if (bstl != null)
             {

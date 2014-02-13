@@ -75,6 +75,9 @@ namespace UV_DLP_3D_Printer
         // the current building / slicing profile
         public SliceBuildConfig m_buildparms;
 
+        // handle program wide callbacks by name
+        public CallbackHandler m_callbackhandler;
+
         public SupportConfig m_supportconfig;
         public SupportGenerator m_supportgenerator;
         // the interface to the printer
@@ -109,6 +112,7 @@ namespace UV_DLP_3D_Printer
 
         private UVDLPApp() 
         {
+            m_callbackhandler = new CallbackHandler();
             m_appconfig = new AppConfig();
             m_printerinfo = new MachineConfig();
             m_buildparms = new SliceBuildConfig();
@@ -128,6 +132,7 @@ namespace UV_DLP_3D_Printer
             m_2d_graphics = new C2DGraphics();
             m_gui_config = new GuiConfig();
         }
+
         public enum Platform
         {
             Windows,

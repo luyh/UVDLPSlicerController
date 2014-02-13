@@ -25,7 +25,26 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             SetupForMachineType();
             UpdateProjConnected();
             UpdateProjectorCommands();
+            RegisterCallbacks();
         }
+
+        #region Callbacks
+        void RegisterCallbacks()
+        {
+            CallbackHandler cb = UVDLPApp.Instance().m_callbackhandler;
+            cb.RegisterCallback("MCCmdSetZDist", SetZdist, typeof(double), "Set distanse (zdist) in mm for manual up/down movement");
+            cb.RegisterCallback("MCCmdMoveUp", cmdUp_Click, null, "Move print head up zdist amount");
+            cb.RegisterCallback("MCCmdMoveDown", cmdDown_Click, null, "Move print head down zdist amount");
+            //cb.RegisterCallback("", , null, "");
+        }
+
+        void SetZdist(object sender, object vars)
+        {
+            double dist = (double)vars;
+            txtdist.Text = vars.ToString();
+        }
+
+        #endregion
 
         private void AppEventDel(eAppEvent ev, String Message)
         {
@@ -67,7 +86,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cmdUp_Click(object sender, EventArgs e)
+        private void cmdUp_Click(object sender, object e)
         {
             try
             {
@@ -85,7 +104,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cmdDown_Click(object sender, EventArgs e)
+        private void cmdDown_Click(object sender, object e)
         {
             try
             {
