@@ -943,13 +943,16 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             Bitmap bmp = null;
             bmp = UVDLPApp.Instance().m_slicefile.GetSliceImage(layer);
-            m_sliceW = bmp.Width;
-            m_sliceH = bmp.Height;
-            CalcSliceLocation();
+            if (bmp != null)
+            {
+                m_sliceW = bmp.Width;
+                m_sliceH = bmp.Height;
+                CalcSliceLocation();
 
-            if (m_sliceTex != -1)
-                gr2d.DeleteTexture(m_sliceTex);
-            m_sliceTex = gr2d.LoadTextureImage(bmp);
+                if (m_sliceTex != -1)
+                    gr2d.DeleteTexture(m_sliceTex);
+                m_sliceTex = gr2d.LoadTextureImage(bmp);
+            }
         }
 
         public void ViewLayer(int layer)
@@ -961,7 +964,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     if (UVDLPApp.Instance().m_slicefile != null) // check to make sure we have a slicefile
                     {
                         m_curslice = UVDLPApp.Instance().m_slicefile.GetSlice(layer);
-                        if (m_curslice != null)
+                        //if (m_curslice != null) // vector slice can be null if we're loading this from zip/subdir
                         {
                             //UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
                             LoadSlice(layer);

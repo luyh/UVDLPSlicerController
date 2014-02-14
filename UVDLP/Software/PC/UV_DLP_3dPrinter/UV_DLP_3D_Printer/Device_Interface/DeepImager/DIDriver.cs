@@ -30,6 +30,7 @@ namespace UV_DLP_3D_Printer.Drivers
             m_reqtimer = new Timer();
             m_reqtimer.Interval = s_interval;
             m_reqtimer.Elapsed += new ElapsedEventHandler(m_reqtimer_Elapsed);
+            UVDLPApp.Instance().m_deviceinterface.AlwaysReady = true; // don't looks for gcode responses, always assume we're ready for the next command.
         }
 
         /// <summary>
@@ -39,7 +40,46 @@ namespace UV_DLP_3D_Printer.Drivers
         {
             m_reqtimer.Start();
         }
+        /// <summary>
+        /// override the base class implementation of the connect
+        /// so we can start the timer
+        /// </summary>
+        /// <returns></returns>
+        public override bool Connect() 
+        {
+            bool ret = false;
+            try
+            {
+                ret = base.Connect();
+                StartRequestTimer();
+                return ret;
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogRecord(ex.Message);
+                return ret;                
+            }
+        }
+        /// <summary>
+        /// Override the base class implementation of the disconnect
+        /// in order to stop the request status timer
+        /// </summary>
+        /// <returns></returns>
+        public override bool Disconnect()
+        {
+            try
+            {
+                bool ret = base.Disconnect();
+                StopRequestTimer();
+                return ret;
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogRecord(ex.Message);
+                return false;
+            }
 
+        }
         void m_reqtimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             try
@@ -102,9 +142,11 @@ namespace UV_DLP_3D_Printer.Drivers
             {
                 int idx = 1;
                 string val = "";
-                while (line.Substring(idx, 1) != " ") 
+                string ss = line.Substring(idx, 1);
+                while (ss != " " && ss != "\r" && idx < line.Length) 
                 {
-                    val += line.Substring(idx, 1);
+                    ss = line.Substring(idx++, 1);
+                    val += ss;
                 }
                 int retval = int.Parse(val);
                 return retval;
@@ -115,7 +157,7 @@ namespace UV_DLP_3D_Printer.Drivers
             return -1;
         }
         
-        private double GetGCodeVal(string line, char var) 
+        private double GetGCodeValDouble(string line, char var) 
         {
             try
             {
@@ -123,6 +165,20 @@ namespace UV_DLP_3D_Printer.Drivers
                 // starting at the next position, start reading characters
                 // until a space occurs or we reach the end of the line
                 double val = 0;
+                int idx = line.IndexOf(var);
+                if (idx != -1)
+                {
+                    // found the character
+                    //look for the next space or end of line
+                    string sval = "";
+                    string ss = line.Substring(idx++, 1);
+                    while (ss != " " && ss != "\r" && idx < line.Length)
+                    {
+                        ss = line.Substring(idx++, 1);
+                        sval += ss;
+                    }
+                    val = double.Parse(sval.Trim());
+                }
                 return val;
             }
             catch (Exception ex) 
@@ -160,6 +216,7 @@ namespace UV_DLP_3D_Printer.Drivers
                 string ln = line.Trim(); // trim the line to remove any leading / trailing whitespace
                 ln = ln.ToUpper(); // convert to all upper case for easier processing
                 int code = -1;
+                byte[] cmd;
                 if (ln.StartsWith("G"))
                 {
                     code = GetGMCode(line);
@@ -170,9 +227,9 @@ namespace UV_DLP_3D_Printer.Drivers
                             break;
                         case 1: // G1 movement command - 
                             //on this printer, this is used for decrementing the position during build
-                            byte[] cmd = GenerateCommand(); // generate the command
+                            cmd = GenerateCommand(); // generate the command
                             cmd[1] = (byte)'Z'; // indicate a Z Movement command
-                            double zval = GetGCodeVal(line, 'Z');
+                            double zval = GetGCodeValDouble(line, 'Z');
                             byte steps = CalcZSteps(zval); // this is in .005 thousandths of an inch per step
                             cmd[2] = steps; // number of steps
                             cmd[3] = 0; // no fill for now
@@ -183,6 +240,11 @@ namespace UV_DLP_3D_Printer.Drivers
                             retval = Write(cmd, 8); // send the command
                             break;
                         case 28: // G28 Homing command
+                            cmd = GenerateCommand(); // generate the command
+                            cmd[1] = (byte)'S'; // indicate a System command
+                            cmd[2] = (byte)'H'; // Homing command
+                            Checksum(ref cmd); // add the checksum
+                            retval = Write(cmd, 8); // send the command
                             break;
                     }
                 }
@@ -194,6 +256,23 @@ namespace UV_DLP_3D_Printer.Drivers
                         case -1:// error getting g/mcode
                             DebugLogger.Instance().LogError("Error getting G/M code: " + line);
                             break;
+                        case 600: // M600 is begin print
+                            // get the offset from the line
+                            cmd = GenerateCommand(); // generate the command
+                            cmd[1] = (byte)'S'; // indicate a System command
+                            cmd[2] = (byte)'P'; // indicate a print command
+                            cmd[3] = 10; // print offset in steps - hardcoded for now.
+                            Checksum(ref cmd); // add the checksum
+                            retval = Write(cmd, 8); // send the command
+                            break;
+                        case 601: // M601 is Standby mode
+                            cmd = GenerateCommand(); // generate the command
+                            cmd[1] = (byte)'S'; // indicate a System command
+                            cmd[2] = (byte)'S'; // indicate a print command
+                            Checksum(ref cmd); // add the checksum
+                            retval = Write(cmd, 8); // send the command
+                            break;
+
                     }
                 }
                 return retval;

@@ -30,12 +30,19 @@ namespace UV_DLP_3D_Printer
 
         void m_tmr_Tick(object sender, EventArgs e)
         {
-            if (Visible == false)
-                return;
-            Screen oldscr = m_dlpscreen;
-            m_dlpscreen = GetDLPScreen(false);
-            if (m_dlpscreen != oldscr)
-                ShowDLPScreen(false);
+            try
+            {
+                if (Visible == false)
+                    return;
+                Screen oldscr = m_dlpscreen;
+                m_dlpscreen = GetDLPScreen(false);
+                if (m_dlpscreen != oldscr)
+                    ShowDLPScreen(false);
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
         }
 
 
@@ -44,7 +51,14 @@ namespace UV_DLP_3D_Printer
          */
         public void ShowImage(Image i) 
         {
-            picDLP.Image = i;
+            try
+            {
+                picDLP.Image = i;
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
         }
  
         private string CleanMonitorString(string str)
@@ -159,14 +173,21 @@ namespace UV_DLP_3D_Printer
 
         protected override void WndProc(ref Message m)
         {
-            if (m.Msg == 0x0112) // WM_SYSCOMMAND
+            try
             {
-                if (m.WParam == new IntPtr(0xF030)) // Maximize event - SC_MAXIMIZE from Winuser.h
+                if (m.Msg == 0x0112) // WM_SYSCOMMAND
                 {
-                    FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;                   
+                    if (m.WParam == new IntPtr(0xF030)) // Maximize event - SC_MAXIMIZE from Winuser.h
+                    {
+                        FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+                    }
                 }
+                base.WndProc(ref m);
             }
-            base.WndProc(ref m);
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
         }
     }
 }

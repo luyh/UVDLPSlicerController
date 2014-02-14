@@ -478,7 +478,7 @@ namespace UV_DLP_3D_Printer
                     path = SliceFile.GetSliceFilePath(m_slicefile.modelname);
                     fileName = Path.GetFileNameWithoutExtension(m_slicefile.modelname) + ".gcode";
                     //see if we're exporting this to a zip file 
-                    if (sf.m_config.m_exportopt.Contains("ZIP"))
+                    if (sf.m_config.m_exportopt.Contains("ZIP") && sf.m_config.export)
                     {
                         // open the existing zip file
                         //store the gcode
