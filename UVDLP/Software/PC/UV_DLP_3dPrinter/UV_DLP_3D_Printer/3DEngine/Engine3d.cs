@@ -214,7 +214,10 @@ namespace Engine3D
                     }
                 }
             }
-            catch (Exception) { }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
         }
 
         public void RenderGL()

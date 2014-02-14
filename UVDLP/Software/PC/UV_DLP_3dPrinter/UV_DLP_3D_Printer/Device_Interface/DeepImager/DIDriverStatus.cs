@@ -26,6 +26,68 @@ namespace UV_DLP_3D_Printer.Device_Interface.DeepImager
         public byte Resolution; // x/y resolution
 
         public int ZPosSteps;  // 24 bytes
+
+        public byte Printer_Status;
+        public static byte Status_Door_Open = 0x01;
+        public static byte Status_Proj_on   = 0x02;
+        public static byte Status_Pump_on_fill = 0x04;
+        public static byte Status_Pump_on_drain = 0x08;
+        public static byte Status_Build_ready = 0x20; // (New slice may be projected)
+        public static byte Status_Cal_Done = 0x40;
+        public static byte Status_Cal_Active = 0x80;
+       
+        public static byte Home_Status_Proj_throw_Home = 0x01;
+        public static byte Home_Status_Proj_x_home = 0x02;
+        public static byte Home_Status_Proj_y_home = 0x04;
+        public static byte Home_Status_Proj_z_home = 0x08;
+        public static byte Home_Status_Proj_focus_home = 0x10; // (New slice may be projected)
+        public static byte Home_Status_Build_home = 0x40;
+        public static byte Home_Status_Build_home_limit = 0x80;
+
+        public byte Home_Status; 
+        public byte Firmware_version;
+        public byte Limit_Status;
+        public byte Scan_Status;
+        public byte Error_Code;
+        public byte Halt;
+        public string ErrorCode() 
+        {
+            switch(Error_Code)
+            {
+                case 0   : return "OK";
+                case 1   : return "Framing Error";
+                case 2   : return "Buff Ovfl";
+                case 3   : return "Type";
+                case 4   : return "Function Code";
+                case 5   : return "Command Code";
+                case 6   : return "Xsum";
+                case 7   : return "Message not permitted in Current Mode";
+                case 8   : return "Comm Error";
+                case 9   : return "+12v Fault";
+                case 10 : return "Build Stepper Fault";
+                case 11 : return "Proj Throw Stepper Fault ";
+                case 12 : return "Proj X Stepper Fault";
+                case 13 : return "Proj Y Stepper Fault";
+                case 14 : return "Proj Z Stepper Fault";
+                case 15 : return "Proj Focus Stepper Fault";
+                case 16 : return "Spare Stepper Fault";
+                case 17 : return "Build Stepper at limit (unexpected)";
+                case 18 : return "Proj Throw Stepper at limit (unexpected)";
+                case 19 : return "Proj X Stepper at limit (unexpected)";
+                case 20 : return "Proj Y Stepper at limit (unexpected)";
+                case 21 : return "Proj Z Stepper at limit (unexpected)";
+                case 22 : return "Proj Focus Stepper at limit (unexpected)";
+                case 23 : return "Spare Stepper at limit (unexpected)";
+                case 24 : return "Fill Pump motor over-current";
+                case 25 : return "Drain Pump motor over-current";
+                case 26 : return "Tilt motor over-current";
+                case 27: return "Scan motor over-current";
+                case 28 : return "Build Home Not Valid";
+                case 29 : return "Build Home cannot be 0";		  		  
+            }
+            return "Unknown";
+        }
+
         public DIDriverStatus(byte[] data) 
         {
             // parse the response
@@ -42,6 +104,13 @@ namespace UV_DLP_3D_Printer.Device_Interface.DeepImager
             ZPosSteps |= tmp;
 
             Resolution = data[5];
+            Printer_Status = data[6];
+            Home_Status = data[7];
+            Limit_Status = data[8];
+            Scan_Status = data[9];
+            Halt = (byte)(data[10] & (byte)0x80); // top bit
+            Error_Code = (byte)(data[10] & (byte)0x7F); // lower 7 bits
+            Firmware_version = data[11];
         }
     }
 
