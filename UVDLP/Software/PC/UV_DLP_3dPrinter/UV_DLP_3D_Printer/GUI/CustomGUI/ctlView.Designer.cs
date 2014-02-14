@@ -78,6 +78,9 @@
             this.buttEnableTransparency.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
             this.buttEnableTransparency.Gapx = 5;
             this.buttEnableTransparency.Gapy = 5;
+            this.buttEnableTransparency.GLBackgroundImage = null;
+            this.buttEnableTransparency.GLImage = null;
+            this.buttEnableTransparency.GLVisible = false;
             this.buttEnableTransparency.GuiAnchor = null;
             this.buttEnableTransparency.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttEnableTransparency.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttTransparent;
@@ -85,6 +88,7 @@
             this.buttEnableTransparency.Margin = new System.Windows.Forms.Padding(5);
             this.buttEnableTransparency.Name = "buttEnableTransparency";
             this.buttEnableTransparency.Size = new System.Drawing.Size(48, 48);
+            this.buttEnableTransparency.StyleName = null;
             this.buttEnableTransparency.TabIndex = 23;
             this.ctlToolTip1.SetToolTip(this.buttEnableTransparency, "Make objects 50%\r\ntransparent");
             this.buttEnableTransparency.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -97,6 +101,9 @@
             this.buttShowSlice.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
             this.buttShowSlice.Gapx = 5;
             this.buttShowSlice.Gapy = 5;
+            this.buttShowSlice.GLBackgroundImage = null;
+            this.buttShowSlice.GLImage = null;
+            this.buttShowSlice.GLVisible = false;
             this.buttShowSlice.GuiAnchor = null;
             this.buttShowSlice.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttShowSlice.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttShowslice;
@@ -104,6 +111,7 @@
             this.buttShowSlice.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
             this.buttShowSlice.Name = "buttShowSlice";
             this.buttShowSlice.Size = new System.Drawing.Size(48, 48);
+            this.buttShowSlice.StyleName = null;
             this.buttShowSlice.TabIndex = 24;
             this.ctlToolTip1.SetToolTip(this.buttShowSlice, "Show slice preview \r\non scene");
             this.buttShowSlice.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -116,6 +124,9 @@
             this.buttBoundingBox.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
             this.buttBoundingBox.Gapx = 5;
             this.buttBoundingBox.Gapy = 5;
+            this.buttBoundingBox.GLBackgroundImage = null;
+            this.buttBoundingBox.GLImage = null;
+            this.buttBoundingBox.GLVisible = false;
             this.buttBoundingBox.GuiAnchor = null;
             this.buttBoundingBox.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttBoundingBox.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttBoundingBox;
@@ -123,6 +134,7 @@
             this.buttBoundingBox.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
             this.buttBoundingBox.Name = "buttBoundingBox";
             this.buttBoundingBox.Size = new System.Drawing.Size(48, 48);
+            this.buttBoundingBox.StyleName = null;
             this.buttBoundingBox.TabIndex = 25;
             this.ctlToolTip1.SetToolTip(this.buttBoundingBox, "Show bounding box\r\naround selected objects");
             this.buttBoundingBox.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -147,6 +159,9 @@
             this.buttObjectProperties.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
             this.buttObjectProperties.Gapx = 5;
             this.buttObjectProperties.Gapy = 5;
+            this.buttObjectProperties.GLBackgroundImage = null;
+            this.buttObjectProperties.GLImage = null;
+            this.buttObjectProperties.GLVisible = false;
             this.buttObjectProperties.GuiAnchor = null;
             this.buttObjectProperties.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttObjectProperties.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttOinfo;
@@ -154,6 +169,7 @@
             this.buttObjectProperties.Margin = new System.Windows.Forms.Padding(5);
             this.buttObjectProperties.Name = "buttObjectProperties";
             this.buttObjectProperties.Size = new System.Drawing.Size(48, 48);
+            this.buttObjectProperties.StyleName = null;
             this.buttObjectProperties.TabIndex = 23;
             this.ctlToolTip1.SetToolTip(this.buttObjectProperties, "Show object \r\nproperties panel");
             this.buttObjectProperties.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -166,6 +182,9 @@
             this.buttTreeView.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
             this.buttTreeView.Gapx = 5;
             this.buttTreeView.Gapy = 5;
+            this.buttTreeView.GLBackgroundImage = null;
+            this.buttTreeView.GLImage = null;
+            this.buttTreeView.GLVisible = false;
             this.buttTreeView.GuiAnchor = null;
             this.buttTreeView.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttTreeView.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttTreeview;
@@ -173,6 +192,7 @@
             this.buttTreeView.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
             this.buttTreeView.Name = "buttTreeView";
             this.buttTreeView.Size = new System.Drawing.Size(48, 48);
+            this.buttTreeView.StyleName = null;
             this.buttTreeView.TabIndex = 24;
             this.ctlToolTip1.SetToolTip(this.buttTreeView, "Show list of objects");
             this.buttTreeView.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -185,6 +205,9 @@
             this.buttShowConsole.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
             this.buttShowConsole.Gapx = 5;
             this.buttShowConsole.Gapy = 5;
+            this.buttShowConsole.GLBackgroundImage = null;
+            this.buttShowConsole.GLImage = null;
+            this.buttShowConsole.GLVisible = false;
             this.buttShowConsole.GuiAnchor = null;
             this.buttShowConsole.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttShowConsole.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttConsole;
@@ -192,6 +215,7 @@
             this.buttShowConsole.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
             this.buttShowConsole.Name = "buttShowConsole";
             this.buttShowConsole.Size = new System.Drawing.Size(48, 48);
+            this.buttShowConsole.StyleName = null;
             this.buttShowConsole.TabIndex = 25;
             this.ctlToolTip1.SetToolTip(this.buttShowConsole, "Show Console");
             this.buttShowConsole.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -214,6 +238,9 @@
             this.buttSliceView.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
             this.buttSliceView.Gapx = 5;
             this.buttSliceView.Gapy = 5;
+            this.buttSliceView.GLBackgroundImage = null;
+            this.buttSliceView.GLImage = null;
+            this.buttSliceView.GLVisible = false;
             this.buttSliceView.GuiAnchor = null;
             this.buttSliceView.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttSliceView.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttViewSlice;
@@ -221,8 +248,9 @@
             this.buttSliceView.Margin = new System.Windows.Forms.Padding(5);
             this.buttSliceView.Name = "buttSliceView";
             this.buttSliceView.Size = new System.Drawing.Size(48, 48);
+            this.buttSliceView.StyleName = null;
             this.buttSliceView.TabIndex = 23;
-            this.ctlToolTip1.SetToolTip(this.buttSliceView, "Show object \r\nproperties panel");
+            this.ctlToolTip1.SetToolTip(this.buttSliceView, "View slice images on screen");
             this.buttSliceView.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttSliceView.Click += new System.EventHandler(this.buttSliceView_Click);
             // 

@@ -30,7 +30,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 UVDLPApp.Instance().m_undoer.SaveScale(UVDLPApp.Instance().SelectedObject, x, y, z);
                 UVDLPApp.Instance().SelectedObject.Update(); // make sure we update
                 //ShowObjectInfo();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eUpdateSelectedObject, "updateobject");
 
             }
             catch (Exception)

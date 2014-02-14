@@ -130,7 +130,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 UVDLPApp.Instance().SelectedObject = (Object3d)e.Node.Tag;
                 // objectInfoPanel.FillObjectInfo(UVDLPApp.Instance().SelectedObject);
                 SetupSceneTree();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eUpdateSelectedObject, "updateobject");
             }
 
             if (e.Button == System.Windows.Forms.MouseButtons.Right)  // we right clicked a menu item, check and see if it has a tag

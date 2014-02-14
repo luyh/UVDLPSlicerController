@@ -32,7 +32,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 UVDLPApp.Instance().m_undoer.SaveTranslation(UVDLPApp.Instance().SelectedObject, x, y, z);
                 UVDLPApp.Instance().SelectedObject.Update(); // make sure we update
                 //ShowObjectInfo();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eUpdateSelectedObject, "updateobject");
             }
             catch (Exception ex)
             {
@@ -77,7 +77,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             UVDLPApp.Instance().SelectedObject.Translate((float)-center.x, (float)-center.y, (float)-center.z);
             UVDLPApp.Instance().m_undoer.SaveTranslation(UVDLPApp.Instance().SelectedObject, (float)-center.x, (float)-center.y, (float)-center.z);
             UVDLPApp.Instance().SelectedObject.Update(); // make sure we update
-            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
+            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eUpdateSelectedObject, "updateobject");
         }
 
         private void buttOnPlatform_Click(object sender, EventArgs e)
@@ -94,7 +94,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             UVDLPApp.Instance().SelectedObject.Translate(0, 0, zmove);
             UVDLPApp.Instance().m_undoer.SaveTranslation(UVDLPApp.Instance().SelectedObject, 0, 0, zmove);
             UVDLPApp.Instance().SelectedObject.Update(); // make sure we update
-            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
+            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eUpdateSelectedObject, "updateobject");
         }
 
         public override void ApplyStyle(ControlStyle ct)

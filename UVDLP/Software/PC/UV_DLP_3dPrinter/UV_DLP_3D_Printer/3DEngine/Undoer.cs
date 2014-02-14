@@ -131,7 +131,7 @@ namespace Engine3D
                 if (item.linkedToPrev == false)
                     break;
             }
-            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
+            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eUpdateSelectedObject, "updateobject");
             UpdateButtons();
         }
 
@@ -169,7 +169,7 @@ namespace Engine3D
                     && (m_undoItemList[m_undopointer].linkedToPrev == false))
                     break;
             }
-            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
+            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eUpdateSelectedObject, "updateobject");
             UpdateButtons();
         }
 

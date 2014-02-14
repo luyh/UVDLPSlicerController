@@ -1029,7 +1029,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                     break;
             }
             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eModelAdded, "");
-            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
+            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eUpdateSelectedObject, "updateobject");
 
         }
 

@@ -70,7 +70,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ys = obj.m_max.y - obj.m_min.y;
             zs = obj.m_max.z - obj.m_min.z;
             tSize.DataText = String.Format("{0:0.00}, {1:0.00}, {2:0.00}", xs, ys, zs);
-            double vol = obj.CalculateVolume();           
+            double vol = obj.Volume;           
             vol /= 1000.0; // convert to cm^3
             tVolume.DataText = string.Format("{0:0.000} cm^3", vol);
             double cost = vol * (UVDLPApp.Instance().m_buildparms.m_resinprice / 1000.0);

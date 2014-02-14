@@ -35,7 +35,18 @@ namespace Engine3D
         public static int OBJ_GROUND = 2; // ground plane usewd for hit-testing
         public bool m_inSelectedList = false;
         private int m_listid; // gl call list id 
+        private double m_volume = -1;
 
+
+        public double Volume
+        {
+            get
+            {
+                if (m_volume < 0)
+                    m_volume = CalculateVolume();
+                return m_volume;
+            }
+        }
 
         public Object3d() 
         {
@@ -60,6 +71,7 @@ namespace Engine3D
             material = new Material();
             tag = Object3d.OBJ_NORMAL;
             m_listid = -1;
+            m_volume = -1;
         }
         public string Name 
         { 
@@ -120,6 +132,7 @@ namespace Engine3D
                 p.z *= sfz;
             }
             Translate((float)center.x, (float)center.y, 0);
+            m_volume = -1;
         }
         public void Scale(float sf) 
         {
