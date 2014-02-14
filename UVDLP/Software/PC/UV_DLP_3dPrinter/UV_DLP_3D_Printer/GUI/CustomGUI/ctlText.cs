@@ -26,7 +26,10 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public override String Text
         {
             get { return base.Text; }
-            set { base.Text = value; Invalidate(); }
+            set {
+                base.Text = value; 
+                //Invalidate(); 
+            }
         }
 
         [DefaultValue("")]

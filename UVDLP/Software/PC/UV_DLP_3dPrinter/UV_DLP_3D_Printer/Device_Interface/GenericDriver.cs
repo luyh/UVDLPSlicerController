@@ -10,7 +10,7 @@ namespace UV_DLP_3D_Printer.Drivers
         public GenericDriver() 
         {
             m_drivertype = eDriverType.eGENERIC;
-            
+            UVDLPApp.Instance().m_deviceinterface.AlwaysReady = false;
         }
        
         public override bool Connect() 

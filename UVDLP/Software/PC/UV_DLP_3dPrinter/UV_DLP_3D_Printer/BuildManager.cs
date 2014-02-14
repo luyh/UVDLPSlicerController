@@ -289,7 +289,7 @@ namespace UV_DLP_3D_Printer
             {
                 try
                 {
-                    Thread.Sleep(0); // moved this sleep here for if the 
+                    Thread.Sleep(0); // sleep for 1/10 of a second to yield for rest of application
                     switch (m_state)
                     {
                         case BuildManager.STATE_START:

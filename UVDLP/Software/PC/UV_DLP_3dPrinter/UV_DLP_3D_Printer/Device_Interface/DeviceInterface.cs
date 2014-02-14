@@ -73,6 +73,10 @@ namespace UV_DLP_3D_Printer
         private DeviceDriver m_projector; // secondary interface
 
         private bool m_ready; // ready to send a command
+        // this is an override for the ready, some drivers like the EliteImageWorks,
+        //don't have GCode responses, so we shoudn't wait for an "OK"
+        private bool m_alwaysready;
+
         private byte[] m_databufA;
         private byte[] m_databufB;
         private const int BUFF_SIZE = 4096;
@@ -85,6 +89,13 @@ namespace UV_DLP_3D_Printer
             m_ready = true;
             m_databufA = null;// new byte[BUFF_SIZE];
             m_databufB = null;// new byte[BUFF_SIZE];
+            m_alwaysready = false; // assume it's a generic driver that requires gcode response to be ready
+        }
+
+        public bool AlwaysReady 
+        {
+            get { return m_alwaysready; }
+            set { m_alwaysready = value; }
         }
 
         // get and set the printdriver
@@ -182,13 +193,13 @@ namespace UV_DLP_3D_Printer
                     {
                         DataEvent(device, data, length);
                     }
-                    /*
-                    //raise a data event notifying that we're ready for the next command
-                    if (StatusEvent != null)
+
+                    if (m_alwaysready) 
                     {
-                        StatusEvent(ePIStatus.eReady, "Ready");
+                        // don't go any further to parse responses and generate line data events
+                        // alwaysready is true for EliteImageWorks driver
+                        return; 
                     }
-                    */
                     // copy the data into the A buffer
                     int termpos = -1;
                     // copy the data into the 'A' buffer
@@ -271,14 +282,7 @@ namespace UV_DLP_3D_Printer
                 //DebugLogger.Instance().LogRecord("DM_Utils:CopyData: Error copying byte data " + e.Message);
             }
         }
-        /*
-        //Sends the GCode command for recieving current position
-        public void SendGetPosition() 
-        {
-            String command = "M114\r\n";
-            SendCommandToDevice(command);
-        }
-        */
+
         public bool Connected { get { return m_driver.Connected; } }
         public bool ConnectedProjector { get { return m_projector.Connected; } }
 
@@ -379,7 +383,14 @@ namespace UV_DLP_3D_Printer
                     // this could be the source of the lock
                     if (m_driver.Write(command) > 0)
                     {
-                        m_ready = false;
+                        if (AlwaysReady) // relys more on timing
+                        {
+                            m_ready = true; 
+                        }
+                        else 
+                        {
+                            m_ready = false;
+                        }
                         return true;
                     }
                     return false;
