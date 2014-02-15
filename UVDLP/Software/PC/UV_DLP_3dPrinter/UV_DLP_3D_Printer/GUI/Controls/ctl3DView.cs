@@ -25,7 +25,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         Timer m_modelAnimTmr;
         GLCamera m_camera;
         bool loaded = false;
-        float m_ix = 0.0f, m_iy = 0.0f, m_iz = 2.0f;
+        float m_ix = 1.0f, m_iy = 1.0f, m_iz = 2.0f;
         Engine3D.Vector3d m_isectnormal; // the normal at the intersection
         Slice m_curslice = null; // for previewing only
         private bool lmdown, rmdown, mmdown;
