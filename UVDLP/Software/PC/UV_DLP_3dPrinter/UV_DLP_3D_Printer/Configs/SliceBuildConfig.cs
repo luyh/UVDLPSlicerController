@@ -341,7 +341,7 @@ namespace UV_DLP_3D_Printer
             try
             {
                 xh.Save(FILE_VERSION);
-                SaveGCodes();
+                //SaveGCodes();
             }
             catch (Exception ex)
             {

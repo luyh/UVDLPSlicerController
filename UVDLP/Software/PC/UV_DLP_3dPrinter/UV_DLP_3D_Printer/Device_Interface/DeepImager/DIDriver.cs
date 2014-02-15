@@ -272,6 +272,17 @@ namespace UV_DLP_3D_Printer.Drivers
                             Checksum(ref cmd); // add the checksum
                             retval = Write(cmd, 8); // send the command
                             break;
+                        case 602: // raw passthrough, we can use this for initializing the display resolution & testing - assumes checksum is correct
+                            //get from position 5 to EOL
+                            string ptcmd = line.Substring(5);
+                            ptcmd = ptcmd.Trim();
+                            //remove any spaces
+                            ptcmd = ptcmd.Replace(" ", string.Empty);                            
+                            //convert from hex string to byte array
+                            byte []ptraw = Utility.HexStringToByteArray(ptcmd);
+                            //write that byte array directly
+                            retval = Write(ptraw, ptraw.Length);
+                            break;
 
                     }
                 }

@@ -290,6 +290,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         }
 
         // draw the intersection of the current mouse point into the scene
+        /*
         private void DrawISect()
         {
             // draw some lines
@@ -329,7 +330,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
             GL.LineWidth(1);
         }
-
+        */
         void DrawBackground()
         {
             /*int w = glControl1.Width;
@@ -403,7 +404,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             DrawBackground();
  
             UVDLPApp.Instance().Engine3D.RenderGL();
-            DrawISect();
+            //DrawISect();
             Render3dSlice();
             //GL.Flush();
             DrawForeground();
@@ -652,7 +653,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         private void glControl1_MouseMove(object sender, MouseEventArgs e)
         {
-            List<ISectData> hits = TestHitTest(e.X, e.Y);
+            
             double dx = 0, dy = 0;
             if (lmdown || rmdown || mmdown)
             {
@@ -683,6 +684,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 if (m_movingobjectmode) // if we're moving an object
                 {
+                    List<ISectData> hits = TestHitTest(e.X, e.Y); // really only need to hit-test ground
                     // examine the last isect data
                     foreach (ISectData dat in hits)
                     {
@@ -722,19 +724,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                             }
                         }
                     }
-                }
-                else 
-                {
-                    // not moving object mode
-                    // just regular intersecting an object
-                    foreach (ISectData dat in hits)
-                    {
-                        if (dat.obj.tag == Object3d.OBJ_NORMAL) 
-                        {
-                        
-                        }
-                    }                
-                }
+                }                
             }
             UpdateView();
         }
