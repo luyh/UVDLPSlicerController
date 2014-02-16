@@ -986,7 +986,7 @@ namespace UV_DLP_3D_Printer
                 switch (pi.m_type)
                 {
                     case ePlItemType.eTexture:
-                        gr2d.LoadTexture(plugin.GetImage(pi.m_name), plugin.GetString(pi.m_name + "_index"));
+                        gr2d.LoadTexture(plugin.GetString(pi.m_name + "_index"), plugin);
                         break;
 
                     case ePlItemType.eGuiConfig:

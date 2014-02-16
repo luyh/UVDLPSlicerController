@@ -129,6 +129,33 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             base.OnPaintBackground(e);
         }
 
+        void OnPaint4(Graphics gr, Image img)
+        {
+            int index = (int)mCtlState;
+            if (Enabled == false)
+                index = 3;
+            gr.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            mSrcrc.X = mSubImgWidth * index;
+            gr.DrawImage(img, mDstrc, mSrcrc, GraphicsUnit.Pixel);
+        }
+
+        void OnPaint1(Graphics gr, Image inimg)
+        {
+            Image img = C2DGraphics.ColorizeBitmap((Bitmap)inimg, GetPaintColor(ButtStyle));
+            //Rectangle srcrc = new Rectangle(0, 0, img.Width, img.Height);
+            if (mCtlState == CtlState.Hover)
+            {
+                float scx = mDstrc.Width / 16f;
+                float scy = mDstrc.Height / 16f;
+                RectangleF dstrc = new RectangleF(mDstrc.X - scx, mDstrc.Y - scy, mDstrc.Width + 2 * scx, mDstrc.Height + 2 * scy);
+                gr.DrawImage(img, dstrc);
+            }
+            else
+            {
+                gr.DrawImage(img, mDstrc);
+            }
+        }
+        
         protected override void OnPaint(PaintEventArgs pevent)
         {
             if (mGLVisible)
@@ -136,15 +163,19 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 base.OnPaint(pevent);
                 return;
             }
+            Image img = mImage;
+            if (img == null)
+                img = UVDLPApp.Instance().m_2d_graphics.GetBitmap(mGLImage);
+            if (img == null)
+                return;
             Graphics gr = pevent.Graphics;
-            int index = (int)mCtlState;
-            if (Enabled == false)
-                index = 3;
+            if (ButtStyle.SubImgCount == 4)
+                OnPaint4(gr, img);
+            if (ButtStyle.SubImgCount == 1)
+                OnPaint1(gr, img);
+
             if (mImage != null)
             {
-                gr.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                mSrcrc.X = mSubImgWidth * index;
-                gr.DrawImage(mImage, mDstrc, mSrcrc, GraphicsUnit.Pixel);
                 if (Enabled && (mCheckImage != null))
                 {
                     mCheckrc.X = Checked ? mSubChkImgWidth : 0;
@@ -185,7 +216,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             int index = (int)mCtlState;
             if (Enabled == false)
                 index = 3;
-            if (mImage != null)
+            if (mGLImageCach != null)
             {
                 gr.SetColor(Color.White);
                 mSrcrc.X = mSubImgWidth * index;
@@ -198,35 +229,35 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
         }
 
-        void GLPaint1(C2DGraphics gr, ButtonStyle stl)
+        Color GetPaintColor(ButtonStyle stl)
         {
             if (Enabled == false)
+                return stl.DisabledColor;
+            Color col = stl.ForeColor;
+            switch (mCtlState)
             {
-                gr.SetColor(stl.DisabledColor);
-            }
-            else
-            {
-                switch (mCtlState)
-                {
-                    case CtlState.Hover:
-                        if (Checked)
-                            gr.SetColor(stl.CheckedColor);
-                        else
-                            gr.SetColor(stl.HoverColor);
-                        break;
+                case CtlState.Hover:
+                    if (Checked)
+                        col = stl.CheckedColor;
+                    else
+                        col = stl.HoverColor;
+                    break;
 
-                    case CtlState.Normal:
-                        if (Checked)
-                            gr.SetColor(stl.CheckedColor);
-                        else
-                            gr.SetColor(stl.ForeColor);
-                        break;
+                case CtlState.Normal:
+                    if (Checked)
+                        col = stl.CheckedColor;
+                    break;
 
-                    case CtlState.Pressed:
-                        gr.SetColor(stl.PressedColor);
-                        break;
-                }
+                case CtlState.Pressed:
+                    col = stl.PressedColor;
+                    break;
             }
+            return col;
+        }
+
+        void GLPaint1(C2DGraphics gr, ButtonStyle stl)
+        {
+            gr.SetColor(GetPaintColor(stl));
 
             if (mCtlState == CtlState.Hover)
             {

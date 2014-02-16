@@ -2,7 +2,7 @@
 <GuiConfig FileVersion="1">
 	<buttons>
 		<style backcolor="Royalblue" forecolor="White"/>
-		<style name="glbutt1" backcolor="Transparent" hovercolor="Royalblue" forecolor="Royalblue" checkcolor="Royalblue" presscolor="White" nimages="1" gl="true"/>
+		<style name="glbutt1" backcolor="Transparent" hovercolor="Navy" forecolor="Navy" checkcolor="Navy" presscolor="White" nimages="1" gl="true"/>
 		<button name="home" dock="tr" x="10" y="100" image="glButtHome1" w="64" h="64" style="glbutt1"/>
 		<button name="undo" dock="tl" x="10" y="80" image="buttUndo" w="48" h="48"/>
 		<button name="redo" dock="tl" x="60" y="80" image="buttRedo" w="48" h="48"/>

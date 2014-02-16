@@ -438,10 +438,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 butt.GLVisible = bstl.glMode;
             }
             //butt.GLVisible = GetBoolParam(buttnode, "gl", butt.GLVisible);
-            if (butt.GLVisible)
-                butt.GLImage = GetStrParam(buttnode, "image", null);
-            else
-                butt.Image = GetImageParam(buttnode, "image", butt.Image);
+            string imgname = GetStrParam(buttnode, "image", null);
+            if (imgname != null)
+            {
+                butt.GLImage = imgname;
+                butt.Image = GetImageParam(buttnode, "image", null);
+            }
             butt.CheckImage = GetImageParam(buttnode, "check", butt.CheckImage);
         }
 

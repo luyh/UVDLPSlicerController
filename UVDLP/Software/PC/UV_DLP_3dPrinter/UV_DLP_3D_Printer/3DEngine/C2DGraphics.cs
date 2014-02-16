@@ -11,6 +11,8 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform.Windows;
 using System.Xml;
+using System.Resources;
+using UV_DLP_3D_Printer.Plugin;
 
 namespace UV_DLP_3D_Printer._3DEngine
 {
@@ -19,10 +21,12 @@ namespace UV_DLP_3D_Printer._3DEngine
         public String name;
         public float x1, x2;
         public float y1, y2;
+        public float x, y;
         public int w;
         public int h;
         public float scalex, scaley;
         public int tex;
+        public Bitmap bmp;
     }
 
     public class C2DChar
@@ -147,11 +151,12 @@ namespace UV_DLP_3D_Printer._3DEngine
             return tex;
         }
 
-        public void LoadTexture(Bitmap image, string index)
+        public void LoadTexture(string index, IPlugin plugin)
         {
-            float tw = image.Width;
-            float th = image.Height;
-            int tex = LoadTextureImage(image);
+            float tw = 1;
+            float th = 1;
+            Bitmap image = null;
+            int tex = -1;
             //StreamReader sr = new StreamReader(index);
             MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(index));
             StreamReader sr = new StreamReader(ms);
@@ -160,13 +165,33 @@ namespace UV_DLP_3D_Printer._3DEngine
             while (!sr.EndOfStream)
             {
                 string line = sr.ReadLine();
-                if (line.StartsWith("repeat:"))
+                if (line.StartsWith("repeat:") && tex >= 0)
                 {
                     datasection = true;
                     continue;
                 }
                 if (!datasection)
+                {
+                    if (line.EndsWith(".png"))
+                    {
+                        string imgname = line.Substring(0, line.Length - 4);
+                        try
+                        {
+                            if (plugin != null)
+                                image = (Bitmap)plugin.GetImage(imgname);
+                            else 
+                                image = (Bitmap)global::UV_DLP_3D_Printer.Properties.Resources.ResourceManager.GetObject(imgname);
+                            tw = image.Width;
+                            th = image.Height;
+                            tex = LoadTextureImage(image);
+                        }
+                        catch (Exception)
+                        {
+                            tex = -1;
+                        }
+                    }
                     continue;
+                }
                 if (line[0] != ' ')
                 {
                     // a new image
@@ -175,6 +200,7 @@ namespace UV_DLP_3D_Printer._3DEngine
                     img.tex = tex;
                     img.scalex = tw;
                     img.scaley = th;
+                    img.bmp = image;
                     ImgDbase[img.name] = img;
                     continue;
                 }
@@ -183,8 +209,10 @@ namespace UV_DLP_3D_Printer._3DEngine
                 switch (tokens[0])
                 {
                     case "xy:":
-                        img.x1 = float.Parse(tokens[1]) / tw;
-                        img.y1 = float.Parse(tokens[2]) / th;
+                        img.x = float.Parse(tokens[1]);
+                        img.y = float.Parse(tokens[2]);
+                        img.x1 = img.x / tw;
+                        img.y1 = img.y / th;
                         break;
 
                     case "size:":
@@ -197,6 +225,10 @@ namespace UV_DLP_3D_Printer._3DEngine
             }
         }
 
+        public void LoadTexture(string index)
+        {
+            LoadTexture(index, null);
+        }
 
         public void Image(int tex, float x1, float x2, float y1, float y2, float dx, float dy, float dw, float dh)
         {
@@ -256,6 +288,33 @@ namespace UV_DLP_3D_Printer._3DEngine
             if ((name == null) || !ImgDbase.ContainsKey(name))
                 return null;
             return ImgDbase[name];
+        }
+
+        public Bitmap GetBitmap(String name)
+        {
+            C2DImage img = GetImage(name);
+            if (img == null)
+                return null;
+            Bitmap bmp = img.bmp.Clone(new RectangleF(img.x, img.y, img.w, img.h), img.bmp.PixelFormat);
+            return bmp;
+        }
+
+        public static unsafe Bitmap ColorizeBitmap(Bitmap inbmp, Color col)
+        {
+            if (inbmp == null)
+                return null;
+            Bitmap bmp = inbmp.Clone(new Rectangle(0, 0, inbmp.Width, inbmp.Height), System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            /*if (bmp.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppArgb)
+                return bmp;*/
+            System.Drawing.Imaging.BitmapData lbmp = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height),
+                System.Drawing.Imaging.ImageLockMode.ReadWrite, bmp.PixelFormat);
+            int icol = col.ToArgb();
+            int buflen = lbmp.Width * lbmp.Height;
+            int* pixels = (int*)lbmp.Scan0;
+            for (int i = 0; i < buflen; i++)
+                pixels[i] = pixels[i] & icol;
+            bmp.UnlockBits(lbmp);
+            return bmp;
         }
 
         public void GetImageDim(String name, ref int w, ref int h)

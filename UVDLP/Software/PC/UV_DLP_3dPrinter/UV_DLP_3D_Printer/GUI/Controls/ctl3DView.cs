@@ -250,8 +250,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 }
                 Set3DView();
 
-                gr2d.LoadTexture(global::UV_DLP_3D_Printer.Properties.Resources.cwtexture1,
-                    global::UV_DLP_3D_Printer.Properties.Resources.cwtexture1_index);
+                gr2d.LoadTexture(global::UV_DLP_3D_Printer.Properties.Resources.cwtexture1_index);
                 gr2d.LoadFont("Arial18", global::UV_DLP_3D_Printer.Properties.Resources.Arial18_metrics);
                 
 
