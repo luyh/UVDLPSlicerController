@@ -86,6 +86,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             ctlMeshTools1.c3d = this;
             ctlScene1.c3d = this;
 
+            glControl1.PaintCallback += new ctlGL.delPaint(DisplayFunc);
+
             /*ctlImageButton imbtn = new ctlImageButton();
             imbtn.BackColor = System.Drawing.Color.Navy;
             imbtn.CheckImage = null;
@@ -165,8 +167,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         public void UpdateView()
         {
-            //glControl1.Invalidate();
-            DisplayFunc();
+            glControl1.Invalidate();
+            //DisplayFunc();
         }
 
         private void SetupForMachineType()
@@ -632,7 +634,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     lmdown = true;
                     // I saw m_ix and m_iy were 'NaN'
                     // this means that the intersection failed somehow
-                    m_camera.UpdateDirection(m_ix, m_iy);
+                    //m_camera.UpdateDirection(m_ix, m_iy);
                 }
                 if (e.Button == MouseButtons.Right)
                 {
@@ -752,12 +754,12 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             UpdateView();
         }
         
-        private void glControl1_Paint(object sender, PaintEventArgs e)
+        /*private void glControl1_Paint(object sender, PaintEventArgs e)
         {
             if (m_splash != null)
                 return;
             DisplayFunc();
-        }
+        }*/
 
         private void glControl1_Resize(object sender, EventArgs e)
         {
