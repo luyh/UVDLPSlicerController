@@ -141,6 +141,36 @@ namespace UV_DLP_3D_Printer
             ts = TimeSpan.FromMilliseconds(bt);
             return String.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
         }
+        public Bitmap MakeCalibration(int xres, int yres, SliceBuildConfig sc)
+        {
+            // if (m_calibimage == null)  // blank image is null, create it
+            {
+                m_calibimage = new Bitmap(xres, yres);
+                // fill it with black
+                using (Graphics gfx = Graphics.FromImage(m_calibimage))
+                using (SolidBrush brush = new SolidBrush(Color.Black))
+                {
+                    gfx.FillRectangle(brush, 0, 0, xres, yres);
+                    int xpos = 0, ypos = 0;
+                    Pen pen = new Pen(new SolidBrush(Color.Red));
+                    for (xpos = 0; xpos < xres; xpos += (int)(sc.dpmmX * 10.0))
+                    {
+                        Point p1 = new Point(xpos, 0);
+                        Point p2 = new Point(xpos, yres);
+                        gfx.DrawLine(pen, p1, p2);
+                    }
+                    for (ypos = 0; ypos < yres; ypos += (int)(sc.dpmmY * 10.0))
+                    {
+                        Point p1 = new Point(0, ypos);
+                        Point p2 = new Point(xres, ypos);
+                        gfx.DrawLine(pen, p1, p2);
+                    }
+
+                }
+            }
+            return m_calibimage;
+        }
+
         public void ShowCalibration(int xres, int yres, SliceBuildConfig sc) 
         {
            // if (m_calibimage == null)  // blank image is null, create it
@@ -258,7 +288,7 @@ namespace UV_DLP_3D_Printer
                 if (lines[1].Contains("Blank"))
                 {
                     val = -1; // blank screen
-                }
+                }                
                 else 
                 {
                     String []lns2 = lines[1].Trim().Split(' ');
@@ -364,7 +394,7 @@ namespace UV_DLP_3D_Printer
                                         }
                                         bmp = m_blankimage;
                                         curtype = BuildManager.SLICE_BLANK;
-                                    }
+                                    }                  
                                     else
                                     {
                                         m_curlayer = layer;
