@@ -48,6 +48,7 @@ namespace UV_DLP_3D_Printer
         eDisplayDisconnected,
         eObjectSelected, // object selection has changed
         eReDraw, // this is used when an application action needs to re-draw the 3d display
+        eReDraw2D, // update only the top 2D layer of the 3D display
         eUpdateSelectedObject, // this will update object information and will perform a redraw.
     }
     public delegate void AppEventDelegate(eAppEvent ev, String Message);

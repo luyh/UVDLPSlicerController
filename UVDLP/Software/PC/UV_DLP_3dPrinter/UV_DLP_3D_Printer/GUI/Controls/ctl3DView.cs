@@ -42,7 +42,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         int m_sliceViewW, m_sliceViewH;
         int m_sliceW, m_sliceH;
         bool ctrldown;// is the control key held down?
-         //ctlImageButton imbtn;
+        bool Render3dSpace = true;
+        uint mColorBuffer = 0;
+        //ctlImageButton imbtn;
         
 
         public delegate void On3dViewRedraw();
@@ -161,15 +163,22 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         public void ResetCameraView()
         {
             m_camera.ResetView(0, -200, 0, 20, 20);
-           // glControl1.Invalidate();            
             UpdateView();
+        }
+
+        public void UpdateView(bool update3D)
+        {
+            if (update3D)
+                Render3dSpace = true;
+            glControl1.Invalidate();
+            //DisplayFunc();
         }
 
         public void UpdateView()
         {
-            glControl1.Invalidate();
-            //DisplayFunc();
+            UpdateView(true);
         }
+
 
         private void SetupForMachineType()
         {
@@ -240,6 +249,15 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 float[] res = new float[2];
                 GL.GetFloat(GetPName.SmoothLineWidthRange, res);
                 DebugLogger.Instance().LogInfo("Stencil depth: " + glControl1.GraphicsMode.Stencil.ToString());
+
+                // prepare texture buffer to save 3d rendring
+                if (mColorBuffer == 0)
+                    GL.GenTextures(1, out mColorBuffer);
+                GL.BindTexture(TextureTarget.Texture2D, mColorBuffer);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba8, Width, Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, IntPtr.Zero);
+
 
                 // lighting
                 if (firstTime)
@@ -334,19 +352,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         */
         void DrawBackground()
         {
-            /*int w = glControl1.Width;
-            int h = glControl1.Height;*/
             Set2DView();
-            /*GL.Begin(PrimitiveType.Quads);
-            GL.Color3(Color.AliceBlue);
-            GL.Vertex3(0, 0, 0);
-            GL.Color3(Color.AliceBlue);
-            GL.Vertex3(w, 0, 0);
-            GL.Color3(Color.SkyBlue);
-            GL.Vertex3(w, h, 0);
-            GL.Color3(Color.LightBlue);
-            GL.Vertex3(0, h, 0);
-            GL.End();*/
             guiconf.DrawBackground(gr2d, glControl1.Width, glControl1.Height);
 
             //SetAlpha(m_showalpha);
@@ -361,6 +367,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             /*gr2d.Rectangle(0,0,w,70,Color.RoyalBlue);
             GL.Color3(Color.White);
             gr2d.Image("cwlogo_round", w / 2 - 50, 0);*/
+            if (!Render3dSpace)
+            {
+                gr2d.SetColor(Color.White);
+                gr2d.Image((int)mColorBuffer, 0, 1, 1, 0, 0, 0, Width, Height);
+            }
             guiconf.DrawForeground(gr2d, glControl1.Width, glControl1.Height);
 
             foreach (ctlBgnd cb in ctlBgndList)
@@ -396,23 +407,31 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
             glControl1.MakeCurrent();
 
+            //glControl1.SelectBackPainting();
             /* Clear the buffer, clear the matrix */
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
+            if (Render3dSpace)
+            {
+                //GL.LoadIdentity(); // assuming we're in the model matrix still
+                SetAlpha(UVDLPApp.Instance().m_engine3d.m_alpha);
+                DrawBackground();
 
-            //GL.LoadIdentity(); // assuming we're in the model matrix still
-            SetAlpha(UVDLPApp.Instance().m_engine3d.m_alpha);
-            DrawBackground();
- 
-            UVDLPApp.Instance().Engine3D.RenderGL();
-            //DrawISect();
-            Render3dSlice();
-            //GL.Flush();
+                UVDLPApp.Instance().Engine3D.RenderGL();
+                //glControl1.SelectForePainting();
+                //DrawISect();
+                Render3dSlice();
+                GL.BindTexture(TextureTarget.Texture2D, mColorBuffer);
+                GL.CopyTexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba8, 0, 0, Width, Height, 0);
+                GL.BindTexture(TextureTarget.Texture2D, 0);
+            }
+                //GL.Flush();
             DrawForeground();
             GL.Flush();
             glControl1.SwapBuffers();
             if (Event3DViewRedraw != null)
                 Event3DViewRedraw();
+            Render3dSpace = false;
         }
 
         private void Render3dSlice()
@@ -671,14 +690,17 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 m_camera.RotateRightFlat((float)dx);
                 m_camera.RotateUp((float)dy);
+                UpdateView();
             }
             else if (mmdown)
             {
                 m_camera.MoveForward((float)dy);
+                UpdateView();
             }
             else if (rmdown)
             {
                 m_camera.Move((float)dx, (float)dy);
+                UpdateView();
             }
 
             if (UVDLPApp.Instance().SelectedObject != null)
@@ -725,9 +747,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                             }
                         }
                     }
+                    UpdateView();
                 }                
             }
-            UpdateView();
+            //UpdateView(false);
         }
 
         private void glControl1_MouseUp(object sender, MouseEventArgs e)
@@ -750,7 +773,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         void glControl1_MouseWheel(object sender, MouseEventArgs e)
         {
             m_camera.MoveForward(e.Delta / 10);
-            //glControl1.Invalidate();
             UpdateView();
         }
         
@@ -767,7 +789,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 return;
             SetupViewport();
             CalcSliceLocation();
-            //glControl1.Invalidate();
             UpdateView();
         }
 
@@ -851,7 +872,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_modelAnimTmr.Stop();
                 m_modelAnimTmr = null;
             }
-            glControl1.Invalidate();
+            UpdateView();
         }
 
         private void ShowPanel(ctlImageButton butt, string ctlname)
@@ -959,7 +980,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                         {
                             //UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
                             LoadSlice(layer);
-                            UpdateView();//glControl1.Invalidate();
+                            UpdateView();
                         }
                     }
                 }

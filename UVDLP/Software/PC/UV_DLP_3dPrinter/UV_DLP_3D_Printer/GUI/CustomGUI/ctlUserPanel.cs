@@ -231,7 +231,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             if (mGLVisible)
             {
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw2D, "");
                 return;
             }
             base.OnInvalidated(e);

@@ -236,7 +236,10 @@ namespace UV_DLP_3D_Printer
                     case eAppEvent.eReDraw: // redraw the 3d display
                         //DisplayFunc();
                         ctl3DView1.UpdateView();
-                         break;
+                        break;
+                    case eAppEvent.eReDraw2D: // redraw the 2d layer of the 3d display
+                        ctl3DView1.UpdateView(false);
+                        break;
                     case eAppEvent.eUpdateSelectedObject:
                         UpdateSceneInfo();
                         break;

@@ -448,7 +448,6 @@
             this.buttMeshTools.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMeshTools;
             this.buttMeshTools.Location = new System.Drawing.Point(10, 214);
             this.buttMeshTools.Name = "buttMeshTools";
-            this.buttMeshTools.OnClickCallback = null;
             this.buttMeshTools.Size = new System.Drawing.Size(48, 48);
             this.buttMeshTools.StyleName = null;
             this.buttMeshTools.TabIndex = 31;
@@ -471,7 +470,6 @@
             this.buttRedo.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttRedo;
             this.buttRedo.Location = new System.Drawing.Point(15, 133);
             this.buttRedo.Name = "buttRedo";
-            this.buttRedo.OnClickCallback = null;
             this.buttRedo.Size = new System.Drawing.Size(48, 48);
             this.buttRedo.StyleName = null;
             this.buttRedo.TabIndex = 30;
@@ -493,7 +491,6 @@
             this.buttUndo.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttUndo;
             this.buttUndo.Location = new System.Drawing.Point(15, 79);
             this.buttUndo.Name = "buttUndo";
-            this.buttUndo.OnClickCallback = null;
             this.buttUndo.Size = new System.Drawing.Size(48, 48);
             this.buttUndo.StyleName = null;
             this.buttUndo.TabIndex = 29;
@@ -564,7 +561,6 @@
             this.buttGlHome.Image = global::UV_DLP_3D_Printer.Properties.Resources.homeButt;
             this.buttGlHome.Location = new System.Drawing.Point(15, 15);
             this.buttGlHome.Name = "buttGlHome";
-            this.buttGlHome.OnClickCallback = null;
             this.buttGlHome.Size = new System.Drawing.Size(48, 48);
             this.buttGlHome.StyleName = null;
             this.buttGlHome.TabIndex = 16;
@@ -587,7 +583,6 @@
             this.buttView.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttView;
             this.buttView.Location = new System.Drawing.Point(10, 282);
             this.buttView.Name = "buttView";
-            this.buttView.OnClickCallback = null;
             this.buttView.Size = new System.Drawing.Size(48, 48);
             this.buttView.StyleName = null;
             this.buttView.TabIndex = 25;
@@ -629,7 +624,6 @@
             this.buttScale.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttScale;
             this.buttScale.Location = new System.Drawing.Point(10, 490);
             this.buttScale.Name = "buttScale";
-            this.buttScale.OnClickCallback = null;
             this.buttScale.Size = new System.Drawing.Size(48, 48);
             this.buttScale.StyleName = null;
             this.buttScale.TabIndex = 17;
@@ -652,7 +646,6 @@
             this.buttMove.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMove;
             this.buttMove.Location = new System.Drawing.Point(10, 390);
             this.buttMove.Name = "buttMove";
-            this.buttMove.OnClickCallback = null;
             this.buttMove.Size = new System.Drawing.Size(48, 48);
             this.buttMove.StyleName = null;
             this.buttMove.TabIndex = 19;
@@ -689,7 +682,6 @@
             this.buttSupports.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttSupport;
             this.buttSupports.Location = new System.Drawing.Point(10, 336);
             this.buttSupports.Name = "buttSupports";
-            this.buttSupports.OnClickCallback = null;
             this.buttSupports.Size = new System.Drawing.Size(48, 48);
             this.buttSupports.StyleName = null;
             this.buttSupports.TabIndex = 23;
@@ -726,7 +718,6 @@
             this.buttRotate.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttRotate;
             this.buttRotate.Location = new System.Drawing.Point(10, 440);
             this.buttRotate.Name = "buttRotate";
-            this.buttRotate.OnClickCallback = null;
             this.buttRotate.Size = new System.Drawing.Size(48, 48);
             this.buttRotate.StyleName = null;
             this.buttRotate.TabIndex = 18;
