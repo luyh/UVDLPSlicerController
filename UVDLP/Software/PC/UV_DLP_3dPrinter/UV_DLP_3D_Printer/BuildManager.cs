@@ -64,7 +64,7 @@ namespace UV_DLP_3D_Printer
         private bool m_running; // a var to control thread life
         private DateTime m_printstarttime;
         private System.Timers.Timer m_buildtimer;
-        private const int BUILD_TIMER_INTERVAL = 2000; // 2 second updates
+        private const int BUILD_TIMER_INTERVAL = 1000; // 2 second updates
         Bitmap m_blankimage = null; // a blank image to display
         Bitmap m_calibimage = null; // a calibration image to display
         private DateTime m_buildstarttime;
