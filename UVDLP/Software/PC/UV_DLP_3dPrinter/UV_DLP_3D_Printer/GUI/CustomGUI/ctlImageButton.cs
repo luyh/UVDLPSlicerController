@@ -21,7 +21,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         int mSubImgWidth, mSubChkImgWidth;
         String mGLImage;
         C2DImage mGLImageCach;
-        ButtonStyle mButtStyle;
+        //ButtonStyle mButtStyle;
         String mOnClickCallback = null;
 
 
@@ -79,11 +79,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             get
             {
-                if (mButtStyle == null)
-                    mButtStyle = UVDLPApp.Instance().m_gui_config.GetButtonStyle(mStyleName);
-                if (mButtStyle == null)
+                if (mStyle == null)
+                    mStyle = UVDLPApp.Instance().m_gui_config.GetButtonStyle(mStyleName);
+                if (mStyle == null)
                     return UVDLPApp.Instance().m_gui_config.DefaultButtonStyle;
-                return mButtStyle;
+                return (ButtonStyle)mStyle;
             }
         }
 

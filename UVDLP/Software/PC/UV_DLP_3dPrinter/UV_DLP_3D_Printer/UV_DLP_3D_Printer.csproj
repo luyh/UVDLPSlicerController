@@ -171,6 +171,9 @@
     <Compile Include="GUI\ctlManualControl.Designer.cs">
       <DependentUpon>ctlManualControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\CustomGUI\ctlImage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GUI\CustomGUI\ctlScene.cs">
       <SubType>UserControl</SubType>
     </Compile>
