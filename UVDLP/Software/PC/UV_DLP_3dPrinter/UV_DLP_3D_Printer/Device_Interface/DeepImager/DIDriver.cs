@@ -27,6 +27,7 @@ namespace UV_DLP_3D_Printer.Drivers
         private static double s_interval = 250; // 1/4 second
         public DIDriver() 
         {
+            m_drivertype = eDriverType.eEIW_DEEPIMAGER; // set correct driver type
             m_reqtimer = new Timer();
             m_reqtimer.Interval = s_interval;
             m_reqtimer.Elapsed += new ElapsedEventHandler(m_reqtimer_Elapsed);
@@ -78,8 +79,8 @@ namespace UV_DLP_3D_Printer.Drivers
                 DebugLogger.Instance().LogRecord(ex.Message);
                 return false;
             }
-
         }
+
         void m_reqtimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             try
@@ -282,6 +283,16 @@ namespace UV_DLP_3D_Printer.Drivers
                             byte []ptraw = Utility.HexStringToByteArray(ptcmd);
                             //write that byte array directly
                             retval = Write(ptraw, ptraw.Length);
+                            break;
+                        case 603: // Pause command
+                            cmd = GenerateCommand(); // generate the command
+                            cmd[1] = (byte)'Z'; // indicate a Z Movement command
+                            cmd[2] = 0; // no steps when pausing
+                            cmd[3] = 0; // no fill for now
+                            cmd[4] = 0; // no fill for now
+                            cmd[5] = 0x80; // high bit set
+                            Checksum(ref cmd); // add the checksum
+                            retval = Write(cmd, 8); // send the command
                             break;
 
                     }

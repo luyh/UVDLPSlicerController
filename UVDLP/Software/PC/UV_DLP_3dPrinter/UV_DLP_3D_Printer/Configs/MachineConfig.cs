@@ -38,7 +38,19 @@ namespace UV_DLP_3D_Printer
         public DeviceDriverConfig m_driverconfig;
         public MonitorConfig m_monitorconfig;
 
-
+        /// <summary>
+        /// This allows for retrieve arbitrary variables from the machine XML configuration
+        /// </summary>
+        /// <param name="varname"></param>
+        /// <returns></returns>
+        public string GetStringVar(string varname) 
+        {
+            XmlHelper xh = new XmlHelper();
+            bool fileExist = xh.Start(m_filename, "MachineConfig");
+            XmlNode mc = xh.m_toplevel;
+            string retstr = xh.GetString(mc, varname,"");
+            return retstr;        
+        }
 
         public bool Load(string filename)
         {

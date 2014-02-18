@@ -249,6 +249,15 @@ namespace UV_DLP_3D_Printer
             m_state = STATE_IDLE;
             StopBuildTimer();
             RaiseStatusEvent(eBuildStatus.eBuildPaused,"Print Paused");
+            // special coding for Elite Image Works
+            // in the future, this should be pulled from the machine config file
+            // special commands or something...
+            Drivers.DeviceDriver dr = UVDLPApp.Instance().m_deviceinterface.Driver;
+            string pausecmd = UVDLPApp.Instance().m_printerinfo.GetStringVar("PauseCommand");
+            if (pausecmd.Length > 0)
+            {
+                UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(pausecmd);
+            }
         }
         public void ResumePrint() 
         {
@@ -256,6 +265,12 @@ namespace UV_DLP_3D_Printer
             m_state = BuildManager.STATE_DO_NEXT_LAYER;
             StartBuildTimer();
             RaiseStatusEvent(eBuildStatus.eBuildResumed,"Next Layer");
+            Drivers.DeviceDriver dr = UVDLPApp.Instance().m_deviceinterface.Driver;
+            string resumecmd = UVDLPApp.Instance().m_printerinfo.GetStringVar("ResumeCommand");
+            if (resumecmd.Length > 0)
+            {
+                UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(resumecmd);
+            }
         }
 
         // This function is called to start the print job
@@ -458,7 +473,11 @@ namespace UV_DLP_3D_Printer
                 m_state = BuildManager.STATE_IDLE;
                 m_running = false;
                 RaiseStatusEvent(eBuildStatus.eBuildCancelled, "Build Cancelled");
-
+                string cancelcmd = UVDLPApp.Instance().m_printerinfo.GetStringVar("PrintCancelCommand");
+                if (cancelcmd.Length > 0)
+                {
+                    UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(cancelcmd);
+                }
             }
             m_paused = false;
         }
