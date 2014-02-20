@@ -782,6 +782,8 @@ namespace UV_DLP_3D_Printer
             ScanForPlugins();
             // validate those loaded plugins against license keys
             CheckLicensing();
+            PerformPluginCommand("InitCommand", true);
+
         }
 
         private void LoadLicenseKeys() 
@@ -827,6 +829,25 @@ namespace UV_DLP_3D_Printer
             }
 
         }
+
+        public void PerformPluginCommand(string cmd, bool verifyLicense)
+        {
+            foreach (PluginEntry pe in m_plugins)
+            {
+                try
+                {
+                    // iterate through all loaded plugins
+                    if (!verifyLicense || (pe.m_licensed == true)) {
+                        pe.m_plugin.ExecuteFunction(cmd);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    DebugLogger.Instance().LogError(ex);
+                }
+            }
+        }
+
         /// <summary>
         /// returns the name of the current build / slice profile
         /// </summary>

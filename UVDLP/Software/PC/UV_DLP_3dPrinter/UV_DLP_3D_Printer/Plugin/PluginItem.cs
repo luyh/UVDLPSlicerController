@@ -26,6 +26,7 @@ namespace UV_DLP_3D_Printer.Plugin
         public static int TAG_GENERIC = 0;
         public static int TAG_XML = 1; // xml is encoded as a string 
         public static int TAG_ZIP = 2;
+        public static int TAG_STARTUP = 3; // this fuction is a startup function
 
         public string m_name;
         public ePlItemType m_type;

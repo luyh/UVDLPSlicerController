@@ -156,6 +156,15 @@ namespace plugTest
             m_hash = new byte[20];
         }
 
+        public bool SupportFunctionality(PluginFuctionality func)
+        {
+            switch (func)
+            {
+                case PluginFuctionality.CustomGUI: return true;
+            }
+            return false;
+        }
+
         public IPluginHost Host 
         {
             get { return m_host; }

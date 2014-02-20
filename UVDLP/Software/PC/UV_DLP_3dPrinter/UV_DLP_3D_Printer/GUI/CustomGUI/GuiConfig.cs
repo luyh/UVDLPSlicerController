@@ -114,7 +114,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public virtual void SetDefault()
         {
             ForeColor = Color.White;
-            BackColor = Color.Transparent;
+            BackColor = Color.RoyalBlue;
+            FrameColor = Color.Navy;
             glMode = false;
         }
     }

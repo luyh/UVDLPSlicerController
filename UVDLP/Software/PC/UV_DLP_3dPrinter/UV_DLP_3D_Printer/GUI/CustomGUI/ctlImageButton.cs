@@ -122,13 +122,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ScaleImage();
         }
 
-        protected override void OnPaintBackground(PaintEventArgs e)
-        {
-            if (mGLVisible)
-                return;
-            base.OnPaintBackground(e);
-        }
-
         void OnPaint4(Graphics gr, Image img)
         {
             int index = (int)mCtlState;
@@ -188,6 +181,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public override void ApplyStyle(ControlStyle ct)
         {
             base.ApplyStyle(ct);
+
             if (ct.ForeColor != ControlStyle.NullColor)
                 ForeColor = ct.ForeColor;
             if (ct.BackColor != ControlStyle.NullColor)

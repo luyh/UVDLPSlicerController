@@ -180,6 +180,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         public virtual void ApplyStyle(ControlStyle ct)
         {
+            mStyle = ct;
+            mStyleName = ct.Name;
             ApplyStyleRecurse(this, ct);
             if (ct.BackColor != ControlStyle.NullColor)
                 bgndPanel.col = ct.BackColor;
@@ -210,7 +212,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             if (GLVisible)
                 return;
-            base.OnPaintBackground(e);
+            Brush br = new SolidBrush(Style.BackColor);
+            e.Graphics.FillRectangle(br, 0, 0, Width, Height);
+            //base.OnPaintBackground(e);
         }
 
         public virtual void OnGLPaint(C2DGraphics gr)

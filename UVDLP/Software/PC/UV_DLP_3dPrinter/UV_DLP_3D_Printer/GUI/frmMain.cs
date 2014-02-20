@@ -81,8 +81,11 @@ namespace UV_DLP_3D_Printer
             //PopulateBuildProfilesMenu();
 
             RegisterCallbacks();
-            
+
+            UVDLPApp.Instance().PerformPluginCommand("GUILoadedCommand", true);
+
             Refresh();
+
         }
 
         protected void RegisterCallbacks()

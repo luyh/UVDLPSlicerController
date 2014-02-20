@@ -18,6 +18,13 @@ namespace UV_DLP_3D_Printer.Plugin
      some sort of enumeration function
      we should also be able to return 
  */
+    public enum PluginFuctionality
+    {
+        CustomGUI,  // this plugin can GUI apearence, and optionally add GUI fucntions 
+        HWDriver,   // this plugin can comunicate with a HW device. (Sending/Translating GCode to HW)
+        Slicer,     // this plugin can convert objects to GCode,
+
+    }
     /// 
     /// </summary>
     public interface IPlugin
@@ -31,6 +38,7 @@ namespace UV_DLP_3D_Printer.Plugin
         byte[] GetBinary(string name);
         int GetInt(string name);
         void ExecuteFunction(string name);
+        bool SupportFunctionality(PluginFuctionality func);
         String Name { get; } // required NOT to be part of the string plugin items
     }
 }
