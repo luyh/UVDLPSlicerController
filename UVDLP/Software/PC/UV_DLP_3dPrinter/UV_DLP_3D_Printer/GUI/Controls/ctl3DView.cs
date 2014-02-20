@@ -126,6 +126,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             if (guiconf != null)
                 guiconf.LayoutGui(Width, Height);
+            UpdateView(true);
         }
 
         public void SetMessagePanelHolder(SplitContainer holder)
@@ -1072,6 +1073,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 plugin = ip.m_plugin;
                 if (plugin == null)
                     continue;
+
+                if (!plugin.SupportFunctionality(PluginFuctionality.CustomGUI))
+                    continue;
+
 
                 string guiconfname = null;
                 foreach (PluginItem pi in plugin.GetPluginItems)
