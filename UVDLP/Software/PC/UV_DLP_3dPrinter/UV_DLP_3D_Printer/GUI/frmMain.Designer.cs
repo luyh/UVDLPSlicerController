@@ -174,7 +174,6 @@
             this.stalactite3DToolStripMenuItem.Name = "stalactite3DToolStripMenuItem";
             this.stalactite3DToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.stalactite3DToolStripMenuItem.Text = "Stalactite3D";
-            this.stalactite3DToolStripMenuItem.Click += new System.EventHandler(this.stalactite3DToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 

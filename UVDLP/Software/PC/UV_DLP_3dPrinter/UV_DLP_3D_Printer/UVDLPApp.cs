@@ -925,6 +925,8 @@ namespace UV_DLP_3D_Printer
                 }
             }
         }
+
+
         /// <summary>
         /// This is a plugin host implementation
         /// </summary>

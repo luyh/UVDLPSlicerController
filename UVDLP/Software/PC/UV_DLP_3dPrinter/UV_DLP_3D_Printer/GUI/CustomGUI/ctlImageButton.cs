@@ -74,19 +74,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             get { return mOnClickCallback; }
             set { mOnClickCallback = value; }
         }
-        
-        public ButtonStyle ButtStyle
-        {
-            get
-            {
-                if (mStyle == null)
-                    mStyle = UVDLPApp.Instance().m_gui_config.GetButtonStyle(mStyleName);
-                if (mStyle == null)
-                    return UVDLPApp.Instance().m_gui_config.DefaultButtonStyle;
-                return (ButtonStyle)mStyle;
-            }
-        }
-
 
         public ctlImageButton()
         {
@@ -134,7 +121,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         void OnPaint1(Graphics gr, Image inimg)
         {
-            Image img = C2DGraphics.ColorizeBitmap((Bitmap)inimg, GetPaintColor(ButtStyle));
+            Image img = C2DGraphics.ColorizeBitmap((Bitmap)inimg, GetPaintColor(Style));
             //Rectangle srcrc = new Rectangle(0, 0, img.Width, img.Height);
             if (mCtlState == CtlState.Hover)
             {
@@ -162,9 +149,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (img == null)
                 return;
             Graphics gr = pevent.Graphics;
-            if (ButtStyle.SubImgCount == 4)
+            if (Style.SubImgCount == 4)
                 OnPaint4(gr, img);
-            if (ButtStyle.SubImgCount == 1)
+            if (Style.SubImgCount == 1)
                 OnPaint1(gr, img);
 
             if (mImage != null)
@@ -223,7 +210,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
         }
 
-        Color GetPaintColor(ButtonStyle stl)
+        Color GetPaintColor(ControlStyle stl)
         {
             if (Enabled == false)
                 return stl.DisabledColor;
@@ -249,7 +236,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             return col;
         }
 
-        void GLPaint1(C2DGraphics gr, ButtonStyle stl)
+        void GLPaint1(C2DGraphics gr, ControlStyle stl)
         {
             gr.SetColor(GetPaintColor(stl));
 
@@ -275,7 +262,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                     return;
                 mSubImgWidth = mGLImageCach.w / nSubImages;
             }
-            ButtonStyle stl = ButtStyle;
+            ControlStyle stl = Style;
             if (stl.SubImgCount == 4)
                 GLPaint4(gr);
             if (stl.SubImgCount == 1)

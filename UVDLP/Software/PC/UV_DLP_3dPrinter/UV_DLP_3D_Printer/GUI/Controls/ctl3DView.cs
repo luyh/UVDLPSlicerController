@@ -13,6 +13,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform.Windows;
 using UV_DLP_3D_Printer._3DEngine;
+using UV_DLP_3D_Printer.Plugin;
 
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
@@ -55,7 +56,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         public ctl3DView()
         {
             InitializeComponent();
-
+            //Visible = false;
             //SetupSceneTree();
             m_modelAnimTmr = null;
             m_camera = new GLCamera();
@@ -268,11 +269,17 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     GL.Light(LightName.Light0, LightParameter.Position, light_position);
                     GL.Light(LightName.Light0, LightParameter.Diffuse, Color.LightGray);
                 }
-                Set3DView();
 
-                gr2d.LoadTexture(global::UV_DLP_3D_Printer.Properties.Resources.cwtexture1_index);
-                gr2d.LoadFont("Arial18", global::UV_DLP_3D_Printer.Properties.Resources.Arial18_metrics);
-                
+                // load gui elements
+                if (firstTime)
+                {
+                    gr2d.LoadTexture(global::UV_DLP_3D_Printer.Properties.Resources.cwtexture1_index);
+                    gr2d.LoadFont("Arial18", global::UV_DLP_3D_Printer.Properties.Resources.Arial18_metrics);
+                    LoadPluginGui();
+                    //Visible = true;
+                }
+
+                Set3DView();               
 
                 firstTime = false;
             }
@@ -1053,6 +1060,54 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         }
 
         #endregion 3d View controls
+
+        public void LoadPluginGui()
+        {
+            IPlugin plugin = null;
+            foreach (PluginEntry ip in UVDLPApp.Instance().m_plugins)
+            {
+                if (ip.m_licensed != true)
+                    continue;
+
+                plugin = ip.m_plugin;
+                if (plugin == null)
+                    continue;
+
+                string guiconfname = null;
+                foreach (PluginItem pi in plugin.GetPluginItems)
+                {
+                    switch (pi.m_type)
+                    {
+                        case ePlItemType.eTexture:
+                            gr2d.LoadTexture(plugin.GetString(pi.m_name + "_index"), plugin);
+                            break;
+
+                        case ePlItemType.eGuiConfig:
+                            guiconfname = plugin.GetString(pi.m_name);
+                            break;
+
+                        case ePlItemType.eControl:
+                            UserControl ctl = plugin.GetControl(pi.m_name);
+                            if ((ctl.GetType() == typeof(ctlImageButton)) || ctl.GetType().IsSubclassOf(typeof(ctlImageButton)))
+                            {
+                                guiconf.AddButton(pi.m_name, (ctlImageButton)ctl);
+                            }
+                            else if (ctl.GetType().IsSubclassOf(typeof(ctlUserPanel)))
+                            {
+                                guiconf.AddControl(pi.m_name, (ctlUserPanel)ctl);
+                            }
+                            break;
+                    }
+                }
+                if (guiconf != null)
+                {
+                    //gc.ClearLayout();
+                    guiconf.LoadConfiguration(guiconfname, plugin);
+                    RearrangeGui();
+                }
+            }
+        }
+
 
         /// <summary>
         /// For now this is the editing mode for the currently selected support

@@ -973,52 +973,6 @@ namespace UV_DLP_3D_Printer
             splitContainerMainWindow.Panel2Collapsed = !visible;
         }
 
-        private void stalactite3DToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            GuiConfig gc = ctl3DView1.GuiConfig;
-            C2DGraphics gr2d = ctl3DView1.Graphics2D;
-            IPlugin plugin = null;
-            foreach (PluginEntry ip in UVDLPApp.Instance().m_plugins)
-            {
-                if (ip.m_plugin.Name == "Stalactite")
-                    plugin = ip.m_plugin;
-            }
-            if (plugin == null)
-                return;
-
-            string guiconf = null;
-            foreach (PluginItem pi in plugin.GetPluginItems)
-            {
-                switch (pi.m_type)
-                {
-                    case ePlItemType.eTexture:
-                        gr2d.LoadTexture(plugin.GetString(pi.m_name + "_index"), plugin);
-                        break;
-
-                    case ePlItemType.eGuiConfig:
-                        guiconf = plugin.GetString(pi.m_name);
-                        break;
-
-                    case ePlItemType.eControl:
-                        UserControl ctl = plugin.GetControl(pi.m_name);
-                        if ((ctl.GetType() == typeof(ctlImageButton)) || ctl.GetType().IsSubclassOf(typeof(ctlImageButton)))
-                        {
-                            gc.AddButton(pi.m_name, (ctlImageButton)ctl);
-                        }
-                        else if (ctl.GetType().IsSubclassOf(typeof(ctlUserPanel)))
-                        {
-                            gc.AddControl(pi.m_name, (ctlUserPanel)ctl);
-                        }
-                        break;
-                }
-            }
-            if (guiconf != null)
-            {
-                //gc.ClearLayout();
-                gc.LoadConfiguration(guiconf, plugin);
-                ctl3DView1.RearrangeGui();
-            }
-        }
 
         private void buttViewSlice_Click(object sender, EventArgs e)
         {

@@ -105,23 +105,15 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             BackImage = null;
         }
 
+        // general purpose control style
         public String Name;
         public Color ForeColor;
         public Color BackColor;
         public Color FrameColor;
         public String BackImage;
         public bool glMode;
-        public virtual void SetDefault()
-        {
-            ForeColor = Color.White;
-            BackColor = Color.RoyalBlue;
-            FrameColor = Color.Navy;
-            glMode = false;
-        }
-    }
 
-    public class ButtonStyle : ControlStyle
-    {
+        // button styles
         public int SubImgCount;
         public Color PressedColor;
         public Color CheckedColor;
@@ -129,9 +121,13 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public Color HoverColor;
         String mCheckedImage;
         C2DImage mCheckedImageCach;
-        public override void SetDefault()
+
+
+        public virtual void SetDefault()
         {
-            base.SetDefault();
+            ForeColor = Color.White;
+            BackColor = Color.RoyalBlue;
+            FrameColor = Color.Navy;
             CheckedColor = Color.Orange;
             PressedColor = Color.White;
             HoverColor = Color.White;
@@ -173,7 +169,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         ResourceManager Res;
         IPlugin Plugin;
         Control mTopLevelControl = null;
-        public ButtonStyle DefaultButtonStyle;
         public ControlStyle DefaultControlStyle; 
 
 
@@ -186,13 +181,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ControlStyles = new Dictionary<string, ControlStyle>();
             Res = global::UV_DLP_3D_Printer.Properties.Resources.ResourceManager;
             Plugin = null;
-            DefaultButtonStyle = new ButtonStyle();
-            DefaultButtonStyle.Name = "DefaultButton";
-            DefaultButtonStyle.SetDefault();
             DefaultControlStyle = new ControlStyle();
             DefaultControlStyle.Name = "DefaultControl";
             DefaultControlStyle.SetDefault();
-            ControlStyles[DefaultButtonStyle.Name] = DefaultButtonStyle;
             ControlStyles[DefaultControlStyle.Name] = DefaultControlStyle;
         }
 
@@ -214,16 +205,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             Buttons[name] = ctl;
             if ((ctl.Parent == null) && (mTopLevelControl != null))
                 mTopLevelControl.Controls.Add(ctl);
-        }
-
-        public ButtonStyle GetButtonStyle(string name)
-        {
-            if ((name == null) || !ControlStyles.ContainsKey(name))
-                return null;
-            ControlStyle ct = ControlStyles[name];
-            if (ct.GetType() == typeof(ButtonStyle))
-                return (ButtonStyle)ct;
-            return null;
         }
 
         public ControlStyle GetControlStyle(string name)
@@ -386,10 +367,10 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         void HandleButtonStyle(XmlNode xnode)
         {
             string name = GetStrParam(xnode, "name", "DefaultButton");
-            ButtonStyle bt = GetButtonStyle(name);
+            ControlStyle bt = GetControlStyle(name);
             if (bt == null)
             {
-                bt = new ButtonStyle();
+                bt = new ControlStyle();
                 bt.Name = name;
                 ControlStyles[name] = bt;
                 bt.SetDefault();
@@ -408,7 +389,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 foreach (KeyValuePair<String, ctlImageButton> pair in Buttons)
                 {
                     ctlImageButton butt = pair.Value;
-                    butt.ApplyStyle(DefaultButtonStyle);
+                    butt.ApplyStyle(bt);
                 }
             }
         }
@@ -433,7 +414,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             butt.Height = GetIntParam(buttnode, "h", butt.Height);
             butt.StyleName = GetStrParam(buttnode, "style", butt.StyleName);
             butt.OnClickCallback = GetStrParam(buttnode, "click", butt.OnClickCallback);
-            ButtonStyle bstl = GetButtonStyle(butt.StyleName);
+            ControlStyle bstl = GetControlStyle(butt.StyleName);
             if (bstl != null)
             {
                 butt.GLVisible = bstl.glMode;
