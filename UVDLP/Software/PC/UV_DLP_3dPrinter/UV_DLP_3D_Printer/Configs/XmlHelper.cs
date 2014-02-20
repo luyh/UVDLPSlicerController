@@ -75,7 +75,7 @@ namespace UV_DLP_3D_Printer.Configs
             }
             return fileExist;
         }
-
+        
         protected XmlNode FindChildElement(XmlNode parentNode, String elemName)
         {
             foreach (XmlNode nd in parentNode.ChildNodes)
@@ -86,6 +86,25 @@ namespace UV_DLP_3D_Printer.Configs
                 }
             }
             return null;
+        }
+        /// <summary>
+        /// Iterate through all nodes at this level and add all
+        /// nodes that match the name to the list
+        /// </summary>
+        /// <param name="parentNode"></param>
+        /// <param name="elemName"></param>
+        /// <returns></returns>
+        public List<XmlNode> FindAllChildElement(XmlNode parentNode, String elemName)
+        {
+            List<XmlNode> m_nodes = new List<XmlNode>();
+            foreach (XmlNode nd in parentNode.ChildNodes)
+            {
+                if (nd.Name == elemName)
+                {
+                    m_nodes.Add(nd); ;
+                }
+            }
+            return m_nodes;
         }
 
         protected void LogParamErr(XmlNode parent, String id, String type)

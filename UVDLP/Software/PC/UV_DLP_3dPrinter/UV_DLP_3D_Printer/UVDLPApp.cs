@@ -828,6 +828,35 @@ namespace UV_DLP_3D_Printer
 
         }
         /// <summary>
+        /// This function will iterate through all loaded resources,
+        /// check and see if they are properly licensed, and return the 
+        /// requested image resource
+        /// the first matching will be returned.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Bitmap GetPluginImage(string name) 
+        {
+            Bitmap bmp = null;
+            foreach (PluginEntry pe in m_plugins)
+            {
+                try
+                {
+                    // iterate through all loaded plugins
+                    bmp = pe.m_plugin.GetImage(name);
+                    if (bmp != null) 
+                    {
+                        break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    DebugLogger.Instance().LogError(ex);
+                }
+            }
+            return bmp;
+        }
+        /// <summary>
         /// returns the name of the current build / slice profile
         /// </summary>
         /// <returns></returns>

@@ -23,5 +23,10 @@ namespace plugTest
         {
             lbl1.Text = "Button Clicked";
         }
+
+        private void ctlTestControl_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

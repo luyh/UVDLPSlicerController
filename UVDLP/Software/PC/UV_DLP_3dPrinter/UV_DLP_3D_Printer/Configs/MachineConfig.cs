@@ -37,6 +37,7 @@ namespace UV_DLP_3D_Printer
         public String m_filename;// the filename of this profile. (not saved)
         public DeviceDriverConfig m_driverconfig;
         public MonitorConfig m_monitorconfig;
+        public List<MonitorConfig> m_lstMonitorconfigs; // starting to add support for multiple monitors
 
         /// <summary>
         /// This allows for retrieve arbitrary variables from the machine XML configuration
@@ -55,6 +56,7 @@ namespace UV_DLP_3D_Printer
         public bool Load(string filename)
         {
             m_filename = filename;
+            m_lstMonitorconfigs.Clear(); // clear any previously loaded monitors
             m_name = Path.GetFileNameWithoutExtension(filename);
             bool retval = false;
             XmlHelper xh = new XmlHelper();
@@ -74,7 +76,24 @@ namespace UV_DLP_3D_Printer
                 retval = true;
             }
 
-            m_monitorconfig.Load(xh, mc);
+            //m_monitorconfig.Load(xh, mc);
+            List<XmlNode> monitornodes = xh.FindAllChildElement(mc, "MonitorDriverConfig");
+            foreach (XmlNode node in monitornodes) 
+            {
+                MonitorConfig monc = new MonitorConfig();
+                monc.Load(xh, node);
+                m_lstMonitorconfigs.Add(monc);
+            }
+            if (m_lstMonitorconfigs.Count > 0)
+            {
+                // we need at least 1 monitor
+                m_monitorconfig = m_lstMonitorconfigs[0];
+            }
+            else 
+            {
+                DebugLogger.Instance().LogError("Not monitor configurations found!");
+            }
+
             CalcPixPerMM();
 
             if (!fileExist)
@@ -118,6 +137,7 @@ namespace UV_DLP_3D_Printer
             m_ZMaxFeedrate = 100;
             m_driverconfig = new DeviceDriverConfig();
             m_monitorconfig = new MonitorConfig();
+            m_lstMonitorconfigs = new List<MonitorConfig>(); // create a list of monitors attached to the system
             m_machinetype = eMachineType.UV_DLP;
             CalcPixPerMM();
         }
@@ -132,7 +152,8 @@ namespace UV_DLP_3D_Printer
             m_ZMaxFeedrate = 100;
             m_driverconfig = new DeviceDriverConfig();
             m_driverconfig.m_drivertype = Drivers.eDriverType.eNULL_DRIVER;
-            m_monitorconfig = new MonitorConfig();
+            //m_monitorconfig = new MonitorConfig();
+            m_lstMonitorconfigs = new List<MonitorConfig>(); // for now, m_monitorconfig is assiugned to the first loaded
             m_machinetype = eMachineType.UV_DLP;
             m_driverconfig.m_connection.comname = "LoopBack";
             CalcPixPerMM();
