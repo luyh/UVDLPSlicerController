@@ -105,7 +105,7 @@ namespace Engine3D
                 zlev += d1;
                 //now the top of the foot
                 s2i = m_lstpoints.Count;
-                GenerateCirclePoints(fbrad, divs, zlev, false); // foot top
+                GenerateCirclePoints(ftrad, divs, zlev, false); // foot top
 
                 //zlev += d1;
                 s3i = m_lstpoints.Count;

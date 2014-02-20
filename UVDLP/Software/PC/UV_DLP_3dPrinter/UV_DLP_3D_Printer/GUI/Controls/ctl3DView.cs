@@ -818,6 +818,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                         objectInfoPanel.FillObjectInfo(i.obj);
                         UVDLPApp.Instance().m_engine3d.UpdateLists();
                     }
+                    UpdateView();
                     break;
                 }
             }
@@ -1102,6 +1103,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 towardseye.Normalize(); // make the unit length of 1
                 towardseye.Scale(4.0f); // scale to 5 mm
                 sup.MoveFromTip(isd1.intersect, towardseye);
+                UpdateView();
                 //sup.
             }
         }

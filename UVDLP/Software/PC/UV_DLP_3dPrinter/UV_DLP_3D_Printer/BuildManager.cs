@@ -48,6 +48,7 @@ namespace UV_DLP_3D_Printer
         public const int SLICE_NORMAL                  =  0;
         public const int SLICE_BLANK                   = -1;
         public const int SLICE_CALIBRATION             = -2;
+        public const int SLICE_SPECIAL                 = -3; // pulled from a plugin by name
 
         
 
@@ -141,6 +142,34 @@ namespace UV_DLP_3D_Printer
             ts = TimeSpan.FromMilliseconds(bt);
             return String.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
         }
+        
+        /// <summary>
+        /// This GetBlank screen is trickier than it sounds
+        /// some machines (like the Deep Imager 5) require a bitmap that is not 
+        /// truly blank, but has red lines, so the projector doesn't go into standy
+        /// we need to look for the image provided in the plugin if it exists and use that
+        /// if it doesn't exist (no plugin - not the right plugin) , we'll just create  blank one
+        /// at the display resolution
+        /// </summary>
+        /// <param name="xres"></param>
+        /// <param name="yres"></param>
+        /// <returns></returns>
+        public void MakeBlank(int xres, int yres) 
+        {
+            if (m_blankimage == null)  // blank image is null, create it
+            {
+                m_blankimage = UVDLPApp.Instance().GetPluginImage("Blank"); // try to load it from the plug-in
+                if (m_blankimage == null)
+                {
+                    m_blankimage = new Bitmap(xres, yres);
+                    using (Graphics gfx = Graphics.FromImage(m_blankimage))
+                    using (SolidBrush brush = new SolidBrush(Color.Black))
+                    {
+                        gfx.FillRectangle(brush, 0, 0, xres, yres);
+                    }
+                }
+            }            
+        }
         public Bitmap MakeCalibration(int xres, int yres, SliceBuildConfig sc)
         {
             // if (m_calibimage == null)  // blank image is null, create it
@@ -202,28 +231,9 @@ namespace UV_DLP_3D_Printer
         }
         public void ShowBlank(int xres, int yres) 
         {
-            bool fillimage = false;
             if (m_blankimage == null)  // blank image is null, create it
             {
-                fillimage = true;
-                m_blankimage = new Bitmap(xres, yres);
-            }
-            else 
-            {
-                if (m_blankimage.Width != xres && m_blankimage.Height != yres) 
-                {
-                    fillimage = true;
-                    m_blankimage = new Bitmap(xres, yres);
-                }
-            }
-            if (fillimage) 
-            {
-                // fill it with black
-                using (Graphics gfx = Graphics.FromImage(m_blankimage))
-                using (SolidBrush brush = new SolidBrush(Color.Black))
-                {
-                    gfx.FillRectangle(brush, 0, 0, xres, yres);
-                }            
+                MakeBlank(xres, yres);
             }
             PrintLayer(m_blankimage, SLICE_BLANK, SLICE_BLANK);            
         }
@@ -292,6 +302,30 @@ namespace UV_DLP_3D_Printer
             m_running = true;
             m_runthread.Start();
         }
+        /// <summary>
+        /// Get the name of the special image from the line
+        /// so we can look for it in a plugin
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
+        private static string GetSpecialName(string line) 
+        {
+            string sn = "";
+            try
+            {
+                int idx = line.IndexOf("Special_");
+                if (idx != -1)
+                {
+                    line = line.Replace("Special_", string.Empty);//remove the special part
+                    sn = line.Substring(idx);
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
+            return sn;
+        }
         private static int getvarfromline(String line) 
         {
             try
@@ -303,7 +337,11 @@ namespace UV_DLP_3D_Printer
                 if (lines[1].Contains("Blank"))
                 {
                     val = -1; // blank screen
-                }                
+                }    
+                else if(lines[1].Contains("Special_"))
+                {
+                    val = -3; // special image
+                }    
                 else 
                 {
                     String []lns2 = lines[1].Trim().Split(' ');
@@ -399,22 +437,31 @@ namespace UV_DLP_3D_Printer
                                     {
                                         if (m_blankimage == null)  // blank image is null, create it
                                         {
-                                            m_blankimage = new Bitmap(m_sf.XProjRes, m_sf.YProjRes);
-                                            // fill it with black
-                                            using (Graphics gfx = Graphics.FromImage(m_blankimage))
-                                            using (SolidBrush brush = new SolidBrush(Color.Black))
-                                            {
-                                                gfx.FillRectangle(brush, 0, 0, m_sf.XProjRes, m_sf.YProjRes);
-                                            }
+                                            MakeBlank(m_sf.XProjRes, m_sf.YProjRes);
                                         }
                                         bmp = m_blankimage;
                                         curtype = BuildManager.SLICE_BLANK;
-                                    }                  
+                                    }
+                                    else if (layer == SLICE_SPECIAL) // plugins can override special images by named resource
+                                    {
+                                        // get the special image from the plugin (no caching for now..)
+                                        string special = GetSpecialName(line);
+                                        bmp = UVDLPApp.Instance().GetPluginImage(special);
+                                        if (bmp == null) // no special image, even though it's specified..
+                                        {
+                                            if (m_blankimage == null)  // blank image is null, create it
+                                            {
+                                                MakeBlank(m_sf.XProjRes, m_sf.YProjRes);
+                                            }
+                                            bmp = m_blankimage;
+                                        }                                        
+                                        curtype = BuildManager.SLICE_BLANK;
+                                    }
                                     else
                                     {
                                         m_curlayer = layer;
                                         bmp = m_sf.GetSliceImage(m_curlayer); // get the rendered image slice or load it if already rendered                                    
-                                        if (bmp == null) 
+                                        if (bmp == null)
                                         {
                                             DebugLogger.Instance().LogError("Buildmanager bitmap is null layer = " + m_curlayer + " ");
                                         }

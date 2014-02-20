@@ -48,14 +48,26 @@ namespace UV_DLP_3D_Printer.Configs
             m_monitorid = "";
         }
 
+        public bool Load(XmlHelper xh, XmlNode thisnode)
+        {
+            XmlNode mdc = thisnode;// xh.FindSection(parent, "MonitorDriverConfig");
+            m_XDLPRes = xh.GetDouble(mdc, "DLP_X_Res", 1024.0);
+            m_YDLPRes = xh.GetDouble(mdc, "DLP_Y_Res", 768.0);
+            m_monitorid = xh.GetString(mdc, "MonitorID", "");
+            m_displayconnectionenabled = xh.GetBool(mdc, "DisplayCommEnabled", false);
+            m_displayconnection.Load(xh, mdc);
+            m_monitorrect.top = (float)xh.GetDouble(mdc, "MonitorTop", 0.0);
+            m_monitorrect.left = (float)xh.GetDouble(mdc, "MonitorLeft", 0.0);
+            m_monitorrect.right = (float)xh.GetDouble(mdc, "MonitorRight", 1.0);
+            m_monitorrect.bottom = (float)xh.GetDouble(mdc, "MonitorBottom", 1.0);
+            return true;
+        }        
+        /*
         public bool Load(XmlHelper xh, XmlNode parent)
         {
             XmlNode mdc = xh.FindSection(parent, "MonitorDriverConfig");
             m_XDLPRes = xh.GetDouble(mdc, "DLP_X_Res", 1024.0);
             m_YDLPRes = xh.GetDouble(mdc, "DLP_Y_Res", 768.0);
-            // m_Xpixpermm and m_Ypixpermm are calculated dinamically, no need to save/load
-            //m_Xpixpermm = xh.GetDouble(mdc, "PixPermmX", 10.0); 
-            //m_Ypixpermm = xh.GetDouble(mdc, "PixPermmY", 10.0);
             m_monitorid = xh.GetString(mdc, "MonitorID", "");
             m_displayconnectionenabled = xh.GetBool(mdc, "DisplayCommEnabled", false);
             m_displayconnection.Load(xh, mdc);
@@ -65,7 +77,7 @@ namespace UV_DLP_3D_Printer.Configs
             m_monitorrect.bottom = (float)xh.GetDouble(mdc, "MonitorBottom", 1.0);
             return true;
         }
-
+        */
         public bool Save(XmlHelper xh, XmlNode parent) // use new xml system -SHS
         {
             XmlNode mdc = xh.FindSection(parent, "MonitorDriverConfig");

@@ -59,6 +59,7 @@
             this.Controls.Add(this.lbl1);
             this.Name = "ctlTestControl";
             this.Size = new System.Drawing.Size(168, 103);
+            this.Load += new System.EventHandler(this.ctlTestControl_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
