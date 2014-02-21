@@ -330,7 +330,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public override void ApplyStyle(ControlStyle ct)
         {
             base.ApplyStyle(ct);
-            textData.ForeColor = Style.ForeColor;
+            textData.ValidColor = Style.ForeColor;
             textData.BackColor = Style.BackColor;
             /*if (ct.FrameColor != ControlStyle.NullColor)
                 BackColor = ct.FrameColor;

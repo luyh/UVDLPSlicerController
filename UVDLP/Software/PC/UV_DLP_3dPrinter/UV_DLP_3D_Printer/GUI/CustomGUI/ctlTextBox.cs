@@ -111,7 +111,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public Color ValidColor
         {
             get { return mValidColor; }
-            set { mValidColor = value; }
+            set { mValidColor = value; ValidateVal(); }
         }
 
         [DefaultValue(false)]

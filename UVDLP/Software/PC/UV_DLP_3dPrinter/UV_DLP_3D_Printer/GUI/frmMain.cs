@@ -252,7 +252,7 @@ namespace UV_DLP_3D_Printer
                     case eAppEvent.eMachineDisconnected:
                         break;
                 }
-                Refresh();
+                //Refresh();
             }
             
         }

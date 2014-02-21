@@ -103,9 +103,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             int bw = mBorderWidth;
             Rectangle barrc = new Rectangle(bw, bw, Width - 2 * bw, Height - 2 * bw);
             Rectangle sliderc = new Rectangle(bw + mSliderPos - mSliderWidth / 2, bw + 1, mSliderWidth, Height - 2 * bw - 2);
-            Brush fbr = new SolidBrush(ForeColor);
-            Pen fpen = new Pen(ForeColor, 1);
-            Brush bbr = new SolidBrush(BackColor);
+            Brush fbr = new SolidBrush(Style.FrameColor);
+            Pen fpen = new Pen(Style.FrameColor, 1);
+            Brush bbr = new SolidBrush(Style.ForeColor);
             gr.FillRectangle(fbr, barrc);
             gr.FillRectangle(bbr, sliderc);
             gr.DrawLine(fpen, bw + mSliderPos, bw + 2, bw + mSliderPos, Height - bw - 3);
@@ -211,10 +211,10 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public override void ApplyStyle(ControlStyle ct)
         {
             base.ApplyStyle(ct);
-            if (ct.FrameColor != ControlStyle.NullColor)
+            /*if (ct.FrameColor != ControlStyle.NullColor)
                 ForeColor = ct.FrameColor;
             if (ct.BackColor != ControlStyle.NullColor)
-                BackColor = ct.BackColor;
+                BackColor = ct.BackColor;*/
         }
 
      }
