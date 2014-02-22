@@ -293,10 +293,18 @@ namespace UV_DLP_3D_Printer
          */
         public void Move(double zpos, double rate)
         {
-            String command = "G1 Z" + zpos + " F" + rate + "\r\n";
-            SendCommandToDevice("G91\r\n"); 
-            SendCommandToDevice(command);
-            SendCommandToDevice("G90\r\n");            
+            if (!Connected)
+            {
+                DebugLogger.Instance().LogInfo("Device not connected");
+                return;
+            }
+            else
+            {
+                String command = "G1 Z" + zpos + " F" + rate + "\r\n";
+                SendCommandToDevice("G91\r\n");
+                SendCommandToDevice(command);
+                SendCommandToDevice("G90\r\n");
+            }
         }
         /*
          This function moves the X (Tilt/Slide) axis to by the distance in mm 
@@ -304,10 +312,18 @@ namespace UV_DLP_3D_Printer
          */
         public void MoveX(double xpos, double rate)
         {
-            String command = "G1 X" + xpos + " F" + rate + "\r\n";
-            SendCommandToDevice("G91\r\n");
-            SendCommandToDevice(command);
-            SendCommandToDevice("G90\r\n");
+            if (!Connected)
+            {
+                DebugLogger.Instance().LogInfo("Device not connected");
+                return;
+            }
+            else
+            {
+                String command = "G1 X" + xpos + " F" + rate + "\r\n";
+                SendCommandToDevice("G91\r\n");
+                SendCommandToDevice(command);
+                SendCommandToDevice("G90\r\n");
+            }
         }
         /*
          This function moves the Y (Tilt/Slide) axis to by the distance in mm 

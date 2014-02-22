@@ -25,7 +25,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             try
             {
-                lblMachineName.Text = m_config.m_name;
+                //lblMachineName.Text = m_config.m_name;
+                grpMachineConfig.Text = m_config.m_name;
                 cmbMachineType.Items.Clear();
                 foreach(String s in Enum.GetNames(typeof(MachineConfig.eMachineType)))
                 {

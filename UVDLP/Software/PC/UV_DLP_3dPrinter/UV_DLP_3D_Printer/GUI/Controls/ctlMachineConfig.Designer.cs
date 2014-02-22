@@ -51,10 +51,8 @@
             this.cmdNew = new System.Windows.Forms.Button();
             this.lstMachineProfiles = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.cmbMachineProfiles = new System.Windows.Forms.ComboBox();
-            this.lblMachineName = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label13 = new System.Windows.Forms.Label();
             this.cmdCfgConMch = new System.Windows.Forms.Button();
@@ -64,18 +62,20 @@
             this.label12 = new System.Windows.Forms.Label();
             this.lblConDisp = new System.Windows.Forms.Label();
             this.cmdCfgConDsp = new System.Windows.Forms.Button();
+            this.grpMachineConfig = new System.Windows.Forms.GroupBox();
             this.Monitors.SuspendLayout();
             this.ProjectorRes.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.grpPrjSerial.SuspendLayout();
+            this.grpMachineConfig.SuspendLayout();
             this.SuspendLayout();
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(624, 62);
+            this.label9.Location = new System.Drawing.Point(54, 18);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(97, 17);
             this.label9.TabIndex = 53;
@@ -84,7 +84,7 @@
             // cmbMachineType
             // 
             this.cmbMachineType.FormattingEnabled = true;
-            this.cmbMachineType.Location = new System.Drawing.Point(627, 81);
+            this.cmbMachineType.Location = new System.Drawing.Point(157, 15);
             this.cmbMachineType.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbMachineType.Name = "cmbMachineType";
             this.cmbMachineType.Size = new System.Drawing.Size(171, 24);
@@ -96,14 +96,14 @@
             this.Monitors.Controls.Add(this.lblMonInfo);
             this.Monitors.Controls.Add(this.cmdRefreshMonitors);
             this.Monitors.Controls.Add(this.lstMonitors);
-            this.Monitors.Location = new System.Drawing.Point(265, 194);
+            this.Monitors.Location = new System.Drawing.Point(6, 190);
             this.Monitors.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Monitors.Name = "Monitors";
             this.Monitors.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Monitors.Size = new System.Drawing.Size(220, 139);
+            this.Monitors.Size = new System.Drawing.Size(169, 139);
             this.Monitors.TabIndex = 49;
             this.Monitors.TabStop = false;
-            this.Monitors.Text = "Select Print Display Device";
+            this.Monitors.Text = "Print Display Device";
             // 
             // lblMonInfo
             // 
@@ -118,7 +118,7 @@
             this.cmdRefreshMonitors.Location = new System.Drawing.Point(5, 106);
             this.cmdRefreshMonitors.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdRefreshMonitors.Name = "cmdRefreshMonitors";
-            this.cmdRefreshMonitors.Size = new System.Drawing.Size(205, 28);
+            this.cmdRefreshMonitors.Size = new System.Drawing.Size(151, 28);
             this.cmdRefreshMonitors.TabIndex = 1;
             this.cmdRefreshMonitors.Text = "Refresh";
             this.cmdRefreshMonitors.UseVisualStyleBackColor = true;
@@ -131,7 +131,7 @@
             this.lstMonitors.Location = new System.Drawing.Point(7, 26);
             this.lstMonitors.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lstMonitors.Name = "lstMonitors";
-            this.lstMonitors.Size = new System.Drawing.Size(203, 68);
+            this.lstMonitors.Size = new System.Drawing.Size(149, 68);
             this.lstMonitors.TabIndex = 0;
             this.lstMonitors.SelectedIndexChanged += new System.EventHandler(this.lstMonitors_SelectedIndexChanged);
             // 
@@ -141,11 +141,11 @@
             this.ProjectorRes.Controls.Add(this.label2);
             this.ProjectorRes.Controls.Add(this.projheight);
             this.ProjectorRes.Controls.Add(this.projwidth);
-            this.ProjectorRes.Location = new System.Drawing.Point(491, 194);
+            this.ProjectorRes.Location = new System.Drawing.Point(181, 190);
             this.ProjectorRes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ProjectorRes.Name = "ProjectorRes";
             this.ProjectorRes.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ProjectorRes.Size = new System.Drawing.Size(160, 139);
+            this.ProjectorRes.Size = new System.Drawing.Size(147, 139);
             this.ProjectorRes.TabIndex = 48;
             this.ProjectorRes.TabStop = false;
             this.ProjectorRes.Text = "Resolution (pixels)";
@@ -194,7 +194,7 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.txtPlatHeight);
             this.groupBox1.Controls.Add(this.txtPlatWidth);
-            this.groupBox1.Location = new System.Drawing.Point(265, 62);
+            this.groupBox1.Location = new System.Drawing.Point(6, 49);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -259,7 +259,7 @@
             // 
             // cmdOK
             // 
-            this.cmdOK.Location = new System.Drawing.Point(271, 338);
+            this.cmdOK.Location = new System.Drawing.Point(12, 334);
             this.cmdOK.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(98, 38);
@@ -270,10 +270,10 @@
             // 
             // cmdDelete
             // 
-            this.cmdDelete.Location = new System.Drawing.Point(112, 201);
+            this.cmdDelete.Location = new System.Drawing.Point(88, 201);
             this.cmdDelete.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdDelete.Name = "cmdDelete";
-            this.cmdDelete.Size = new System.Drawing.Size(101, 33);
+            this.cmdDelete.Size = new System.Drawing.Size(75, 32);
             this.cmdDelete.TabIndex = 56;
             this.cmdDelete.Text = "Delete";
             this.cmdDelete.UseVisualStyleBackColor = true;
@@ -284,7 +284,7 @@
             this.cmdNew.Location = new System.Drawing.Point(5, 201);
             this.cmdNew.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdNew.Name = "cmdNew";
-            this.cmdNew.Size = new System.Drawing.Size(101, 33);
+            this.cmdNew.Size = new System.Drawing.Size(75, 32);
             this.cmdNew.TabIndex = 55;
             this.cmdNew.Text = "Create";
             this.cmdNew.UseVisualStyleBackColor = true;
@@ -294,41 +294,31 @@
             // 
             this.lstMachineProfiles.FormattingEnabled = true;
             this.lstMachineProfiles.ItemHeight = 16;
-            this.lstMachineProfiles.Location = new System.Drawing.Point(5, 42);
+            this.lstMachineProfiles.Location = new System.Drawing.Point(5, 26);
             this.lstMachineProfiles.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lstMachineProfiles.Name = "lstMachineProfiles";
-            this.lstMachineProfiles.Size = new System.Drawing.Size(208, 148);
+            this.lstMachineProfiles.Size = new System.Drawing.Size(158, 164);
             this.lstMachineProfiles.TabIndex = 54;
             this.lstMachineProfiles.SelectedIndexChanged += new System.EventHandler(this.lstMachineProfiles_SelectedIndexChanged);
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.lstMachineProfiles);
             this.groupBox2.Controls.Add(this.cmdDelete);
             this.groupBox2.Controls.Add(this.cmdNew);
-            this.groupBox2.Location = new System.Drawing.Point(13, 82);
+            this.groupBox2.Location = new System.Drawing.Point(8, 58);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox2.Size = new System.Drawing.Size(227, 246);
+            this.groupBox2.Size = new System.Drawing.Size(171, 246);
             this.groupBox2.TabIndex = 57;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Configured Machine Profiles";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(5, 22);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(78, 17);
-            this.label11.TabIndex = 59;
-            this.label11.Text = "All Profiles:";
+            this.groupBox2.Text = "All Machine Profiles";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(13, 30);
+            this.label10.Location = new System.Drawing.Point(8, 6);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(96, 17);
             this.label10.TabIndex = 58;
@@ -337,28 +327,19 @@
             // cmbMachineProfiles
             // 
             this.cmbMachineProfiles.FormattingEnabled = true;
-            this.cmbMachineProfiles.Location = new System.Drawing.Point(13, 52);
+            this.cmbMachineProfiles.Location = new System.Drawing.Point(8, 28);
             this.cmbMachineProfiles.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbMachineProfiles.Name = "cmbMachineProfiles";
-            this.cmbMachineProfiles.Size = new System.Drawing.Size(227, 24);
+            this.cmbMachineProfiles.Size = new System.Drawing.Size(171, 24);
             this.cmbMachineProfiles.TabIndex = 57;
             this.cmbMachineProfiles.SelectedIndexChanged += new System.EventHandler(this.cmbMachineProfiles_SelectedIndexChanged);
-            // 
-            // lblMachineName
-            // 
-            this.lblMachineName.AutoSize = true;
-            this.lblMachineName.Location = new System.Drawing.Point(265, 28);
-            this.lblMachineName.Name = "lblMachineName";
-            this.lblMachineName.Size = new System.Drawing.Size(45, 17);
-            this.lblMachineName.TabIndex = 58;
-            this.lblMachineName.Text = "Name";
             // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Controls.Add(this.cmdCfgConMch);
             this.groupBox4.Controls.Add(this.lblConMachine);
-            this.groupBox4.Location = new System.Drawing.Point(416, 62);
+            this.groupBox4.Location = new System.Drawing.Point(157, 49);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -402,7 +383,7 @@
             this.grpPrjSerial.Controls.Add(this.label12);
             this.grpPrjSerial.Controls.Add(this.lblConDisp);
             this.grpPrjSerial.Controls.Add(this.cmdCfgConDsp);
-            this.grpPrjSerial.Location = new System.Drawing.Point(657, 194);
+            this.grpPrjSerial.Location = new System.Drawing.Point(334, 190);
             this.grpPrjSerial.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpPrjSerial.Name = "grpPrjSerial";
             this.grpPrjSerial.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -415,7 +396,7 @@
             // 
             this.checkConDispEnable.AutoSize = true;
             this.checkConDispEnable.Location = new System.Drawing.Point(13, 32);
-            this.checkConDispEnable.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkConDispEnable.Margin = new System.Windows.Forms.Padding(4);
             this.checkConDispEnable.Name = "checkConDispEnable";
             this.checkConDispEnable.Size = new System.Drawing.Size(74, 21);
             this.checkConDispEnable.TabIndex = 5;
@@ -452,25 +433,34 @@
             this.cmdCfgConDsp.UseVisualStyleBackColor = true;
             this.cmdCfgConDsp.Click += new System.EventHandler(this.cmdCfgConDsp_Click);
             // 
+            // grpMachineConfig
+            // 
+            this.grpMachineConfig.Controls.Add(this.groupBox1);
+            this.grpMachineConfig.Controls.Add(this.grpPrjSerial);
+            this.grpMachineConfig.Controls.Add(this.groupBox4);
+            this.grpMachineConfig.Controls.Add(this.Monitors);
+            this.grpMachineConfig.Controls.Add(this.cmdOK);
+            this.grpMachineConfig.Controls.Add(this.label9);
+            this.grpMachineConfig.Controls.Add(this.cmbMachineType);
+            this.grpMachineConfig.Controls.Add(this.ProjectorRes);
+            this.grpMachineConfig.Location = new System.Drawing.Point(190, 3);
+            this.grpMachineConfig.Name = "grpMachineConfig";
+            this.grpMachineConfig.Size = new System.Drawing.Size(519, 380);
+            this.grpMachineConfig.TabIndex = 61;
+            this.grpMachineConfig.TabStop = false;
+            this.grpMachineConfig.Text = "Name";
+            // 
             // ctlMachineConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.grpPrjSerial);
+            this.Controls.Add(this.grpMachineConfig);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.cmbMachineProfiles);
-            this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.lblMachineName);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.cmbMachineType);
-            this.Controls.Add(this.Monitors);
-            this.Controls.Add(this.ProjectorRes);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.cmdOK);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ctlMachineConfig";
-            this.Size = new System.Drawing.Size(1055, 514);
+            this.Size = new System.Drawing.Size(1389, 514);
             this.Load += new System.EventHandler(this.ctlMachineConfig_Load);
             this.Monitors.ResumeLayout(false);
             this.Monitors.PerformLayout();
@@ -479,11 +469,12 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.grpPrjSerial.ResumeLayout(false);
             this.grpPrjSerial.PerformLayout();
+            this.grpMachineConfig.ResumeLayout(false);
+            this.grpMachineConfig.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -516,8 +507,6 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ComboBox cmbMachineProfiles;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label lblMachineName;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button cmdCfgConMch;
         private System.Windows.Forms.Label lblConMachine;
@@ -527,5 +516,6 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.CheckBox checkConDispEnable;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.GroupBox grpMachineConfig;
     }
 }
