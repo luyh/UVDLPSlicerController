@@ -33,7 +33,7 @@ namespace UV_DLP_3D_Printer
     }
     
 
-    public delegate void delBuildStatus(eBuildStatus printstat,string message);
+    public delegate void delBuildStatus(eBuildStatus printstat, string message, int data);
     public delegate void delPrinterLayer(Bitmap bmplayer, int layernum, int layertype); // this is raised to display the next layer, mainly for UV DLP
 
     public class BuildManager
@@ -101,7 +101,7 @@ namespace UV_DLP_3D_Printer
                     tm = "Elapsed " + tm;
                     tm += " of " + estimatedbuildtime;
                     string mess = tm +  " - " + string.Format("{0:0.00}",percentdone) + "% Completed";
-                    RaiseStatusEvent(eBuildStatus.eBuildStatusUpdate,mess);
+                    RaiseStatusEvent(eBuildStatus.eBuildStatusUpdate, mess, (int)percentdone);
                 }
             }
             catch (Exception ex) 
@@ -242,13 +242,20 @@ namespace UV_DLP_3D_Printer
         /// </summary>
         public bool IsPrinting { get { return m_printing; } }
 
-        private void RaiseStatusEvent(eBuildStatus status,string message) 
+        private void RaiseStatusEvent(eBuildStatus status,string message, int data) 
         {
             if (BuildStatus != null) 
             {
-                BuildStatus(status,message);
+                BuildStatus(status, message, data);
             }
         }
+
+        private void RaiseStatusEvent(eBuildStatus status, string message)
+        {
+            RaiseStatusEvent(status, message, 0);
+        }
+
+
         public bool IsPaused() 
         {
             return m_paused;

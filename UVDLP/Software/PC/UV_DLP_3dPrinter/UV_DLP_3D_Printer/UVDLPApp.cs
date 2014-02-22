@@ -102,6 +102,7 @@ namespace UV_DLP_3D_Printer
         public List<PluginEntry> m_plugins; // list of plug-ins
 
         public Undoer m_undoer;
+        public frmMain m_mainform;
 
         public static UVDLPApp Instance() 
         {

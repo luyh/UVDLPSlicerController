@@ -643,6 +643,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             m_context = glControl1.Context;
             glControl1.MouseWheel += new MouseEventHandler(glControl1_MouseWheel);
             SetupViewport();
+            UVDLPApp.Instance().PerformPluginCommand("3dViewLoadedCommand", true);
+
         }
 
         private void glControl1_MouseDown(object sender, MouseEventArgs e)

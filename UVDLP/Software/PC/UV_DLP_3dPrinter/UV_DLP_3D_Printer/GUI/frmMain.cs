@@ -34,6 +34,8 @@ namespace UV_DLP_3D_Printer
         frmSettings m_frmSettings = new frmSettings();
         frmGCode m_frmGCode = new frmGCode();
         frmSliceView m_frmSliceView = new frmSliceView();
+        public event delBuildStatus BuildStatusInvoked; // rund the build delegate in Form thread
+
 
         public frmMain()
         {
@@ -42,6 +44,7 @@ namespace UV_DLP_3D_Printer
             //this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             
             InitializeComponent();
+            UVDLPApp.Instance().m_mainform = this;
             UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEventDel);
             UVDLPApp.Instance().Engine3D.UpdateGrid();
             //UVDLPApp.Instance().Engine3D.AddPlatCube();
@@ -82,7 +85,7 @@ namespace UV_DLP_3D_Printer
 
             RegisterCallbacks();
 
-            UVDLPApp.Instance().PerformPluginCommand("GUILoadedCommand", true);
+            UVDLPApp.Instance().PerformPluginCommand("MainFormLoadedCommand", true);
 
             Refresh();
 
@@ -360,15 +363,17 @@ namespace UV_DLP_3D_Printer
             }
         }
 
-        void BuildStatus(eBuildStatus printstat, string mess) 
+        void BuildStatus(eBuildStatus printstat, string mess, int data) 
         {
          // displays the print status
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate() { BuildStatus(printstat,mess); }));
+                BeginInvoke(new MethodInvoker(delegate() { BuildStatus(printstat,mess, data); }));
             }
             else
             {
+                if (BuildStatusInvoked != null)
+                    BuildStatusInvoked(printstat, mess, data);
                 String message = "";
                 switch (printstat)
                 {

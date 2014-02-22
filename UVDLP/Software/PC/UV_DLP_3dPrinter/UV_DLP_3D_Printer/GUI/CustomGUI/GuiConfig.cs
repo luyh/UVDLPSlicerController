@@ -14,38 +14,42 @@ using UV_DLP_3D_Printer.Plugin;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
-    abstract class DecorItem
+    public abstract class DecorItem
     {
         public abstract void Show(C2DGraphics g2d, int w, int h);
+        public bool visible = true;
+        public string name = null;
     }
 
-    class DecorImage : DecorItem
+    public class DecorImage : DecorItem
     {
-        public DecorImage(string name, string docking, int x, int y, Color col)
+        public DecorImage(string imgname, string docking, int x, int y, Color col)
         {
-            this.name = name;
+            this.imgname = imgname;
             this.docking = docking;
             this.x = x;
             this.y = y;
             this.color = col;
         }
-        string name;
+        string imgname;
         string docking; // tl = top left, rc = right center, nn = no dock, etc
         int x, y;       // gap to edge when docked, absolute if not
         Color color;
 
         public override void Show(C2DGraphics g2d, int w, int h)
         {
+            if (!visible)
+                return;
             int iw = 0, ih = 0;
-            g2d.GetImageDim(name, ref iw, ref ih);
+            g2d.GetImageDim(imgname, ref iw, ref ih);
             int px = GuiConfig.GetPosition(0, w, iw, x, docking[1]);
             int py = GuiConfig.GetPosition(0, h, ih, y, docking[0]);
             g2d.SetColor(color);
-            g2d.Image(name, px, py);
+            g2d.Image(imgname, px, py);
         }
     }
 
-    class DecorBar : DecorItem
+    public class DecorBar : DecorItem
     {
         public DecorBar(string docking, int w, Color col) // solid bar
         {
@@ -164,6 +168,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         Dictionary<String, ctlUserPanel> Controls;
         Dictionary<String, ctlImageButton> Buttons;
         Dictionary<String, ControlStyle> ControlStyles;
+        Dictionary<String, DecorItem> DecorItems;
         List<DecorItem> BgndDecorList;
         List<DecorItem> FgndDecorList;
         ResourceManager Res;
@@ -179,6 +184,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             Controls = new Dictionary<string, ctlUserPanel>();
             Buttons = new Dictionary<string, ctlImageButton>();
             ControlStyles = new Dictionary<string, ControlStyle>();
+            DecorItems = new Dictionary<string,DecorItem>();
             Res = global::UV_DLP_3D_Printer.Properties.Resources.ResourceManager;
             Plugin = null;
             DefaultControlStyle = new ControlStyle();
@@ -227,6 +233,13 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (!Buttons.ContainsKey(name))
                 return null;
             return Buttons[name];
+        }
+
+        public DecorItem GetDecorItem(string name)
+        {
+            if (!DecorItems.ContainsKey(name))
+                return null;
+            return DecorItems[name];
         }
 
         public static int GetPosition(int refpos, int refwidth, int width, int gap, Char anchor)
@@ -316,27 +329,37 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             string docking = GetStrParam(barnode, "dock", "n").ToLower();
             int w = GetIntParam(barnode, "width", 100);
+            string name = GetStrParam(barnode, "name", null);
             List<DecorItem> dlist = GetListFromLevel(barnode);
+            DecorItem dcr = null;
             if (GetStrParam(barnode, "color", null) == null)
             {
                 Color coltl = GetColorParam(barnode, "tlcolor", Color.White);
                 Color coltr = GetColorParam(barnode, "trcolor", Color.White);
                 Color colbl = GetColorParam(barnode, "blcolor", Color.White);
                 Color colbr = GetColorParam(barnode, "brcolor", Color.White);
-                dlist.Add(new DecorBar(docking, w, coltl, coltr, colbl, colbr));
+                dcr = new DecorBar(docking, w, coltl, coltr, colbl, colbr);
             }
             else
             {
                 Color col = GetColorParam(barnode, "color", Color.White);
-                dlist.Add(new DecorBar(docking, w, col));
+                dcr = new DecorBar(docking, w, col);
             }
+            dlist.Add(dcr);
+            if (name != null)
+            {
+                dcr.name = name;
+                DecorItems[name] = dcr;
+            }
+
         }
 
         void HandleImages(XmlNode imgnode)
         {
-            string name = GetStrParam(imgnode, "name", null);
-            if (name == null)
+            string imgname = GetStrParam(imgnode, "image", null);
+            if (imgname == null)
                 return;
+            string name = GetStrParam(imgnode, "name", null);
             string docking = FixDockingVal(GetStrParam(imgnode, "dock", "cc"));
             int x = GetIntParam(imgnode, "x", 0);
             int y = GetIntParam(imgnode, "y", 0);
@@ -345,7 +368,13 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if ((opacity >= 0) && (opacity <= 255))
                 col = Color.FromArgb(opacity, col.R, col.G, col.B);
             List<DecorItem> dlist = GetListFromLevel(imgnode);
-            dlist.Add(new DecorImage(name, docking, x, y, col));
+            DecorItem dcr = new DecorImage(imgname, docking, x, y, col);
+            dlist.Add(dcr);
+            if (name != null)
+            {
+                dcr.name = name;
+                DecorItems[name] = dcr;
+            }
         }
         #endregion
 
@@ -482,6 +511,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ctl.Width = GetIntParam(ctlnode, "w", ctl.Width);
             ctl.Height = GetIntParam(ctlnode, "h", ctl.Height);
             ctl.StyleName = GetStrParam(ctlnode, "style", ctl.StyleName);
+            ctl.Visible = GetBoolParam(ctlnode, "visible", ctl.Visible);
             ControlStyle bstl = GetControlStyle(ctl.StyleName);
             if (bstl != null)
             {

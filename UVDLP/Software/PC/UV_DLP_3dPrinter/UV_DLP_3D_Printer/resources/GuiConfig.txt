@@ -43,7 +43,7 @@
 		<bar dock="n" tlcolor="AliceBlue" trcolor="AliceBlue" blcolor="LightBlue" brcolor="SkyBlue" level="background"/>
 		<bar dock="t" width="70" color="RoyalBlue"/>
 		<bar dock="b" width="70" color="RoyalBlue"/>
-		<image name="cwlogo_round" dock="tc" x="0" y="0" />
+		<image image="cwlogo_round" dock="tc" x="0" y="0" />
 	</decals>
 </GuiConfig>
 
