@@ -17,7 +17,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         Rectangle mDstrc;
         Rectangle mSrcrc;
         Rectangle mCheckrc;
-        int nSubImages = 4;
+        //int nSubImages = 4;
         int mSubImgWidth, mSubChkImgWidth;
         String mGLImage;
         C2DImage mGLImageCach;
@@ -34,7 +34,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 mImage = value;
                 if (mImage != null)
                 {
-                    mSubImgWidth = mImage.Width / nSubImages;
+                    mSubImgWidth = mImage.Width / Style.SubImgCount;
                     mSrcrc = new Rectangle(0, 0, mSubImgWidth, mImage.Height);
                     ScaleImage();
                 }
@@ -123,17 +123,26 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             Image img = C2DGraphics.ColorizeBitmap((Bitmap)inimg, GetPaintColor(Style));
             //Rectangle srcrc = new Rectangle(0, 0, img.Width, img.Height);
+            float scale = 1;
             if (mCtlState == CtlState.Hover)
+                scale = Style.HoverSize / 100;
+            if (mCtlState == CtlState.Pressed)
+                scale = Style.PressedSize / 100;
+
+            RectangleF dstrc;
+            if ((scale < 0.999f) || (scale > 1.001f))
             {
-                float scx = mDstrc.Width / 16f;
-                float scy = mDstrc.Height / 16f;
-                RectangleF dstrc = new RectangleF(mDstrc.X - scx, mDstrc.Y - scy, mDstrc.Width + 2 * scx, mDstrc.Height + 2 * scy);
-                gr.DrawImage(img, dstrc);
+                float w = (float)mDstrc.Width * scale;
+                float h = (float)mDstrc.Height * scale;
+                float scx = ((float)mDstrc.Width - w) / 2f;
+                float scy = ((float)mDstrc.Height - h) / 2f;
+                dstrc = new RectangleF(mDstrc.X + scx, mDstrc.Y + scy, w, h);
             }
             else
             {
-                gr.DrawImage(img, mDstrc);
+                dstrc = mDstrc;
             }
+            gr.DrawImage(img, dstrc);
         }
         
         protected override void OnPaint(PaintEventArgs pevent)
@@ -240,11 +249,20 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             gr.SetColor(GetPaintColor(stl));
 
+            float scale = 1;
             if (mCtlState == CtlState.Hover)
+                scale = stl.HoverSize / 100;
+            if (mCtlState == CtlState.Pressed)
+                scale = stl.PressedSize / 100;
+
+
+            if ((scale < 0.999f) || (scale > 1.001f))
             {
-                float scx = (float)Width / 16f;
-                float scy = (float)Height / 16f;
-                gr.Image(mGLImageCach, 0, 0, mGLImageCach.w, mGLImageCach.h, -scx, -scy, Width + 2f * scx, Height + 2f * scy);
+                float w = (float)Width * scale;
+                float h = (float)Height * scale;
+                float scx = ((float)Width - w) / 2f;
+                float scy = ((float)Height - h) / 2f;
+                gr.Image(mGLImageCach, 0, 0, mGLImageCach.w, mGLImageCach.h, scx, scy, w, h);
             }
             else
             {
@@ -260,7 +278,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 mGLImageCach = gr.GetImage(mGLImage);
                 if (mGLImageCach == null)
                     return;
-                mSubImgWidth = mGLImageCach.w / nSubImages;
+                mSubImgWidth = mGLImageCach.w / Style.SubImgCount;
             }
             ControlStyle stl = Style;
             if (stl.SubImgCount == 4)

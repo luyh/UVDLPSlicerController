@@ -123,6 +123,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public Color CheckedColor;
         public Color DisabledColor;
         public Color HoverColor;
+        public float PressedSize;
+        public float HoverSize;
         String mCheckedImage;
         C2DImage mCheckedImageCach;
 
@@ -135,8 +137,10 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             CheckedColor = Color.Orange;
             PressedColor = Color.White;
             HoverColor = Color.White;
+            PressedSize = 100;
+            HoverSize = 100;
             DisabledColor = Color.FromArgb(60, 255, 255, 255);
-            SubImgCount = 4;
+            SubImgCount = 1;
             glMode = false;
         }
 
@@ -405,13 +409,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 bt.SetDefault();
             }
             UpdateStyle(xnode, bt);
-            bt.CheckedColor = GetColorParam(xnode, "checkcolor", bt.CheckedColor);
-            bt.HoverColor = GetColorParam(xnode, "hovercolor", bt.HoverColor);
-            bt.PressedColor = GetColorParam(xnode, "presscolor", bt.PressedColor);
-            bt.SubImgCount = GetIntParam(xnode, "nimages", bt.SubImgCount);
-            bt.BackImage = GetStrParam(xnode, "backimage", bt.BackImage);
-            bt.CheckedImage = GetStrParam(xnode, "checkimage", bt.CheckedImage);
-            bt.DisabledColor = GetColorParam(xnode, "disablecolor", bt.DisabledColor);
 
             if (name == "DefaultButton")
             {
@@ -625,6 +622,15 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ct.BackColor = GetColorParam(xnode, "backcolor", ct.BackColor);
             ct.FrameColor = GetColorParam(xnode, "framecolor", ct.BackColor);
             ct.glMode = GetBoolParam(xnode, "gl", ct.glMode);
+            ct.CheckedColor = GetColorParam(xnode, "checkcolor", ct.CheckedColor);
+            ct.HoverColor = GetColorParam(xnode, "hovercolor", ct.HoverColor);
+            ct.PressedColor = GetColorParam(xnode, "presscolor", ct.PressedColor);
+            ct.SubImgCount = GetIntParam(xnode, "nimages", ct.SubImgCount);
+            ct.BackImage = GetStrParam(xnode, "backimage", ct.BackImage);
+            ct.CheckedImage = GetStrParam(xnode, "checkimage", ct.CheckedImage);
+            ct.DisabledColor = GetColorParam(xnode, "disablecolor", ct.DisabledColor);
+            ct.HoverSize = GetIntParam(xnode, "hoverscale", (int)ct.HoverSize);
+            ct.PressedSize = GetIntParam(xnode, "pressscale", (int)ct.PressedSize);
         }
 
         #endregion

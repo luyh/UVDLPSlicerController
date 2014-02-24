@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ctl3DView));
             this.mainViewSplitContainer = new System.Windows.Forms.SplitContainer();
             this.textTime = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlText();
             this.textMainMessage = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlText();
@@ -229,7 +228,7 @@
             this.buttSlice.GLVisible = false;
             this.buttSlice.GuiAnchor = null;
             this.buttSlice.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
-            this.buttSlice.Image = ((System.Drawing.Image)(resources.GetObject("buttSlice.Image")));
+            this.buttSlice.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttSlice;
             this.buttSlice.Location = new System.Drawing.Point(900, 376);
             this.buttSlice.Margin = new System.Windows.Forms.Padding(4, 4, 0, 4);
             this.buttSlice.Name = "buttSlice";

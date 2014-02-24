@@ -65,6 +65,10 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (ct.ForeColor != ControlStyle.NullColor)
             {
                 labelManipType.ForeColor = ct.ForeColor;
+                label5.ForeColor = ct.ForeColor;
+                label6.ForeColor = ct.ForeColor;
+                label7.ForeColor = ct.ForeColor;
+                label12.ForeColor = ct.ForeColor;
                 textScaleX.ForeColor = ct.ForeColor;
                 textScaleY.ForeColor = ct.ForeColor;
                 textScaleZ.ForeColor = ct.ForeColor;
