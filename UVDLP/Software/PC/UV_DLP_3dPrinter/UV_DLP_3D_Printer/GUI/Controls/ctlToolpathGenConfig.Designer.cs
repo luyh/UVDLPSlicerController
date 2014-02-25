@@ -30,6 +30,7 @@
         {
             this.tabOptions = new System.Windows.Forms.TabControl();
             this.tbOptions = new System.Windows.Forms.TabPage();
+            this.txtAAVal = new System.Windows.Forms.TextBox();
             this.chkExport = new System.Windows.Forms.CheckBox();
             this.txtResinPriceL = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
@@ -86,7 +87,6 @@
             this.lstSliceProfiles = new System.Windows.Forms.ListBox();
             this.cmdDelete = new System.Windows.Forms.Button();
             this.cmdNew = new System.Windows.Forms.Button();
-            this.txtAAVal = new System.Windows.Forms.TextBox();
             this.tabOptions.SuspendLayout();
             this.tbOptions.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -105,7 +105,7 @@
             this.tabOptions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabOptions.Name = "tabOptions";
             this.tabOptions.SelectedIndex = 0;
-            this.tabOptions.Size = new System.Drawing.Size(759, 484);
+            this.tabOptions.Size = new System.Drawing.Size(730, 484);
             this.tabOptions.TabIndex = 46;
             // 
             // tbOptions
@@ -137,10 +137,19 @@
             this.tbOptions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbOptions.Name = "tbOptions";
             this.tbOptions.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tbOptions.Size = new System.Drawing.Size(751, 455);
+            this.tbOptions.Size = new System.Drawing.Size(722, 455);
             this.tbOptions.TabIndex = 0;
             this.tbOptions.Text = "Options";
             this.tbOptions.UseVisualStyleBackColor = true;
+            // 
+            // txtAAVal
+            // 
+            this.txtAAVal.Location = new System.Drawing.Point(190, 273);
+            this.txtAAVal.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtAAVal.Name = "txtAAVal";
+            this.txtAAVal.Size = new System.Drawing.Size(56, 22);
+            this.txtAAVal.TabIndex = 60;
+            this.txtAAVal.Text = "1.5";
             // 
             // chkExport
             // 
@@ -583,7 +592,7 @@
             this.tbGCode.Controls.Add(this.txtGCode);
             this.tbGCode.Location = new System.Drawing.Point(4, 25);
             this.tbGCode.Name = "tbGCode";
-            this.tbGCode.Size = new System.Drawing.Size(751, 455);
+            this.tbGCode.Size = new System.Drawing.Size(722, 455);
             this.tbGCode.TabIndex = 7;
             this.tbGCode.Text = "GCode";
             this.tbGCode.UseVisualStyleBackColor = true;
@@ -641,7 +650,7 @@
             this.txtGCode.Multiline = true;
             this.txtGCode.Name = "txtGCode";
             this.txtGCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtGCode.Size = new System.Drawing.Size(542, 298);
+            this.txtGCode.Size = new System.Drawing.Size(525, 298);
             this.txtGCode.TabIndex = 6;
             // 
             // label6
@@ -714,15 +723,6 @@
             this.cmdNew.UseVisualStyleBackColor = true;
             this.cmdNew.Click += new System.EventHandler(this.cmdNew_Click);
             // 
-            // txtAAVal
-            // 
-            this.txtAAVal.Location = new System.Drawing.Point(190, 273);
-            this.txtAAVal.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtAAVal.Name = "txtAAVal";
-            this.txtAAVal.Size = new System.Drawing.Size(56, 22);
-            this.txtAAVal.TabIndex = 60;
-            this.txtAAVal.Text = "1.5";
-            // 
             // ctlToolpathGenConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -732,7 +732,7 @@
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.tabOptions);
             this.Name = "ctlToolpathGenConfig";
-            this.Size = new System.Drawing.Size(1022, 484);
+            this.Size = new System.Drawing.Size(987, 492);
             this.tabOptions.ResumeLayout(false);
             this.tbOptions.ResumeLayout(false);
             this.tbOptions.PerformLayout();

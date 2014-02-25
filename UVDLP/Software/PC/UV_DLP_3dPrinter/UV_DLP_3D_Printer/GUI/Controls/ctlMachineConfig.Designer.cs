@@ -100,10 +100,10 @@
             this.Monitors.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Monitors.Name = "Monitors";
             this.Monitors.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Monitors.Size = new System.Drawing.Size(169, 139);
+            this.Monitors.Size = new System.Drawing.Size(145, 139);
             this.Monitors.TabIndex = 49;
             this.Monitors.TabStop = false;
-            this.Monitors.Text = "Print Display Device";
+            this.Monitors.Text = "Display Device";
             // 
             // lblMonInfo
             // 
@@ -118,7 +118,7 @@
             this.cmdRefreshMonitors.Location = new System.Drawing.Point(5, 106);
             this.cmdRefreshMonitors.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdRefreshMonitors.Name = "cmdRefreshMonitors";
-            this.cmdRefreshMonitors.Size = new System.Drawing.Size(151, 28);
+            this.cmdRefreshMonitors.Size = new System.Drawing.Size(126, 28);
             this.cmdRefreshMonitors.TabIndex = 1;
             this.cmdRefreshMonitors.Text = "Refresh";
             this.cmdRefreshMonitors.UseVisualStyleBackColor = true;
@@ -131,7 +131,7 @@
             this.lstMonitors.Location = new System.Drawing.Point(7, 26);
             this.lstMonitors.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lstMonitors.Name = "lstMonitors";
-            this.lstMonitors.Size = new System.Drawing.Size(149, 68);
+            this.lstMonitors.Size = new System.Drawing.Size(132, 68);
             this.lstMonitors.TabIndex = 0;
             this.lstMonitors.SelectedIndexChanged += new System.EventHandler(this.lstMonitors_SelectedIndexChanged);
             // 
@@ -141,11 +141,11 @@
             this.ProjectorRes.Controls.Add(this.label2);
             this.ProjectorRes.Controls.Add(this.projheight);
             this.ProjectorRes.Controls.Add(this.projwidth);
-            this.ProjectorRes.Location = new System.Drawing.Point(181, 190);
+            this.ProjectorRes.Location = new System.Drawing.Point(157, 190);
             this.ProjectorRes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ProjectorRes.Name = "ProjectorRes";
             this.ProjectorRes.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ProjectorRes.Size = new System.Drawing.Size(147, 139);
+            this.ProjectorRes.Size = new System.Drawing.Size(171, 79);
             this.ProjectorRes.TabIndex = 48;
             this.ProjectorRes.TabStop = false;
             this.ProjectorRes.Text = "Resolution (pixels)";
@@ -153,7 +153,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 64);
+            this.label1.Location = new System.Drawing.Point(7, 52);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(49, 17);
             this.label1.TabIndex = 3;
@@ -162,7 +162,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 36);
+            this.label2.Location = new System.Drawing.Point(7, 24);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(44, 17);
             this.label2.TabIndex = 2;
@@ -170,7 +170,7 @@
             // 
             // projheight
             // 
-            this.projheight.Location = new System.Drawing.Point(57, 62);
+            this.projheight.Location = new System.Drawing.Point(57, 50);
             this.projheight.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.projheight.Name = "projheight";
             this.projheight.Size = new System.Drawing.Size(55, 22);
@@ -179,7 +179,7 @@
             // 
             // projwidth
             // 
-            this.projwidth.Location = new System.Drawing.Point(57, 33);
+            this.projwidth.Location = new System.Drawing.Point(57, 21);
             this.projwidth.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.projwidth.Name = "projwidth";
             this.projwidth.Size = new System.Drawing.Size(55, 22);
@@ -383,11 +383,11 @@
             this.grpPrjSerial.Controls.Add(this.label12);
             this.grpPrjSerial.Controls.Add(this.lblConDisp);
             this.grpPrjSerial.Controls.Add(this.cmdCfgConDsp);
-            this.grpPrjSerial.Location = new System.Drawing.Point(334, 190);
+            this.grpPrjSerial.Location = new System.Drawing.Point(157, 273);
             this.grpPrjSerial.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpPrjSerial.Name = "grpPrjSerial";
             this.grpPrjSerial.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpPrjSerial.Size = new System.Drawing.Size(171, 139);
+            this.grpPrjSerial.Size = new System.Drawing.Size(171, 107);
             this.grpPrjSerial.TabIndex = 60;
             this.grpPrjSerial.TabStop = false;
             this.grpPrjSerial.Text = "Projector Serial Control";
@@ -395,7 +395,7 @@
             // checkConDispEnable
             // 
             this.checkConDispEnable.AutoSize = true;
-            this.checkConDispEnable.Location = new System.Drawing.Point(13, 32);
+            this.checkConDispEnable.Location = new System.Drawing.Point(13, 27);
             this.checkConDispEnable.Margin = new System.Windows.Forms.Padding(4);
             this.checkConDispEnable.Name = "checkConDispEnable";
             this.checkConDispEnable.Size = new System.Drawing.Size(74, 21);
@@ -407,7 +407,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(7, 62);
+            this.label12.Location = new System.Drawing.Point(9, 53);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(38, 17);
             this.label12.TabIndex = 4;
@@ -416,7 +416,7 @@
             // lblConDisp
             // 
             this.lblConDisp.AutoSize = true;
-            this.lblConDisp.Location = new System.Drawing.Point(51, 62);
+            this.lblConDisp.Location = new System.Drawing.Point(53, 53);
             this.lblConDisp.Name = "lblConDisp";
             this.lblConDisp.Size = new System.Drawing.Size(13, 17);
             this.lblConDisp.TabIndex = 3;
@@ -424,7 +424,7 @@
             // 
             // cmdCfgConDsp
             // 
-            this.cmdCfgConDsp.Location = new System.Drawing.Point(11, 92);
+            this.cmdCfgConDsp.Location = new System.Drawing.Point(11, 77);
             this.cmdCfgConDsp.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdCfgConDsp.Name = "cmdCfgConDsp";
             this.cmdCfgConDsp.Size = new System.Drawing.Size(89, 25);
@@ -445,7 +445,7 @@
             this.grpMachineConfig.Controls.Add(this.ProjectorRes);
             this.grpMachineConfig.Location = new System.Drawing.Point(190, 3);
             this.grpMachineConfig.Name = "grpMachineConfig";
-            this.grpMachineConfig.Size = new System.Drawing.Size(519, 380);
+            this.grpMachineConfig.Size = new System.Drawing.Size(339, 386);
             this.grpMachineConfig.TabIndex = 61;
             this.grpMachineConfig.TabStop = false;
             this.grpMachineConfig.Text = "Name";
@@ -460,7 +460,7 @@
             this.Controls.Add(this.groupBox2);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ctlMachineConfig";
-            this.Size = new System.Drawing.Size(1389, 514);
+            this.Size = new System.Drawing.Size(538, 392);
             this.Load += new System.EventHandler(this.ctlMachineConfig_Load);
             this.Monitors.ResumeLayout(false);
             this.Monitors.PerformLayout();
@@ -477,6 +477,8 @@
             this.grpMachineConfig.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+            this.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Center;
+            this.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Center;
 
         }
 

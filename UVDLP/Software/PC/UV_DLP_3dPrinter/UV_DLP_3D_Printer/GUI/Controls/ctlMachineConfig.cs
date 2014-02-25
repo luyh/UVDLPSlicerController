@@ -8,17 +8,18 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using UV_DLP_3D_Printer.Drivers;
+using UV_DLP_3D_Printer.GUI.CustomGUI;
 
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
-    public partial class ctlMachineConfig : UserControl
+    public partial class ctlMachineConfig : ctlAnchorable//ctlUserPanel //UserControl
     {
         private eDriverType m_saved;
         private MachineConfig m_config = new MachineConfig(); // just so it's not blank
 
         public ctlMachineConfig()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
 
         private void SetData() 
@@ -33,27 +34,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     cmbMachineType.Items.Add(s);
                 }
                 cmbMachineType.SelectedItem = m_config.m_machinetype.ToString();
-                //cmbMachineType_SelectedIndexChanged(null, null); // update the gui
-                /*
-                lstDrivers.Items.Clear();
-                foreach (String s in Enum.GetNames(typeof(eDriverType))) 
-                {
-                    lstDrivers.Items.Add(s);
-                }
-                lstDrivers.SelectedItem = m_config.m_driverconfig.m_drivertype.ToString();
-                 * */
                 m_saved = m_config.m_driverconfig.m_drivertype;
-                //() check connection
-                /*
-                if (UVDLPApp.Instance().m_deviceinterface.Connected)
-                {
-                    grpDriver.Enabled = false;
-                }
-                else 
-                {
-                    grpDriver.Enabled = true; 
-                }
-                */
 
                 //list the drivers
                 txtPlatWidth.Text = "" + m_config.m_PlatXSize;
@@ -79,6 +60,15 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
             
             }
+        }
+        public override void ApplyStyle(ControlStyle ct)
+        {
+            base.ApplyStyle(ct);
+            //ct.
+            /*if (ct.FrameColor != ControlStyle.NullColor)
+                ForeColor = ct.FrameColor;
+            if (ct.BackColor != ControlStyle.NullColor)
+                BackColor = ct.BackColor;*/
         }
 
         // clean bad characters from device name -SHS

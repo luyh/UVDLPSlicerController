@@ -102,7 +102,7 @@ namespace UV_DLP_3D_Printer
             cb.RegisterCallback("ConnectPrinter", cmdConnect1_Click, null, "Connect to the printer");
             cb.RegisterCallback("DisconnectPrinter", cmdDisconnect_Click, null, "Disconnect from the printer");
             cb.RegisterCallback("SliceDialog", cmdSlice1_Click, null, "Open the slice dialog box");
-            cb.RegisterCallback("ConfigDialog", buttConfig_Click, null, "Open the system configuration form");
+           // cb.RegisterCallback("ConfigDialog", buttConfig_Click, null, "Open the system configuration form");
             cb.RegisterCallback("ViewGCodeWindow", buttViewGcode_Click, null, "Show the GCode window");
             //cb.RegisterCallback("", , null, "");
            

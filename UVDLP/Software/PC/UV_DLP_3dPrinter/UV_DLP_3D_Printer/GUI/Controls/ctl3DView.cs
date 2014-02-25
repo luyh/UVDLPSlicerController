@@ -89,27 +89,38 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             ctlMeshTools1.c3d = this;
             ctlScene1.c3d = this;
 
-            glControl1.PaintCallback += new ctlGL.delPaint(DisplayFunc);
-
-            /*ctlImageButton imbtn = new ctlImageButton();
-            imbtn.BackColor = System.Drawing.Color.Navy;
-            imbtn.CheckImage = null;
-            imbtn.Image = global::UV_DLP_3D_Printer.Properties.Resources.homeButt;
-            imbtn.Location = new System.Drawing.Point(200, 200);
-            imbtn.Name = "buttGlHome";
-            imbtn.Size = new System.Drawing.Size(48, 48);
-            imbtn.TabIndex = 16;
-            imbtn.Visible = true;
-
-
-            mainViewSplitContainer.Panel2.Controls.Add(imbtn);
-            imbtn.BringToFront();*/
-            //buttGlHome.GLVisible = true;
-            //buttGlHome.BackColor = Color.Transparent;
-            //buttGlHome.FixStyle();
-            //buttGlHome.BackColor = Color.FromArgb(60,0,0,0);
+            glControl1.PaintCallback += new ctlGL.delPaint(DisplayFunc);            
 
             m_sliceTex = -1;
+            RegisterCallbacks();
+        }
+
+        protected void RegisterCallbacks() 
+        {
+            CallbackHandler cb = UVDLPApp.Instance().m_callbackhandler;
+            //cb.RegisterCallback("ConfigDialog", buttConfig_Click, null, "Open the system configuration form");
+            cb.RegisterCallback("ConfigDialog", ToggleConfig, null, "Show the Config View");
+            cb.RegisterCallback("ShowMachineConfig", ShowMachineConfig, null, "Show the machine configuration window");
+           // cb.RegisterCallback("ShowMachineControl", ShowMachineControl, null, "Show the machine control window");
+            
+        }
+        private void ShowMachineControl(Object sender, Object v)
+        {
+            //ctlMachineConfig1.Location // need a good way to place on screen
+           // ctlMachineControl1.Visible = !ctlMachineControl1.Visible;
+            RearrangeGui();
+        }
+
+        private void ShowMachineConfig(Object sender, Object v) 
+        {
+            //ctlMachineConfig1.Location // need a good way to place on screen
+            ctlMachineConfig1.Visible = !ctlMachineConfig1.Visible;
+            RearrangeGui();
+        }
+        private void ToggleConfig(Object sender, Object v)
+        {
+            //ctlMachineConfig1.Visible = !ctlMachineConfig1.Visible;
+            ctlConfig1.Visible = !ctlConfig1.Visible;
         }
 
         public GuiConfig GuiConfig
@@ -1060,6 +1071,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             guiconf.AddControl("progress", textProgress);
             guiconf.AddControl("mainmsg", textMainMessage);
             guiconf.AddControl("timemsg", textTime);
+            guiconf.AddControl("pconfig", ctlConfig1); // smh - added new panel for additional config 
+
         }
 
         #endregion 3d View controls

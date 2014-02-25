@@ -7,14 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using UV_DLP_3D_Printer.Drivers;
+using UV_DLP_3D_Printer.GUI.CustomGUI;
 
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
-    public partial class ctlMachineControl : UserControl
+    public partial class ctlMachineControl : ctlAnchorable//UserControl
     {
         public delegate void MachineCtlEvent();
         StringBuilder sb;
         public MachineCtlEvent machEvent;
+
         public ctlMachineControl()
         {
             InitializeComponent();

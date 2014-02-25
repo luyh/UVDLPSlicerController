@@ -172,6 +172,12 @@
     <Compile Include="GUI\ctlManualControl.Designer.cs">
       <DependentUpon>ctlManualControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\CustomGUI\ctlConfig.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlConfig.Designer.cs">
+      <DependentUpon>ctlConfig.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\CustomGUI\ctlImage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -431,6 +437,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\ctlManualControl.resx">
       <DependentUpon>ctlManualControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomGUI\ctlConfig.resx">
+      <DependentUpon>ctlConfig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\ctlScene.resx">
       <DependentUpon>ctlScene.cs</DependentUpon>
