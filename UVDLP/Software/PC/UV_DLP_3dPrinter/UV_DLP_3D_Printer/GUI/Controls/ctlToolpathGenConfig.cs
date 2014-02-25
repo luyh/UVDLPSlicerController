@@ -7,9 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using UV_DLP_3D_Printer.GUI.CustomGUI;
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
-    public partial class ctlToolpathGenConfig : UserControl
+    public partial class ctlToolpathGenConfig : ctlAnchorable//UserControl
     {
         public ctlToolpathGenConfig()
         {

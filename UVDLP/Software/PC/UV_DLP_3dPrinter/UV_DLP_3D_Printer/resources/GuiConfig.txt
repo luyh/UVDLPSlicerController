@@ -35,6 +35,9 @@
 		<control name="pmeshtools" dock="bl" x="20" y="90" shape="trimpanel"/>
 		<control name="pscenetree" dock="tr" x="20" y="90" shape="trimpanel"/>
 		<control name="pobjectinf" dock="br" x="20" y="90" shape="trimpanel"/>
+		<control name="pmachineconfig" dock="bc" x="20" y="90" shape="trimpanel"/>
+		<control name="pmachinecontrol" dock="bc" x="20" y="90" shape="trimpanel"/>
+		<control name="psliceconfig" dock="bc" x="20" y="90" shape="trimpanel"/>
 		<control name="clayernum" dock="bc" x="0" y="80"/>
 		<control name="progress" dock="br" x="10" y="80" style="gltext1"/>
 		<control name="mainmsg" dock="tr" x="10" y="8" style="gltext1" w="400"/>

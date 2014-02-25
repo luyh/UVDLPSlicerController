@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.mainViewSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.ctlMachineControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineControl();
             this.ctlMachineConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineConfig();
             this.ctlConfig1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlConfig();
             this.textTime = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlText();
@@ -64,6 +65,7 @@
             this.ctlObjMove = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMove();
             this.glControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlGL();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
+            this.ctlToolpathGenConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlToolpathGenConfig();
             this.mainViewSplitContainer.Panel2.SuspendLayout();
             this.mainViewSplitContainer.SuspendLayout();
             this.SuspendLayout();
@@ -78,6 +80,8 @@
             // 
             // mainViewSplitContainer.Panel2
             // 
+            this.mainViewSplitContainer.Panel2.Controls.Add(this.ctlToolpathGenConfig1);
+            this.mainViewSplitContainer.Panel2.Controls.Add(this.ctlMachineControl1);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.ctlMachineConfig1);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.ctlConfig1);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.textTime);
@@ -117,6 +121,24 @@
             this.mainViewSplitContainer.SplitterDistance = 160;
             this.mainViewSplitContainer.TabIndex = 28;
             // 
+            // ctlMachineControl1
+            // 
+            this.ctlMachineControl1.Checked = false;
+            this.ctlMachineControl1.Gapx = 5;
+            this.ctlMachineControl1.Gapy = 5;
+            this.ctlMachineControl1.GLBackgroundImage = null;
+            this.ctlMachineControl1.GLVisible = false;
+            this.ctlMachineControl1.GuiAnchor = null;
+            this.ctlMachineControl1.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.ctlMachineControl1.Location = new System.Drawing.Point(534, 531);
+            this.ctlMachineControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ctlMachineControl1.Name = "ctlMachineControl1";
+            this.ctlMachineControl1.Size = new System.Drawing.Size(949, 596);
+            this.ctlMachineControl1.StyleName = null;
+            this.ctlMachineControl1.TabIndex = 49;
+            this.ctlMachineControl1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.ctlMachineControl1.Visible = false;
+            // 
             // ctlMachineConfig1
             // 
             this.ctlMachineConfig1.Checked = false;
@@ -129,7 +151,7 @@
             this.ctlMachineConfig1.Location = new System.Drawing.Point(842, 127);
             this.ctlMachineConfig1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ctlMachineConfig1.Name = "ctlMachineConfig1";
-            this.ctlMachineConfig1.Size = new System.Drawing.Size(538, 392);
+            this.ctlMachineConfig1.Size = new System.Drawing.Size(538, 434);
             this.ctlMachineConfig1.StyleName = null;
             this.ctlMachineConfig1.TabIndex = 48;
             this.ctlMachineConfig1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Center;
@@ -142,9 +164,9 @@
             this.ctlConfig1.GLBackgroundImage = null;
             this.ctlConfig1.GLVisible = false;
             this.ctlConfig1.GuiAnchor = null;
-            this.ctlConfig1.Location = new System.Drawing.Point(786, 194);
+            this.ctlConfig1.Location = new System.Drawing.Point(460, 235);
             this.ctlConfig1.Name = "ctlConfig1";
-            this.ctlConfig1.Size = new System.Drawing.Size(150, 86);
+            this.ctlConfig1.Size = new System.Drawing.Size(172, 95);
             this.ctlConfig1.StyleName = null;
             this.ctlConfig1.TabIndex = 47;
             this.ctlConfig1.Visible = false;
@@ -822,6 +844,14 @@
             this.ctlToolTip1.UseAnimation = false;
             this.ctlToolTip1.UseFading = false;
             // 
+            // ctlToolpathGenConfig1
+            // 
+            this.ctlToolpathGenConfig1.Location = new System.Drawing.Point(-899, 514);
+            this.ctlToolpathGenConfig1.Name = "ctlToolpathGenConfig1";
+            //this.ctlToolpathGenConfig1.Size = new System.Drawing.Size(987, 492);
+            this.ctlToolpathGenConfig1.TabIndex = 50;
+            this.ctlToolpathGenConfig1.Visible = false;
+            // 
             // ctl3DView
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -873,5 +903,7 @@
         private CustomGUI.ctlText textMainMessage;
         private CustomGUI.ctlConfig ctlConfig1;
         private ctlMachineConfig ctlMachineConfig1;
+        private ctlMachineControl ctlMachineControl1;
+        private ctlToolpathGenConfig ctlToolpathGenConfig1;
     }
 }

@@ -63,6 +63,7 @@
             this.lblConDisp = new System.Windows.Forms.Label();
             this.cmdCfgConDsp = new System.Windows.Forms.Button();
             this.grpMachineConfig = new System.Windows.Forms.GroupBox();
+            this.lblTitle = new System.Windows.Forms.Label();
             this.Monitors.SuspendLayout();
             this.ProjectorRes.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -306,7 +307,7 @@
             this.groupBox2.Controls.Add(this.lstMachineProfiles);
             this.groupBox2.Controls.Add(this.cmdDelete);
             this.groupBox2.Controls.Add(this.cmdNew);
-            this.groupBox2.Location = new System.Drawing.Point(8, 58);
+            this.groupBox2.Location = new System.Drawing.Point(8, 96);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -318,7 +319,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(8, 6);
+            this.label10.Location = new System.Drawing.Point(8, 44);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(96, 17);
             this.label10.TabIndex = 58;
@@ -327,7 +328,7 @@
             // cmbMachineProfiles
             // 
             this.cmbMachineProfiles.FormattingEnabled = true;
-            this.cmbMachineProfiles.Location = new System.Drawing.Point(8, 28);
+            this.cmbMachineProfiles.Location = new System.Drawing.Point(8, 66);
             this.cmbMachineProfiles.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbMachineProfiles.Name = "cmbMachineProfiles";
             this.cmbMachineProfiles.Size = new System.Drawing.Size(171, 24);
@@ -443,24 +444,38 @@
             this.grpMachineConfig.Controls.Add(this.label9);
             this.grpMachineConfig.Controls.Add(this.cmbMachineType);
             this.grpMachineConfig.Controls.Add(this.ProjectorRes);
-            this.grpMachineConfig.Location = new System.Drawing.Point(190, 3);
+            this.grpMachineConfig.Location = new System.Drawing.Point(190, 41);
             this.grpMachineConfig.Name = "grpMachineConfig";
             this.grpMachineConfig.Size = new System.Drawing.Size(339, 386);
             this.grpMachineConfig.TabIndex = 61;
             this.grpMachineConfig.TabStop = false;
             this.grpMachineConfig.Text = "Name";
             // 
+            // lblTitle
+            // 
+            this.lblTitle.Font = new System.Drawing.Font("Arial", 17.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblTitle.ForeColor = System.Drawing.Color.White;
+            this.lblTitle.Location = new System.Drawing.Point(7, 7);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(522, 31);
+            this.lblTitle.TabIndex = 62;
+            this.lblTitle.Text = "Machine Configuration";
+            this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // ctlMachineConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.grpMachineConfig);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.cmbMachineProfiles);
             this.Controls.Add(this.groupBox2);
+            this.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Center;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ctlMachineConfig";
-            this.Size = new System.Drawing.Size(538, 392);
+            this.Size = new System.Drawing.Size(538, 434);
+            this.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Center;
             this.Load += new System.EventHandler(this.ctlMachineConfig_Load);
             this.Monitors.ResumeLayout(false);
             this.Monitors.PerformLayout();
@@ -477,8 +492,6 @@
             this.grpMachineConfig.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-            this.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Center;
-            this.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Center;
 
         }
 
@@ -519,5 +532,6 @@
         private System.Windows.Forms.CheckBox checkConDispEnable;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.GroupBox grpMachineConfig;
+        private System.Windows.Forms.Label lblTitle;
     }
 }

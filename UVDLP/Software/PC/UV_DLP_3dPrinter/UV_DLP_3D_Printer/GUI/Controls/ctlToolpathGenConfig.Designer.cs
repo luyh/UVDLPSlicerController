@@ -87,6 +87,7 @@
             this.lstSliceProfiles = new System.Windows.Forms.ListBox();
             this.cmdDelete = new System.Windows.Forms.Button();
             this.cmdNew = new System.Windows.Forms.Button();
+            this.lblTitle = new System.Windows.Forms.Label();
             this.tabOptions.SuspendLayout();
             this.tbOptions.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -101,7 +102,7 @@
             // 
             this.tabOptions.Controls.Add(this.tbOptions);
             this.tabOptions.Controls.Add(this.tbGCode);
-            this.tabOptions.Location = new System.Drawing.Point(253, 2);
+            this.tabOptions.Location = new System.Drawing.Point(248, 40);
             this.tabOptions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabOptions.Name = "tabOptions";
             this.tabOptions.SelectedIndex = 0;
@@ -656,7 +657,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(14, 10);
+            this.label6.Location = new System.Drawing.Point(7, 40);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(96, 17);
             this.label6.TabIndex = 64;
@@ -665,7 +666,7 @@
             // cmbSliceProfiles
             // 
             this.cmbSliceProfiles.FormattingEnabled = true;
-            this.cmbSliceProfiles.Location = new System.Drawing.Point(14, 33);
+            this.cmbSliceProfiles.Location = new System.Drawing.Point(7, 63);
             this.cmbSliceProfiles.Name = "cmbSliceProfiles";
             this.cmbSliceProfiles.Size = new System.Drawing.Size(228, 24);
             this.cmbSliceProfiles.TabIndex = 63;
@@ -677,7 +678,7 @@
             this.groupBox4.Controls.Add(this.lstSliceProfiles);
             this.groupBox4.Controls.Add(this.cmdDelete);
             this.groupBox4.Controls.Add(this.cmdNew);
-            this.groupBox4.Location = new System.Drawing.Point(15, 63);
+            this.groupBox4.Location = new System.Drawing.Point(8, 93);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(227, 246);
             this.groupBox4.TabIndex = 62;
@@ -697,7 +698,7 @@
             // 
             this.lstSliceProfiles.FormattingEnabled = true;
             this.lstSliceProfiles.ItemHeight = 16;
-            this.lstSliceProfiles.Location = new System.Drawing.Point(5, 42);
+            this.lstSliceProfiles.Location = new System.Drawing.Point(-2, 32);
             this.lstSliceProfiles.Name = "lstSliceProfiles";
             this.lstSliceProfiles.Size = new System.Drawing.Size(208, 148);
             this.lstSliceProfiles.TabIndex = 54;
@@ -723,16 +724,28 @@
             this.cmdNew.UseVisualStyleBackColor = true;
             this.cmdNew.Click += new System.EventHandler(this.cmdNew_Click);
             // 
+            // lblTitle
+            // 
+            this.lblTitle.Font = new System.Drawing.Font("Arial", 17.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblTitle.ForeColor = System.Drawing.Color.White;
+            this.lblTitle.Location = new System.Drawing.Point(3, 0);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(981, 31);
+            this.lblTitle.TabIndex = 65;
+            this.lblTitle.Text = "Slicing and tool path configuration";
+            this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // ctlToolpathGenConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.cmbSliceProfiles);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.tabOptions);
             this.Name = "ctlToolpathGenConfig";
-            this.Size = new System.Drawing.Size(987, 492);
+            this.Size = new System.Drawing.Size(987, 530);
             this.tabOptions.ResumeLayout(false);
             this.tbOptions.ResumeLayout(false);
             this.tbOptions.PerformLayout();
@@ -814,5 +827,6 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.CheckBox chkExport;
         private System.Windows.Forms.TextBox txtAAVal;
+        private System.Windows.Forms.Label lblTitle;
     }
 }

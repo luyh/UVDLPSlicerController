@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using UV_DLP_3D_Printer.Drivers;
 using UV_DLP_3D_Printer.GUI.CustomGUI;
+using UV_DLP_3D_Printer.Device_Interface;
 
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
@@ -27,27 +28,40 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             SetupForMachineType();
             UpdateProjConnected();
             UpdateProjectorCommands();
-            RegisterCallbacks();
+           // RegisterCallbacks();
+            SetData();
         }
-
-        #region Callbacks
-        void RegisterCallbacks()
+        /// <summary>
+        /// This Sets the data from the manual control singleton
+        /// </summary>
+        private void SetData() 
         {
-            CallbackHandler cb = UVDLPApp.Instance().m_callbackhandler;
-            cb.RegisterCallback("MCCmdSetZDist", SetZdist, typeof(double), "Set distanse (zdist) in mm for manual up/down movement");
-            cb.RegisterCallback("MCCmdMoveUp", cmdUp_Click, null, "Move print head up zdist amount");
-            cb.RegisterCallback("MCCmdMoveDown", cmdDown_Click, null, "Move print head down zdist amount");
-            //cb.RegisterCallback("", , null, "");
+            txtdist.Text = ManualControl.Instance().ZDist.ToString();
+            txtRateZ.Text = ManualControl.Instance().ZRate.ToString();
+            txtRateXY.Text = ManualControl.Instance().XYRate.ToString();
+            txtdistXY.Text = ManualControl.Instance().XYDist.ToString();
         }
-
-        void SetZdist(object sender, object vars)
+        /// <summary>
+        /// This gets the data from the form and sets the manual control singleton
+        /// </summary>
+        private void GetData() 
         {
-            double dist = (double)vars;
-            txtdist.Text = vars.ToString();
+            try
+            {
+                ManualControl.Instance().ZDist = double.Parse(txtdist.Text);
+                ManualControl.Instance().ZRate = double.Parse(txtRateZ.Text);
+                ManualControl.Instance().XYDist = double.Parse(txtdistXY.Text);
+                ManualControl.Instance().XYRate = double.Parse(txtRateXY.Text);
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+                MessageBox.Show("Please check input parameters\r\n" + ex.Message, "Input Error");
+            }
+
         }
-
-        #endregion
-
+        
+        
         private void AppEventDel(eAppEvent ev, String Message)
         {
             if (InvokeRequired)
@@ -92,13 +106,12 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             try
             {
-                double dist = double.Parse(txtdist.Text);
-                UVDLPApp.Instance().m_deviceinterface.Move(dist, GetZFeed()); // (movecommand);
+                GetData();
+                UVDLPApp.Instance().m_deviceinterface.Move(ManualControl.Instance().ZDist,ManualControl.Instance().ZRate); 
             }
             catch (Exception ex)
             {
                 DebugLogger.Instance().LogRecord(ex.Message);
-                MessageBox.Show("Please check input parameters\r\n" + ex.Message, "Input Error");
             }
         }
         /// <summary>
@@ -110,14 +123,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             try
             {
-                double dist = double.Parse(txtdist.Text);
-                dist *= -1.0;
-                UVDLPApp.Instance().m_deviceinterface.Move(dist, GetZFeed()); // (movecommand);
+                UVDLPApp.Instance().m_deviceinterface.Move(-ManualControl.Instance().ZDist, ManualControl.Instance().ZRate);
             }
             catch (Exception ex)
             {
                 DebugLogger.Instance().LogRecord(ex.Message);
-                MessageBox.Show("Please check input parameters\r\n" + ex.Message, "Input Error");
             }
         }
         /// <summary>
@@ -129,13 +139,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             try
             {
-                double dist = double.Parse(txtdistXY.Text);
-                UVDLPApp.Instance().m_deviceinterface.MoveX(dist, GetXYFeed()); //
+                UVDLPApp.Instance().m_deviceinterface.MoveX(ManualControl.Instance().XYDist, ManualControl.Instance().XYRate); 
             }
             catch (Exception ex)
             {
                 DebugLogger.Instance().LogRecord(ex.Message);
-                MessageBox.Show("Please check input parameters\r\n" + ex.Message, "Input Error");
             }
         }
         /// <summary>
@@ -147,14 +155,12 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             try
             {
-                double dist = double.Parse(txtdistXY.Text);
-                dist = dist * -1.0;
-                UVDLPApp.Instance().m_deviceinterface.MoveX(dist, GetXYFeed()); //
+                UVDLPApp.Instance().m_deviceinterface.MoveX(-ManualControl.Instance().XYDist, ManualControl.Instance().XYRate);
+
             }
             catch (Exception ex)
             {
                 DebugLogger.Instance().LogRecord(ex.Message);
-                MessageBox.Show("Please check input parameters\r\n" + ex.Message, "Input Error");
             }
         }
 
@@ -163,13 +169,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             try
             {
-                double dist = double.Parse(txtdistXY.Text);
-                UVDLPApp.Instance().m_deviceinterface.MoveY(dist, GetXYFeed()); //
+                UVDLPApp.Instance().m_deviceinterface.MoveY(ManualControl.Instance().XYDist, ManualControl.Instance().XYRate);
             }
             catch (Exception ex)
             {
                 DebugLogger.Instance().LogRecord(ex.Message);
-                MessageBox.Show("Please check input parameters\r\n" + ex.Message, "Input Error");
             }
 
         }
@@ -178,51 +182,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             try
             {
-                double dist = double.Parse(txtdistXY.Text);
-                dist = dist * -1.0;
-                UVDLPApp.Instance().m_deviceinterface.MoveY(dist, GetXYFeed()); //
+                UVDLPApp.Instance().m_deviceinterface.MoveY(-ManualControl.Instance().XYDist, ManualControl.Instance().XYRate);
             }
             catch (Exception ex)
             {
                 DebugLogger.Instance().LogRecord(ex.Message);
-                MessageBox.Show("Please check input parameters\r\n" + ex.Message, "Input Error");
-            }
-
-        }
-        /// <summary>
-        /// Get the Z axis feed rate for movement
-        /// </summary>
-        /// <returns></returns>
-        private double GetZFeed()
-        {
-            try
-            {
-                double rate = double.Parse(txtRateZ.Text);
-                return rate;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Invalid Z Feed Rate");
-                DebugLogger.Instance().LogError(ex.Message);
-                return 100.0;
-            }
-        }
-        /// <summary>
-        /// Get the X/Y axis feed rate for movements
-        /// </summary>
-        /// <returns></returns>
-        private double GetXYFeed()
-        {
-            try
-            {
-                double rate = double.Parse(txtRateXY.Text);
-                return rate;
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-                MessageBox.Show("Invalid X/Y Feed Rate");
-                return 100.0;
             }
         }
 
