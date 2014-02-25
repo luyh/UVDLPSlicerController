@@ -24,30 +24,30 @@
 		<button name="viewslice" dock="tl" x="450" y="10" w="48" h="48"/>
 	</buttons>
 	<controls>		
-		<style backcolor="Navy" framecolor="RoyalBlue" hovercolor="White" forecolor="#DCDCDC" checkcolor="#DCDCDC" presscolor="White" nimages="1" pressscale="92" gl="false"/>
+		<style bgndimage="cwpanel" panelpad="2" backcolor="Navy" framecolor="RoyalBlue" hovercolor="White" forecolor="#DCDCDC" checkcolor="#DCDCDC" presscolor="White" nimages="1" pressscale="92" gl="false"/>
 		<style name="gltext1" backcolor="Transparent" forecolor="White" gl="true"/>
-		<control name="pmove" dock="bl" x="20" y="90" shape="trimpanel"/>
-		<control name="pscale" dock="bl" x="20" y="90" shape="trimpanel"/>
-		<control name="protate" dock="bl" x="20" y="90" shape="trimpanel"/>
-		<control name="psupport" dock="bl" x="20" y="90" shape="trimpanel"/>
-		<control name="pviewopts" dock="bl" x="20" y="90" shape="trimpanel"/>
-		<control name="pconfig" dock="bl" x="20" y="90" shape="trimpanel"/>
-		<control name="pmeshtools" dock="bl" x="20" y="90" shape="trimpanel"/>
-		<control name="pscenetree" dock="tr" x="20" y="90" shape="trimpanel"/>
-		<control name="pobjectinf" dock="br" x="20" y="90" shape="trimpanel"/>
-		<control name="pmachineconfig" dock="bc" x="20" y="90" shape="trimpanel"/>
-		<control name="pmachinecontrol" dock="bc" x="20" y="90" shape="trimpanel"/>
-		<control name="psliceconfig" dock="bc" x="20" y="90" shape="trimpanel"/>
+		<control name="pmove" dock="bl" x="20" y="90" />
+		<control name="pscale" dock="bl" x="20" y="90"/>
+		<control name="protate" dock="bl" x="20" y="90" />
+		<control name="psupport" dock="bl" x="20" y="90" />
+		<control name="pviewopts" dock="bl" x="20" y="90" />
+		<control name="pconfig" dock="bl" x="20" y="90" />
+		<control name="pmeshtools" dock="bl" x="20" y="90" />
+		<control name="pscenetree" dock="tr" x="20" y="90" />
+		<control name="pobjectinf" dock="br" x="20" y="90" />
+		<control name="pmachineconfig" dock="bc" x="20" y="90" />
+		<control name="pmachinecontrol" dock="bc" x="20" y="90" />
+		<control name="psliceconfig" dock="bc" x="20" y="90" />
 		<control name="clayernum" dock="bc" x="0" y="80"/>
 		<control name="progress" dock="br" x="10" y="80" style="gltext1"/>
-		<control name="mainmsg" dock="tr" x="10" y="8" style="gltext1" w="400"/>
-		<control name="timemsg" dock="tr" x="10" y="34" style="gltext1" w="400"/>
+		<control name="mainmsg" dock="tr" x="100" y="8" style="gltext1" w="400"/>
+		<control name="timemsg" dock="tr" x="100" y="34" style="gltext1" w="400"/>
 	</controls>
 	<decals>
 		<bar dock="n" tlcolor="AliceBlue" trcolor="AliceBlue" blcolor="LightBlue" brcolor="SkyBlue" level="background"/>
 		<bar dock="t" width="70" color="RoyalBlue"/>
 		<bar dock="b" width="70" color="RoyalBlue"/>
-		<image image="cwlogo_round" dock="tc" x="0" y="0" />
+		<image image="cwlogo_tr" dock="tr" x="0" y="0" />
 	</decals>
 </GuiConfig>
 

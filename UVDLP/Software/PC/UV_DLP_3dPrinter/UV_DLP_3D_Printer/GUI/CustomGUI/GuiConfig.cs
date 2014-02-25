@@ -89,6 +89,14 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         }
     }
 
+    public class ControlPad
+    {
+        public int Left;
+        public int Right;
+        public int Top;
+        public int Bottom;
+    }
+
     public class ControlStyle
     {
         public static Color NullColor = Color.FromArgb(1);
@@ -125,8 +133,10 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public Color HoverColor;
         public float PressedSize;
         public float HoverSize;
+        public string BgndImageName;
         String mCheckedImage;
         C2DImage mCheckedImageCach;
+        public ControlPad PanelPad;
 
 
         public virtual void SetDefault()
@@ -142,6 +152,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             DisabledColor = Color.FromArgb(60, 255, 255, 255);
             SubImgCount = 1;
             glMode = false;
+            BgndImageName = null;
+            PanelPad = new ControlPad();
+            PanelPad.Left = PanelPad.Right = PanelPad.Top = PanelPad.Bottom = 10;
         }
 
         public String CheckedImage
@@ -551,6 +564,27 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
         }
 
+        int [] GetIntArrayParam(XmlNode xnode, string paramName)
+        {
+            List<int> num = new List<int>();
+            string val = GetStrParam(xnode, paramName, null);
+            if (val == null)
+                return new int[0];
+            foreach (string snum in val.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                try
+                {
+                    int tnum = int.Parse(snum);
+                    num.Add(tnum);
+                }
+                catch { }
+            }
+            int[] res = new int[num.Count];
+            for (int i = 0; i < num.Count; i++)
+                res[i] = num[i];
+            return res;
+        }
+
         bool GetBoolParam(XmlNode xnode, string paramName, bool defVal)
         {
             try
@@ -631,6 +665,22 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ct.DisabledColor = GetColorParam(xnode, "disablecolor", ct.DisabledColor);
             ct.HoverSize = GetIntParam(xnode, "hoverscale", (int)ct.HoverSize);
             ct.PressedSize = GetIntParam(xnode, "pressscale", (int)ct.PressedSize);
+            ct.BgndImageName = GetStrParam(xnode, "bgndimage", ct.BgndImageName);
+            int[] sizes = GetIntArrayParam(xnode, "panelpad");
+            if (sizes.Length >= 4)
+            {
+                ct.PanelPad.Left = sizes[0];
+                ct.PanelPad.Right = sizes[1];
+                ct.PanelPad.Top = sizes[2];
+                ct.PanelPad.Bottom = sizes[3];
+            }
+            else if (sizes.Length >= 1)
+            {
+                ct.PanelPad.Left = sizes[0];
+                ct.PanelPad.Right = sizes[0];
+                ct.PanelPad.Top = sizes[0];
+                ct.PanelPad.Bottom = sizes[0];
+            }
         }
 
         #endregion

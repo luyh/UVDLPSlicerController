@@ -168,6 +168,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             if ((mAnchorHoriz == AnchorTypes.None) || (mAnchorVert == AnchorTypes.None))
                 return;
+            if (Parent == null)
+                return;
             int x = GetPosition(0, Parent.Width, Width, mGapx, mAnchorHoriz);
             int y = GetPosition(0, Parent.Height, Height, mGapy, mAnchorVert);
             Location = new System.Drawing.Point(x,y);

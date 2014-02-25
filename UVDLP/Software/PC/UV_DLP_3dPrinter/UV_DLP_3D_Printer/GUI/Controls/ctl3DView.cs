@@ -80,6 +80,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             guiconf.LoadConfiguration(global::UV_DLP_3D_Printer.Properties.Resources.GuiConfig);
             RearrangeGui();
 
+            // toplevel controls must point to this
             ctlObjScale.c3d = this;
             ctlObjRotate.c3d = this;
             ctlObjMove.c3d = this;
@@ -88,6 +89,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             ctlViewOptions.c3d = this;
             ctlMeshTools1.c3d = this;
             ctlScene1.c3d = this;
+            ctlConfig1.c3d = this;
 
             glControl1.PaintCallback += new ctlGL.delPaint(DisplayFunc);            
 

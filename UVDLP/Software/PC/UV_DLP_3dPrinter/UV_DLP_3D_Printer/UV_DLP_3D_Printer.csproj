@@ -638,6 +638,9 @@
     <None Include="resources\CustomGUI\buttMachineControl.png" />
     <None Include="resources\CustomGUI\buttSliceConf.png" />
     <None Include="resources\CustomGUI\buttMachineConfig.png" />
+    <None Include="resources\CustomGUI\buttTemperature.png" />
+    <None Include="resources\CustomGUI\buttProjector.png" />
+    <None Include="resources\CustomGUI\buttSendGcode.png" />
     <Content Include="resources\IconsLandVistaArrowIconsDemo\PNG\64x64\Down1.png" />
     <Content Include="resources\IconsLandVistaArrowIconsDemo\PNG\64x64\Up1.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />

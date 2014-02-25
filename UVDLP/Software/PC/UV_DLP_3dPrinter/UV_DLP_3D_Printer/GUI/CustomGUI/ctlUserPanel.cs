@@ -19,7 +19,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
     {
         public ctl3DView c3d = null;
         public ctlBgnd bgndPanel = new ctlBgnd();
-        public int panelWidth = 14;
+        //public int panelWidth = 14;
         String mGuiAnchor;
         String mGLBackgroundImage;
         protected String mStyleName;
@@ -32,7 +32,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             : base()
         {
             bgndPanel.col = Color.Navy;
-            bgndPanel.imageName = "trimpanel";
+            bgndPanel.imageName = null;
             mGLVisible = false;
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
         }
@@ -117,10 +117,10 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         void UpdatePanelLocation()
         {
-            bgndPanel.x = Location.X - panelWidth;
-            bgndPanel.y = Location.Y - panelWidth;
-            bgndPanel.w = Width + 2 * panelWidth;
-            bgndPanel.h = Height + 2 * panelWidth;
+            bgndPanel.x = Location.X - Style.PanelPad.Left;
+            bgndPanel.y = Location.Y - Style.PanelPad.Top;
+            bgndPanel.w = Width + Style.PanelPad.Left + Style.PanelPad.Right;
+            bgndPanel.h = Height + Style.PanelPad.Top + Style.PanelPad.Bottom;
         }
 
         protected override void OnVisibleChanged(EventArgs e)
@@ -185,6 +185,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ApplyStyleRecurse(this, ct);
             if (ct.BackColor != ControlStyle.NullColor)
                 bgndPanel.col = ct.BackColor;
+            if (ct.BgndImageName != null)
+                bgndPanel.imageName = ct.BgndImageName;
         }
 
         public virtual void GLRedraw(C2DGraphics gr, int x, int y)

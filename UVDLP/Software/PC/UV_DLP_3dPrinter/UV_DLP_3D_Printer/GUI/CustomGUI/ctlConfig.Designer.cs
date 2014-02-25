@@ -51,7 +51,7 @@
             this.buttShowMachineConfig.Margin = new System.Windows.Forms.Padding(5);
             this.buttShowMachineConfig.Name = "buttShowMachineConfig";
             this.buttShowMachineConfig.OnClickCallback = "ShowMachineConfig";
-            this.buttShowMachineConfig.Size = new System.Drawing.Size(45, 48);
+            this.buttShowMachineConfig.Size = new System.Drawing.Size(48, 48);
             this.buttShowMachineConfig.StyleName = null;
             this.buttShowMachineConfig.TabIndex = 32;
             this.buttShowMachineConfig.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -73,7 +73,7 @@
             this.buttShowMachineControl.Margin = new System.Windows.Forms.Padding(5);
             this.buttShowMachineControl.Name = "buttShowMachineControl";
             this.buttShowMachineControl.OnClickCallback = "ShowMachineControl";
-            this.buttShowMachineControl.Size = new System.Drawing.Size(45, 48);
+            this.buttShowMachineControl.Size = new System.Drawing.Size(48, 48);
             this.buttShowMachineControl.StyleName = null;
             this.buttShowMachineControl.TabIndex = 33;
             this.buttShowMachineControl.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -95,7 +95,7 @@
             this.ctlShowSliceConfig.Margin = new System.Windows.Forms.Padding(5);
             this.ctlShowSliceConfig.Name = "ctlShowSliceConfig";
             this.ctlShowSliceConfig.OnClickCallback = "ShowSliceConfig";
-            this.ctlShowSliceConfig.Size = new System.Drawing.Size(45, 48);
+            this.ctlShowSliceConfig.Size = new System.Drawing.Size(48, 48);
             this.ctlShowSliceConfig.StyleName = null;
             this.ctlShowSliceConfig.TabIndex = 34;
             this.ctlShowSliceConfig.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -113,14 +113,13 @@
             // 
             // ctlConfig
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.ctlShowSliceConfig);
             this.Controls.Add(this.buttShowMachineControl);
             this.Controls.Add(this.buttShowMachineConfig);
             this.Name = "ctlConfig";
-            this.Size = new System.Drawing.Size(166, 94);
+            this.Size = new System.Drawing.Size(188, 94);
             this.ResumeLayout(false);
 
         }

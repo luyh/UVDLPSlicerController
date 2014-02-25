@@ -366,10 +366,17 @@ namespace UV_DLP_3D_Printer._3DEngine
                 Image(img.tex, sx3, sx4, sy4, img.y2, x + x3, y + h - y3, w - 2 * x3, y3);
             }
 
-            // draw center bar
+            // draw left and right bar
             if (y3 < y4)
             {
-                Image(img.tex, img.x1, img.x2, sy3, sy4, x, y + y3, w, h - 2 * y3);
+                Image(img.tex, img.x1, sx3, sy3, sy4, x, y + y3, x3, h - 2 * y3);
+                Image(img.tex, sx4, img.x2, sy3, sy4, x + w - x3, y + y3, x3, h - 2 * y3);
+            }
+
+            // draw center bar
+            if ((y3 < y4) && (x3 < x4))
+            {
+                Image(img.tex, sx3, sx4, sy3, sy4, x + x3, y + y3, w - 2 * x3, h - 2 * y3);
             }
         }
 
