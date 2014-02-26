@@ -146,6 +146,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 flowLayoutPanel1.BackColor = ct.FrameColor;
                 flowLayoutPanel3.BackColor = ct.FrameColor;
                 flowLayoutPanel4.BackColor = ct.FrameColor;
+                flowLayoutPanel5.BackColor = ct.FrameColor;
             }
 
         }

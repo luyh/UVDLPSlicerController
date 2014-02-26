@@ -122,7 +122,7 @@
             this.mainViewSplitContainer.Panel2.Controls.Add(this.glControl1);
             this.mainViewSplitContainer.Panel2.SizeChanged += new System.EventHandler(this.mainViewSplitContainer_Panel2_SizeChanged);
             this.mainViewSplitContainer.Size = new System.Drawing.Size(1200, 700);
-            this.mainViewSplitContainer.SplitterDistance = 171;
+            this.mainViewSplitContainer.SplitterDistance = 77;
             this.mainViewSplitContainer.TabIndex = 28;
             // 
             // ctlGCodeManual1
@@ -166,9 +166,9 @@
             this.ctlToolpathGenConfig1.GLVisible = false;
             this.ctlToolpathGenConfig1.GuiAnchor = null;
             this.ctlToolpathGenConfig1.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.ctlToolpathGenConfig1.Location = new System.Drawing.Point(-924, 637);
+            this.ctlToolpathGenConfig1.Location = new System.Drawing.Point(-869, 594);
             this.ctlToolpathGenConfig1.Name = "ctlToolpathGenConfig1";
-            this.ctlToolpathGenConfig1.Size = new System.Drawing.Size(987, 530);
+            this.ctlToolpathGenConfig1.Size = new System.Drawing.Size(932, 505);
             this.ctlToolpathGenConfig1.StyleName = null;
             this.ctlToolpathGenConfig1.TabIndex = 50;
             this.ctlToolpathGenConfig1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -186,7 +186,7 @@
             this.ctlMachineControl1.Location = new System.Drawing.Point(900, 637);
             this.ctlMachineControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ctlMachineControl1.Name = "ctlMachineControl1";
-            //this.ctlMachineControl1.Size = new System.Drawing.Size(949, 596);
+            this.ctlMachineControl1.Size = new System.Drawing.Size(568, 462);
             this.ctlMachineControl1.StyleName = null;
             this.ctlMachineControl1.TabIndex = 49;
             this.ctlMachineControl1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
@@ -871,7 +871,7 @@
             this.glControl1.Location = new System.Drawing.Point(0, 0);
             this.glControl1.Margin = new System.Windows.Forms.Padding(5);
             this.glControl1.Name = "glControl1";
-            this.glControl1.Size = new System.Drawing.Size(1025, 700);
+            this.glControl1.Size = new System.Drawing.Size(1119, 700);
             this.glControl1.TabIndex = 15;
             this.glControl1.Visible = false;
             this.glControl1.VSync = false;

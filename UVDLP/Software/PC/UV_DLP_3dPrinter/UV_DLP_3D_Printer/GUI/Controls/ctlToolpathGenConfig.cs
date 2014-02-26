@@ -119,8 +119,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             txtnumbottom.Text = m_config.numfirstlayers.ToString();
             txtSlideTilt.Text = m_config.slidetiltval.ToString();
             chkantialiasing.Checked = m_config.antialiasing;
-            chkmainliftgcode.Checked = m_config.usemainliftgcode;
-            grpLift.Enabled = !chkmainliftgcode.Checked;
+            //chkmainliftgcode.Checked = m_config.usemainliftgcode;
+            //grpLift.Enabled = !chkmainliftgcode.Checked;
             txtliftfeed.Text = m_config.liftfeedrate.ToString();
             txtretractfeed.Text = m_config.liftretractrate.ToString();
             chkReflectX.Checked = m_config.m_flipX;
@@ -160,11 +160,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_config.numfirstlayers = int.Parse(txtnumbottom.Text);
                 m_config.slidetiltval = double.Parse(txtSlideTilt.Text);
                 m_config.antialiasing = chkantialiasing.Checked;
-                m_config.usemainliftgcode = chkmainliftgcode.Checked;
+                //m_config.usemainliftgcode = chkmainliftgcode.Checked;
                 m_config.liftfeedrate = double.Parse(txtliftfeed.Text);
                 m_config.liftretractrate = double.Parse(txtretractfeed.Text);
                 //  m_config.raise_time_ms = int.Parse(txtRaiseTime.Text);
-                grpLift.Enabled = !chkmainliftgcode.Checked;
+                //grpLift.Enabled = !chkmainliftgcode.Checked;
                 m_config.m_flipX = chkReflectX.Checked;
                 m_config.m_flipY = chkReflectY.Checked;
                 m_config.m_notes = txtNotes.Text;
@@ -182,10 +182,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         }
 
 
-        private void chkmainliftgcode_CheckedChanged(object sender, EventArgs e)
-        {
-            grpLift.Enabled = !chkmainliftgcode.Checked;
-        }
+        
         /*
         private void chkgengcode_CheckedChanged(object sender, EventArgs e)
         {
@@ -410,14 +407,29 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             groupBox2.Enabled = chkExport.Checked;
         }
 
-        private void chkmainliftgcode_CheckedChanged_1(object sender, EventArgs e)
-        {
-            grpLift.Enabled = !chkmainliftgcode.Checked;
-        }
 
         private void chkantialiasing_CheckedChanged(object sender, EventArgs e)
         {
             txtAAVal.Enabled = chkantialiasing.Checked;
+        }
+        public override void ApplyStyle(ControlStyle ct)
+        {
+            base.ApplyStyle(ct);
+            if (ct.ForeColor != ControlStyle.NullColor)
+            {
+               // tTitle.ForeColor = ct.ForeColor;
+                ForeColor = ct.ForeColor;
+                lblTitle.ForeColor = ct.ForeColor;
+            }
+            if (ct.BackColor != ControlStyle.NullColor)
+            {
+                BackColor = ct.BackColor;
+                lblLayerTime.BackColor = ct.BackColor;
+                //layoutPanel.BackColor = ct.BackColor;
+                //tTitle.BackColor = ct.BackColor;
+                //tName.BackColor = ct.BackColor;
+            }
+
         }
     }
 }

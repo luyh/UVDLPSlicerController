@@ -20,6 +20,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             base.ApplyStyle(ct);
             if (ct.ForeColor != ControlStyle.NullColor)
             {
+                lblTitle.ForeColor = ct.ForeColor;
             }
             if (ct.BackColor != ControlStyle.NullColor)
             {
@@ -27,6 +28,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
             if (ct.FrameColor != ControlStyle.NullColor)
             {
+                flowLayoutPanel5.BackColor = ct.FrameColor;
             }
 
         }
