@@ -394,7 +394,6 @@ namespace UV_DLP_3D_Printer
                     case eBuildStatus.eBuildCancelled:
                         message = "Print Cancelled";
                         SetButtonStatuses();
-                        m_frmSettings.MachineControl.BuildStopped();
                         SetMainMessage(message);
                         DebugLogger.Instance().LogRecord(message);
 
@@ -407,7 +406,6 @@ namespace UV_DLP_3D_Printer
                         {
                             message = "Print Completed";
                             SetButtonStatuses();
-                            m_frmSettings.MachineControl.BuildStopped();
                             //MessageBox.Show("Build Completed");
                             SetMainMessage(message);
                             DebugLogger.Instance().LogRecord(message);
@@ -420,7 +418,6 @@ namespace UV_DLP_3D_Printer
                     case eBuildStatus.eBuildStarted:
                         message = "Print Started";
                         SetButtonStatuses();
-                        m_frmSettings.MachineControl.BuildStarted();
                         // if the current machine type is a UVDLP printer, make sure we can show the screen
                         if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
                         {
@@ -878,7 +875,7 @@ namespace UV_DLP_3D_Printer
 
         private void tabMachineControl_Enter(object sender, EventArgs e)
         {
-            m_frmSettings.MachineControl.UpdateControl(); // update control display -SHS
+            //m_frmSettings.MachineControl.UpdateControl(); // update control display -SHS
         }
         /*
         private void estimateVolumeCostToolStripMenuItem_Click(object sender, EventArgs e)

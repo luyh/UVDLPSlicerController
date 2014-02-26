@@ -105,8 +105,23 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             cb.RegisterCallback("ShowMachineConfig", ShowMachineConfig, null, "Show the machine configuration window");
             cb.RegisterCallback("ShowMachineControl", ShowMachineControl, null, "Show the machine control window");
             cb.RegisterCallback("ShowSliceConfig", ShowSliceConfig, null, "Show the slicing configuration window");
-            
+            cb.RegisterCallback("ShowProjectorControl", ShowProjectorControl, null, "Show the Projector Control window");
+            cb.RegisterCallback("ShowManualGCode", ShowManualGCode, null, "Show the Manual GCode window");       
+                
         }
+
+        private void ShowManualGCode(Object sender, Object v)
+        {
+            ctlImageButton but = (ctlImageButton)sender;
+            ctlGCodeManual1.Visible = but.Checked;
+        }
+
+        private void ShowProjectorControl(Object sender, Object v)
+        {
+            ctlImageButton but = (ctlImageButton)sender;
+            ctlProjectorControl1.Visible = but.Checked;
+        }
+            
         private void ShowSliceConfig(Object sender, Object v)
         {
             ShowPanel((ctlImageButton)sender, "psliceconfig");
@@ -114,7 +129,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         private void ShowMachineControl(Object sender, Object v)
         {
-            ShowPanel((ctlImageButton)sender, "pmachinecontrol");
+            ctlImageButton but = (ctlImageButton)sender;
+            ctlMachineControl1.Visible = but.Checked;
         }
 
         private void ShowMachineConfig(Object sender, Object v) 
@@ -1074,11 +1090,14 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             guiconf.AddControl("pmachineconfig", ctlMachineConfig1);
             guiconf.AddControl("pmachinecontrol", ctlMachineControl1);
             guiconf.AddControl("psliceconfig", ctlToolpathGenConfig1);
+            guiconf.AddControl("pprojectorcontrol",ctlProjectorControl1 );
+            guiconf.AddControl("pmanualgcode", ctlGCodeManual1);            
             guiconf.AddControl("clayernum", numLayer);
             guiconf.AddControl("progress", textProgress);
             guiconf.AddControl("mainmsg", textMainMessage);
             guiconf.AddControl("timemsg", textTime);
             guiconf.AddControl("pconfig", ctlConfig1); // smh - added new panel for additional config 
+            
 
         }
 

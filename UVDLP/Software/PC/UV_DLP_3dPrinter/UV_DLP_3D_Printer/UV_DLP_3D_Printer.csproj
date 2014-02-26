@@ -131,10 +131,16 @@
     <Compile Include="GUI\Controls\ctlGcodeView.Designer.cs">
       <DependentUpon>ctlGcodeView.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Controls\ctlHeatTemp.cs">
+    <Compile Include="GUI\Controls\ManualControls\ctlGCodeManual.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\Controls\ctlHeatTemp.Designer.cs">
+    <Compile Include="GUI\Controls\ManualControls\ctlGCodeManual.Designer.cs">
+      <DependentUpon>ctlGCodeManual.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\ManualControls\ctlHeatTemp.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\ManualControls\ctlHeatTemp.Designer.cs">
       <DependentUpon>ctlHeatTemp.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Controls\ctlMachineConfig.cs">
@@ -143,11 +149,17 @@
     <Compile Include="GUI\Controls\ctlMachineConfig.Designer.cs">
       <DependentUpon>ctlMachineConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Controls\ctlMachineControl.cs">
+    <Compile Include="GUI\Controls\ManualControls\ctlMachineControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\Controls\ctlMachineControl.Designer.cs">
+    <Compile Include="GUI\Controls\ManualControls\ctlMachineControl.Designer.cs">
       <DependentUpon>ctlMachineControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\ManualControls\ctlProjectorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\ManualControls\ctlProjectorControl.Designer.cs">
+      <DependentUpon>ctlProjectorControl.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Controls\ctlSliceView.cs">
       <SubType>UserControl</SubType>
@@ -166,12 +178,6 @@
     </Compile>
     <Compile Include="GUI\ctlExpandPanel.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="GUI\ctlManualControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\ctlManualControl.Designer.cs">
-      <DependentUpon>ctlManualControl.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlConfig.cs">
       <SubType>UserControl</SubType>
@@ -419,13 +425,16 @@
     <EmbeddedResource Include="GUI\Controls\ctlGcodeView.resx">
       <DependentUpon>ctlGcodeView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Controls\ctlHeatTemp.resx">
+    <EmbeddedResource Include="GUI\Controls\ManualControls\ctlGCodeManual.resx">
+      <DependentUpon>ctlGCodeManual.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\ManualControls\ctlHeatTemp.resx">
       <DependentUpon>ctlHeatTemp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\ctlMachineConfig.resx">
       <DependentUpon>ctlMachineConfig.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Controls\ctlMachineControl.resx">
+    <EmbeddedResource Include="GUI\Controls\ManualControls\ctlMachineControl.resx">
       <DependentUpon>ctlMachineControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\ctlSliceView.resx">
@@ -434,11 +443,11 @@
     <EmbeddedResource Include="GUI\Controls\ctlToolpathGenConfig.resx">
       <DependentUpon>ctlToolpathGenConfig.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\ManualControls\ctlProjectorControl.resx">
+      <DependentUpon>ctlProjectorControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\ctlExpandPanel.resx">
       <DependentUpon>ctlExpandPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\ctlManualControl.resx">
-      <DependentUpon>ctlManualControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\ctlConfig.resx">
       <DependentUpon>ctlConfig.cs</DependentUpon>

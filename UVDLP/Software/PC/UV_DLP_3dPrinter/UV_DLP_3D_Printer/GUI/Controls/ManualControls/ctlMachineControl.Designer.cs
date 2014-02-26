@@ -60,13 +60,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.txtdist = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.txtReceived = new System.Windows.Forms.TextBox();
-            this.txtSent = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.cmdSendGCode = new System.Windows.Forms.Button();
-            this.txtGCode = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.udTool1Rate = new System.Windows.Forms.NumericUpDown();
             this.udext1len = new System.Windows.Forms.NumericUpDown();
@@ -75,22 +68,12 @@
             this.label14 = new System.Windows.Forms.Label();
             this.cmdReverse2 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.cmdClear = new System.Windows.Forms.Button();
-            this.groupProjector = new System.Windows.Forms.GroupBox();
-            this.cmdSendProj = new System.Windows.Forms.Button();
-            this.cmbCommands = new System.Windows.Forms.ComboBox();
-            this.cmdConnect = new System.Windows.Forms.Button();
-            this.cmdEditPC = new System.Windows.Forms.Button();
-            this.cmdHide = new System.Windows.Forms.Button();
-            this.cmdShowBlank = new System.Windows.Forms.Button();
-            this.cmdShowCalib = new System.Windows.Forms.Button();
             this.cmdYDown = new System.Windows.Forms.Button();
             this.cmdYUp = new System.Windows.Forms.Button();
             this.cmdXDown = new System.Windows.Forms.Button();
             this.cmdXUp = new System.Windows.Forms.Button();
             this.cmdDown = new System.Windows.Forms.Button();
             this.cmdUp = new System.Windows.Forms.Button();
-            this.ctlHeatTemp1 = new UV_DLP_3D_Printer.GUI.Controls.ctlHeatTemp();
             this.grpHoming.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.grpExtrudeControls.SuspendLayout();
@@ -100,7 +83,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.udTool1Rate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.udext1len)).BeginInit();
             this.groupBox3.SuspendLayout();
-            this.groupProjector.SuspendLayout();
             this.SuspendLayout();
             // 
             // label9
@@ -463,76 +445,6 @@
             this.txtdist.Text = "10";
             this.txtdist.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(576, 198);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(71, 17);
-            this.label11.TabIndex = 56;
-            this.label11.Text = "Received:";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(575, 63);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(41, 17);
-            this.label12.TabIndex = 55;
-            this.label12.Text = "Sent:";
-            // 
-            // txtReceived
-            // 
-            this.txtReceived.BackColor = System.Drawing.Color.White;
-            this.txtReceived.Location = new System.Drawing.Point(579, 222);
-            this.txtReceived.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtReceived.Multiline = true;
-            this.txtReceived.Name = "txtReceived";
-            this.txtReceived.ReadOnly = true;
-            this.txtReceived.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtReceived.Size = new System.Drawing.Size(331, 226);
-            this.txtReceived.TabIndex = 54;
-            // 
-            // txtSent
-            // 
-            this.txtSent.BackColor = System.Drawing.Color.White;
-            this.txtSent.Location = new System.Drawing.Point(579, 86);
-            this.txtSent.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtSent.Multiline = true;
-            this.txtSent.Name = "txtSent";
-            this.txtSent.ReadOnly = true;
-            this.txtSent.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtSent.Size = new System.Drawing.Size(319, 96);
-            this.txtSent.TabIndex = 53;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(575, 18);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(103, 17);
-            this.label13.TabIndex = 52;
-            this.label13.Text = "GCode to send";
-            // 
-            // cmdSendGCode
-            // 
-            this.cmdSendGCode.Location = new System.Drawing.Point(825, 38);
-            this.cmdSendGCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdSendGCode.Name = "cmdSendGCode";
-            this.cmdSendGCode.Size = new System.Drawing.Size(75, 23);
-            this.cmdSendGCode.TabIndex = 51;
-            this.cmdSendGCode.Text = "Send!";
-            this.cmdSendGCode.UseVisualStyleBackColor = true;
-            this.cmdSendGCode.Click += new System.EventHandler(this.cmdSendGCode_Click);
-            // 
-            // txtGCode
-            // 
-            this.txtGCode.Location = new System.Drawing.Point(579, 38);
-            this.txtGCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtGCode.Name = "txtGCode";
-            this.txtGCode.Size = new System.Drawing.Size(229, 22);
-            this.txtGCode.TabIndex = 50;
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.udTool1Rate);
@@ -649,110 +561,6 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Axis Rates";
             // 
-            // cmdClear
-            // 
-            this.cmdClear.Location = new System.Drawing.Point(699, 464);
-            this.cmdClear.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdClear.Name = "cmdClear";
-            this.cmdClear.Size = new System.Drawing.Size(75, 33);
-            this.cmdClear.TabIndex = 59;
-            this.cmdClear.Text = "Clear";
-            this.cmdClear.UseVisualStyleBackColor = true;
-            this.cmdClear.Click += new System.EventHandler(this.cmdClear_Click);
-            // 
-            // groupProjector
-            // 
-            this.groupProjector.Controls.Add(this.cmdSendProj);
-            this.groupProjector.Controls.Add(this.cmbCommands);
-            this.groupProjector.Controls.Add(this.cmdConnect);
-            this.groupProjector.Controls.Add(this.cmdEditPC);
-            this.groupProjector.Controls.Add(this.cmdHide);
-            this.groupProjector.Controls.Add(this.cmdShowBlank);
-            this.groupProjector.Controls.Add(this.cmdShowCalib);
-            this.groupProjector.Location = new System.Drawing.Point(250, 364);
-            this.groupProjector.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupProjector.Name = "groupProjector";
-            this.groupProjector.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupProjector.Size = new System.Drawing.Size(299, 159);
-            this.groupProjector.TabIndex = 60;
-            this.groupProjector.TabStop = false;
-            this.groupProjector.Text = "Projector";
-            // 
-            // cmdSendProj
-            // 
-            this.cmdSendProj.Location = new System.Drawing.Point(207, 126);
-            this.cmdSendProj.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdSendProj.Name = "cmdSendProj";
-            this.cmdSendProj.Size = new System.Drawing.Size(75, 23);
-            this.cmdSendProj.TabIndex = 6;
-            this.cmdSendProj.Text = "Send";
-            this.cmdSendProj.UseVisualStyleBackColor = true;
-            this.cmdSendProj.Click += new System.EventHandler(this.cmdSendProj_Click);
-            // 
-            // cmbCommands
-            // 
-            this.cmbCommands.FormattingEnabled = true;
-            this.cmbCommands.Location = new System.Drawing.Point(7, 126);
-            this.cmbCommands.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmbCommands.Name = "cmbCommands";
-            this.cmbCommands.Size = new System.Drawing.Size(193, 24);
-            this.cmbCommands.TabIndex = 5;
-            // 
-            // cmdConnect
-            // 
-            this.cmdConnect.Location = new System.Drawing.Point(155, 20);
-            this.cmdConnect.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdConnect.Name = "cmdConnect";
-            this.cmdConnect.Size = new System.Drawing.Size(124, 30);
-            this.cmdConnect.TabIndex = 4;
-            this.cmdConnect.Text = "Connect Display";
-            this.cmdConnect.UseVisualStyleBackColor = true;
-            this.cmdConnect.Click += new System.EventHandler(this.cmdConnect_Click);
-            // 
-            // cmdEditPC
-            // 
-            this.cmdEditPC.Location = new System.Drawing.Point(155, 55);
-            this.cmdEditPC.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdEditPC.Name = "cmdEditPC";
-            this.cmdEditPC.Size = new System.Drawing.Size(124, 30);
-            this.cmdEditPC.TabIndex = 3;
-            this.cmdEditPC.Text = "Edit Commands";
-            this.cmdEditPC.UseVisualStyleBackColor = true;
-            this.cmdEditPC.Click += new System.EventHandler(this.cmdEditPC_Click);
-            // 
-            // cmdHide
-            // 
-            this.cmdHide.Location = new System.Drawing.Point(7, 90);
-            this.cmdHide.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdHide.Name = "cmdHide";
-            this.cmdHide.Size = new System.Drawing.Size(124, 30);
-            this.cmdHide.TabIndex = 2;
-            this.cmdHide.Text = "Hide";
-            this.cmdHide.UseVisualStyleBackColor = true;
-            this.cmdHide.Click += new System.EventHandler(this.cmdHide_Click);
-            // 
-            // cmdShowBlank
-            // 
-            this.cmdShowBlank.Location = new System.Drawing.Point(5, 55);
-            this.cmdShowBlank.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdShowBlank.Name = "cmdShowBlank";
-            this.cmdShowBlank.Size = new System.Drawing.Size(125, 30);
-            this.cmdShowBlank.TabIndex = 1;
-            this.cmdShowBlank.Text = "Show Blank";
-            this.cmdShowBlank.UseVisualStyleBackColor = true;
-            this.cmdShowBlank.Click += new System.EventHandler(this.cmdShowBlank_Click);
-            // 
-            // cmdShowCalib
-            // 
-            this.cmdShowCalib.Location = new System.Drawing.Point(7, 21);
-            this.cmdShowCalib.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdShowCalib.Name = "cmdShowCalib";
-            this.cmdShowCalib.Size = new System.Drawing.Size(124, 28);
-            this.cmdShowCalib.TabIndex = 0;
-            this.cmdShowCalib.Text = "Show Calibration";
-            this.cmdShowCalib.UseVisualStyleBackColor = true;
-            this.cmdShowCalib.Click += new System.EventHandler(this.cmdShowCalib_Click);
-            // 
             // cmdYDown
             // 
             this.cmdYDown.Image = global::UV_DLP_3D_Printer.Properties.Resources.Down1Blue;
@@ -819,30 +627,12 @@
             this.cmdUp.UseVisualStyleBackColor = true;
             this.cmdUp.Click += new System.EventHandler(this.cmdUp_Click);
             // 
-            // ctlHeatTemp1
-            // 
-            this.ctlHeatTemp1.Location = new System.Drawing.Point(9, 454);
-            this.ctlHeatTemp1.MonitorTemps = false;
-            this.ctlHeatTemp1.Name = "ctlHeatTemp1";
-            this.ctlHeatTemp1.Size = new System.Drawing.Size(237, 148);
-            this.ctlHeatTemp1.TabIndex = 61;
-            // 
             // ctlMachineControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.ctlHeatTemp1);
-            this.Controls.Add(this.groupProjector);
-            this.Controls.Add(this.cmdClear);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.label11);
-            this.Controls.Add(this.label12);
-            this.Controls.Add(this.txtReceived);
-            this.Controls.Add(this.txtSent);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.cmdSendGCode);
-            this.Controls.Add(this.txtGCode);
             this.Controls.Add(this.grpHoming);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.grpExtrudeControls);
@@ -859,7 +649,7 @@
             this.Controls.Add(this.cmdUp);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ctlMachineControl";
-            this.Size = new System.Drawing.Size(949, 596);
+            this.Size = new System.Drawing.Size(568, 462);
             this.grpHoming.ResumeLayout(false);
             this.grpHoming.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -873,7 +663,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.udext1len)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.groupProjector.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -912,13 +701,6 @@
         private System.Windows.Forms.TextBox txtdist;
         private System.Windows.Forms.Button cmdDown;
         private System.Windows.Forms.Button cmdUp;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox txtReceived;
-        private System.Windows.Forms.TextBox txtSent;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Button cmdSendGCode;
-        private System.Windows.Forms.TextBox txtGCode;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button cmdExtrude2;
         private System.Windows.Forms.Label label14;
@@ -928,21 +710,11 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Button cmdClear;
         private System.Windows.Forms.NumericUpDown udext0len;
         private System.Windows.Forms.NumericUpDown udext1len;
         private System.Windows.Forms.NumericUpDown udTool0Rate;
         private System.Windows.Forms.NumericUpDown udTool1Rate;
-        private System.Windows.Forms.GroupBox groupProjector;
-        private System.Windows.Forms.Button cmdShowBlank;
-        private System.Windows.Forms.Button cmdShowCalib;
-        private System.Windows.Forms.Button cmdHide;
-        private System.Windows.Forms.Button cmdEditPC;
-        private System.Windows.Forms.Button cmdConnect;
-        private System.Windows.Forms.Button cmdSendProj;
-        private System.Windows.Forms.ComboBox cmbCommands;
         private System.Windows.Forms.Button cmdGetPosition;
         private System.Windows.Forms.Label label18;
-        private ctlHeatTemp ctlHeatTemp1;
     }
 }

@@ -17,6 +17,7 @@ namespace UV_DLP_3D_Printer.Device_Interface
         private double m_rateXY;
         private double m_rateZ;
         private double m_rateE;
+        private double m_distE;
         private double m_distZ; // how far in Z to move
         private double m_distXY; // the X/Y distance to move
 
@@ -25,6 +26,7 @@ namespace UV_DLP_3D_Printer.Device_Interface
             m_rateXY = 3000;
             m_rateZ = 200;
             m_rateE = 10;
+            m_distE = 20;
             Load(); // load the current values
         }
 
@@ -47,6 +49,16 @@ namespace UV_DLP_3D_Printer.Device_Interface
         {
             get { return m_distZ; }
             set { m_distZ = value; Save(); }
+        }
+        public double ERate
+        {
+            get { return m_rateE; }
+            set { m_rateE = value; Save(); }
+        }
+        public double EDist
+        {
+            get { return m_distE; }
+            set { m_distE = value; Save(); }
         }
         public static ManualControl Instance() 
         {

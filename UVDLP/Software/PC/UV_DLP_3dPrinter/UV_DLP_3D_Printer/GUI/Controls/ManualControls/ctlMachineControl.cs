@@ -21,13 +21,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         public ctlMachineControl()
         {
             InitializeComponent();
-            // the data received should be dis-abled during prints and re-enabled when not printing
-            UVDLPApp.Instance().m_deviceinterface.LineDataEvent += new DeviceInterface.DeviceLineReceived(LineDataReceived);
             sb = new StringBuilder();
             UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEventDel);
             SetupForMachineType();
-            UpdateProjConnected();
-            UpdateProjectorCommands();
            // RegisterCallbacks();
             SetData();
         }
@@ -74,10 +70,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 {
                     case eAppEvent.eMachineTypeChanged:
                         SetupForMachineType();
-                        break;
-                    case eAppEvent.eDisplayConnected:
-                    case eAppEvent.eDisplayDisconnected:
-                        UpdateProjConnected();
                         break;
                 }
             }
@@ -240,74 +232,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         }
         #endregion // Homing
 
-        /// <summary>
-        /// When the build is started, we need to stop listening in on GCode commands,
-        /// otherwise this control will be flooded with GCode messages
-        /// it's trying to display, and will become un-responsive
-        /// </summary>
-        public void BuildStarted() 
-        {
-            UVDLPApp.Instance().m_deviceinterface.LineDataEvent -= new DeviceInterface.DeviceLineReceived(LineDataReceived);
-        }
-        /// <summary>
-        /// This will re-enable the ability to see sent GCode commands
-        /// </summary>
-        public void BuildStopped() 
-        {
-            UVDLPApp.Instance().m_deviceinterface.LineDataEvent += new DeviceInterface.DeviceLineReceived(LineDataReceived);
-        }
 
-        /// <summary>
-        /// Disables/enables items based on up to date configuration) -SHS
-        /// </summary>
-        public void UpdateControl()
-        {
-            if (UVDLPApp.Instance().m_printerinfo.m_monitorconfig.m_displayconnectionenabled == false)
-            {
-                cmdConnect.Enabled = false;
-                cmdSendProj.Enabled = false;
-            }
-            else
-            {
-                cmdConnect.Enabled = true;
-                cmdSendProj.Enabled = true;
-            }
 
-        }
 
-        void LineDataReceived(DeviceDriver driver, string line)
-        {
-            if (InvokeRequired)
-            {
-                BeginInvoke(new MethodInvoker(delegate() { LineDataReceived(driver, line); }));
-            }
-            else
-            {
-                line = line.Trim();
-                //sb.Insert(0, line);
-                txtReceived.Text += line + "\r\n";
-                //txtReceived.Refresh();
-            }
+        
 
-        }
-        private void cmdSendGCode_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(txtGCode.Text + "\r\n"))
-                {
-                    txtSent.Text = txtGCode.Text + "\r\n" + txtSent.Text;
-                }
-                else
-                {
-                    DebugLogger.Instance().LogRecord("Could Not Send Raw GCode Command");
-                }
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogRecord(ex.Message);
-            }
-        }
 
         #region EXTRUSION
         private double getToolRate(int tool) 
@@ -399,110 +328,13 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         }
         #endregion //extrusion
 
-        private void cmdClear_Click(object sender, EventArgs e)
-        {
-            txtReceived.Text = "";
-        }
+      
 
         private void label14_Click(object sender, EventArgs e)
         {
 
         }
-
-        private void cmdShowCalib_Click(object sender, EventArgs e)
-        {
-            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eShowCalib,"Show Calibration");
-        }
-
-        private void cmdShowBlank_Click(object sender, EventArgs e)
-        {
-            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eShowBlank, "Show Blank");
-        }
-
-        private void cmdEditPC_Click(object sender, EventArgs e)
-        {
-            frmProjCommand frm = new frmProjCommand();
-            frm.ShowDialog();
-            frm.Dispose();
-            // now update list of commands
-            UpdateProjectorCommands();
-        }
-        private void UpdateProjectorCommands() 
-        {
-            try
-            {
-                cmbCommands.Items.Clear();
-                foreach (ProjectorCommand cmd in UVDLPApp.Instance().m_proj_cmd_lst.m_commands)
-                {
-                    cmbCommands.Items.Add(cmd.name);
-                }
-            }
-            catch (Exception ex) 
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
-        private void UpdateProjConnected() 
-        {
-            try
-            {
-                if (UVDLPApp.Instance().m_deviceinterface.ConnectedProjector)
-                {
-                    cmdConnect.Text = "Disconnect Monitor";
-                }
-                else
-                {
-                    cmdConnect.Text = "Connect Monitor";
-                }
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
-        private void cmdConnect_Click(object sender, EventArgs e)
-        {
-            //UVDLPApp.Instance().m_deviceinterface.Configure(UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_connection);
-            if (UVDLPApp.Instance().m_deviceinterface.ConnectedProjector == false)
-            {
-                UVDLPApp.Instance().m_deviceinterface.ConfigureProjector(UVDLPApp.Instance().m_printerinfo.m_monitorconfig.m_displayconnection);
-                if (UVDLPApp.Instance().m_deviceinterface.ConnectProjector())
-                {
-                    UpdateProjConnected();
-                }
-            }
-            else 
-            {
-                UVDLPApp.Instance().m_deviceinterface.DisconnectProjector();
-                UpdateProjConnected();
-            }
-        }
-
-        private void cmdHide_Click(object sender, EventArgs e)
-        {
-            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eHideDLP, "Hide DLP");
-        }
-
-        private void cmdSendProj_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // get the index from the combo box
-                int idx = cmbCommands.SelectedIndex;
-                if (idx == -1) return;
-                ProjectorCommand cmd = UVDLPApp.Instance().m_proj_cmd_lst.m_commands[idx];
-                byte[] dat = cmd.GetBytes();
-                if (dat != null) 
-                {
-                    UVDLPApp.Instance().m_deviceinterface.DriverProjector.Write(dat, dat.Length);
-                }
-            }
-            catch (Exception ex) 
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
-
+             
         private void cmdGetPosition_Click(object sender, EventArgs e)
         {
             String command = "M114\r\n";

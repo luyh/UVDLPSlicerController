@@ -29,9 +29,10 @@
         private void InitializeComponent()
         {
             this.buttShowMachineConfig = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.buttShowMachineControl = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.ctlShowSliceConfig = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.lblTitle = new System.Windows.Forms.Label();
+            this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttShowMachineConfig
@@ -47,7 +48,7 @@
             this.buttShowMachineConfig.GuiAnchor = null;
             this.buttShowMachineConfig.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttShowMachineConfig.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMachineConfig;
-            this.buttShowMachineConfig.Location = new System.Drawing.Point(5, 37);
+            this.buttShowMachineConfig.Location = new System.Drawing.Point(5, 5);
             this.buttShowMachineConfig.Margin = new System.Windows.Forms.Padding(5);
             this.buttShowMachineConfig.Name = "buttShowMachineConfig";
             this.buttShowMachineConfig.OnClickCallback = "ShowMachineConfig";
@@ -55,28 +56,6 @@
             this.buttShowMachineConfig.StyleName = null;
             this.buttShowMachineConfig.TabIndex = 32;
             this.buttShowMachineConfig.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            // 
-            // buttShowMachineControl
-            // 
-            this.buttShowMachineControl.BackColor = System.Drawing.Color.Navy;
-            this.buttShowMachineControl.Checked = false;
-            this.buttShowMachineControl.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
-            this.buttShowMachineControl.Gapx = 5;
-            this.buttShowMachineControl.Gapy = 5;
-            this.buttShowMachineControl.GLBackgroundImage = null;
-            this.buttShowMachineControl.GLImage = null;
-            this.buttShowMachineControl.GLVisible = false;
-            this.buttShowMachineControl.GuiAnchor = null;
-            this.buttShowMachineControl.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.buttShowMachineControl.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMachineControl;
-            this.buttShowMachineControl.Location = new System.Drawing.Point(60, 37);
-            this.buttShowMachineControl.Margin = new System.Windows.Forms.Padding(5);
-            this.buttShowMachineControl.Name = "buttShowMachineControl";
-            this.buttShowMachineControl.OnClickCallback = "ShowMachineControl";
-            this.buttShowMachineControl.Size = new System.Drawing.Size(48, 48);
-            this.buttShowMachineControl.StyleName = null;
-            this.buttShowMachineControl.TabIndex = 33;
-            this.buttShowMachineControl.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             // 
             // ctlShowSliceConfig
             // 
@@ -91,7 +70,7 @@
             this.ctlShowSliceConfig.GuiAnchor = null;
             this.ctlShowSliceConfig.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.ctlShowSliceConfig.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttSliceConf;
-            this.ctlShowSliceConfig.Location = new System.Drawing.Point(115, 37);
+            this.ctlShowSliceConfig.Location = new System.Drawing.Point(63, 5);
             this.ctlShowSliceConfig.Margin = new System.Windows.Forms.Padding(5);
             this.ctlShowSliceConfig.Name = "ctlShowSliceConfig";
             this.ctlShowSliceConfig.OnClickCallback = "ShowSliceConfig";
@@ -104,22 +83,32 @@
             // 
             this.lblTitle.Font = new System.Drawing.Font("Arial", 17.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lblTitle.ForeColor = System.Drawing.Color.White;
-            this.lblTitle.Location = new System.Drawing.Point(3, 0);
+            this.lblTitle.Location = new System.Drawing.Point(6, 2);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(157, 31);
+            this.lblTitle.Size = new System.Drawing.Size(182, 33);
             this.lblTitle.TabIndex = 35;
             this.lblTitle.Text = "Configuration";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // flowLayoutPanel5
+            // 
+            this.flowLayoutPanel5.BackColor = System.Drawing.Color.RoyalBlue;
+            this.flowLayoutPanel5.Controls.Add(this.buttShowMachineConfig);
+            this.flowLayoutPanel5.Controls.Add(this.ctlShowSliceConfig);
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(6, 39);
+            this.flowLayoutPanel5.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.flowLayoutPanel5.Name = "flowLayoutPanel5";
+            this.flowLayoutPanel5.Size = new System.Drawing.Size(182, 58);
+            this.flowLayoutPanel5.TabIndex = 36;
+            // 
             // ctlConfig
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.flowLayoutPanel5);
             this.Controls.Add(this.lblTitle);
-            this.Controls.Add(this.ctlShowSliceConfig);
-            this.Controls.Add(this.buttShowMachineControl);
-            this.Controls.Add(this.buttShowMachineConfig);
             this.Name = "ctlConfig";
-            this.Size = new System.Drawing.Size(188, 94);
+            this.Size = new System.Drawing.Size(197, 105);
+            this.flowLayoutPanel5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -127,8 +116,8 @@
         #endregion
 
         private ctlImageButton buttShowMachineConfig;
-        private ctlImageButton buttShowMachineControl;
         private ctlImageButton ctlShowSliceConfig;
         private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel5;
     }
 }

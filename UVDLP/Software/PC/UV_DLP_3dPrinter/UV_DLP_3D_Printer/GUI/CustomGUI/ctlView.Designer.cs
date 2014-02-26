@@ -39,11 +39,16 @@
             this.buttShowConsole = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.buttSliceView = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttShowMachineControl = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.ctlProjectorControl = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
+            this.buttManualGCodeView = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             this.flowLayoutPanel4.SuspendLayout();
+            this.flowLayoutPanel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel2
@@ -52,11 +57,12 @@
             this.flowLayoutPanel2.Controls.Add(this.flowLayoutPanel1);
             this.flowLayoutPanel2.Controls.Add(this.flowLayoutPanel3);
             this.flowLayoutPanel2.Controls.Add(this.flowLayoutPanel4);
+            this.flowLayoutPanel2.Controls.Add(this.flowLayoutPanel5);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(170, 186);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(170, 249);
             this.flowLayoutPanel2.TabIndex = 24;
             // 
             // flowLayoutPanel1
@@ -225,6 +231,8 @@
             // 
             this.flowLayoutPanel4.BackColor = System.Drawing.Color.RoyalBlue;
             this.flowLayoutPanel4.Controls.Add(this.buttSliceView);
+            this.flowLayoutPanel4.Controls.Add(this.buttShowMachineControl);
+            this.flowLayoutPanel4.Controls.Add(this.ctlProjectorControl);
             this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 125);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
@@ -254,6 +262,85 @@
             this.buttSliceView.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttSliceView.Click += new System.EventHandler(this.buttSliceView_Click);
             // 
+            // buttShowMachineControl
+            // 
+            this.buttShowMachineControl.BackColor = System.Drawing.Color.Navy;
+            this.buttShowMachineControl.Checked = false;
+            this.buttShowMachineControl.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.buttShowMachineControl.Gapx = 5;
+            this.buttShowMachineControl.Gapy = 5;
+            this.buttShowMachineControl.GLBackgroundImage = null;
+            this.buttShowMachineControl.GLImage = null;
+            this.buttShowMachineControl.GLVisible = false;
+            this.buttShowMachineControl.GuiAnchor = null;
+            this.buttShowMachineControl.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttShowMachineControl.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMachineControl;
+            this.buttShowMachineControl.Location = new System.Drawing.Point(58, 5);
+            this.buttShowMachineControl.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
+            this.buttShowMachineControl.Name = "buttShowMachineControl";
+            this.buttShowMachineControl.OnClickCallback = "ShowMachineControl";
+            this.buttShowMachineControl.Size = new System.Drawing.Size(48, 48);
+            this.buttShowMachineControl.StyleName = null;
+            this.buttShowMachineControl.TabIndex = 34;
+            this.ctlToolTip1.SetToolTip(this.buttShowMachineControl, "Show Manual Control");
+            this.buttShowMachineControl.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            // 
+            // ctlProjectorControl
+            // 
+            this.ctlProjectorControl.BackColor = System.Drawing.Color.Navy;
+            this.ctlProjectorControl.Checked = false;
+            this.ctlProjectorControl.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.ctlProjectorControl.Gapx = 5;
+            this.ctlProjectorControl.Gapy = 5;
+            this.ctlProjectorControl.GLBackgroundImage = null;
+            this.ctlProjectorControl.GLImage = null;
+            this.ctlProjectorControl.GLVisible = false;
+            this.ctlProjectorControl.GuiAnchor = null;
+            this.ctlProjectorControl.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.ctlProjectorControl.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttProjector;
+            this.ctlProjectorControl.Location = new System.Drawing.Point(111, 5);
+            this.ctlProjectorControl.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
+            this.ctlProjectorControl.Name = "ctlProjectorControl";
+            this.ctlProjectorControl.OnClickCallback = "ShowProjectorControl";
+            this.ctlProjectorControl.Size = new System.Drawing.Size(48, 48);
+            this.ctlProjectorControl.StyleName = null;
+            this.ctlProjectorControl.TabIndex = 37;
+            this.ctlToolTip1.SetToolTip(this.ctlProjectorControl, "Show Display Controls");
+            this.ctlProjectorControl.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            // 
+            // flowLayoutPanel5
+            // 
+            this.flowLayoutPanel5.BackColor = System.Drawing.Color.RoyalBlue;
+            this.flowLayoutPanel5.Controls.Add(this.buttManualGCodeView);
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(3, 186);
+            this.flowLayoutPanel5.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.flowLayoutPanel5.Name = "flowLayoutPanel5";
+            this.flowLayoutPanel5.Size = new System.Drawing.Size(164, 58);
+            this.flowLayoutPanel5.TabIndex = 27;
+            // 
+            // buttManualGCodeView
+            // 
+            this.buttManualGCodeView.BackColor = System.Drawing.Color.Navy;
+            this.buttManualGCodeView.Checked = false;
+            this.buttManualGCodeView.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.buttManualGCodeView.Gapx = 5;
+            this.buttManualGCodeView.Gapy = 5;
+            this.buttManualGCodeView.GLBackgroundImage = null;
+            this.buttManualGCodeView.GLImage = null;
+            this.buttManualGCodeView.GLVisible = false;
+            this.buttManualGCodeView.GuiAnchor = null;
+            this.buttManualGCodeView.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttManualGCodeView.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttSendGcode;
+            this.buttManualGCodeView.Location = new System.Drawing.Point(5, 5);
+            this.buttManualGCodeView.Margin = new System.Windows.Forms.Padding(5);
+            this.buttManualGCodeView.Name = "buttManualGCodeView";
+            this.buttManualGCodeView.OnClickCallback = "ShowManualGCode";
+            this.buttManualGCodeView.Size = new System.Drawing.Size(48, 48);
+            this.buttManualGCodeView.StyleName = null;
+            this.buttManualGCodeView.TabIndex = 23;
+            this.ctlToolTip1.SetToolTip(this.buttManualGCodeView, "Show Manual GCode");
+            this.buttManualGCodeView.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            // 
             // ctlToolTip1
             // 
             this.ctlToolTip1.AutoPopDelay = 5000;
@@ -267,11 +354,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.flowLayoutPanel2);
             this.Name = "ctlView";
-            this.Size = new System.Drawing.Size(170, 186);
+            this.Size = new System.Drawing.Size(170, 249);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel3.ResumeLayout(false);
             this.flowLayoutPanel4.ResumeLayout(false);
+            this.flowLayoutPanel5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -290,5 +378,9 @@
         private ctlImageButton buttShowConsole;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
         private ctlImageButton buttSliceView;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel5;
+        private ctlImageButton buttManualGCodeView;
+        private ctlImageButton buttShowMachineControl;
+        private ctlImageButton ctlProjectorControl;
     }
 }

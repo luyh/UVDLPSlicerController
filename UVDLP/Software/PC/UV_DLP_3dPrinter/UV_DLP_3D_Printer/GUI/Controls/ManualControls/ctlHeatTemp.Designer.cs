@@ -31,14 +31,14 @@
             this.cmdSet1 = new System.Windows.Forms.Button();
             this.txtVal1 = new System.Windows.Forms.TextBox();
             this.cmdOff1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.cmdOff2 = new System.Windows.Forms.Button();
             this.cmdSet2 = new System.Windows.Forms.Button();
             this.txtVal2 = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.chkMonitorTemps = new System.Windows.Forms.CheckBox();
             this.lblHBP = new System.Windows.Forms.Label();
             this.lblEXT0 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cmdSet1
@@ -69,16 +69,6 @@
             this.cmdOff1.UseVisualStyleBackColor = true;
             this.cmdOff1.Click += new System.EventHandler(this.cmdOff1_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(108, 17);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Heater 1: (Ext0)";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
-            // 
             // cmdOff2
             // 
             this.cmdOff2.Location = new System.Drawing.Point(9, 85);
@@ -106,15 +96,6 @@
             this.txtVal2.Size = new System.Drawing.Size(46, 22);
             this.txtVal2.TabIndex = 7;
             this.txtVal2.Text = "125";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 65);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(109, 17);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Heater 2: (HBP)";
             // 
             // chkMonitorTemps
             // 
@@ -145,18 +126,38 @@
             this.lblEXT0.TabIndex = 13;
             this.lblEXT0.Text = "C";
             // 
+            // label2
+            // 
+            this.label2.Font = new System.Drawing.Font("Arial", 17.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(5, 3);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(151, 22);
+            this.label2.TabIndex = 30;
+            this.label2.Text = "Heater 1: (Ext0)";
+            // 
+            // label1
+            // 
+            this.label1.Font = new System.Drawing.Font("Arial", 17.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(5, 60);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(151, 22);
+            this.label1.TabIndex = 31;
+            this.label1.Text = "Heater 2: (HBP)";
+            // 
             // ctlHeatTemp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.lblEXT0);
             this.Controls.Add(this.lblHBP);
             this.Controls.Add(this.chkMonitorTemps);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.cmdOff2);
             this.Controls.Add(this.cmdSet2);
             this.Controls.Add(this.txtVal2);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.cmdOff1);
             this.Controls.Add(this.cmdSet1);
             this.Controls.Add(this.txtVal1);
@@ -172,13 +173,13 @@
         private System.Windows.Forms.Button cmdSet1;
         private System.Windows.Forms.TextBox txtVal1;
         private System.Windows.Forms.Button cmdOff1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button cmdOff2;
         private System.Windows.Forms.Button cmdSet2;
         private System.Windows.Forms.TextBox txtVal2;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox chkMonitorTemps;
         private System.Windows.Forms.Label lblHBP;
         private System.Windows.Forms.Label lblEXT0;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
     }
 }

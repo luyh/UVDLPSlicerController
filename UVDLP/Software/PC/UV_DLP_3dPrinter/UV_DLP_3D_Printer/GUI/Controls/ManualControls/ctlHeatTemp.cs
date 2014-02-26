@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Timers;
 using UV_DLP_3D_Printer.Drivers;
+using UV_DLP_3D_Printer.GUI.CustomGUI;
+
 namespace UV_DLP_3D_Printer.GUI.Controls
 {   
      
@@ -15,8 +17,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
     /// <summary>
     /// This is the event that fires when the controls' set/off buttons are clicked
     /// </summary>
-    
-    public partial class ctlHeatTemp : UserControl
+
+    public partial class ctlHeatTemp : ctlUserPanel
     {
    
         protected System.Timers.Timer m_tempchecktimer;
