@@ -47,11 +47,6 @@
             this.txtPlatHeight = new System.Windows.Forms.TextBox();
             this.txtPlatWidth = new System.Windows.Forms.TextBox();
             this.cmdOK = new System.Windows.Forms.Button();
-            this.cmdDelete = new System.Windows.Forms.Button();
-            this.cmdNew = new System.Windows.Forms.Button();
-            this.lstMachineProfiles = new System.Windows.Forms.ListBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.cmbMachineProfiles = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label13 = new System.Windows.Forms.Label();
@@ -64,10 +59,11 @@
             this.cmdCfgConDsp = new System.Windows.Forms.Button();
             this.grpMachineConfig = new System.Windows.Forms.GroupBox();
             this.lblTitle = new System.Windows.Forms.Label();
+            this.cmdCreate = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.cmdRemove = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.Monitors.SuspendLayout();
             this.ProjectorRes.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.grpPrjSerial.SuspendLayout();
             this.grpMachineConfig.SuspendLayout();
@@ -76,7 +72,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(54, 18);
+            this.label9.Location = new System.Drawing.Point(6, 18);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(97, 17);
             this.label9.TabIndex = 53;
@@ -85,7 +81,7 @@
             // cmbMachineType
             // 
             this.cmbMachineType.FormattingEnabled = true;
-            this.cmbMachineType.Location = new System.Drawing.Point(157, 15);
+            this.cmbMachineType.Location = new System.Drawing.Point(109, 15);
             this.cmbMachineType.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbMachineType.Name = "cmbMachineType";
             this.cmbMachineType.Size = new System.Drawing.Size(171, 24);
@@ -97,7 +93,7 @@
             this.Monitors.Controls.Add(this.lblMonInfo);
             this.Monitors.Controls.Add(this.cmdRefreshMonitors);
             this.Monitors.Controls.Add(this.lstMonitors);
-            this.Monitors.Location = new System.Drawing.Point(6, 190);
+            this.Monitors.Location = new System.Drawing.Point(6, 167);
             this.Monitors.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Monitors.Name = "Monitors";
             this.Monitors.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -119,7 +115,7 @@
             this.cmdRefreshMonitors.Location = new System.Drawing.Point(5, 106);
             this.cmdRefreshMonitors.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdRefreshMonitors.Name = "cmdRefreshMonitors";
-            this.cmdRefreshMonitors.Size = new System.Drawing.Size(126, 28);
+            this.cmdRefreshMonitors.Size = new System.Drawing.Size(134, 28);
             this.cmdRefreshMonitors.TabIndex = 1;
             this.cmdRefreshMonitors.Text = "Refresh";
             this.cmdRefreshMonitors.UseVisualStyleBackColor = true;
@@ -142,7 +138,7 @@
             this.ProjectorRes.Controls.Add(this.label2);
             this.ProjectorRes.Controls.Add(this.projheight);
             this.ProjectorRes.Controls.Add(this.projwidth);
-            this.ProjectorRes.Location = new System.Drawing.Point(157, 190);
+            this.ProjectorRes.Location = new System.Drawing.Point(157, 167);
             this.ProjectorRes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ProjectorRes.Name = "ProjectorRes";
             this.ProjectorRes.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -199,15 +195,15 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Size = new System.Drawing.Size(145, 128);
+            this.groupBox1.Size = new System.Drawing.Size(145, 113);
             this.groupBox1.TabIndex = 47;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Axis Length (mm)";
+            this.groupBox1.Text = "Build Size (mm)";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 89);
+            this.label3.Location = new System.Drawing.Point(7, 81);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(17, 17);
             this.label3.TabIndex = 5;
@@ -215,7 +211,7 @@
             // 
             // txtPlatTall
             // 
-            this.txtPlatTall.Location = new System.Drawing.Point(29, 86);
+            this.txtPlatTall.Location = new System.Drawing.Point(29, 78);
             this.txtPlatTall.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPlatTall.Name = "txtPlatTall";
             this.txtPlatTall.Size = new System.Drawing.Size(49, 22);
@@ -225,7 +221,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(7, 64);
+            this.label6.Location = new System.Drawing.Point(7, 53);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(17, 17);
             this.label6.TabIndex = 3;
@@ -234,7 +230,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 36);
+            this.label5.Location = new System.Drawing.Point(7, 28);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(17, 17);
             this.label5.TabIndex = 2;
@@ -242,7 +238,7 @@
             // 
             // txtPlatHeight
             // 
-            this.txtPlatHeight.Location = new System.Drawing.Point(29, 62);
+            this.txtPlatHeight.Location = new System.Drawing.Point(29, 51);
             this.txtPlatHeight.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPlatHeight.Name = "txtPlatHeight";
             this.txtPlatHeight.Size = new System.Drawing.Size(49, 22);
@@ -251,7 +247,7 @@
             // 
             // txtPlatWidth
             // 
-            this.txtPlatWidth.Location = new System.Drawing.Point(29, 33);
+            this.txtPlatWidth.Location = new System.Drawing.Point(29, 25);
             this.txtPlatWidth.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPlatWidth.Name = "txtPlatWidth";
             this.txtPlatWidth.Size = new System.Drawing.Size(49, 22);
@@ -260,7 +256,7 @@
             // 
             // cmdOK
             // 
-            this.cmdOK.Location = new System.Drawing.Point(12, 334);
+            this.cmdOK.Location = new System.Drawing.Point(8, 445);
             this.cmdOK.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(98, 38);
@@ -269,69 +265,13 @@
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
-            // cmdDelete
-            // 
-            this.cmdDelete.Location = new System.Drawing.Point(88, 201);
-            this.cmdDelete.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdDelete.Name = "cmdDelete";
-            this.cmdDelete.Size = new System.Drawing.Size(75, 32);
-            this.cmdDelete.TabIndex = 56;
-            this.cmdDelete.Text = "Delete";
-            this.cmdDelete.UseVisualStyleBackColor = true;
-            this.cmdDelete.Click += new System.EventHandler(this.cmdDelete_Click);
-            // 
-            // cmdNew
-            // 
-            this.cmdNew.Location = new System.Drawing.Point(5, 201);
-            this.cmdNew.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdNew.Name = "cmdNew";
-            this.cmdNew.Size = new System.Drawing.Size(75, 32);
-            this.cmdNew.TabIndex = 55;
-            this.cmdNew.Text = "Create";
-            this.cmdNew.UseVisualStyleBackColor = true;
-            this.cmdNew.Click += new System.EventHandler(this.cmdNew_Click);
-            // 
-            // lstMachineProfiles
-            // 
-            this.lstMachineProfiles.FormattingEnabled = true;
-            this.lstMachineProfiles.ItemHeight = 16;
-            this.lstMachineProfiles.Location = new System.Drawing.Point(5, 26);
-            this.lstMachineProfiles.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.lstMachineProfiles.Name = "lstMachineProfiles";
-            this.lstMachineProfiles.Size = new System.Drawing.Size(158, 164);
-            this.lstMachineProfiles.TabIndex = 54;
-            this.lstMachineProfiles.SelectedIndexChanged += new System.EventHandler(this.lstMachineProfiles_SelectedIndexChanged);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.lstMachineProfiles);
-            this.groupBox2.Controls.Add(this.cmdDelete);
-            this.groupBox2.Controls.Add(this.cmdNew);
-            this.groupBox2.Location = new System.Drawing.Point(8, 96);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox2.Size = new System.Drawing.Size(171, 246);
-            this.groupBox2.TabIndex = 57;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "All Machine Profiles";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(8, 44);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(96, 17);
-            this.label10.TabIndex = 58;
-            this.label10.Text = "Profile in Use:";
-            // 
             // cmbMachineProfiles
             // 
             this.cmbMachineProfiles.FormattingEnabled = true;
-            this.cmbMachineProfiles.Location = new System.Drawing.Point(8, 66);
+            this.cmbMachineProfiles.Location = new System.Drawing.Point(6, 45);
             this.cmbMachineProfiles.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbMachineProfiles.Name = "cmbMachineProfiles";
-            this.cmbMachineProfiles.Size = new System.Drawing.Size(171, 24);
+            this.cmbMachineProfiles.Size = new System.Drawing.Size(257, 24);
             this.cmbMachineProfiles.TabIndex = 57;
             this.cmbMachineProfiles.SelectedIndexChanged += new System.EventHandler(this.cmbMachineProfiles_SelectedIndexChanged);
             // 
@@ -344,7 +284,7 @@
             this.groupBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox4.Size = new System.Drawing.Size(171, 128);
+            this.groupBox4.Size = new System.Drawing.Size(171, 113);
             this.groupBox4.TabIndex = 59;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Machine Connection";
@@ -352,7 +292,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(7, 59);
+            this.label13.Location = new System.Drawing.Point(8, 30);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(38, 17);
             this.label13.TabIndex = 5;
@@ -360,7 +300,7 @@
             // 
             // cmdCfgConMch
             // 
-            this.cmdCfgConMch.Location = new System.Drawing.Point(11, 85);
+            this.cmdCfgConMch.Location = new System.Drawing.Point(11, 76);
             this.cmdCfgConMch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdCfgConMch.Name = "cmdCfgConMch";
             this.cmdCfgConMch.Size = new System.Drawing.Size(89, 25);
@@ -372,7 +312,7 @@
             // lblConMachine
             // 
             this.lblConMachine.AutoSize = true;
-            this.lblConMachine.Location = new System.Drawing.Point(51, 59);
+            this.lblConMachine.Location = new System.Drawing.Point(10, 53);
             this.lblConMachine.Name = "lblConMachine";
             this.lblConMachine.Size = new System.Drawing.Size(13, 17);
             this.lblConMachine.TabIndex = 0;
@@ -384,7 +324,7 @@
             this.grpPrjSerial.Controls.Add(this.label12);
             this.grpPrjSerial.Controls.Add(this.lblConDisp);
             this.grpPrjSerial.Controls.Add(this.cmdCfgConDsp);
-            this.grpPrjSerial.Location = new System.Drawing.Point(157, 273);
+            this.grpPrjSerial.Location = new System.Drawing.Point(157, 250);
             this.grpPrjSerial.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpPrjSerial.Name = "grpPrjSerial";
             this.grpPrjSerial.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -440,41 +380,82 @@
             this.grpMachineConfig.Controls.Add(this.grpPrjSerial);
             this.grpMachineConfig.Controls.Add(this.groupBox4);
             this.grpMachineConfig.Controls.Add(this.Monitors);
-            this.grpMachineConfig.Controls.Add(this.cmdOK);
             this.grpMachineConfig.Controls.Add(this.label9);
             this.grpMachineConfig.Controls.Add(this.cmbMachineType);
             this.grpMachineConfig.Controls.Add(this.ProjectorRes);
-            this.grpMachineConfig.Location = new System.Drawing.Point(190, 41);
+            this.grpMachineConfig.Location = new System.Drawing.Point(8, 77);
             this.grpMachineConfig.Name = "grpMachineConfig";
-            this.grpMachineConfig.Size = new System.Drawing.Size(339, 386);
+            this.grpMachineConfig.Size = new System.Drawing.Size(339, 363);
             this.grpMachineConfig.TabIndex = 61;
             this.grpMachineConfig.TabStop = false;
             this.grpMachineConfig.Text = "Name";
             // 
             // lblTitle
             // 
+            this.lblTitle.BackColor = System.Drawing.Color.RoyalBlue;
             this.lblTitle.Font = new System.Drawing.Font("Arial", 17.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lblTitle.ForeColor = System.Drawing.Color.White;
             this.lblTitle.Location = new System.Drawing.Point(7, 7);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(522, 31);
+            this.lblTitle.Size = new System.Drawing.Size(340, 31);
             this.lblTitle.TabIndex = 62;
             this.lblTitle.Text = "Machine Configuration";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // cmdCreate
+            // 
+            this.cmdCreate.Checked = false;
+            this.cmdCreate.CheckImage = null;
+            this.cmdCreate.Gapx = 5;
+            this.cmdCreate.Gapy = 5;
+            this.cmdCreate.GLBackgroundImage = null;
+            this.cmdCreate.GLImage = null;
+            this.cmdCreate.GLVisible = false;
+            this.cmdCreate.GuiAnchor = null;
+            this.cmdCreate.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.cmdCreate.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPlus;
+            this.cmdCreate.Location = new System.Drawing.Point(272, 40);
+            this.cmdCreate.Name = "cmdCreate";
+            this.cmdCreate.Size = new System.Drawing.Size(32, 32);
+            this.cmdCreate.StyleName = null;
+            this.cmdCreate.TabIndex = 63;
+            this.cmdCreate.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.cmdCreate.Click += new System.EventHandler(this.cmdNew_Click);
+            // 
+            // cmdRemove
+            // 
+            this.cmdRemove.Checked = false;
+            this.cmdRemove.CheckImage = null;
+            this.cmdRemove.Gapx = 5;
+            this.cmdRemove.Gapy = 5;
+            this.cmdRemove.GLBackgroundImage = null;
+            this.cmdRemove.GLImage = null;
+            this.cmdRemove.GLVisible = false;
+            this.cmdRemove.GuiAnchor = null;
+            this.cmdRemove.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.cmdRemove.Image = global::UV_DLP_3D_Printer.Properties.Resources.butMinus;
+            this.cmdRemove.Location = new System.Drawing.Point(310, 40);
+            this.cmdRemove.Name = "cmdRemove";
+            this.cmdRemove.Size = new System.Drawing.Size(32, 32);
+            this.cmdRemove.StyleName = null;
+            this.cmdRemove.TabIndex = 64;
+            this.cmdRemove.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.cmdRemove.Click += new System.EventHandler(this.cmdDelete_Click);
             // 
             // ctlMachineConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.cmdRemove);
+            this.Controls.Add(this.cmdCreate);
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.grpMachineConfig);
-            this.Controls.Add(this.label10);
+            this.Controls.Add(this.cmdOK);
             this.Controls.Add(this.cmbMachineProfiles);
-            this.Controls.Add(this.groupBox2);
             this.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Center;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ctlMachineConfig";
-            this.Size = new System.Drawing.Size(538, 434);
+            this.Size = new System.Drawing.Size(355, 488);
             this.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Center;
             this.Load += new System.EventHandler(this.ctlMachineConfig_Load);
             this.Monitors.ResumeLayout(false);
@@ -483,7 +464,6 @@
             this.ProjectorRes.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.grpPrjSerial.ResumeLayout(false);
@@ -491,7 +471,6 @@
             this.grpMachineConfig.ResumeLayout(false);
             this.grpMachineConfig.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -516,11 +495,6 @@
         private System.Windows.Forms.TextBox txtPlatHeight;
         private System.Windows.Forms.TextBox txtPlatWidth;
         private System.Windows.Forms.Button cmdOK;
-        private System.Windows.Forms.Button cmdDelete;
-        private System.Windows.Forms.Button cmdNew;
-        private System.Windows.Forms.ListBox lstMachineProfiles;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ComboBox cmbMachineProfiles;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button cmdCfgConMch;
@@ -533,5 +507,7 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.GroupBox grpMachineConfig;
         private System.Windows.Forms.Label lblTitle;
+        private CustomGUI.ctlImageButton cmdCreate;
+        private CustomGUI.ctlImageButton cmdRemove;
     }
 }

@@ -981,5 +981,50 @@ namespace UV_DLP_3D_Printer
 
         }
 
+        private void LoadSTLModel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmdStartPrint_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmdPause_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmdStop_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmdConnect1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmdDisconnect_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmdSlice1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttConfig_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttViewGcode_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

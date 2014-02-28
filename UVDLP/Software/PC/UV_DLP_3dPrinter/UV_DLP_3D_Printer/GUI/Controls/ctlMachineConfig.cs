@@ -65,10 +65,25 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             base.ApplyStyle(ct);
             //ct.
-            /*if (ct.FrameColor != ControlStyle.NullColor)
-                ForeColor = ct.FrameColor;
+            if (ct.FrameColor != ControlStyle.NullColor)
+            {
+                //ForeColor = ct.FrameColor;
+            }
+
+            if (ct.ForeColor != ControlStyle.NullColor)
+            {
+                ForeColor = ct.ForeColor;
+                lblTitle.ForeColor = ct.ForeColor;
+                
+                grpMachineConfig.ForeColor = ct.ForeColor;
+            }
             if (ct.BackColor != ControlStyle.NullColor)
-                BackColor = ct.BackColor;*/
+            {
+                BackColor = ct.BackColor;
+                lblTitle.BackColor = ct.BackColor;
+                
+                grpMachineConfig.BackColor = ct.BackColor;
+            }
         }
 
         // clean bad characters from device name -SHS
@@ -219,12 +234,13 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             try
             {
-                if (lstMachineProfiles.SelectedIndex != -1)
+                if (cmbMachineProfiles.SelectedIndex != -1)
                 {
                     if (MessageBox.Show(this, "Are you sure you want to delete this Machine Profile?", "Confirm Delete", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.OK)
                     {
                         //delete file    
-                        File.Delete(FNFromIndex(lstMachineProfiles.SelectedIndex));
+                        File.Delete(FNFromIndex(cmbMachineProfiles.SelectedIndex));
+                        cmbMachineProfiles.SelectedIndex = 0;
                         UpdateProfiles();
                     }
                 }
@@ -234,6 +250,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 DebugLogger.Instance().LogRecord(ex.Message);
             }
         }
+        /*
         private void lstMachineProfiles_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (lstMachineProfiles.SelectedIndex != -1)
@@ -261,16 +278,17 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 }
             }
         }
+         * */
         private void UpdateButtons()
         {
-            int idx = lstMachineProfiles.SelectedIndex;
+            int idx = cmbMachineProfiles.SelectedIndex;
             if (idx == -1)
             {
-                cmdDelete.Enabled = false;
+                cmdRemove.Enabled = false;
             }
             else
             {
-                cmdDelete.Enabled = true;
+                cmdRemove.Enabled = true;
             }
         }
         private string FNFromIndex(int idx)
@@ -278,18 +296,19 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             string[] filePaths = Directory.GetFiles(UVDLPApp.Instance().m_PathMachines, "*.machine");
             return filePaths[idx];
         }
+
         private void UpdateProfiles()
         {
             try
             {
                 // get a list of profiles in the /machines directory
                 string[] filePaths = Directory.GetFiles(UVDLPApp.Instance().m_PathMachines, "*.machine");
-                lstMachineProfiles.Items.Clear();
+                //lstMachineProfiles.Items.Clear();
                 cmbMachineProfiles.Items.Clear();
                 foreach (String profile in filePaths)
                 {
                     String pn = Path.GetFileNameWithoutExtension(profile);
-                    lstMachineProfiles.Items.Add(pn);
+                    //lstMachineProfiles.Items.Add(pn);
                     cmbMachineProfiles.Items.Add(pn);
                 }
                 MachineConfig cfg = UVDLPApp.Instance().m_printerinfo;
@@ -336,6 +355,14 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 return;
             }
             UVDLPApp.Instance().SetupDriver();
+            //load this profile
+            //string filename = UVDLPApp.Instance().m_PathMachines + UVDLPApp.m_pathsep + lstMachineProfiles.SelectedItem.ToString() + ".machine";
+            m_config = new MachineConfig();
+            m_config.Load(filename);
+            SetData(); // show the data
+            UpdateMainConnection();
+            UpdateDisplayConnection();
+            //show the info on the GUI
         }
 
         /// <summary>
@@ -356,10 +383,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             
             FillMonitors(); // list out the system monitors
-            UpdateButtons();
+           // UpdateButtons();
             UpdateProfiles();
             SetData();
-            lstMachineProfiles.SelectedItem = cmbMachineProfiles.SelectedItem;
+            //lstMachineProfiles.SelectedItem = cmbMachineProfiles.SelectedItem;
             UpdateMainConnection();
             UpdateDisplayConnection();
         }

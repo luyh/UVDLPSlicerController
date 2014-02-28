@@ -21,5 +21,6 @@ namespace UV_DLP_3D_Printer.Plugin
             m_enabled = false;
             m_licensed = false;
         }
+
     }
 }

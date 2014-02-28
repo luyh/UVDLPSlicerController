@@ -65,8 +65,6 @@
             this.ctl3DView1 = new UV_DLP_3D_Printer.GUI.Controls.ctl3DView();
             this.txtLog = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.printDialog1 = new System.Windows.Forms.PrintDialog();
-            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
             this.menuStrip1.SuspendLayout();
@@ -562,10 +560,6 @@
             this.txtLog.Size = new System.Drawing.Size(1457, 123);
             this.txtLog.TabIndex = 0;
             // 
-            // printDialog1
-            // 
-            this.printDialog1.UseEXDialog = true;
-            // 
             // saveFileDialog1
             // 
             this.saveFileDialog1.RestoreDirectory = true;
@@ -623,8 +617,6 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadBinarySTLToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.PrintDialog printDialog1;
-        private System.Drawing.Printing.PrintDocument printDocument1;
         private System.Windows.Forms.ToolStripMenuItem saveSceneSTLToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         //private GUI.Controls.ctlMachineControl machineControl1;

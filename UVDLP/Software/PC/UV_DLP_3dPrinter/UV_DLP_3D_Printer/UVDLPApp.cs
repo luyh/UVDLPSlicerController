@@ -865,10 +865,13 @@ namespace UV_DLP_3D_Printer
                 try
                 {
                     // iterate through all loaded plugins
-                    bmp = pe.m_plugin.GetImage(name);
-                    if (bmp != null) 
+                    if (pe.m_licensed == true) // only check the licensed plugins
                     {
-                        break;
+                        bmp = pe.m_plugin.GetImage(name);
+                        if (bmp != null)
+                        {
+                            break;
+                        }
                     }
                 }
                 catch (Exception ex)

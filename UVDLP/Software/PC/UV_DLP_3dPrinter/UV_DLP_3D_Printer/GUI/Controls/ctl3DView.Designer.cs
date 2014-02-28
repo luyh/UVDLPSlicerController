@@ -204,7 +204,7 @@
             this.ctlMachineConfig1.Location = new System.Drawing.Point(842, 127);
             this.ctlMachineConfig1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ctlMachineConfig1.Name = "ctlMachineConfig1";
-            this.ctlMachineConfig1.Size = new System.Drawing.Size(538, 434);
+           // this.ctlMachineConfig1.Size = new System.Drawing.Size(538, 434);
             this.ctlMachineConfig1.StyleName = null;
             this.ctlMachineConfig1.TabIndex = 48;
             this.ctlMachineConfig1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Center;

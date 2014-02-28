@@ -90,6 +90,27 @@ namespace UV_DLP_3D_Printer.GUI.Controls.ManualControls
                 }
             }
         }
+        public override void ApplyStyle(ControlStyle ct)
+        {
+            base.ApplyStyle(ct);
+            if (ct.ForeColor != ControlStyle.NullColor)
+            {
+                label1.ForeColor = ct.ForeColor;
+                label2.ForeColor = ct.ForeColor;
+                lblTitle.ForeColor = ct.ForeColor;
+            }
+            if (ct.BackColor != ControlStyle.NullColor)
+            {
+                BackColor = ct.BackColor;
+            }
+            if (ct.FrameColor != ControlStyle.NullColor)
+            {
+                flowLayoutPanel1.BackColor = ct.FrameColor;
+                flowLayoutPanel5.BackColor = ct.FrameColor;
+                lblTitle.BackColor = ct.FrameColor;
+            }
+
+        }
 
         void LineDataReceived(DeviceDriver driver, string line)
         {
