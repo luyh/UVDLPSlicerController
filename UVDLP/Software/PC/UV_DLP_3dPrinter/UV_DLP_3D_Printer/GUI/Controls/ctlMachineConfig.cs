@@ -12,7 +12,7 @@ using UV_DLP_3D_Printer.GUI.CustomGUI;
 
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
-    public partial class ctlMachineConfig : ctlAnchorable//ctlUserPanel //UserControl
+    public partial class ctlMachineConfig : UserControl
     {
         private eDriverType m_saved;
         private MachineConfig m_config = new MachineConfig(); // just so it's not blank
@@ -59,30 +59,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             catch (Exception) 
             {
             
-            }
-        }
-        public override void ApplyStyle(ControlStyle ct)
-        {
-            base.ApplyStyle(ct);
-            //ct.
-            if (ct.FrameColor != ControlStyle.NullColor)
-            {
-                //ForeColor = ct.FrameColor;
-            }
-
-            if (ct.ForeColor != ControlStyle.NullColor)
-            {
-                ForeColor = ct.ForeColor;
-                lblTitle.ForeColor = ct.ForeColor;
-                
-                grpMachineConfig.ForeColor = ct.ForeColor;
-            }
-            if (ct.BackColor != ControlStyle.NullColor)
-            {
-                BackColor = ct.BackColor;
-                lblTitle.BackColor = ct.BackColor;
-                
-                grpMachineConfig.BackColor = ct.BackColor;
             }
         }
 

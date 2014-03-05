@@ -34,11 +34,9 @@
 		<control name="pconfig" dock="bl" x="20" y="90" />
 		<control name="pmeshtools" dock="bl" x="20" y="90" />
 		<control name="pscenetree" dock="tr" x="20" y="90" />
-		<control name="pobjectinf" dock="br" x="20" y="90" />
-		<control name="pmachineconfig" dock="bc" x="20" y="90" />
+		<control name="pobjectinf" dock="br" x="20" y="90" />		
 		<control name="pmachinecontrol" dock="bc" x="20" y="90" />
 		<control name="pmanualgcode" dock="tl" x="20" y="90" />
-		<control name="psliceconfig" dock="bc" x="20" y="90" />
 		<control name="pprojectorcontrol" dock="br" x="20" y="90" />
 		<control name="pmanualgcode" dock="br" x="20" y="90" />
 		<control name="clayernum" dock="bc" x="0" y="80"/>

@@ -23,7 +23,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             InitializeComponent();
             sb = new StringBuilder();
             UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEventDel);
-            SetupForMachineType();
+            //SetupForMachineType();
            // RegisterCallbacks();
             SetData();
         }
@@ -69,25 +69,12 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 switch (ev)
                 {
                     case eAppEvent.eMachineTypeChanged:
-                        SetupForMachineType();
+                        //SetupForMachineType();
                         break;
                 }
             }
         }
-        private void SetupForMachineType()
-        {
-            if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
-            {
-                grpExtrudeControls.Enabled = false;
-                groupBox2.Enabled = false;
-            }
-            else if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.FDM)
-            {
-                grpExtrudeControls.Enabled = true;
-                groupBox2.Enabled = true;
-            }
-
-        }
+        
         #region X/Y/Z Axis Controls
         /// <summary>
         /// Z Axis Up
@@ -232,113 +219,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         }
         #endregion // Homing
 
-
-
-
-        
-
-
-        #region EXTRUSION
-        private double getToolRate(int tool) 
-        {
-            double rate = 100;
-            try
-            {
-                switch (tool) 
-                {
-                    case 0:
-                        rate = (double)udTool0Rate.Value;
-                        break;
-                    case 1:
-                        rate = (double)udTool1Rate.Value;
-                        break;
-                }
-                return rate;
-            }
-            catch (Exception ex) 
-            {
-                MessageBox.Show("Check Tool " + tool + " rate; " + ex.Message);
-                DebugLogger.Instance().LogError(ex.Message);
-                return rate;
-            }
-        }
-        private void cmdExtrude1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                int len = (int)udext0len.Value;///int.Parse(txtExtrudeLen.Text);
-                string cmd = "G1 E" + len + " F" + getToolRate(0) +"\r\n"; // should specify a feed rate too
-                UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice("T0\r\n"); // select tool head 0
-                UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice("M83\r\n"); // set to relative extrusion
-                UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(cmd);
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
-        private void cmdReverse_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                int len = (int)udext0len.Value;
-                len *= -1;
-                string cmd = "G1 E" + len +" F" + getToolRate(0) +"\r\n";
-                UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice("T0\r\n"); // select tool head 0
-                UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice("M83\r\n");
-                UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(cmd);
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
-
-        private void cmdExtrude2_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                int len = (int)udext1len.Value;
-                string cmd = "G1 E" + len + " F" + getToolRate(1) +"\r\n"; // should specify a feed rate too
-                UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice("T1\r\n"); // select tool head 1
-                UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice("M83\r\n"); // set to relative extrusion
-                UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(cmd);
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
-
-        private void cmdReverse2_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                int len = (int)udext1len.Value;
-                len *= -1;
-                string cmd = "G1 E" + len + " F" + getToolRate(1) + "\r\n";
-                UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice("T1\r\n"); // select tool head 1
-                UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice("M83\r\n");
-                UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(cmd);
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
-        #endregion //extrusion
-
-      
-
         private void label14_Click(object sender, EventArgs e)
         {
 
         }
              
-        private void cmdGetPosition_Click(object sender, EventArgs e)
-        {
-            String command = "M114\r\n";
-            UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(command);
-        }
     }
 }

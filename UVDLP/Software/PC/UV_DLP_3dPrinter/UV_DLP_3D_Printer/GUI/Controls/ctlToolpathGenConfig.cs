@@ -10,7 +10,7 @@ using System.IO;
 using UV_DLP_3D_Printer.GUI.CustomGUI;
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
-    public partial class ctlToolpathGenConfig : ctlAnchorable//UserControl
+    public partial class ctlToolpathGenConfig : UserControl
     {
         public ctlToolpathGenConfig()
         {
@@ -202,7 +202,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     zliftretract /= 60.0d;  // to convert to mm/s
 
                     double tval = 0;
-                    double settlingtime = 2500.0d; // 500 ms
+                    double settlingtime = 1500.0d; // 500 ms
                     tval = (zlift / zliftrate);
                     tval += (zlift / zliftretract);
                     tval *= 1000.0d; // convert to ms
@@ -411,25 +411,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         private void chkantialiasing_CheckedChanged(object sender, EventArgs e)
         {
             txtAAVal.Enabled = chkantialiasing.Checked;
-        }
-        public override void ApplyStyle(ControlStyle ct)
-        {
-            base.ApplyStyle(ct);
-            if (ct.ForeColor != ControlStyle.NullColor)
-            {
-               // tTitle.ForeColor = ct.ForeColor;
-                ForeColor = ct.ForeColor;
-                lblTitle.ForeColor = ct.ForeColor;
-            }
-            if (ct.BackColor != ControlStyle.NullColor)
-            {
-                BackColor = ct.BackColor;
-                lblLayerTime.BackColor = ct.BackColor;
-                //layoutPanel.BackColor = ct.BackColor;
-                //tTitle.BackColor = ct.BackColor;
-                //tName.BackColor = ct.BackColor;
-            }
-
         }
     }
 }

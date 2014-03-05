@@ -563,7 +563,8 @@ namespace UV_DLP_3D_Printer
                 {
                     // only show the image on the dlp if we're previewing
                     //need to make sure we show the layer if building
-                    if (UVDLPApp.Instance().m_buildmgr.IsPrinting == true || UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay == true)
+                    if (UVDLPApp.Instance().m_buildmgr.IsPrinting == true || UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay == true
+                        || layertype == BuildManager.SLICE_BLANK || layertype == BuildManager.SLICE_CALIBRATION)
                     {
                         //make sure we show the screen
                         if (m_frmdlp == null) 
@@ -594,9 +595,11 @@ namespace UV_DLP_3D_Printer
 
         private void SetTitle() 
         {
+            /*
             this.Text = "Creation Workshop - UV DLP 3D Printer Control and Slicing" + "  ( Slice Profile : ";
             this.Text += Path.GetFileNameWithoutExtension(UVDLPApp.Instance().m_buildparms.m_filename);
             this.Text += ", Machine : " + Path.GetFileNameWithoutExtension(UVDLPApp.Instance().m_printerinfo.m_filename) + ")";
+             * */
         }
 
 
@@ -764,7 +767,7 @@ namespace UV_DLP_3D_Printer
         #region DLP Screen Controls
         private void showBlankDLP()
         {
-            UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay = true; 
+           // UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay = true; 
             m_frmdlp.ShowDLPScreen();
             Screen dlpscreen = m_frmdlp.GetDLPScreen();
             if (dlpscreen != null)
@@ -776,7 +779,7 @@ namespace UV_DLP_3D_Printer
         private void showCalibrationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UVDLPApp.Instance().m_buildparms.UpdateFrom(UVDLPApp.Instance().m_printerinfo);
-            UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay = true;
+            //UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay = true;
             m_frmdlp.ShowDLPScreen();
             Screen dlpscreen = m_frmdlp.GetDLPScreen();
             if (dlpscreen != null)
@@ -905,8 +908,15 @@ namespace UV_DLP_3D_Printer
 
         public void buttViewSlice_Click(object sender, object e)
         {
-            m_frmSliceView.Show();
-            m_frmSliceView.BringToFront();
+            try
+            {
+                m_frmSliceView.Show();
+               // m_frmSliceView.BringToFront();
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
         }
 
         public void buttViewGcode_Click(object sender, object e)

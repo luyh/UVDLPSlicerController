@@ -199,7 +199,7 @@ namespace UV_DLP_3D_Printer
                 {
                     for (int cnt = 0; cnt < points.Count; cnt += 2)  // increment by 2
                     {
-                        // the first point is always an exterior
+                        // the first point is always an exterior - really? why?
                         Point2d p1 = (Point2d)points[cnt];
                         if (p1.m_parent != null)
                         {

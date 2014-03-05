@@ -31,9 +31,7 @@
             this.mainViewSplitContainer = new System.Windows.Forms.SplitContainer();
             this.ctlGCodeManual1 = new UV_DLP_3D_Printer.GUI.Controls.ManualControls.ctlGCodeManual();
             this.ctlProjectorControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlProjectorControl();
-            this.ctlToolpathGenConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlToolpathGenConfig();
             this.ctlMachineControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineControl();
-            this.ctlMachineConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineConfig();
             this.ctlConfig1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlConfig();
             this.textTime = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlText();
             this.textMainMessage = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlText();
@@ -84,9 +82,7 @@
             // 
             this.mainViewSplitContainer.Panel2.Controls.Add(this.ctlGCodeManual1);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.ctlProjectorControl1);
-            this.mainViewSplitContainer.Panel2.Controls.Add(this.ctlToolpathGenConfig1);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.ctlMachineControl1);
-            this.mainViewSplitContainer.Panel2.Controls.Add(this.ctlMachineConfig1);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.ctlConfig1);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.textTime);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.textMainMessage);
@@ -157,23 +153,6 @@
             this.ctlProjectorControl1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.ctlProjectorControl1.Visible = false;
             // 
-            // ctlToolpathGenConfig1
-            // 
-            this.ctlToolpathGenConfig1.Checked = false;
-            this.ctlToolpathGenConfig1.Gapx = 5;
-            this.ctlToolpathGenConfig1.Gapy = 5;
-            this.ctlToolpathGenConfig1.GLBackgroundImage = null;
-            this.ctlToolpathGenConfig1.GLVisible = false;
-            this.ctlToolpathGenConfig1.GuiAnchor = null;
-            this.ctlToolpathGenConfig1.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.ctlToolpathGenConfig1.Location = new System.Drawing.Point(-869, 594);
-            this.ctlToolpathGenConfig1.Name = "ctlToolpathGenConfig1";
-            this.ctlToolpathGenConfig1.Size = new System.Drawing.Size(932, 505);
-            this.ctlToolpathGenConfig1.StyleName = null;
-            this.ctlToolpathGenConfig1.TabIndex = 50;
-            this.ctlToolpathGenConfig1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.ctlToolpathGenConfig1.Visible = false;
-            // 
             // ctlMachineControl1
             // 
             this.ctlMachineControl1.Checked = false;
@@ -192,24 +171,6 @@
             this.ctlMachineControl1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.ctlMachineControl1.Visible = false;
             // 
-            // ctlMachineConfig1
-            // 
-            this.ctlMachineConfig1.Checked = false;
-            this.ctlMachineConfig1.Gapx = 5;
-            this.ctlMachineConfig1.Gapy = 5;
-            this.ctlMachineConfig1.GLBackgroundImage = null;
-            this.ctlMachineConfig1.GLVisible = false;
-            this.ctlMachineConfig1.GuiAnchor = null;
-            this.ctlMachineConfig1.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Center;
-            this.ctlMachineConfig1.Location = new System.Drawing.Point(842, 127);
-            this.ctlMachineConfig1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ctlMachineConfig1.Name = "ctlMachineConfig1";
-           // this.ctlMachineConfig1.Size = new System.Drawing.Size(538, 434);
-            this.ctlMachineConfig1.StyleName = null;
-            this.ctlMachineConfig1.TabIndex = 48;
-            this.ctlMachineConfig1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Center;
-            this.ctlMachineConfig1.Visible = false;
-            // 
             // ctlConfig1
             // 
             this.ctlConfig1.Gapx = 0;
@@ -217,7 +178,7 @@
             this.ctlConfig1.GLBackgroundImage = null;
             this.ctlConfig1.GLVisible = false;
             this.ctlConfig1.GuiAnchor = null;
-            this.ctlConfig1.Location = new System.Drawing.Point(460, 235);
+            this.ctlConfig1.Location = new System.Drawing.Point(986, 383);
             this.ctlConfig1.Name = "ctlConfig1";
             this.ctlConfig1.Size = new System.Drawing.Size(197, 105);
             this.ctlConfig1.StyleName = null;
@@ -947,9 +908,7 @@
         private CustomGUI.ctlText textTime;
         private CustomGUI.ctlText textMainMessage;
         private CustomGUI.ctlConfig ctlConfig1;
-        private ctlMachineConfig ctlMachineConfig1;
         private ctlMachineControl ctlMachineControl1;
-        private ctlToolpathGenConfig ctlToolpathGenConfig1;
         private ctlProjectorControl ctlProjectorControl1;
         private ManualControls.ctlGCodeManual ctlGCodeManual1;
     }

@@ -23,11 +23,14 @@ namespace UV_DLP_3D_Printer.Device_Interface
 
         private ManualControl() 
         {
-            m_rateXY = 3000;
+            m_rateXY = 200;
             m_rateZ = 200;
             m_rateE = 10;
             m_distE = 20;
+            m_distZ = 10;
+            m_distXY = 10;
             Load(); // load the current values
+            RegisterCallbacks();
         }
 
         public double XYRate 
@@ -83,7 +86,23 @@ namespace UV_DLP_3D_Printer.Device_Interface
             cb.RegisterCallback("MCCmdSetZDist", SetZdist, typeof(double), "Set distanse (zdist) in mm for manual up/down movement");
             cb.RegisterCallback("MCCmdMoveUp", cmdUp_Click, null, "Move print head up zdist amount");
             cb.RegisterCallback("MCCmdMoveDown", cmdDown_Click, null, "Move print head down zdist amount");
+            cb.RegisterCallback("MCCmdZHome", cmd_ZHome, null, "Move the Z-axis to the home position");
             //cb.RegisterCallback("", , null, "");
+        }
+        void cmd_ZHome(object sender, object vars) 
+        {
+            try
+            {
+                if (UVDLPApp.Instance().m_deviceinterface.Connected == true)
+                {
+                    string zhomecmd = "G28 Z0\r\n";
+                    UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(zhomecmd);
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
         }
         void SetZdist(object sender, object vars)
         {
@@ -118,8 +137,8 @@ namespace UV_DLP_3D_Printer.Device_Interface
         {
             try
             {
-                m_distZ *= -1.0;
-                UVDLPApp.Instance().m_deviceinterface.Move(m_distZ, m_rateZ); // (movecommand);
+                //m_distZ *= -1.0;
+                UVDLPApp.Instance().m_deviceinterface.Move(m_distZ * -1.0d, m_rateZ); // (movecommand);
             }
             catch (Exception ex)
             {

@@ -17,19 +17,17 @@ namespace UV_DLP_3D_Printer.GUI
             InitializeComponent();
         }
 
-        public ctlMachineControl MachineControl
-        {
-            get { return ctlMachineControl1; }
-        }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
+            /*
             base.OnFormClosing(e);
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 e.Cancel = true;
                 Hide();
             }
+             * */
         }
     }
 }

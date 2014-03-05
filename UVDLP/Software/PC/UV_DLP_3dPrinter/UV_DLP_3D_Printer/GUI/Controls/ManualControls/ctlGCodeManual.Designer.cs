@@ -31,10 +31,10 @@
             this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblTitle = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.cmdSendGCode = new System.Windows.Forms.Button();
             this.txtGCode = new System.Windows.Forms.TextBox();
-            this.txtSent = new System.Windows.Forms.TextBox();
+            this.cmdSendGCode = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.txtSent = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtReceived = new System.Windows.Forms.TextBox();
             this.cmdClear = new System.Windows.Forms.Button();
@@ -81,6 +81,14 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(330, 384);
             this.flowLayoutPanel1.TabIndex = 67;
             // 
+            // txtGCode
+            // 
+            this.txtGCode.Location = new System.Drawing.Point(3, 2);
+            this.txtGCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtGCode.Name = "txtGCode";
+            this.txtGCode.Size = new System.Drawing.Size(239, 22);
+            this.txtGCode.TabIndex = 52;
+            // 
             // cmdSendGCode
             // 
             this.cmdSendGCode.Location = new System.Drawing.Point(248, 2);
@@ -90,14 +98,18 @@
             this.cmdSendGCode.TabIndex = 53;
             this.cmdSendGCode.Text = "Send!";
             this.cmdSendGCode.UseVisualStyleBackColor = true;
+            this.cmdSendGCode.Click += new System.EventHandler(this.cmdSendGCode_Click);
             // 
-            // txtGCode
+            // label1
             // 
-            this.txtGCode.Location = new System.Drawing.Point(3, 2);
-            this.txtGCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtGCode.Name = "txtGCode";
-            this.txtGCode.Size = new System.Drawing.Size(239, 22);
-            this.txtGCode.TabIndex = 52;
+            this.label1.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(3, 27);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(319, 31);
+            this.label1.TabIndex = 67;
+            this.label1.Text = "Sent";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtSent
             // 
@@ -110,17 +122,6 @@
             this.txtSent.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtSent.Size = new System.Drawing.Size(319, 96);
             this.txtSent.TabIndex = 54;
-            // 
-            // label1
-            // 
-            this.label1.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(3, 27);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(319, 31);
-            this.label1.TabIndex = 67;
-            this.label1.Text = "Sent";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label2
             // 
@@ -154,6 +155,7 @@
             this.cmdClear.TabIndex = 70;
             this.cmdClear.Text = "Clear";
             this.cmdClear.UseVisualStyleBackColor = true;
+            this.cmdClear.Click += new System.EventHandler(this.cmdClear_Click);
             // 
             // ctlGCodeManual
             // 

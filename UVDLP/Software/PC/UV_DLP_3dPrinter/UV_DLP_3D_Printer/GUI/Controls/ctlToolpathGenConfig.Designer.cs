@@ -86,7 +86,6 @@
             this.lstSliceProfiles = new System.Windows.Forms.ListBox();
             this.cmdDelete = new System.Windows.Forms.Button();
             this.cmdNew = new System.Windows.Forms.Button();
-            this.lblTitle = new System.Windows.Forms.Label();
             this.tabOptions.SuspendLayout();
             this.tbOptions.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -101,6 +100,7 @@
             // 
             this.tabOptions.Controls.Add(this.tbOptions);
             this.tabOptions.Controls.Add(this.tbGCode);
+            this.tabOptions.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabOptions.Location = new System.Drawing.Point(248, 40);
             this.tabOptions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabOptions.Name = "tabOptions";
@@ -132,11 +132,11 @@
             this.tbOptions.Controls.Add(this.txtFirstLayerTime);
             this.tbOptions.Controls.Add(this.label2);
             this.tbOptions.Controls.Add(this.groupBox1);
-            this.tbOptions.Location = new System.Drawing.Point(4, 25);
+            this.tbOptions.Location = new System.Drawing.Point(4, 27);
             this.tbOptions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbOptions.Name = "tbOptions";
             this.tbOptions.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tbOptions.Size = new System.Drawing.Size(668, 430);
+            this.tbOptions.Size = new System.Drawing.Size(668, 428);
             this.tbOptions.TabIndex = 0;
             this.tbOptions.Text = "Options";
             this.tbOptions.UseVisualStyleBackColor = true;
@@ -146,7 +146,7 @@
             this.txtAAVal.Location = new System.Drawing.Point(191, 257);
             this.txtAAVal.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtAAVal.Name = "txtAAVal";
-            this.txtAAVal.Size = new System.Drawing.Size(56, 22);
+            this.txtAAVal.Size = new System.Drawing.Size(56, 24);
             this.txtAAVal.TabIndex = 60;
             this.txtAAVal.Text = "1.5";
             // 
@@ -156,7 +156,7 @@
             this.chkExport.Location = new System.Drawing.Point(29, 282);
             this.chkExport.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkExport.Name = "chkExport";
-            this.chkExport.Size = new System.Drawing.Size(180, 21);
+            this.chkExport.Size = new System.Drawing.Size(191, 22);
             this.chkExport.TabIndex = 59;
             this.chkExport.Text = "Export Images && GCode";
             this.chkExport.UseVisualStyleBackColor = true;
@@ -167,7 +167,7 @@
             this.txtResinPriceL.Location = new System.Drawing.Point(442, 115);
             this.txtResinPriceL.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtResinPriceL.Name = "txtResinPriceL";
-            this.txtResinPriceL.Size = new System.Drawing.Size(64, 22);
+            this.txtResinPriceL.Size = new System.Drawing.Size(64, 24);
             this.txtResinPriceL.TabIndex = 58;
             this.txtResinPriceL.Text = "5000";
             // 
@@ -176,7 +176,7 @@
             this.label17.AutoSize = true;
             this.label17.Location = new System.Drawing.Point(304, 117);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(132, 17);
+            this.label17.Size = new System.Drawing.Size(136, 18);
             this.label17.TabIndex = 57;
             this.label17.Text = "Resin Price per liter";
             // 
@@ -185,7 +185,7 @@
             this.lblProfName.AutoSize = true;
             this.lblProfName.Location = new System.Drawing.Point(136, 13);
             this.lblProfName.Name = "lblProfName";
-            this.lblProfName.Size = new System.Drawing.Size(89, 17);
+            this.lblProfName.Size = new System.Drawing.Size(94, 18);
             this.lblProfName.TabIndex = 56;
             this.lblProfName.Text = "Profile Name";
             // 
@@ -202,7 +202,7 @@
             this.label15.AutoSize = true;
             this.label15.Location = new System.Drawing.Point(25, 34);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(49, 17);
+            this.label15.Size = new System.Drawing.Size(52, 18);
             this.label15.TabIndex = 54;
             this.label15.Text = "Notes:";
             // 
@@ -211,7 +211,7 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(25, 13);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(89, 17);
+            this.label9.Size = new System.Drawing.Size(94, 18);
             this.label9.TabIndex = 53;
             this.label9.Text = "Profile Name";
             // 
@@ -233,7 +233,7 @@
             this.chkReflectY.AutoSize = true;
             this.chkReflectY.Location = new System.Drawing.Point(6, 64);
             this.chkReflectY.Name = "chkReflectY";
-            this.chkReflectY.Size = new System.Drawing.Size(87, 21);
+            this.chkReflectY.Size = new System.Drawing.Size(89, 22);
             this.chkReflectY.TabIndex = 1;
             this.chkReflectY.Text = "Reflect Y";
             this.chkReflectY.UseVisualStyleBackColor = true;
@@ -243,7 +243,7 @@
             this.chkReflectX.AutoSize = true;
             this.chkReflectX.Location = new System.Drawing.Point(6, 22);
             this.chkReflectX.Name = "chkReflectX";
-            this.chkReflectX.Size = new System.Drawing.Size(87, 21);
+            this.chkReflectX.Size = new System.Drawing.Size(90, 22);
             this.chkReflectX.TabIndex = 0;
             this.chkReflectX.Text = "Reflect X";
             this.chkReflectX.UseVisualStyleBackColor = true;
@@ -264,7 +264,7 @@
             this.rbsub.AutoSize = true;
             this.rbsub.Location = new System.Drawing.Point(7, 49);
             this.rbsub.Name = "rbsub";
-            this.rbsub.Size = new System.Drawing.Size(109, 21);
+            this.rbsub.Size = new System.Drawing.Size(112, 22);
             this.rbsub.TabIndex = 1;
             this.rbsub.TabStop = true;
             this.rbsub.Text = "Subdirectory";
@@ -275,7 +275,7 @@
             this.rbzip.AutoSize = true;
             this.rbzip.Location = new System.Drawing.Point(7, 22);
             this.rbzip.Name = "rbzip";
-            this.rbzip.Size = new System.Drawing.Size(75, 21);
+            this.rbzip.Size = new System.Drawing.Size(76, 22);
             this.rbzip.TabIndex = 0;
             this.rbzip.TabStop = true;
             this.rbzip.Text = "Zip File";
@@ -320,7 +320,7 @@
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(8, 123);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(136, 17);
+            this.label14.Size = new System.Drawing.Size(143, 18);
             this.label14.TabIndex = 48;
             this.label14.Text = "Z Lift Speed (mm/m)";
             // 
@@ -329,25 +329,25 @@
             this.txtliftfeed.Location = new System.Drawing.Point(9, 143);
             this.txtliftfeed.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtliftfeed.Name = "txtliftfeed";
-            this.txtliftfeed.Size = new System.Drawing.Size(100, 22);
+            this.txtliftfeed.Size = new System.Drawing.Size(100, 24);
             this.txtliftfeed.TabIndex = 47;
             this.txtliftfeed.Text = "0";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(143, 123);
+            this.label13.Location = new System.Drawing.Point(157, 123);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(186, 17);
+            this.label13.Size = new System.Drawing.Size(195, 18);
             this.label13.TabIndex = 46;
             this.label13.Text = "Z Lift Retract Speed (mm/m)";
             // 
             // txtretractfeed
             // 
-            this.txtretractfeed.Location = new System.Drawing.Point(144, 143);
+            this.txtretractfeed.Location = new System.Drawing.Point(154, 143);
             this.txtretractfeed.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtretractfeed.Name = "txtretractfeed";
-            this.txtretractfeed.Size = new System.Drawing.Size(100, 22);
+            this.txtretractfeed.Size = new System.Drawing.Size(100, 24);
             this.txtretractfeed.TabIndex = 45;
             this.txtretractfeed.Text = "0";
             // 
@@ -356,7 +356,7 @@
             this.txtLiftDistance.Location = new System.Drawing.Point(9, 93);
             this.txtLiftDistance.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtLiftDistance.Name = "txtLiftDistance";
-            this.txtLiftDistance.Size = new System.Drawing.Size(100, 22);
+            this.txtLiftDistance.Size = new System.Drawing.Size(100, 24);
             this.txtLiftDistance.TabIndex = 37;
             this.txtLiftDistance.Text = "5";
             // 
@@ -365,7 +365,7 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(8, 74);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(135, 17);
+            this.label10.Size = new System.Drawing.Size(142, 18);
             this.label10.TabIndex = 38;
             this.label10.Text = "Z Lift Distance (mm)";
             // 
@@ -374,16 +374,16 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(8, 171);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(110, 17);
+            this.label11.Size = new System.Drawing.Size(111, 18);
             this.label11.TabIndex = 44;
             this.label11.Text = "Slide / Tilt Value";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(141, 74);
+            this.label12.Location = new System.Drawing.Point(152, 74);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(99, 17);
+            this.label12.Size = new System.Drawing.Size(103, 18);
             this.label12.TabIndex = 39;
             this.label12.Text = "Build Direction";
             // 
@@ -392,17 +392,17 @@
             this.txtSlideTilt.Location = new System.Drawing.Point(9, 191);
             this.txtSlideTilt.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtSlideTilt.Name = "txtSlideTilt";
-            this.txtSlideTilt.Size = new System.Drawing.Size(100, 22);
+            this.txtSlideTilt.Size = new System.Drawing.Size(100, 24);
             this.txtSlideTilt.TabIndex = 43;
             this.txtSlideTilt.Text = "0";
             // 
             // cmbBuildDirection
             // 
             this.cmbBuildDirection.FormattingEnabled = true;
-            this.cmbBuildDirection.Location = new System.Drawing.Point(144, 93);
+            this.cmbBuildDirection.Location = new System.Drawing.Point(152, 93);
             this.cmbBuildDirection.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbBuildDirection.Name = "cmbBuildDirection";
-            this.cmbBuildDirection.Size = new System.Drawing.Size(121, 24);
+            this.cmbBuildDirection.Size = new System.Drawing.Size(121, 26);
             this.cmbBuildDirection.TabIndex = 40;
             // 
             // label5
@@ -410,7 +410,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(9, 24);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(190, 17);
+            this.label5.Size = new System.Drawing.Size(197, 18);
             this.label5.TabIndex = 36;
             this.label5.Text = "Lift and Sequence Time (ms)";
             // 
@@ -419,7 +419,7 @@
             this.txtBlankTime.Location = new System.Drawing.Point(9, 44);
             this.txtBlankTime.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtBlankTime.Name = "txtBlankTime";
-            this.txtBlankTime.Size = new System.Drawing.Size(56, 22);
+            this.txtBlankTime.Size = new System.Drawing.Size(56, 24);
             this.txtBlankTime.TabIndex = 35;
             this.txtBlankTime.Text = "5000";
             // 
@@ -429,7 +429,7 @@
             this.chkantialiasing.Location = new System.Drawing.Point(29, 257);
             this.chkantialiasing.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkantialiasing.Name = "chkantialiasing";
-            this.chkantialiasing.Size = new System.Drawing.Size(156, 21);
+            this.chkantialiasing.Size = new System.Drawing.Size(158, 22);
             this.chkantialiasing.TabIndex = 45;
             this.chkantialiasing.Text = "Enable Anti-Aliasing";
             this.chkantialiasing.UseVisualStyleBackColor = true;
@@ -440,7 +440,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(26, 115);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(142, 17);
+            this.label1.Size = new System.Drawing.Size(152, 18);
             this.label1.TabIndex = 28;
             this.label1.Text = "Slice Thickness (mm)";
             // 
@@ -460,7 +460,7 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(122, 226);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(63, 17);
+            this.label8.Size = new System.Drawing.Size(64, 18);
             this.label8.TabIndex = 42;
             this.label8.Text = "# Layers";
             // 
@@ -469,7 +469,7 @@
             this.txtnumbottom.Location = new System.Drawing.Point(191, 226);
             this.txtnumbottom.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtnumbottom.Name = "txtnumbottom";
-            this.txtnumbottom.Size = new System.Drawing.Size(56, 22);
+            this.txtnumbottom.Size = new System.Drawing.Size(56, 24);
             this.txtnumbottom.TabIndex = 41;
             this.txtnumbottom.Text = "3";
             // 
@@ -478,7 +478,7 @@
             this.txtLayerTime.Location = new System.Drawing.Point(29, 179);
             this.txtLayerTime.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtLayerTime.Name = "txtLayerTime";
-            this.txtLayerTime.Size = new System.Drawing.Size(56, 22);
+            this.txtLayerTime.Size = new System.Drawing.Size(56, 24);
             this.txtLayerTime.TabIndex = 26;
             this.txtLayerTime.Text = "5000";
             // 
@@ -487,7 +487,7 @@
             this.lblLayerTime.AutoSize = true;
             this.lblLayerTime.Location = new System.Drawing.Point(26, 159);
             this.lblLayerTime.Name = "lblLayerTime";
-            this.lblLayerTime.Size = new System.Drawing.Size(200, 17);
+            this.lblLayerTime.Size = new System.Drawing.Size(210, 18);
             this.lblLayerTime.TabIndex = 27;
             this.lblLayerTime.Text = "Exposure Time Per Layer (ms)";
             // 
@@ -496,7 +496,7 @@
             this.txtZThick.Location = new System.Drawing.Point(29, 134);
             this.txtZThick.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtZThick.Name = "txtZThick";
-            this.txtZThick.Size = new System.Drawing.Size(56, 22);
+            this.txtZThick.Size = new System.Drawing.Size(56, 24);
             this.txtZThick.TabIndex = 29;
             this.txtZThick.Text = ".05";
             // 
@@ -505,7 +505,7 @@
             this.txtFirstLayerTime.Location = new System.Drawing.Point(29, 226);
             this.txtFirstLayerTime.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtFirstLayerTime.Name = "txtFirstLayerTime";
-            this.txtFirstLayerTime.Size = new System.Drawing.Size(56, 22);
+            this.txtFirstLayerTime.Size = new System.Drawing.Size(56, 24);
             this.txtFirstLayerTime.TabIndex = 32;
             this.txtFirstLayerTime.Text = "5000";
             // 
@@ -514,7 +514,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(28, 206);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(229, 17);
+            this.label2.Size = new System.Drawing.Size(244, 18);
             this.label2.TabIndex = 33;
             this.label2.Text = "Bottom Layers Exposure Time (ms)";
             // 
@@ -538,7 +538,7 @@
             this.txtYOffset.Location = new System.Drawing.Point(72, 65);
             this.txtYOffset.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtYOffset.Name = "txtYOffset";
-            this.txtYOffset.Size = new System.Drawing.Size(68, 22);
+            this.txtYOffset.Size = new System.Drawing.Size(68, 24);
             this.txtYOffset.TabIndex = 3;
             this.txtYOffset.Text = "0";
             // 
@@ -547,7 +547,7 @@
             this.txtXOffset.Location = new System.Drawing.Point(72, 25);
             this.txtXOffset.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtXOffset.Name = "txtXOffset";
-            this.txtXOffset.Size = new System.Drawing.Size(68, 22);
+            this.txtXOffset.Size = new System.Drawing.Size(68, 24);
             this.txtXOffset.TabIndex = 2;
             this.txtXOffset.Text = "0";
             // 
@@ -556,7 +556,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(7, 65);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(59, 17);
+            this.label4.Size = new System.Drawing.Size(61, 18);
             this.label4.TabIndex = 1;
             this.label4.Text = "Y Offset";
             // 
@@ -565,7 +565,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(7, 25);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(59, 17);
+            this.label3.Size = new System.Drawing.Size(62, 18);
             this.label3.TabIndex = 0;
             this.label3.Text = "X Offset";
             // 
@@ -576,9 +576,9 @@
             this.tbGCode.Controls.Add(this.cmdReloadGCode);
             this.tbGCode.Controls.Add(this.cmdSaveGCode);
             this.tbGCode.Controls.Add(this.txtGCode);
-            this.tbGCode.Location = new System.Drawing.Point(4, 25);
+            this.tbGCode.Location = new System.Drawing.Point(4, 27);
             this.tbGCode.Name = "tbGCode";
-            this.tbGCode.Size = new System.Drawing.Size(722, 455);
+            this.tbGCode.Size = new System.Drawing.Size(668, 428);
             this.tbGCode.TabIndex = 7;
             this.tbGCode.Text = "GCode";
             this.tbGCode.UseVisualStyleBackColor = true;
@@ -588,14 +588,14 @@
             this.label16.AutoSize = true;
             this.label16.Location = new System.Drawing.Point(4, 19);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(103, 17);
+            this.label16.Size = new System.Drawing.Size(110, 18);
             this.label16.TabIndex = 10;
             this.label16.Text = "GCode Section";
             // 
             // lbGCodeSection
             // 
             this.lbGCodeSection.FormattingEnabled = true;
-            this.lbGCodeSection.ItemHeight = 16;
+            this.lbGCodeSection.ItemHeight = 18;
             this.lbGCodeSection.Items.AddRange(new object[] {
             "Start",
             "Pre-Slice",
@@ -603,7 +603,7 @@
             "End"});
             this.lbGCodeSection.Location = new System.Drawing.Point(4, 42);
             this.lbGCodeSection.Name = "lbGCodeSection";
-            this.lbGCodeSection.Size = new System.Drawing.Size(158, 228);
+            this.lbGCodeSection.Size = new System.Drawing.Size(158, 220);
             this.lbGCodeSection.TabIndex = 9;
             this.lbGCodeSection.SelectedIndexChanged += new System.EventHandler(this.lbGCodeSection_SelectedIndexChanged);
             // 
@@ -709,26 +709,15 @@
             this.cmdNew.UseVisualStyleBackColor = true;
             this.cmdNew.Click += new System.EventHandler(this.cmdNew_Click);
             // 
-            // lblTitle
-            // 
-            this.lblTitle.Font = new System.Drawing.Font("Arial", 17.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lblTitle.ForeColor = System.Drawing.Color.White;
-            this.lblTitle.Location = new System.Drawing.Point(3, 0);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(981, 31);
-            this.lblTitle.TabIndex = 65;
-            this.lblTitle.Text = "Slicing and tool path configuration";
-            this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // ctlToolpathGenConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.cmbSliceProfiles);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.tabOptions);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "ctlToolpathGenConfig";
             this.Size = new System.Drawing.Size(932, 505);
             this.tabOptions.ResumeLayout(false);
@@ -811,6 +800,5 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.CheckBox chkExport;
         private System.Windows.Forms.TextBox txtAAVal;
-        private System.Windows.Forms.Label lblTitle;
     }
 }

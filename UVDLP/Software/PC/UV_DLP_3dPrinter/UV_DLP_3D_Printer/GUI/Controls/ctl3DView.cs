@@ -14,6 +14,7 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK.Platform.Windows;
 using UV_DLP_3D_Printer._3DEngine;
 using UV_DLP_3D_Printer.Plugin;
+using UV_DLP_3D_Printer.Device_Interface;
 
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
@@ -102,11 +103,12 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             CallbackHandler cb = UVDLPApp.Instance().m_callbackhandler;
             //cb.RegisterCallback("ConfigDialog", buttConfig_Click, null, "Open the system configuration form");
             cb.RegisterCallback("ConfigDialog", ShowMainConfig, null, "Show the Config View");
-            cb.RegisterCallback("ShowMachineConfig", ShowMachineConfig, null, "Show the machine configuration window");
+//            cb.RegisterCallback("ShowMachineConfig", ShowMachineConfig, null, "Show the machine configuration window");
             cb.RegisterCallback("ShowMachineControl", ShowMachineControl, null, "Show the machine control window");
-            cb.RegisterCallback("ShowSliceConfig", ShowSliceConfig, null, "Show the slicing configuration window");
+//            cb.RegisterCallback("ShowSliceConfig", ShowSliceConfig, null, "Show the slicing configuration window");
             cb.RegisterCallback("ShowProjectorControl", ShowProjectorControl, null, "Show the Projector Control window");
             cb.RegisterCallback("ShowManualGCode", ShowManualGCode, null, "Show the Manual GCode window");       
+            //cb.RegisterCallback("MCCmdZHome",ManualControl.Instance().)
                 
         }
 
@@ -122,15 +124,16 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             ctlProjectorControl1.Visible = but.Checked;
         }
             
-        private void ShowSliceConfig(Object sender, Object v)
-        {
-            ShowPanel((ctlImageButton)sender, "psliceconfig");
-        }
 
         private void ShowMachineControl(Object sender, Object v)
         {
             ctlImageButton but = (ctlImageButton)sender;
             ctlMachineControl1.Visible = but.Checked;
+        }
+/*
+        private void ShowSliceConfig(Object sender, Object v)
+        {
+            ShowPanel((ctlImageButton)sender, "psliceconfig");
         }
 
         private void ShowMachineConfig(Object sender, Object v) 
@@ -142,6 +145,15 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             ShowPanel((ctlImageButton)sender, "pconfig");
         }
+        */
+
+        private void ShowMainConfig(Object sender, Object v)
+        {
+            //ShowPanel((ctlImageButton)sender, "pconfig");
+            frmSettings frmset = new frmSettings();
+            frmset.ShowDialog();
+        }
+
 
         public GuiConfig GuiConfig
         {
@@ -322,12 +334,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             }
         }
  
-        private void Reset()
-        {
-            // OpenTK.
-
-        }
-
         private void SetAlpha(bool val)
         {
             if (!loaded)
@@ -347,48 +353,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             }
         }
 
-        // draw the intersection of the current mouse point into the scene
-        /*
-        private void DrawISect()
-        {
-            // draw some lines
-            GL.LineWidth(2);
-            GL.Color3(Color.Red);
-
-            GL.Begin(PrimitiveType.Lines);
-            GL.Vertex3(m_ix - 5, m_iy, m_iz);
-            GL.Vertex3(m_ix + 5, m_iy, m_iz);
-            GL.End();
-
-            GL.Begin(PrimitiveType.Lines);
-            GL.Vertex3(m_ix, m_iy - 5, m_iz);
-            GL.Vertex3(m_ix, m_iy + 5, m_iz);
-            GL.End();
-             //
-            Point3d spnt = new Point3d();
-            Point3d epnt = new Point3d();
-            spnt.x = m_ix;
-            spnt.y = m_iy;
-            spnt.z = m_iz;
-            Engine3D.Vector3d tvec = new Engine3D.Vector3d();
-            tvec.x = m_isectnormal.x;
-            tvec.y = m_isectnormal.y;
-            tvec.z = m_isectnormal.z;
-            tvec.Scale(5.0f);
-            epnt.x = spnt.x + tvec.x;
-            epnt.y = spnt.y + tvec.y;
-            epnt.z = spnt.z + tvec.z;
-            GL.LineWidth(2);
-            GL.Color3(Color.Red);
-
-            GL.Begin(PrimitiveType.Lines);
-            GL.Vertex3(spnt.x, spnt.y, spnt.z);
-            GL.Vertex3(epnt.x, epnt.y, epnt.z);
-            GL.End();
-
-            GL.LineWidth(1);
-        }
-        */
         void DrawBackground()
         {
             Set2DView();
@@ -1087,9 +1051,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             guiconf.AddControl("pmeshtools", ctlMeshTools1);
             guiconf.AddControl("pscenetree", ctlScene1);
             guiconf.AddControl("pobjectinf", objectInfoPanel);
-            guiconf.AddControl("pmachineconfig", ctlMachineConfig1);
+            //guiconf.AddControl("pmachineconfig", ctlMachineConfig1);
             guiconf.AddControl("pmachinecontrol", ctlMachineControl1);
-            guiconf.AddControl("psliceconfig", ctlToolpathGenConfig1);
+           // guiconf.AddControl("psliceconfig", ctlToolpathGenConfig1);
             guiconf.AddControl("pprojectorcontrol",ctlProjectorControl1 );
             guiconf.AddControl("pmanualgcode", ctlGCodeManual1);            
             guiconf.AddControl("clayernum", numLayer);
