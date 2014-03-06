@@ -118,7 +118,7 @@
             // labelManipType
             // 
             this.labelManipType.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.labelManipType.ForeColor = System.Drawing.Color.White;
+            this.labelManipType.ForeColor = System.Drawing.Color.Black;
             this.labelManipType.Location = new System.Drawing.Point(3, 0);
             this.labelManipType.Name = "labelManipType";
             this.labelManipType.Size = new System.Drawing.Size(293, 31);
@@ -147,7 +147,7 @@
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.labelManipType);
             this.Name = "ctlProjectorControl";
-            this.Size = new System.Drawing.Size(302, 178);
+            this.Size = new System.Drawing.Size(301, 178);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

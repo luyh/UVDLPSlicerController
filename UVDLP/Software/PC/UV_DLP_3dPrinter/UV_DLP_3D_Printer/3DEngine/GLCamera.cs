@@ -9,7 +9,7 @@ using OpenTK.Platform.Windows;
 
 namespace Engine3D
 {
-    class GLCamera
+    public class GLCamera
     {
         public Matrix3D viewmat;
 

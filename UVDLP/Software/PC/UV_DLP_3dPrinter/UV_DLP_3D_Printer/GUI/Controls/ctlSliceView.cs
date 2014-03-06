@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using UV_DLP_3D_Printer.GUI.CustomGUI;
+using UV_DLP_3D_Printer;
+using UV_DLP_3D_Printer.Slicing;
 
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
@@ -16,20 +18,63 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         public ctlSliceView()
         {
-            InitializeComponent();
-            buttPreviewOnDisplay.Checked = UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay; // set the initial check state
+            try
+            {
+                InitializeComponent();
+                buttPreviewOnDisplay.Checked = UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay; // set the initial check state
+                UVDLPApp.Instance().m_slicer.Slice_Event += new Slicer.SliceEvent(SliceEv);
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
         }
 
+        private void SliceEv(Slicer.eSliceEvent ev, int layer, int totallayers, SliceFile sf)
+        {
+            try
+            {
+                if (InvokeRequired)
+                {
+                    BeginInvoke(new MethodInvoker(delegate() { SliceEv(ev, layer, totallayers, sf); }));
+                }
+                else
+                {
+                    switch (ev)
+                    {
+                        case Slicer.eSliceEvent.eSliceStarted:
+                           
+                            break;
+                        case Slicer.eSliceEvent.eLayerSliced:
+                            break;
+                        case Slicer.eSliceEvent.eSliceCompleted:                            
+                            SetNumLayers(totallayers);
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
+        }
         public frmDLP DlpForm
         {
             get { return m_frmdlp; }
             set 
-            { 
-                m_frmdlp = value;
-                if (m_frmdlp != null)
+            {
+                try
                 {
-                    m_frmdlp.VisibleChanged += new EventHandler(m_frmdlp_VisibleChanged);
-                    UpdateChecked();
+                    m_frmdlp = value;
+                    if (m_frmdlp != null)
+                    {
+                        m_frmdlp.VisibleChanged += new EventHandler(m_frmdlp_VisibleChanged);
+                        UpdateChecked();
+                    }
+                }
+                catch (Exception ex) 
+                {
+                    DebugLogger.Instance().LogError(ex);
                 }
             }
         }
@@ -56,20 +101,28 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         public void SetNumLayers(int val)
         {
-            if (val < 0)
-                val = 0;
-            if (val > 0)
+            try
             {
-                numLayer.MaxInt = val;
-                numLayer.IntVal = 1;
-                numLayer.Visible = true;
+                if (val < 0)
+                    val = 0;
+                if (val > 0)
+                {
+                    numLayer.MaxInt = val;
+                    numLayer.IntVal = 1;
+                    numLayer.Visible = true;
+                }
+                else
+                {
+                    numLayer.Visible = false;
+                }
+                itemNumLayers.DataText = val.ToString();
+                ViewLayer(0);
             }
-            else
+            catch (Exception ex) 
             {
-                numLayer.Visible = false;
+                DebugLogger.Instance().LogError(ex);
             }
-            itemNumLayers.DataText = val.ToString();
-            ViewLayer(0);
+
         }
 
         
@@ -99,7 +152,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     }
                 }
             }
-            catch (Exception) { }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
 
         }
         
@@ -111,8 +167,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 ViewLayer(vscrollval);
                 numLayer.Refresh();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                DebugLogger.Instance().LogError(ex);
                 // probably past the max.
             }
         }

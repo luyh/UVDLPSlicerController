@@ -24,6 +24,7 @@ using UV_DLP_3D_Printer._3DEngine.CSG;
 using UV_DLP_3D_Printer.Licensing;
 using CreationWorkshop.Licensing;
 using UV_DLP_3D_Printer.GUI.CustomGUI;
+using UV_DLP_3D_Printer.GUI;
 
 namespace UV_DLP_3D_Printer
 {
@@ -50,6 +51,7 @@ namespace UV_DLP_3D_Printer
         eReDraw, // this is used when an application action needs to re-draw the 3d display
         eReDraw2D, // update only the top 2D layer of the 3D display
         eUpdateSelectedObject, // this will update object information and will perform a redraw.
+        eShowLogWindow
     }
     public delegate void AppEventDelegate(eAppEvent ev, String Message);
     /*
@@ -102,7 +104,7 @@ namespace UV_DLP_3D_Printer
         public List<PluginEntry> m_plugins; // list of plug-ins
 
         public Undoer m_undoer;
-        public frmMain m_mainform;
+        public frmMain2 m_mainform;
 
         public static UVDLPApp Instance() 
         {

@@ -67,6 +67,7 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
+            this.testNewMainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.splitContainerMainWindow.Panel1.SuspendLayout();
             this.splitContainerMainWindow.Panel2.SuspendLayout();
@@ -106,7 +107,8 @@
             this.findHolesInMeshToolStripMenuItem,
             this.splashToolStripMenuItem,
             this.pluginTesterToolStripMenuItem,
-            this.stalactite3DToolStripMenuItem});
+            this.stalactite3DToolStripMenuItem,
+            this.testNewMainToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
             this.fileToolStripMenuItem.Text = "File";
@@ -575,6 +577,13 @@
             this.ctlToolTip1.UseAnimation = false;
             this.ctlToolTip1.UseFading = false;
             // 
+            // testNewMainToolStripMenuItem
+            // 
+            this.testNewMainToolStripMenuItem.Name = "testNewMainToolStripMenuItem";
+            this.testNewMainToolStripMenuItem.Size = new System.Drawing.Size(203, 24);
+            this.testNewMainToolStripMenuItem.Text = "test new main";
+            this.testNewMainToolStripMenuItem.Click += new System.EventHandler(this.testNewMainToolStripMenuItem_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -647,6 +656,7 @@
         private System.Windows.Forms.ToolStripMenuItem userManualToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hardwareGuideToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stalactite3DToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testNewMainToolStripMenuItem;
     }
 }
 

@@ -64,7 +64,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             base.ApplyStyle(ct);
             if (ct.ForeColor != ControlStyle.NullColor)
             {
-                labelManipType.ForeColor = ct.ForeColor;
+                //labelManipType.ForeColor = ct.ForeColor;
+                ctlTitle1.ForeColor = ct.ForeColor;
                 label5.ForeColor = ct.ForeColor;
                 label6.ForeColor = ct.ForeColor;
                 label7.ForeColor = ct.ForeColor;
@@ -77,6 +78,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (ct.BackColor != ControlStyle.NullColor)
             {
                 BackColor = ct.BackColor;
+                ctlTitle1.BackColor = ct.BackColor;
                 manipObject.BackColor = ct.BackColor;
                 textScaleX.BackColor = ct.BackColor;
                 textScaleY.BackColor = ct.BackColor;
@@ -91,6 +93,18 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 flowLayoutPanel5.BackColor = ct.FrameColor;
             }
 
+        }
+
+        private void ctlTitle1_Click(object sender, EventArgs e)
+        {
+            if (ctlTitle1.Checked)
+            {
+                this.Height = 225 + 5;
+            }
+            else
+            {
+                this.Height = ctlTitle1.Height + 5;
+            }
         }
 
     }

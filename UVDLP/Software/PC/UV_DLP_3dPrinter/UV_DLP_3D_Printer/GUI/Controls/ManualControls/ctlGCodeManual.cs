@@ -12,7 +12,7 @@ using UV_DLP_3D_Printer.Drivers;
 
 namespace UV_DLP_3D_Printer.GUI.Controls.ManualControls
 {
-    public partial class ctlGCodeManual : ctlUserPanel//UserControl
+    public partial class ctlGCodeManual : UserControl
     {
         public ctlGCodeManual()
         {
@@ -90,6 +90,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls.ManualControls
                 }
             }
         }
+        /*
         public override void ApplyStyle(ControlStyle ct)
         {
             base.ApplyStyle(ct);
@@ -111,7 +112,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls.ManualControls
             }
 
         }
-
+        */
         void LineDataReceived(DeviceDriver driver, string line)
         {
             if (InvokeRequired)

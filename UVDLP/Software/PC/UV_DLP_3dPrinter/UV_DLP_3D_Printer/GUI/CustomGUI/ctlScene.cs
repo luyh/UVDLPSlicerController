@@ -44,7 +44,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             base.ApplyStyle(ct);
             if (ct.ForeColor != ControlStyle.NullColor)
             {
-                lblTitle.ForeColor = ct.ForeColor;
+                ctlTitle1.ForeColor = ct.ForeColor;
                 treeScene.ForeColor = ct.ForeColor;
                 treeScene.LineColor = ct.ForeColor;
             }
@@ -144,6 +144,18 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
         }
             #endregion Scene tree
+
+        private void ctlTitle1_Click(object sender, EventArgs e)
+        {
+            if (ctlTitle1.Checked)
+            {
+                this.Height = 324 + 5;
+            }
+            else
+            {
+                this.Height = ctlTitle1.Height + 5;
+            }
+        }
 
     }
 }

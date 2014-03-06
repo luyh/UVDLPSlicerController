@@ -28,35 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.itemNumLayers = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlInfoItem();
             this.picSlice = new System.Windows.Forms.PictureBox();
-            this.numLayer = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
             this.buttPreviewOnDisplay = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.numLayer = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
+            this.itemNumLayers = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlInfoItem();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
             ((System.ComponentModel.ISupportInitialize)(this.picSlice)).BeginInit();
             this.SuspendLayout();
-            // 
-            // itemNumLayers
-            // 
-            this.itemNumLayers.BackColor = System.Drawing.Color.Navy;
-            this.itemNumLayers.BorderWidth = 3;
-            this.itemNumLayers.DataBackColor = System.Drawing.Color.RoyalBlue;
-            this.itemNumLayers.DataColor = System.Drawing.Color.White;
-            this.itemNumLayers.DataText = "";
-            this.itemNumLayers.Font = new System.Drawing.Font("Arial", 17.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.itemNumLayers.Location = new System.Drawing.Point(10, 10);
-            this.itemNumLayers.Name = "itemNumLayers";
-            this.itemNumLayers.Size = new System.Drawing.Size(207, 30);
-            this.itemNumLayers.TabIndex = 19;
-            this.itemNumLayers.TitleBackColor = System.Drawing.Color.Navy;
-            this.itemNumLayers.TitleColor = System.Drawing.Color.White;
-            this.itemNumLayers.TitleText = "# Layers:";
             // 
             // picSlice
             // 
             this.picSlice.BackColor = System.Drawing.Color.Black;
             this.picSlice.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.picSlice.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picSlice.Image = global::UV_DLP_3D_Printer.Properties.Resources.butMinus;
             this.picSlice.Location = new System.Drawing.Point(0, 0);
             this.picSlice.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.picSlice.Name = "picSlice";
@@ -64,6 +49,29 @@
             this.picSlice.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picSlice.TabIndex = 18;
             this.picSlice.TabStop = false;
+            // 
+            // buttPreviewOnDisplay
+            // 
+            this.buttPreviewOnDisplay.BackColor = System.Drawing.Color.Navy;
+            this.buttPreviewOnDisplay.Checked = false;
+            this.buttPreviewOnDisplay.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.buttPreviewOnDisplay.Gapx = 10;
+            this.buttPreviewOnDisplay.Gapy = 10;
+            this.buttPreviewOnDisplay.GLBackgroundImage = null;
+            this.buttPreviewOnDisplay.GLImage = null;
+            this.buttPreviewOnDisplay.GLVisible = false;
+            this.buttPreviewOnDisplay.GuiAnchor = null;
+            this.buttPreviewOnDisplay.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
+            this.buttPreviewOnDisplay.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPrevDisp;
+            this.buttPreviewOnDisplay.Location = new System.Drawing.Point(10, 385);
+            this.buttPreviewOnDisplay.Margin = new System.Windows.Forms.Padding(4, 4, 10, 4);
+            this.buttPreviewOnDisplay.Name = "buttPreviewOnDisplay";
+            this.buttPreviewOnDisplay.Size = new System.Drawing.Size(48, 48);
+            this.buttPreviewOnDisplay.StyleName = null;
+            this.buttPreviewOnDisplay.TabIndex = 29;
+            this.ctlToolTip1.SetToolTip(this.buttPreviewOnDisplay, "View slice on device display");
+            this.buttPreviewOnDisplay.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
+            this.buttPreviewOnDisplay.Click += new System.EventHandler(this.buttPreviewOnDisplay_Click);
             // 
             // numLayer
             // 
@@ -75,6 +83,9 @@
             this.numLayer.FloatVal = 10F;
             this.numLayer.Gapx = 0;
             this.numLayer.Gapy = 10;
+            this.numLayer.GLBackgroundImage = null;
+            this.numLayer.GLVisible = false;
+            this.numLayer.GuiAnchor = null;
             this.numLayer.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Center;
             this.numLayer.Increment = 1F;
             this.numLayer.IntVal = 1000;
@@ -86,6 +97,7 @@
             this.numLayer.MinInt = 1;
             this.numLayer.Name = "numLayer";
             this.numLayer.Size = new System.Drawing.Size(425, 24);
+            this.numLayer.StyleName = null;
             this.numLayer.TabIndex = 28;
             this.numLayer.TextFont = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.numLayer.ValidColor = System.Drawing.Color.White;
@@ -93,23 +105,27 @@
             this.numLayer.Visible = false;
             this.numLayer.ValueChanged += new System.EventHandler(this.numLayer_ValueChanged);
             // 
-            // buttPreviewOnDisplay
+            // itemNumLayers
             // 
-            this.buttPreviewOnDisplay.BackColor = System.Drawing.Color.Navy;
-            this.buttPreviewOnDisplay.Checked = false;
-            this.buttPreviewOnDisplay.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
-            this.buttPreviewOnDisplay.Gapx = 10;
-            this.buttPreviewOnDisplay.Gapy = 10;
-            this.buttPreviewOnDisplay.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
-            this.buttPreviewOnDisplay.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPrevDisp;
-            this.buttPreviewOnDisplay.Location = new System.Drawing.Point(10, 385);
-            this.buttPreviewOnDisplay.Margin = new System.Windows.Forms.Padding(4, 4, 10, 4);
-            this.buttPreviewOnDisplay.Name = "buttPreviewOnDisplay";
-            this.buttPreviewOnDisplay.Size = new System.Drawing.Size(48, 48);
-            this.buttPreviewOnDisplay.TabIndex = 29;
-            this.ctlToolTip1.SetToolTip(this.buttPreviewOnDisplay, "View slice on device display");
-            this.buttPreviewOnDisplay.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
-            this.buttPreviewOnDisplay.Click += new System.EventHandler(this.buttPreviewOnDisplay_Click);
+            this.itemNumLayers.BackColor = System.Drawing.Color.Navy;
+            this.itemNumLayers.BorderWidth = 3;
+            this.itemNumLayers.DataBackColor = System.Drawing.Color.RoyalBlue;
+            this.itemNumLayers.DataColor = System.Drawing.Color.White;
+            this.itemNumLayers.DataText = "";
+            this.itemNumLayers.Font = new System.Drawing.Font("Arial", 17.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.itemNumLayers.Gapx = 0;
+            this.itemNumLayers.Gapy = 0;
+            this.itemNumLayers.GLBackgroundImage = null;
+            this.itemNumLayers.GLVisible = false;
+            this.itemNumLayers.GuiAnchor = null;
+            this.itemNumLayers.Location = new System.Drawing.Point(10, 10);
+            this.itemNumLayers.Name = "itemNumLayers";
+            this.itemNumLayers.Size = new System.Drawing.Size(207, 30);
+            this.itemNumLayers.StyleName = null;
+            this.itemNumLayers.TabIndex = 19;
+            this.itemNumLayers.TitleBackColor = System.Drawing.Color.Navy;
+            this.itemNumLayers.TitleColor = System.Drawing.Color.White;
+            this.itemNumLayers.TitleText = "# Layers:";
             // 
             // ctlToolTip1
             // 

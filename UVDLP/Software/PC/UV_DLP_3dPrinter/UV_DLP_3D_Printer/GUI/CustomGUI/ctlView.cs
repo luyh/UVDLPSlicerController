@@ -65,10 +65,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             get { return mObjectInfoPanel; }
             set { mObjectInfoPanel = value; }
         }
-        public bool SliceVisible
-        {
-            get { return buttSliceView.Checked; }
-        }
 
         private void buttEnableTransparency_Click(object sender, EventArgs e)
         {
@@ -90,7 +86,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         private void buttTreeView_Click(object sender, EventArgs e)
         {
-            SceneControl.Visible = buttTreeView.Checked;
+         //   SceneControl.Visible = buttTreeView.Checked;
         }
 
         private void ctlImageButton3_Click(object sender, EventArgs e)
@@ -100,9 +96,15 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         private void buttShowConsole_Click(object sender, EventArgs e)
         {
-            if (mMessagePanelHolder != null)
+            try
             {
-                mMessagePanelHolder.Panel2Collapsed = !buttShowConsole.Checked;
+                bool tmp = buttShowConsole.Checked;
+                string vis = tmp.ToString();
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eShowLogWindow, vis);
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
             }
         }
 
@@ -117,7 +119,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             if (mObjectInfoPanel != null)
             {
-                mObjectInfoPanel.Visible = buttObjectProperties.Checked;
+             //   mObjectInfoPanel.Visible = buttObjectProperties.Checked;
             }
         }
 
@@ -145,10 +147,24 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             {
                 flowLayoutPanel1.BackColor = ct.FrameColor;
                 flowLayoutPanel3.BackColor = ct.FrameColor;
-                flowLayoutPanel4.BackColor = ct.FrameColor;
-                flowLayoutPanel5.BackColor = ct.FrameColor;
+              //  flowLayoutPanel4.BackColor = ct.FrameColor;
+              //  flowLayoutPanel5.BackColor = ct.FrameColor;
             }
 
+        }
+
+        private void ctlTitle1_Click(object sender, EventArgs e)
+        {
+            if (ctlTitle1.Checked)
+            {
+                //expand
+                this.Height = 186 + 5;
+            }
+            else
+            {
+                // 
+                this.Height = ctlTitle1.Height + 5;
+            }
         }
 
     }

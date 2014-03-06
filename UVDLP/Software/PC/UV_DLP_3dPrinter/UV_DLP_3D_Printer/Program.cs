@@ -24,7 +24,7 @@ namespace UV_DLP_3D_Printer
             frmSplash splash = new frmSplash();
             //splash.Show();
             UVDLPApp.Instance().DoAppStartup();
-            Application.Run(new frmMain());
+            Application.Run(new frmMain2());
         }
 
         /*Set up a methoid to use reflection to set the culture information*/

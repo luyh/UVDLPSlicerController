@@ -15,6 +15,7 @@ using OpenTK.Platform.Windows;
 using UV_DLP_3D_Printer._3DEngine;
 using UV_DLP_3D_Printer.Plugin;
 using UV_DLP_3D_Printer.Device_Interface;
+using UV_DLP_3D_Printer.Slicing;
 
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
@@ -25,7 +26,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         ctlImageButton m_pressedButt = null;
         Control m_selectedControl = null;
         Timer m_modelAnimTmr;
-        GLCamera m_camera;
+        public GLCamera m_camera;
         bool loaded = false;
         float m_ix = 1.0f, m_iy = 1.0f, m_iz = 2.0f;
         Engine3D.Vector3d m_isectnormal; // the normal at the intersection
@@ -63,10 +64,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             m_camera = new GLCamera();
             ResetCameraView();
             m_isectnormal = new Engine3D.Vector3d();
-            ctlViewOptions.TreeViewHolder = mainViewSplitContainer;
-            ctlViewOptions.LayerNumberScroll = numLayer;
-            ctlViewOptions.ObjectInfoPanel = objectInfoPanel;
-            ctlViewOptions.SceneControl = ctlScene1;
+
             mainViewSplitContainer.Panel1Collapsed = true;
 
             UVDLPApp.Instance().m_undoer.AsociateUndoButton(buttUndo);
@@ -82,54 +80,72 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             RearrangeGui();
 
             // toplevel controls must point to this
-            ctlObjScale.c3d = this;
-            ctlObjRotate.c3d = this;
-            ctlObjMove.c3d = this;
+
             ctlSupport.c3d = this;
             objectInfoPanel.c3d = this;
-            ctlViewOptions.c3d = this;
-            ctlMeshTools1.c3d = this;
-            ctlScene1.c3d = this;
-            ctlConfig1.c3d = this;
 
             glControl1.PaintCallback += new ctlGL.delPaint(DisplayFunc);            
 
             m_sliceTex = -1;
             RegisterCallbacks();
+
+            UVDLPApp.Instance().m_slicer.Slice_Event += new Slicer.SliceEvent(SliceEv);
+            UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEventDel);
+        }
+
+
+        private void AppEventDel(eAppEvent ev, String Message)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new MethodInvoker(delegate() { AppEventDel(ev, Message); }));
+            }
+            else
+            {
+                switch (ev)
+                {
+                    case eAppEvent.eSlicedLoaded: // update the gui to view
+                        int totallayers = UVDLPApp.Instance().m_slicefile.NumSlices;
+                        SetNumLayers(totallayers);
+                        break;
+                }
+            }
+
+        }
+        private void SliceEv(Slicer.eSliceEvent ev, int layer, int totallayers, SliceFile sf)
+        {
+            try
+            {
+                if (InvokeRequired)
+                {
+                    BeginInvoke(new MethodInvoker(delegate() { SliceEv(ev, layer, totallayers, sf); }));
+                }
+                else
+                {
+                    switch (ev)
+                    {
+                        case Slicer.eSliceEvent.eSliceCompleted:
+                            SetNumLayers(totallayers);
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
         }
 
         protected void RegisterCallbacks() 
         {
             CallbackHandler cb = UVDLPApp.Instance().m_callbackhandler;
             //cb.RegisterCallback("ConfigDialog", buttConfig_Click, null, "Open the system configuration form");
-            cb.RegisterCallback("ConfigDialog", ShowMainConfig, null, "Show the Config View");
+            //cb.RegisterCallback("ConfigDialog", ShowMainConfig, null, "Show the Config View");
 //            cb.RegisterCallback("ShowMachineConfig", ShowMachineConfig, null, "Show the machine configuration window");
-            cb.RegisterCallback("ShowMachineControl", ShowMachineControl, null, "Show the machine control window");
-//            cb.RegisterCallback("ShowSliceConfig", ShowSliceConfig, null, "Show the slicing configuration window");
-            cb.RegisterCallback("ShowProjectorControl", ShowProjectorControl, null, "Show the Projector Control window");
-            cb.RegisterCallback("ShowManualGCode", ShowManualGCode, null, "Show the Manual GCode window");       
-            //cb.RegisterCallback("MCCmdZHome",ManualControl.Instance().)
-                
+              
         }
 
-        private void ShowManualGCode(Object sender, Object v)
-        {
-            ctlImageButton but = (ctlImageButton)sender;
-            ctlGCodeManual1.Visible = but.Checked;
-        }
 
-        private void ShowProjectorControl(Object sender, Object v)
-        {
-            ctlImageButton but = (ctlImageButton)sender;
-            ctlProjectorControl1.Visible = but.Checked;
-        }
-            
-
-        private void ShowMachineControl(Object sender, Object v)
-        {
-            ctlImageButton but = (ctlImageButton)sender;
-            ctlMachineControl1.Visible = but.Checked;
-        }
 /*
         private void ShowSliceConfig(Object sender, Object v)
         {
@@ -146,14 +162,14 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             ShowPanel((ctlImageButton)sender, "pconfig");
         }
         */
-
+        /*
         private void ShowMainConfig(Object sender, Object v)
         {
             //ShowPanel((ctlImageButton)sender, "pconfig");
             frmSettings frmset = new frmSettings();
             frmset.ShowDialog();
         }
-
+        */
 
         public GuiConfig GuiConfig
         {
@@ -172,10 +188,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             UpdateView(true);
         }
 
-        public void SetMessagePanelHolder(SplitContainer holder)
-        {
-            ctlViewOptions.MessagePanelHolder = holder;
-        }
 
         public void Enable3dView(bool isEnable)
         {
@@ -382,14 +394,14 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 gr2d.SetColor(cb.col);
                 gr2d.Panel9(cb.imageName, cb.x, cb.y, cb.w, cb.h);
             }
-
+            /*
             if (ctlViewOptions.SliceVisible && (m_sliceTex != -1))
             {
                 int px = w - m_sliceViewW - 20;
                 gr2d.SetColor(Color.FromArgb(50, 255, 255, 255));
                 gr2d.Image(m_sliceTex, 0, 1, 0, 1, px, 90, m_sliceViewW, m_sliceViewH);
             }
-
+            */
             foreach (Control subctl in mainViewSplitContainer.Panel2.Controls)
             {
                 if (subctl.GetType().IsSubclassOf(typeof(ctlUserPanel)))
@@ -908,34 +920,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             }
         }
         
-        private void buttView_Click(object sender, EventArgs e)
-        {
-            ShowPanel(buttView, "pviewopts");
-        }
 
         private void buttSupports_Click(object sender, EventArgs e)
         {
             ShowPanel(buttSupports, "psupport");
-        }
-
-        private void buttMove_Click(object sender, EventArgs e)
-        {
-            ShowPanel(buttMove, "pmove");
-        }
-
-        private void buttRotate_Click(object sender, EventArgs e)
-        {
-            ShowPanel(buttRotate, "protate");
-        }
-
-        private void buttMeshTools_Click(object sender, EventArgs e)
-        {
-            ShowPanel(buttMeshTools,"pmeshtools");
-        }
-
-        private void buttScale_Click(object sender, EventArgs e)
-        {
-            ShowPanel(buttScale, "pscale");
         }
 
         #endregion 3d View buttons
@@ -1025,43 +1013,14 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             guiconf.AddButton("home", buttGlHome); 
             guiconf.AddButton("undo", buttUndo); 
             guiconf.AddButton("redo", buttRedo); 
-            guiconf.AddButton("meshop", buttMeshTools);
-            guiconf.AddButton("view", buttView); 
             guiconf.AddButton("support", buttSupports);
-            guiconf.AddButton("move", buttMove); 
-            guiconf.AddButton("rotate", buttRotate); 
-            guiconf.AddButton("scale", buttScale);
-            guiconf.AddButton("openfile", buttOpenFile);
-            guiconf.AddButton("play", buttPlay);
-            guiconf.AddButton("pause", buttPause);
-            guiconf.AddButton("stop", buttStop);
-            guiconf.AddButton("connect", buttConnect);
-            guiconf.AddButton("disconnect", buttDisconnect);
-            guiconf.AddButton("slice", buttSlice);
-            guiconf.AddButton("config", buttConfig);
-            guiconf.AddButton("viewgcode", buttViewGcode);
-            guiconf.AddButton("viewslice", buttViewSlice);
-
             // controls
-            guiconf.AddControl("pmove", ctlObjMove);
-            guiconf.AddControl("pscale", ctlObjScale);
-            guiconf.AddControl("protate", ctlObjRotate);
             guiconf.AddControl("psupport", ctlSupport);
-            guiconf.AddControl("pviewopts", ctlViewOptions);
-            guiconf.AddControl("pmeshtools", ctlMeshTools1);
-            guiconf.AddControl("pscenetree", ctlScene1);
             guiconf.AddControl("pobjectinf", objectInfoPanel);
-            //guiconf.AddControl("pmachineconfig", ctlMachineConfig1);
-            guiconf.AddControl("pmachinecontrol", ctlMachineControl1);
-           // guiconf.AddControl("psliceconfig", ctlToolpathGenConfig1);
-            guiconf.AddControl("pprojectorcontrol",ctlProjectorControl1 );
-            guiconf.AddControl("pmanualgcode", ctlGCodeManual1);            
             guiconf.AddControl("clayernum", numLayer);
             guiconf.AddControl("progress", textProgress);
             guiconf.AddControl("mainmsg", textMainMessage);
-            guiconf.AddControl("timemsg", textTime);
-            guiconf.AddControl("pconfig", ctlConfig1); // smh - added new panel for additional config 
-            
+            guiconf.AddControl("timemsg", textTime);           
 
         }
 
@@ -1173,7 +1132,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             }
         }
 
-
+        /*
        public void SetButtonStatus(bool stButtConnect, bool stButtDisconnect, bool stButtPlay, bool stButtStop, bool stButtPause)
        {
            buttConnect.Enabled = stButtConnect;
@@ -1182,7 +1141,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
            buttStop.Enabled = stButtStop;
            buttPause.Enabled = stButtPause;
        }
-
+        */
        public String MainMessage
        {
            get { return textMainMessage.Text; }

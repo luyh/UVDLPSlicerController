@@ -189,6 +189,10 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             OnClick(e);
         }
 
+        public void DoClick(EventArgs e) 
+        {
+            OnClick(e);
+        }
         protected override void OnClick(EventArgs e)
         {
             base.OnClick(e);

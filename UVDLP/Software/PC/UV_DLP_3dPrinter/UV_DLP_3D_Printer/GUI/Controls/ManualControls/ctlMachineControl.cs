@@ -12,7 +12,7 @@ using UV_DLP_3D_Printer.Device_Interface;
 
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
-    public partial class ctlMachineControl : ctlAnchorable//UserControl
+    public partial class ctlMachineControl : UserControl
     {
         public delegate void MachineCtlEvent();
         StringBuilder sb;

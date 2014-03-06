@@ -131,6 +131,12 @@
     <Compile Include="GUI\Controls\ctlGcodeView.Designer.cs">
       <DependentUpon>ctlGcodeView.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\ctlMainConfig.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\ctlMainConfig.Designer.cs">
+      <DependentUpon>ctlMainConfig.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Controls\ManualControls\ctlGCodeManual.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -154,6 +160,12 @@
     </Compile>
     <Compile Include="GUI\Controls\ManualControls\ctlMachineControl.Designer.cs">
       <DependentUpon>ctlMachineControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\ManualControls\ctlMainManual.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\ManualControls\ctlMainManual.Designer.cs">
+      <DependentUpon>ctlMainManual.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Controls\ManualControls\ctlProjectorControl.cs">
       <SubType>UserControl</SubType>
@@ -260,6 +272,12 @@
     <Compile Include="GUI\CustomGUI\ctlTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GUI\CustomGUI\ctlTitle.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlTitle.Designer.cs">
+      <DependentUpon>ctlTitle.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\CustomGUI\ctlToolTip.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -271,6 +289,12 @@
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlView.Designer.cs">
       <DependentUpon>ctlView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\Expanding\ctlMoveExpand.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\Expanding\ctlMoveExpand.Designer.cs">
+      <DependentUpon>ctlMoveExpand.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\CustomGUI\frmBmpSplash.cs">
       <SubType>Form</SubType>
@@ -315,6 +339,12 @@
     <Compile Include="GUI\frmLicense.Designer.cs">
       <DependentUpon>frmLicense.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\frmMain2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmMain2.Designer.cs">
+      <DependentUpon>frmMain2.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frmMeshHoles.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -351,23 +381,11 @@
     <Compile Include="GUI\frmProjCommand.Designer.cs">
       <DependentUpon>frmProjCommand.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\frmSettings.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\frmSettings.Designer.cs">
-      <DependentUpon>frmSettings.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\frmSlice.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\frmSlice.Designer.cs">
       <DependentUpon>frmSlice.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\frmSliceView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\frmSliceView.Designer.cs">
-      <DependentUpon>frmSliceView.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\frmSplash.cs">
       <SubType>Form</SubType>
@@ -425,6 +443,9 @@
     <EmbeddedResource Include="GUI\Controls\ctlGcodeView.resx">
       <DependentUpon>ctlGcodeView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\ctlMainConfig.resx">
+      <DependentUpon>ctlMainConfig.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\ManualControls\ctlGCodeManual.resx">
       <DependentUpon>ctlGCodeManual.cs</DependentUpon>
     </EmbeddedResource>
@@ -443,6 +464,9 @@
     <EmbeddedResource Include="GUI\Controls\ctlToolpathGenConfig.resx">
       <DependentUpon>ctlToolpathGenConfig.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\ManualControls\ctlMainManual.resx">
+      <DependentUpon>ctlMainManual.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\ManualControls\ctlProjectorControl.resx">
       <DependentUpon>ctlProjectorControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -451,6 +475,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\ctlConfig.resx">
       <DependentUpon>ctlConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomGUI\ctlImageButton.resx">
+      <DependentUpon>ctlImageButton.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\ctlScene.resx">
       <DependentUpon>ctlScene.cs</DependentUpon>
@@ -482,8 +509,14 @@
     <EmbeddedResource Include="GUI\CustomGUI\ctlSupports.resx">
       <DependentUpon>ctlSupports.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomGUI\ctlTitle.resx">
+      <DependentUpon>ctlTitle.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\ctlView.resx">
       <DependentUpon>ctlView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomGUI\Expanding\ctlMoveExpand.resx">
+      <DependentUpon>ctlMoveExpand.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\frmBmpSplash.resx">
       <DependentUpon>frmBmpSplash.cs</DependentUpon>
@@ -513,6 +546,9 @@
     <EmbeddedResource Include="GUI\frmDLP.resx">
       <DependentUpon>frmDLP.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmMain2.resx">
+      <DependentUpon>frmMain2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmMeshHoles.resx">
       <DependentUpon>frmMeshHoles.cs</DependentUpon>
     </EmbeddedResource>
@@ -531,14 +567,8 @@
     <EmbeddedResource Include="GUI\frmProjCommand.resx">
       <DependentUpon>frmProjCommand.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\frmSettings.resx">
-      <DependentUpon>frmSettings.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmSlice.resx">
       <DependentUpon>frmSlice.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\frmSliceView.resx">
-      <DependentUpon>frmSliceView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmSplash.resx">
       <DependentUpon>frmSplash.cs</DependentUpon>

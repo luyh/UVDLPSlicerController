@@ -1,6 +1,40 @@
 ﻿
 ToDo:
 
+Copy the layout of matter control.
+ expanding controls, clean layout, 
+better hierchachal xml panels - 
+panel layout manager (docking / free position)
+The panels/controls can be defined by coding a new control, or defining xml guidef docs
+the part library and view is a nice touch - very handy!
+
+ Load Models, 
+ auto layout
+ auto support generation
+ slice
+ 3d view or 2d slice view
+ Print 
+
+
+ main form
+ tabs for 
+	3d view
+		- panel on right
+		move,scale,rotate
+		(mirror)
+		view options
+	slice view
+		slice
+		generated GCode
+		slice button on this screen
+	Configuration screen
+		machine config
+		slice profile config
+	Machine Control screen
+		
+
+
+
 -Make controls on ctl3dview moveable
 -Save/Load their positions and visibility as a set
 

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.layoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.tTitle = new System.Windows.Forms.Label();
+            this.ctlTitle1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTitle();
             this.tName = new System.Windows.Forms.Label();
             this.tVolume = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlInfoItem();
             this.tCost = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlInfoItem();
@@ -44,7 +44,7 @@
             // layoutPanel
             // 
             this.layoutPanel.BackColor = System.Drawing.Color.Navy;
-            this.layoutPanel.Controls.Add(this.tTitle);
+            this.layoutPanel.Controls.Add(this.ctlTitle1);
             this.layoutPanel.Controls.Add(this.tName);
             this.layoutPanel.Controls.Add(this.tVolume);
             this.layoutPanel.Controls.Add(this.tCost);
@@ -56,31 +56,37 @@
             this.layoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutPanel.Location = new System.Drawing.Point(0, 0);
             this.layoutPanel.Name = "layoutPanel";
-            this.layoutPanel.Size = new System.Drawing.Size(206, 179);
+            this.layoutPanel.Size = new System.Drawing.Size(235, 41);
             this.layoutPanel.TabIndex = 0;
             this.layoutPanel.Resize += new System.EventHandler(this.layoutPanel_Resize);
             // 
-            // tTitle
+            // ctlTitle1
             // 
-            this.tTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tTitle.Font = new System.Drawing.Font("Arial", 17.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.tTitle.ForeColor = System.Drawing.Color.White;
-            this.tTitle.Location = new System.Drawing.Point(3, 2);
-            this.tTitle.Margin = new System.Windows.Forms.Padding(3, 2, 3, 0);
-            this.tTitle.Name = "tTitle";
-            this.tTitle.Size = new System.Drawing.Size(144, 23);
-            this.tTitle.TabIndex = 0;
-            this.tTitle.Text = "Object Info";
+            this.ctlTitle1.Checked = false;
+            this.ctlTitle1.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.ctlTitle1.Gapx = 0;
+            this.ctlTitle1.Gapy = 0;
+            this.ctlTitle1.GLBackgroundImage = null;
+            this.ctlTitle1.GLVisible = false;
+            this.ctlTitle1.GuiAnchor = null;
+            this.ctlTitle1.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttOinfo;
+            this.ctlTitle1.Location = new System.Drawing.Point(3, 3);
+            this.ctlTitle1.Name = "ctlTitle1";
+            this.ctlTitle1.Size = new System.Drawing.Size(235, 35);
+            this.ctlTitle1.StyleName = null;
+            this.ctlTitle1.TabIndex = 2;
+            this.ctlTitle1.Text = "Object Info";
+            this.ctlTitle1.Click += new System.EventHandler(this.ctlTitle1_Click);
             // 
             // tName
             // 
             this.tName.BackColor = System.Drawing.Color.RoyalBlue;
             this.tName.Font = new System.Drawing.Font("Arial", 10.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.tName.ForeColor = System.Drawing.Color.White;
-            this.tName.Location = new System.Drawing.Point(3, 27);
+            this.tName.Location = new System.Drawing.Point(3, 43);
             this.tName.Margin = new System.Windows.Forms.Padding(3, 2, 4, 3);
             this.tName.Name = "tName";
-            this.tName.Size = new System.Drawing.Size(144, 16);
+            this.tName.Size = new System.Drawing.Size(215, 20);
             this.tName.TabIndex = 0;
             this.tName.Text = "Object Info";
             // 
@@ -91,10 +97,16 @@
             this.tVolume.DataColor = System.Drawing.Color.White;
             this.tVolume.DataText = "";
             this.tVolume.Font = new System.Drawing.Font("Arial", 10.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.tVolume.Location = new System.Drawing.Point(3, 46);
+            this.tVolume.Gapx = 0;
+            this.tVolume.Gapy = 0;
+            this.tVolume.GLBackgroundImage = null;
+            this.tVolume.GLVisible = false;
+            this.tVolume.GuiAnchor = null;
+            this.tVolume.Location = new System.Drawing.Point(3, 66);
             this.tVolume.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.tVolume.Name = "tVolume";
-            this.tVolume.Size = new System.Drawing.Size(184, 17);
+            this.tVolume.Size = new System.Drawing.Size(215, 20);
+            this.tVolume.StyleName = null;
             this.tVolume.TabIndex = 1;
             this.tVolume.TitleBackColor = System.Drawing.Color.Navy;
             this.tVolume.TitleColor = System.Drawing.Color.White;
@@ -108,10 +120,16 @@
             this.tCost.DataColor = System.Drawing.Color.White;
             this.tCost.DataText = "";
             this.tCost.Font = new System.Drawing.Font("Arial", 10.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.tCost.Location = new System.Drawing.Point(3, 63);
+            this.tCost.Gapx = 0;
+            this.tCost.Gapy = 0;
+            this.tCost.GLBackgroundImage = null;
+            this.tCost.GLVisible = false;
+            this.tCost.GuiAnchor = null;
+            this.tCost.Location = new System.Drawing.Point(3, 86);
             this.tCost.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.tCost.Name = "tCost";
-            this.tCost.Size = new System.Drawing.Size(184, 17);
+            this.tCost.Size = new System.Drawing.Size(215, 20);
+            this.tCost.StyleName = null;
             this.tCost.TabIndex = 1;
             this.tCost.TitleBackColor = System.Drawing.Color.Navy;
             this.tCost.TitleColor = System.Drawing.Color.White;
@@ -125,10 +143,16 @@
             this.tPoints.DataColor = System.Drawing.Color.White;
             this.tPoints.DataText = "";
             this.tPoints.Font = new System.Drawing.Font("Arial", 10.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.tPoints.Location = new System.Drawing.Point(3, 80);
+            this.tPoints.Gapx = 0;
+            this.tPoints.Gapy = 0;
+            this.tPoints.GLBackgroundImage = null;
+            this.tPoints.GLVisible = false;
+            this.tPoints.GuiAnchor = null;
+            this.tPoints.Location = new System.Drawing.Point(3, 106);
             this.tPoints.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.tPoints.Name = "tPoints";
-            this.tPoints.Size = new System.Drawing.Size(184, 17);
+            this.tPoints.Size = new System.Drawing.Size(215, 20);
+            this.tPoints.StyleName = null;
             this.tPoints.TabIndex = 1;
             this.tPoints.TitleBackColor = System.Drawing.Color.Navy;
             this.tPoints.TitleColor = System.Drawing.Color.White;
@@ -142,10 +166,16 @@
             this.tPolys.DataColor = System.Drawing.Color.White;
             this.tPolys.DataText = "";
             this.tPolys.Font = new System.Drawing.Font("Arial", 10.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.tPolys.Location = new System.Drawing.Point(3, 97);
+            this.tPolys.Gapx = 0;
+            this.tPolys.Gapy = 0;
+            this.tPolys.GLBackgroundImage = null;
+            this.tPolys.GLVisible = false;
+            this.tPolys.GuiAnchor = null;
+            this.tPolys.Location = new System.Drawing.Point(3, 126);
             this.tPolys.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.tPolys.Name = "tPolys";
-            this.tPolys.Size = new System.Drawing.Size(184, 17);
+            this.tPolys.Size = new System.Drawing.Size(215, 20);
+            this.tPolys.StyleName = null;
             this.tPolys.TabIndex = 1;
             this.tPolys.TitleBackColor = System.Drawing.Color.Navy;
             this.tPolys.TitleColor = System.Drawing.Color.White;
@@ -159,10 +189,16 @@
             this.tMin.DataColor = System.Drawing.Color.White;
             this.tMin.DataText = "";
             this.tMin.Font = new System.Drawing.Font("Arial", 10.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.tMin.Location = new System.Drawing.Point(3, 114);
+            this.tMin.Gapx = 0;
+            this.tMin.Gapy = 0;
+            this.tMin.GLBackgroundImage = null;
+            this.tMin.GLVisible = false;
+            this.tMin.GuiAnchor = null;
+            this.tMin.Location = new System.Drawing.Point(3, 146);
             this.tMin.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.tMin.Name = "tMin";
-            this.tMin.Size = new System.Drawing.Size(184, 17);
+            this.tMin.Size = new System.Drawing.Size(215, 20);
+            this.tMin.StyleName = null;
             this.tMin.TabIndex = 1;
             this.tMin.TitleBackColor = System.Drawing.Color.Navy;
             this.tMin.TitleColor = System.Drawing.Color.White;
@@ -176,10 +212,16 @@
             this.tMax.DataColor = System.Drawing.Color.White;
             this.tMax.DataText = "";
             this.tMax.Font = new System.Drawing.Font("Arial", 10.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.tMax.Location = new System.Drawing.Point(3, 131);
+            this.tMax.Gapx = 0;
+            this.tMax.Gapy = 0;
+            this.tMax.GLBackgroundImage = null;
+            this.tMax.GLVisible = false;
+            this.tMax.GuiAnchor = null;
+            this.tMax.Location = new System.Drawing.Point(3, 166);
             this.tMax.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.tMax.Name = "tMax";
-            this.tMax.Size = new System.Drawing.Size(184, 17);
+            this.tMax.Size = new System.Drawing.Size(215, 20);
+            this.tMax.StyleName = null;
             this.tMax.TabIndex = 1;
             this.tMax.TitleBackColor = System.Drawing.Color.Navy;
             this.tMax.TitleColor = System.Drawing.Color.White;
@@ -193,10 +235,16 @@
             this.tSize.DataColor = System.Drawing.Color.White;
             this.tSize.DataText = "";
             this.tSize.Font = new System.Drawing.Font("Arial", 10.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.tSize.Location = new System.Drawing.Point(3, 148);
+            this.tSize.Gapx = 0;
+            this.tSize.Gapy = 0;
+            this.tSize.GLBackgroundImage = null;
+            this.tSize.GLVisible = false;
+            this.tSize.GuiAnchor = null;
+            this.tSize.Location = new System.Drawing.Point(3, 186);
             this.tSize.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.tSize.Name = "tSize";
-            this.tSize.Size = new System.Drawing.Size(184, 17);
+            this.tSize.Size = new System.Drawing.Size(215, 20);
+            this.tSize.StyleName = null;
             this.tSize.TabIndex = 1;
             this.tSize.TitleBackColor = System.Drawing.Color.Navy;
             this.tSize.TitleColor = System.Drawing.Color.White;
@@ -208,7 +256,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.layoutPanel);
             this.Name = "ctlObjectInfo";
-            this.Size = new System.Drawing.Size(206, 179);
+            this.Size = new System.Drawing.Size(235, 41);
             this.layoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -217,7 +265,6 @@
         #endregion
 
         private System.Windows.Forms.FlowLayoutPanel layoutPanel;
-        private System.Windows.Forms.Label tTitle;
         private System.Windows.Forms.Label tName;
         private ctlInfoItem tVolume;
         private ctlInfoItem tCost;
@@ -226,5 +273,6 @@
         private ctlInfoItem tMin;
         private ctlInfoItem tMax;
         private ctlInfoItem tSize;
+        private ctlTitle ctlTitle1;
     }
 }

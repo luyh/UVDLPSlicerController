@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.ctlImageButton1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttConfig = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
-            this.ctlImageButton1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.txtGCode = new System.Windows.Forms.TextBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -40,7 +40,7 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.RoyalBlue;
+            this.panel1.BackColor = System.Drawing.SystemColors.Control;
             this.panel1.Controls.Add(this.ctlImageButton1);
             this.panel1.Controls.Add(this.buttConfig);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -50,19 +50,47 @@
             this.panel1.Size = new System.Drawing.Size(402, 56);
             this.panel1.TabIndex = 2;
             // 
+            // ctlImageButton1
+            // 
+            this.ctlImageButton1.BackColor = System.Drawing.SystemColors.Control;
+            this.ctlImageButton1.Checked = false;
+            this.ctlImageButton1.CheckImage = null;
+            this.ctlImageButton1.Gapx = 10;
+            this.ctlImageButton1.Gapy = 10;
+            this.ctlImageButton1.GLBackgroundImage = null;
+            this.ctlImageButton1.GLImage = null;
+            this.ctlImageButton1.GLVisible = false;
+            this.ctlImageButton1.GuiAnchor = null;
+            this.ctlImageButton1.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
+            this.ctlImageButton1.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttSave;
+            this.ctlImageButton1.Location = new System.Drawing.Point(57, 4);
+            this.ctlImageButton1.Margin = new System.Windows.Forms.Padding(4, 4, 10, 4);
+            this.ctlImageButton1.Name = "ctlImageButton1";
+            this.ctlImageButton1.Size = new System.Drawing.Size(48, 48);
+            this.ctlImageButton1.StyleName = null;
+            this.ctlImageButton1.TabIndex = 19;
+            this.ctlToolTip1.SetToolTip(this.ctlImageButton1, "Save G-Code file");
+            this.ctlImageButton1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
+            this.ctlImageButton1.Click += new System.EventHandler(this.ctlImageButton1_Click);
+            // 
             // buttConfig
             // 
-            this.buttConfig.BackColor = System.Drawing.Color.Navy;
+            this.buttConfig.BackColor = System.Drawing.SystemColors.Control;
             this.buttConfig.Checked = false;
             this.buttConfig.CheckImage = null;
             this.buttConfig.Gapx = 10;
             this.buttConfig.Gapy = 10;
+            this.buttConfig.GLBackgroundImage = null;
+            this.buttConfig.GLImage = null;
+            this.buttConfig.GLVisible = false;
+            this.buttConfig.GuiAnchor = null;
             this.buttConfig.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
             this.buttConfig.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttOpenFile;
             this.buttConfig.Location = new System.Drawing.Point(4, 4);
             this.buttConfig.Margin = new System.Windows.Forms.Padding(4, 4, 10, 4);
             this.buttConfig.Name = "buttConfig";
             this.buttConfig.Size = new System.Drawing.Size(48, 48);
+            this.buttConfig.StyleName = null;
             this.buttConfig.TabIndex = 19;
             this.ctlToolTip1.SetToolTip(this.buttConfig, "Load G-Code file");
             this.buttConfig.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
@@ -75,24 +103,6 @@
             this.ctlToolTip1.ForeColor = System.Drawing.Color.Navy;
             this.ctlToolTip1.InitialDelay = 1500;
             this.ctlToolTip1.ReshowDelay = 100;
-            // 
-            // ctlImageButton1
-            // 
-            this.ctlImageButton1.BackColor = System.Drawing.Color.Navy;
-            this.ctlImageButton1.Checked = false;
-            this.ctlImageButton1.CheckImage = null;
-            this.ctlImageButton1.Gapx = 10;
-            this.ctlImageButton1.Gapy = 10;
-            this.ctlImageButton1.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
-            this.ctlImageButton1.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttSave;
-            this.ctlImageButton1.Location = new System.Drawing.Point(57, 4);
-            this.ctlImageButton1.Margin = new System.Windows.Forms.Padding(4, 4, 10, 4);
-            this.ctlImageButton1.Name = "ctlImageButton1";
-            this.ctlImageButton1.Size = new System.Drawing.Size(48, 48);
-            this.ctlImageButton1.TabIndex = 19;
-            this.ctlToolTip1.SetToolTip(this.ctlImageButton1, "Save G-Code file");
-            this.ctlImageButton1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
-            this.ctlImageButton1.Click += new System.EventHandler(this.ctlImageButton1_Click);
             // 
             // txtGCode
             // 

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label8 = new System.Windows.Forms.Label();
+            this.ctlTitle1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTitle();
             this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
             this.label9 = new System.Windows.Forms.Label();
             this.buttRotateXMinus = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
@@ -54,7 +54,7 @@
             // flowLayoutPanel2
             // 
             this.flowLayoutPanel2.BackColor = System.Drawing.Color.Navy;
-            this.flowLayoutPanel2.Controls.Add(this.label8);
+            this.flowLayoutPanel2.Controls.Add(this.ctlTitle1);
             this.flowLayoutPanel2.Controls.Add(this.flowLayoutPanel7);
             this.flowLayoutPanel2.Controls.Add(this.flowLayoutPanel8);
             this.flowLayoutPanel2.Controls.Add(this.flowLayoutPanel10);
@@ -62,19 +62,26 @@
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(170, 156);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(235, 50);
             this.flowLayoutPanel2.TabIndex = 22;
             // 
-            // label8
+            // ctlTitle1
             // 
-            this.label8.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(3, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(161, 31);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "Rotate (deg)";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ctlTitle1.Checked = false;
+            this.ctlTitle1.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.ctlTitle1.Gapx = 0;
+            this.ctlTitle1.Gapy = 0;
+            this.ctlTitle1.GLBackgroundImage = null;
+            this.ctlTitle1.GLVisible = false;
+            this.ctlTitle1.GuiAnchor = null;
+            this.ctlTitle1.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttRotate;
+            this.ctlTitle1.Location = new System.Drawing.Point(3, 3);
+            this.ctlTitle1.Name = "ctlTitle1";
+            this.ctlTitle1.Size = new System.Drawing.Size(235, 50);
+            this.ctlTitle1.StyleName = null;
+            this.ctlTitle1.TabIndex = 6;
+            this.ctlTitle1.Text = "Rotate";
+            this.ctlTitle1.Click += new System.EventHandler(this.ctlTitle1_Click);
             // 
             // flowLayoutPanel7
             // 
@@ -83,7 +90,7 @@
             this.flowLayoutPanel7.Controls.Add(this.buttRotateXMinus);
             this.flowLayoutPanel7.Controls.Add(this.textRotateX);
             this.flowLayoutPanel7.Controls.Add(this.buttRotateXPlus);
-            this.flowLayoutPanel7.Location = new System.Drawing.Point(3, 34);
+            this.flowLayoutPanel7.Location = new System.Drawing.Point(244, 3);
             this.flowLayoutPanel7.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel7.Name = "flowLayoutPanel7";
             this.flowLayoutPanel7.Size = new System.Drawing.Size(164, 38);
@@ -108,14 +115,18 @@
             this.buttRotateXMinus.CheckImage = null;
             this.buttRotateXMinus.Gapx = 5;
             this.buttRotateXMinus.Gapy = 5;
+            this.buttRotateXMinus.GLBackgroundImage = null;
+            this.buttRotateXMinus.GLImage = null;
+            this.buttRotateXMinus.GLVisible = false;
+            this.buttRotateXMinus.GuiAnchor = null;
             this.buttRotateXMinus.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttRotateXMinus.Image = global::UV_DLP_3D_Printer.Properties.Resources.butMinus;
             this.buttRotateXMinus.Location = new System.Drawing.Point(32, 5);
             this.buttRotateXMinus.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.buttRotateXMinus.Name = "buttRotateXMinus";
             this.buttRotateXMinus.Size = new System.Drawing.Size(28, 28);
+            this.buttRotateXMinus.StyleName = null;
             this.buttRotateXMinus.TabIndex = 2;
-            this.buttRotateXMinus.Text = "ctlImageButton2";
             this.buttRotateXMinus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttRotateXMinus.Click += new System.EventHandler(this.buttRotateXMinus_Click);
             this.buttRotateXMinus.DoubleClick += new System.EventHandler(this.buttRotateXMinus_Click);
@@ -138,7 +149,7 @@
             this.textRotateX.Name = "textRotateX";
             this.textRotateX.Size = new System.Drawing.Size(60, 28);
             this.textRotateX.TabIndex = 4;
-            this.textRotateX.Text = "90";
+            this.textRotateX.Text = "90.0";
             this.textRotateX.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textRotateX.ValidColor = System.Drawing.Color.White;
             this.textRotateX.ValueType = UV_DLP_3D_Printer.GUI.CustomGUI.ctlTextBox.EValueType.Float;
@@ -150,14 +161,18 @@
             this.buttRotateXPlus.CheckImage = null;
             this.buttRotateXPlus.Gapx = 5;
             this.buttRotateXPlus.Gapy = 5;
+            this.buttRotateXPlus.GLBackgroundImage = null;
+            this.buttRotateXPlus.GLImage = null;
+            this.buttRotateXPlus.GLVisible = false;
+            this.buttRotateXPlus.GuiAnchor = null;
             this.buttRotateXPlus.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttRotateXPlus.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPlus;
             this.buttRotateXPlus.Location = new System.Drawing.Point(132, 5);
             this.buttRotateXPlus.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.buttRotateXPlus.Name = "buttRotateXPlus";
             this.buttRotateXPlus.Size = new System.Drawing.Size(28, 28);
+            this.buttRotateXPlus.StyleName = null;
             this.buttRotateXPlus.TabIndex = 3;
-            this.buttRotateXPlus.Text = "ctlImageButton8";
             this.buttRotateXPlus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttRotateXPlus.Click += new System.EventHandler(this.buttRotateXPlus_Click);
             this.buttRotateXPlus.DoubleClick += new System.EventHandler(this.buttRotateXPlus_Click);
@@ -169,7 +184,7 @@
             this.flowLayoutPanel8.Controls.Add(this.buttRotateYMinus);
             this.flowLayoutPanel8.Controls.Add(this.textRotateY);
             this.flowLayoutPanel8.Controls.Add(this.buttRotateYPlus);
-            this.flowLayoutPanel8.Location = new System.Drawing.Point(3, 75);
+            this.flowLayoutPanel8.Location = new System.Drawing.Point(414, 3);
             this.flowLayoutPanel8.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel8.Name = "flowLayoutPanel8";
             this.flowLayoutPanel8.Size = new System.Drawing.Size(164, 38);
@@ -194,14 +209,18 @@
             this.buttRotateYMinus.CheckImage = null;
             this.buttRotateYMinus.Gapx = 5;
             this.buttRotateYMinus.Gapy = 5;
+            this.buttRotateYMinus.GLBackgroundImage = null;
+            this.buttRotateYMinus.GLImage = null;
+            this.buttRotateYMinus.GLVisible = false;
+            this.buttRotateYMinus.GuiAnchor = null;
             this.buttRotateYMinus.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttRotateYMinus.Image = global::UV_DLP_3D_Printer.Properties.Resources.butMinus;
             this.buttRotateYMinus.Location = new System.Drawing.Point(32, 5);
             this.buttRotateYMinus.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.buttRotateYMinus.Name = "buttRotateYMinus";
             this.buttRotateYMinus.Size = new System.Drawing.Size(28, 28);
+            this.buttRotateYMinus.StyleName = null;
             this.buttRotateYMinus.TabIndex = 2;
-            this.buttRotateYMinus.Text = "ctlImageButton9";
             this.buttRotateYMinus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttRotateYMinus.Click += new System.EventHandler(this.buttRotateYMinus_Click);
             this.buttRotateYMinus.DoubleClick += new System.EventHandler(this.buttRotateYMinus_Click);
@@ -224,7 +243,7 @@
             this.textRotateY.Name = "textRotateY";
             this.textRotateY.Size = new System.Drawing.Size(60, 28);
             this.textRotateY.TabIndex = 4;
-            this.textRotateY.Text = "90";
+            this.textRotateY.Text = "90.0";
             this.textRotateY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textRotateY.ValidColor = System.Drawing.Color.White;
             this.textRotateY.ValueType = UV_DLP_3D_Printer.GUI.CustomGUI.ctlTextBox.EValueType.Float;
@@ -236,14 +255,18 @@
             this.buttRotateYPlus.CheckImage = null;
             this.buttRotateYPlus.Gapx = 5;
             this.buttRotateYPlus.Gapy = 5;
+            this.buttRotateYPlus.GLBackgroundImage = null;
+            this.buttRotateYPlus.GLImage = null;
+            this.buttRotateYPlus.GLVisible = false;
+            this.buttRotateYPlus.GuiAnchor = null;
             this.buttRotateYPlus.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttRotateYPlus.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPlus;
             this.buttRotateYPlus.Location = new System.Drawing.Point(132, 5);
             this.buttRotateYPlus.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.buttRotateYPlus.Name = "buttRotateYPlus";
             this.buttRotateYPlus.Size = new System.Drawing.Size(28, 28);
+            this.buttRotateYPlus.StyleName = null;
             this.buttRotateYPlus.TabIndex = 3;
-            this.buttRotateYPlus.Text = "ctlImageButton10";
             this.buttRotateYPlus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttRotateYPlus.Click += new System.EventHandler(this.buttRotateYPlus_Click);
             this.buttRotateYPlus.DoubleClick += new System.EventHandler(this.buttRotateYPlus_Click);
@@ -255,7 +278,7 @@
             this.flowLayoutPanel10.Controls.Add(this.buttRotateZMinus);
             this.flowLayoutPanel10.Controls.Add(this.textRotateZ);
             this.flowLayoutPanel10.Controls.Add(this.buttRotateZPlus);
-            this.flowLayoutPanel10.Location = new System.Drawing.Point(3, 116);
+            this.flowLayoutPanel10.Location = new System.Drawing.Point(584, 3);
             this.flowLayoutPanel10.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel10.Name = "flowLayoutPanel10";
             this.flowLayoutPanel10.Size = new System.Drawing.Size(164, 38);
@@ -280,14 +303,18 @@
             this.buttRotateZMinus.CheckImage = null;
             this.buttRotateZMinus.Gapx = 5;
             this.buttRotateZMinus.Gapy = 5;
+            this.buttRotateZMinus.GLBackgroundImage = null;
+            this.buttRotateZMinus.GLImage = null;
+            this.buttRotateZMinus.GLVisible = false;
+            this.buttRotateZMinus.GuiAnchor = null;
             this.buttRotateZMinus.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttRotateZMinus.Image = global::UV_DLP_3D_Printer.Properties.Resources.butMinus;
             this.buttRotateZMinus.Location = new System.Drawing.Point(32, 5);
             this.buttRotateZMinus.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.buttRotateZMinus.Name = "buttRotateZMinus";
             this.buttRotateZMinus.Size = new System.Drawing.Size(28, 28);
+            this.buttRotateZMinus.StyleName = null;
             this.buttRotateZMinus.TabIndex = 2;
-            this.buttRotateZMinus.Text = "ctlImageButton11";
             this.buttRotateZMinus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttRotateZMinus.Click += new System.EventHandler(this.buttRotateZMinus_Click);
             this.buttRotateZMinus.DoubleClick += new System.EventHandler(this.buttRotateZMinus_Click);
@@ -310,7 +337,7 @@
             this.textRotateZ.Name = "textRotateZ";
             this.textRotateZ.Size = new System.Drawing.Size(60, 28);
             this.textRotateZ.TabIndex = 4;
-            this.textRotateZ.Text = "90";
+            this.textRotateZ.Text = "90.0";
             this.textRotateZ.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textRotateZ.ValidColor = System.Drawing.Color.White;
             this.textRotateZ.ValueType = UV_DLP_3D_Printer.GUI.CustomGUI.ctlTextBox.EValueType.Float;
@@ -322,14 +349,18 @@
             this.buttRotateZPlus.CheckImage = null;
             this.buttRotateZPlus.Gapx = 5;
             this.buttRotateZPlus.Gapy = 5;
+            this.buttRotateZPlus.GLBackgroundImage = null;
+            this.buttRotateZPlus.GLImage = null;
+            this.buttRotateZPlus.GLVisible = false;
+            this.buttRotateZPlus.GuiAnchor = null;
             this.buttRotateZPlus.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttRotateZPlus.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPlus;
             this.buttRotateZPlus.Location = new System.Drawing.Point(132, 5);
             this.buttRotateZPlus.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.buttRotateZPlus.Name = "buttRotateZPlus";
             this.buttRotateZPlus.Size = new System.Drawing.Size(28, 28);
+            this.buttRotateZPlus.StyleName = null;
             this.buttRotateZPlus.TabIndex = 3;
-            this.buttRotateZPlus.Text = "ctlImageButton12";
             this.buttRotateZPlus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttRotateZPlus.Click += new System.EventHandler(this.buttRotateZPlus_Click);
             this.buttRotateZPlus.DoubleClick += new System.EventHandler(this.buttRotateZPlus_Click);
@@ -339,7 +370,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.flowLayoutPanel2);
             this.Name = "ctlRotate";
-            this.Size = new System.Drawing.Size(170, 156);
+            this.Size = new System.Drawing.Size(235, 50);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel7.ResumeLayout(false);
             this.flowLayoutPanel8.ResumeLayout(false);
@@ -351,7 +382,6 @@
         #endregion
 
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel7;
         private System.Windows.Forms.Label label9;
         private ctlImageButton buttRotateXMinus;
@@ -367,5 +397,6 @@
         private ctlTextBox textRotateX;
         private ctlTextBox textRotateY;
         private ctlTextBox textRotateZ;
+        private ctlTitle ctlTitle1;
     }
 }

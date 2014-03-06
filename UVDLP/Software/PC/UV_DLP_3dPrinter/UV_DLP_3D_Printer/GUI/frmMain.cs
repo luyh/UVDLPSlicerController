@@ -31,9 +31,9 @@ namespace UV_DLP_3D_Printer
         frmDLP m_frmdlp = new frmDLP();        
         frmSlice m_frmSlice = new frmSlice();
         GLCamera m_camera;
-        frmSettings m_frmSettings = new frmSettings();
+        //frmSettings m_frmSettings = new frmSettings();
         frmGCode m_frmGCode = new frmGCode();
-        frmSliceView m_frmSliceView = new frmSliceView();
+        //frmSliceView m_frmSliceView = new frmSliceView();
         public event delBuildStatus BuildStatusInvoked; // rund the build delegate in Form thread
 
 
@@ -44,7 +44,7 @@ namespace UV_DLP_3D_Printer
             //this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             
             InitializeComponent();
-            UVDLPApp.Instance().m_mainform = this;
+            //UVDLPApp.Instance().m_mainform = this;
             UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEventDel);
             UVDLPApp.Instance().Engine3D.UpdateGrid();
             //UVDLPApp.Instance().Engine3D.AddPlatCube();
@@ -55,7 +55,7 @@ namespace UV_DLP_3D_Printer
             UVDLPApp.Instance().m_deviceinterface.StatusEvent += new DeviceInterface.DeviceInterfaceStatus(DeviceStatusEvent);
             UVDLPApp.Instance().m_supportgenerator.SupportEvent += new SupportGeneratorEvent(SupEvent);
 
-            ctl3DView1.SetMessagePanelHolder(splitContainerMainWindow);
+            //ctl3DView1.SetMessagePanelHolder(splitContainerMainWindow);
             ctl3DView1.Enable3dView(true);
 
             #if (DEBUG)
@@ -71,7 +71,7 @@ namespace UV_DLP_3D_Printer
             splitContainerTop.Panel1Collapsed = true;
 
             m_frmdlp.HideDLPScreen();
-            m_frmSliceView.SliceView.DlpForm = m_frmdlp;
+            //m_frmSliceView.SliceView.DlpForm = m_frmdlp;
                         
             //arcball = new ArcBall();
             m_camera = new GLCamera();
@@ -94,10 +94,10 @@ namespace UV_DLP_3D_Printer
         protected void RegisterCallbacks()
         {
             CallbackHandler cb = UVDLPApp.Instance().m_callbackhandler;
-            cb.RegisterCallback("ViewSliceWindow", buttViewSlice_Click, null, "Show the slice view window");
-            cb.RegisterCallback("LoadModel", LoadSTLModel_Click, null, "Load 3D model from disk");
-            cb.RegisterCallback("StartPrint", cmdStartPrint_Click, null, "Begin printing scene");
-            cb.RegisterCallback("PausePrint", cmdPause_Click_1, null, "Pause printing");
+           // cb.RegisterCallback("ViewSliceWindow", buttViewSlice_Click, null, "Show the slice view window");
+            //cb.RegisterCallback("LoadModel", LoadSTLModel_Click, null, "Load 3D model from disk");
+            //cb.RegisterCallback("StartPrint", cmdStartPrint_Click, null, "Begin printing scene");
+            //cb.RegisterCallback("PausePrint", cmdPause_Click_1, null, "Pause printing");
             cb.RegisterCallback("StopPrint", cmdStop_Click, null, "Stop printing process");
             cb.RegisterCallback("ConnectPrinter", cmdConnect1_Click, null, "Connect to the printer");
             cb.RegisterCallback("DisconnectPrinter", cmdDisconnect_Click, null, "Disconnect from the printer");
@@ -201,7 +201,7 @@ namespace UV_DLP_3D_Printer
                         DebugLogger.Instance().LogRecord(Message);
                         int totallayers = UVDLPApp.Instance().m_slicefile.NumSlices;
                         ctl3DView1.SetNumLayers(totallayers);
-                        m_frmSliceView.SliceView.SetNumLayers(totallayers);
+                        //m_frmSliceView.SliceView.SetNumLayers(totallayers);
                         //show the slice in the slice view
                         ViewLayer(0, null, BuildManager.SLICE_NORMAL);
                         break;
@@ -305,7 +305,7 @@ namespace UV_DLP_3D_Printer
                     buttStop.Enabled = false;
                     buttPause.Enabled = false;
                 }
-                ctl3DView1.SetButtonStatus(buttConnect.Enabled, buttDisconnect.Enabled, buttPlay.Enabled, buttStop.Enabled, buttPause.Enabled);
+               // ctl3DView1.SetButtonStatus(buttConnect.Enabled, buttDisconnect.Enabled, buttPlay.Enabled, buttStop.Enabled, buttPause.Enabled);
                 Refresh();
             }
             catch (Exception ex) 
@@ -489,7 +489,7 @@ namespace UV_DLP_3D_Printer
                             //show the gcode
                             m_frmGCode.GcodeView.Text = UVDLPApp.Instance().m_gcode.RawGCode;
                             ctl3DView1.SetNumLayers(totallayers);
-                            m_frmSliceView.SliceView.SetNumLayers(totallayers);
+                            //m_frmSliceView.SliceView.SetNumLayers(totallayers);
                             SetMainMessage("Slicing Completed");
                             String timeest = BuildManager.EstimateBuildTime(UVDLPApp.Instance().m_gcode);
                             SetTimeMessage("Estimated Build Time: " + timeest);
@@ -521,6 +521,7 @@ namespace UV_DLP_3D_Printer
         /*
          Load Stl
          */
+        /*
         public void LoadSTLModel_Click(object sender, object e)
         {
             openFileDialog1.FileName = "";
@@ -538,7 +539,7 @@ namespace UV_DLP_3D_Printer
                 }
             }
         }
-
+        */
         
         private void ViewLayer(int layer, Bitmap image, int layertype) 
         {
@@ -681,7 +682,7 @@ namespace UV_DLP_3D_Printer
 
         private void loadBinarySTLToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            LoadSTLModel_Click(this, null);
+            //LoadSTLModel_Click(this, null);
         }
 
         public void cmdStop_Click(object sender, object e)
@@ -779,7 +780,6 @@ namespace UV_DLP_3D_Printer
         private void showCalibrationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UVDLPApp.Instance().m_buildparms.UpdateFrom(UVDLPApp.Instance().m_printerinfo);
-            //UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay = true;
             m_frmdlp.ShowDLPScreen();
             Screen dlpscreen = m_frmdlp.GetDLPScreen();
             if (dlpscreen != null)
@@ -905,7 +905,7 @@ namespace UV_DLP_3D_Printer
             frmMeshHoles mh = new frmMeshHoles();
             mh.ShowDialog();
         }
-
+        /*
         public void buttViewSlice_Click(object sender, object e)
         {
             try
@@ -918,19 +918,19 @@ namespace UV_DLP_3D_Printer
                 DebugLogger.Instance().LogError(ex);
             }
         }
-
+        */
         public void buttViewGcode_Click(object sender, object e)
         {
             m_frmGCode.Show();
             m_frmGCode.BringToFront();
         }
-
+        /*
         public void buttConfig_Click(object sender, object e)
         {
             m_frmSettings.Show();
             m_frmSettings.BringToFront();
         }
-
+        */
         private void splashToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form frm = new frmBmpSplash();
@@ -1034,6 +1034,12 @@ namespace UV_DLP_3D_Printer
         private void buttViewGcode_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void testNewMainToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmMain2 mn = new frmMain2();
+            mn.Show();
         }
 
     }

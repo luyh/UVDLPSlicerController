@@ -19,8 +19,37 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public ctlObjectInfo()
         {
             InitializeComponent();
+            UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEventDel);
         }
 
+        private void AppEventDel(eAppEvent ev, String Message)
+        {
+            try
+            {
+                if (InvokeRequired)
+                {
+                    BeginInvoke(new MethodInvoker(delegate() { AppEventDel(ev, Message); }));
+                }
+                else
+                {
+                    switch (ev)
+                    {
+                        case eAppEvent.eModelAdded:
+                            FillObjectInfo(UVDLPApp.Instance().SelectedObject);
+                            break;
+                        case eAppEvent.eUpdateSelectedObject:
+                            FillObjectInfo(UVDLPApp.Instance().SelectedObject);
+                            break;
+                    }
+                    //Refresh();
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
+
+        }
 
         private void AdjustHeight(Control ctl, float newHeight)
         {
@@ -38,7 +67,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 ctl.Width = Width - ctl.Margin.Left - ctl.Margin.Right;
             }
             float hScale = ((float)Height - totalMargin) / totalHeight;
-            AdjustHeight(tTitle, TitleHeight * hScale);
+            //AdjustHeight(tTitle, TitleHeight * hScale);
             AdjustHeight(tName, NameHeight * hScale);
             foreach (Control ctl in layoutPanel.Controls)
             {
@@ -82,17 +111,29 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             base.ApplyStyle(ct);
             if (ct.ForeColor != ControlStyle.NullColor)
             {
-                tTitle.ForeColor = ct.ForeColor;
+                ctlTitle1.ForeColor = ct.ForeColor;
                 tName.ForeColor = ct.ForeColor;
             }
             if (ct.BackColor != ControlStyle.NullColor)
             {
                 BackColor = ct.BackColor;
                 layoutPanel.BackColor = ct.BackColor;
-                tTitle.BackColor = ct.BackColor;
+                ctlTitle1.BackColor = ct.BackColor;
                 tName.BackColor = ct.BackColor;
             }
 
+        }
+
+        private void ctlTitle1_Click(object sender, EventArgs e)
+        {
+            if (ctlTitle1.Checked)
+            {
+                this.Height = 220 + 5;
+            }
+            else
+            {
+                this.Height = ctlTitle1.Height + 5;
+            }
         }
     }
 }

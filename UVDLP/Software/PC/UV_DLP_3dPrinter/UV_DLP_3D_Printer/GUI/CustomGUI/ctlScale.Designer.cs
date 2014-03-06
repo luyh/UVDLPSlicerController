@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.manipObject = new System.Windows.Forms.FlowLayoutPanel();
-            this.labelManipType = new System.Windows.Forms.Label();
+            this.ctlTitle1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTitle();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.label12 = new System.Windows.Forms.Label();
             this.textScaleAll = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTextBox();
@@ -56,7 +56,7 @@
             // manipObject
             // 
             this.manipObject.BackColor = System.Drawing.Color.Navy;
-            this.manipObject.Controls.Add(this.labelManipType);
+            this.manipObject.Controls.Add(this.ctlTitle1);
             this.manipObject.Controls.Add(this.flowLayoutPanel4);
             this.manipObject.Controls.Add(this.flowLayoutPanel1);
             this.manipObject.Controls.Add(this.flowLayoutPanel3);
@@ -65,19 +65,26 @@
             this.manipObject.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.manipObject.Location = new System.Drawing.Point(0, 0);
             this.manipObject.Name = "manipObject";
-            this.manipObject.Size = new System.Drawing.Size(171, 199);
+            this.manipObject.Size = new System.Drawing.Size(235, 50);
             this.manipObject.TabIndex = 21;
             // 
-            // labelManipType
+            // ctlTitle1
             // 
-            this.labelManipType.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.labelManipType.ForeColor = System.Drawing.Color.White;
-            this.labelManipType.Location = new System.Drawing.Point(3, 0);
-            this.labelManipType.Name = "labelManipType";
-            this.labelManipType.Size = new System.Drawing.Size(161, 31);
-            this.labelManipType.TabIndex = 0;
-            this.labelManipType.Text = "Scale (%)";
-            this.labelManipType.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ctlTitle1.Checked = false;
+            this.ctlTitle1.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.ctlTitle1.Gapx = 0;
+            this.ctlTitle1.Gapy = 0;
+            this.ctlTitle1.GLBackgroundImage = null;
+            this.ctlTitle1.GLVisible = false;
+            this.ctlTitle1.GuiAnchor = null;
+            this.ctlTitle1.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttScale;
+            this.ctlTitle1.Location = new System.Drawing.Point(3, 3);
+            this.ctlTitle1.Name = "ctlTitle1";
+            this.ctlTitle1.Size = new System.Drawing.Size(235, 50);
+            this.ctlTitle1.StyleName = null;
+            this.ctlTitle1.TabIndex = 6;
+            this.ctlTitle1.Text = "Scale %";
+            this.ctlTitle1.Click += new System.EventHandler(this.ctlTitle1_Click);
             // 
             // flowLayoutPanel4
             // 
@@ -85,7 +92,7 @@
             this.flowLayoutPanel4.Controls.Add(this.label12);
             this.flowLayoutPanel4.Controls.Add(this.textScaleAll);
             this.flowLayoutPanel4.Controls.Add(this.buttScaleAll);
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 34);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(244, 3);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
             this.flowLayoutPanel4.Size = new System.Drawing.Size(164, 38);
@@ -121,7 +128,7 @@
             this.textScaleAll.Name = "textScaleAll";
             this.textScaleAll.Size = new System.Drawing.Size(68, 28);
             this.textScaleAll.TabIndex = 4;
-            this.textScaleAll.Text = "100";
+            this.textScaleAll.Text = "100.0";
             this.textScaleAll.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textScaleAll.ValidColor = System.Drawing.Color.White;
             this.textScaleAll.ValueType = UV_DLP_3D_Printer.GUI.CustomGUI.ctlTextBox.EValueType.Float;
@@ -133,14 +140,18 @@
             this.buttScaleAll.CheckImage = null;
             this.buttScaleAll.Gapx = 5;
             this.buttScaleAll.Gapy = 5;
+            this.buttScaleAll.GLBackgroundImage = null;
+            this.buttScaleAll.GLImage = null;
+            this.buttScaleAll.GLVisible = false;
+            this.buttScaleAll.GuiAnchor = null;
             this.buttScaleAll.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttScaleAll.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttV;
             this.buttScaleAll.Location = new System.Drawing.Point(130, 5);
             this.buttScaleAll.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.buttScaleAll.Name = "buttScaleAll";
             this.buttScaleAll.Size = new System.Drawing.Size(28, 28);
+            this.buttScaleAll.StyleName = null;
             this.buttScaleAll.TabIndex = 3;
-            this.buttScaleAll.Text = "ctlImageButton7";
             this.buttScaleAll.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttScaleAll.Click += new System.EventHandler(this.buttScaleAll_Click);
             this.buttScaleAll.DoubleClick += new System.EventHandler(this.buttScaleAll_Click);
@@ -151,7 +162,7 @@
             this.flowLayoutPanel1.Controls.Add(this.label5);
             this.flowLayoutPanel1.Controls.Add(this.textScaleX);
             this.flowLayoutPanel1.Controls.Add(this.buttScaleX);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 75);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(414, 3);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(164, 38);
@@ -187,7 +198,7 @@
             this.textScaleX.Name = "textScaleX";
             this.textScaleX.Size = new System.Drawing.Size(68, 28);
             this.textScaleX.TabIndex = 4;
-            this.textScaleX.Text = "100";
+            this.textScaleX.Text = "100.0";
             this.textScaleX.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textScaleX.ValidColor = System.Drawing.Color.White;
             this.textScaleX.ValueType = UV_DLP_3D_Printer.GUI.CustomGUI.ctlTextBox.EValueType.Float;
@@ -199,14 +210,18 @@
             this.buttScaleX.CheckImage = null;
             this.buttScaleX.Gapx = 5;
             this.buttScaleX.Gapy = 5;
+            this.buttScaleX.GLBackgroundImage = null;
+            this.buttScaleX.GLImage = null;
+            this.buttScaleX.GLVisible = false;
+            this.buttScaleX.GuiAnchor = null;
             this.buttScaleX.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttScaleX.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttV;
             this.buttScaleX.Location = new System.Drawing.Point(130, 5);
             this.buttScaleX.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.buttScaleX.Name = "buttScaleX";
             this.buttScaleX.Size = new System.Drawing.Size(28, 28);
+            this.buttScaleX.StyleName = null;
             this.buttScaleX.TabIndex = 3;
-            this.buttScaleX.Text = "ctlImageButton3";
             this.buttScaleX.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttScaleX.Click += new System.EventHandler(this.buttScaleX_Click);
             this.buttScaleX.DoubleClick += new System.EventHandler(this.buttScaleX_Click);
@@ -217,7 +232,7 @@
             this.flowLayoutPanel3.Controls.Add(this.label6);
             this.flowLayoutPanel3.Controls.Add(this.textScaleY);
             this.flowLayoutPanel3.Controls.Add(this.buttScaleY);
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 116);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(584, 3);
             this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.Size = new System.Drawing.Size(164, 38);
@@ -253,7 +268,7 @@
             this.textScaleY.Name = "textScaleY";
             this.textScaleY.Size = new System.Drawing.Size(68, 28);
             this.textScaleY.TabIndex = 4;
-            this.textScaleY.Text = "100";
+            this.textScaleY.Text = "100.0";
             this.textScaleY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textScaleY.ValidColor = System.Drawing.Color.White;
             this.textScaleY.ValueType = UV_DLP_3D_Printer.GUI.CustomGUI.ctlTextBox.EValueType.Float;
@@ -265,14 +280,18 @@
             this.buttScaleY.CheckImage = null;
             this.buttScaleY.Gapx = 5;
             this.buttScaleY.Gapy = 5;
+            this.buttScaleY.GLBackgroundImage = null;
+            this.buttScaleY.GLImage = null;
+            this.buttScaleY.GLVisible = false;
+            this.buttScaleY.GuiAnchor = null;
             this.buttScaleY.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttScaleY.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttV;
             this.buttScaleY.Location = new System.Drawing.Point(130, 5);
             this.buttScaleY.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.buttScaleY.Name = "buttScaleY";
             this.buttScaleY.Size = new System.Drawing.Size(28, 28);
+            this.buttScaleY.StyleName = null;
             this.buttScaleY.TabIndex = 3;
-            this.buttScaleY.Text = "ctlImageButton5";
             this.buttScaleY.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttScaleY.Click += new System.EventHandler(this.buttScaleY_Click);
             this.buttScaleY.DoubleClick += new System.EventHandler(this.buttScaleY_Click);
@@ -283,7 +302,7 @@
             this.flowLayoutPanel5.Controls.Add(this.label7);
             this.flowLayoutPanel5.Controls.Add(this.textScaleZ);
             this.flowLayoutPanel5.Controls.Add(this.buttScaleZ);
-            this.flowLayoutPanel5.Location = new System.Drawing.Point(3, 157);
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(754, 3);
             this.flowLayoutPanel5.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel5.Name = "flowLayoutPanel5";
             this.flowLayoutPanel5.Size = new System.Drawing.Size(164, 38);
@@ -319,7 +338,7 @@
             this.textScaleZ.Name = "textScaleZ";
             this.textScaleZ.Size = new System.Drawing.Size(68, 28);
             this.textScaleZ.TabIndex = 4;
-            this.textScaleZ.Text = "100";
+            this.textScaleZ.Text = "100.0";
             this.textScaleZ.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textScaleZ.ValidColor = System.Drawing.Color.White;
             this.textScaleZ.ValueType = UV_DLP_3D_Printer.GUI.CustomGUI.ctlTextBox.EValueType.Float;
@@ -331,14 +350,18 @@
             this.buttScaleZ.CheckImage = null;
             this.buttScaleZ.Gapx = 5;
             this.buttScaleZ.Gapy = 5;
+            this.buttScaleZ.GLBackgroundImage = null;
+            this.buttScaleZ.GLImage = null;
+            this.buttScaleZ.GLVisible = false;
+            this.buttScaleZ.GuiAnchor = null;
             this.buttScaleZ.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttScaleZ.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttV;
             this.buttScaleZ.Location = new System.Drawing.Point(130, 5);
             this.buttScaleZ.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.buttScaleZ.Name = "buttScaleZ";
             this.buttScaleZ.Size = new System.Drawing.Size(28, 28);
+            this.buttScaleZ.StyleName = null;
             this.buttScaleZ.TabIndex = 3;
-            this.buttScaleZ.Text = "ctlImageButton7";
             this.buttScaleZ.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttScaleZ.Click += new System.EventHandler(this.buttScaleZ_Click);
             this.buttScaleZ.DoubleClick += new System.EventHandler(this.buttScaleZ_Click);
@@ -348,7 +371,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.manipObject);
             this.Name = "ctlScale";
-            this.Size = new System.Drawing.Size(171, 199);
+            this.Size = new System.Drawing.Size(235, 50);
             this.manipObject.ResumeLayout(false);
             this.flowLayoutPanel4.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
@@ -361,7 +384,6 @@
         #endregion
 
         private System.Windows.Forms.FlowLayoutPanel manipObject;
-        private System.Windows.Forms.Label labelManipType;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
         private System.Windows.Forms.Label label12;
         private ctlTextBox textScaleAll;
@@ -378,6 +400,7 @@
         private ctlImageButton buttScaleZ;
         private ctlTextBox textScaleX;
         private ctlTextBox textScaleY;
+        private ctlTitle ctlTitle1;
 
     }
 }

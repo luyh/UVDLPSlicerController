@@ -44,7 +44,7 @@
             // 
             // flowLayoutPanel5
             // 
-            this.flowLayoutPanel5.BackColor = System.Drawing.Color.Navy;
+            this.flowLayoutPanel5.BackColor = System.Drawing.SystemColors.Control;
             this.flowLayoutPanel5.Controls.Add(this.lblTitle);
             this.flowLayoutPanel5.Controls.Add(this.flowLayoutPanel1);
             this.flowLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -58,7 +58,7 @@
             // lblTitle
             // 
             this.lblTitle.Font = new System.Drawing.Font("Arial", 17.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lblTitle.ForeColor = System.Drawing.Color.White;
+            this.lblTitle.ForeColor = System.Drawing.Color.Black;
             this.lblTitle.Location = new System.Drawing.Point(6, 3);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(330, 31);
@@ -68,7 +68,7 @@
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.BackColor = System.Drawing.Color.RoyalBlue;
+            this.flowLayoutPanel1.BackColor = System.Drawing.SystemColors.Control;
             this.flowLayoutPanel1.Controls.Add(this.txtGCode);
             this.flowLayoutPanel1.Controls.Add(this.cmdSendGCode);
             this.flowLayoutPanel1.Controls.Add(this.label1);
@@ -103,7 +103,7 @@
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(3, 27);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(319, 31);
@@ -126,7 +126,7 @@
             // label2
             // 
             this.label2.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.ForeColor = System.Drawing.Color.Black;
             this.label2.Location = new System.Drawing.Point(3, 158);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(319, 31);
