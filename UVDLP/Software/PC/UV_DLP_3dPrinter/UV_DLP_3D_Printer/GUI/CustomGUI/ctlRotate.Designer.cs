@@ -77,7 +77,7 @@
             this.ctlTitle1.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttRotate;
             this.ctlTitle1.Location = new System.Drawing.Point(3, 3);
             this.ctlTitle1.Name = "ctlTitle1";
-            this.ctlTitle1.Size = new System.Drawing.Size(235, 50);
+            this.ctlTitle1.Size = new System.Drawing.Size(235, 45);
             this.ctlTitle1.StyleName = null;
             this.ctlTitle1.TabIndex = 6;
             this.ctlTitle1.Text = "Rotate";

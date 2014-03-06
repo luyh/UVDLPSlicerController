@@ -128,7 +128,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             if (ctlTitle1.Checked)
             {
-                this.Height = 220 + 5;
+                this.Height = 225 + 5;
             }
             else
             {

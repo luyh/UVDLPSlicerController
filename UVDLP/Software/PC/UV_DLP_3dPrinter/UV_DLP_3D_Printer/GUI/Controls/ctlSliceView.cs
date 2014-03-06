@@ -130,12 +130,24 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             try
             {
-                //render the 2d slice
-                Bitmap bmp = null;
-                bmp = UVDLPApp.Instance().m_slicefile.GetSliceImage(layer);
+                
+                // try an invoke to get past the crash
+                this.Invoke((MethodInvoker)delegate()
+                {                                    
+                    //render the 2d slice
+                    Bitmap bmp = null;    
+                    bmp = UVDLPApp.Instance().m_slicefile.GetSliceImage(layer);
+                    if (bmp == null)                
+                    {
+                        return;
+                    }
+                    //dispose the previous image?
+                    //picSlice.Image = bmp;//now show the 2d slice
+                    picSlice.Image = bmp;//now show the 2d slice
 
-                picSlice.Image = bmp;//now show the 2d slice
-                picSlice.Refresh();
+
+                    picSlice.Refresh();               
+                //GC.Collect();
                 // if we're a UV DLP printer, show on the frmDLP
                 if ((UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP) && (m_frmdlp != null))
                 {
@@ -151,6 +163,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                         m_frmdlp.ShowImage(bmp);
                     }
                 }
+                });
+               // GC.Collect();
             }
             catch (Exception ex) 
             {

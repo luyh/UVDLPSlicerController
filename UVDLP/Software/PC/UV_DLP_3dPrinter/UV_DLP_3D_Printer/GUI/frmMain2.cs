@@ -17,7 +17,8 @@ namespace UV_DLP_3D_Printer.GUI
             eV3d,
             eVSlice,
             eVControl,
-            eVConfig
+            eVConfig,
+            eNone
         }
         private eViewTypes m_viewtype;
         public event delBuildStatus BuildStatusInvoked; // rund the build delegate in Form thread
@@ -27,10 +28,12 @@ namespace UV_DLP_3D_Printer.GUI
         public frmMain2()
         {
             InitializeComponent();
+            m_viewtype = eViewTypes.eNone;
             UVDLPApp.Instance().m_mainform = this;
-            m_viewtype = eViewTypes.eV3d;
-            HideAllViews();
-            ShowView(eViewTypes.eV3d);
+
+            ctlTitle3dView.Checked = true; // set it as checked
+            ctlTitle3dView_Click(null, null); // and click the button
+
             RegisterCallbacks();
             SetButtonStatuses();
             UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEventDel);
@@ -49,12 +52,13 @@ namespace UV_DLP_3D_Printer.GUI
             ctl3DView1.RearrangeGui();
             ctl3DView1.Enable3dView(true);
             AddButtons();
-            ctlSliceView1.DlpForm = m_frmdlp; // set the dlp form for direct control
+            AddControls();
+            ctlSliceGCodePanel1.ctlSliceViewctl.DlpForm = m_frmdlp; // set the dlp form for direct control
         }
         /// <summary>
         /// This adds buttons to the GUI config for later skinning
         /// </summary>
-        public void AddButtons() 
+        private void AddButtons() 
         {
             UVDLPApp.Instance().m_gui_config.AddButton("openfile", buttOpenFile);
             UVDLPApp.Instance().m_gui_config.AddButton("play", buttPlay);
@@ -62,7 +66,18 @@ namespace UV_DLP_3D_Printer.GUI
             UVDLPApp.Instance().m_gui_config.AddButton("stop", buttStop);
             UVDLPApp.Instance().m_gui_config.AddButton("connect", buttConnect);
             UVDLPApp.Instance().m_gui_config.AddButton("disconnect", buttDisconnect);
+        }
+        private void AddControls() 
+        {
+            // the main title buttons
+            UVDLPApp.Instance().m_gui_config.AddControl("ctlTitle3dView", ctlTitle3dView);
+            UVDLPApp.Instance().m_gui_config.AddControl("ctlTitleViewSlice", ctlTitleViewSlice);
+            UVDLPApp.Instance().m_gui_config.AddControl("ctlTitleViewControls", ctlTitleViewControls);
+            UVDLPApp.Instance().m_gui_config.AddControl("ctlTitleConfigure", ctlTitleConfigure);
 
+            //UVDLPApp.Instance().m_gui_config.AddControl("pnlTopTabs", pnlTopTabs);
+            //UVDLPApp.Instance().m_gui_config.AddControl("pnlTopIcons", pnlTopIcons);
+            
         }
         /// <summary>
         /// Need to implement this at mainform level too
@@ -421,10 +436,13 @@ namespace UV_DLP_3D_Printer.GUI
         }
         private void RegisterCallbacks() 
         {
+            // the main tab buttons
             UVDLPApp.Instance().m_callbackhandler.RegisterCallback("ClickView3d", ctlTitle3dView_Click, null, "View 3d display");
             UVDLPApp.Instance().m_callbackhandler.RegisterCallback("ClickSliceView", ctlTitleViewSlice_Click, null, "View Slice display");
             UVDLPApp.Instance().m_callbackhandler.RegisterCallback("ClickManualCtlView", ClickManualCtlView_Click, null, "View Manual Machine Control");
             UVDLPApp.Instance().m_callbackhandler.RegisterCallback("ClickMainConfigView", ClickMainConfigView_Click, null, "View Main Configuration");
+
+            //load model click
             UVDLPApp.Instance().m_callbackhandler.RegisterCallback("LoadSTLModel_Click", LoadSTLModel_Click, null, "Load Model");
 
             // Connecting / disconnecting printer
@@ -459,11 +477,26 @@ namespace UV_DLP_3D_Printer.GUI
             ctlMainConfig1.Dock = DockStyle.None;
             
         }
+
+        /// <summary>
+        /// This function unchecks all the main tabs (except for the one specified)
+        /// </summary>
+        private void UncheckTabs(ctlTitle seltitle)         
+        {
+            if (ctlTitle3dView != seltitle) ctlTitle3dView.Checked = false;
+            if (ctlTitleViewSlice != seltitle) ctlTitleViewSlice.Checked = false;
+            if (ctlTitleViewControls != seltitle) ctlTitleViewControls.Checked = false;
+            if (ctlTitleConfigure != seltitle) ctlTitleConfigure.Checked = false;
+            seltitle.Checked = true;
+        
+        }
         private void ShowView(eViewTypes vt) 
         {
             try
             {
+                if (vt == m_viewtype) return; // already there
                 m_viewtype = vt;
+                HideAllViews();
                 switch (m_viewtype)
                 {
                     case eViewTypes.eV3d:
@@ -779,23 +812,29 @@ namespace UV_DLP_3D_Printer.GUI
         }
         private void ClickMainConfigView_Click(object sender, object e)
         {
-            HideAllViews();
+            UncheckTabs(ctlTitleConfigure);
             ShowView(eViewTypes.eVConfig);
         }
 
         private void ClickManualCtlView_Click(object sender, object e)
         {
-            HideAllViews();
+            
+            UncheckTabs(ctlTitleViewControls);
+
             ShowView(eViewTypes.eVControl);
         }
         private void ctlTitle3dView_Click(object sender, object e)
         {
-            HideAllViews();
+            
+            UncheckTabs(ctlTitle3dView);
+
             ShowView(eViewTypes.eV3d);
         }
         private void ctlTitleViewSlice_Click(object sender, object e)
         {
-            HideAllViews();
+            
+            UncheckTabs(ctlTitleViewSlice);
+
             ShowView(eViewTypes.eVSlice);
         }
         #endregion

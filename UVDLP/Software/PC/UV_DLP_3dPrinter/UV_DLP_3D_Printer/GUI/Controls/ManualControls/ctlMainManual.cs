@@ -10,7 +10,7 @@ using UV_DLP_3D_Printer.GUI.CustomGUI;
 
 namespace UV_DLP_3D_Printer.GUI.Controls.ManualControls
 {
-    public partial class ctlMainManual : ctlUserPanel
+    public partial class ctlMainManual : UserControl
     {
         public ctlMainManual()
         {

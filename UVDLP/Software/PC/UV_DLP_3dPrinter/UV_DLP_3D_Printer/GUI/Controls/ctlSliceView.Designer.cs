@@ -41,7 +41,6 @@
             this.picSlice.BackColor = System.Drawing.Color.Black;
             this.picSlice.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.picSlice.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picSlice.Image = global::UV_DLP_3D_Printer.Properties.Resources.butMinus;
             this.picSlice.Location = new System.Drawing.Point(0, 0);
             this.picSlice.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.picSlice.Name = "picSlice";

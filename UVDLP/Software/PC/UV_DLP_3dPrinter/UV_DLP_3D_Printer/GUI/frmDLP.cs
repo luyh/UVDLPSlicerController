@@ -13,6 +13,7 @@ namespace UV_DLP_3D_Printer
      This is the form that is used to display the Image that is sent to the DLP
      * it is sized to match the resolution of the screen that it displays on
      * and it contains 1 image / picture control
+     * It listens to the build manager events to show images on the screen.
      */
     public partial class frmDLP : Form
     {
@@ -26,6 +27,59 @@ namespace UV_DLP_3D_Printer
             m_tmr.Interval = 1000;
             m_tmr.Tick += new EventHandler(m_tmr_Tick);
             m_tmr.Start();
+            UVDLPApp.Instance().m_buildmgr.PrintLayer += new delPrinterLayer(PrintLayer);
+        }
+        //This delegate is called when the print manager is printing a new layer
+        void PrintLayer(Bitmap bmp, int layer, int layertype)
+        {
+            try
+            {
+                if (InvokeRequired)
+                {
+                    BeginInvoke(new MethodInvoker(delegate() { PrintLayer(bmp, layer, layertype); }));
+                }
+                else
+                {
+                    ViewLayer(layer, bmp, layertype);
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+                DebugLogger.Instance().LogError(ex.StackTrace);
+            }
+        }
+        private void ViewLayer(int layer, Bitmap image, int layertype)
+        {
+            try
+            {
+                Bitmap bmp = null;
+                if (image == null) // we're here because of the scroll bar in the gui
+                {
+                    DebugLogger.Instance().LogError("Null BM in DLP form");
+                    return;
+                }
+                else // the image was specified from the build manager
+                {
+                    bmp = image;
+                }
+                // if we're a UV DLP printer, show on the frmDLP
+                if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
+                {
+                    // only show the image on the dlp if we're previewing
+                    //need to make sure we show the layer if building
+                    if (UVDLPApp.Instance().m_buildmgr.IsPrinting == true || UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay == true
+                        || layertype == BuildManager.SLICE_BLANK || layertype == BuildManager.SLICE_CALIBRATION)
+                    {
+                        ShowImage(bmp);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex.StackTrace);
+            }
+
         }
 
         void m_tmr_Tick(object sender, EventArgs e)

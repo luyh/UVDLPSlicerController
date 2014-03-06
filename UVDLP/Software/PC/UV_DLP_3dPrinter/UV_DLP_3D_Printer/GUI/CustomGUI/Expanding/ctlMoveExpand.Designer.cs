@@ -67,7 +67,7 @@
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(235, 250);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(235, 245);
             this.flowLayoutPanel2.TabIndex = 23;
             // 
             // ctlTitle1
@@ -425,7 +425,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.flowLayoutPanel2);
             this.Name = "ctlMoveExpand";
-            this.Size = new System.Drawing.Size(235, 250);
+            this.Size = new System.Drawing.Size(235, 245);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel7.ResumeLayout(false);

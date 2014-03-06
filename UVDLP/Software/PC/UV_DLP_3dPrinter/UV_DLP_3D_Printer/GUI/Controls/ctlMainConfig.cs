@@ -14,7 +14,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         private enum eConfView 
         {
             eSlice,
-            eMachine
+            eMachine,
+            eNone
         }
         private eConfView m_eView;
 
@@ -23,7 +24,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             InitializeComponent();            
             RegisterCallbacks();
             HideControls();
-            SetupView(eConfView.eSlice);
+            m_eView = eConfView.eNone;
+            //SetupView(eConfView.eSlice);
+            ClickViewConfMachine(null, null);
         }
         private void HideControls() 
         {
@@ -35,6 +38,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         }
         private void SetupView(eConfView view) 
         {
+            if (m_eView == view) return;
             HideControls();
             m_eView = view;
             switch (m_eView)
@@ -58,10 +62,15 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         private void ClickViewConfMachine(object sender, object vars) 
         {
             SetupView(eConfView.eMachine);
+            ctlMachineConfigView.Checked = true;
+            ctlSliceProfileConfig.Checked = false;
+            
         }
         private void ClickViewSliceConfig(object sender, object vars)
         {
             SetupView(eConfView.eSlice);
+            ctlMachineConfigView.Checked = false;
+            ctlSliceProfileConfig.Checked = true;
         }
     }
 }

@@ -33,8 +33,8 @@ namespace UV_DLP_3D_Printer.Slicing
         private int m_xres, m_yres;
         public SFMode m_mode;
         public static String m_sliceext = ".slice";
-        Bitmap m_cachedslice;
-        int m_cachedsliceidx;
+        //Bitmap m_cachedslice;
+        //int m_cachedsliceidx;
 
         ZipFile m_zip;
         /*
@@ -65,8 +65,8 @@ namespace UV_DLP_3D_Printer.Slicing
             m_yres = yres;
             m_numslices = numslices;
             m_mode = SFMode.eLoaded;
-            m_cachedsliceidx = -1;
-            m_cachedslice = null;
+            //m_cachedsliceidx = -1;
+            //m_cachedslice = null;
         }
         /// constructor that the slicer calls to create
         /// <summary>
@@ -134,6 +134,7 @@ namespace UV_DLP_3D_Printer.Slicing
             {
                 if (m_mode == SFMode.eImmediate)
                 {
+                    /*
                     if (layer == m_cachedsliceidx && m_cachedslice != null)
                     {
                         return m_cachedslice;
@@ -151,6 +152,10 @@ namespace UV_DLP_3D_Printer.Slicing
                         m_cachedslice = UVDLPApp.Instance().m_slicer.SliceImmediate(zlev);
                         return m_cachedslice;
                     }
+                     * */
+                    float zlev = (float)(layer * m_config.ZThick);
+                    //m_cachedslice = 
+                    return UVDLPApp.Instance().m_slicer.SliceImmediate(zlev);;
                 }
                 else
                 {
