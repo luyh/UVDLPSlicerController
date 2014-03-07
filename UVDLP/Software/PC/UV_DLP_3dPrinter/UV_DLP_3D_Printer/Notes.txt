@@ -15,25 +15,12 @@ the part library and view is a nice touch - very handy!
  3d view or 2d slice view
  Print 
 
-
- main form
- tabs for 
-	3d view
-		- panel on right
-		move,scale,rotate
-		(mirror)
-		view options
-	slice view
-		slice
-		generated GCode
-		slice button on this screen
-	Configuration screen
-		machine config
-		slice profile config
-	Machine Control screen
-		
-
-
+ automatic layout system:
+ I need a system that can lay out models on the surface,
+ then automatically buld supports for them. 
+ This layout can work in 2d,3d
+ This autosupport generation can do intra-object supports, as well as a tree-structure
+ I need to determine inside/outside
 
 -Make controls on ctl3dview moveable
 -Save/Load their positions and visibility as a set

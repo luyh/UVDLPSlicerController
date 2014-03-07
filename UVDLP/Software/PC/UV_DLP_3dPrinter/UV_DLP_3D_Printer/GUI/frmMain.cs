@@ -32,7 +32,7 @@ namespace UV_DLP_3D_Printer
         frmSlice m_frmSlice = new frmSlice();
         GLCamera m_camera;
         //frmSettings m_frmSettings = new frmSettings();
-        frmGCode m_frmGCode = new frmGCode();
+        //frmGCode m_frmGCode = new frmGCode();
         //frmSliceView m_frmSliceView = new frmSliceView();
         public event delBuildStatus BuildStatusInvoked; // rund the build delegate in Form thread
 
@@ -207,7 +207,7 @@ namespace UV_DLP_3D_Printer
                         break;
                     case eAppEvent.eGCodeLoaded:
                         DebugLogger.Instance().LogRecord(Message);
-                        m_frmGCode.GcodeView.Text = UVDLPApp.Instance().m_gcode.RawGCode;
+                       // m_frmGCode.GcodeView.Text = UVDLPApp.Instance().m_gcode.RawGCode;
                         break;
                     case eAppEvent.eGCodeSaved:
                         DebugLogger.Instance().LogRecord(Message);
@@ -487,7 +487,7 @@ namespace UV_DLP_3D_Printer
                             break;
                         case Slicer.eSliceEvent.eSliceCompleted:
                             //show the gcode
-                            m_frmGCode.GcodeView.Text = UVDLPApp.Instance().m_gcode.RawGCode;
+                            //m_frmGCode.GcodeView.Text = UVDLPApp.Instance().m_gcode.RawGCode;
                             ctl3DView1.SetNumLayers(totallayers);
                             //m_frmSliceView.SliceView.SetNumLayers(totallayers);
                             SetMainMessage("Slicing Completed");
@@ -921,8 +921,8 @@ namespace UV_DLP_3D_Printer
         */
         public void buttViewGcode_Click(object sender, object e)
         {
-            m_frmGCode.Show();
-            m_frmGCode.BringToFront();
+            //m_frmGCode.Show();
+            //m_frmGCode.BringToFront();
         }
         /*
         public void buttConfig_Click(object sender, object e)

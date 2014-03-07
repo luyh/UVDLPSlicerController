@@ -194,9 +194,6 @@
     <Compile Include="GUI\Controls\ctlGL.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\ctlExpandPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="GUI\CustomGUI\ctlConfig.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -205,6 +202,12 @@
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlImage.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlMirror.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlMirror.Designer.cs">
+      <DependentUpon>ctlMirror.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlScene.cs">
       <SubType>UserControl</SubType>
@@ -309,12 +312,6 @@
       <DependentUpon>frmBmpSplash.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\CustomGUI\GuiConfig.cs" />
-    <Compile Include="GUI\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\frmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -332,12 +329,6 @@
     </Compile>
     <Compile Include="GUI\frmConnection.Designer.cs">
       <DependentUpon>frmConnection.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\frmGCode.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\frmGCode.Designer.cs">
-      <DependentUpon>frmGCode.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\frmLicense.cs">
       <SubType>Form</SubType>
@@ -410,7 +401,6 @@
     <Compile Include="Slicing\PreProcessor.cs" />
     <Compile Include="Slicing\SliceFile.cs" />
     <Compile Include="3DEngine\SupportGenerator.cs" />
-    <Compile Include="Utility\Authentication.cs" />
     <Compile Include="Utility\CallbackHandler.cs" />
     <Compile Include="Utility\DebugLogger.cs" />
     <Compile Include="GUI\frmDLP.cs">
@@ -479,14 +469,14 @@
     <EmbeddedResource Include="GUI\Controls\ManualControls\ctlProjectorControl.resx">
       <DependentUpon>ctlProjectorControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\ctlExpandPanel.resx">
-      <DependentUpon>ctlExpandPanel.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\ctlConfig.resx">
       <DependentUpon>ctlConfig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\ctlImageButton.resx">
       <DependentUpon>ctlImageButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomGUI\ctlMirror.resx">
+      <DependentUpon>ctlMirror.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\ctlScene.resx">
       <DependentUpon>ctlScene.cs</DependentUpon>
@@ -530,9 +520,6 @@
     <EmbeddedResource Include="GUI\CustomGUI\frmBmpSplash.resx">
       <DependentUpon>frmBmpSplash.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmAbout.resx">
       <DependentUpon>frmAbout.cs</DependentUpon>
     </EmbeddedResource>
@@ -541,9 +528,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmConnection.resx">
       <DependentUpon>frmConnection.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\frmGCode.resx">
-      <DependentUpon>frmGCode.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmLicense.resx">
       <DependentUpon>frmLicense.cs</DependentUpon>

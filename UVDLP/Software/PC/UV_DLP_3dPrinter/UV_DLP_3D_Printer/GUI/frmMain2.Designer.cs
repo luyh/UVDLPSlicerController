@@ -61,6 +61,7 @@
             this.ctlScene1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlScene();
             this.ctlObjectInfo1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlObjectInfo();
             this.ctlMoveExpand1 = new UV_DLP_3D_Printer.GUI.CustomGUI.Expanding.ctlMoveExpand();
+            this.ctlMirror1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMirror();
             this.ctlScale1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlScale();
             this.ctlRotate1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlRotate();
             this.ctlView1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlView();
@@ -132,6 +133,7 @@
             this.flowLayoutPanel1.Controls.Add(this.ctlScene1);
             this.flowLayoutPanel1.Controls.Add(this.ctlObjectInfo1);
             this.flowLayoutPanel1.Controls.Add(this.ctlMoveExpand1);
+            this.flowLayoutPanel1.Controls.Add(this.ctlMirror1);
             this.flowLayoutPanel1.Controls.Add(this.ctlScale1);
             this.flowLayoutPanel1.Controls.Add(this.ctlRotate1);
             this.flowLayoutPanel1.Controls.Add(this.ctlView1);
@@ -424,6 +426,14 @@
             this.ctlMoveExpand1.StyleName = null;
             this.ctlMoveExpand1.TabIndex = 0;
             // 
+            // ctlMirror1
+            // 
+            this.ctlMirror1.BackColor = System.Drawing.Color.RoyalBlue;
+            this.ctlMirror1.Location = new System.Drawing.Point(3, 156);
+            this.ctlMirror1.Name = "ctlMirror1";
+            this.ctlMirror1.Size = new System.Drawing.Size(236, 50);
+            this.ctlMirror1.TabIndex = 6;
+            // 
             // ctlScale1
             // 
             this.ctlScale1.Gapx = 0;
@@ -431,7 +441,7 @@
             this.ctlScale1.GLBackgroundImage = null;
             this.ctlScale1.GLVisible = false;
             this.ctlScale1.GuiAnchor = null;
-            this.ctlScale1.Location = new System.Drawing.Point(3, 156);
+            this.ctlScale1.Location = new System.Drawing.Point(3, 212);
             this.ctlScale1.Name = "ctlScale1";
             this.ctlScale1.Size = new System.Drawing.Size(235, 45);
             this.ctlScale1.StyleName = null;
@@ -444,7 +454,7 @@
             this.ctlRotate1.GLBackgroundImage = null;
             this.ctlRotate1.GLVisible = false;
             this.ctlRotate1.GuiAnchor = null;
-            this.ctlRotate1.Location = new System.Drawing.Point(3, 207);
+            this.ctlRotate1.Location = new System.Drawing.Point(3, 263);
             this.ctlRotate1.Name = "ctlRotate1";
             this.ctlRotate1.Size = new System.Drawing.Size(235, 45);
             this.ctlRotate1.StyleName = null;
@@ -458,7 +468,7 @@
             this.ctlView1.GLVisible = false;
             this.ctlView1.GuiAnchor = null;
             this.ctlView1.LayerNumberScroll = null;
-            this.ctlView1.Location = new System.Drawing.Point(3, 258);
+            this.ctlView1.Location = new System.Drawing.Point(3, 314);
             this.ctlView1.MessagePanelHolder = null;
             this.ctlView1.Name = "ctlView1";
             this.ctlView1.ObjectInfoPanel = null;
@@ -482,7 +492,7 @@
             this.ctlTitle3dView.Location = new System.Drawing.Point(3, 3);
             this.ctlTitle3dView.Name = "ctlTitle3dView";
             this.ctlTitle3dView.OnClickCallback = "ClickView3d";
-            this.ctlTitle3dView.Size = new System.Drawing.Size(163, 40);
+            this.ctlTitle3dView.Size = new System.Drawing.Size(180, 40);
             this.ctlTitle3dView.StyleName = null;
             this.ctlTitle3dView.TabIndex = 0;
             this.ctlTitle3dView.Text = "3D View";
@@ -498,10 +508,10 @@
             this.ctlTitleViewSlice.GLVisible = false;
             this.ctlTitleViewSlice.GuiAnchor = null;
             this.ctlTitleViewSlice.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttViewSlice;
-            this.ctlTitleViewSlice.Location = new System.Drawing.Point(172, 3);
+            this.ctlTitleViewSlice.Location = new System.Drawing.Point(189, 3);
             this.ctlTitleViewSlice.Name = "ctlTitleViewSlice";
             this.ctlTitleViewSlice.OnClickCallback = "ClickSliceView";
-            this.ctlTitleViewSlice.Size = new System.Drawing.Size(163, 40);
+            this.ctlTitleViewSlice.Size = new System.Drawing.Size(180, 40);
             this.ctlTitleViewSlice.StyleName = null;
             this.ctlTitleViewSlice.TabIndex = 1;
             this.ctlTitleViewSlice.Text = "Slice View";
@@ -518,10 +528,10 @@
             this.ctlTitleViewControls.GLVisible = false;
             this.ctlTitleViewControls.GuiAnchor = null;
             this.ctlTitleViewControls.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMachineControl;
-            this.ctlTitleViewControls.Location = new System.Drawing.Point(341, 3);
+            this.ctlTitleViewControls.Location = new System.Drawing.Point(375, 3);
             this.ctlTitleViewControls.Name = "ctlTitleViewControls";
             this.ctlTitleViewControls.OnClickCallback = "ClickManualCtlView";
-            this.ctlTitleViewControls.Size = new System.Drawing.Size(163, 40);
+            this.ctlTitleViewControls.Size = new System.Drawing.Size(180, 40);
             this.ctlTitleViewControls.StyleName = null;
             this.ctlTitleViewControls.TabIndex = 2;
             this.ctlTitleViewControls.Text = "Control";
@@ -537,10 +547,10 @@
             this.ctlTitleConfigure.GLVisible = false;
             this.ctlTitleConfigure.GuiAnchor = null;
             this.ctlTitleConfigure.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMachineConfig;
-            this.ctlTitleConfigure.Location = new System.Drawing.Point(510, 3);
+            this.ctlTitleConfigure.Location = new System.Drawing.Point(561, 3);
             this.ctlTitleConfigure.Name = "ctlTitleConfigure";
             this.ctlTitleConfigure.OnClickCallback = "ClickMainConfigView";
-            this.ctlTitleConfigure.Size = new System.Drawing.Size(163, 40);
+            this.ctlTitleConfigure.Size = new System.Drawing.Size(180, 40);
             this.ctlTitleConfigure.StyleName = null;
             this.ctlTitleConfigure.TabIndex = 3;
             this.ctlTitleConfigure.Text = "Configure";
@@ -779,5 +789,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private CustomGUI.ctlImageButton buttExpandLeft;
         private CustomGUI.ctlSupports ctlSupports1;
+        private CustomGUI.ctlMirror ctlMirror1;
     }
 }
