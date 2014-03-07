@@ -34,11 +34,8 @@
             this.textProgress = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlText();
             this.buttRedo = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttUndo = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.objectInfoPanel = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlObjectInfo();
             this.numLayer = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
             this.buttGlHome = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.ctlSupport = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlSupports();
-            this.buttSupports = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.glControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlGL();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
             this.mainViewSplitContainer.Panel2.SuspendLayout();
@@ -60,11 +57,8 @@
             this.mainViewSplitContainer.Panel2.Controls.Add(this.textProgress);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.buttRedo);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.buttUndo);
-            this.mainViewSplitContainer.Panel2.Controls.Add(this.objectInfoPanel);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.numLayer);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.buttGlHome);
-            this.mainViewSplitContainer.Panel2.Controls.Add(this.ctlSupport);
-            this.mainViewSplitContainer.Panel2.Controls.Add(this.buttSupports);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.glControl1);
             this.mainViewSplitContainer.Panel2.SizeChanged += new System.EventHandler(this.mainViewSplitContainer_Panel2_SizeChanged);
             this.mainViewSplitContainer.Size = new System.Drawing.Size(1200, 700);
@@ -160,23 +154,6 @@
             this.ctlToolTip1.SetToolTip(this.buttUndo, "Undo");
             this.buttUndo.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
             // 
-            // objectInfoPanel
-            // 
-            this.objectInfoPanel.Checked = false;
-            this.objectInfoPanel.Gapx = 24;
-            this.objectInfoPanel.Gapy = 24;
-            this.objectInfoPanel.GLBackgroundImage = null;
-            this.objectInfoPanel.GLVisible = false;
-            this.objectInfoPanel.GuiAnchor = null;
-            this.objectInfoPanel.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
-            this.objectInfoPanel.Location = new System.Drawing.Point(584, 59);
-            this.objectInfoPanel.Name = "objectInfoPanel";
-            this.objectInfoPanel.Size = new System.Drawing.Size(300, 240);
-            this.objectInfoPanel.StyleName = null;
-            this.objectInfoPanel.TabIndex = 28;
-            this.objectInfoPanel.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
-            this.objectInfoPanel.Visible = false;
-            // 
             // numLayer
             // 
             this.numLayer.BackColor = System.Drawing.Color.RoyalBlue;
@@ -231,42 +208,6 @@
             this.buttGlHome.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
             this.buttGlHome.Click += new System.EventHandler(this.buttGlHome_Click);
             // 
-            // ctlSupport
-            // 
-            this.ctlSupport.Gapx = 0;
-            this.ctlSupport.Gapy = 0;
-            this.ctlSupport.GLBackgroundImage = null;
-            this.ctlSupport.GLVisible = false;
-            this.ctlSupport.GuiAnchor = null;
-            this.ctlSupport.Location = new System.Drawing.Point(284, 15);
-            this.ctlSupport.Name = "ctlSupport";
-            this.ctlSupport.Size = new System.Drawing.Size(170, 96);
-            this.ctlSupport.StyleName = null;
-            this.ctlSupport.TabIndex = 24;
-            this.ctlSupport.Visible = false;
-            // 
-            // buttSupports
-            // 
-            this.buttSupports.BackColor = System.Drawing.Color.Navy;
-            this.buttSupports.Checked = false;
-            this.buttSupports.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttOpenClose;
-            this.buttSupports.Gapx = 10;
-            this.buttSupports.Gapy = 170;
-            this.buttSupports.GLBackgroundImage = null;
-            this.buttSupports.GLImage = null;
-            this.buttSupports.GLVisible = false;
-            this.buttSupports.GuiAnchor = null;
-            this.buttSupports.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Left;
-            this.buttSupports.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttSupport;
-            this.buttSupports.Location = new System.Drawing.Point(10, 336);
-            this.buttSupports.Name = "buttSupports";
-            this.buttSupports.Size = new System.Drawing.Size(48, 48);
-            this.buttSupports.StyleName = null;
-            this.buttSupports.TabIndex = 23;
-            this.ctlToolTip1.SetToolTip(this.buttSupports, "Support operations");
-            this.buttSupports.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Bottom;
-            this.buttSupports.Click += new System.EventHandler(this.buttSupports_Click);
-            // 
             // glControl1
             // 
             this.glControl1.BackColor = System.Drawing.Color.Black;
@@ -317,11 +258,8 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer mainViewSplitContainer;
-        private CustomGUI.ctlObjectInfo objectInfoPanel;
         private CustomGUI.ctlNumber numLayer;
         private CustomGUI.ctlImageButton buttGlHome;
-        private CustomGUI.ctlSupports ctlSupport;
-        private CustomGUI.ctlImageButton buttSupports;
         private CustomGUI.ctlImageButton buttUndo;
         private CustomGUI.ctlToolTip ctlToolTip1;
         private CustomGUI.ctlImageButton buttRedo;

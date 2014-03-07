@@ -512,7 +512,7 @@ namespace UV_DLP_3D_Printer
                 
                 //UVDLPApp.Instance().m_selectedobject.FindMinMax();
                 //ctl3DView1.UpdateSceneTree();
-                ctl3DView1.UpdateObjectInfo();
+                //ctl3DView1.UpdateObjectInfo();
                 UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
             }
             catch (Exception) { }

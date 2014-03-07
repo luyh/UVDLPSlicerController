@@ -17,9 +17,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         private bool m_settingData;
         private bool m_changingData;
         private bool m_numFBSelected;
-        //private static int widthopen = 372;
-        private static int widthopen = 563;
-        private static int heightopen = 340;
 
         public ctlSupports()
         {
@@ -205,7 +202,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
 
         }
-
+        /*
         private void buttSetup_Click(object sender, EventArgs e)
         {
             if (buttSetup.Checked)
@@ -221,7 +218,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 Height = 96;
             }
         }
-
+        */
         private void chkDownPolys_Click(object sender, EventArgs e)
         {
             if (UVDLPApp.Instance().SelectedObject == null) return;
@@ -399,6 +396,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             base.ApplyStyle(ct);
             if (ct.ForeColor != ControlStyle.NullColor)
             {
+                ctlTitle1.ForeColor = ct.ForeColor;
                 label1.ForeColor = ct.ForeColor;
                 label2.ForeColor = ct.ForeColor;
                 label3.ForeColor = ct.ForeColor;
@@ -413,12 +411,14 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
             if (ct.BackColor != ControlStyle.NullColor)
             {
+                ctlTitle1.BackColor = ct.BackColor;
                 BackColor = ct.BackColor;
                 cmbSupType.BackColor = ct.BackColor;
-                flowLayoutPanel2.BackColor = ct.BackColor;
+                //flowLayoutPanel2.BackColor = ct.BackColor;
             }
             if (ct.FrameColor != ControlStyle.NullColor)
             {
+                
                 flowLayoutPanel1.BackColor = ct.FrameColor;
                 panel1.BackColor = ct.FrameColor;
                 panel2.BackColor = ct.FrameColor;
@@ -459,6 +459,18 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         private void cmdRemoveSupports_Click(object sender, EventArgs e)
         {
             UVDLPApp.Instance().RemoveAllSupports();
+        }
+
+        private void ctlTitle1_Click(object sender, EventArgs e)
+        {
+            if (ctlTitle1.Checked)
+            {
+                this.Height = 542 + 5;
+            }
+            else
+            {
+                this.Height = ctlTitle1.Height + 5;
+            }
         }
    
     }

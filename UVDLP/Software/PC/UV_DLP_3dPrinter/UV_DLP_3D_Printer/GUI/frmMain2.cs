@@ -427,7 +427,7 @@ namespace UV_DLP_3D_Printer.GUI
         {
             try
             {
-                ctl3DView1.UpdateObjectInfo();
+                //ctl3DView1.UpdateObjectInfo();
                 UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "redraw");
                 ctl3DView1.UpdateView();
             }
@@ -441,7 +441,9 @@ namespace UV_DLP_3D_Printer.GUI
             UVDLPApp.Instance().m_callbackhandler.RegisterCallback("ClickSliceView", ctlTitleViewSlice_Click, null, "View Slice display");
             UVDLPApp.Instance().m_callbackhandler.RegisterCallback("ClickManualCtlView", ClickManualCtlView_Click, null, "View Manual Machine Control");
             UVDLPApp.Instance().m_callbackhandler.RegisterCallback("ClickMainConfigView", ClickMainConfigView_Click, null, "View Main Configuration");
+            UVDLPApp.Instance().m_callbackhandler.RegisterCallback("ClickExpandLeft", ClickExpandLeft_Click, null, "Expand / retract left panel");
 
+            
             //load model click
             UVDLPApp.Instance().m_callbackhandler.RegisterCallback("LoadSTLModel_Click", LoadSTLModel_Click, null, "Load Model");
 
@@ -713,6 +715,7 @@ namespace UV_DLP_3D_Printer.GUI
             splitContainer1.Panel2Collapsed = !visible;
         }
 
+
         private void pluginTesterToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmPluginTester pit = new frmPluginTester();
@@ -806,10 +809,26 @@ namespace UV_DLP_3D_Printer.GUI
                 else
                 {
                     //chkWireframe.Checked = false;
-                    ctl3DView1.UpdateObjectInfo();
+                    //ctl3DView1.UpdateObjectInfo();
                 }
             }
         }
+        private void ClickExpandLeft_Click(object sender, object vars)
+        {
+            if (buttExpandLeft.Checked)
+            {
+                //expand
+                flowLayoutPanel2.Width = 381;
+                ctlSupports1.Visible = true;
+            }
+            else 
+            {
+                //retract
+                flowLayoutPanel2.Width = 50;
+                ctlSupports1.Visible = false;
+            }
+        }
+
         private void ClickMainConfigView_Click(object sender, object e)
         {
             UncheckTabs(ctlTitleConfigure);

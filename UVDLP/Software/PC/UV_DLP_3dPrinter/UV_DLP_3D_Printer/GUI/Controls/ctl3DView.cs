@@ -81,9 +81,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
             // toplevel controls must point to this
 
-            ctlSupport.c3d = this;
-            objectInfoPanel.c3d = this;
-
             glControl1.PaintCallback += new ctlGL.delPaint(DisplayFunc);            
 
             m_sliceTex = -1;
@@ -210,10 +207,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             ViewLayer(0);
         }
 
-        public void UpdateObjectInfo()
-        {
-            objectInfoPanel.FillObjectInfo(UVDLPApp.Instance().SelectedObject);
-        }
         
         #region GL Rendering
         // handle 3d view rendering 
@@ -305,7 +298,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 //GL.Hint(HintTarget.PolygonSmoothHint, HintMode.Nicest);
                 float[] res = new float[2];
                 GL.GetFloat(GetPName.SmoothLineWidthRange, res);
-                DebugLogger.Instance().LogInfo("Stencil depth: " + glControl1.GraphicsMode.Stencil.ToString());
+               // DebugLogger.Instance().LogInfo("Stencil depth: " + glControl1.GraphicsMode.Stencil.ToString());
 
                 // prepare texture buffer to save 3d rendring
                 if (mColorBuffer == 0)
@@ -623,7 +616,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 m_movingobjectmode = false;
                 // update object info
-                UpdateObjectInfo();
                 //SetupSceneTree();
                 Object3d obj = UVDLPApp.Instance().SelectedObject;
                 if (obj != null)
@@ -831,8 +823,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     }
                     else
                     {
-                        UVDLPApp.Instance().SelectedObject = i.obj;
-                        objectInfoPanel.FillObjectInfo(i.obj);
+                        UVDLPApp.Instance().SelectedObject = i.obj;                        
                         UVDLPApp.Instance().m_engine3d.UpdateLists();
                     }
                     UpdateView();
@@ -921,10 +912,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         }
         
 
-        private void buttSupports_Click(object sender, EventArgs e)
-        {
-            ShowPanel(buttSupports, "psupport");
-        }
 
         #endregion 3d View buttons
 
@@ -1013,10 +1000,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             guiconf.AddButton("home", buttGlHome); 
             guiconf.AddButton("undo", buttUndo); 
             guiconf.AddButton("redo", buttRedo); 
-            guiconf.AddButton("support", buttSupports);
-            // controls
-            guiconf.AddControl("psupport", ctlSupport);
-            guiconf.AddControl("pobjectinf", objectInfoPanel);
             guiconf.AddControl("clayernum", numLayer);
             guiconf.AddControl("progress", textProgress);
             guiconf.AddControl("mainmsg", textMainMessage);
