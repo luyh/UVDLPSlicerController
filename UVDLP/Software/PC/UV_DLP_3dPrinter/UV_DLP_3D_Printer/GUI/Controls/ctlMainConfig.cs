@@ -6,10 +6,11 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using UV_DLP_3D_Printer.GUI.CustomGUI;
 
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
-    public partial class ctlMainConfig : UserControl
+    public partial class ctlMainConfig : ctlUserPanel
     {
         private enum eConfView 
         {
@@ -71,6 +72,22 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             SetupView(eConfView.eSlice);
             ctlMachineConfigView.Checked = false;
             ctlSliceProfileConfig.Checked = true;
+        }
+        public override void ApplyStyle(ControlStyle ct)
+        {
+            //base.ApplyStyle(ct);
+            if (ct.BackColor != null)
+            {
+                flowLayoutPanel1.BackColor = ct.BackColor;
+            }
+            if (ct.ForeColor != null)
+            {
+                flowLayoutPanel1.ForeColor = ct.ForeColor;
+            }
+            this.BackColor = Control.DefaultBackColor;
+            this.ForeColor = Control.DefaultForeColor;
+            ctlMachineConfigView.ApplyStyle(ct);
+            ctlSliceProfileConfig.ApplyStyle(ct);
         }
     }
 }

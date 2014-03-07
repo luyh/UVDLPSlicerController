@@ -886,7 +886,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         private void ShowPanel(ctlImageButton butt, string ctlname)
         {
-            ctlUserPanel ctl = guiconf.GetControl(ctlname);
+            //ctlUserPanel ctl = guiconf.GetControl(ctlname);
+            Control ctl = guiconf.GetControl(ctlname);
             if (ctl == null)
                 return;
 

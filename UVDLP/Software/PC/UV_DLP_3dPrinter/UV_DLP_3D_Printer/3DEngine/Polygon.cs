@@ -143,6 +143,16 @@ namespace Engine3D
             }
             //return mm;
         }
+        /// <summary>
+        /// Flip the winding order
+        /// </summary>
+        public void FlipWinding() 
+        {
+            Point3d pnt;
+            pnt = m_points[0];
+            m_points[0] = m_points[2];
+            m_points[2] = pnt;
+        }
         public void CalcCenter() 
         {
             try

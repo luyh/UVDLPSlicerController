@@ -44,7 +44,6 @@
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splashToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pluginTesterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,6 +51,9 @@
             this.userManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hardwareGuideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.lblMainMessage = new System.Windows.Forms.Label();
+            this.lblTime = new System.Windows.Forms.Label();
             this.ctlMainConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMainConfig();
             this.ctlMainManual1 = new UV_DLP_3D_Printer.GUI.Controls.ManualControls.ctlMainManual();
             this.ctlSliceGCodePanel1 = new UV_DLP_3D_Printer.GUI.Controls.ctlSliceGCodePanel();
@@ -86,6 +88,7 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.flowLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlTopIcons
@@ -98,6 +101,7 @@
             this.pnlTopIcons.Controls.Add(this.buttConnect);
             this.pnlTopIcons.Controls.Add(this.buttDisconnect);
             this.pnlTopIcons.Controls.Add(this.buttSlice);
+            this.pnlTopIcons.Controls.Add(this.flowLayoutPanel3);
             this.pnlTopIcons.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTopIcons.Location = new System.Drawing.Point(0, 28);
             this.pnlTopIcons.Name = "pnlTopIcons";
@@ -154,7 +158,7 @@
             this.pnlTopTabs.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTopTabs.Location = new System.Drawing.Point(0, 84);
             this.pnlTopTabs.Name = "pnlTopTabs";
-            this.pnlTopTabs.Size = new System.Drawing.Size(1380, 47);
+            this.pnlTopTabs.Size = new System.Drawing.Size(1380, 50);
             this.pnlTopTabs.TabIndex = 2;
             // 
             // pnlSliceView
@@ -168,7 +172,7 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 131);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 134);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -182,8 +186,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.txtLog);
-            this.splitContainer1.Size = new System.Drawing.Size(1380, 563);
-            this.splitContainer1.SplitterDistance = 461;
+            this.splitContainer1.Size = new System.Drawing.Size(1380, 560);
+            this.splitContainer1.SplitterDistance = 458;
             this.splitContainer1.TabIndex = 4;
             // 
             // txtLog
@@ -223,7 +227,6 @@
             this.preferencesToolStripMenuItem,
             this.exitToolStripMenuItem,
             this.testToolStripMenuItem,
-            this.splashToolStripMenuItem,
             this.pluginTesterToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
@@ -256,12 +259,6 @@
             this.testToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
             this.testToolStripMenuItem.Text = "Dump Commands";
             this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
-            // 
-            // splashToolStripMenuItem
-            // 
-            this.splashToolStripMenuItem.Name = "splashToolStripMenuItem";
-            this.splashToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
-            this.splashToolStripMenuItem.Text = "Splash";
             // 
             // pluginTesterToolStripMenuItem
             // 
@@ -309,11 +306,43 @@
             this.hardwareGuideToolStripMenuItem.Text = "Hardware Guide";
             this.hardwareGuideToolStripMenuItem.Click += new System.EventHandler(this.hardwareGuideToolStripMenuItem_Click);
             // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.Controls.Add(this.lblMainMessage);
+            this.flowLayoutPanel3.Controls.Add(this.lblTime);
+            this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(407, 3);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(509, 50);
+            this.flowLayoutPanel3.TabIndex = 44;
+            // 
+            // lblMainMessage
+            // 
+            this.lblMainMessage.AutoSize = true;
+            this.lblMainMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMainMessage.ForeColor = System.Drawing.Color.White;
+            this.lblMainMessage.Location = new System.Drawing.Point(3, 0);
+            this.lblMainMessage.Name = "lblMainMessage";
+            this.lblMainMessage.Size = new System.Drawing.Size(53, 20);
+            this.lblMainMessage.TabIndex = 0;
+            this.lblMainMessage.Text = "label1";
+            // 
+            // lblTime
+            // 
+            this.lblTime.AutoSize = true;
+            this.lblTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTime.ForeColor = System.Drawing.Color.White;
+            this.lblTime.Location = new System.Drawing.Point(3, 20);
+            this.lblTime.Name = "lblTime";
+            this.lblTime.Size = new System.Drawing.Size(53, 20);
+            this.lblTime.TabIndex = 1;
+            this.lblTime.Text = "label2";
+            // 
             // ctlMainConfig1
             // 
-            this.ctlMainConfig1.Location = new System.Drawing.Point(966, 220);
+            this.ctlMainConfig1.Location = new System.Drawing.Point(1060, 264);
             this.ctlMainConfig1.Name = "ctlMainConfig1";
-            this.ctlMainConfig1.Size = new System.Drawing.Size(308, 236);
+            this.ctlMainConfig1.Size = new System.Drawing.Size(308, 51);
             this.ctlMainConfig1.TabIndex = 5;
             // 
             // ctlMainManual1
@@ -736,6 +765,8 @@
             this.splitContainer1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.flowLayoutPanel3.ResumeLayout(false);
+            this.flowLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -774,7 +805,6 @@
         private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem splashToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pluginTesterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
@@ -790,5 +820,8 @@
         private CustomGUI.ctlImageButton buttExpandLeft;
         private CustomGUI.ctlSupports ctlSupports1;
         private CustomGUI.ctlMirror ctlMirror1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
+        private System.Windows.Forms.Label lblMainMessage;
+        private System.Windows.Forms.Label lblTime;
     }
 }

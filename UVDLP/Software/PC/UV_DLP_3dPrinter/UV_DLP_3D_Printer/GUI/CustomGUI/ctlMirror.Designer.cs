@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.ctlTitle1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTitle();
             this.lblX = new System.Windows.Forms.Label();
             this.lblY = new System.Windows.Forms.Label();
             this.lblZ = new System.Windows.Forms.Label();
+            this.ctlTitle1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTitle();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,6 +46,48 @@
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(224, 58);
             this.flowLayoutPanel1.TabIndex = 8;
+            // 
+            // lblX
+            // 
+            this.lblX.BackColor = System.Drawing.Color.RoyalBlue;
+            this.lblX.Font = new System.Drawing.Font("Courier New", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblX.ForeColor = System.Drawing.Color.White;
+            this.lblX.Location = new System.Drawing.Point(3, 3);
+            this.lblX.Margin = new System.Windows.Forms.Padding(3);
+            this.lblX.Name = "lblX";
+            this.lblX.Size = new System.Drawing.Size(50, 50);
+            this.lblX.TabIndex = 9;
+            this.lblX.Text = "X";
+            this.lblX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblX.Click += new System.EventHandler(this.lblX_Click);
+            // 
+            // lblY
+            // 
+            this.lblY.BackColor = System.Drawing.Color.RoyalBlue;
+            this.lblY.Font = new System.Drawing.Font("Courier New", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblY.ForeColor = System.Drawing.Color.White;
+            this.lblY.Location = new System.Drawing.Point(59, 3);
+            this.lblY.Margin = new System.Windows.Forms.Padding(3);
+            this.lblY.Name = "lblY";
+            this.lblY.Size = new System.Drawing.Size(50, 50);
+            this.lblY.TabIndex = 10;
+            this.lblY.Text = "Y";
+            this.lblY.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblY.Click += new System.EventHandler(this.lblY_Click);
+            // 
+            // lblZ
+            // 
+            this.lblZ.BackColor = System.Drawing.Color.RoyalBlue;
+            this.lblZ.Font = new System.Drawing.Font("Courier New", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblZ.ForeColor = System.Drawing.Color.White;
+            this.lblZ.Location = new System.Drawing.Point(115, 3);
+            this.lblZ.Margin = new System.Windows.Forms.Padding(3);
+            this.lblZ.Name = "lblZ";
+            this.lblZ.Size = new System.Drawing.Size(50, 50);
+            this.lblZ.TabIndex = 11;
+            this.lblZ.Text = "Z";
+            this.lblZ.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblZ.Click += new System.EventHandler(this.lblZ_Click);
             // 
             // ctlTitle1
             // 
@@ -65,45 +107,6 @@
             this.ctlTitle1.TabIndex = 7;
             this.ctlTitle1.Text = "Mirror";
             this.ctlTitle1.Click += new System.EventHandler(this.ctlTitle1_Click);
-            // 
-            // lblX
-            // 
-            this.lblX.BackColor = System.Drawing.Color.RoyalBlue;
-            this.lblX.Font = new System.Drawing.Font("Courier New", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblX.ForeColor = System.Drawing.Color.White;
-            this.lblX.Location = new System.Drawing.Point(3, 3);
-            this.lblX.Margin = new System.Windows.Forms.Padding(3);
-            this.lblX.Name = "lblX";
-            this.lblX.Size = new System.Drawing.Size(50, 50);
-            this.lblX.TabIndex = 9;
-            this.lblX.Text = "X";
-            this.lblX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblY
-            // 
-            this.lblY.BackColor = System.Drawing.Color.RoyalBlue;
-            this.lblY.Font = new System.Drawing.Font("Courier New", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblY.ForeColor = System.Drawing.Color.White;
-            this.lblY.Location = new System.Drawing.Point(59, 3);
-            this.lblY.Margin = new System.Windows.Forms.Padding(3);
-            this.lblY.Name = "lblY";
-            this.lblY.Size = new System.Drawing.Size(50, 50);
-            this.lblY.TabIndex = 10;
-            this.lblY.Text = "Y";
-            this.lblY.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblZ
-            // 
-            this.lblZ.BackColor = System.Drawing.Color.RoyalBlue;
-            this.lblZ.Font = new System.Drawing.Font("Courier New", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblZ.ForeColor = System.Drawing.Color.White;
-            this.lblZ.Location = new System.Drawing.Point(115, 3);
-            this.lblZ.Margin = new System.Windows.Forms.Padding(3);
-            this.lblZ.Name = "lblZ";
-            this.lblZ.Size = new System.Drawing.Size(50, 50);
-            this.lblZ.TabIndex = 11;
-            this.lblZ.Text = "Z";
-            this.lblZ.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ctlMirror
             // 

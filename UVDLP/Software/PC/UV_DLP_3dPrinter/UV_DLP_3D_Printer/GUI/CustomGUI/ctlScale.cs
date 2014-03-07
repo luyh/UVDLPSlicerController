@@ -14,6 +14,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public ctlScale()
         {
             InitializeComponent();
+            UVDLPApp.Instance().m_gui_config.AddButton("scale", ctlTitle1.Button);
         }
 
         protected void ScaleObject(ctlTextBox var, float x, float y, float z)

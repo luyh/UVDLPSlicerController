@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using UV_DLP_3D_Printer.GUI.CustomGUI;
 using System.IO;
+using UV_DLP_3D_Printer.Slicing;
+
 namespace UV_DLP_3D_Printer.GUI
 {
     public partial class frmMain2 : Form
@@ -35,9 +37,11 @@ namespace UV_DLP_3D_Printer.GUI
             ctlTitle3dView_Click(null, null); // and click the button
 
             RegisterCallbacks();
+            RegisterGUI();
             SetButtonStatuses();
             UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEventDel);
             DebugLogger.Instance().LoggerStatusEvent += new LoggerStatusHandler(LoggerStatusEvent);
+            UVDLPApp.Instance().m_slicer.Slice_Event += new Slicer.SliceEvent(SliceEv);
             UVDLPApp.Instance().m_buildmgr.BuildStatus += new delBuildStatus(BuildStatus);
             UVDLPApp.Instance().m_deviceinterface.StatusEvent += new DeviceInterface.DeviceInterfaceStatus(DeviceStatusEvent);
             UVDLPApp.Instance().m_buildmgr.PrintLayer += new delPrinterLayer(PrintLayer);
@@ -54,6 +58,8 @@ namespace UV_DLP_3D_Printer.GUI
             AddButtons();
             AddControls();
             ctlSliceGCodePanel1.ctlSliceViewctl.DlpForm = m_frmdlp; // set the dlp form for direct control
+            SetMainMessage("");
+            SetTimeMessage("");
         }
         /// <summary>
         /// This adds buttons to the GUI config for later skinning
@@ -66,18 +72,39 @@ namespace UV_DLP_3D_Printer.GUI
             UVDLPApp.Instance().m_gui_config.AddButton("stop", buttStop);
             UVDLPApp.Instance().m_gui_config.AddButton("connect", buttConnect);
             UVDLPApp.Instance().m_gui_config.AddButton("disconnect", buttDisconnect);
+            UVDLPApp.Instance().m_gui_config.AddButton("buttExpandLeft", buttExpandLeft);
+            
         }
         private void AddControls() 
         {
             // the main title buttons
+            
             UVDLPApp.Instance().m_gui_config.AddControl("ctlTitle3dView", ctlTitle3dView);
             UVDLPApp.Instance().m_gui_config.AddControl("ctlTitleViewSlice", ctlTitleViewSlice);
             UVDLPApp.Instance().m_gui_config.AddControl("ctlTitleViewControls", ctlTitleViewControls);
             UVDLPApp.Instance().m_gui_config.AddControl("ctlTitleConfigure", ctlTitleConfigure);
+            UVDLPApp.Instance().m_gui_config.AddControl("ctlSliceGCodePanel1", ctlSliceGCodePanel1);
 
-            //UVDLPApp.Instance().m_gui_config.AddControl("pnlTopTabs", pnlTopTabs);
-            //UVDLPApp.Instance().m_gui_config.AddControl("pnlTopIcons", pnlTopIcons);
+            UVDLPApp.Instance().m_gui_config.AddControl("ctlMainConfig1", ctlMainConfig1);
             
+            //left side controls
+            UVDLPApp.Instance().m_gui_config.AddControl("ctlSupports1", ctlSupports1);
+            //right side controls
+            UVDLPApp.Instance().m_gui_config.AddControl("ctlScene1", ctlScene1);
+            UVDLPApp.Instance().m_gui_config.AddControl("ctlMoveExpand1", ctlMoveExpand1);
+            UVDLPApp.Instance().m_gui_config.AddControl("ctlScale1", ctlScale1);
+            UVDLPApp.Instance().m_gui_config.AddControl("ctlRotate1", ctlRotate1);
+            //UVDLPApp.Instance().m_gui_config.AddControl("ctlMirror1", ctlMirror1);
+            UVDLPApp.Instance().m_gui_config.AddControl("ctlView1", ctlView1);
+            UVDLPApp.Instance().m_gui_config.AddControl("ctlObjectInfo1", ctlObjectInfo1);
+
+            // panels on the main form
+            UVDLPApp.Instance().m_gui_config.AddControl("pnlTopIcons", pnlTopIcons);
+            UVDLPApp.Instance().m_gui_config.AddControl("pnlTopTabs", pnlTopTabs);
+            UVDLPApp.Instance().m_gui_config.AddControl("flowLayoutPanel1", flowLayoutPanel1);
+            UVDLPApp.Instance().m_gui_config.AddControl("flowLayoutPanel2", flowLayoutPanel2);
+
+
         }
         /// <summary>
         /// Need to implement this at mainform level too
@@ -85,12 +112,13 @@ namespace UV_DLP_3D_Printer.GUI
         /// <param name="ct"></param>
         public void ApplyStyle(ControlStyle ct)
         {
+            /*
             if(ct.BackColor !=null)
             {
                 pnlTopIcons.BackColor = ct.BackColor;
                 pnlTopTabs.BackColor = ct.BackColor;
             }
-            
+            */
             /*
             mStyle = ct;
             mStyleName = ct.Name;
@@ -105,14 +133,14 @@ namespace UV_DLP_3D_Printer.GUI
 
         private void SetTimeMessage(String message)
         {
-          //  lblTime.Text = message;
+            lblTime.Text = message;
             ctl3DView1.TimeMessage = message;
         }
         private void SetMainMessage(String message)
         {
             try
             {
-             //   lblMainMessage.Text = message;
+                lblMainMessage.Text = message;
                 ctl3DView1.MainMessage = message;
             }
             catch (Exception ex)
@@ -155,6 +183,38 @@ namespace UV_DLP_3D_Printer.GUI
         #endregion DLP screen controls
 
         #region Delegate Event Handlers
+        private void SliceEv(Slicer.eSliceEvent ev, int layer, int totallayers, SliceFile sf)
+        {
+            try
+            {
+                if (InvokeRequired)
+                {
+                    BeginInvoke(new MethodInvoker(delegate() { SliceEv(ev, layer, totallayers, sf); }));
+                }
+                else
+                {
+                    switch (ev)
+                    {
+                        case Slicer.eSliceEvent.eSliceStarted:
+                            SetMainMessage("Slicing Started");
+                            break;
+                        case Slicer.eSliceEvent.eLayerSliced:
+                            break;
+                        case Slicer.eSliceEvent.eSliceCompleted:
+                            //ctl3DView1.SetNumLayers(totallayers);
+                            SetMainMessage("Slicing Completed");
+                            String timeest = BuildManager.EstimateBuildTime(UVDLPApp.Instance().m_gcode);
+                            SetTimeMessage("Estimated Build Time: " + timeest);
+                            //show the slice in the slice view
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+            }
+        }
         //This delegate is called when the print manager is printing a new layer
         void PrintLayer(Bitmap bmp, int layer, int layertype)
         {
@@ -432,6 +492,18 @@ namespace UV_DLP_3D_Printer.GUI
                 ctl3DView1.UpdateView();
             }
             catch (Exception) { }
+
+        }
+        private void RegisterGUI() 
+        {
+            UVDLPApp.Instance().m_gui_config.AddButton("play", buttPlay);
+            UVDLPApp.Instance().m_gui_config.AddButton("pause", buttPause);
+            UVDLPApp.Instance().m_gui_config.AddButton("stop", buttStop);
+            UVDLPApp.Instance().m_gui_config.AddButton("connect", buttConnect);
+            UVDLPApp.Instance().m_gui_config.AddButton("disconnect", buttDisconnect);
+            UVDLPApp.Instance().m_gui_config.AddButton("openfile", buttOpenFile);
+            UVDLPApp.Instance().m_gui_config.AddButton("slice", buttSlice);
+//            UVDLPApp.Instance().m_gui_config.AddButton("stop", buttStop);
 
         }
         private void RegisterCallbacks() 

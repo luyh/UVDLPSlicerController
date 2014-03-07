@@ -15,7 +15,25 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             InitializeComponent();
         }
-
+        public override void ApplyStyle(ControlStyle ct)
+        {
+            base.ApplyStyle(ct);
+            Button.ApplyStyle(ct);
+            if (ct.ForeColor != ControlStyle.NullColor)
+            {
+                ForeColor = ct.ForeColor;
+                lblTitle.ForeColor =  ct.ForeColor;
+            }
+            if (ct.BackColor != ControlStyle.NullColor)
+            {
+                BackColor = ct.BackColor;
+                lblTitle.BackColor  = ct.BackColor;
+            }
+        }
+        public ctlImageButton Button 
+        {
+            get { return ctlImageButton1; }
+        }
         [Description("Image composesed of all 4 button states"), Category("Data")]
         public Image Image
         {

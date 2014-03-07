@@ -43,5 +43,17 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             ctlTitleViewSlice.Checked = false; // uncheck the other
             ctlTitleViewGCode.Checked = true;
         }
+        public override void ApplyStyle(ControlStyle ct)
+        {
+            base.ApplyStyle(ct);
+            if (ct.BackColor != null) 
+            {
+                flowLayoutPanel2.BackColor = ct.BackColor;
+            }
+            if (ct.ForeColor  != null)
+            {
+                flowLayoutPanel2.ForeColor = ct.ForeColor;
+            }
+        }
     }
 }

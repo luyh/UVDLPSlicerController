@@ -164,6 +164,13 @@ namespace Engine3D
         {
             
         }
+        public void FlipWinding() 
+        {
+            foreach (Polygon p in m_lstpolys) 
+            {
+                p.FlipWinding();
+            }
+        }
         private static int GetListID() 
         {
             return GL.GenLists(1); 
