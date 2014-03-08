@@ -10,7 +10,7 @@ using Engine3D;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
-    public partial class ctlMirror : UserControl
+    public partial class ctlMirror : ctlUserPanel //UserControl
     {
         public ctlMirror()
         {
@@ -62,6 +62,28 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 o.Update();
             }
             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
+        }
+        public override void ApplyStyle(ControlStyle ct)
+        {
+            base.ApplyStyle(ct);
+            if (ct.ForeColor != ControlStyle.NullColor)
+            {
+                lblX.ForeColor = ct.ForeColor;
+                lblY.ForeColor = ct.ForeColor;
+                lblZ.ForeColor = ct.ForeColor;
+            }
+            if (ct.BackColor != ControlStyle.NullColor)
+            {
+                BackColor = ct.BackColor;
+                lblX.BackColor = ct.BackColor;
+                lblY.BackColor = ct.BackColor;
+                lblZ.BackColor = ct.BackColor;
+            }
+            if (ct.FrameColor != ControlStyle.NullColor)
+            {
+                flowLayoutPanel1.BackColor = ct.FrameColor;
+            }
+
         }
     }
 }

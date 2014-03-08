@@ -459,7 +459,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 Buttons[name].BringToFront();
             }
             ctlImageButton butt = Buttons[name];
-            butt.Visible = true;
+//            butt.Visible = true;
+            butt.Visible = GetBoolParam(buttnode, "visible", true);
             butt.GuiAnchor = FixDockingVal(GetStrParam(buttnode, "dock", butt.GuiAnchor));
             butt.Gapx = GetIntParam(buttnode, "x", butt.Gapx);
             butt.Gapy = GetIntParam(buttnode, "y", butt.Gapy);
@@ -573,6 +574,42 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ct.Visible = GetBoolParam(ctlnode, "visible", ct.Visible);
             ct.Width = GetIntParam(ctlnode, "w", ct.Width);
             ct.Height = GetIntParam(ctlnode, "h", ct.Height);
+            //load some control locations as well,            
+            int px, py;
+            px = GetIntParam(ctlnode, "px", ct.Location.X);
+            py = GetIntParam(ctlnode, "py", ct.Location.Y);
+            Point pt = new Point(px,py);
+            ct.Location = pt;
+            // load docking style
+
+
+            string action = GetStrParam(ctlnode, "action", "none");  // telling something to happen to this control
+            if (action.Contains("remove")) // this handles removing a control from it's parent
+            {
+                // remove this control from it's parent
+                if (ct.Parent != null) 
+                {
+                    ct.Parent.Controls.Remove(ct);
+                    ct.Parent = null;
+                }
+            }
+            else if (action.Contains("addto")) // this handles adding a new control to a parent control
+            {
+                // Get the name of the parent
+                string parentname = GetStrParam(ctlnode, "parent", "");
+                if (parentname == null) return;
+                if (parentname.Length == 0) return;
+                //find the parent
+                Control ctlParent = Controls[parentname];
+                if (ctlParent == null) 
+                {
+                    DebugLogger.Instance().LogWarning("Control parent now found: " + parentname);
+                    return;
+                }
+                {
+                    ctlParent.Controls.Add(ct);
+                }
+            }
             if (ct is ctlUserPanel)
             {
                 ctlUserPanel ctl = (ctlUserPanel)ct;
@@ -580,8 +617,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 ctl.Gapx = GetIntParam(ctlnode, "x", ctl.Gapx);
                 ctl.Gapy = GetIntParam(ctlnode, "y", ctl.Gapy);
                 ctl.StyleName = GetStrParam(ctlnode, "style", ctl.StyleName);
-
-
                 ControlStyle bstl = GetControlStyle(ctl.StyleName);
                 if (bstl != null)
                 {

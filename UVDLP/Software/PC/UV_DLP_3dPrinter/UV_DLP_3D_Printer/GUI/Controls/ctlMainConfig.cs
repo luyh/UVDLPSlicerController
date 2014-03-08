@@ -26,16 +26,24 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             RegisterCallbacks();
             HideControls();
             m_eView = eConfView.eNone;
-            //SetupView(eConfView.eSlice);
             ClickViewConfMachine(null, null);
+            UVDLPApp.Instance().m_gui_config.AddControl("guimachineconfig", ctlMachineConfig1);
+            UVDLPApp.Instance().m_gui_config.AddControl("guimachineconfigparent", pnlMachineConfig);
         }
         private void HideControls() 
         {
+            /*
             ctlMachineConfig1.Dock = DockStyle.None;
             ctlMachineConfig1.Visible = false;
+
             ctlToolpathGenConfig1.Dock = DockStyle.None;
             ctlToolpathGenConfig1.Visible = false;
+            */
+            pnlToolpathGenConfig.Dock = DockStyle.None;
+            pnlToolpathGenConfig.Visible = false;
 
+            pnlMachineConfig.Dock = DockStyle.None;
+            pnlMachineConfig.Visible = false;
         }
         private void SetupView(eConfView view) 
         {
@@ -45,12 +53,12 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             switch (m_eView)
             {
                 case eConfView.eSlice:
-                    ctlToolpathGenConfig1.Dock = DockStyle.Fill;
-                    ctlToolpathGenConfig1.Visible = true;
+                    pnlToolpathGenConfig.Dock = DockStyle.Fill;
+                    pnlToolpathGenConfig.Visible = true;
                     break;
                 case eConfView.eMachine:
-                    ctlMachineConfig1.Dock = DockStyle.Fill;
-                    ctlMachineConfig1.Visible = true;
+                    pnlMachineConfig.Dock = DockStyle.Fill;
+                    pnlMachineConfig.Visible = true;
                     break;
             }
         }

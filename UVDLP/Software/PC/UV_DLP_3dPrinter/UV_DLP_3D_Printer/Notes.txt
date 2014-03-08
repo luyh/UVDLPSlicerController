@@ -21,17 +21,6 @@ the part library and view is a nice touch - very handy!
  This layout can work in 2d,3d
  This autosupport generation can do intra-object supports, as well as a tree-structure
  I need to determine inside/outside
-
--Make controls on ctl3dview moveable
--Save/Load their positions and visibility as a set
-
-Machine Controls
-	Move from tabbed view to main 3d view screen
-	Add a button on bottom tool panel to show/hide menu
-	Build Z-axis up/down ctl
-	Build X/Y/Z axis control
-	Homing control
-	Extruder / temperature control
 	
 Remove Image Slice view window
 	On preview slice view on 3d window, show a "preview on secondary display" checkbox

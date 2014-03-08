@@ -29,11 +29,15 @@
         private void InitializeComponent()
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.ctlMachineConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineConfig();
-            this.ctlToolpathGenConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlToolpathGenConfig();
             this.ctlMachineConfigView = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTitle();
             this.ctlSliceProfileConfig = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTitle();
+            this.ctlMachineConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineConfig();
+            this.ctlToolpathGenConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlToolpathGenConfig();
+            this.pnlMachineConfig = new System.Windows.Forms.Panel();
+            this.pnlToolpathGenConfig = new System.Windows.Forms.Panel();
             this.flowLayoutPanel1.SuspendLayout();
+            this.pnlMachineConfig.SuspendLayout();
+            this.pnlToolpathGenConfig.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -46,23 +50,6 @@
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(991, 50);
             this.flowLayoutPanel1.TabIndex = 0;
-            // 
-            // ctlMachineConfig1
-            // 
-            this.ctlMachineConfig1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctlMachineConfig1.Location = new System.Drawing.Point(36, 55);
-            this.ctlMachineConfig1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ctlMachineConfig1.Name = "ctlMachineConfig1";
-            this.ctlMachineConfig1.Size = new System.Drawing.Size(443, 566);
-            this.ctlMachineConfig1.TabIndex = 2;
-            // 
-            // ctlToolpathGenConfig1
-            // 
-            this.ctlToolpathGenConfig1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctlToolpathGenConfig1.Location = new System.Drawing.Point(515, 56);
-            this.ctlToolpathGenConfig1.Name = "ctlToolpathGenConfig1";
-            this.ctlToolpathGenConfig1.Size = new System.Drawing.Size(308, 426);
-            this.ctlToolpathGenConfig1.TabIndex = 1;
             // 
             // ctlMachineConfigView
             // 
@@ -102,16 +89,53 @@
             this.ctlSliceProfileConfig.TabIndex = 2;
             this.ctlSliceProfileConfig.Text = "Configure Slicing Profile";
             // 
+            // ctlMachineConfig1
+            // 
+            this.ctlMachineConfig1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctlMachineConfig1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctlMachineConfig1.Location = new System.Drawing.Point(0, 0);
+            this.ctlMachineConfig1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ctlMachineConfig1.Name = "ctlMachineConfig1";
+            this.ctlMachineConfig1.Size = new System.Drawing.Size(256, 197);
+            this.ctlMachineConfig1.TabIndex = 2;
+            // 
+            // ctlToolpathGenConfig1
+            // 
+            this.ctlToolpathGenConfig1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctlToolpathGenConfig1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctlToolpathGenConfig1.Location = new System.Drawing.Point(0, 0);
+            this.ctlToolpathGenConfig1.Name = "ctlToolpathGenConfig1";
+            this.ctlToolpathGenConfig1.Size = new System.Drawing.Size(226, 218);
+            this.ctlToolpathGenConfig1.TabIndex = 1;
+            // 
+            // pnlMachineConfig
+            // 
+            this.pnlMachineConfig.Controls.Add(this.ctlMachineConfig1);
+            this.pnlMachineConfig.Location = new System.Drawing.Point(528, 162);
+            this.pnlMachineConfig.Name = "pnlMachineConfig";
+            this.pnlMachineConfig.Size = new System.Drawing.Size(256, 197);
+            this.pnlMachineConfig.TabIndex = 3;
+            // 
+            // pnlToolpathGenConfig
+            // 
+            this.pnlToolpathGenConfig.Controls.Add(this.ctlToolpathGenConfig1);
+            this.pnlToolpathGenConfig.Location = new System.Drawing.Point(40, 109);
+            this.pnlToolpathGenConfig.Name = "pnlToolpathGenConfig";
+            this.pnlToolpathGenConfig.Size = new System.Drawing.Size(226, 218);
+            this.pnlToolpathGenConfig.TabIndex = 4;
+            // 
             // ctlMainConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.ctlMachineConfig1);
-            this.Controls.Add(this.ctlToolpathGenConfig1);
+            this.Controls.Add(this.pnlToolpathGenConfig);
+            this.Controls.Add(this.pnlMachineConfig);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "ctlMainConfig";
             this.Size = new System.Drawing.Size(991, 482);
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.pnlMachineConfig.ResumeLayout(false);
+            this.pnlToolpathGenConfig.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -123,5 +147,7 @@
         private CustomGUI.ctlTitle ctlSliceProfileConfig;
         private ctlToolpathGenConfig ctlToolpathGenConfig1;
         private ctlMachineConfig ctlMachineConfig1;
+        private System.Windows.Forms.Panel pnlMachineConfig;
+        private System.Windows.Forms.Panel pnlToolpathGenConfig;
     }
 }

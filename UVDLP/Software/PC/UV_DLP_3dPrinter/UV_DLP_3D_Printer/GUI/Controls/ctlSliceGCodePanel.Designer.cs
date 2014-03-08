@@ -40,9 +40,9 @@
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(702, 50);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(967, 50);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(275, 445);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(10, 445);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // flowLayoutPanel2
@@ -99,7 +99,7 @@
             this.ctlGcodeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ctlGcodeView1.Location = new System.Drawing.Point(0, 50);
             this.ctlGcodeView1.Name = "ctlGcodeView1";
-            this.ctlGcodeView1.Size = new System.Drawing.Size(702, 445);
+            this.ctlGcodeView1.Size = new System.Drawing.Size(967, 445);
             this.ctlGcodeView1.TabIndex = 2;
             // 
             // ctlSliceView1

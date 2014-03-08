@@ -123,6 +123,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     {
                         case Slicer.eSliceEvent.eSliceCompleted:
                             SetNumLayers(totallayers);
+                            //UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
+                            this.Update();
                             break;
                     }
                 }
@@ -1043,9 +1045,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                             {
                                 guiconf.AddButton(pi.m_name, (ctlImageButton)ctl);
                             }
-                            else if (ctl.GetType().IsSubclassOf(typeof(ctlUserPanel)))
+                            else  //(ctl.GetType().IsSubclassOf(typeof(ctlUserPanel)))
                             {
-                                guiconf.AddControl(pi.m_name, (ctlUserPanel)ctl);
+                                guiconf.AddControl(pi.m_name, ctl);
                             }
                             break;
                     }
