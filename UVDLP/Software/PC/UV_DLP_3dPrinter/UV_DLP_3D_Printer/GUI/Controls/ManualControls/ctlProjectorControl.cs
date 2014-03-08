@@ -10,7 +10,7 @@ using UV_DLP_3D_Printer.GUI.CustomGUI;
 
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
-    public partial class ctlProjectorControl : ctlAnchorable
+    public partial class ctlProjectorControl : UserControl //ctlAnchorable
     {
         public ctlProjectorControl()
         {
@@ -19,7 +19,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             UpdateProjectorCommands();
             UpdateProjConnected();
         }
-
+        /*
         public override void ApplyStyle(ControlStyle ct)
         {
             base.ApplyStyle(ct);
@@ -34,6 +34,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
             }
         }
+         * */
         /// <summary>
         /// Disables/enables items based on up to date configuration) -SHS
         /// </summary>

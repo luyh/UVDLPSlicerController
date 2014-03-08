@@ -43,19 +43,19 @@
             // 
             // ctlProjectorControl1
             // 
-            this.ctlProjectorControl1.Checked = false;
-            this.ctlProjectorControl1.Gapx = 5;
-            this.ctlProjectorControl1.Gapy = 5;
-            this.ctlProjectorControl1.GLBackgroundImage = null;
-            this.ctlProjectorControl1.GLVisible = false;
-            this.ctlProjectorControl1.GuiAnchor = null;
-            this.ctlProjectorControl1.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            //this.ctlProjectorControl1.Checked = false;
+//            this.ctlProjectorControl1.Gapx = 5;
+  //          this.ctlProjectorControl1.Gapy = 5;
+    //        this.ctlProjectorControl1.GLBackgroundImage = null;
+      //      this.ctlProjectorControl1.GLVisible = false;
+        //    this.ctlProjectorControl1.GuiAnchor = null;
+          //  this.ctlProjectorControl1.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.ctlProjectorControl1.Location = new System.Drawing.Point(3, 269);
             this.ctlProjectorControl1.Name = "ctlProjectorControl1";
             this.ctlProjectorControl1.Size = new System.Drawing.Size(302, 178);
-            this.ctlProjectorControl1.StyleName = null;
+            //this.ctlProjectorControl1.StyleName = null;
             this.ctlProjectorControl1.TabIndex = 1;
-            this.ctlProjectorControl1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            //this.ctlProjectorControl1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             // 
             // ctlMachineControl1
             // 

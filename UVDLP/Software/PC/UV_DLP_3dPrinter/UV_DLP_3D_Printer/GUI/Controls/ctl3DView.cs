@@ -1003,8 +1003,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             guiconf.AddButton("redo", buttRedo); 
             guiconf.AddControl("clayernum", numLayer);
             guiconf.AddControl("progress", textProgress);
-            guiconf.AddControl("mainmsg", textMainMessage);
-            guiconf.AddControl("timemsg", textTime);           
 
         }
 
@@ -1126,6 +1124,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
            buttPause.Enabled = stButtPause;
        }
         */
+        /*
        public String MainMessage
        {
            get { return textMainMessage.Text; }
@@ -1137,6 +1136,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
            get { return textTime.Text; }
            set { textTime.Text = value; }
        }
+         * */
     }
 
     public class ctlBgnd

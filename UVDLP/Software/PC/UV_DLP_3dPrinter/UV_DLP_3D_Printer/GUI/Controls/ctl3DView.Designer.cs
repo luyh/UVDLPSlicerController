@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             this.mainViewSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.textTime = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlText();
-            this.textMainMessage = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlText();
             this.textProgress = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlText();
             this.buttRedo = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttUndo = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
@@ -52,8 +50,6 @@
             // 
             // mainViewSplitContainer.Panel2
             // 
-            this.mainViewSplitContainer.Panel2.Controls.Add(this.textTime);
-            this.mainViewSplitContainer.Panel2.Controls.Add(this.textMainMessage);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.textProgress);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.buttRedo);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.buttUndo);
@@ -64,37 +60,6 @@
             this.mainViewSplitContainer.Size = new System.Drawing.Size(1200, 700);
             this.mainViewSplitContainer.SplitterDistance = 77;
             this.mainViewSplitContainer.TabIndex = 28;
-            // 
-            // textTime
-            // 
-            this.textTime.BackColor = System.Drawing.Color.Transparent;
-            this.textTime.Gapx = 0;
-            this.textTime.Gapy = 0;
-            this.textTime.GLBackgroundImage = null;
-            this.textTime.GLFont = "Arial18";
-            this.textTime.GLVisible = false;
-            this.textTime.GuiAnchor = null;
-            this.textTime.Location = new System.Drawing.Point(443, 380);
-            this.textTime.Name = "textTime";
-            this.textTime.Size = new System.Drawing.Size(102, 26);
-            this.textTime.StyleName = null;
-            this.textTime.TabIndex = 46;
-            this.textTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // textMainMessage
-            // 
-            this.textMainMessage.Gapx = 0;
-            this.textMainMessage.Gapy = 0;
-            this.textMainMessage.GLBackgroundImage = null;
-            this.textMainMessage.GLFont = "Arial18";
-            this.textMainMessage.GLVisible = false;
-            this.textMainMessage.GuiAnchor = null;
-            this.textMainMessage.Location = new System.Drawing.Point(443, 336);
-            this.textMainMessage.Name = "textMainMessage";
-            this.textMainMessage.Size = new System.Drawing.Size(102, 26);
-            this.textMainMessage.StyleName = null;
-            this.textMainMessage.TabIndex = 45;
-            this.textMainMessage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // textProgress
             // 
@@ -265,7 +230,5 @@
         private CustomGUI.ctlImageButton buttRedo;
         private ctlGL glControl1;
         private CustomGUI.ctlText textProgress;
-        private CustomGUI.ctlText textTime;
-        private CustomGUI.ctlText textMainMessage;
     }
 }

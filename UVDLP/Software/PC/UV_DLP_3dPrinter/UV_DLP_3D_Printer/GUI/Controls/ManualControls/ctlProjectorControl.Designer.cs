@@ -119,7 +119,7 @@
             // 
             this.labelManipType.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.labelManipType.ForeColor = System.Drawing.Color.Black;
-            this.labelManipType.Location = new System.Drawing.Point(3, 0);
+            this.labelManipType.Location = new System.Drawing.Point(3, 1);
             this.labelManipType.Name = "labelManipType";
             this.labelManipType.Size = new System.Drawing.Size(293, 31);
             this.labelManipType.TabIndex = 62;

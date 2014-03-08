@@ -77,8 +77,8 @@ namespace UV_DLP_3D_Printer
             m_camera = new GLCamera();
             ResetCameraView();
 
-            lblTime.Text = ctl3DView1.TimeMessage = "";
-            lblMainMessage.Text = ctl3DView1.MainMessage = "";
+           // lblTime.Text = ctl3DView1.TimeMessage = "";
+           // lblMainMessage.Text = ctl3DView1.MainMessage = "";
 
             SetButtonStatuses();                        
             //PopulateBuildProfilesMenu();
@@ -158,14 +158,14 @@ namespace UV_DLP_3D_Printer
         private void SetTimeMessage(String message) 
         {
             lblTime.Text = message;
-            ctl3DView1.TimeMessage = message;
+            //ctl3DView1.TimeMessage = message;
         }
         private void SetMainMessage(String message) 
         {
             try
             {
                 lblMainMessage.Text = message;
-                ctl3DView1.MainMessage = message;
+                //ctl3DView1.MainMessage = message;
             }
             catch (Exception ex) 
             {

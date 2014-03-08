@@ -101,8 +101,14 @@ namespace UV_DLP_3D_Printer.GUI
             // panels on the main form
             UVDLPApp.Instance().m_gui_config.AddControl("pnlTopIcons", pnlTopIcons);
             UVDLPApp.Instance().m_gui_config.AddControl("pnlTopTabs", pnlTopTabs);
+            UVDLPApp.Instance().m_gui_config.AddControl("pnlTopIconsMain", pnlTopIconsMain);
+
             UVDLPApp.Instance().m_gui_config.AddControl("flowLayoutPanel1", flowLayoutPanel1);
             UVDLPApp.Instance().m_gui_config.AddControl("flowLayoutPanel2", flowLayoutPanel2);
+
+            //
+            UVDLPApp.Instance().m_gui_config.AddControl("mainmsg", lblMainMessage);
+            UVDLPApp.Instance().m_gui_config.AddControl("timemsg", lblTime);
 
 
         }
@@ -134,14 +140,14 @@ namespace UV_DLP_3D_Printer.GUI
         private void SetTimeMessage(String message)
         {
             lblTime.Text = message;
-            ctl3DView1.TimeMessage = message;
+            //ctl3DView1.TimeMessage = message;
         }
         private void SetMainMessage(String message)
         {
             try
             {
                 lblMainMessage.Text = message;
-                ctl3DView1.MainMessage = message;
+                //ctl3DView1.MainMessage = message;
             }
             catch (Exception ex)
             {

@@ -542,11 +542,11 @@
             // 
             this.ctl3DView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ctl3DView1.Location = new System.Drawing.Point(0, 0);
-            this.ctl3DView1.MainMessage = "";
+            //this.ctl3DView1.MainMessage = "";
             this.ctl3DView1.Name = "ctl3DView1";
             this.ctl3DView1.Size = new System.Drawing.Size(1457, 577);
             this.ctl3DView1.TabIndex = 21;
-            this.ctl3DView1.TimeMessage = "";
+            //this.ctl3DView1.TimeMessage = "";
             // 
             // txtLog
             // 
