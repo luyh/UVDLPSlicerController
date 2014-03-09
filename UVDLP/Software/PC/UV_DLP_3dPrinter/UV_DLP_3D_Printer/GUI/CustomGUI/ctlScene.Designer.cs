@@ -34,12 +34,9 @@
             this.manipObject = new System.Windows.Forms.FlowLayoutPanel();
             this.ctlTitle1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTitle();
             this.treeScene = new System.Windows.Forms.TreeView();
-<<<<<<< HEAD
-=======
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.cmdCopy = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.cmdDelete = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
->>>>>>> Added object clone
             this.contextMenuObject.SuspendLayout();
             this.manipObject.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -96,14 +93,12 @@
             this.treeScene.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.treeScene.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeScene.ForeColor = System.Drawing.Color.White;
-<<<<<<< HEAD
             this.treeScene.Location = new System.Drawing.Point(5, 54);
             this.treeScene.Name = "treeScene";
             this.treeScene.Size = new System.Drawing.Size(222, 256);
             this.treeScene.TabIndex = 1;
             this.treeScene.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeScene_NodeMouseClick);
             // 
-=======
             this.treeScene.Location = new System.Drawing.Point(3, 54);
             this.treeScene.Name = "treeScene";
             this.treeScene.Size = new System.Drawing.Size(243, 240);
@@ -161,7 +156,6 @@
             this.cmdDelete.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.cmdDelete.Click += new System.EventHandler(this.cmdDelete_Click);
             // 
->>>>>>> Added object clone
             // ctlScene
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
