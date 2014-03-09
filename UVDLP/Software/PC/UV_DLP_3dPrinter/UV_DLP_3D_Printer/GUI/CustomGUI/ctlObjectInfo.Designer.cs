@@ -257,6 +257,7 @@
             this.Controls.Add(this.layoutPanel);
             this.Name = "ctlObjectInfo";
             this.Size = new System.Drawing.Size(232, 225);
+            this.Resize += new System.EventHandler(this.ctlObjectInfo_Resize);
             this.layoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 

@@ -129,11 +129,40 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (ctlTitle1.Checked)
             {
                 this.Height = 225 + 5;
+                /*
+                int h = 0;
+                h += ctlTitle1.Height;
+                h += tName.Height;
+                h += tVolume.Height;
+                h += tCost.Height;
+                h += tPoints.Height;
+                h += tPolys.Height;
+                h += tMin.Height;
+                h += tMax.Height;
+                h += tSize.Height;
+                this.Height = h + 3*4;
+                */
             }
             else
             {
                 this.Height = ctlTitle1.Height + 5;
             }
+        }
+
+        private void ctlObjectInfo_Resize(object sender, EventArgs e)
+        {
+            /*
+            layoutPanel.Width = layoutPanel.Parent.Width;
+            ctlTitle1.Width = ctlTitle1.Parent.Width -6;
+            tName.Width = tName.Parent.Width - 6;
+            tVolume.Width = tVolume.Parent.Width - 6;
+            tCost.Width = tCost.Parent.Width - 6;
+            tPoints.Width = tPoints.Parent.Width - 6;
+            tPolys.Width = tPolys.Parent.Width - 6;
+            tMin.Width = tMin.Parent.Width - 6;
+            tMax.Width = tMax.Parent.Width - 6;
+            tSize.Width = tSize.Parent.Width - 6;
+            */
         }
     }
 }

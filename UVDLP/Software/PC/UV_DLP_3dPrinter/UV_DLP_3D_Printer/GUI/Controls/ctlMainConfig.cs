@@ -83,7 +83,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         }
         public override void ApplyStyle(ControlStyle ct)
         {
-            //base.ApplyStyle(ct);
+            base.ApplyStyle(ct);
             if (ct.BackColor != null)
             {
                 flowLayoutPanel1.BackColor = ct.BackColor;
@@ -92,10 +92,12 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 flowLayoutPanel1.ForeColor = ct.ForeColor;
             }
-            this.BackColor = Control.DefaultBackColor;
-            this.ForeColor = Control.DefaultForeColor;
+            //this.BackColor = Control.DefaultBackColor;
+            //this.ForeColor = Control.DefaultForeColor;
             ctlMachineConfigView.ApplyStyle(ct);
             ctlSliceProfileConfig.ApplyStyle(ct);
+            pnlMachineConfig.BackColor = Control.DefaultBackColor;
+            pnlMachineConfig.ForeColor = Control.DefaultForeColor;
         }
     }
 }

@@ -93,10 +93,16 @@
             // 
             this.ctlMachineConfig1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ctlMachineConfig1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctlMachineConfig1.Gapx = 0;
+            this.ctlMachineConfig1.Gapy = 0;
+            this.ctlMachineConfig1.GLBackgroundImage = null;
+            this.ctlMachineConfig1.GLVisible = false;
+            this.ctlMachineConfig1.GuiAnchor = null;
             this.ctlMachineConfig1.Location = new System.Drawing.Point(0, 0);
             this.ctlMachineConfig1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ctlMachineConfig1.Name = "ctlMachineConfig1";
             this.ctlMachineConfig1.Size = new System.Drawing.Size(256, 197);
+            this.ctlMachineConfig1.StyleName = null;
             this.ctlMachineConfig1.TabIndex = 2;
             // 
             // ctlToolpathGenConfig1

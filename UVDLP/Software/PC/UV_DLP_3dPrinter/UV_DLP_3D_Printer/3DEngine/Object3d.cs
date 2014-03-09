@@ -52,6 +52,39 @@ namespace Engine3D
         {
             Init();
         }
+
+        public Object3d Clone() 
+        {
+            Object3d obj = new Object3d();
+            try
+            {
+                obj.m_name = this.m_name;
+                obj.m_fullname = this.m_fullname;
+                obj.tag = this.tag;
+                foreach (Point3d pnt in m_lstpoints)
+                {
+                    Point3d p2 = new Point3d(pnt);
+                    obj.m_lstpoints.Add(p2);
+                }
+                foreach (Polygon ply in m_lstpolys)
+                {
+                    Polygon pl2 = new Polygon();
+                    pl2.m_points = new Point3d[3];
+                    obj.m_lstpolys.Add(pl2);
+                    pl2.m_points[0] = obj.m_lstpoints[m_lstpoints.IndexOf(ply.m_points[0])];
+                    pl2.m_points[1] = obj.m_lstpoints[m_lstpoints.IndexOf(ply.m_points[1])];
+                    pl2.m_points[2] = obj.m_lstpoints[m_lstpoints.IndexOf(ply.m_points[2])];
+                }
+                obj.Update();
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
+            return obj;
+        }
+
+
         public void InvalidateList() 
         {
             m_listid = -1;
