@@ -20,7 +20,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             if (ctlTitle1.Checked)
             {
-                this.Height = 121 + 5;
+                this.Height = ctlTitle1.Height + flowLayoutPanel1.Height + (3 * 6);
             }
             else
             {
@@ -84,6 +84,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 flowLayoutPanel1.BackColor = ct.FrameColor;
             }
 
+        }
+
+        private void ctlMirror_Resize(object sender, EventArgs e)
+        {
+            ctlTitle1.Width = ctlTitle1.Parent.Width -6 ;
+            flowLayoutPanel1.Width = flowLayoutPanel1.Parent.Width -6;
         }
     }
 }

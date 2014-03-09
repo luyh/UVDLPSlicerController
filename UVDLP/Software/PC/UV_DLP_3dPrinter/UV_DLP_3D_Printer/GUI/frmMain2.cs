@@ -60,6 +60,13 @@ namespace UV_DLP_3D_Printer.GUI
             ctlSliceGCodePanel1.ctlSliceViewctl.DlpForm = m_frmdlp; // set the dlp form for direct control
             SetMainMessage("");
             SetTimeMessage("");
+            #if (DEBUG)
+                ShowLogPanel(true);
+            #else
+                ShowLogPanel(false);
+                pluginTesterToolStripMenuItem.Visible = false;
+                testToolStripMenuItem.Visible = false;
+            #endif
         }
         /// <summary>
         /// This adds buttons to the GUI config for later skinning

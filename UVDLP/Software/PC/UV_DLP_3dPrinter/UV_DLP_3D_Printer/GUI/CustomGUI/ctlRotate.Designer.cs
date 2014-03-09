@@ -371,6 +371,7 @@
             this.Controls.Add(this.flowLayoutPanel2);
             this.Name = "ctlRotate";
             this.Size = new System.Drawing.Size(235, 50);
+            this.Resize += new System.EventHandler(this.ctlRotate_Resize);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel7.ResumeLayout(false);
             this.flowLayoutPanel8.ResumeLayout(false);

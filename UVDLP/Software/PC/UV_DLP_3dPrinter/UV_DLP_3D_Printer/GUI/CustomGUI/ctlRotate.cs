@@ -104,13 +104,27 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (ctlTitle1.Checked)
             {
                 //expand
-                this.Height = 186 + 5;
+                //this.Height = 186 + 5;
+                int h = ctlTitle1.Height;
+                h += flowLayoutPanel7.Height;
+                h += flowLayoutPanel8.Height;
+                h += flowLayoutPanel10.Height;
+                h += 3 * 7;// vertical margins 
+                this.Height = h;
             }
             else
             {
                 // 
                 this.Height = ctlTitle1.Height + 5;
             }
+        }
+
+        private void ctlRotate_Resize(object sender, EventArgs e)
+        {
+            ctlTitle1.Width = ctlTitle1.Parent.Width - 6;
+            flowLayoutPanel7.Width = flowLayoutPanel7.Parent.Width -6;
+            flowLayoutPanel8.Width = flowLayoutPanel8.Parent.Width -6;
+            flowLayoutPanel10.Width = flowLayoutPanel10.Parent.Width -6;
         }
     }
 }

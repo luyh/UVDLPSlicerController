@@ -89,8 +89,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (ct.FrameColor != ControlStyle.NullColor)
             {
                 flowLayoutPanel1.BackColor = ct.FrameColor;
-                flowLayoutPanel4.BackColor = ct.FrameColor;
+                flowLayoutPanel2.BackColor = ct.FrameColor;
                 flowLayoutPanel3.BackColor = ct.FrameColor;
+                flowLayoutPanel4.BackColor = ct.FrameColor;                
                 flowLayoutPanel5.BackColor = ct.FrameColor;
             }
 
@@ -100,12 +101,62 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             if (ctlTitle1.Checked)
             {
-                this.Height = 225 + 5;
+                //this.Height = 225 + 5;
+                int h = ctlTitle1.Height + flowLayoutPanel1.Height;
+                h += flowLayoutPanel2.Height;
+                h += flowLayoutPanel3.Height;
+                h += flowLayoutPanel4.Height;
+                h += flowLayoutPanel5.Height;
+                h += 3 * 6; // vertical margins
+                this.Height = h;
             }
             else
             {
                 this.Height = ctlTitle1.Height + 5;
             }
+        }
+
+        private void ctlScale_Resize(object sender, EventArgs e)
+        {
+            try
+            {
+                ctlTitle1.Width = ctlTitle1.Parent.Width - 6;
+                flowLayoutPanel1.Width = flowLayoutPanel1.Parent.Width - 6;
+                flowLayoutPanel2.Width = flowLayoutPanel2.Parent.Width - 6;
+                flowLayoutPanel3.Width = flowLayoutPanel3.Parent.Width - 6;
+                flowLayoutPanel4.Width = flowLayoutPanel4.Parent.Width - 6;
+                flowLayoutPanel5.Width = flowLayoutPanel5.Parent.Width - 6;
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
+        }
+
+        private void buttmm2inch_Click(object sender, EventArgs e)
+        {
+            if (UVDLPApp.Instance().SelectedObject == null)
+                return;
+            float scale = 25.4f;
+            UVDLPApp.Instance().SelectedObject.Scale(scale, scale, scale);
+            UVDLPApp.Instance().m_undoer.SaveScale(UVDLPApp.Instance().SelectedObject, scale, scale, scale);
+            UVDLPApp.Instance().SelectedObject.Update(); // make sure we update
+            //ShowObjectInfo();
+            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eUpdateSelectedObject, "updateobject");
+        }
+
+        private void buttinch2mm_Click(object sender, EventArgs e)
+        {
+
+            if (UVDLPApp.Instance().SelectedObject == null)
+                return;
+            float scale = 1.0f/25.4f;
+            UVDLPApp.Instance().SelectedObject.Scale(scale, scale, scale);
+            UVDLPApp.Instance().m_undoer.SaveScale(UVDLPApp.Instance().SelectedObject, scale, scale, scale);
+            UVDLPApp.Instance().SelectedObject.Update(); // make sure we update
+            //ShowObjectInfo();
+            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eUpdateSelectedObject, "updateobject");
+
         }
 
     }

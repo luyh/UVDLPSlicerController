@@ -38,7 +38,7 @@
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.BackColor = System.Drawing.Color.Navy;
+            this.flowLayoutPanel1.BackColor = System.Drawing.Color.RoyalBlue;
             this.flowLayoutPanel1.Controls.Add(this.lblX);
             this.flowLayoutPanel1.Controls.Add(this.lblY);
             this.flowLayoutPanel1.Controls.Add(this.lblZ);
@@ -49,7 +49,7 @@
             // 
             // lblX
             // 
-            this.lblX.BackColor = System.Drawing.Color.RoyalBlue;
+            this.lblX.BackColor = System.Drawing.Color.Navy;
             this.lblX.Font = new System.Drawing.Font("Courier New", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblX.ForeColor = System.Drawing.Color.White;
             this.lblX.Location = new System.Drawing.Point(3, 3);
@@ -63,7 +63,7 @@
             // 
             // lblY
             // 
-            this.lblY.BackColor = System.Drawing.Color.RoyalBlue;
+            this.lblY.BackColor = System.Drawing.Color.Navy;
             this.lblY.Font = new System.Drawing.Font("Courier New", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblY.ForeColor = System.Drawing.Color.White;
             this.lblY.Location = new System.Drawing.Point(59, 3);
@@ -77,7 +77,7 @@
             // 
             // lblZ
             // 
-            this.lblZ.BackColor = System.Drawing.Color.RoyalBlue;
+            this.lblZ.BackColor = System.Drawing.Color.Navy;
             this.lblZ.Font = new System.Drawing.Font("Courier New", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblZ.ForeColor = System.Drawing.Color.White;
             this.lblZ.Location = new System.Drawing.Point(115, 3);
@@ -116,7 +116,8 @@
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.ctlTitle1);
             this.Name = "ctlMirror";
-            this.Size = new System.Drawing.Size(242, 121);
+            this.Size = new System.Drawing.Size(242, 50);
+            this.Resize += new System.EventHandler(this.ctlMirror_Resize);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

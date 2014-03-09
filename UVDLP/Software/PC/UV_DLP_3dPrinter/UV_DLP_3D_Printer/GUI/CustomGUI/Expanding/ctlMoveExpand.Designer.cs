@@ -426,6 +426,7 @@
             this.Controls.Add(this.flowLayoutPanel2);
             this.Name = "ctlMoveExpand";
             this.Size = new System.Drawing.Size(235, 245);
+            this.Resize += new System.EventHandler(this.ctlMoveExpand_Resize);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel7.ResumeLayout(false);

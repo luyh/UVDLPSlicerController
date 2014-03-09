@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.manipObject = new System.Windows.Forms.FlowLayoutPanel();
-            this.ctlTitle1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTitle();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.label12 = new System.Windows.Forms.Label();
             this.textScaleAll = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTextBox();
@@ -46,45 +45,32 @@
             this.label7 = new System.Windows.Forms.Label();
             this.textScaleZ = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTextBox();
             this.buttScaleZ = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.buttmm2inch = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttinch2mm = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.ctlTitle1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTitle();
             this.manipObject.SuspendLayout();
             this.flowLayoutPanel4.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
+            this.flowLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // manipObject
             // 
             this.manipObject.BackColor = System.Drawing.Color.Navy;
-            this.manipObject.Controls.Add(this.ctlTitle1);
             this.manipObject.Controls.Add(this.flowLayoutPanel4);
             this.manipObject.Controls.Add(this.flowLayoutPanel1);
             this.manipObject.Controls.Add(this.flowLayoutPanel3);
             this.manipObject.Controls.Add(this.flowLayoutPanel5);
+            this.manipObject.Controls.Add(this.flowLayoutPanel2);
             this.manipObject.Dock = System.Windows.Forms.DockStyle.Fill;
             this.manipObject.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.manipObject.Location = new System.Drawing.Point(0, 0);
+            this.manipObject.Location = new System.Drawing.Point(0, 45);
             this.manipObject.Name = "manipObject";
-            this.manipObject.Size = new System.Drawing.Size(235, 50);
+            this.manipObject.Size = new System.Drawing.Size(235, 243);
             this.manipObject.TabIndex = 21;
-            // 
-            // ctlTitle1
-            // 
-            this.ctlTitle1.Checked = false;
-            this.ctlTitle1.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
-            this.ctlTitle1.Gapx = 0;
-            this.ctlTitle1.Gapy = 0;
-            this.ctlTitle1.GLBackgroundImage = null;
-            this.ctlTitle1.GLVisible = false;
-            this.ctlTitle1.GuiAnchor = null;
-            this.ctlTitle1.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttScale;
-            this.ctlTitle1.Location = new System.Drawing.Point(3, 3);
-            this.ctlTitle1.Name = "ctlTitle1";
-            this.ctlTitle1.Size = new System.Drawing.Size(235, 45);
-            this.ctlTitle1.StyleName = null;
-            this.ctlTitle1.TabIndex = 6;
-            this.ctlTitle1.Text = "Scale %";
-            this.ctlTitle1.Click += new System.EventHandler(this.ctlTitle1_Click);
             // 
             // flowLayoutPanel4
             // 
@@ -92,7 +78,7 @@
             this.flowLayoutPanel4.Controls.Add(this.label12);
             this.flowLayoutPanel4.Controls.Add(this.textScaleAll);
             this.flowLayoutPanel4.Controls.Add(this.buttScaleAll);
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(244, 3);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
             this.flowLayoutPanel4.Size = new System.Drawing.Size(164, 38);
@@ -162,7 +148,7 @@
             this.flowLayoutPanel1.Controls.Add(this.label5);
             this.flowLayoutPanel1.Controls.Add(this.textScaleX);
             this.flowLayoutPanel1.Controls.Add(this.buttScaleX);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(414, 3);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 44);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(164, 38);
@@ -232,7 +218,7 @@
             this.flowLayoutPanel3.Controls.Add(this.label6);
             this.flowLayoutPanel3.Controls.Add(this.textScaleY);
             this.flowLayoutPanel3.Controls.Add(this.buttScaleY);
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(584, 3);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 85);
             this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.Size = new System.Drawing.Size(164, 38);
@@ -302,7 +288,7 @@
             this.flowLayoutPanel5.Controls.Add(this.label7);
             this.flowLayoutPanel5.Controls.Add(this.textScaleZ);
             this.flowLayoutPanel5.Controls.Add(this.buttScaleZ);
-            this.flowLayoutPanel5.Location = new System.Drawing.Point(754, 3);
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(3, 126);
             this.flowLayoutPanel5.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel5.Name = "flowLayoutPanel5";
             this.flowLayoutPanel5.Size = new System.Drawing.Size(164, 38);
@@ -366,17 +352,91 @@
             this.buttScaleZ.Click += new System.EventHandler(this.buttScaleZ_Click);
             this.buttScaleZ.DoubleClick += new System.EventHandler(this.buttScaleZ_Click);
             // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.BackColor = System.Drawing.Color.RoyalBlue;
+            this.flowLayoutPanel2.Controls.Add(this.buttmm2inch);
+            this.flowLayoutPanel2.Controls.Add(this.buttinch2mm);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 167);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(164, 54);
+            this.flowLayoutPanel2.TabIndex = 6;
+            // 
+            // buttmm2inch
+            // 
+            this.buttmm2inch.Checked = false;
+            this.buttmm2inch.CheckImage = null;
+            this.buttmm2inch.Gapx = 5;
+            this.buttmm2inch.Gapy = 5;
+            this.buttmm2inch.GLBackgroundImage = null;
+            this.buttmm2inch.GLImage = null;
+            this.buttmm2inch.GLVisible = false;
+            this.buttmm2inch.GuiAnchor = null;
+            this.buttmm2inch.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttmm2inch.Image = null;
+            this.buttmm2inch.Location = new System.Drawing.Point(3, 3);
+            this.buttmm2inch.Name = "buttmm2inch";
+            this.buttmm2inch.Size = new System.Drawing.Size(45, 45);
+            this.buttmm2inch.StyleName = null;
+            this.buttmm2inch.TabIndex = 0;
+            this.buttmm2inch.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttmm2inch.Click += new System.EventHandler(this.buttmm2inch_Click);
+            // 
+            // buttinch2mm
+            // 
+            this.buttinch2mm.Checked = false;
+            this.buttinch2mm.CheckImage = null;
+            this.buttinch2mm.Gapx = 5;
+            this.buttinch2mm.Gapy = 5;
+            this.buttinch2mm.GLBackgroundImage = null;
+            this.buttinch2mm.GLImage = null;
+            this.buttinch2mm.GLVisible = false;
+            this.buttinch2mm.GuiAnchor = null;
+            this.buttinch2mm.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttinch2mm.Image = null;
+            this.buttinch2mm.Location = new System.Drawing.Point(54, 3);
+            this.buttinch2mm.Name = "buttinch2mm";
+            this.buttinch2mm.Size = new System.Drawing.Size(45, 45);
+            this.buttinch2mm.StyleName = null;
+            this.buttinch2mm.TabIndex = 1;
+            this.buttinch2mm.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttinch2mm.Click += new System.EventHandler(this.buttinch2mm_Click);
+            // 
+            // ctlTitle1
+            // 
+            this.ctlTitle1.BackColor = System.Drawing.Color.Navy;
+            this.ctlTitle1.Checked = false;
+            this.ctlTitle1.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.ctlTitle1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ctlTitle1.Gapx = 0;
+            this.ctlTitle1.Gapy = 0;
+            this.ctlTitle1.GLBackgroundImage = null;
+            this.ctlTitle1.GLVisible = false;
+            this.ctlTitle1.GuiAnchor = null;
+            this.ctlTitle1.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttScale;
+            this.ctlTitle1.Location = new System.Drawing.Point(0, 0);
+            this.ctlTitle1.Name = "ctlTitle1";
+            this.ctlTitle1.Size = new System.Drawing.Size(235, 45);
+            this.ctlTitle1.StyleName = null;
+            this.ctlTitle1.TabIndex = 6;
+            this.ctlTitle1.Text = "Scale %";
+            this.ctlTitle1.Click += new System.EventHandler(this.ctlTitle1_Click);
+            // 
             // ctlScale
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.manipObject);
+            this.Controls.Add(this.ctlTitle1);
             this.Name = "ctlScale";
-            this.Size = new System.Drawing.Size(235, 50);
+            this.Size = new System.Drawing.Size(235, 288);
+            this.Resize += new System.EventHandler(this.ctlScale_Resize);
             this.manipObject.ResumeLayout(false);
             this.flowLayoutPanel4.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel3.ResumeLayout(false);
             this.flowLayoutPanel5.ResumeLayout(false);
+            this.flowLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -401,6 +461,9 @@
         private ctlTextBox textScaleX;
         private ctlTextBox textScaleY;
         private ctlTitle ctlTitle1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private ctlImageButton buttmm2inch;
+        private ctlImageButton buttinch2mm;
 
     }
 }

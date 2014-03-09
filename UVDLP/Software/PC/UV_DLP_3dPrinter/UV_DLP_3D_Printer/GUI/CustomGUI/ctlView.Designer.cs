@@ -52,7 +52,7 @@
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(235, 50);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(235, 206);
             this.flowLayoutPanel2.TabIndex = 24;
             // 
             // ctlTitle1
@@ -67,7 +67,7 @@
             this.ctlTitle1.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttView;
             this.ctlTitle1.Location = new System.Drawing.Point(3, 3);
             this.ctlTitle1.Name = "ctlTitle1";
-            this.ctlTitle1.Size = new System.Drawing.Size(235, 50);
+            this.ctlTitle1.Size = new System.Drawing.Size(235, 45);
             this.ctlTitle1.StyleName = null;
             this.ctlTitle1.TabIndex = 6;
             this.ctlTitle1.Text = "View Options";
@@ -79,7 +79,7 @@
             this.flowLayoutPanel1.Controls.Add(this.buttEnableTransparency);
             this.flowLayoutPanel1.Controls.Add(this.buttShowSlice);
             this.flowLayoutPanel1.Controls.Add(this.buttBoundingBox);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(244, 3);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 54);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(164, 58);
@@ -158,7 +158,7 @@
             // 
             this.flowLayoutPanel3.BackColor = System.Drawing.Color.RoyalBlue;
             this.flowLayoutPanel3.Controls.Add(this.buttShowConsole);
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(414, 3);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 115);
             this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.Size = new System.Drawing.Size(164, 58);
@@ -200,7 +200,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.flowLayoutPanel2);
             this.Name = "ctlView";
-            this.Size = new System.Drawing.Size(235, 50);
+            this.Size = new System.Drawing.Size(235, 206);
+            this.Resize += new System.EventHandler(this.ctlView_Resize);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel3.ResumeLayout(false);
