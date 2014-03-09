@@ -466,7 +466,7 @@
             "Adaptive"});
             this.cmbSupType.Location = new System.Drawing.Point(7, 25);
             this.cmbSupType.Name = "cmbSupType";
-            this.cmbSupType.Size = new System.Drawing.Size(147, 24);
+            this.cmbSupType.Size = new System.Drawing.Size(147, 21);
             this.cmbSupType.TabIndex = 35;
             this.cmbSupType.SelectedIndexChanged += new System.EventHandler(this.cmbSupType_SelectedIndexChanged);
             // 
@@ -663,7 +663,7 @@
             // 
             this.ctlTitle1.BackColor = System.Drawing.Color.RoyalBlue;
             this.ctlTitle1.Checked = true;
-            this.ctlTitle1.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.ctlTitle1.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttStateTrig;
             this.ctlTitle1.Gapx = 0;
             this.ctlTitle1.Gapy = 0;
             this.ctlTitle1.GLBackgroundImage = null;

@@ -53,10 +53,12 @@ namespace UV_DLP_3D_Printer.GUI
                 txtLog.Text = lg + "\r\n" + txtLog.Text;
             }
             //RearrangeGui
-            ctl3DView1.RearrangeGui();
-            ctl3DView1.Enable3dView(true);
             AddButtons();
             AddControls();
+            ctl3DView1.RearrangeGui();
+            ctl3DView1.Enable3dView(true);
+            UVDLPApp.Instance().m_gui_config.LoadConfiguration(global::UV_DLP_3D_Printer.Properties.Resources.GuiConfig);
+
             ctlSliceGCodePanel1.ctlSliceViewctl.DlpForm = m_frmdlp; // set the dlp form for direct control
             SetMainMessage("");
             SetTimeMessage("");

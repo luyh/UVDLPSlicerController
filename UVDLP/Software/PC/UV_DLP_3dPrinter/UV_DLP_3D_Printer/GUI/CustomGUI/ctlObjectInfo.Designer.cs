@@ -63,7 +63,7 @@
             // ctlTitle1
             // 
             this.ctlTitle1.Checked = false;
-            this.ctlTitle1.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.ctlTitle1.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttStateTrig;
             this.ctlTitle1.Gapx = 0;
             this.ctlTitle1.Gapy = 0;
             this.ctlTitle1.GLBackgroundImage = null;

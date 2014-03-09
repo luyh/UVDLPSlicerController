@@ -674,6 +674,10 @@
     <None Include="resources\CustomGUI\buttTemperature.png" />
     <None Include="resources\CustomGUI\buttProjector.png" />
     <None Include="resources\CustomGUI\buttSendGcode.png" />
+    <None Include="resources\CustomGUI\buttMmInch.png" />
+    <None Include="resources\CustomGUI\buttInchMm.png" />
+    <None Include="resources\CustomGUI\buttMirror.png" />
+    <None Include="resources\CustomGUI\buttStateTrig.png" />
     <Content Include="resources\IconsLandVistaArrowIconsDemo\PNG\64x64\Down1.png" />
     <Content Include="resources\IconsLandVistaArrowIconsDemo\PNG\64x64\Up1.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />

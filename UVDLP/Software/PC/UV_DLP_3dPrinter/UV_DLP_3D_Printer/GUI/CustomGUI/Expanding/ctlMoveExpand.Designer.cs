@@ -73,7 +73,7 @@
             // ctlTitle1
             // 
             this.ctlTitle1.Checked = false;
-            this.ctlTitle1.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.ctlTitle1.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttStateTrig;
             this.ctlTitle1.Gapx = 0;
             this.ctlTitle1.Gapy = 0;
             this.ctlTitle1.GLBackgroundImage = null;
@@ -421,8 +421,7 @@
             // 
             // ctlMoveExpand
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.flowLayoutPanel2);
             this.Name = "ctlMoveExpand";
             this.Size = new System.Drawing.Size(235, 245);

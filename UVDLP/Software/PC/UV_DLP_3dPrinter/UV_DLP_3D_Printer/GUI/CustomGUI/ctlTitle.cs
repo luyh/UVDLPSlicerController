@@ -18,7 +18,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public override void ApplyStyle(ControlStyle ct)
         {
             base.ApplyStyle(ct);
-            Button.ApplyStyle(ct);
+            //Button.ApplyStyle(ct);
             if (ct.ForeColor != ControlStyle.NullColor)
             {
                 ForeColor = ct.ForeColor;
@@ -106,5 +106,26 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             base.OnClick(e);
         }
+
+        private void lblTitle_MouseEnter(object sender, EventArgs e)
+        {
+            lblTitle.ForeColor = Style.HoverColor;
+        }
+
+        private void lblTitle_MouseLeave(object sender, EventArgs e)
+        {
+            lblTitle.ForeColor = Style.ForeColor;
+        }
+
+        private void lblTitle_MouseDown(object sender, MouseEventArgs e)
+        {
+            lblTitle.ForeColor = Style.PressedColor;
+        }
+
+        private void lblTitle_MouseUp(object sender, MouseEventArgs e)
+        {
+            lblTitle.ForeColor = Style.HoverColor;
+        }
+
     }
 }

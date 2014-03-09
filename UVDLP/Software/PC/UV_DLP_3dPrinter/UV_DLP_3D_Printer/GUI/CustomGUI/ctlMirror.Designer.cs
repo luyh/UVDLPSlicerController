@@ -93,13 +93,13 @@
             // 
             this.ctlTitle1.BackColor = System.Drawing.Color.DarkBlue;
             this.ctlTitle1.Checked = false;
-            this.ctlTitle1.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.ctlTitle1.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttStateTrig;
             this.ctlTitle1.Gapx = 0;
             this.ctlTitle1.Gapy = 0;
             this.ctlTitle1.GLBackgroundImage = null;
             this.ctlTitle1.GLVisible = false;
             this.ctlTitle1.GuiAnchor = null;
-            this.ctlTitle1.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttScale;
+            this.ctlTitle1.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMirror;
             this.ctlTitle1.Location = new System.Drawing.Point(0, 3);
             this.ctlTitle1.Name = "ctlTitle1";
             this.ctlTitle1.Size = new System.Drawing.Size(235, 45);
@@ -110,8 +110,7 @@
             // 
             // ctlMirror
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.RoyalBlue;
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.ctlTitle1);

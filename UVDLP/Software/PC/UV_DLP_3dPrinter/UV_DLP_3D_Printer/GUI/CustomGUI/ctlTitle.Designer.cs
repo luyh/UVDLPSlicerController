@@ -65,11 +65,14 @@
             this.lblTitle.Text = "Title";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblTitle.Click += new System.EventHandler(this.lblTitle_Click);
+            this.lblTitle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lblTitle_MouseDown);
+            this.lblTitle.MouseEnter += new System.EventHandler(this.lblTitle_MouseEnter);
+            this.lblTitle.MouseLeave += new System.EventHandler(this.lblTitle_MouseLeave);
+            this.lblTitle.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lblTitle_MouseUp);
             // 
             // ctlTitle
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.ctlImageButton1);
             this.Name = "ctlTitle";

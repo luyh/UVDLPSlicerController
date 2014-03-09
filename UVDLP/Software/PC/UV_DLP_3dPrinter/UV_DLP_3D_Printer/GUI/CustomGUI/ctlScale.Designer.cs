@@ -374,7 +374,7 @@
             this.buttmm2inch.GLVisible = false;
             this.buttmm2inch.GuiAnchor = null;
             this.buttmm2inch.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.buttmm2inch.Image = null;
+            this.buttmm2inch.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMmInch;
             this.buttmm2inch.Location = new System.Drawing.Point(3, 3);
             this.buttmm2inch.Name = "buttmm2inch";
             this.buttmm2inch.Size = new System.Drawing.Size(45, 45);
@@ -394,7 +394,7 @@
             this.buttinch2mm.GLVisible = false;
             this.buttinch2mm.GuiAnchor = null;
             this.buttinch2mm.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.buttinch2mm.Image = null;
+            this.buttinch2mm.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttInchMm;
             this.buttinch2mm.Location = new System.Drawing.Point(54, 3);
             this.buttinch2mm.Name = "buttinch2mm";
             this.buttinch2mm.Size = new System.Drawing.Size(45, 45);
@@ -407,7 +407,7 @@
             // 
             this.ctlTitle1.BackColor = System.Drawing.Color.Navy;
             this.ctlTitle1.Checked = false;
-            this.ctlTitle1.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.ctlTitle1.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttStateTrig;
             this.ctlTitle1.Dock = System.Windows.Forms.DockStyle.Top;
             this.ctlTitle1.Gapx = 0;
             this.ctlTitle1.Gapy = 0;

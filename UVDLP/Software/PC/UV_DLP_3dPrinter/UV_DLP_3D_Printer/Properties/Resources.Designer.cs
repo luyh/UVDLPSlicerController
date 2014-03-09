@@ -226,6 +226,13 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap buttInchMm {
+            get {
+                object obj = ResourceManager.GetObject("buttInchMm", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap buttIntersect {
             get {
                 object obj = ResourceManager.GetObject("buttIntersect", resourceCulture);
@@ -250,6 +257,20 @@ namespace UV_DLP_3D_Printer.Properties {
         public static System.Drawing.Bitmap buttMeshTools {
             get {
                 object obj = ResourceManager.GetObject("buttMeshTools", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttMirror {
+            get {
+                object obj = ResourceManager.GetObject("buttMirror", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttMmInch {
+            get {
+                object obj = ResourceManager.GetObject("buttMmInch", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -422,6 +443,13 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap buttStateTrig {
+            get {
+                object obj = ResourceManager.GetObject("buttStateTrig", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap buttStop {
             get {
                 object obj = ResourceManager.GetObject("buttStop", resourceCulture);
@@ -563,33 +591,36 @@ namespace UV_DLP_3D_Printer.Properties {
         ///repeat: none
         ///Arial18
         ///  rotate: false
-        ///  xy: 1, 1
+        ///  xy: 0, 102
         ///  size: 208, 126
         ///  orig: 208, 126
         ///  offset: 0, 0
         ///  index: -1
         ///cwlogo_round
         ///  rotate: false
-        ///  xy: 211, 27
+        ///  xy: 0, 0
         ///  size: 100, 100
         ///  orig: 100, 100
         ///  offset: 0, 0
         ///  index: -1
-        ///trimpanel
+        ///cwlogo_tr
         ///  rotate: false
-        ///  xy: 313, 37
-        ///  size: 90, 90
-        ///  orig: 90, 90
+        ///  xy: 210, 140
+        ///  size: 88, 88
+        ///  orig: 88, 88
+        ///  offset: 0, 0
+        ///  index: -1
+        ///cwpanel
+        ///  rotate: false
+        ///  xy: 102, 20
+        ///  size: 80, 80
+        ///  orig: 80, 80
         ///  offset: 0, 0
         ///  index: -1
         ///glButtHome1
         ///  rotate: false
-        ///  xy: 405, 63
-        ///  size: 64, 64
-        ///  orig: 64, 64
-        ///  offset: 0, 0
-        ///  index: -1
-        ///.
+        ///  xy: 300, 164
+        ///  size: 6 [rest of string was truncated]&quot;;.
         /// </summary>
         public static string cwtexture1_index {
             get {

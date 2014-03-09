@@ -76,7 +76,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             guiconf = UVDLPApp.Instance().m_gui_config;
             guiconf.TopLevelControl = mainViewSplitContainer.Panel2;
             UpdateButtonList();
-            guiconf.LoadConfiguration(global::UV_DLP_3D_Printer.Properties.Resources.GuiConfig);
+            //guiconf.LoadConfiguration(global::UV_DLP_3D_Printer.Properties.Resources.GuiConfig);
             RearrangeGui();
 
             // toplevel controls must point to this
@@ -1005,6 +1005,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             guiconf.AddButton("redo", buttRedo); 
             guiconf.AddControl("clayernum", numLayer);
             guiconf.AddControl("progress", textProgress);
+
 
         }
 
