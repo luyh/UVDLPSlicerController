@@ -166,7 +166,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             foreach (Control subctl in ctl.Controls)
             {
-                if (subctl.GetType().IsSubclassOf(typeof(ctlUserPanel)))
+                if (subctl is ctlUserPanel)
                 {
                     ((ctlUserPanel)subctl).ApplyStyle(ct);
                 }

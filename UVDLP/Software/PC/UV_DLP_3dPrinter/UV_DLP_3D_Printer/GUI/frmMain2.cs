@@ -112,8 +112,8 @@ namespace UV_DLP_3D_Printer.GUI
             UVDLPApp.Instance().m_gui_config.AddControl("pnlTopTabs", pnlTopTabs);
             UVDLPApp.Instance().m_gui_config.AddControl("pnlTopIconsMain", pnlTopIconsMain);
 
-            UVDLPApp.Instance().m_gui_config.AddControl("flowLayoutPanel1", flowLayoutPanel1);
-            UVDLPApp.Instance().m_gui_config.AddControl("flowLayoutPanel2", flowLayoutPanel2);
+            UVDLPApp.Instance().m_gui_config.AddControl("pnlRightBar", flowLayoutPanel1);
+            UVDLPApp.Instance().m_gui_config.AddControl("pnlLeftBar", flowLayoutPanel2);
 
             //
             UVDLPApp.Instance().m_gui_config.AddControl("mainmsg", lblMainMessage);

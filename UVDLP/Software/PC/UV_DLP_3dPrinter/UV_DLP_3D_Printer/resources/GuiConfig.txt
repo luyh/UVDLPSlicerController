@@ -9,6 +9,8 @@
 	</buttons>
 	<controls>		
 		<style bgndimage="cwpanel" panelpad="2" backcolor="Navy" framecolor="RoyalBlue" hovercolor="White" forecolor="#DCDCDC" checkcolor="#DCDCDC" presscolor="White" nimages="1" pressscale="92" gl="false"/>
+		<style name="TopBars" backcolor="RoyalBlue" hovercolor="White" forecolor="#DCDCDC" checkcolor="#DCDCDC" presscolor="White" nimages="1" pressscale="92"/>
+		<style name="SideBars" backcolor="RoyalBlue" forecolor="White" applysubcontrols="false"/>
 		<style name="gltext1" backcolor="Transparent" forecolor="White" gl="true"/>
 		<control name="pmove" dock="bl" x="20" y="90" />
 		<control name="pscale" dock="bl" x="20" y="90"/>
@@ -27,6 +29,11 @@
 		<control name="progress" dock="br" x="10" y="80" style="gltext1"/>
 		<control name="mainmsg" dock="tr" x="100" y="8" style="gltext1" w="400"/>
 		<control name="timemsg" dock="tr" x="100" y="34" style="gltext1" w="400"/>
+		<control name="pnlTopIconsMain" style="TopBars"/>
+		<control name="pnlTopTabs" style="SideBars"/>
+		<control name="pnlTopIconsMain" style="TopBars"/>
+		<control name="pnlRightBar" style="SideBars"/>
+		<control name="pnlLeftBar" style="SideBars"/>
 	</controls>
 	<decals>
 		<bar dock="n" tlcolor="AliceBlue" trcolor="AliceBlue" blcolor="LightBlue" brcolor="SkyBlue" level="background"/>

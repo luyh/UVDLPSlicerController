@@ -97,6 +97,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public int Bottom;
     }
 
+    // NOTE!! any member added to this class should be added to SetDefault() and CopyFrom() member functions.
     public class ControlStyle
     {
         public static Color NullColor = Color.FromArgb(1);
@@ -138,6 +139,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         C2DImage mCheckedImageCach;
         public ControlPad PanelPad;
 
+        // misc
+        public bool applySubControls;
+
 
         public virtual void SetDefault()
         {
@@ -155,6 +159,34 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             BgndImageName = null;
             PanelPad = new ControlPad();
             PanelPad.Left = PanelPad.Right = PanelPad.Top = PanelPad.Bottom = 10;
+            applySubControls = true;
+        }
+
+        public void CopyFrom(ControlStyle sctl)
+        {
+            if (sctl == null)
+                return;
+            ForeColor = sctl.ForeColor;
+            BackColor = sctl.BackColor;
+            FrameColor = sctl.FrameColor;
+            BackImage = sctl.BackImage;
+            glMode = sctl.glMode;
+
+            SubImgCount = sctl.SubImgCount;
+            PressedColor = sctl.PressedColor;
+            CheckedColor = sctl.CheckedColor;
+            DisabledColor = sctl.DisabledColor;
+            HoverColor = sctl.HoverColor;
+            PressedSize = sctl.PressedSize;
+            HoverSize = sctl.HoverSize;
+            BgndImageName = sctl.BgndImageName;
+            PanelPad = new ControlPad();
+            PanelPad.Left = sctl.PanelPad.Left;
+            PanelPad.Right = sctl.PanelPad.Right; 
+            PanelPad.Top = sctl.PanelPad.Top;
+            PanelPad.Bottom = sctl.PanelPad.Bottom;
+            applySubControls = sctl.applySubControls;
+            CheckedImage = sctl.CheckedImage;
         }
 
         public String CheckedImage
@@ -176,6 +208,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 return mCheckedImageCach;
             }
         }
+
     }
 
     public class GuiConfig
@@ -539,9 +572,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (ct.BackColor != ControlStyle.NullColor)
                 ctl.BackColor = ct.BackColor;
 
+            if (!ct.applySubControls)
+                return;
+
             foreach (Control subctl in ctl.Controls)
             {
-                if (subctl.GetType().IsSubclassOf(typeof(ctlUserPanel)))
+                if (subctl is ctlUserPanel)
                 {
                     ((ctlUserPanel)subctl).ApplyStyle(ct);
                 }
@@ -571,7 +607,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
             //ctlUserPanel ctl = Controls[name];
             Control ct = Controls[name];
-            ct.Visible = GetBoolParam(ctlnode, "visible", ct.Visible);
+            if (ctlnode.Attributes.GetNamedItem("visible") != null)
+                ct.Visible = GetBoolParam(ctlnode, "visible", ct.Visible);
             ct.Width = GetIntParam(ctlnode, "w", ct.Width);
             ct.Height = GetIntParam(ctlnode, "h", ct.Height);
             //load some control locations as well,            
@@ -610,23 +647,35 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                     ctlParent.Controls.Add(ct);
                 }
             }
+            String styleName = GetStrParam(ctlnode, "style", null);
+            ControlStyle style = GetControlStyle(styleName);
             if (ct is ctlUserPanel)
             {
                 ctlUserPanel ctl = (ctlUserPanel)ct;
                 ctl.GuiAnchor = FixDockingVal(GetStrParam(ctlnode, "dock", ctl.GuiAnchor));
                 ctl.Gapx = GetIntParam(ctlnode, "x", ctl.Gapx);
                 ctl.Gapy = GetIntParam(ctlnode, "y", ctl.Gapy);
-                ctl.StyleName = GetStrParam(ctlnode, "style", ctl.StyleName);
-                ControlStyle bstl = GetControlStyle(ctl.StyleName);
-                if (bstl != null)
+                if (styleName != null)
                 {
-                    ctl.GLVisible = bstl.glMode;
+                    ctl.StyleName = styleName;
+                    if (style != null)
+                    {
+                        ctl.GLVisible = style.glMode;
+                        ctl.ApplyStyle(style);
+                    }
                 }
                 //ctl.GLVisible = GetBoolParam(ctlnode, "gl", false);
                 if (ctl.GLVisible)
                     ctl.GLBackgroundImage = GetStrParam(ctlnode, "shape", ctl.GLBackgroundImage);
                 else
                     ctl.bgndPanel.imageName = GetStrParam(ctlnode, "shape", ctl.bgndPanel.imageName);
+            }
+            else
+            {
+                if (style != null)
+                {
+                    ApplyStyleRecurse(ct, style);
+                }
             }
         }
 
@@ -750,6 +799,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         void UpdateStyle(XmlNode xnode, ControlStyle ct)
         {
+            ControlStyle copyFromStyle = GetControlStyle(GetStrParam(xnode, "copyfrom", null));
+            if (copyFromStyle != null)
+                ct.CopyFrom(copyFromStyle);
             ct.ForeColor = GetColorParam(xnode, "forecolor", ct.ForeColor);
             ct.BackColor = GetColorParam(xnode, "backcolor", ct.BackColor);
             ct.FrameColor = GetColorParam(xnode, "framecolor", ct.BackColor);
@@ -764,6 +816,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ct.HoverSize = GetIntParam(xnode, "hoverscale", (int)ct.HoverSize);
             ct.PressedSize = GetIntParam(xnode, "pressscale", (int)ct.PressedSize);
             ct.BgndImageName = GetStrParam(xnode, "bgndimage", ct.BgndImageName);
+            ct.applySubControls = GetBoolParam(xnode, "applysubcontrols", ct.applySubControls);
             int[] sizes = GetIntArrayParam(xnode, "panelpad");
             if (sizes.Length >= 4)
             {
