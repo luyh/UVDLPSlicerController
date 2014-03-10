@@ -9,10 +9,10 @@ using System.Windows.Forms;
 using System.IO;
 using UV_DLP_3D_Printer.Drivers;
 using UV_DLP_3D_Printer.GUI.CustomGUI;
-
+using UV_DLP_3D_Printer.GUI;
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
-    public partial class ctlMachineConfig : UserControl
+    public partial class ctlMachineConfig :ctlUserPanel //UserControl
     {
         private eDriverType m_saved;
         private MachineConfig m_config = new MachineConfig(); // just so it's not blank
@@ -393,6 +393,17 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         private void checkConDispEnable_CheckedChanged(object sender, EventArgs e)
         {
             m_config.m_monitorconfig.m_displayconnectionenabled = checkConDispEnable.Checked;
+        }
+        public override void ApplyStyle(ControlStyle ct)
+        {
+            //base.ApplyStyle(ct);
+            cmdCreate.ApplyStyle(ct);
+            cmdRemove.ApplyStyle(ct);
+            this.BackColor = Control.DefaultBackColor;
+            this.ForeColor = Control.DefaultForeColor;
+            if (ct.ForeColor != ControlStyle.NullColor)
+            {
+            }
         }
     }
 }

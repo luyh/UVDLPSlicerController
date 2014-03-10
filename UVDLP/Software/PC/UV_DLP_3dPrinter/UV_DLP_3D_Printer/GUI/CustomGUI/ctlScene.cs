@@ -47,15 +47,21 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 ctlTitle1.ForeColor = ct.ForeColor;
                 treeScene.ForeColor = ct.ForeColor;
                 treeScene.LineColor = ct.ForeColor;
+                cmdCopy.ForeColor = ct.ForeColor;
+                cmdDelete.ForeColor = ct.ForeColor;
             }
             if (ct.BackColor != ControlStyle.NullColor)
             {
                 BackColor = ct.BackColor;
                 manipObject.BackColor = ct.BackColor;
+                cmdCopy.BackColor = ct.BackColor;
+                cmdDelete.BackColor = ct.BackColor;
+
             }
             if (ct.FrameColor != ControlStyle.NullColor)
             {
                 treeScene.BackColor = ct.FrameColor;
+                flowLayoutPanel1.BackColor = ct.FrameColor;
             }
 
         }
@@ -149,11 +155,44 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             if (ctlTitle1.Checked)
             {
-                this.Height = 324 + 5;
+                this.Height = manipObject.Height;
             }
             else
             {
                 this.Height = ctlTitle1.Height + 5;
+            }
+        }
+
+        private void ctlScene_Resize(object sender, EventArgs e)
+        {
+            manipObject.Width = manipObject.Parent.Width -6;
+            ctlTitle1.Width = ctlTitle1.Parent.Width - 6;
+            flowLayoutPanel1.Width = flowLayoutPanel1.Parent.Width - 6;
+            treeScene.Width = treeScene.Parent.Width - 6;
+        }
+
+        private void cmdDelete_Click(object sender, EventArgs e)
+        {
+            cmdRemoveObject_Click(null, null);
+        }
+
+        private void cmdCopy_Click(object sender, EventArgs e)
+        {
+            //copy the object
+            if (UVDLPApp.Instance().SelectedObject != null)
+            {
+                try
+                {
+                    Object3d s = UVDLPApp.Instance().SelectedObject.Clone();
+                    UVDLPApp.Instance().m_engine3d.AddObject(s);
+                    UVDLPApp.Instance().m_undoer.SaveAddition(s);
+                    UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eModelAdded, "Model Created");
+                    SetupSceneTree();
+                }
+                catch (Exception ex) 
+                {
+                    DebugLogger.Instance().LogError(ex);
+                }
             }
         }
 
