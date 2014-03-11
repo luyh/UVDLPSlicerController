@@ -231,9 +231,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             switch (mCtlState)
             {
                 case CtlState.Hover:
-                    if (Checked)
+                    /*if (Checked)
                         col = stl.CheckedColor;
-                    else
+                    else*/
                         col = stl.HoverColor;
                     break;
 

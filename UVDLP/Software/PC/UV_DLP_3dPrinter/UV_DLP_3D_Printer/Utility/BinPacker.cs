@@ -13,139 +13,301 @@ namespace UV_DLP_3D_Printer
     public class BinPacker
     {
 
-        int m_packSize;
+        int m_w, m_h;
         int m_numPacked;
-        List<Rect> m_rects;
-        List<Rect> m_packs;
-        List<int> m_roots;
+        List<BinRect> m_rects;
+        List<BinRect> m_packs;
+        // List<int> m_roots; // for multiple bins
 
-           public class Rect
-           {
-                public int  x;
-                public int y;
-                public int w;
-                public int h;
-                public int ID;
-                public int[] children;
-                public bool rotated;
-                public bool packed;
+        public class BinRect : IComparable<BinRect>
+        {
+            public int x;
+            public int y;
+            public int w;
+            public int h;
+            public Object obj;
+            public int[] children;
+            public bool rotated;
+            public bool packed;
 
-                public Rect(int size)
-                {
-                    x=0;
-                    y=0;
-                    w = size;
-                    h = size;
-                    rotated = false;
-                    packed = false;
-                    children = new int[2];
-                    children[0] = -1;
-                    children[1] = -1;
+            public BinRect(int px, int py, int pw, int ph, Object pobj = null)
+            {
+                x = px;
+                y = py;
+                w = pw;
+                h = ph;
+                rotated = false;
+                packed = false;
+                children = new int[2];
+                children[0] = -1;
+                children[1] = -1;
+                obj = pobj;
+            }
 
-                }
+            public BinRect(float pw, float ph, Object obj)
+                : this(0, 0, (int)(pw + 1.2f), (int)(ph + 1.2f), obj)
+            {
+            }
 
-                public Rect(int px, int py, int pw, int ph, int ID = 1)
-                {
-                    x = px; 
-                    y = py;
-                    w = pw;
-                    h = ph;
-                    rotated = false;
-                    packed = false;
-                    children = new int[2];
-                    children[0] = -1;
-                    children[1] = -1;
 
-                }
+            public BinRect Copy()
+            {
+                BinRect rc = new BinRect(x, y, w, h, obj);
+                return rc;
+            }
+            public int GetArea()
+            {
+                return w * h;
+            }
 
-                public int GetArea()
-                {
-                    return w * h;
-                }
+            public void Rotate()
+            {
+                int tmp = w;
+                w = h;
+                h = tmp;
+                rotated = !rotated;
 
-                public void Rotate() 
-                {
-                    int tmp = w;
-                    w = h;
-                    h = tmp;
-                    rotated = !rotated;
-
-                }
-                public static bool operator >(Rect r1, Rect r2)
-                {
-                    return r1.GetArea() > r2.GetArea();
-                }
-                public static bool operator < (Rect r1, Rect r2)  
-                {
-                    return r1.GetArea() < r2.GetArea();
-                }
+            }
+            /*public static bool operator >(BinRect r1, BinRect r2)
+            {
+                return r1.GetArea() > r2.GetArea();
+            }
+            public static bool operator < (BinRect r1, BinRect r2)  
+            {
+                return r1.GetArea() < r2.GetArea();
+            }*/
+            public int CompareTo(BinRect other)
+            {
+                if (GetArea() > other.GetArea())
+                    return -1;
+                if (GetArea() < other.GetArea())
+                    return 1;
+                return 0;
+            }
         };
 
+
+        // ---------------------------------------------------------------------------
+        public bool Pack(List<BinRect> rects, int w, int h, bool allowRotation)
+        {
+            Clear();
+
+            m_w = w;
+            m_h = h;
+
+            m_rects = rects;
+
+            // Sort from greatest to least area
+            m_rects.Sort();
+
+            // Pack
+            // while (m_numPacked < (int)m_rects.size()) { // for multiple bins
+            //    int i = m_packs.size();
+            m_packs.Add(new BinRect(0, 0, w, h));
+            //    m_roots.push_back(i); // for multiple bins
+            Fill(0, allowRotation);
+            //}
+
+            // Write out
+            /*packs.resize(m_roots.size());
+            for (size_t i = 0; i < m_roots.size(); ++i) {
+                packs[i].clear();
+                AddPackToArray(m_roots[i], packs[i]);
+            }*/
+
+            // Check and make sure all rects were packed
+            for (int i = 0; i < m_rects.Count; i++)
+            {
+                if (!m_rects[i].packed)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
+
+        // ---------------------------------------------------------------------------
         void Clear()
         {
-            m_packSize = 0;
+            //m_packSize = 0;
             m_numPacked = 0;
-            m_rects.Clear();
-            m_packs.Clear();
-            m_roots.Clear();
+            //m_rects.Clear();
+            if (m_packs == null)
+                m_packs = new List<BinRect>();
+            else 
+                m_packs.Clear();
+            //m_roots.Clear();
         }
-    // ---------------------------------------------------------------------------
 
-        bool Fits(Rect rect1,  Rect rect2, bool allowRotation)
+        // ---------------------------------------------------------------------------
+        bool Fits(BinRect rect1, BinRect rect2, bool allowRotation)
         {
 
             // Check to see if rect1 fits in rect2, and rotate rect1 if that will
             // enable it to fit.
 
-            if (rect1.w <= rect2.w && rect1.h <= rect2.h) 
+            if (rect1.w <= rect2.w && rect1.h <= rect2.h)
             {
                 return true;
-            } else if (allowRotation && rect1.h <= rect2.w && rect1.w <= rect2.h) 
+            }
+            else if (allowRotation && rect1.h <= rect2.w && rect1.w <= rect2.h)
             {
                 rect1.Rotate();
                 return true;
-            } 
-            else 
+            }
+            else
             {
                 return false;
             }
         }
 
-        public bool RectIsValid(int i) 
+        // ---------------------------------------------------------------------------
+        public bool RectIsValid(int i)
         {
             return i >= 0 && i < (int)m_rects.Count;
         }
 
         // ---------------------------------------------------------------------------
-
-        bool PackIsValid(int i) 
+        bool PackIsValid(int i)
         {
             return i >= 0 && i < (int)m_packs.Count;
         }
 
-    void AddPackToArray(int pack, List<int> array) 
-
-    {
-        int i = pack;
-        if (m_packs[i].ID != -1) 
+        // ---------------------------------------------------------------------------
+        void AddPackToArray(int pack, List<BinRect> array)
         {
-            array.Add(m_packs[i].ID);
-            array.Add(m_packs[i].x);
-            array.Add(m_packs[i].y);
-            //array.Add(m_packs[i].rotated);        
-            array.Add(m_packs[i].rotated ? 1 : 0);
-
-            if (m_packs[i].children[0] != -1) 
+            int i = pack;
+            if (m_packs[i].obj != null)
             {
-                AddPackToArray(m_packs[i].children[0], array);
-            }
+                array.Add(m_packs[i]);
 
-            if (m_packs[i].children[1] != -1) 
-            {
-                AddPackToArray(m_packs[i].children[1], array);
+                if (m_packs[i].children[0] != -1)
+                {
+                    AddPackToArray(m_packs[i].children[0], array);
+                }
+
+                if (m_packs[i].children[1] != -1)
+                {
+                    AddPackToArray(m_packs[i].children[1], array);
+                }
             }
         }
-    }
+
+        // ---------------------------------------------------------------------------
+        void Fill(int pack, bool allowRotation)
+        {
+            //assert(PackIsValid(pack));
+
+            int i = pack;
+
+            // For each rect
+            for (int j = 0; j < m_rects.Count; ++j)
+            {
+                // If it's not already packed
+                if (!m_rects[j].packed)
+                {
+                    // If it fits in the current working area
+                    if (Fits(m_rects[j], m_packs[i], allowRotation))
+                    {
+                        // Store in lower-left of working area, split, and recurse
+                        ++m_numPacked;
+                        Split(i, j);
+                        Fill(m_packs[i].children[0], allowRotation);
+                        Fill(m_packs[i].children[1], allowRotation);
+                        return;
+                    }
+                }
+            }
+        }
+
+        // ---------------------------------------------------------------------------
+        void Split(int pack, int rect)
+        {
+            //assert(PackIsValid(pack));
+            //assert(RectIsValid(rect));
+
+            int i = pack;
+            int j = rect;
+
+            // Split the working area either horizontally or vertically with respect
+            // to the rect we're storing, such that we get the largest possible child
+            // area.
+
+            BinRect left = m_packs[i].Copy();
+            BinRect right = m_packs[i].Copy();
+            BinRect bottom = m_packs[i].Copy();
+            BinRect top = m_packs[i].Copy();
+
+            left.y += m_rects[j].h;
+            left.w = m_rects[j].w;
+            left.h -= m_rects[j].h;
+            right.x += m_rects[j].w;
+            right.w -= m_rects[j].w;
+
+            bottom.x += m_rects[j].w;
+            bottom.h = m_rects[j].h;
+            bottom.w -= m_rects[j].w;
+            top.y += m_rects[j].h;
+            top.h -= m_rects[j].h;
+
+            int maxLeftRightArea = left.GetArea();
+            if (right.GetArea() > maxLeftRightArea)
+            {
+                maxLeftRightArea = right.GetArea();
+            }
+
+            int maxBottomTopArea = bottom.GetArea();
+            if (top.GetArea() > maxBottomTopArea)
+            {
+                maxBottomTopArea = top.GetArea();
+            }
+
+            if (maxLeftRightArea > maxBottomTopArea)
+            {
+                if (left.GetArea() > right.GetArea())
+                {
+                    m_packs.Add(left);
+                    m_packs.Add(right);
+                }
+                else
+                {
+                    m_packs.Add(right);
+                    m_packs.Add(left);
+                }
+            }
+            else
+            {
+                if (bottom.GetArea() > top.GetArea())
+                {
+                    m_packs.Add(bottom);
+                    m_packs.Add(top);
+                }
+                else
+                {
+                    m_packs.Add(top);
+                    m_packs.Add(bottom);
+                }
+            }
+
+            // This pack area now represents the rect we've just stored, so save the
+            // relevant info to it, and assign children.
+            m_packs[i].w = m_rects[j].w;
+            m_packs[i].h = m_rects[j].h;
+            m_packs[i].obj = m_rects[j].obj;
+            m_packs[i].rotated = m_rects[j].rotated;
+            m_packs[i].children[0] = m_packs.Count - 2;
+            m_packs[i].children[1] = m_packs.Count - 1;
+
+            // Done with the rect
+            m_rects[j].packed = true;
+            m_rects[j].x = m_packs[i].x;
+            m_rects[j].y = m_packs[i].y;
+        }
+
+
+
         /*
 #ifndef BINPACKER_H
 
@@ -173,7 +335,7 @@ public:
 
     
 
-    // rects : An array containing the width and height of each input rect in
+    // rects : An array containing the width and height of each input BinRect in
 
     // sequence, i.e. [w0][h0][w1][h1][w2][h2]... The IDs for the rects are
 
@@ -187,11 +349,11 @@ public:
 
     // sequence of sets of 4 ints. Each set represents a rectangle in the
 
-    // pack. The elements in the set are 1) the rect ID, 2) the x position
+    // pack. The elements in the set are 1) the BinRect ID, 2) the x position
 
-    // of the rect with respect to the pack, 3) the y position of the rect
+    // of the BinRect with respect to the pack, 3) the y position of the BinRect
 
-    // with respect to the pack, and 4) whether the rect was rotated (1) or
+    // with respect to the pack, and 4) whether the BinRect was rotated (1) or
 
     // not (0). The widths and heights of the rects are not included, as it's
 
@@ -235,9 +397,9 @@ private:
 
     void Fill(int pack, bool allowRotation);
 
-    void Split(int pack, int rect);
+    void Split(int pack, int BinRect);
 
-    bool Fits(Rect& rect1, const Rect& rect2, bool allowRotation);
+    bool Fits(BinRect& rect1, const BinRect& rect2, bool allowRotation);
 
     void AddPackToArray(int pack, std::vector<int>& array) const;
 
@@ -299,11 +461,11 @@ void BinPacker::Pack(
 
         if (rects[i] > m_packSize || rects[i + 1] > m_packSize) {
 
-            assert(!"All rect dimensions must be <= the pack size");
+            assert(!"All BinRect dimensions must be <= the pack size");
 
         }
 
-        m_rects.push_back(Rect(0, 0, rects[i], rects[i + 1], i >> 1));
+        m_rects.push_back(BinRect(0, 0, rects[i], rects[i + 1], i >> 1));
 
     }
 
@@ -321,7 +483,7 @@ void BinPacker::Pack(
 
         int i = m_packs.size();
 
-        m_packs.push_back(Rect(m_packSize));
+        m_packs.push_back(BinRect(m_packSize));
 
         m_roots.push_back(i);
 
@@ -377,7 +539,7 @@ void BinPacker::Fill(int pack, bool allowRotation)
 
     
 
-    // For each rect
+    // For each BinRect
 
     for (size_t j = 0; j < m_rects.size(); ++j) {
 
@@ -411,37 +573,37 @@ void BinPacker::Fill(int pack, bool allowRotation)
 
 // ---------------------------------------------------------------------------
 
-void BinPacker::Split(int pack, int rect)
+void BinPacker::Split(int pack, int BinRect)
 
 {
 
     assert(PackIsValid(pack));
 
-    assert(RectIsValid(rect));
+    assert(RectIsValid(BinRect));
 
     
 
     int i = pack;
 
-    int j = rect;
+    int j = BinRect;
 
 
 
     // Split the working area either horizontally or vertically with respect
 
-    // to the rect we're storing, such that we get the largest possible child
+    // to the BinRect we're storing, such that we get the largest possible child
 
     // area.
 
 
 
-    Rect left = m_packs[i];
+    BinRect left = m_packs[i];
 
-    Rect right = m_packs[i];
+    BinRect right = m_packs[i];
 
-    Rect bottom = m_packs[i];
+    BinRect bottom = m_packs[i];
 
-    Rect top = m_packs[i];
+    BinRect top = m_packs[i];
 
 
 
@@ -525,7 +687,7 @@ void BinPacker::Split(int pack, int rect)
 
     
 
-    // This pack area now represents the rect we've just stored, so save the
+    // This pack area now represents the BinRect we've just stored, so save the
 
     // relevant info to it, and assign children.
 
@@ -543,7 +705,7 @@ void BinPacker::Split(int pack, int rect)
 
     
 
-    // Done with the rect
+    // Done with the BinRect
 
     m_rects[j].packed = true;
 

@@ -48,6 +48,8 @@
             this.buttZMinus = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.textMoveZ = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTextBox();
             this.buttZPlus = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttArrange = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel7.SuspendLayout();
@@ -93,6 +95,7 @@
             this.flowLayoutPanel1.BackColor = System.Drawing.Color.RoyalBlue;
             this.flowLayoutPanel1.Controls.Add(this.buttOnPlatform);
             this.flowLayoutPanel1.Controls.Add(this.buttCenter);
+            this.flowLayoutPanel1.Controls.Add(this.buttArrange);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 54);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -115,9 +118,10 @@
             this.buttOnPlatform.Location = new System.Drawing.Point(5, 5);
             this.buttOnPlatform.Margin = new System.Windows.Forms.Padding(5);
             this.buttOnPlatform.Name = "buttOnPlatform";
-            this.buttOnPlatform.Size = new System.Drawing.Size(61, 48);
+            this.buttOnPlatform.Size = new System.Drawing.Size(48, 48);
             this.buttOnPlatform.StyleName = null;
             this.buttOnPlatform.TabIndex = 23;
+            this.ctlToolTip1.SetToolTip(this.buttOnPlatform, "Put object\r\non platform\r\n");
             this.buttOnPlatform.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttOnPlatform.Click += new System.EventHandler(this.buttOnPlatform_Click);
             // 
@@ -134,12 +138,13 @@
             this.buttCenter.GuiAnchor = null;
             this.buttCenter.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttCenter.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttCenter;
-            this.buttCenter.Location = new System.Drawing.Point(71, 5);
+            this.buttCenter.Location = new System.Drawing.Point(58, 5);
             this.buttCenter.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
             this.buttCenter.Name = "buttCenter";
-            this.buttCenter.Size = new System.Drawing.Size(60, 48);
+            this.buttCenter.Size = new System.Drawing.Size(48, 48);
             this.buttCenter.StyleName = null;
             this.buttCenter.TabIndex = 24;
+            this.ctlToolTip1.SetToolTip(this.buttCenter, "Center object");
             this.buttCenter.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttCenter.Click += new System.EventHandler(this.buttCenter_Click);
             // 
@@ -419,6 +424,37 @@
             this.buttZPlus.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttZPlus.Click += new System.EventHandler(this.buttZPlus_Click);
             // 
+            // buttArrange
+            // 
+            this.buttArrange.BackColor = System.Drawing.Color.Navy;
+            this.buttArrange.Checked = false;
+            this.buttArrange.CheckImage = null;
+            this.buttArrange.Gapx = 5;
+            this.buttArrange.Gapy = 5;
+            this.buttArrange.GLBackgroundImage = null;
+            this.buttArrange.GLImage = null;
+            this.buttArrange.GLVisible = false;
+            this.buttArrange.GuiAnchor = null;
+            this.buttArrange.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttArrange.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttArrange;
+            this.buttArrange.Location = new System.Drawing.Point(111, 5);
+            this.buttArrange.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
+            this.buttArrange.Name = "buttArrange";
+            this.buttArrange.Size = new System.Drawing.Size(48, 48);
+            this.buttArrange.StyleName = null;
+            this.buttArrange.TabIndex = 25;
+            this.ctlToolTip1.SetToolTip(this.buttArrange, "Arrange objects\r\non platform");
+            this.buttArrange.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttArrange.Click += new System.EventHandler(this.buttArrange_Click);
+            // 
+            // ctlToolTip1
+            // 
+            this.ctlToolTip1.AutoPopDelay = 5000;
+            this.ctlToolTip1.BackColor = System.Drawing.Color.Turquoise;
+            this.ctlToolTip1.ForeColor = System.Drawing.Color.Navy;
+            this.ctlToolTip1.InitialDelay = 1500;
+            this.ctlToolTip1.ReshowDelay = 100;
+            // 
             // ctlMoveExpand
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -457,5 +493,7 @@
         private ctlTextBox textMoveZ;
         private ctlImageButton buttZPlus;
         private ctlTitle ctlTitle1;
+        private ctlImageButton buttArrange;
+        private ctlToolTip ctlToolTip1;
     }
 }

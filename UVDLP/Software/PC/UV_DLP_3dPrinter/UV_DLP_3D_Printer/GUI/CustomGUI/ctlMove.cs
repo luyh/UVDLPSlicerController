@@ -128,5 +128,10 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         }
 
+        private void buttArrange_Click(object sender, EventArgs e)
+        {
+            UVDLPApp.Instance().Engine3D.RearrangeObjects();
+        }
+
     }
 }

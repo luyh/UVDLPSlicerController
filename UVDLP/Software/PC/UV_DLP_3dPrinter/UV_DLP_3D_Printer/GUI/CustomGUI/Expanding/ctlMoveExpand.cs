@@ -159,5 +159,10 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI.Expanding
             flowLayoutPanel8.Width = flowLayoutPanel8.Parent.Width - 6;
             flowLayoutPanel10.Width = flowLayoutPanel10.Parent.Width - 6;
         }
+
+        private void buttArrange_Click(object sender, EventArgs e)
+        {
+            UVDLPApp.Instance().Engine3D.RearrangeObjects();
+        }
     }
 }

@@ -235,5 +235,60 @@ namespace Engine3D
         {
         
         }
+
+        /*
+         * This function try to rearranges all objects on the build platform so they 
+         * do not touch each other
+         */
+        public void RearrangeObjects()
+        {
+            BinPacker bp = new BinPacker();
+            List<BinPacker.BinRect> rects = new List<BinPacker.BinRect>();
+            foreach (Object3d obj in m_objects)
+            {
+                float w = obj.m_max.x - obj.m_min.x;
+                float h = obj.m_max.y - obj.m_min.y;
+                BinPacker.BinRect rc = new BinPacker.BinRect(w, h, obj);
+                rects.Add(rc);
+            }
+            
+            float pw = (float)UVDLPApp.Instance().m_printerinfo.m_PlatXSize;
+            float ph = (float)UVDLPApp.Instance().m_printerinfo.m_PlatYSize;
+            bp.Pack(rects, (int)pw, (int)ph, true);
+
+            // find pack size
+            int maxw = 0;
+            int maxh = 0;
+            foreach (BinPacker.BinRect rc in rects)
+            {
+                if (rc.packed && ((rc.x + rc.w) > maxw))
+                    maxw = rc.x + rc.w;
+                if (rc.packed && ((rc.y + rc.h) > maxh))
+                    maxh = rc.y + rc.h;
+            }
+
+            // find offsets to center all objects
+            float offsx = -(float)maxw / 2f + 0.5f;
+            float offsy = -(float)maxh / 2f + 0.5f;
+
+            // move all objects to new positions
+            foreach (BinPacker.BinRect rc in rects)
+            {
+                Object3d obj = (Object3d)rc.obj;
+                if (rc.packed)
+                {
+                    if (rc.rotated)
+                        obj.Rotate(0, 0, 1.570796326f);
+                    obj.Translate(rc.x - obj.m_min.x + offsx, rc.y - obj.m_min.y + offsy, 0);
+                }
+                else
+                {
+                    // object could not fit, place outside platform
+                    obj.Translate(pw / 2f - obj.m_min.x, 0, 0);
+                }
+            }
+            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw,"Redraw new arrangement");
+
+        }
     }
 }
