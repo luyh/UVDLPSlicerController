@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.mainViewSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.textProgress = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlText();
             this.buttRedo = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttUndo = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.numLayer = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
@@ -50,7 +49,6 @@
             // 
             // mainViewSplitContainer.Panel2
             // 
-            this.mainViewSplitContainer.Panel2.Controls.Add(this.textProgress);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.buttRedo);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.buttUndo);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.numLayer);
@@ -60,22 +58,6 @@
             this.mainViewSplitContainer.Size = new System.Drawing.Size(1200, 700);
             this.mainViewSplitContainer.SplitterDistance = 77;
             this.mainViewSplitContainer.TabIndex = 28;
-            // 
-            // textProgress
-            // 
-            this.textProgress.BackColor = System.Drawing.Color.Transparent;
-            this.textProgress.Gapx = 0;
-            this.textProgress.Gapy = 0;
-            this.textProgress.GLBackgroundImage = null;
-            this.textProgress.GLFont = "Arial18";
-            this.textProgress.GLVisible = false;
-            this.textProgress.GuiAnchor = null;
-            this.textProgress.Location = new System.Drawing.Point(452, 440);
-            this.textProgress.Name = "textProgress";
-            this.textProgress.Size = new System.Drawing.Size(76, 30);
-            this.textProgress.StyleName = null;
-            this.textProgress.TabIndex = 34;
-            this.textProgress.Text = "79 %";
             // 
             // buttRedo
             // 
@@ -229,6 +211,5 @@
         private CustomGUI.ctlToolTip ctlToolTip1;
         private CustomGUI.ctlImageButton buttRedo;
         private ctlGL glControl1;
-        private CustomGUI.ctlText textProgress;
     }
 }

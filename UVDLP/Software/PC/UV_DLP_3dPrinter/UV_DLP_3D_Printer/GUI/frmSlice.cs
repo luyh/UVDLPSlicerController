@@ -21,7 +21,6 @@ namespace UV_DLP_3D_Printer.GUI
         {
             InitializeComponent();
             SetProgressSpinner(false);
-            //UVDLPApp.Instance().m_slicer.Sliced +=new Slicer.LayerSliced(LayerSliced);
             UVDLPApp.Instance().m_slicer.Slice_Event += new Slicer.SliceEvent(SliceEv);
             SetTitle();
 

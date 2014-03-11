@@ -123,7 +123,12 @@ namespace UV_DLP_3D_Printer
             {
                 retval = true;
             }
-            m_monitorconfig.Save(xh, mc);
+            // save all the monitor configurations
+            foreach (MonitorConfig monc in m_lstMonitorconfigs) 
+            {
+                monc.Save(xh, mc);
+            }
+            //m_monitorconfig.Save(xh, mc);
             xh.Save(FILE_VERSION);
             return retval;
         }
@@ -179,12 +184,13 @@ namespace UV_DLP_3D_Printer
             m_monitorconfig.CalcPixPerMM(m_PlatXSize, m_PlatYSize); 
         }
 
+        /*
         public void SetDLPRes(double xres, double yres)
         {
             m_monitorconfig.SetDLPRes(xres, yres);
             CalcPixPerMM();
         }
-        
+        */
         public void SetPlatSize(double xsz, double ysz)
         {
             m_PlatXSize = xsz;

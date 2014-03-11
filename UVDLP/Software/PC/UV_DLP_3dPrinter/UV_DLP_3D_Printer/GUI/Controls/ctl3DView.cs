@@ -1004,7 +1004,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             guiconf.AddButton("undo", buttUndo); 
             guiconf.AddButton("redo", buttRedo); 
             guiconf.AddControl("clayernum", numLayer);
-            guiconf.AddControl("progress", textProgress);
+            //guiconf.AddControl("progress", textProgress);
 
 
         }

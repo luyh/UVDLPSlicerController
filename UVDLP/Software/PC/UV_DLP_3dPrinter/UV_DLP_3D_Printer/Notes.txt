@@ -1,6 +1,14 @@
 ﻿
 ToDo:
 
+Multiple monitor configuration
+in the machine configuratiuon:
+	all the user to 'add' a display
+	save the display settings
+	the final render size can be either custom or the size of a monitors resolution
+	Should monitor configs even save thier resoltions? <- maybe just to verify
+
+
 Copy the layout of matter control.
  expanding controls, clean layout, 
 better hierchachal xml panels - 

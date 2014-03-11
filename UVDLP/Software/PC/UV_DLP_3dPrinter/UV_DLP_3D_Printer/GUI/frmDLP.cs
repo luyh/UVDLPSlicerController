@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using UV_DLP_3D_Printer.Configs;
 
 namespace UV_DLP_3D_Printer
 {
@@ -18,17 +19,37 @@ namespace UV_DLP_3D_Printer
     public partial class frmDLP : Form
     {
         Screen m_dlpscreen = null;
+        private string m_screenid;
         Timer m_tmr;
-
+        //float m_l, m_r, m_t, m_b;
+        MonitorConfig.MRect m_rect;
         public frmDLP()
         {
             InitializeComponent();
+            m_screenid = "";
+            m_rect = new MonitorConfig.MRect();
+            //if we're not set correctly, default to full screen
+            m_rect.top = 0.0f;
+            m_rect.left = 0.0f;
+            m_rect.bottom = 1.0f;
+            m_rect.right = 1.0f;
+
             m_tmr = new Timer();
             m_tmr.Interval = 1000;
             m_tmr.Tick += new EventHandler(m_tmr_Tick);
             m_tmr.Start();
             UVDLPApp.Instance().m_buildmgr.PrintLayer += new delPrinterLayer(PrintLayer);
         }
+        /// <summary>
+        /// This sets the screen identifier and display portion so this form knows which screen to display into
+        /// </summary>
+        /// 
+        public void Setup(string screenid, MonitorConfig.MRect rect) 
+        {
+            m_screenid = screenid;
+            m_rect = rect;
+        }
+        
         //This delegate is called when the print manager is printing a new layer
         void PrintLayer(Bitmap bmp, int layer, int layertype)
         {
@@ -107,7 +128,19 @@ namespace UV_DLP_3D_Printer
         {
             try
             {
-                picDLP.Image = i;
+                // change this to show only the visible portion of the image based on the 
+                // scaling / display portion
+                int xp = (int)(m_rect.left * i.Width);
+                int yp = (int)(m_rect.top * i.Height);
+                int xh = (int)(m_rect.right * i.Width);
+                int yh = (int)(m_rect.bottom * i.Height);
+                //
+                Rectangle srcRect = new Rectangle(xp, yp, xh - xp, yh - yp);
+                Bitmap b = (Bitmap)i;
+                Bitmap cropped = (Bitmap)b.Clone(srcRect, i.PixelFormat); 
+                //i.
+                picDLP.Image = cropped;
+                GC.Collect();
             }
             catch (Exception ex) 
             {

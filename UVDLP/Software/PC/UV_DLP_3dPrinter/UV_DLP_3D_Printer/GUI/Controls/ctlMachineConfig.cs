@@ -42,9 +42,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 txtPlatTall.Text = m_config.m_PlatZSize.ToString();
                 projwidth.Text = "" + m_config.m_monitorconfig.XRes;
                 projheight.Text = "" + m_config.m_monitorconfig.YRes;
-                //txtXFeed.Text = m_config.XMaxFeedrate.ToString();
-                //txtYFeed.Text = m_config.YMaxFeedrate.ToString();
-                //txtZFeed.Text = m_config.ZMaxFeedrate.ToString();
                 //select the current monitor
                 int idx = 0;
                 foreach (String s in lstMonitors.Items) 
@@ -79,12 +76,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 {
                     m_config.m_machinetype = (MachineConfig.eMachineType)Enum.Parse(typeof(MachineConfig.eMachineType), cmbMachineType.SelectedItem.ToString());
                 }
-                /*
-                if (lstDrivers.SelectedIndex != -1) 
-                {
-                    m_config.m_driverconfig.m_drivertype = (eDriverType)Enum.Parse(typeof(eDriverType), lstDrivers.SelectedItem.ToString());
-                }
-                 */ 
                 if (m_saved != m_config.m_driverconfig.m_drivertype) 
                 {
                     UVDLPApp.Instance().SetupDriver();
@@ -95,9 +86,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_config.m_PlatZSize = double.Parse(txtPlatTall.Text);
                 m_config.m_monitorconfig.m_XDLPRes = double.Parse(projwidth.Text);
                 m_config.m_monitorconfig.m_YDLPRes = double.Parse(projheight.Text);
-                //m_config.XMaxFeedrate = double.Parse(txtXFeed.Text);
-                //m_config.YMaxFeedrate = double.Parse(txtYFeed.Text);
-                //m_config.ZMaxFeedrate = double.Parse(txtZFeed.Text);
                 m_config.CalcPixPerMM();
                 if (lstMonitors.SelectedIndex != -1)
                 {
@@ -226,35 +214,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 DebugLogger.Instance().LogRecord(ex.Message);
             }
         }
-        /*
-        private void lstMachineProfiles_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (lstMachineProfiles.SelectedIndex != -1)
-            {
-                UpdateButtons();
-                // the profile may have changed, 
-                if (cmbMachineProfiles.SelectedItem.ToString().Equals(lstMachineProfiles.SelectedItem.ToString()))
-                {
-                    //we clicked on the current profile
-                    m_config = null;
-                    m_config = UVDLPApp.Instance().m_printerinfo;
-                    SetData(); // show the data
-                    UpdateMainConnection();
-                    UpdateDisplayConnection();
-                }
-                else 
-                {
-                    //load this profile
-                    string filename = UVDLPApp.Instance().m_PathMachines + UVDLPApp.m_pathsep + lstMachineProfiles.SelectedItem.ToString() + ".machine";
-                    m_config = new MachineConfig();
-                    m_config.Load(filename);
-                    SetData(); // show the data
-                    UpdateMainConnection();
-                    UpdateDisplayConnection();
-                }
-            }
-        }
-         * */
+
         private void UpdateButtons()
         {
             int idx = cmbMachineProfiles.SelectedIndex;

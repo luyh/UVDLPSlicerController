@@ -62,30 +62,12 @@ namespace UV_DLP_3D_Printer.Configs
             m_monitorrect.bottom = (float)xh.GetDouble(mdc, "MonitorBottom", 1.0);
             return true;
         }        
-        /*
-        public bool Load(XmlHelper xh, XmlNode parent)
-        {
-            XmlNode mdc = xh.FindSection(parent, "MonitorDriverConfig");
-            m_XDLPRes = xh.GetDouble(mdc, "DLP_X_Res", 1024.0);
-            m_YDLPRes = xh.GetDouble(mdc, "DLP_Y_Res", 768.0);
-            m_monitorid = xh.GetString(mdc, "MonitorID", "");
-            m_displayconnectionenabled = xh.GetBool(mdc, "DisplayCommEnabled", false);
-            m_displayconnection.Load(xh, mdc);
-            m_monitorrect.top = (float)xh.GetDouble(mdc, "MonitorTop", 0.0);
-            m_monitorrect.left = (float)xh.GetDouble(mdc, "MonitorLeft", 0.0);
-            m_monitorrect.right = (float)xh.GetDouble(mdc, "MonitorRight", 1.0);
-            m_monitorrect.bottom = (float)xh.GetDouble(mdc, "MonitorBottom", 1.0);
-            return true;
-        }
-        */
+
         public bool Save(XmlHelper xh, XmlNode parent) // use new xml system -SHS
         {
             XmlNode mdc = xh.FindSection(parent, "MonitorDriverConfig");
             xh.SetParameter(mdc, "DLP_X_Res", m_XDLPRes);
             xh.SetParameter(mdc, "DLP_Y_Res", m_YDLPRes);
-            // m_Xpixpermm and m_Ypixpermm are calculated dinamically, no need to save/load
-            //xh.SetParameter(mdc, "PixPermmX", m_Xpixpermm);
-            //xh.SetParameter(mdc, "PixPermmY", m_Ypixpermm);
             xh.SetParameter(mdc, "MonitorID", m_monitorid);
             xh.SetParameter(mdc, "DisplayCommEnabled", m_displayconnectionenabled);
             m_displayconnection.Save(xh, mdc);
@@ -112,13 +94,13 @@ namespace UV_DLP_3D_Printer.Configs
                 m_Ypixpermm = 1.0;
             }
         }
-
+        /*
         public void SetDLPRes(double xres, double yres)
         {
             m_XDLPRes = xres;
             m_YDLPRes = yres;
         }
-
+        */
         public double PixPerMMX { get { return m_Xpixpermm; } }
         public double PixPerMMY { get { return m_Ypixpermm; } }
         public int XRes { get { return (int)m_XDLPRes; } }
