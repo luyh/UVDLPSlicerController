@@ -246,6 +246,8 @@ namespace Engine3D
             List<BinPacker.BinRect> rects = new List<BinPacker.BinRect>();
             foreach (Object3d obj in m_objects)
             {
+                if (obj.tag != Object3d.OBJ_NORMAL)
+                    continue;
                 float w = obj.m_max.x - obj.m_min.x;
                 float h = obj.m_max.y - obj.m_min.y;
                 BinPacker.BinRect rc = new BinPacker.BinRect(w, h, obj);
@@ -279,12 +281,14 @@ namespace Engine3D
                 {
                     if (rc.rotated)
                         obj.Rotate(0, 0, 1.570796326f);
-                    obj.Translate(rc.x - obj.m_min.x + offsx, rc.y - obj.m_min.y + offsy, 0);
+                    float dx = rc.x - obj.m_min.x + offsx;
+                    float dy = rc.y - obj.m_min.y + offsy;
+                    obj.Translate(dx, dy, 0, true);
                 }
                 else
                 {
                     // object could not fit, place outside platform
-                    obj.Translate(pw / 2f - obj.m_min.x, 0, 0);
+                    obj.Translate(pw / 2f - obj.m_min.x, 0, 0, true);
                 }
             }
             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw,"Redraw new arrangement");

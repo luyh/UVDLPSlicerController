@@ -39,6 +39,7 @@ namespace UV_DLP_3D_Printer.GUI
                 {
                     m_timer.Stop();
                     Close();
+                    UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "splash end");
                     return;
                 }
                 

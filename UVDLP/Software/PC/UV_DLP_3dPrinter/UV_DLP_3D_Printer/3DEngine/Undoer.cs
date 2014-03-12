@@ -107,7 +107,7 @@ namespace Engine3D
                 switch (item.opType)
                 {
                     case eOperationType.Translate:
-                        item.obj.Translate(-(float)item.x, -(float)item.y, -(float)item.z);
+                        item.obj.Translate(-(float)item.x, -(float)item.y, -(float)item.z, false);
                         break;
 
                     case eOperationType.Rotate:

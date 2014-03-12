@@ -279,6 +279,15 @@ namespace Engine3D
             }
                 
         }
+
+        public void AddToHeight(double delta_height)
+        {
+            FindMinMax();
+            double h = m_max.z - m_min.z; // current height
+            ScaleToHeight(h + delta_height);
+        }
+
+
         public override void RenderGL(bool showalpha, bool selected, bool renderSelection)
          {
              GL.Begin(PrimitiveType.Lines);//.LineStrip);

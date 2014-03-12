@@ -28,9 +28,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI.Expanding
                 x *= val;
                 y *= val;
                 z *= val;
-                UVDLPApp.Instance().SelectedObject.Translate(x, y, z);
-                UVDLPApp.Instance().m_undoer.SaveTranslation(UVDLPApp.Instance().SelectedObject, x, y, z);
-                UVDLPApp.Instance().SelectedObject.Update(); // make sure we update
+                UVDLPApp.Instance().SelectedObject.Translate(x, y, z, true);
+                //UVDLPApp.Instance().m_undoer.SaveTranslation(UVDLPApp.Instance().SelectedObject, x, y, z);  // moved to translate function
+                //UVDLPApp.Instance().SelectedObject.Update(); // make sure we update                         // moved to translate function
                 //ShowObjectInfo();
                 UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eUpdateSelectedObject, "updateobject");
             }
@@ -74,9 +74,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI.Expanding
         {
             if (UVDLPApp.Instance().SelectedObject == null) return;
             Point3d center = UVDLPApp.Instance().SelectedObject.CalcCenter();
-            UVDLPApp.Instance().SelectedObject.Translate((float)-center.x, (float)-center.y, (float)-center.z);
-            UVDLPApp.Instance().m_undoer.SaveTranslation(UVDLPApp.Instance().SelectedObject, (float)-center.x, (float)-center.y, (float)-center.z);
-            UVDLPApp.Instance().SelectedObject.Update(); // make sure we update
+            UVDLPApp.Instance().SelectedObject.Translate((float)-center.x, (float)-center.y, (float)-center.z, true);
+            //UVDLPApp.Instance().m_undoer.SaveTranslation(UVDLPApp.Instance().SelectedObject, (float)-center.x, (float)-center.y, (float)-center.z);
+            //UVDLPApp.Instance().SelectedObject.Update(); // make sure we update
             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eUpdateSelectedObject, "updateobject");
         }
 
@@ -91,9 +91,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI.Expanding
             float zmove = -zlev - epsilon;
             //UVDLPApp.Instance().SelectedObject.Translate((float)0, (float)0, (float)-zlev);
             //UVDLPApp.Instance().SelectedObject.Translate((float)0, (float)0, (float)-epsilon);
-            UVDLPApp.Instance().SelectedObject.Translate(0, 0, zmove);
-            UVDLPApp.Instance().m_undoer.SaveTranslation(UVDLPApp.Instance().SelectedObject, 0, 0, zmove);
-            UVDLPApp.Instance().SelectedObject.Update(); // make sure we update
+            UVDLPApp.Instance().SelectedObject.Translate(0, 0, zmove, true);
+            //UVDLPApp.Instance().m_undoer.SaveTranslation(UVDLPApp.Instance().SelectedObject, 0, 0, zmove);
+            //UVDLPApp.Instance().SelectedObject.Update(); // make sure we update
             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eUpdateSelectedObject, "updateobject");
         }
 

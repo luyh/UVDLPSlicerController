@@ -112,7 +112,8 @@ namespace UV_DLP_3D_Printer
                 case SupportConfig.eAUTOSUPPORTTYPE.eADAPTIVE:
                     GenerateAdaptive();
                     break;
-            }            
+            }
+            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "Support generation ended");
         }
         /// <summary>
         /// This is a helper function that converts 3d polylines to 2d
@@ -429,6 +430,7 @@ namespace UV_DLP_3D_Printer
                                 s.SetColor(Color.Yellow);
                                 scnt++;
                                 lstsupports.Add(s);
+                                htd.obj.AddSupport(s);
                                 RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eSupportGenerated, s.Name, s);
                                 break; // only need to make one support
                             }

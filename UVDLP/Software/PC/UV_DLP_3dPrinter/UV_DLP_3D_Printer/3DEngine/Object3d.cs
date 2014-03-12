@@ -21,6 +21,7 @@ namespace Engine3D
         public List<Polygon> m_lstpolys;// list of polygons
         public List<PolyLine3d> m_boundingBox;
         public List<Support> m_supports; // a list of support objects attached to this one
+        public Object3d m_parrent = null;
 
         private string m_name; // just the filename
         public string m_fullname; // full path with filename
@@ -84,6 +85,26 @@ namespace Engine3D
             return obj;
         }
 
+        public void AddSupport(Support s)
+        {
+            if (s == null)
+                return;
+            if (s.m_parrent != null) 
+                s.m_parrent.RemoveSupport(s);
+            s.m_parrent = this;
+            if (m_supports.IndexOf(s) < 0)
+                m_supports.Add(s);
+        }
+
+        public void RemoveSupport(Support s)
+        {
+            if (s == null)
+                return;
+            while (m_supports.IndexOf(s) >= 0)
+                m_supports.Remove(s);
+            s.m_parrent = null;
+        }
+
 
         public void InvalidateList() 
         {
@@ -136,15 +157,9 @@ namespace Engine3D
             }
         }
 
-        public void Rotate(float x, float y, float z) 
+        void Rotate(Matrix3D rotmat)
         {
-            Point3d center = CalcCenter();
-            Translate((float)-center.x, (float)-center.y, (float)-center.z);
-
-            Matrix3D rotmat = new Matrix3D();
-            rotmat.Identity();
-            rotmat.Rotate(x, y, z);
-            for(int c = 0; c< m_lstpoints.Count;c++)            
+            for (int c = 0; c < m_lstpoints.Count; c++)
             {
                 Point3d p = (Point3d)m_lstpoints[c];
                 Point3d p1 = rotmat.Transform(p);
@@ -152,7 +167,28 @@ namespace Engine3D
                 p.y = p1.y;
                 p.z = p1.z;
             }
-            Translate((float)center.x, (float)center.y, (float)center.z);
+        }
+
+        public void Rotate(float x, float y, float z) 
+        {
+            Point3d center = CalcCenter();
+            float cz = center.z;
+            if ((x == 0) && (y == 0))
+                cz = 0;
+            // else - i think we need to delete all supports -SHS
+            Translate((float)-center.x, (float)-center.y, (float)-cz);
+
+            Matrix3D rotmat = new Matrix3D();
+            rotmat.Identity();
+            rotmat.Rotate(x, y, z);
+            Rotate(rotmat);
+            if ((x == 0) && (y == 0))
+            {
+                foreach (Support sup in m_supports)
+                    sup.Rotate(rotmat);
+            }
+ 
+            Translate((float)center.x, (float)center.y, (float)cz);
         }
         public void Scale(float sfx,float sfy, float sfz)
         {
@@ -626,7 +662,7 @@ namespace Engine3D
         }
 
         /*Move the model in object space */
-        public void Translate(float x, float y, float z) 
+        public void Translate(float x, float y, float z, bool updateUndo = false) 
         {
             foreach (Point3d p in m_lstpoints) 
             {
@@ -634,7 +670,20 @@ namespace Engine3D
                 p.y += y;
                 p.z += z;
             }
+            // translate connected supports as well
+            if ((x != 0) || (y != 0))
+            {
+                foreach (Support sup in m_supports)
+                    sup.Translate(x, y, 0);
+            }
+            if (z != 0)
+            {
+                foreach (Support sup in m_supports)
+                    sup.AddToHeight(z);
+            }
             Update();
+            if (updateUndo)
+                UVDLPApp.Instance().m_undoer.SaveTranslation(this, x, y, z);
         }
         public bool LoadSTL(string filename) 
         {
