@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using UV_DLP_3D_Printer.GUI.CustomGUI;
+using UV_DLP_3D_Printer.Configs;
 
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
@@ -17,7 +18,16 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             InitializeComponent();
             UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEventDel);
             UpdateProjectorCommands();
-            UpdateProjConnected();
+            //UpdateProjConnected();
+            PopulateDisplays();
+        }
+        private void PopulateDisplays() 
+        {
+            cmbDisplays.Items.Clear();
+            foreach(MonitorConfig mc in UVDLPApp.Instance().m_printerinfo.m_lstMonitorconfigs)
+            {
+                cmbDisplays.Items.Add(mc.Monitorid);
+            }
         }
         /*
         public override void ApplyStyle(ControlStyle ct)
@@ -40,6 +50,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         /// </summary>
         public void UpdateControl()
         {
+            /*
             if (UVDLPApp.Instance().m_printerinfo.m_monitorconfig.m_displayconnectionenabled == false)
             {
                 cmdConnect.Enabled = false;
@@ -50,7 +61,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 cmdConnect.Enabled = true;
                 cmdSendProj.Enabled = true;
             }
-
+            */
         }
         private void AppEventDel(eAppEvent ev, String Message)
         {
@@ -96,6 +107,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             try
             {
+                int idx = cmbDisplays.SelectedIndex;
+                if(idx == -1)return;
+                MonitorConfig mc = UVDLPApp.Instance().m_printerinfo.m_lstMonitorconfigs[idx];
+                //magic needs to happen here with the serial connection to the monitor
+                /*
                 if (UVDLPApp.Instance().m_deviceinterface.ConnectedProjector)
                 {
                     cmdConnect.Text = "Disconnect Monitor";
@@ -104,6 +120,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 {
                     cmdConnect.Text = "Connect Monitor";
                 }
+                 */ 
             }
             catch (Exception ex)
             {
@@ -112,7 +129,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         }
         private void cmdConnect_Click(object sender, EventArgs e)
         {
-            //UVDLPApp.Instance().m_deviceinterface.Configure(UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_connection);
+            /*
             if (UVDLPApp.Instance().m_deviceinterface.ConnectedProjector == false)
             {
                 UVDLPApp.Instance().m_deviceinterface.ConfigureProjector(UVDLPApp.Instance().m_printerinfo.m_monitorconfig.m_displayconnection);
@@ -126,6 +143,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 UVDLPApp.Instance().m_deviceinterface.DisconnectProjector();
                 UpdateProjConnected();
             }
+             * */
         }
 
         private void cmdHide_Click(object sender, EventArgs e)
@@ -147,6 +165,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             try
             {
+                /*
                 // get the index from the combo box
                 int idx = cmbCommands.SelectedIndex;
                 if (idx == -1) return;
@@ -156,11 +175,17 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 {
                     UVDLPApp.Instance().m_deviceinterface.DriverProjector.Write(dat, dat.Length);
                 }
+                 * */
             }
             catch (Exception ex)
             {
                 DebugLogger.Instance().LogError(ex.Message);
             }
+        }
+
+        private void cmbDisplays_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateProjConnected();
         }
     }
 }

@@ -65,7 +65,8 @@ namespace UV_DLP_3D_Printer.Configs
 
         public bool Save(XmlHelper xh, XmlNode parent) // use new xml system -SHS
         {
-            XmlNode mdc = xh.FindSection(parent, "MonitorDriverConfig");
+           // XmlNode mdc = xh.FindSection(parent, "MonitorDriverConfig");
+            XmlNode mdc = xh.AddSection(parent, "MonitorDriverConfig");
             xh.SetParameter(mdc, "DLP_X_Res", m_XDLPRes);
             xh.SetParameter(mdc, "DLP_Y_Res", m_YDLPRes);
             xh.SetParameter(mdc, "MonitorID", m_monitorid);

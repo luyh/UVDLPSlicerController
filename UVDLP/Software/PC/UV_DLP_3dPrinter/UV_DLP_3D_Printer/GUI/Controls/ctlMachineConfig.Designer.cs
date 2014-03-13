@@ -31,14 +31,10 @@
             this.label9 = new System.Windows.Forms.Label();
             this.cmbMachineType = new System.Windows.Forms.ComboBox();
             this.Monitors = new System.Windows.Forms.GroupBox();
+            this.cmdNewMonConfig = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.lblMonInfo = new System.Windows.Forms.Label();
             this.cmdRefreshMonitors = new System.Windows.Forms.Button();
             this.lstMonitors = new System.Windows.Forms.ListBox();
-            this.ProjectorRes = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.projheight = new System.Windows.Forms.TextBox();
-            this.projwidth = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtPlatTall = new System.Windows.Forms.TextBox();
@@ -58,14 +54,24 @@
             this.lblConDisp = new System.Windows.Forms.Label();
             this.cmdCfgConDsp = new System.Windows.Forms.Button();
             this.grpMachineConfig = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.cmdRemoveConfigured = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.label8 = new System.Windows.Forms.Label();
+            this.lbConfigured = new System.Windows.Forms.ListBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtYRes = new System.Windows.Forms.TextBox();
+            this.txtXRes = new System.Windows.Forms.TextBox();
             this.cmdCreate = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.cmdRemove = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.Monitors.SuspendLayout();
-            this.ProjectorRes.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.grpPrjSerial.SuspendLayout();
             this.grpMachineConfig.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label9
@@ -89,17 +95,39 @@
             // 
             // Monitors
             // 
+            this.Monitors.Controls.Add(this.cmdNewMonConfig);
             this.Monitors.Controls.Add(this.lblMonInfo);
             this.Monitors.Controls.Add(this.cmdRefreshMonitors);
             this.Monitors.Controls.Add(this.lstMonitors);
-            this.Monitors.Location = new System.Drawing.Point(8, 209);
+            this.Monitors.Location = new System.Drawing.Point(11, 206);
             this.Monitors.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Monitors.Name = "Monitors";
             this.Monitors.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Monitors.Size = new System.Drawing.Size(181, 173);
+            this.Monitors.Size = new System.Drawing.Size(270, 165);
             this.Monitors.TabIndex = 49;
             this.Monitors.TabStop = false;
-            this.Monitors.Text = "Display Device";
+            this.Monitors.Text = "Available Displays";
+            // 
+            // cmdNewMonConfig
+            // 
+            this.cmdNewMonConfig.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.cmdNewMonConfig.Checked = false;
+            this.cmdNewMonConfig.CheckImage = null;
+            this.cmdNewMonConfig.Gapx = 5;
+            this.cmdNewMonConfig.Gapy = 5;
+            this.cmdNewMonConfig.GLBackgroundImage = null;
+            this.cmdNewMonConfig.GLImage = null;
+            this.cmdNewMonConfig.GLVisible = false;
+            this.cmdNewMonConfig.GuiAnchor = null;
+            this.cmdNewMonConfig.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.cmdNewMonConfig.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPlus;
+            this.cmdNewMonConfig.Location = new System.Drawing.Point(9, 114);
+            this.cmdNewMonConfig.Name = "cmdNewMonConfig";
+            this.cmdNewMonConfig.Size = new System.Drawing.Size(40, 40);
+            this.cmdNewMonConfig.StyleName = null;
+            this.cmdNewMonConfig.TabIndex = 64;
+            this.cmdNewMonConfig.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.cmdNewMonConfig.Click += new System.EventHandler(this.cmdNewMonConfig_Click);
             // 
             // lblMonInfo
             // 
@@ -111,7 +139,7 @@
             // 
             // cmdRefreshMonitors
             // 
-            this.cmdRefreshMonitors.Location = new System.Drawing.Point(7, 132);
+            this.cmdRefreshMonitors.Location = new System.Drawing.Point(55, 118);
             this.cmdRefreshMonitors.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdRefreshMonitors.Name = "cmdRefreshMonitors";
             this.cmdRefreshMonitors.Size = new System.Drawing.Size(168, 36);
@@ -127,60 +155,9 @@
             this.lstMonitors.Location = new System.Drawing.Point(9, 32);
             this.lstMonitors.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lstMonitors.Name = "lstMonitors";
-            this.lstMonitors.Size = new System.Drawing.Size(164, 58);
+            this.lstMonitors.Size = new System.Drawing.Size(213, 76);
             this.lstMonitors.TabIndex = 0;
             this.lstMonitors.SelectedIndexChanged += new System.EventHandler(this.lstMonitors_SelectedIndexChanged);
-            // 
-            // ProjectorRes
-            // 
-            this.ProjectorRes.Controls.Add(this.label1);
-            this.ProjectorRes.Controls.Add(this.label2);
-            this.ProjectorRes.Controls.Add(this.projheight);
-            this.ProjectorRes.Controls.Add(this.projwidth);
-            this.ProjectorRes.Location = new System.Drawing.Point(197, 209);
-            this.ProjectorRes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ProjectorRes.Name = "ProjectorRes";
-            this.ProjectorRes.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ProjectorRes.Size = new System.Drawing.Size(213, 99);
-            this.ProjectorRes.TabIndex = 48;
-            this.ProjectorRes.TabStop = false;
-            this.ProjectorRes.Text = "Resolution (pixels)";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 64);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(50, 18);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Height";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 30);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 18);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Width";
-            // 
-            // projheight
-            // 
-            this.projheight.Location = new System.Drawing.Point(71, 62);
-            this.projheight.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.projheight.Name = "projheight";
-            this.projheight.Size = new System.Drawing.Size(67, 24);
-            this.projheight.TabIndex = 1;
-            this.projheight.Text = "768";
-            // 
-            // projwidth
-            // 
-            this.projwidth.Location = new System.Drawing.Point(71, 27);
-            this.projwidth.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.projwidth.Name = "projwidth";
-            this.projwidth.Size = new System.Drawing.Size(67, 24);
-            this.projwidth.TabIndex = 0;
-            this.projwidth.Text = "1024";
             // 
             // groupBox1
             // 
@@ -255,7 +232,7 @@
             // 
             // cmdOK
             // 
-            this.cmdOK.Location = new System.Drawing.Point(10, 516);
+            this.cmdOK.Location = new System.Drawing.Point(10, 468);
             this.cmdOK.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(122, 48);
@@ -323,7 +300,7 @@
             this.grpPrjSerial.Controls.Add(this.label12);
             this.grpPrjSerial.Controls.Add(this.lblConDisp);
             this.grpPrjSerial.Controls.Add(this.cmdCfgConDsp);
-            this.grpPrjSerial.Location = new System.Drawing.Point(197, 312);
+            this.grpPrjSerial.Location = new System.Drawing.Point(244, 21);
             this.grpPrjSerial.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpPrjSerial.Name = "grpPrjSerial";
             this.grpPrjSerial.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -375,20 +352,127 @@
             // 
             // grpMachineConfig
             // 
+            this.grpMachineConfig.Controls.Add(this.groupBox3);
+            this.grpMachineConfig.Controls.Add(this.groupBox2);
             this.grpMachineConfig.Controls.Add(this.groupBox1);
-            this.grpMachineConfig.Controls.Add(this.grpPrjSerial);
             this.grpMachineConfig.Controls.Add(this.groupBox4);
             this.grpMachineConfig.Controls.Add(this.Monitors);
             this.grpMachineConfig.Controls.Add(this.label9);
             this.grpMachineConfig.Controls.Add(this.cmbMachineType);
-            this.grpMachineConfig.Controls.Add(this.ProjectorRes);
             this.grpMachineConfig.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpMachineConfig.Location = new System.Drawing.Point(10, 55);
             this.grpMachineConfig.Name = "grpMachineConfig";
-            this.grpMachineConfig.Size = new System.Drawing.Size(423, 453);
+            this.grpMachineConfig.Size = new System.Drawing.Size(1009, 408);
             this.grpMachineConfig.TabIndex = 61;
             this.grpMachineConfig.TabStop = false;
             this.grpMachineConfig.Text = "Name";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.cmdRemoveConfigured);
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Controls.Add(this.lbConfigured);
+            this.groupBox3.Controls.Add(this.grpPrjSerial);
+            this.groupBox3.Location = new System.Drawing.Point(287, 206);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox3.Size = new System.Drawing.Size(473, 165);
+            this.groupBox3.TabIndex = 62;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Configured Displays";
+            // 
+            // cmdRemoveConfigured
+            // 
+            this.cmdRemoveConfigured.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.cmdRemoveConfigured.Checked = false;
+            this.cmdRemoveConfigured.CheckImage = null;
+            this.cmdRemoveConfigured.Gapx = 5;
+            this.cmdRemoveConfigured.Gapy = 5;
+            this.cmdRemoveConfigured.GLBackgroundImage = null;
+            this.cmdRemoveConfigured.GLImage = null;
+            this.cmdRemoveConfigured.GLVisible = false;
+            this.cmdRemoveConfigured.GuiAnchor = null;
+            this.cmdRemoveConfigured.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.cmdRemoveConfigured.Image = global::UV_DLP_3D_Printer.Properties.Resources.butMinus;
+            this.cmdRemoveConfigured.Location = new System.Drawing.Point(12, 113);
+            this.cmdRemoveConfigured.Name = "cmdRemoveConfigured";
+            this.cmdRemoveConfigured.Size = new System.Drawing.Size(40, 40);
+            this.cmdRemoveConfigured.StyleName = null;
+            this.cmdRemoveConfigured.TabIndex = 65;
+            this.cmdRemoveConfigured.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.cmdRemoveConfigured.Load += new System.EventHandler(this.cmdRemoveConfigured_Load);
+            this.cmdRemoveConfigured.Click += new System.EventHandler(this.cmdRemoveConfigured_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(9, 147);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(0, 18);
+            this.label8.TabIndex = 2;
+            // 
+            // lbConfigured
+            // 
+            this.lbConfigured.FormattingEnabled = true;
+            this.lbConfigured.ItemHeight = 18;
+            this.lbConfigured.Location = new System.Drawing.Point(9, 32);
+            this.lbConfigured.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.lbConfigured.Name = "lbConfigured";
+            this.lbConfigured.Size = new System.Drawing.Size(229, 76);
+            this.lbConfigured.TabIndex = 0;
+            this.lbConfigured.SelectedIndexChanged += new System.EventHandler(this.lbConfigured_SelectedIndexChanged);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.txtYRes);
+            this.groupBox2.Controls.Add(this.txtXRes);
+            this.groupBox2.Location = new System.Drawing.Point(416, 61);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox2.Size = new System.Drawing.Size(181, 141);
+            this.groupBox2.TabIndex = 61;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Output Resolution (px)";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(9, 64);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(50, 18);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Height";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(9, 30);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(46, 18);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "Width";
+            // 
+            // txtYRes
+            // 
+            this.txtYRes.Location = new System.Drawing.Point(71, 62);
+            this.txtYRes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtYRes.Name = "txtYRes";
+            this.txtYRes.Size = new System.Drawing.Size(67, 24);
+            this.txtYRes.TabIndex = 1;
+            this.txtYRes.Text = "768";
+            // 
+            // txtXRes
+            // 
+            this.txtXRes.Location = new System.Drawing.Point(71, 27);
+            this.txtXRes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtXRes.Name = "txtXRes";
+            this.txtXRes.Size = new System.Drawing.Size(67, 24);
+            this.txtXRes.TabIndex = 0;
+            this.txtXRes.Text = "1024";
             // 
             // cmdCreate
             // 
@@ -444,12 +528,10 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ctlMachineConfig";
-            this.Size = new System.Drawing.Size(443, 566);
+            this.Size = new System.Drawing.Size(1055, 524);
             this.Load += new System.EventHandler(this.ctlMachineConfig_Load);
             this.Monitors.ResumeLayout(false);
             this.Monitors.PerformLayout();
-            this.ProjectorRes.ResumeLayout(false);
-            this.ProjectorRes.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox4.ResumeLayout(false);
@@ -458,6 +540,10 @@
             this.grpPrjSerial.PerformLayout();
             this.grpMachineConfig.ResumeLayout(false);
             this.grpMachineConfig.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -470,11 +556,6 @@
         private System.Windows.Forms.Label lblMonInfo;
         private System.Windows.Forms.Button cmdRefreshMonitors;
         private System.Windows.Forms.ListBox lstMonitors;
-        private System.Windows.Forms.GroupBox ProjectorRes;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox projheight;
-        private System.Windows.Forms.TextBox projwidth;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtPlatTall;
@@ -496,5 +577,15 @@
         private System.Windows.Forms.GroupBox grpMachineConfig;
         private CustomGUI.ctlImageButton cmdCreate;
         private CustomGUI.ctlImageButton cmdRemove;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ListBox lbConfigured;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtYRes;
+        private System.Windows.Forms.TextBox txtXRes;
+        private CustomGUI.ctlImageButton cmdNewMonConfig;
+        private CustomGUI.ctlImageButton cmdRemoveConfigured;
     }
 }

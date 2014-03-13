@@ -36,8 +36,14 @@ namespace UV_DLP_3D_Printer
         public String m_name; // the profile name
         public String m_filename;// the filename of this profile. (not saved)
         public DeviceDriverConfig m_driverconfig;
-        public MonitorConfig m_monitorconfig;
+        //public MonitorConfig m_monitorconfig;
         public List<MonitorConfig> m_lstMonitorconfigs; // starting to add support for multiple monitors
+
+        // this is held here in the mahcine profile to copy to the slicing profile
+        // this rendering size can be different than the monitor size, it can be the size 
+        //of multiple monitors stiched together
+        public int XRenderSize;
+        public int YRenderSize;
 
         /// <summary>
         /// This allows for retrieve arbitrary variables from the machine XML configuration
@@ -69,6 +75,8 @@ namespace UV_DLP_3D_Printer
             m_XMaxFeedrate = xh.GetDouble(mc, "MaxXFeedRate", 100.0);
             m_YMaxFeedrate = xh.GetDouble(mc, "MaxYFeedRate", 100.0);
             m_ZMaxFeedrate = xh.GetDouble(mc, "MaxZFeedRate", 100.0);
+            XRenderSize = xh.GetInt(mc, "XRenderSize", 1024);
+            YRenderSize = xh.GetInt(mc, "YRenderSize", 768);
             m_machinetype = (eMachineType)xh.GetEnum(mc, "MachineType", typeof(eMachineType), eMachineType.UV_DLP);
 
             if (m_driverconfig.Load(xh, mc))
@@ -78,6 +86,7 @@ namespace UV_DLP_3D_Printer
 
             //m_monitorconfig.Load(xh, mc);
             List<XmlNode> monitornodes = xh.FindAllChildElement(mc, "MonitorDriverConfig");
+            m_lstMonitorconfigs = new List<MonitorConfig>();
             foreach (XmlNode node in monitornodes) 
             {
                 MonitorConfig monc = new MonitorConfig();
@@ -87,7 +96,7 @@ namespace UV_DLP_3D_Printer
             if (m_lstMonitorconfigs.Count > 0)
             {
                 // we need at least 1 monitor
-                m_monitorconfig = m_lstMonitorconfigs[0];
+                //m_monitorconfig = m_lstMonitorconfigs[0];
             }
             else 
             {
@@ -110,7 +119,9 @@ namespace UV_DLP_3D_Printer
             m_filename = filename;
             m_name = Path.GetFileNameWithoutExtension(filename);
             XmlHelper xh = new XmlHelper();
-            bool fileExist = xh.Start(m_filename, "MachineConfig");
+            // bool fileExist = xh.Start(m_filename, "MachineConfig");
+            //bool fileExist = false;
+            xh.StartNew(m_filename, "MachineConfig");
             XmlNode mc = xh.m_toplevel;
             xh.SetParameter(mc, "PlatformXSize", m_PlatXSize);
             xh.SetParameter(mc, "PlatformYSize", m_PlatYSize);
@@ -118,6 +129,9 @@ namespace UV_DLP_3D_Printer
             xh.SetParameter(mc, "MaxXFeedRate", m_XMaxFeedrate);
             xh.SetParameter(mc, "MaxYFeedRate", m_YMaxFeedrate);
             xh.SetParameter(mc, "MaxZFeedRate", m_ZMaxFeedrate);
+            xh.SetParameter(mc, "XRenderSize", XRenderSize);
+            xh.SetParameter(mc, "YRenderSize", YRenderSize);
+
             xh.SetParameter(mc, "MachineType", m_machinetype);
             if (m_driverconfig.Save(xh, mc))
             {
@@ -140,8 +154,10 @@ namespace UV_DLP_3D_Printer
             m_XMaxFeedrate = 100;
             m_YMaxFeedrate = 100;
             m_ZMaxFeedrate = 100;
+            XRenderSize = 1024;
+            YRenderSize = 768;
             m_driverconfig = new DeviceDriverConfig();
-            m_monitorconfig = new MonitorConfig();
+            //m_monitorconfig = new MonitorConfig();
             m_lstMonitorconfigs = new List<MonitorConfig>(); // create a list of monitors attached to the system
             m_machinetype = eMachineType.UV_DLP;
             CalcPixPerMM();
@@ -155,6 +171,8 @@ namespace UV_DLP_3D_Printer
             m_XMaxFeedrate = 100;
             m_YMaxFeedrate = 100;
             m_ZMaxFeedrate = 100;
+            XRenderSize = 1024;
+            YRenderSize = 768;
             m_driverconfig = new DeviceDriverConfig();
             m_driverconfig.m_drivertype = Drivers.eDriverType.eNULL_DRIVER;
             //m_monitorconfig = new MonitorConfig();
@@ -181,16 +199,10 @@ namespace UV_DLP_3D_Printer
 
         public void CalcPixPerMM()
         {
-            m_monitorconfig.CalcPixPerMM(m_PlatXSize, m_PlatYSize); 
+            //m_monitorconfig.CalcPixPerMM(m_PlatXSize, m_PlatYSize); 
         }
 
-        /*
-        public void SetDLPRes(double xres, double yres)
-        {
-            m_monitorconfig.SetDLPRes(xres, yres);
-            CalcPixPerMM();
-        }
-        */
+
         public void SetPlatSize(double xsz, double ysz)
         {
             m_PlatXSize = xsz;

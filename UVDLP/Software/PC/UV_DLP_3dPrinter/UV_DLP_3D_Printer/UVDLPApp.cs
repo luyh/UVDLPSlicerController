@@ -38,6 +38,7 @@ namespace UV_DLP_3D_Printer
         eSupportGenerated,
         eSlicedLoaded,
         eMachineTypeChanged,
+        eMachineConfigChanged,
         eSliceProfileChanged,
         eShowDLP,  // this event is raised when someone wants to show the DLP screen
         eShowCalib, // request to show calibration screen
@@ -78,7 +79,7 @@ namespace UV_DLP_3D_Printer
         public MachineConfig m_printerinfo = new MachineConfig();
         // the current building / slicing profile
         public SliceBuildConfig m_buildparms;
-
+        public DisplayManager m_dispmgr;// = DisplayManager.Instance(); // initialize the singleton for early event app binding
         // handle program wide callbacks by name
         public CallbackHandler m_callbackhandler;
 
@@ -125,6 +126,7 @@ namespace UV_DLP_3D_Printer
             m_buildmgr = new BuildManager();
             m_slicer = new Slicer();
             m_slicer.Slice_Event += new Slicer.SliceEvent(SliceEv);
+            //m_dispmgr = DisplayManager.Instance(); // initialize the singleton for early event app binding
             //m_flexslice = new FlexSlice();
             m_gcode = new GCodeFile(""); // create a blank gcode to start with
             m_supportconfig = new SupportConfig();
@@ -610,6 +612,7 @@ namespace UV_DLP_3D_Printer
                 m_appconfig.Save(m_apppath + m_pathsep + m_appconfigname);// this name doesn't change
             }
             RaiseAppEvent(eAppEvent.eMachineTypeChanged, "");
+            RaiseAppEvent(eAppEvent.eMachineConfigChanged, "");
             m_engine3d.UpdateGrid();
             return ret;
         }
@@ -636,6 +639,7 @@ namespace UV_DLP_3D_Printer
                 DebugLogger.Instance().LogRecord(ex.Message);
             }
         }
+        /*
         public void SetupDriverProjector()
         {
             DebugLogger.Instance().LogRecord("Changing monitor driver type to " + eDriverType.eGENERIC.ToString());
@@ -649,6 +653,7 @@ namespace UV_DLP_3D_Printer
             }
             m_deviceinterface.DriverProjector = DriverFactory.Create(eDriverType.eGENERIC);
         }
+         * */
         public void SetupDriver() 
         {
             DebugLogger.Instance().LogRecord("Changing driver type to " + m_printerinfo.m_driverconfig.m_drivertype.ToString());
@@ -724,6 +729,7 @@ namespace UV_DLP_3D_Printer
         }
         public void DoAppStartup() 
         {
+            m_dispmgr = DisplayManager.Instance();// initialze the displays
             m_apppath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             //get the path separater 
             if (RunningPlatform() == Platform.Windows)
@@ -777,7 +783,7 @@ namespace UV_DLP_3D_Printer
             }
             // set up the drivers
             SetupDriver();
-            SetupDriverProjector();
+            //SetupDriverProjector();
             // load the support configuration
             if (!LoadSupportConfig(m_appconfig.SupportConfigName))
             {

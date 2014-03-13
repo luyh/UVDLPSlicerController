@@ -24,7 +24,9 @@ namespace UV_DLP_3D_Printer
         }
         public double dpmmX; // dots per mm x
         public double dpmmY; // dots per mm y
-        public int xres, yres; // the resolution of the output image in pixels
+
+        public int xres, yres; // the resolution of the output image in pixels - set by the machine configuration
+
         public double ZThick; // thickness of the z layer - slicing height
         public int layertime_ms; // time to project image per layer in milliseconds
         public int firstlayertime_ms; // first layer exposure time 
@@ -203,12 +205,23 @@ namespace UV_DLP_3D_Printer
             // the rest will have been set up to the default values
             CreateDefault(); 
         }
+
         public void UpdateFrom(MachineConfig mf)
         {
-            dpmmX = mf.m_monitorconfig.PixPerMMX; //10 dots per mm
-            dpmmY = mf.m_monitorconfig.PixPerMMY;// 10;
-            xres = mf.m_monitorconfig.XRes;
-            yres = mf.m_monitorconfig.YRes;            
+            xres = mf.XRenderSize;//mf.m_monitorconfig.XRes; // does this need to be set here?
+            yres = mf.YRenderSize;//mf.m_monitorconfig.YRes;   
+            // gotta fix this
+            //get the dots per mm from the first monitor - this code will fail for multiple monitors
+            dpmmX = mf.m_lstMonitorconfigs[0].m_XDLPRes / mf.m_PlatXSize;
+            dpmmY = mf.m_lstMonitorconfigs[0].m_YDLPRes / mf.m_PlatYSize;
+            //dpmmX = mf.m_monitorconfig.PixPerMMX; //10 dots per mm
+            //dpmmY = mf.m_monitorconfig.PixPerMMY;// 10;
+            // dots per mm is the number of pixels per mm in the rendered image
+            //for a single monitor system, this will be the monitor res(pix) / platform size (mm)
+            // for a multi-monitor setup, it depends on the orientation of the monitors
+            //find total monitors x pixels
+            // find total monitors y pixels
+         
         }
         public void CreateDefault() 
         {

@@ -51,6 +51,13 @@ namespace UV_DLP_3D_Printer
             }
         
         }
+        public static string CleanMonitorString(string str)
+        {
+            string tmp = str.Replace("\\", string.Empty);
+            tmp = tmp.Replace(".", string.Empty);
+            tmp = tmp.Trim();
+            return tmp;
+        }
         public static string ByteArrayToString(byte[] ba)
         {
             StringBuilder hex = new StringBuilder(ba.Length * 2);

@@ -70,7 +70,7 @@ namespace UV_DLP_3D_Printer
         public DeviceDataReceived DataEvent; // event for indicating data received from the serial port
         public DeviceLineReceived LineDataEvent; // event for indicating a 'line' of data was received - termniated by '\r\n'
         private DeviceDriver m_driver; //support for a single device driver 
-        private DeviceDriver m_projector; // secondary interface
+        private List<DeviceDriver> m_lstprojectors; // serial interface for multiple monitors
 
         private bool m_ready; // ready to send a command
         // this is an override for the ready, some drivers like the EliteImageWorks,
@@ -84,7 +84,7 @@ namespace UV_DLP_3D_Printer
 
         public DeviceInterface() 
         {
-            m_projector = null;
+            m_lstprojectors = new List<DeviceDriver>();
             m_driver = null;
             m_ready = true;
             m_databufA = null;// new byte[BUFF_SIZE];
@@ -120,15 +120,32 @@ namespace UV_DLP_3D_Printer
                 m_driver.DeviceStatus += new DeviceDriver.DeviceStatusEvent(DriverDeviceStatusEvent);
             }
         }
-        // get and set the printdriver
-        public DeviceDriver DriverProjector
+
+        public void AddDriver(DeviceDriver d)
         {
-            get { return m_projector; }
+            m_lstprojectors.Add(d);
+            //add some events here..
+            d.DataReceived += new DeviceDriver.DataReceivedEvent(DriverDataReceivedEvent);
+            d.DeviceStatus += new DeviceDriver.DeviceStatusEvent(DriverDeviceStatusEvent);
+        }
+        public void RemoveDriver(DeviceDriver d)
+        {
+            m_lstprojectors.Remove(d);
+        }
+        public DeviceDriver GetDriver(int i) 
+        {
+            return m_lstprojectors[i];
+        }
+        /*
+        // get and set the printdriver
+        public DeviceDriver[] DriverProjector
+        {
+            get { return m_lstprojectors[]; }
             set 
             {
-                if (m_projector != null)
+                if (m_lstprojectors != null)
                 {
-                    DeviceDriver olddriver = m_projector;
+                    DeviceDriver olddriver = m_lstprojectors;
                     if(olddriver.Connected == true)
                         olddriver.Disconnect(); // disconnect the old driver
                     //remove the old device driver delegates
@@ -136,23 +153,27 @@ namespace UV_DLP_3D_Printer
                     olddriver.DeviceStatus -= new DeviceDriver.DeviceStatusEvent(DriverDeviceStatusEvent);
                 }
                 //set the new driver
-                m_projector = value; 
+                m_lstprojectors = value; 
                 //and bind the delegates to listen to events
-                m_projector.DataReceived += new DeviceDriver.DataReceivedEvent(DriverDataReceivedEvent);
-                m_projector.DeviceStatus += new DeviceDriver.DeviceStatusEvent(DriverDeviceStatusEvent);
+                m_lstprojectors.DataReceived += new DeviceDriver.DataReceivedEvent(DriverDataReceivedEvent);
+                m_lstprojectors.DeviceStatus += new DeviceDriver.DeviceStatusEvent(DriverDeviceStatusEvent);
             }
         }
-
-
+        */
         public void Configure(ConnectionConfig cc) 
         {
             Driver.Configure(cc);
         }
+        public void Configure(ConnectionConfig cc,int idx)
+        {
+            m_lstprojectors[idx].Configure(cc);
+        }
+        /*
         public void ConfigureProjector(ConnectionConfig cc) 
         {
             DriverProjector.Configure(cc);
         }
-        
+        */
         public void DriverDeviceStatusEvent(DeviceDriver device, eDeviceStatus status) 
         {
             switch (status) 
@@ -284,7 +305,7 @@ namespace UV_DLP_3D_Printer
         }
 
         public bool Connected { get { return m_driver.Connected; } }
-        public bool ConnectedProjector { get { return m_projector.Connected; } }
+        //public bool ConnectedProjector { get { return m_lstprojectors.Connected; } }
 
 
         /*
@@ -359,18 +380,18 @@ namespace UV_DLP_3D_Printer
                 return false;
             }
         }
-
+        /*
         public bool DisconnectProjector() 
         {
             //m_ready = false;
-            return m_projector.Disconnect();
+            return m_lstprojectors.Disconnect();
         }
         public bool ConnectProjector()
         {
             try
             {
               //  m_ready = true;
-                return m_projector.Connect();
+                return m_lstprojectors.Connect();
             }
             catch (Exception ex) 
             {
@@ -378,6 +399,7 @@ namespace UV_DLP_3D_Printer
                 return false;
             }
         }
+         * */
         /// <summary>
         /// This will be true if the device is ready for another command
         /// </summary>
