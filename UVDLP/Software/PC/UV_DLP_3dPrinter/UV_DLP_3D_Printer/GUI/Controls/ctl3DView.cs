@@ -743,6 +743,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                         //see if it hits any object in the scene,
                         // if it does, scale the object from the ground plane to the closest intersection point
                         List<ISectData> iss = RTUtils.IntersectObjects(vec, pnt, UVDLPApp.Instance().Engine3D.m_objects, false);
+                        bool foundObject = false;
                         foreach (ISectData htd in iss)
                         {
                             if (htd.obj.tag != Object3d.OBJ_SUPPORT)  // if this is not another support or the ground
@@ -753,9 +754,15 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                                     tmpsup.ScaleToHeight(htd.intersect.z);
                                     //set the parent object
                                     tmpsup.m_supporting = htd.obj;
+                                    htd.obj.AddSupport(tmpsup);
+                                    foundObject = true;
                                     break;
                                 }
                             }
+                        }
+                        if (!foundObject && (tmpsup.m_parrent != null))
+                        {
+                            tmpsup.m_parrent.RemoveSupport(tmpsup);
                         }
                     }
                     UpdateView();

@@ -333,14 +333,16 @@ namespace UV_DLP_3D_Printer
                     Support s = new Support();
                     Point3d center = region.Center();
                     float lz = center.z;
+                    AddNewSupport(center.x, center.y, center.z, scnt++, null, lstsupports);
                     //region.ply.m_derived.
-                    s.Create(null,(float)m_sc.fbrad, (float)m_sc.ftrad, (float)m_sc.hbrad, (float)m_sc.htrad, lz * .2f, lz * .6f, lz * .2f, 11);
+                    /*s.Create(null,(float)m_sc.fbrad, (float)m_sc.ftrad, (float)m_sc.hbrad, (float)m_sc.htrad, lz * .2f, lz * .6f, lz * .2f, 11);
                     s.Translate((float)center.x, (float)center.y, 0);
                     s.Name = "Support " + scnt;
                     s.SetColor(Color.Yellow);
                     scnt++;
                     lstsupports.Add(s);
                     RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eSupportGenerated, s.Name, s);
+                    */
 
                 }
                 RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eCompleted, "Support Generation Completed", lstsupports);
@@ -422,7 +424,8 @@ namespace UV_DLP_3D_Printer
                                 if (m_sc.m_onlydownward && htd.poly.tag != Polygon.TAG_MARKDOWN)
                                     break; // not a downward facing and we're only doing downward
                                 // this should be the closest intersected
-                                Support s = new Support();
+                                AddNewSupport(x, y, (float)htd.intersect.z, scnt++, htd.obj, lstsupports);
+                                /*Support s = new Support();
                                 float lz = (float)htd.intersect.z;
                                 s.Create(htd.obj,(float)m_sc.fbrad, (float)m_sc.ftrad, (float)m_sc.hbrad, (float)m_sc.htrad, lz * .2f, lz * .6f, lz * .2f, 11);
                                 s.Translate((float)x, (float)y, 0);
@@ -432,6 +435,7 @@ namespace UV_DLP_3D_Printer
                                 lstsupports.Add(s);
                                 htd.obj.AddSupport(s);
                                 RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eSupportGenerated, s.Name, s);
+                                 */
                                 break; // only need to make one support
                             }
                         }
@@ -444,5 +448,20 @@ namespace UV_DLP_3D_Printer
             m_generating = false;
             return lstsupports;
         }
+
+        void AddNewSupport(float x, float y, float lz, int scnt, Object3d parent, List<Object3d> lstsupports)
+        {
+            Support s = new Support();
+            s.Create(parent, (float)m_sc.fbrad, (float)m_sc.ftrad, (float)m_sc.hbrad, (float)m_sc.htrad, lz * .2f, lz * .6f, lz * .2f, 11);
+            s.Translate(x, y, 0);
+            s.Name = "Support " + scnt;
+            s.SetColor(Color.Yellow);
+            lstsupports.Add(s);
+            if (parent != null)
+                parent.AddSupport(s);
+            RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eSupportGenerated, s.Name, s);
+        }
+
     }
 }
+ 

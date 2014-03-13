@@ -177,12 +177,16 @@ namespace UV_DLP_3D_Printer
                 {
                     case SupportEvent.eCompleted:
                         List<Object3d> lstobjs = (List<Object3d>)obj;
+                        bool firstAdded = true;
                         if (lstobjs != null) 
                         {
                             foreach (Object3d o in lstobjs) 
                             {
+                                m_engine3d.AddObject((Object3d)o);
                                 UVDLPApp.Instance().m_undoer.SaveAddition((Object3d)o);
-                                m_engine3d.AddObject((Object3d)o);    
+                                if (!firstAdded)
+                                    UVDLPApp.Instance().m_undoer.LinkToPrev();
+                                firstAdded = false;
                             }
                             RaiseAppEvent(eAppEvent.eModelAdded, message);
                         }
