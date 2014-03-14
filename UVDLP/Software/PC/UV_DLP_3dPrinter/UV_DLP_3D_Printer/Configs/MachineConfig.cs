@@ -23,6 +23,12 @@ namespace UV_DLP_3D_Printer
             FDM,
             UV_DLP
         }
+        public enum eMultiMonType 
+        {
+            eVertical,
+            eHorizontal
+        }
+
         public const int FILE_VERSION = 1; // this should change every time the format changes
         public double m_PlatXSize; // the X size of the build platform in mm
         public double m_PlatYSize; // the Y size of the build platform in mm
@@ -31,7 +37,8 @@ namespace UV_DLP_3D_Printer
         private double m_YMaxFeedrate;// in mm/min 
         private double m_ZMaxFeedrate;// in mm/min 
         public eMachineType m_machinetype;
-
+        // for systems that have more than 2 configured monitors, a description of the orientation is needed
+        public eMultiMonType m_multimontype; 
         public String m_description; // a description
         public String m_name; // the profile name
         public String m_filename;// the filename of this profile. (not saved)
@@ -78,7 +85,7 @@ namespace UV_DLP_3D_Printer
             XRenderSize = xh.GetInt(mc, "XRenderSize", 1024);
             YRenderSize = xh.GetInt(mc, "YRenderSize", 768);
             m_machinetype = (eMachineType)xh.GetEnum(mc, "MachineType", typeof(eMachineType), eMachineType.UV_DLP);
-
+            m_multimontype = (eMultiMonType)xh.GetEnum(mc, "MultiMonType", typeof(eMultiMonType), eMultiMonType.eHorizontal);
             if (m_driverconfig.Load(xh, mc))
             {
                 retval = true;
@@ -133,6 +140,8 @@ namespace UV_DLP_3D_Printer
             xh.SetParameter(mc, "YRenderSize", YRenderSize);
 
             xh.SetParameter(mc, "MachineType", m_machinetype);
+            xh.SetParameter(mc, "MultiMonType", m_multimontype);
+
             if (m_driverconfig.Save(xh, mc))
             {
                 retval = true;
@@ -160,6 +169,7 @@ namespace UV_DLP_3D_Printer
             //m_monitorconfig = new MonitorConfig();
             m_lstMonitorconfigs = new List<MonitorConfig>(); // create a list of monitors attached to the system
             m_machinetype = eMachineType.UV_DLP;
+            m_multimontype = eMultiMonType.eVertical;
             CalcPixPerMM();
         }
         // create a null loop-back machine for test

@@ -24,6 +24,14 @@ namespace UV_DLP_3D_Printer.Configs
                 top = 0.0f;
                 bottom = 1.0f;
             }
+            public float Width()
+            {
+                return right - left;
+            }
+            public float Height()
+            {
+                return bottom - top;
+            }
         }
 
         public double m_XDLPRes; // the X resolution of the DLP projector in pixels
@@ -104,8 +112,8 @@ namespace UV_DLP_3D_Printer.Configs
         */
         public double PixPerMMX { get { return m_Xpixpermm; } }
         public double PixPerMMY { get { return m_Ypixpermm; } }
-        public int XRes { get { return (int)m_XDLPRes; } }
-        public int YRes { get { return (int)m_YDLPRes; } }
+       // public int XRes { get { return (int)m_XDLPRes; } }
+       // public int YRes { get { return (int)m_YDLPRes; } }
 
         public string Monitorid
         {

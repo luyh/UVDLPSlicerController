@@ -208,20 +208,15 @@ namespace UV_DLP_3D_Printer
 
         public void UpdateFrom(MachineConfig mf)
         {
-            xres = mf.XRenderSize;//mf.m_monitorconfig.XRes; // does this need to be set here?
-            yres = mf.YRenderSize;//mf.m_monitorconfig.YRes;   
-            // gotta fix this
-            //get the dots per mm from the first monitor - this code will fail for multiple monitors
-            dpmmX = mf.m_lstMonitorconfigs[0].m_XDLPRes / mf.m_PlatXSize;
-            dpmmY = mf.m_lstMonitorconfigs[0].m_YDLPRes / mf.m_PlatYSize;
-            //dpmmX = mf.m_monitorconfig.PixPerMMX; //10 dots per mm
-            //dpmmY = mf.m_monitorconfig.PixPerMMY;// 10;
-            // dots per mm is the number of pixels per mm in the rendered image
-            //for a single monitor system, this will be the monitor res(pix) / platform size (mm)
-            // for a multi-monitor setup, it depends on the orientation of the monitors
-            //find total monitors x pixels
-            // find total monitors y pixels
-         
+            //update the slice / build profile here with the 
+            // x/y resolution for the current display(s)
+            xres = mf.XRenderSize;
+            yres = mf.YRenderSize;
+            //get the first monitor configuration
+            MonitorConfig mc = mf.m_lstMonitorconfigs[0];
+            
+            dpmmX = (xres) / mf.m_PlatXSize;
+            dpmmY = (yres) / mf.m_PlatYSize;        
         }
         public void CreateDefault() 
         {
