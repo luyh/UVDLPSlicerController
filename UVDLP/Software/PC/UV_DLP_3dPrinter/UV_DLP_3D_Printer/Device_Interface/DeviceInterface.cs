@@ -128,14 +128,48 @@ namespace UV_DLP_3D_Printer
             d.DataReceived += new DeviceDriver.DataReceivedEvent(DriverDataReceivedEvent);
             d.DeviceStatus += new DeviceDriver.DeviceStatusEvent(DriverDeviceStatusEvent);
         }
+        public void RemoveAllProjDrivers() 
+        {
+            foreach (DeviceDriver d in m_lstprojectors) 
+            {
+                d.DataReceived -= new DeviceDriver.DataReceivedEvent(DriverDataReceivedEvent);
+                d.DeviceStatus -= new DeviceDriver.DeviceStatusEvent(DriverDeviceStatusEvent);
+                d.Disconnect();
+            }
+            m_lstprojectors.Clear();
+        }
+        public void ConnectAllProjDrivers() 
+        {            
+            foreach (DeviceDriver d in m_lstprojectors)
+            {
+                if (d.Connect()) 
+                {
+                    DebugLogger.Instance().LogInfo("Projector serial driver connected");
+                }
+            }        
+        }
+        public void DisconnectAllProjDrivers()
+        {
+            foreach (DeviceDriver d in m_lstprojectors)
+            {
+                d.Disconnect();
+            }
+        }
+
+        /*
         public void RemoveDriver(DeviceDriver d)
         {
             m_lstprojectors.Remove(d);
+            d.DataReceived -= new DeviceDriver.DataReceivedEvent(DriverDataReceivedEvent);
+            d.DeviceStatus -= new DeviceDriver.DeviceStatusEvent(DriverDeviceStatusEvent);
         }
+         * */
+        /*
         public DeviceDriver GetDriver(int i) 
         {
             return m_lstprojectors[i];
         }
+         * */
         /*
         // get and set the printdriver
         public DeviceDriver[] DriverProjector
@@ -164,10 +198,12 @@ namespace UV_DLP_3D_Printer
         {
             Driver.Configure(cc);
         }
+        /*
         public void Configure(ConnectionConfig cc,int idx)
         {
             m_lstprojectors[idx].Configure(cc);
         }
+         */ 
         /*
         public void ConfigureProjector(ConnectionConfig cc) 
         {

@@ -676,31 +676,14 @@ namespace UV_DLP_3D_Printer.GUI
                         DebugLogger.Instance().LogRecord("Cannot connect printer driver on " + com);
                     }
                     else
-                    {
+                    {                        
                         UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eMachineConnected, "Printer connected");
                     }
                     // check to see if we're uv dlp
                     // configure the projector
                     if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
                     {
-                        // only try to configure and connect to the projector if the connection is enabled
-                        /* need to add multiple monitor support via serial ports
-                        if (UVDLPApp.Instance().m_printerinfo.m_monitorconfig.m_displayconnectionenabled == true)
-                        {
-                            UVDLPApp.Instance().m_deviceinterface.ConfigureProjector(UVDLPApp.Instance().m_printerinfo.m_monitorconfig.m_displayconnection);
-                            com = UVDLPApp.Instance().m_printerinfo.m_monitorconfig.m_displayconnection.comname;
-                            DebugLogger.Instance().LogRecord("Connecting to Projector on " + com + " using " + UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_drivertype.ToString());
-                            if (!UVDLPApp.Instance().m_deviceinterface.ConnectProjector())
-                            {
-                                DebugLogger.Instance().LogRecord("Cannot connect projector driver on " + com);
-                            }
-                            else
-                            {
-                                DebugLogger.Instance().LogRecord("Connected to Display control on " + com);
-                                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eDisplayConnected, "Display connected");
-                            }
-                        }
-                         * */
+                        DisplayManager.Instance().ConnectMonitorSerials();
                     }
                 }
             }
@@ -718,14 +701,8 @@ namespace UV_DLP_3D_Printer.GUI
                 UVDLPApp.Instance().m_deviceinterface.Disconnect();
                 UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eMachineDisconnected, "Printer connection closed");
             }
-            /*
-            if (UVDLPApp.Instance().m_deviceinterface.ConnectedProjector)
-            {
-                DebugLogger.Instance().LogRecord("Disconnecting from Projector");
-                UVDLPApp.Instance().m_deviceinterface.DisconnectProjector();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eDisplayDisconnected, "Projector connection closed");
-            }
-             * */
+            //terminate connections to projector Drivers
+            DisplayManager.Instance().DisconnectAllMonitorSerial();
         }
         #endregion
 
