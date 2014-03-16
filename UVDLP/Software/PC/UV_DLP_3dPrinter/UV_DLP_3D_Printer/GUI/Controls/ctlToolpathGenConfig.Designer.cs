@@ -105,7 +105,7 @@
             this.tabOptions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabOptions.Name = "tabOptions";
             this.tabOptions.SelectedIndex = 0;
-            this.tabOptions.Size = new System.Drawing.Size(676, 459);
+            this.tabOptions.Size = new System.Drawing.Size(931, 459);
             this.tabOptions.TabIndex = 46;
             // 
             // tbOptions
@@ -136,7 +136,7 @@
             this.tbOptions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbOptions.Name = "tbOptions";
             this.tbOptions.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tbOptions.Size = new System.Drawing.Size(668, 428);
+            this.tbOptions.Size = new System.Drawing.Size(923, 428);
             this.tbOptions.TabIndex = 0;
             this.tbOptions.Text = "Options";
             this.tbOptions.UseVisualStyleBackColor = true;
@@ -578,7 +578,7 @@
             this.tbGCode.Controls.Add(this.txtGCode);
             this.tbGCode.Location = new System.Drawing.Point(4, 27);
             this.tbGCode.Name = "tbGCode";
-            this.tbGCode.Size = new System.Drawing.Size(668, 428);
+            this.tbGCode.Size = new System.Drawing.Size(923, 428);
             this.tbGCode.TabIndex = 7;
             this.tbGCode.Text = "GCode";
             this.tbGCode.UseVisualStyleBackColor = true;
@@ -603,13 +603,13 @@
             "End"});
             this.lbGCodeSection.Location = new System.Drawing.Point(4, 42);
             this.lbGCodeSection.Name = "lbGCodeSection";
-            this.lbGCodeSection.Size = new System.Drawing.Size(158, 220);
+            this.lbGCodeSection.Size = new System.Drawing.Size(122, 220);
             this.lbGCodeSection.TabIndex = 9;
             this.lbGCodeSection.SelectedIndexChanged += new System.EventHandler(this.lbGCodeSection_SelectedIndexChanged);
             // 
             // cmdReloadGCode
             // 
-            this.cmdReloadGCode.Location = new System.Drawing.Point(369, 308);
+            this.cmdReloadGCode.Location = new System.Drawing.Point(319, 308);
             this.cmdReloadGCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdReloadGCode.Name = "cmdReloadGCode";
             this.cmdReloadGCode.Size = new System.Drawing.Size(188, 43);
@@ -620,7 +620,7 @@
             // 
             // cmdSaveGCode
             // 
-            this.cmdSaveGCode.Location = new System.Drawing.Point(182, 308);
+            this.cmdSaveGCode.Location = new System.Drawing.Point(132, 308);
             this.cmdSaveGCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdSaveGCode.Name = "cmdSaveGCode";
             this.cmdSaveGCode.Size = new System.Drawing.Size(181, 43);
@@ -631,12 +631,13 @@
             // 
             // txtGCode
             // 
-            this.txtGCode.Location = new System.Drawing.Point(182, 6);
+            this.txtGCode.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtGCode.Location = new System.Drawing.Point(132, 6);
             this.txtGCode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtGCode.Multiline = true;
             this.txtGCode.Name = "txtGCode";
             this.txtGCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtGCode.Size = new System.Drawing.Size(525, 298);
+            this.txtGCode.Size = new System.Drawing.Size(788, 298);
             this.txtGCode.TabIndex = 6;
             // 
             // label6
@@ -719,7 +720,7 @@
             this.Controls.Add(this.tabOptions);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "ctlToolpathGenConfig";
-            this.Size = new System.Drawing.Size(932, 505);
+            this.Size = new System.Drawing.Size(1312, 505);
             this.tabOptions.ResumeLayout(false);
             this.tbOptions.ResumeLayout(false);
             this.tbOptions.PerformLayout();

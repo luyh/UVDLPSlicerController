@@ -37,12 +37,13 @@
             this.cmdShowCalib = new System.Windows.Forms.Button();
             this.labelManipType = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.cmbDisplays = new System.Windows.Forms.ComboBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmdSendProj
             // 
-            this.cmdSendProj.Location = new System.Drawing.Point(202, 104);
+            this.cmdSendProj.Location = new System.Drawing.Point(202, 132);
             this.cmdSendProj.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdSendProj.Name = "cmdSendProj";
             this.cmdSendProj.Size = new System.Drawing.Size(75, 23);
@@ -54,7 +55,7 @@
             // cmbCommands
             // 
             this.cmbCommands.FormattingEnabled = true;
-            this.cmbCommands.Location = new System.Drawing.Point(3, 104);
+            this.cmbCommands.Location = new System.Drawing.Point(3, 132);
             this.cmbCommands.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbCommands.Name = "cmbCommands";
             this.cmbCommands.Size = new System.Drawing.Size(193, 24);
@@ -62,10 +63,10 @@
             // 
             // cmdConnect
             // 
-            this.cmdConnect.Location = new System.Drawing.Point(3, 36);
+            this.cmdConnect.Location = new System.Drawing.Point(139, 36);
             this.cmdConnect.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdConnect.Name = "cmdConnect";
-            this.cmdConnect.Size = new System.Drawing.Size(124, 30);
+            this.cmdConnect.Size = new System.Drawing.Size(130, 30);
             this.cmdConnect.TabIndex = 4;
             this.cmdConnect.Text = "Connect Display";
             this.cmdConnect.UseVisualStyleBackColor = true;
@@ -73,10 +74,10 @@
             // 
             // cmdEditPC
             // 
-            this.cmdEditPC.Location = new System.Drawing.Point(133, 36);
+            this.cmdEditPC.Location = new System.Drawing.Point(3, 70);
             this.cmdEditPC.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdEditPC.Name = "cmdEditPC";
-            this.cmdEditPC.Size = new System.Drawing.Size(124, 30);
+            this.cmdEditPC.Size = new System.Drawing.Size(130, 30);
             this.cmdEditPC.TabIndex = 3;
             this.cmdEditPC.Text = "Edit Commands";
             this.cmdEditPC.UseVisualStyleBackColor = true;
@@ -84,10 +85,10 @@
             // 
             // cmdHide
             // 
-            this.cmdHide.Location = new System.Drawing.Point(3, 70);
+            this.cmdHide.Location = new System.Drawing.Point(3, 36);
             this.cmdHide.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdHide.Name = "cmdHide";
-            this.cmdHide.Size = new System.Drawing.Size(124, 30);
+            this.cmdHide.Size = new System.Drawing.Size(130, 30);
             this.cmdHide.TabIndex = 2;
             this.cmdHide.Text = "Hide";
             this.cmdHide.UseVisualStyleBackColor = true;
@@ -95,10 +96,10 @@
             // 
             // cmdShowBlank
             // 
-            this.cmdShowBlank.Location = new System.Drawing.Point(133, 2);
+            this.cmdShowBlank.Location = new System.Drawing.Point(139, 2);
             this.cmdShowBlank.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdShowBlank.Name = "cmdShowBlank";
-            this.cmdShowBlank.Size = new System.Drawing.Size(125, 30);
+            this.cmdShowBlank.Size = new System.Drawing.Size(130, 30);
             this.cmdShowBlank.TabIndex = 1;
             this.cmdShowBlank.Text = "Show Blank";
             this.cmdShowBlank.UseVisualStyleBackColor = true;
@@ -109,7 +110,7 @@
             this.cmdShowCalib.Location = new System.Drawing.Point(3, 2);
             this.cmdShowCalib.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdShowCalib.Name = "cmdShowCalib";
-            this.cmdShowCalib.Size = new System.Drawing.Size(124, 28);
+            this.cmdShowCalib.Size = new System.Drawing.Size(130, 30);
             this.cmdShowCalib.TabIndex = 0;
             this.cmdShowCalib.Text = "Show Calibration";
             this.cmdShowCalib.UseVisualStyleBackColor = true;
@@ -130,15 +131,26 @@
             // 
             this.flowLayoutPanel1.Controls.Add(this.cmdShowCalib);
             this.flowLayoutPanel1.Controls.Add(this.cmdShowBlank);
+            this.flowLayoutPanel1.Controls.Add(this.cmdHide);
             this.flowLayoutPanel1.Controls.Add(this.cmdConnect);
             this.flowLayoutPanel1.Controls.Add(this.cmdEditPC);
-            this.flowLayoutPanel1.Controls.Add(this.cmdHide);
+            this.flowLayoutPanel1.Controls.Add(this.cmbDisplays);
             this.flowLayoutPanel1.Controls.Add(this.cmbCommands);
             this.flowLayoutPanel1.Controls.Add(this.cmdSendProj);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 34);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(293, 141);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(293, 176);
             this.flowLayoutPanel1.TabIndex = 63;
+            // 
+            // cmbDisplays
+            // 
+            this.cmbDisplays.FormattingEnabled = true;
+            this.cmbDisplays.Location = new System.Drawing.Point(3, 104);
+            this.cmbDisplays.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmbDisplays.Name = "cmbDisplays";
+            this.cmbDisplays.Size = new System.Drawing.Size(193, 24);
+            this.cmbDisplays.TabIndex = 7;
+            this.cmbDisplays.SelectedIndexChanged += new System.EventHandler(this.cmbDisplays_SelectedIndexChanged);
             // 
             // ctlProjectorControl
             // 
@@ -147,7 +159,7 @@
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.labelManipType);
             this.Name = "ctlProjectorControl";
-            this.Size = new System.Drawing.Size(301, 178);
+            this.Size = new System.Drawing.Size(301, 219);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -164,5 +176,6 @@
         private System.Windows.Forms.Button cmdShowCalib;
         private System.Windows.Forms.Label labelManipType;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.ComboBox cmbDisplays;
     }
 }

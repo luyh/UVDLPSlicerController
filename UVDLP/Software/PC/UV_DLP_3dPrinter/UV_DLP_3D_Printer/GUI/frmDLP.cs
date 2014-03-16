@@ -148,13 +148,7 @@ namespace UV_DLP_3D_Printer
             }
         }
  
-        private string CleanMonitorString(string str)
-        {
-            string tmp = str.Replace("\\", string.Empty);
-            tmp = tmp.Replace(".", string.Empty);
-            tmp = tmp.Trim();
-            return tmp;
-        }
+
 
         /// <summary>
         /// This function will return the Screen specified in the machine configuration file
@@ -167,8 +161,8 @@ namespace UV_DLP_3D_Printer
             Screen dlpscreen = null;
             foreach (Screen s in Screen.AllScreens)
             {
-                string mn = CleanMonitorString(s.DeviceName);
-                string mid = CleanMonitorString(UVDLPApp.Instance().m_printerinfo.m_monitorconfig.Monitorid);
+                string mn = Utility.CleanMonitorString(s.DeviceName);
+                string mid = Utility.CleanMonitorString(m_screenid);
                 if (mn.Contains(mid))
                 {
                     dlpscreen = s;
@@ -178,7 +172,7 @@ namespace UV_DLP_3D_Printer
             if ((dlpscreen == null) && reportError)
             {
                 //dlpscreen = Screen.AllScreens[0]; // default to the first if we can't find it
-                DebugLogger.Instance().LogRecord("Can't find screen " + UVDLPApp.Instance().m_printerinfo.m_monitorconfig.Monitorid);
+                DebugLogger.Instance().LogRecord("Can't find screen " + m_screenid);
             }
             return dlpscreen;
         }

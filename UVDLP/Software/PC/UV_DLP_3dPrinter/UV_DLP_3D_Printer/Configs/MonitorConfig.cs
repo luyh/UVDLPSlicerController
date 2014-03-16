@@ -24,6 +24,14 @@ namespace UV_DLP_3D_Printer.Configs
                 top = 0.0f;
                 bottom = 1.0f;
             }
+            public float Width()
+            {
+                return right - left;
+            }
+            public float Height()
+            {
+                return bottom - top;
+            }
         }
 
         public double m_XDLPRes; // the X resolution of the DLP projector in pixels
@@ -65,7 +73,8 @@ namespace UV_DLP_3D_Printer.Configs
 
         public bool Save(XmlHelper xh, XmlNode parent) // use new xml system -SHS
         {
-            XmlNode mdc = xh.FindSection(parent, "MonitorDriverConfig");
+           // XmlNode mdc = xh.FindSection(parent, "MonitorDriverConfig");
+            XmlNode mdc = xh.AddSection(parent, "MonitorDriverConfig");
             xh.SetParameter(mdc, "DLP_X_Res", m_XDLPRes);
             xh.SetParameter(mdc, "DLP_Y_Res", m_YDLPRes);
             xh.SetParameter(mdc, "MonitorID", m_monitorid);
@@ -103,8 +112,8 @@ namespace UV_DLP_3D_Printer.Configs
         */
         public double PixPerMMX { get { return m_Xpixpermm; } }
         public double PixPerMMY { get { return m_Ypixpermm; } }
-        public int XRes { get { return (int)m_XDLPRes; } }
-        public int YRes { get { return (int)m_YDLPRes; } }
+       // public int XRes { get { return (int)m_XDLPRes; } }
+       // public int YRes { get { return (int)m_YDLPRes; } }
 
         public string Monitorid
         {

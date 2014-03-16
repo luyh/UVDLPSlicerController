@@ -444,7 +444,7 @@ namespace UV_DLP_3D_Printer
                                     {
                                         if (m_blankimage == null)  // blank image is null, create it
                                         {
-                                            MakeBlank(m_sf.XProjRes, m_sf.YProjRes);
+                                            MakeBlank(m_sf.XRes, m_sf.YRes);
                                         }
                                         bmp = m_blankimage;
                                         curtype = BuildManager.SLICE_BLANK;
@@ -458,7 +458,7 @@ namespace UV_DLP_3D_Printer
                                         {
                                             if (m_blankimage == null)  // blank image is null, create it
                                             {
-                                                MakeBlank(m_sf.XProjRes, m_sf.YProjRes);
+                                                MakeBlank(m_sf.XRes, m_sf.YRes);
                                             }
                                             bmp = m_blankimage;
                                         }                                        

@@ -43,12 +43,12 @@ namespace UV_DLP_3D_Printer.Slicing
             m_config = new SliceBuildConfig(); // going to be loaded         
         }
          */ 
-        public int XProjRes 
+        public int XRes 
         {
             get { return m_xres; }
         }
 
-        public int YProjRes
+        public int YRes
         {
             get { return m_yres; }
         }

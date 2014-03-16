@@ -24,7 +24,7 @@ namespace UV_DLP_3D_Printer.GUI
         }
         private eViewTypes m_viewtype;
         public event delBuildStatus BuildStatusInvoked; // rund the build delegate in Form thread
-        frmDLP m_frmdlp = new frmDLP();
+        //frmDLP m_frmdlp = new frmDLP();
         frmSlice m_frmSlice = new frmSlice();
 
         public frmMain2()
@@ -59,7 +59,7 @@ namespace UV_DLP_3D_Printer.GUI
             ctl3DView1.Enable3dView(true);
             UVDLPApp.Instance().m_gui_config.LoadConfiguration(global::UV_DLP_3D_Printer.Properties.Resources.GuiConfig);
 
-            ctlSliceGCodePanel1.ctlSliceViewctl.DlpForm = m_frmdlp; // set the dlp form for direct control
+            //ctlSliceGCodePanel1.ctlSliceViewctl.DlpForm = m_frmdlp; // set the dlp form for direct control
             SetMainMessage("");
             SetTimeMessage("");
             #if (DEBUG)
@@ -166,27 +166,15 @@ namespace UV_DLP_3D_Printer.GUI
         }
 
         #region DLP Screen Controls
-        private void showBlankDLP()
-        {
-            try
-            {
-                m_frmdlp.ShowDLPScreen();
-                Screen dlpscreen = m_frmdlp.GetDLPScreen();
-                if (dlpscreen != null)
-                {
-                    UVDLPApp.Instance().m_buildmgr.ShowBlank(dlpscreen.Bounds.Width, dlpscreen.Bounds.Height);
-                }
-            }
-            catch (Exception ex) 
-            {
-                DebugLogger.Instance().LogError(ex);
-            }
 
-        }
 
         private void showCalibrationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UVDLPApp.Instance().m_buildparms.UpdateFrom(UVDLPApp.Instance().m_printerinfo);
+            //make sure all the dlp screens are showing
+            DisplayManager.Instance().ShowDLPScreens();
+            UVDLPApp.Instance().m_buildparms.UpdateFrom(UVDLPApp.Instance().m_printerinfo); // make sure we get the right screen size 
+
+            /*
             //UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay = true;
             m_frmdlp.ShowDLPScreen();
             Screen dlpscreen = m_frmdlp.GetDLPScreen();
@@ -194,6 +182,8 @@ namespace UV_DLP_3D_Printer.GUI
             {
                 UVDLPApp.Instance().m_buildmgr.ShowCalibration(dlpscreen.Bounds.Width, dlpscreen.Bounds.Height, UVDLPApp.Instance().m_buildparms);
             }
+             * */
+            UVDLPApp.Instance().m_buildmgr.ShowCalibration(UVDLPApp.Instance().m_buildparms.xres, UVDLPApp.Instance().m_buildparms.yres, UVDLPApp.Instance().m_buildparms);
         }
 
         #endregion DLP screen controls
@@ -350,9 +340,9 @@ namespace UV_DLP_3D_Printer.GUI
                         // if the current machine type is a UVDLP printer, make sure we can show the screen
                         if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
                         {
-                            if (!m_frmdlp.ShowDLPScreen())
+                            if (!DisplayManager.Instance().ShowDLPScreens())
                             {
-                                MessageBox.Show("Monitor " + UVDLPApp.Instance().m_printerinfo.m_monitorconfig.Monitorid + " not found, cancelling build", "Error");
+                                MessageBox.Show("Monitor not found, cancelling build", "Error");
                                 UVDLPApp.Instance().m_buildmgr.CancelPrint();
                             }
                         }
@@ -431,19 +421,20 @@ namespace UV_DLP_3D_Printer.GUI
                             ctl3DView1.UpdateView(false);
                             break;
                         case eAppEvent.eShowBlank:
-                            showBlankDLP();
+                            //showBlankDLP();
+                            DisplayManager.Instance().showBlankDLPs();
                             break;
                         case eAppEvent.eShowCalib:
                             showCalibrationToolStripMenuItem_Click(null, null);
                             break;
                         case eAppEvent.eShowDLP:
-                            m_frmdlp.ShowDLPScreen();
+                            DisplayManager.Instance().ShowDLPScreens();
                             break;
                         case eAppEvent.eHideDLP:
-                            m_frmdlp.HideDLPScreen();
+                            DisplayManager.Instance().HideDLPScreens();
                             break;
                         case eAppEvent.eMachineConnected:
-                            showBlankDLP();
+                            DisplayManager.Instance().showBlankDLPs();
                             break;
                         case eAppEvent.eMachineDisconnected:
                             break;
@@ -693,6 +684,7 @@ namespace UV_DLP_3D_Printer.GUI
                     if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
                     {
                         // only try to configure and connect to the projector if the connection is enabled
+                        /* need to add multiple monitor support via serial ports
                         if (UVDLPApp.Instance().m_printerinfo.m_monitorconfig.m_displayconnectionenabled == true)
                         {
                             UVDLPApp.Instance().m_deviceinterface.ConfigureProjector(UVDLPApp.Instance().m_printerinfo.m_monitorconfig.m_displayconnection);
@@ -708,6 +700,7 @@ namespace UV_DLP_3D_Printer.GUI
                                 UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eDisplayConnected, "Display connected");
                             }
                         }
+                         * */
                     }
                 }
             }
@@ -725,12 +718,14 @@ namespace UV_DLP_3D_Printer.GUI
                 UVDLPApp.Instance().m_deviceinterface.Disconnect();
                 UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eMachineDisconnected, "Printer connection closed");
             }
+            /*
             if (UVDLPApp.Instance().m_deviceinterface.ConnectedProjector)
             {
                 DebugLogger.Instance().LogRecord("Disconnecting from Projector");
                 UVDLPApp.Instance().m_deviceinterface.DisconnectProjector();
                 UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eDisplayDisconnected, "Projector connection closed");
             }
+             * */
         }
         #endregion
 

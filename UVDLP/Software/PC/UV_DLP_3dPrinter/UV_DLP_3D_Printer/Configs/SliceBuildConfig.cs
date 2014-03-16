@@ -24,7 +24,9 @@ namespace UV_DLP_3D_Printer
         }
         public double dpmmX; // dots per mm x
         public double dpmmY; // dots per mm y
-        public int xres, yres; // the resolution of the output image in pixels
+
+        public int xres, yres; // the resolution of the output image in pixels - set by the machine configuration
+
         public double ZThick; // thickness of the z layer - slicing height
         public int layertime_ms; // time to project image per layer in milliseconds
         public int firstlayertime_ms; // first layer exposure time 
@@ -203,12 +205,18 @@ namespace UV_DLP_3D_Printer
             // the rest will have been set up to the default values
             CreateDefault(); 
         }
+
         public void UpdateFrom(MachineConfig mf)
         {
-            dpmmX = mf.m_monitorconfig.PixPerMMX; //10 dots per mm
-            dpmmY = mf.m_monitorconfig.PixPerMMY;// 10;
-            xres = mf.m_monitorconfig.XRes;
-            yres = mf.m_monitorconfig.YRes;            
+            //update the slice / build profile here with the 
+            // x/y resolution for the current display(s)
+            xres = mf.XRenderSize;
+            yres = mf.YRenderSize;
+            //get the first monitor configuration
+            MonitorConfig mc = mf.m_lstMonitorconfigs[0];
+            
+            dpmmX = (xres) / mf.m_PlatXSize;
+            dpmmY = (yres) / mf.m_PlatYSize;        
         }
         public void CreateDefault() 
         {
