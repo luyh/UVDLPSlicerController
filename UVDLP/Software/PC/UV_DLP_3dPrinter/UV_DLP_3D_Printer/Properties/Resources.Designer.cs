@@ -706,6 +706,13 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap mc_cent {
+            get {
+                object obj = ResourceManager.GetObject("mc_cent", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap mc_px0 {
             get {
                 object obj = ResourceManager.GetObject("mc_px0", resourceCulture);

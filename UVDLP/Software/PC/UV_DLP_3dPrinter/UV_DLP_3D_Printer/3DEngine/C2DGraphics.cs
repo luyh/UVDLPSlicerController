@@ -299,6 +299,7 @@ namespace UV_DLP_3D_Printer._3DEngine
             return bmp;
         }
 
+        // this function will tint a bitmap with a given color */
         public static unsafe Bitmap ColorizeBitmap(Bitmap inbmp, Color col)
         {
             if (inbmp == null)
@@ -317,6 +318,7 @@ namespace UV_DLP_3D_Printer._3DEngine
             return bmp;
         }
 
+        // same as above but with higher quality (works good on non entirely white bitmaps, but a bit slower)
         public static unsafe Bitmap ColorizeBitmapHQ(Bitmap inbmp, Color col)
         {
             if (inbmp == null)

@@ -34,12 +34,14 @@
             // ctlMCXY1
             // 
             this.ctlMCXY1.BackColor = System.Drawing.Color.Navy;
+            this.ctlMCXY1.FrameColor = System.Drawing.Color.RoyalBlue;
             this.ctlMCXY1.Gapx = 0;
             this.ctlMCXY1.Gapy = 0;
             this.ctlMCXY1.GLBackgroundImage = null;
             this.ctlMCXY1.GLVisible = false;
             this.ctlMCXY1.GuiAnchor = null;
             this.ctlMCXY1.Location = new System.Drawing.Point(12, 12);
+            this.ctlMCXY1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.ctlMCXY1.Name = "ctlMCXY1";
             this.ctlMCXY1.Size = new System.Drawing.Size(238, 238);
             this.ctlMCXY1.StyleName = null;
