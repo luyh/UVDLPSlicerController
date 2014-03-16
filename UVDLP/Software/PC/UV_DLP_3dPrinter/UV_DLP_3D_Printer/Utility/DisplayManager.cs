@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UV_DLP_3D_Printer.Configs;
+using UV_DLP_3D_Printer;
+using UV_DLP_3D_Printer.Drivers;
 
 namespace UV_DLP_3D_Printer
 {
@@ -28,6 +30,27 @@ namespace UV_DLP_3D_Printer
         {            
             m_displays = new List<frmDLP>();
             UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEv);
+        }
+
+        /// <summary>
+        /// This function removes all previous device drivers for the projector
+        /// serial ports, it will then re-create the drivers, configure them, and 
+        /// add them to the device interface for later use.
+        /// </summary>
+        private void RegenProjectorSerialPorts() 
+        {
+            // this will remove all projector device drivers.
+            UVDLPApp.Instance().m_deviceinterface.RemoveAllProjDrivers();
+            foreach (MonitorConfig mc in UVDLPApp.Instance().m_printerinfo.m_lstMonitorconfigs) 
+            {
+                //check to see if we're recreatiung the port
+                if (mc.m_displayconnectionenabled == true)
+                {
+                    DeviceDriver dev = DriverFactory.Create(eDriverType.eGENERIC);
+                    dev.Configure(mc.m_displayconnection);
+                    UVDLPApp.Instance().m_deviceinterface.AddDriver(dev);
+                }
+            }
         }
 
         private void GenerateForms() 
@@ -58,6 +81,8 @@ namespace UV_DLP_3D_Printer
                 case eAppEvent.eMachineConfigChanged:
                     //regenerate all frmDLP's from the configuration monitor settings
                     GenerateForms();
+                    //regenerate all device drivers fro mthe monitor configurations
+                    RegenProjectorSerialPorts();
                     break;
             }
         }
@@ -113,14 +138,14 @@ namespace UV_DLP_3D_Printer
         /// </summary>
         public void ConnectMonitorSerials() 
         {
-        
+            UVDLPApp.Instance().m_deviceinterface.ConnectAllProjDrivers();
         }
         /// <summary>
         /// This closes the serial control ports for all monitors.
         /// </summary>
         public void DisconnectAllMonitorSerial() 
         {
-        
+            UVDLPApp.Instance().m_deviceinterface.DisconnectAllProjDrivers();
         }
     }
 }
