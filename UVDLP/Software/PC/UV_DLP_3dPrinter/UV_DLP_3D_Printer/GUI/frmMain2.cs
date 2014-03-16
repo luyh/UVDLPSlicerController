@@ -68,6 +68,7 @@ namespace UV_DLP_3D_Printer.GUI
                 ShowLogPanel(false);
                 pluginTesterToolStripMenuItem.Visible = false;
                 testToolStripMenuItem.Visible = false;
+                testMachineControlToolStripMenuItem.Visible = false;
             #endif
         }
         /// <summary>
@@ -944,5 +945,11 @@ namespace UV_DLP_3D_Printer.GUI
             ShowView(eViewTypes.eVSlice);
         }
         #endregion
+
+        private void testMachineControlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form frm = new frmTest();
+            frm.ShowDialog();
+        }
     }
 }

@@ -317,6 +317,33 @@ namespace UV_DLP_3D_Printer._3DEngine
             return bmp;
         }
 
+        public static unsafe Bitmap ColorizeBitmapHQ(Bitmap inbmp, Color col)
+        {
+            if (inbmp == null)
+                return null;
+            Bitmap bmp = inbmp.Clone(new Rectangle(0, 0, inbmp.Width, inbmp.Height), System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            /*if (bmp.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppArgb)
+                return bmp;*/
+            System.Drawing.Imaging.BitmapData lbmp = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height),
+                System.Drawing.Imaging.ImageLockMode.ReadWrite, bmp.PixelFormat);
+            int icol = col.ToArgb();
+            int a = col.A;
+            int r = col.R;
+            int g = col.G;
+            int b = col.B;
+            int buflen = lbmp.Width * lbmp.Height * 4;
+            byte* pixels = (byte*)lbmp.Scan0;
+            for (int i = 0; i < buflen; i += 4)
+            {
+                pixels[i] = (byte)((b * pixels[i]) / 256);
+                pixels[i+1] = (byte)((g * pixels[i+1]) / 256);
+                pixels[i+2] = (byte)((r * pixels[i+2]) / 256);
+                pixels[i+3] = (byte)((a * pixels[i+3]) / 256);
+            }
+            bmp.UnlockBits(lbmp);
+            return bmp;
+        }
+
         public void GetImageDim(String name, ref int w, ref int h)
         {
             if (name == null)

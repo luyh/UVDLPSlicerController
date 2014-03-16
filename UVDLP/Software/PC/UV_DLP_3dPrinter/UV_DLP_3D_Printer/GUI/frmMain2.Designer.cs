@@ -54,6 +54,7 @@
             this.plugInsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hardwareGuideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testMachineControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.ctlMainConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMainConfig();
             this.ctlMainManual1 = new UV_DLP_3D_Printer.GUI.Controls.ManualControls.ctlMainManual();
@@ -272,7 +273,8 @@
             this.preferencesToolStripMenuItem,
             this.exitToolStripMenuItem,
             this.testToolStripMenuItem,
-            this.pluginTesterToolStripMenuItem});
+            this.pluginTesterToolStripMenuItem,
+            this.testMachineControlToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
             this.fileToolStripMenuItem.Text = "File";
@@ -350,6 +352,13 @@
             this.hardwareGuideToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
             this.hardwareGuideToolStripMenuItem.Text = "Hardware Guide";
             this.hardwareGuideToolStripMenuItem.Click += new System.EventHandler(this.hardwareGuideToolStripMenuItem_Click);
+            // 
+            // testMachineControlToolStripMenuItem
+            // 
+            this.testMachineControlToolStripMenuItem.Name = "testMachineControlToolStripMenuItem";
+            this.testMachineControlToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.testMachineControlToolStripMenuItem.Text = "Test Machine Control";
+            this.testMachineControlToolStripMenuItem.Click += new System.EventHandler(this.testMachineControlToolStripMenuItem_Click);
             // 
             // ctlMainConfig1
             // 
@@ -834,6 +843,7 @@
         private System.Windows.Forms.ToolStripMenuItem plugInsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem userManualToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hardwareGuideToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testMachineControlToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private CustomGUI.ctlImageButton buttSlice;
         private CustomGUI.ctlScene ctlScene1;
