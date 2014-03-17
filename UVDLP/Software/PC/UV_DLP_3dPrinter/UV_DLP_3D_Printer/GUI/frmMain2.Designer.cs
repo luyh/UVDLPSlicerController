@@ -30,12 +30,36 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain2));
             this.pnlTopIcons = new System.Windows.Forms.FlowLayoutPanel();
+            this.buttOpenFile = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttPlay = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttPause = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttStop = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttConnect = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttDisconnect = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttSlice = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.pnl3dview = new System.Windows.Forms.Panel();
+            this.ctl3DView1 = new UV_DLP_3D_Printer.GUI.Controls.ctl3DView();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.buttExpandLeft = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.ctlSupports1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlSupports();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.ctlScene1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlScene();
+            this.ctlObjectInfo1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlObjectInfo();
+            this.ctlMoveExpand1 = new UV_DLP_3D_Printer.GUI.CustomGUI.Expanding.ctlMoveExpand();
+            this.ctlMirror1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMirror();
+            this.ctlScale1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlScale();
+            this.ctlRotate1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlRotate();
+            this.ctlView1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlView();
             this.pnlTopTabs = new System.Windows.Forms.FlowLayoutPanel();
+            this.ctlTitle3dView = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTitle();
+            this.ctlTitleViewSlice = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTitle();
+            this.ctlTitleViewControls = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTitle();
+            this.ctlTitleConfigure = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTitle();
             this.pnlSliceView = new System.Windows.Forms.Panel();
+            this.ctlSliceGCodePanel1 = new UV_DLP_3D_Printer.GUI.Controls.ctlSliceGCodePanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.ctlMainConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMainConfig();
+            this.ctlMainManual1 = new UV_DLP_3D_Printer.GUI.Controls.ManualControls.ctlMainManual();
             this.txtLog = new System.Windows.Forms.TextBox();
             this.pnlTopIconsMain = new System.Windows.Forms.Panel();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
@@ -49,37 +73,14 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pluginTesterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testMachineControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.plugInsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hardwareGuideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testMachineControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.ctlMainConfig1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMainConfig();
-            this.ctlMainManual1 = new UV_DLP_3D_Printer.GUI.Controls.ManualControls.ctlMainManual();
-            this.ctlSliceGCodePanel1 = new UV_DLP_3D_Printer.GUI.Controls.ctlSliceGCodePanel();
-            this.ctl3DView1 = new UV_DLP_3D_Printer.GUI.Controls.ctl3DView();
-            this.buttExpandLeft = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.ctlSupports1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlSupports();
-            this.ctlScene1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlScene();
-            this.ctlObjectInfo1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlObjectInfo();
-            this.ctlMoveExpand1 = new UV_DLP_3D_Printer.GUI.CustomGUI.Expanding.ctlMoveExpand();
-            this.ctlMirror1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMirror();
-            this.ctlScale1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlScale();
-            this.ctlRotate1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlRotate();
-            this.ctlView1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlView();
-            this.ctlTitle3dView = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTitle();
-            this.ctlTitleViewSlice = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTitle();
-            this.ctlTitleViewControls = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTitle();
-            this.ctlTitleConfigure = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTitle();
-            this.buttOpenFile = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.buttPlay = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.buttPause = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.buttStop = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.buttConnect = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.buttDisconnect = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.buttSlice = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.testSaveSceneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlTopIcons.SuspendLayout();
             this.pnl3dview.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -109,512 +110,6 @@
             this.pnlTopIcons.Name = "pnlTopIcons";
             this.pnlTopIcons.Size = new System.Drawing.Size(491, 65);
             this.pnlTopIcons.TabIndex = 0;
-            // 
-            // pnl3dview
-            // 
-            this.pnl3dview.Controls.Add(this.ctl3DView1);
-            this.pnl3dview.Controls.Add(this.flowLayoutPanel2);
-            this.pnl3dview.Controls.Add(this.flowLayoutPanel1);
-            this.pnl3dview.Location = new System.Drawing.Point(19, 20);
-            this.pnl3dview.Name = "pnl3dview";
-            this.pnl3dview.Size = new System.Drawing.Size(697, 412);
-            this.pnl3dview.TabIndex = 1;
-            // 
-            // flowLayoutPanel2
-            // 
-            this.flowLayoutPanel2.BackColor = System.Drawing.Color.RoyalBlue;
-            this.flowLayoutPanel2.Controls.Add(this.buttExpandLeft);
-            this.flowLayoutPanel2.Controls.Add(this.ctlSupports1);
-            this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(50, 412);
-            this.flowLayoutPanel2.TabIndex = 2;
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.AutoScroll = true;
-            this.flowLayoutPanel1.BackColor = System.Drawing.Color.RoyalBlue;
-            this.flowLayoutPanel1.Controls.Add(this.ctlScene1);
-            this.flowLayoutPanel1.Controls.Add(this.ctlObjectInfo1);
-            this.flowLayoutPanel1.Controls.Add(this.ctlMoveExpand1);
-            this.flowLayoutPanel1.Controls.Add(this.ctlMirror1);
-            this.flowLayoutPanel1.Controls.Add(this.ctlScale1);
-            this.flowLayoutPanel1.Controls.Add(this.ctlRotate1);
-            this.flowLayoutPanel1.Controls.Add(this.ctlView1);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(455, 0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(242, 412);
-            this.flowLayoutPanel1.TabIndex = 1;
-            // 
-            // pnlTopTabs
-            // 
-            this.pnlTopTabs.BackColor = System.Drawing.Color.RoyalBlue;
-            this.pnlTopTabs.Controls.Add(this.ctlTitle3dView);
-            this.pnlTopTabs.Controls.Add(this.ctlTitleViewSlice);
-            this.pnlTopTabs.Controls.Add(this.ctlTitleViewControls);
-            this.pnlTopTabs.Controls.Add(this.ctlTitleConfigure);
-            this.pnlTopTabs.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlTopTabs.Location = new System.Drawing.Point(0, 93);
-            this.pnlTopTabs.Name = "pnlTopTabs";
-            this.pnlTopTabs.Size = new System.Drawing.Size(1380, 50);
-            this.pnlTopTabs.TabIndex = 2;
-            // 
-            // pnlSliceView
-            // 
-            this.pnlSliceView.Controls.Add(this.ctlSliceGCodePanel1);
-            this.pnlSliceView.Location = new System.Drawing.Point(742, 3);
-            this.pnlSliceView.Name = "pnlSliceView";
-            this.pnlSliceView.Size = new System.Drawing.Size(373, 201);
-            this.pnlSliceView.TabIndex = 3;
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 143);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.ctlMainConfig1);
-            this.splitContainer1.Panel1.Controls.Add(this.ctlMainManual1);
-            this.splitContainer1.Panel1.Controls.Add(this.pnlSliceView);
-            this.splitContainer1.Panel1.Controls.Add(this.pnl3dview);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.txtLog);
-            this.splitContainer1.Size = new System.Drawing.Size(1380, 551);
-            this.splitContainer1.SplitterDistance = 449;
-            this.splitContainer1.TabIndex = 4;
-            // 
-            // txtLog
-            // 
-            this.txtLog.BackColor = System.Drawing.Color.White;
-            this.txtLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtLog.Font = new System.Drawing.Font("Courier New", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLog.Location = new System.Drawing.Point(0, 0);
-            this.txtLog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtLog.Multiline = true;
-            this.txtLog.Name = "txtLog";
-            this.txtLog.ReadOnly = true;
-            this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtLog.Size = new System.Drawing.Size(1380, 98);
-            this.txtLog.TabIndex = 1;
-            // 
-            // pnlTopIconsMain
-            // 
-            this.pnlTopIconsMain.BackColor = System.Drawing.Color.RoyalBlue;
-            this.pnlTopIconsMain.Controls.Add(this.flowLayoutPanel3);
-            this.pnlTopIconsMain.Controls.Add(this.pnlTopIcons);
-            this.pnlTopIconsMain.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlTopIconsMain.Location = new System.Drawing.Point(0, 28);
-            this.pnlTopIconsMain.Name = "pnlTopIconsMain";
-            this.pnlTopIconsMain.Size = new System.Drawing.Size(1380, 65);
-            this.pnlTopIconsMain.TabIndex = 45;
-            // 
-            // flowLayoutPanel3
-            // 
-            this.flowLayoutPanel3.Controls.Add(this.lblMainMessage);
-            this.flowLayoutPanel3.Controls.Add(this.lblTime);
-            this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(871, 0);
-            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(509, 65);
-            this.flowLayoutPanel3.TabIndex = 44;
-            // 
-            // lblMainMessage
-            // 
-            this.lblMainMessage.AutoSize = true;
-            this.lblMainMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMainMessage.ForeColor = System.Drawing.Color.White;
-            this.lblMainMessage.Location = new System.Drawing.Point(3, 0);
-            this.lblMainMessage.Name = "lblMainMessage";
-            this.lblMainMessage.Size = new System.Drawing.Size(64, 25);
-            this.lblMainMessage.TabIndex = 0;
-            this.lblMainMessage.Text = "label1";
-            // 
-            // lblTime
-            // 
-            this.lblTime.AutoSize = true;
-            this.lblTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTime.ForeColor = System.Drawing.Color.White;
-            this.lblTime.Location = new System.Drawing.Point(3, 25);
-            this.lblTime.Name = "lblTime";
-            this.lblTime.Size = new System.Drawing.Size(64, 25);
-            this.lblTime.TabIndex = 1;
-            this.lblTime.Text = "label2";
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.helpToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1380, 28);
-            this.menuStrip1.TabIndex = 17;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveSceneSTLToolStripMenuItem,
-            this.preferencesToolStripMenuItem,
-            this.exitToolStripMenuItem,
-            this.testToolStripMenuItem,
-            this.pluginTesterToolStripMenuItem,
-            this.testMachineControlToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
-            this.fileToolStripMenuItem.Text = "File";
-            // 
-            // saveSceneSTLToolStripMenuItem
-            // 
-            this.saveSceneSTLToolStripMenuItem.Name = "saveSceneSTLToolStripMenuItem";
-            this.saveSceneSTLToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
-            this.saveSceneSTLToolStripMenuItem.Text = "Save Scene STL";
-            this.saveSceneSTLToolStripMenuItem.Click += new System.EventHandler(this.saveSceneSTLToolStripMenuItem_Click);
-            // 
-            // preferencesToolStripMenuItem
-            // 
-            this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
-            this.preferencesToolStripMenuItem.Text = "Preferences";
-            this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-            // 
-            // testToolStripMenuItem
-            // 
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
-            this.testToolStripMenuItem.Text = "Dump Commands";
-            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
-            // 
-            // pluginTesterToolStripMenuItem
-            // 
-            this.pluginTesterToolStripMenuItem.Name = "pluginTesterToolStripMenuItem";
-            this.pluginTesterToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
-            this.pluginTesterToolStripMenuItem.Text = "Plugin Tester";
-            this.pluginTesterToolStripMenuItem.Click += new System.EventHandler(this.pluginTesterToolStripMenuItem_Click);
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem,
-            this.plugInsToolStripMenuItem,
-            this.userManualToolStripMenuItem,
-            this.hardwareGuideToolStripMenuItem});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
-            this.helpToolStripMenuItem.Text = "Help";
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-            // 
-            // plugInsToolStripMenuItem
-            // 
-            this.plugInsToolStripMenuItem.Name = "plugInsToolStripMenuItem";
-            this.plugInsToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
-            this.plugInsToolStripMenuItem.Text = "Plug-Ins";
-            this.plugInsToolStripMenuItem.Click += new System.EventHandler(this.plugInsToolStripMenuItem_Click);
-            // 
-            // userManualToolStripMenuItem
-            // 
-            this.userManualToolStripMenuItem.Name = "userManualToolStripMenuItem";
-            this.userManualToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
-            this.userManualToolStripMenuItem.Text = "User Manual";
-            this.userManualToolStripMenuItem.Click += new System.EventHandler(this.userManualToolStripMenuItem_Click);
-            // 
-            // hardwareGuideToolStripMenuItem
-            // 
-            this.hardwareGuideToolStripMenuItem.Name = "hardwareGuideToolStripMenuItem";
-            this.hardwareGuideToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
-            this.hardwareGuideToolStripMenuItem.Text = "Hardware Guide";
-            this.hardwareGuideToolStripMenuItem.Click += new System.EventHandler(this.hardwareGuideToolStripMenuItem_Click);
-            // 
-            // testMachineControlToolStripMenuItem
-            // 
-            this.testMachineControlToolStripMenuItem.Name = "testMachineControlToolStripMenuItem";
-            this.testMachineControlToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
-            this.testMachineControlToolStripMenuItem.Text = "Test Machine Control";
-            this.testMachineControlToolStripMenuItem.Click += new System.EventHandler(this.testMachineControlToolStripMenuItem_Click);
-            // 
-            // ctlMainConfig1
-            // 
-            this.ctlMainConfig1.Gapx = 0;
-            this.ctlMainConfig1.Gapy = 0;
-            this.ctlMainConfig1.GLBackgroundImage = null;
-            this.ctlMainConfig1.GLVisible = false;
-            this.ctlMainConfig1.GuiAnchor = null;
-            this.ctlMainConfig1.Location = new System.Drawing.Point(1060, 264);
-            this.ctlMainConfig1.Name = "ctlMainConfig1";
-            this.ctlMainConfig1.Size = new System.Drawing.Size(308, 51);
-            this.ctlMainConfig1.StyleName = null;
-            this.ctlMainConfig1.TabIndex = 5;
-            // 
-            // ctlMainManual1
-            // 
-            this.ctlMainManual1.Location = new System.Drawing.Point(742, 232);
-            this.ctlMainManual1.Name = "ctlMainManual1";
-            this.ctlMainManual1.Size = new System.Drawing.Size(215, 182);
-            this.ctlMainManual1.TabIndex = 4;
-            // 
-            // ctlSliceGCodePanel1
-            // 
-            this.ctlSliceGCodePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ctlSliceGCodePanel1.Gapx = 0;
-            this.ctlSliceGCodePanel1.Gapy = 0;
-            this.ctlSliceGCodePanel1.GLBackgroundImage = null;
-            this.ctlSliceGCodePanel1.GLVisible = false;
-            this.ctlSliceGCodePanel1.GuiAnchor = null;
-            this.ctlSliceGCodePanel1.Location = new System.Drawing.Point(0, 0);
-            this.ctlSliceGCodePanel1.Name = "ctlSliceGCodePanel1";
-            this.ctlSliceGCodePanel1.Size = new System.Drawing.Size(373, 201);
-            this.ctlSliceGCodePanel1.StyleName = null;
-            this.ctlSliceGCodePanel1.TabIndex = 0;
-            // 
-            // ctl3DView1
-            // 
-            this.ctl3DView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ctl3DView1.Location = new System.Drawing.Point(50, 0);
-            this.ctl3DView1.Name = "ctl3DView1";
-            this.ctl3DView1.Size = new System.Drawing.Size(405, 412);
-            this.ctl3DView1.TabIndex = 0;
-            // 
-            // buttExpandLeft
-            // 
-            this.buttExpandLeft.Checked = false;
-            this.buttExpandLeft.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
-            this.buttExpandLeft.Gapx = 5;
-            this.buttExpandLeft.Gapy = 5;
-            this.buttExpandLeft.GLBackgroundImage = null;
-            this.buttExpandLeft.GLImage = null;
-            this.buttExpandLeft.GLVisible = false;
-            this.buttExpandLeft.GuiAnchor = null;
-            this.buttExpandLeft.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.buttExpandLeft.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPlus;
-            this.buttExpandLeft.Location = new System.Drawing.Point(3, 3);
-            this.buttExpandLeft.Name = "buttExpandLeft";
-            this.buttExpandLeft.OnClickCallback = "ClickExpandLeft";
-            this.buttExpandLeft.Size = new System.Drawing.Size(42, 42);
-            this.buttExpandLeft.StyleName = null;
-            this.buttExpandLeft.TabIndex = 0;
-            this.buttExpandLeft.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            // 
-            // ctlSupports1
-            // 
-            this.ctlSupports1.Gapx = 0;
-            this.ctlSupports1.Gapy = 0;
-            this.ctlSupports1.GLBackgroundImage = null;
-            this.ctlSupports1.GLVisible = false;
-            this.ctlSupports1.GuiAnchor = null;
-            this.ctlSupports1.Location = new System.Drawing.Point(51, 3);
-            this.ctlSupports1.Name = "ctlSupports1";
-            this.ctlSupports1.Size = new System.Drawing.Size(381, 542);
-            this.ctlSupports1.StyleName = null;
-            this.ctlSupports1.TabIndex = 1;
-            this.ctlSupports1.Visible = false;
-            // 
-            // ctlScene1
-            // 
-            this.ctlScene1.Checked = false;
-            this.ctlScene1.Gapx = 5;
-            this.ctlScene1.Gapy = 5;
-            this.ctlScene1.GLBackgroundImage = null;
-            this.ctlScene1.GLVisible = false;
-            this.ctlScene1.GuiAnchor = null;
-            this.ctlScene1.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.ctlScene1.Location = new System.Drawing.Point(3, 3);
-            this.ctlScene1.Name = "ctlScene1";
-            this.ctlScene1.Size = new System.Drawing.Size(235, 50);
-            this.ctlScene1.StyleName = null;
-            this.ctlScene1.TabIndex = 4;
-            this.ctlScene1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            // 
-            // ctlObjectInfo1
-            // 
-            this.ctlObjectInfo1.Checked = false;
-            this.ctlObjectInfo1.Gapx = 5;
-            this.ctlObjectInfo1.Gapy = 5;
-            this.ctlObjectInfo1.GLBackgroundImage = null;
-            this.ctlObjectInfo1.GLVisible = false;
-            this.ctlObjectInfo1.GuiAnchor = null;
-            this.ctlObjectInfo1.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.ctlObjectInfo1.Location = new System.Drawing.Point(3, 59);
-            this.ctlObjectInfo1.Name = "ctlObjectInfo1";
-            this.ctlObjectInfo1.Size = new System.Drawing.Size(235, 50);
-            this.ctlObjectInfo1.StyleName = null;
-            this.ctlObjectInfo1.TabIndex = 5;
-            this.ctlObjectInfo1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            // 
-            // ctlMoveExpand1
-            // 
-            this.ctlMoveExpand1.Gapx = 0;
-            this.ctlMoveExpand1.Gapy = 0;
-            this.ctlMoveExpand1.GLBackgroundImage = null;
-            this.ctlMoveExpand1.GLVisible = false;
-            this.ctlMoveExpand1.GuiAnchor = null;
-            this.ctlMoveExpand1.Location = new System.Drawing.Point(3, 115);
-            this.ctlMoveExpand1.Name = "ctlMoveExpand1";
-            this.ctlMoveExpand1.Size = new System.Drawing.Size(235, 50);
-            this.ctlMoveExpand1.StyleName = null;
-            this.ctlMoveExpand1.TabIndex = 0;
-            // 
-            // ctlMirror1
-            // 
-            this.ctlMirror1.BackColor = System.Drawing.Color.RoyalBlue;
-            this.ctlMirror1.Gapx = 0;
-            this.ctlMirror1.Gapy = 0;
-            this.ctlMirror1.GLBackgroundImage = null;
-            this.ctlMirror1.GLVisible = false;
-            this.ctlMirror1.GuiAnchor = null;
-            this.ctlMirror1.Location = new System.Drawing.Point(3, 171);
-            this.ctlMirror1.Name = "ctlMirror1";
-            this.ctlMirror1.Size = new System.Drawing.Size(236, 50);
-            this.ctlMirror1.StyleName = null;
-            this.ctlMirror1.TabIndex = 6;
-            // 
-            // ctlScale1
-            // 
-            this.ctlScale1.Gapx = 0;
-            this.ctlScale1.Gapy = 0;
-            this.ctlScale1.GLBackgroundImage = null;
-            this.ctlScale1.GLVisible = false;
-            this.ctlScale1.GuiAnchor = null;
-            this.ctlScale1.Location = new System.Drawing.Point(3, 227);
-            this.ctlScale1.Name = "ctlScale1";
-            this.ctlScale1.Size = new System.Drawing.Size(235, 50);
-            this.ctlScale1.StyleName = null;
-            this.ctlScale1.TabIndex = 1;
-            // 
-            // ctlRotate1
-            // 
-            this.ctlRotate1.Gapx = 0;
-            this.ctlRotate1.Gapy = 0;
-            this.ctlRotate1.GLBackgroundImage = null;
-            this.ctlRotate1.GLVisible = false;
-            this.ctlRotate1.GuiAnchor = null;
-            this.ctlRotate1.Location = new System.Drawing.Point(3, 283);
-            this.ctlRotate1.Name = "ctlRotate1";
-            this.ctlRotate1.Size = new System.Drawing.Size(235, 50);
-            this.ctlRotate1.StyleName = null;
-            this.ctlRotate1.TabIndex = 2;
-            // 
-            // ctlView1
-            // 
-            this.ctlView1.Gapx = 0;
-            this.ctlView1.Gapy = 0;
-            this.ctlView1.GLBackgroundImage = null;
-            this.ctlView1.GLVisible = false;
-            this.ctlView1.GuiAnchor = null;
-            this.ctlView1.LayerNumberScroll = null;
-            this.ctlView1.Location = new System.Drawing.Point(3, 339);
-            this.ctlView1.MessagePanelHolder = null;
-            this.ctlView1.Name = "ctlView1";
-            this.ctlView1.ObjectInfoPanel = null;
-            this.ctlView1.SceneControl = null;
-            this.ctlView1.Size = new System.Drawing.Size(235, 50);
-            this.ctlView1.StyleName = null;
-            this.ctlView1.TabIndex = 3;
-            this.ctlView1.TreeViewHolder = null;
-            // 
-            // ctlTitle3dView
-            // 
-            this.ctlTitle3dView.BackColor = System.Drawing.Color.RoyalBlue;
-            this.ctlTitle3dView.Checked = false;
-            this.ctlTitle3dView.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
-            this.ctlTitle3dView.Gapx = 0;
-            this.ctlTitle3dView.Gapy = 0;
-            this.ctlTitle3dView.GLBackgroundImage = null;
-            this.ctlTitle3dView.GLVisible = false;
-            this.ctlTitle3dView.GuiAnchor = null;
-            this.ctlTitle3dView.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttViewModel;
-            this.ctlTitle3dView.Location = new System.Drawing.Point(3, 3);
-            this.ctlTitle3dView.Name = "ctlTitle3dView";
-            this.ctlTitle3dView.OnClickCallback = "ClickView3d";
-            this.ctlTitle3dView.Size = new System.Drawing.Size(180, 40);
-            this.ctlTitle3dView.StyleName = null;
-            this.ctlTitle3dView.TabIndex = 0;
-            this.ctlTitle3dView.Text = "3D View";
-            // 
-            // ctlTitleViewSlice
-            // 
-            this.ctlTitleViewSlice.BackColor = System.Drawing.Color.RoyalBlue;
-            this.ctlTitleViewSlice.Checked = false;
-            this.ctlTitleViewSlice.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
-            this.ctlTitleViewSlice.Gapx = 0;
-            this.ctlTitleViewSlice.Gapy = 0;
-            this.ctlTitleViewSlice.GLBackgroundImage = null;
-            this.ctlTitleViewSlice.GLVisible = false;
-            this.ctlTitleViewSlice.GuiAnchor = null;
-            this.ctlTitleViewSlice.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttViewSlice;
-            this.ctlTitleViewSlice.Location = new System.Drawing.Point(189, 3);
-            this.ctlTitleViewSlice.Name = "ctlTitleViewSlice";
-            this.ctlTitleViewSlice.OnClickCallback = "ClickSliceView";
-            this.ctlTitleViewSlice.Size = new System.Drawing.Size(180, 40);
-            this.ctlTitleViewSlice.StyleName = null;
-            this.ctlTitleViewSlice.TabIndex = 1;
-            this.ctlTitleViewSlice.Text = "Slice View";
-            // 
-            // ctlTitleViewControls
-            // 
-            this.ctlTitleViewControls.BackColor = System.Drawing.Color.RoyalBlue;
-            this.ctlTitleViewControls.Checked = false;
-            this.ctlTitleViewControls.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
-            this.ctlTitleViewControls.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ctlTitleViewControls.Gapx = 0;
-            this.ctlTitleViewControls.Gapy = 0;
-            this.ctlTitleViewControls.GLBackgroundImage = null;
-            this.ctlTitleViewControls.GLVisible = false;
-            this.ctlTitleViewControls.GuiAnchor = null;
-            this.ctlTitleViewControls.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMachineControl;
-            this.ctlTitleViewControls.Location = new System.Drawing.Point(375, 3);
-            this.ctlTitleViewControls.Name = "ctlTitleViewControls";
-            this.ctlTitleViewControls.OnClickCallback = "ClickManualCtlView";
-            this.ctlTitleViewControls.Size = new System.Drawing.Size(180, 40);
-            this.ctlTitleViewControls.StyleName = null;
-            this.ctlTitleViewControls.TabIndex = 2;
-            this.ctlTitleViewControls.Text = "Control";
-            // 
-            // ctlTitleConfigure
-            // 
-            this.ctlTitleConfigure.BackColor = System.Drawing.Color.RoyalBlue;
-            this.ctlTitleConfigure.Checked = false;
-            this.ctlTitleConfigure.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
-            this.ctlTitleConfigure.Gapx = 0;
-            this.ctlTitleConfigure.Gapy = 0;
-            this.ctlTitleConfigure.GLBackgroundImage = null;
-            this.ctlTitleConfigure.GLVisible = false;
-            this.ctlTitleConfigure.GuiAnchor = null;
-            this.ctlTitleConfigure.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMachineConfig;
-            this.ctlTitleConfigure.Location = new System.Drawing.Point(561, 3);
-            this.ctlTitleConfigure.Name = "ctlTitleConfigure";
-            this.ctlTitleConfigure.OnClickCallback = "ClickMainConfigView";
-            this.ctlTitleConfigure.Size = new System.Drawing.Size(180, 40);
-            this.ctlTitleConfigure.StyleName = null;
-            this.ctlTitleConfigure.TabIndex = 3;
-            this.ctlTitleConfigure.Text = "Configure";
             // 
             // buttOpenFile
             // 
@@ -770,6 +265,520 @@
             this.buttSlice.TabIndex = 43;
             this.buttSlice.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
             // 
+            // pnl3dview
+            // 
+            this.pnl3dview.Controls.Add(this.ctl3DView1);
+            this.pnl3dview.Controls.Add(this.flowLayoutPanel2);
+            this.pnl3dview.Controls.Add(this.flowLayoutPanel1);
+            this.pnl3dview.Location = new System.Drawing.Point(19, 20);
+            this.pnl3dview.Name = "pnl3dview";
+            this.pnl3dview.Size = new System.Drawing.Size(697, 412);
+            this.pnl3dview.TabIndex = 1;
+            // 
+            // ctl3DView1
+            // 
+            this.ctl3DView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctl3DView1.Location = new System.Drawing.Point(50, 0);
+            this.ctl3DView1.Name = "ctl3DView1";
+            this.ctl3DView1.Size = new System.Drawing.Size(405, 412);
+            this.ctl3DView1.TabIndex = 0;
+            // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.BackColor = System.Drawing.Color.RoyalBlue;
+            this.flowLayoutPanel2.Controls.Add(this.buttExpandLeft);
+            this.flowLayoutPanel2.Controls.Add(this.ctlSupports1);
+            this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(50, 412);
+            this.flowLayoutPanel2.TabIndex = 2;
+            // 
+            // buttExpandLeft
+            // 
+            this.buttExpandLeft.Checked = false;
+            this.buttExpandLeft.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.buttExpandLeft.Gapx = 5;
+            this.buttExpandLeft.Gapy = 5;
+            this.buttExpandLeft.GLBackgroundImage = null;
+            this.buttExpandLeft.GLImage = null;
+            this.buttExpandLeft.GLVisible = false;
+            this.buttExpandLeft.GuiAnchor = null;
+            this.buttExpandLeft.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttExpandLeft.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPlus;
+            this.buttExpandLeft.Location = new System.Drawing.Point(3, 3);
+            this.buttExpandLeft.Name = "buttExpandLeft";
+            this.buttExpandLeft.OnClickCallback = "ClickExpandLeft";
+            this.buttExpandLeft.Size = new System.Drawing.Size(42, 42);
+            this.buttExpandLeft.StyleName = null;
+            this.buttExpandLeft.TabIndex = 0;
+            this.buttExpandLeft.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            // 
+            // ctlSupports1
+            // 
+            this.ctlSupports1.Gapx = 0;
+            this.ctlSupports1.Gapy = 0;
+            this.ctlSupports1.GLBackgroundImage = null;
+            this.ctlSupports1.GLVisible = false;
+            this.ctlSupports1.GuiAnchor = null;
+            this.ctlSupports1.Location = new System.Drawing.Point(51, 3);
+            this.ctlSupports1.Name = "ctlSupports1";
+            this.ctlSupports1.Size = new System.Drawing.Size(381, 542);
+            this.ctlSupports1.StyleName = null;
+            this.ctlSupports1.TabIndex = 1;
+            this.ctlSupports1.Visible = false;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.AutoScroll = true;
+            this.flowLayoutPanel1.BackColor = System.Drawing.Color.RoyalBlue;
+            this.flowLayoutPanel1.Controls.Add(this.ctlScene1);
+            this.flowLayoutPanel1.Controls.Add(this.ctlObjectInfo1);
+            this.flowLayoutPanel1.Controls.Add(this.ctlMoveExpand1);
+            this.flowLayoutPanel1.Controls.Add(this.ctlMirror1);
+            this.flowLayoutPanel1.Controls.Add(this.ctlScale1);
+            this.flowLayoutPanel1.Controls.Add(this.ctlRotate1);
+            this.flowLayoutPanel1.Controls.Add(this.ctlView1);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(455, 0);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(242, 412);
+            this.flowLayoutPanel1.TabIndex = 1;
+            // 
+            // ctlScene1
+            // 
+            this.ctlScene1.Checked = false;
+            this.ctlScene1.Gapx = 5;
+            this.ctlScene1.Gapy = 5;
+            this.ctlScene1.GLBackgroundImage = null;
+            this.ctlScene1.GLVisible = false;
+            this.ctlScene1.GuiAnchor = null;
+            this.ctlScene1.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.ctlScene1.Location = new System.Drawing.Point(3, 3);
+            this.ctlScene1.Name = "ctlScene1";
+            this.ctlScene1.Size = new System.Drawing.Size(235, 50);
+            this.ctlScene1.StyleName = null;
+            this.ctlScene1.TabIndex = 4;
+            this.ctlScene1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            // 
+            // ctlObjectInfo1
+            // 
+            this.ctlObjectInfo1.Checked = false;
+            this.ctlObjectInfo1.Gapx = 5;
+            this.ctlObjectInfo1.Gapy = 5;
+            this.ctlObjectInfo1.GLBackgroundImage = null;
+            this.ctlObjectInfo1.GLVisible = false;
+            this.ctlObjectInfo1.GuiAnchor = null;
+            this.ctlObjectInfo1.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.ctlObjectInfo1.Location = new System.Drawing.Point(3, 59);
+            this.ctlObjectInfo1.Name = "ctlObjectInfo1";
+            this.ctlObjectInfo1.Size = new System.Drawing.Size(235, 50);
+            this.ctlObjectInfo1.StyleName = null;
+            this.ctlObjectInfo1.TabIndex = 5;
+            this.ctlObjectInfo1.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            // 
+            // ctlMoveExpand1
+            // 
+            this.ctlMoveExpand1.Gapx = 0;
+            this.ctlMoveExpand1.Gapy = 0;
+            this.ctlMoveExpand1.GLBackgroundImage = null;
+            this.ctlMoveExpand1.GLVisible = false;
+            this.ctlMoveExpand1.GuiAnchor = null;
+            this.ctlMoveExpand1.Location = new System.Drawing.Point(3, 115);
+            this.ctlMoveExpand1.Name = "ctlMoveExpand1";
+            this.ctlMoveExpand1.Size = new System.Drawing.Size(235, 50);
+            this.ctlMoveExpand1.StyleName = null;
+            this.ctlMoveExpand1.TabIndex = 0;
+            // 
+            // ctlMirror1
+            // 
+            this.ctlMirror1.BackColor = System.Drawing.Color.RoyalBlue;
+            this.ctlMirror1.Gapx = 0;
+            this.ctlMirror1.Gapy = 0;
+            this.ctlMirror1.GLBackgroundImage = null;
+            this.ctlMirror1.GLVisible = false;
+            this.ctlMirror1.GuiAnchor = null;
+            this.ctlMirror1.Location = new System.Drawing.Point(3, 171);
+            this.ctlMirror1.Name = "ctlMirror1";
+            this.ctlMirror1.Size = new System.Drawing.Size(236, 50);
+            this.ctlMirror1.StyleName = null;
+            this.ctlMirror1.TabIndex = 6;
+            // 
+            // ctlScale1
+            // 
+            this.ctlScale1.Gapx = 0;
+            this.ctlScale1.Gapy = 0;
+            this.ctlScale1.GLBackgroundImage = null;
+            this.ctlScale1.GLVisible = false;
+            this.ctlScale1.GuiAnchor = null;
+            this.ctlScale1.Location = new System.Drawing.Point(3, 227);
+            this.ctlScale1.Name = "ctlScale1";
+            this.ctlScale1.Size = new System.Drawing.Size(235, 50);
+            this.ctlScale1.StyleName = null;
+            this.ctlScale1.TabIndex = 1;
+            // 
+            // ctlRotate1
+            // 
+            this.ctlRotate1.Gapx = 0;
+            this.ctlRotate1.Gapy = 0;
+            this.ctlRotate1.GLBackgroundImage = null;
+            this.ctlRotate1.GLVisible = false;
+            this.ctlRotate1.GuiAnchor = null;
+            this.ctlRotate1.Location = new System.Drawing.Point(3, 283);
+            this.ctlRotate1.Name = "ctlRotate1";
+            this.ctlRotate1.Size = new System.Drawing.Size(235, 50);
+            this.ctlRotate1.StyleName = null;
+            this.ctlRotate1.TabIndex = 2;
+            // 
+            // ctlView1
+            // 
+            this.ctlView1.Gapx = 0;
+            this.ctlView1.Gapy = 0;
+            this.ctlView1.GLBackgroundImage = null;
+            this.ctlView1.GLVisible = false;
+            this.ctlView1.GuiAnchor = null;
+            this.ctlView1.LayerNumberScroll = null;
+            this.ctlView1.Location = new System.Drawing.Point(3, 339);
+            this.ctlView1.MessagePanelHolder = null;
+            this.ctlView1.Name = "ctlView1";
+            this.ctlView1.ObjectInfoPanel = null;
+            this.ctlView1.SceneControl = null;
+            this.ctlView1.Size = new System.Drawing.Size(235, 50);
+            this.ctlView1.StyleName = null;
+            this.ctlView1.TabIndex = 3;
+            this.ctlView1.TreeViewHolder = null;
+            // 
+            // pnlTopTabs
+            // 
+            this.pnlTopTabs.BackColor = System.Drawing.Color.RoyalBlue;
+            this.pnlTopTabs.Controls.Add(this.ctlTitle3dView);
+            this.pnlTopTabs.Controls.Add(this.ctlTitleViewSlice);
+            this.pnlTopTabs.Controls.Add(this.ctlTitleViewControls);
+            this.pnlTopTabs.Controls.Add(this.ctlTitleConfigure);
+            this.pnlTopTabs.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlTopTabs.Location = new System.Drawing.Point(0, 93);
+            this.pnlTopTabs.Name = "pnlTopTabs";
+            this.pnlTopTabs.Size = new System.Drawing.Size(1380, 50);
+            this.pnlTopTabs.TabIndex = 2;
+            // 
+            // ctlTitle3dView
+            // 
+            this.ctlTitle3dView.BackColor = System.Drawing.Color.RoyalBlue;
+            this.ctlTitle3dView.Checked = false;
+            this.ctlTitle3dView.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.ctlTitle3dView.Gapx = 0;
+            this.ctlTitle3dView.Gapy = 0;
+            this.ctlTitle3dView.GLBackgroundImage = null;
+            this.ctlTitle3dView.GLVisible = false;
+            this.ctlTitle3dView.GuiAnchor = null;
+            this.ctlTitle3dView.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttViewModel;
+            this.ctlTitle3dView.Location = new System.Drawing.Point(3, 3);
+            this.ctlTitle3dView.Name = "ctlTitle3dView";
+            this.ctlTitle3dView.OnClickCallback = "ClickView3d";
+            this.ctlTitle3dView.Size = new System.Drawing.Size(180, 40);
+            this.ctlTitle3dView.StyleName = null;
+            this.ctlTitle3dView.TabIndex = 0;
+            this.ctlTitle3dView.Text = "3D View";
+            // 
+            // ctlTitleViewSlice
+            // 
+            this.ctlTitleViewSlice.BackColor = System.Drawing.Color.RoyalBlue;
+            this.ctlTitleViewSlice.Checked = false;
+            this.ctlTitleViewSlice.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.ctlTitleViewSlice.Gapx = 0;
+            this.ctlTitleViewSlice.Gapy = 0;
+            this.ctlTitleViewSlice.GLBackgroundImage = null;
+            this.ctlTitleViewSlice.GLVisible = false;
+            this.ctlTitleViewSlice.GuiAnchor = null;
+            this.ctlTitleViewSlice.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttViewSlice;
+            this.ctlTitleViewSlice.Location = new System.Drawing.Point(189, 3);
+            this.ctlTitleViewSlice.Name = "ctlTitleViewSlice";
+            this.ctlTitleViewSlice.OnClickCallback = "ClickSliceView";
+            this.ctlTitleViewSlice.Size = new System.Drawing.Size(180, 40);
+            this.ctlTitleViewSlice.StyleName = null;
+            this.ctlTitleViewSlice.TabIndex = 1;
+            this.ctlTitleViewSlice.Text = "Slice View";
+            // 
+            // ctlTitleViewControls
+            // 
+            this.ctlTitleViewControls.BackColor = System.Drawing.Color.RoyalBlue;
+            this.ctlTitleViewControls.Checked = false;
+            this.ctlTitleViewControls.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.ctlTitleViewControls.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.ctlTitleViewControls.Gapx = 0;
+            this.ctlTitleViewControls.Gapy = 0;
+            this.ctlTitleViewControls.GLBackgroundImage = null;
+            this.ctlTitleViewControls.GLVisible = false;
+            this.ctlTitleViewControls.GuiAnchor = null;
+            this.ctlTitleViewControls.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMachineControl;
+            this.ctlTitleViewControls.Location = new System.Drawing.Point(375, 3);
+            this.ctlTitleViewControls.Name = "ctlTitleViewControls";
+            this.ctlTitleViewControls.OnClickCallback = "ClickManualCtlView";
+            this.ctlTitleViewControls.Size = new System.Drawing.Size(180, 40);
+            this.ctlTitleViewControls.StyleName = null;
+            this.ctlTitleViewControls.TabIndex = 2;
+            this.ctlTitleViewControls.Text = "Control";
+            // 
+            // ctlTitleConfigure
+            // 
+            this.ctlTitleConfigure.BackColor = System.Drawing.Color.RoyalBlue;
+            this.ctlTitleConfigure.Checked = false;
+            this.ctlTitleConfigure.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.ctlTitleConfigure.Gapx = 0;
+            this.ctlTitleConfigure.Gapy = 0;
+            this.ctlTitleConfigure.GLBackgroundImage = null;
+            this.ctlTitleConfigure.GLVisible = false;
+            this.ctlTitleConfigure.GuiAnchor = null;
+            this.ctlTitleConfigure.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttMachineConfig;
+            this.ctlTitleConfigure.Location = new System.Drawing.Point(561, 3);
+            this.ctlTitleConfigure.Name = "ctlTitleConfigure";
+            this.ctlTitleConfigure.OnClickCallback = "ClickMainConfigView";
+            this.ctlTitleConfigure.Size = new System.Drawing.Size(180, 40);
+            this.ctlTitleConfigure.StyleName = null;
+            this.ctlTitleConfigure.TabIndex = 3;
+            this.ctlTitleConfigure.Text = "Configure";
+            // 
+            // pnlSliceView
+            // 
+            this.pnlSliceView.Controls.Add(this.ctlSliceGCodePanel1);
+            this.pnlSliceView.Location = new System.Drawing.Point(742, 3);
+            this.pnlSliceView.Name = "pnlSliceView";
+            this.pnlSliceView.Size = new System.Drawing.Size(373, 201);
+            this.pnlSliceView.TabIndex = 3;
+            // 
+            // ctlSliceGCodePanel1
+            // 
+            this.ctlSliceGCodePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctlSliceGCodePanel1.Gapx = 0;
+            this.ctlSliceGCodePanel1.Gapy = 0;
+            this.ctlSliceGCodePanel1.GLBackgroundImage = null;
+            this.ctlSliceGCodePanel1.GLVisible = false;
+            this.ctlSliceGCodePanel1.GuiAnchor = null;
+            this.ctlSliceGCodePanel1.Location = new System.Drawing.Point(0, 0);
+            this.ctlSliceGCodePanel1.Name = "ctlSliceGCodePanel1";
+            this.ctlSliceGCodePanel1.Size = new System.Drawing.Size(373, 201);
+            this.ctlSliceGCodePanel1.StyleName = null;
+            this.ctlSliceGCodePanel1.TabIndex = 0;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 143);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.ctlMainConfig1);
+            this.splitContainer1.Panel1.Controls.Add(this.ctlMainManual1);
+            this.splitContainer1.Panel1.Controls.Add(this.pnlSliceView);
+            this.splitContainer1.Panel1.Controls.Add(this.pnl3dview);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.txtLog);
+            this.splitContainer1.Size = new System.Drawing.Size(1380, 551);
+            this.splitContainer1.SplitterDistance = 449;
+            this.splitContainer1.TabIndex = 4;
+            // 
+            // ctlMainConfig1
+            // 
+            this.ctlMainConfig1.Gapx = 0;
+            this.ctlMainConfig1.Gapy = 0;
+            this.ctlMainConfig1.GLBackgroundImage = null;
+            this.ctlMainConfig1.GLVisible = false;
+            this.ctlMainConfig1.GuiAnchor = null;
+            this.ctlMainConfig1.Location = new System.Drawing.Point(1060, 264);
+            this.ctlMainConfig1.Name = "ctlMainConfig1";
+            this.ctlMainConfig1.Size = new System.Drawing.Size(308, 51);
+            this.ctlMainConfig1.StyleName = null;
+            this.ctlMainConfig1.TabIndex = 5;
+            // 
+            // ctlMainManual1
+            // 
+            this.ctlMainManual1.Location = new System.Drawing.Point(742, 232);
+            this.ctlMainManual1.Name = "ctlMainManual1";
+            this.ctlMainManual1.Size = new System.Drawing.Size(215, 182);
+            this.ctlMainManual1.TabIndex = 4;
+            // 
+            // txtLog
+            // 
+            this.txtLog.BackColor = System.Drawing.Color.White;
+            this.txtLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtLog.Font = new System.Drawing.Font("Courier New", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLog.Location = new System.Drawing.Point(0, 0);
+            this.txtLog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtLog.Multiline = true;
+            this.txtLog.Name = "txtLog";
+            this.txtLog.ReadOnly = true;
+            this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtLog.Size = new System.Drawing.Size(1380, 98);
+            this.txtLog.TabIndex = 1;
+            // 
+            // pnlTopIconsMain
+            // 
+            this.pnlTopIconsMain.BackColor = System.Drawing.Color.RoyalBlue;
+            this.pnlTopIconsMain.Controls.Add(this.flowLayoutPanel3);
+            this.pnlTopIconsMain.Controls.Add(this.pnlTopIcons);
+            this.pnlTopIconsMain.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlTopIconsMain.Location = new System.Drawing.Point(0, 28);
+            this.pnlTopIconsMain.Name = "pnlTopIconsMain";
+            this.pnlTopIconsMain.Size = new System.Drawing.Size(1380, 65);
+            this.pnlTopIconsMain.TabIndex = 45;
+            // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.Controls.Add(this.lblMainMessage);
+            this.flowLayoutPanel3.Controls.Add(this.lblTime);
+            this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Right;
+            this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(871, 0);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(509, 65);
+            this.flowLayoutPanel3.TabIndex = 44;
+            // 
+            // lblMainMessage
+            // 
+            this.lblMainMessage.AutoSize = true;
+            this.lblMainMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMainMessage.ForeColor = System.Drawing.Color.White;
+            this.lblMainMessage.Location = new System.Drawing.Point(3, 0);
+            this.lblMainMessage.Name = "lblMainMessage";
+            this.lblMainMessage.Size = new System.Drawing.Size(64, 25);
+            this.lblMainMessage.TabIndex = 0;
+            this.lblMainMessage.Text = "label1";
+            // 
+            // lblTime
+            // 
+            this.lblTime.AutoSize = true;
+            this.lblTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTime.ForeColor = System.Drawing.Color.White;
+            this.lblTime.Location = new System.Drawing.Point(3, 25);
+            this.lblTime.Name = "lblTime";
+            this.lblTime.Size = new System.Drawing.Size(64, 25);
+            this.lblTime.TabIndex = 1;
+            this.lblTime.Text = "label2";
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.helpToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1380, 28);
+            this.menuStrip1.TabIndex = 17;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveSceneSTLToolStripMenuItem,
+            this.preferencesToolStripMenuItem,
+            this.exitToolStripMenuItem,
+            this.testToolStripMenuItem,
+            this.pluginTesterToolStripMenuItem,
+            this.testMachineControlToolStripMenuItem,
+            this.testSaveSceneToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // saveSceneSTLToolStripMenuItem
+            // 
+            this.saveSceneSTLToolStripMenuItem.Name = "saveSceneSTLToolStripMenuItem";
+            this.saveSceneSTLToolStripMenuItem.Size = new System.Drawing.Size(218, 24);
+            this.saveSceneSTLToolStripMenuItem.Text = "Save Scene STL";
+            this.saveSceneSTLToolStripMenuItem.Click += new System.EventHandler(this.saveSceneSTLToolStripMenuItem_Click);
+            // 
+            // preferencesToolStripMenuItem
+            // 
+            this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
+            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(218, 24);
+            this.preferencesToolStripMenuItem.Text = "Preferences";
+            this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(218, 24);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(218, 24);
+            this.testToolStripMenuItem.Text = "Dump Commands";
+            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
+            // 
+            // pluginTesterToolStripMenuItem
+            // 
+            this.pluginTesterToolStripMenuItem.Name = "pluginTesterToolStripMenuItem";
+            this.pluginTesterToolStripMenuItem.Size = new System.Drawing.Size(218, 24);
+            this.pluginTesterToolStripMenuItem.Text = "Plugin Tester";
+            this.pluginTesterToolStripMenuItem.Click += new System.EventHandler(this.pluginTesterToolStripMenuItem_Click);
+            // 
+            // testMachineControlToolStripMenuItem
+            // 
+            this.testMachineControlToolStripMenuItem.Name = "testMachineControlToolStripMenuItem";
+            this.testMachineControlToolStripMenuItem.Size = new System.Drawing.Size(218, 24);
+            this.testMachineControlToolStripMenuItem.Text = "Test Machine Control";
+            this.testMachineControlToolStripMenuItem.Click += new System.EventHandler(this.testMachineControlToolStripMenuItem_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem,
+            this.plugInsToolStripMenuItem,
+            this.userManualToolStripMenuItem,
+            this.hardwareGuideToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // plugInsToolStripMenuItem
+            // 
+            this.plugInsToolStripMenuItem.Name = "plugInsToolStripMenuItem";
+            this.plugInsToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
+            this.plugInsToolStripMenuItem.Text = "Plug-Ins";
+            this.plugInsToolStripMenuItem.Click += new System.EventHandler(this.plugInsToolStripMenuItem_Click);
+            // 
+            // userManualToolStripMenuItem
+            // 
+            this.userManualToolStripMenuItem.Name = "userManualToolStripMenuItem";
+            this.userManualToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
+            this.userManualToolStripMenuItem.Text = "User Manual";
+            this.userManualToolStripMenuItem.Click += new System.EventHandler(this.userManualToolStripMenuItem_Click);
+            // 
+            // hardwareGuideToolStripMenuItem
+            // 
+            this.hardwareGuideToolStripMenuItem.Name = "hardwareGuideToolStripMenuItem";
+            this.hardwareGuideToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
+            this.hardwareGuideToolStripMenuItem.Text = "Hardware Guide";
+            this.hardwareGuideToolStripMenuItem.Click += new System.EventHandler(this.hardwareGuideToolStripMenuItem_Click);
+            // 
+            // testSaveSceneToolStripMenuItem
+            // 
+            this.testSaveSceneToolStripMenuItem.Name = "testSaveSceneToolStripMenuItem";
+            this.testSaveSceneToolStripMenuItem.Size = new System.Drawing.Size(218, 24);
+            this.testSaveSceneToolStripMenuItem.Text = "Test Save Scene";
+            this.testSaveSceneToolStripMenuItem.Click += new System.EventHandler(this.testSaveSceneToolStripMenuItem_Click);
+            // 
             // frmMain2
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -857,5 +866,6 @@
         private System.Windows.Forms.Label lblMainMessage;
         private System.Windows.Forms.Label lblTime;
         private System.Windows.Forms.Panel pnlTopIconsMain;
+        private System.Windows.Forms.ToolStripMenuItem testSaveSceneToolStripMenuItem;
     }
 }

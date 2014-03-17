@@ -69,26 +69,46 @@ namespace Engine3D
             }
             return mm;
         }
-
         public void UpdateGrid()
         {
             m_lines = new List<PolyLine3d>();
             AddGrid();
             AddPlatCube();
         }
-        
-        public void AddGridLine(int x1, int y1, int x2, int y2, Color col)
+        public void AddGridLine(float x1, float y1, float x2, float y2, Color col)
         {
             AddLine(new PolyLine3d(new Point3d(x1, y1, 0), new Point3d(x2, y2, 0), col));
         }
 
         public void AddGrid() 
         {
-            for (int x = -50; x < 51; x += 10)
+            double xsz = UVDLPApp.Instance().m_printerinfo.m_PlatXSize;
+            double ysz = UVDLPApp.Instance().m_printerinfo.m_PlatYSize;
+            double hxsz = xsz / 2.0d;
+            double hysz = ysz / 2.0d;
+
+            for (double x = -hxsz; x < hxsz; x += 10)
+            {
+                AddLine(new PolyLine3d(new Point3d((float)x, (float)-hysz, 0), new Point3d((float)x, (float)hysz, 0), Color.Blue));
+            }
+            for (double y = -hysz; y < hysz; y += 10)
+            {
+                AddLine(new PolyLine3d(new Point3d((float)-hxsz, (float)y, 0), new Point3d((float)hxsz, (float)y, 0), Color.Blue));
+            }
+            /*
+            for (float y = -50; y < 51; y += 10)
+            {
+                AddLine(new PolyLine3d(new Point3d(0, 0, -10), new Point3d(0, 0, 10), Color.Blue));
+            }
+            */
+        }
+        public void AddGridOld() 
+        {
+            for (float x = -50; x < 51; x += 10)
             {
                 AddGridLine(x, -50, x, 50, Color.Blue);
             }
-            for (int y = -50; y < 51; y += 10)
+            for (float y = -50; y < 51; y += 10)
             {
                 AddGridLine(-50, y, 50, y, Color.Blue);
             }

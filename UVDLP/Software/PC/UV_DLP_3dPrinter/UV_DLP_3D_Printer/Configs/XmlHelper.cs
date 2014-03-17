@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Drawing;
-
+using System.IO;
 
 // Xml Helper class for new configuration system -SHS
 namespace UV_DLP_3D_Printer.Configs
@@ -357,6 +357,24 @@ namespace UV_DLP_3D_Printer.Configs
                 m_version = version;
                 m_verattr.Value = version.ToString();  // an exception was being thrown here first load - smh
                 m_xdoc.Save(m_filename);
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogRecord(m_name + ": " + ex.Message);
+                return false;
+            }
+            return true;
+        }
+
+
+        public bool Save(int version, ref MemoryStream stream)
+        {
+
+            try
+            {
+                m_version = version;
+                m_verattr.Value = version.ToString();  // an exception was being thrown here first load - smh
+                m_xdoc.Save(stream);
             }
             catch (Exception ex)
             {

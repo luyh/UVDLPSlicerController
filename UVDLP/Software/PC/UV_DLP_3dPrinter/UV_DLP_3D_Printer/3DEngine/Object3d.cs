@@ -67,12 +67,15 @@ namespace Engine3D
                     Point3d p2 = new Point3d(pnt);
                     obj.m_lstpoints.Add(p2);
                 }
+                //this could be faster if we just blindly clone all poly points
+                // then at the end, add all poly points to the main object point lst
+                // it would be essentially the same.
                 foreach (Polygon ply in m_lstpolys)
                 {
                     Polygon pl2 = new Polygon();
                     pl2.m_points = new Point3d[3];
                     obj.m_lstpolys.Add(pl2);
-                    pl2.m_points[0] = obj.m_lstpoints[m_lstpoints.IndexOf(ply.m_points[0])];
+                    pl2.m_points[0] = obj.m_lstpoints[m_lstpoints.IndexOf(ply.m_points[0])]; // the indexof operation takes a little while
                     pl2.m_points[1] = obj.m_lstpoints[m_lstpoints.IndexOf(ply.m_points[1])];
                     pl2.m_points[2] = obj.m_lstpoints[m_lstpoints.IndexOf(ply.m_points[2])];
                 }
@@ -715,6 +718,8 @@ namespace Engine3D
             UINT16 – Attribute byte count
             end         
              */
+
+
         public bool SaveSTL_Binary(string filename) 
         {
             try
@@ -747,6 +752,80 @@ namespace Engine3D
                 return false;
             }
         }
+
+        public bool SaveSTL_Binary(ref MemoryStream ms)
+        {
+            try
+            {
+                BinaryWriter bw = new BinaryWriter(ms);
+                byte[] header = new byte[80];
+                //fill in the header
+                bw.Write(header, 0, 80);
+                bw.Write((uint)m_lstpolys.Count);
+                foreach (Polygon p in m_lstpolys)
+                {
+                    //write the normal
+                    bw.Write((float)p.m_normal.x);
+                    bw.Write((float)p.m_normal.y);
+                    bw.Write((float)p.m_normal.z);
+                    foreach (Point3d pnt in p.m_points)
+                    {
+                        bw.Write((float)pnt.x);
+                        bw.Write((float)pnt.y);
+                        bw.Write((float)pnt.z);
+                    }
+                    bw.Write((ushort)0); // 16 bit attribute
+                }
+                //bw.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+                return false;
+            }
+        }
+
+        public bool LoadSTL_Binary(MemoryStream stream,string name)
+        {
+            BinaryReader br = null;
+            try
+            {
+                br = new BinaryReader(stream);
+                m_fullname = name;
+                m_name = Path.GetFileName(name);
+                byte[] data = new byte[80];
+                data = br.ReadBytes(80); // read the header
+                uint numtri = br.ReadUInt32();
+                for (uint c = 0; c < numtri; c++)
+                {
+                    Polygon p = new Polygon();
+                    m_lstpolys.Add(p); // add this polygon to the object
+                    p.m_normal.Load(br); // load the normal
+                    p.m_points = new Point3d[3]; // create storage
+                    for (int pc = 0; pc < 3; pc++) //iterate through the points
+                    {
+                        Point3d pnt = new Point3d();
+                        pnt.Load(br);
+                        m_lstpoints.Add(pnt);
+                        p.m_points[pc] = pnt;
+                    }
+                    uint attr = br.ReadUInt16(); // not used attribute
+                }
+
+                Update(); // initial positions please...
+                br.Close();
+                return true;
+            }
+            catch (Exception)
+            {
+                if (br != null)
+                    br.Close();
+                return false;
+            }
+
+        }
+        
         public bool LoadSTL_Binary(string filename) 
         {
             BinaryReader br = null;

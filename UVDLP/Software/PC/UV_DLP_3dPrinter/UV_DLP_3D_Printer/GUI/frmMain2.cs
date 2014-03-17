@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using UV_DLP_3D_Printer.GUI.CustomGUI;
 using System.IO;
 using UV_DLP_3D_Printer.Slicing;
+using UV_DLP_3D_Printer._3DEngine;
 
 namespace UV_DLP_3D_Printer.GUI
 {
@@ -922,6 +923,14 @@ namespace UV_DLP_3D_Printer.GUI
         {
             Form frm = new frmTest();
             frm.ShowDialog();
+        }
+
+        private void testSaveSceneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) 
+            {
+                Scene.Instance().Save(saveFileDialog1.FileName);                
+            }
         }
     }
 }
