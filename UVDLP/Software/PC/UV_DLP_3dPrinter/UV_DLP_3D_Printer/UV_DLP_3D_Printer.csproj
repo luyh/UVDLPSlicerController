@@ -692,6 +692,9 @@
     <None Include="resources\MachineControl\mc_px2.png" />
     <None Include="resources\MachineControl\mc_px3.png" />
     <None Include="resources\MachineControl\mc_cent.png" />
+    <None Include="resources\MachineControl\mc_home.png" />
+    <None Include="resources\MachineControl\mc_trcorner.png" />
+    <None Include="resources\MachineControl\mc_uparrow.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />

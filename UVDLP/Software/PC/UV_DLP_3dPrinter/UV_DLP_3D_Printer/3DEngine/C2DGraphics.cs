@@ -346,6 +346,26 @@ namespace UV_DLP_3D_Printer._3DEngine
             return bmp;
         }
 
+        // rotate bitmap 90 deg clockwise nrot times 
+        public static Bitmap RotateBmp90deg(Image srcbmp, int nrot)
+        {
+            Bitmap bmp;
+            if ((nrot & 1) == 1)
+                // 90/270 rotation switch dimentions;
+                bmp = new Bitmap(srcbmp.Height, srcbmp.Width);
+            else
+                bmp = new Bitmap(srcbmp.Width, srcbmp.Height);
+
+            Graphics gfx = Graphics.FromImage(bmp);
+            gfx.TranslateTransform((float)bmp.Width / 2, (float)bmp.Height / 2);
+            gfx.RotateTransform(nrot * 90);
+            gfx.TranslateTransform(-(float)bmp.Width / 2, -(float)bmp.Height / 2);
+            gfx.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+            gfx.DrawImage(srcbmp, 0, 0, srcbmp.Width, srcbmp.Height);
+            gfx.Dispose();
+            return bmp;
+        }
+
         public void GetImageDim(String name, ref int w, ref int h)
         {
             if (name == null)

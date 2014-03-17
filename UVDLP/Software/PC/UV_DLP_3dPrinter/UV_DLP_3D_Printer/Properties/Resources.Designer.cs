@@ -713,6 +713,13 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap mc_home {
+            get {
+                object obj = ResourceManager.GetObject("mc_home", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap mc_px0 {
             get {
                 object obj = ResourceManager.GetObject("mc_px0", resourceCulture);
@@ -737,6 +744,20 @@ namespace UV_DLP_3D_Printer.Properties {
         public static System.Drawing.Bitmap mc_px3 {
             get {
                 object obj = ResourceManager.GetObject("mc_px3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap mc_trcorner {
+            get {
+                object obj = ResourceManager.GetObject("mc_trcorner", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap mc_uparrow {
+            get {
+                object obj = ResourceManager.GetObject("mc_uparrow", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
