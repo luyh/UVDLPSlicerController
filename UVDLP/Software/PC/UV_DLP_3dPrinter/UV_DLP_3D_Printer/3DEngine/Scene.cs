@@ -28,7 +28,78 @@ namespace UV_DLP_3D_Printer._3DEngine
             }
             return m_instance;
         }
+        public bool Load(string scenename) 
+        {
+            try
+            {
+                ZipFile zip = ZipFile.Read(scenename);
+                string xmlname = "manifest.xml";
+                ZipEntry manifestentry = zip[xmlname];
+                //create new manifest xml doc
+                XmlHelper manifest = new XmlHelper();
+                //get memory stream
+                MemoryStream manistream = new MemoryStream();
+                //extract the stream
+                manifestentry.Extract(manistream);
+                //read from stream
+                manistream.Seek(0, SeekOrigin.Begin); // rewind the stream for reading
+                manifest.LoadFromStream(manistream, "manifest");
+                //examine manifest
+                //find the node with models
+                XmlNode topnode = manifest.m_toplevel;
+                XmlNode models = manifest.FindSection(topnode, "Models");
+                List<XmlNode> modelnodes = manifest.FindAllChildElement(models, "model");
+                foreach (XmlNode nd in modelnodes) 
+                {
+                    string name = manifest.GetString(nd, "name", "noname");
+                    string modstlname = name + ".stl";
+                    int tag = manifest.GetInt(nd, "tag", 0);
+                    ZipEntry modelentry = zip[modstlname]; // the model name will have the _XXXX on the end with the stl extension
+                    MemoryStream modstr = new MemoryStream();
+                    modelentry.Extract(modstr);
+                    //rewind to beginning
+                    modstr.Seek(0, SeekOrigin.Begin);
+                    //fix the name
+                    name = name.Substring(0, name.Length - 5);// get rid of the _XXXX at the end
+                    if (tag == Object3d.OBJ_SUPPORT)
+                    {
+                        Support s = new Support();
+                        //load the model
+                        s.LoadSTL_Binary(modstr, name);
+                        //add to the 3d engine
+                        UVDLPApp.Instance().m_engine3d.AddObject(s);
+                        //set the tag
+                        s.tag = tag;
+                        string parent = manifest.GetString(nd, "parent", "noname");
+                        s.SetColor(System.Drawing.Color.Yellow);
+                        //find and set the parent
+                        Object3d tmp = UVDLPApp.Instance().m_engine3d.Find(parent);
+                        if (tmp != null) 
+                        {
+                            tmp.AddSupport(s);
+                        }
+                    }
+                    else 
+                    {
+                        //load as normal object
+                        Object3d obj = new Object3d();
+                        //load the model
+                        obj.LoadSTL_Binary((MemoryStream)modstr, name);
+                        //add to the 3d engine
+                        UVDLPApp.Instance().m_engine3d.AddObject(obj);
+                        //set the tag
+                        obj.tag = tag;
+                    }
+                }
 
+                return true;
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+                return false;
+            }
+        }
         /// <summary>
         /// Save the entire scene into a zip file with a manifest
         /// This file will later be re-used to store png slicee, gcode & svg
@@ -83,7 +154,9 @@ namespace UV_DLP_3D_Printer._3DEngine
                     //create an entry for this object, using the object name with no extension
                     //save anything special about it
 
-                    XmlNode objnode = manifest.AddSection(mc, objnameNE);
+                    //XmlNode objnode = manifest.AddSection(mc, objnameNE);
+                    XmlNode objnode = manifest.AddSection(mc, "model");
+                    manifest.SetParameter(objnode, "name", objnameNE);
                     manifest.SetParameter(objnode, "tag", obj.tag);
                     if (obj.tag == Object3d.OBJ_SUPPORT && obj.m_parrent !=null) 
                     {
@@ -107,11 +180,6 @@ namespace UV_DLP_3D_Printer._3DEngine
             {
                 DebugLogger.Instance().LogError(ex);
             }
-            return false;
-        }
-
-        public bool Load(string scenename)
-        {
             return false;
         }
 

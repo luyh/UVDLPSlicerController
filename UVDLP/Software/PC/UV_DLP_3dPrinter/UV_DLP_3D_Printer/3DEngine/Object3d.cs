@@ -363,7 +363,8 @@ namespace Engine3D
                 //save the center                
                 Point3d center = CalcCenter();
                 //move to origin
-                Translate((float)-center.x, (float)-center.y, (float)-center.z);                
+                //Translate((float)-center.x, (float)-center.y, (float)-center.z);                
+                STranslate((float)-center.x, (float)-center.y, (float)-center.z);
                 foreach (Polygon poly in m_lstpolys) 
                 {
                     Point3d p1 = poly.m_points[0];
@@ -378,7 +379,7 @@ namespace Engine3D
                     vol += (1.0f / 6.0f) * (-v321 + v231 + v312 - v132 - v213 + v123);
                 }
                 //move it back
-                Translate((float)center.x, (float)center.y, (float)center.z);
+                STranslate((float)center.x, (float)center.y, (float)center.z);
             }
             catch (Exception ex) 
             {
@@ -664,6 +665,15 @@ namespace Engine3D
             m_boundingBox.Add(face);
         }
 
+        public void STranslate(float x, float y, float z)
+        {
+            foreach (Point3d p in m_lstpoints)
+            {
+                p.x += x;
+                p.y += y;
+                p.z += z;
+            }
+        }
         /*Move the model in object space */
         public void Translate(float x, float y, float z, bool updateUndo = false) 
         {

@@ -1,12 +1,13 @@
 ﻿
 ToDo:
 
-Multiple monitor configuration
-in the machine configuratiuon:
-	all the user to 'add' a display
-	save the display settings
-	the final render size can be either custom or the size of a monitors resolution
-	Should monitor configs even save thier resoltions? <- maybe just to verify
+XML system to add/remove/slin controls in the following areas:
+	Top panel
+	Top Lower
+	Left on 3d view
+	Right on 3d view
+	in 3d view
+	in any of the major panels
 
 
 Copy the layout of matter control.
@@ -23,34 +24,15 @@ the part library and view is a nice touch - very handy!
  3d view or 2d slice view
  Print 
 
- automatic layout system:
- I need a system that can lay out models on the surface,
- then automatically buld supports for them. 
- This layout can work in 2d,3d
  This autosupport generation can do intra-object supports, as well as a tree-structure
  I need to determine inside/outside
 	
-Remove Image Slice view window
-	On preview slice view on 3d window, show a "preview on secondary display" checkbox
 	
 -in the slicing configuration screen,
 	group icons on the bottom panel so that the on/off visibilty switches of the panels	
 -Make the log view only visible by default in the debug build
-
--Support generation improvements
-		
-	-hold a reference in each support to the object it touches
-	-make supports move and rotate along with object, have them fixed to the ground
 		
 -Make platform walls light up when objects are not fully enclosed in platform
-
-
-Add PLY support
-Add ASCII support?
-Add Triangulate function
-
-
-Support automatic time delay calculation in GUI for layer time
 
 support generation
 	2d/3d

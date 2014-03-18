@@ -38,7 +38,39 @@ namespace UV_DLP_3D_Printer.Configs
             m_filename = filename;
             NewDocument(docName);
         }
-
+        // Read XML document from stream
+        public bool LoadFromStream(Stream stream, String docName)
+        {
+           // m_filename = filename;
+           // m_name = System.IO.Path.GetFileName(filename);
+            m_xdoc = new XmlDocument();
+            m_toplevel = null;
+            //bool fileExist = System.IO.File.Exists(m_filename);
+            try
+            {
+                m_xdoc.Load(stream);
+                m_toplevel = m_xdoc.ChildNodes[1];
+                //m_version = GetInt(m_xdoc, "FileVersion", 0);
+                if (m_toplevel.Name != docName)
+                {
+                    m_toplevel = null;
+                }
+                else
+                {
+                    m_verattr = m_toplevel.Attributes["FileVersion"];
+                    m_version = int.Parse(m_verattr.Value);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+               
+                DebugLogger.Instance().LogError(m_name + ": " + ex.Message);
+              
+                m_toplevel = null;
+            }
+            return false;
+        }
         // Read XML document from file, if not exist, start new XML document. 
         public bool Start(String filename, String docName)
         {
