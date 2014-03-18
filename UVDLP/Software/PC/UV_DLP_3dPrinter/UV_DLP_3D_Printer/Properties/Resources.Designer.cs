@@ -713,6 +713,13 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap mc_centn {
+            get {
+                object obj = ResourceManager.GetObject("mc_centn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap mc_home {
             get {
                 object obj = ResourceManager.GetObject("mc_home", resourceCulture);
@@ -758,6 +765,48 @@ namespace UV_DLP_3D_Printer.Properties {
         public static System.Drawing.Bitmap mc_uparrow {
             get {
                 object obj = ResourceManager.GetObject("mc_uparrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap mc_uparrown {
+            get {
+                object obj = ResourceManager.GetObject("mc_uparrown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap mc_z0 {
+            get {
+                object obj = ResourceManager.GetObject("mc_z0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap mc_z1 {
+            get {
+                object obj = ResourceManager.GetObject("mc_z1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap mc_z2 {
+            get {
+                object obj = ResourceManager.GetObject("mc_z2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap mc_z3 {
+            get {
+                object obj = ResourceManager.GetObject("mc_z3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap mc_ztop {
+            get {
+                object obj = ResourceManager.GetObject("mc_ztop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

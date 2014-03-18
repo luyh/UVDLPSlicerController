@@ -12,24 +12,11 @@ using UV_DLP_3D_Printer._3DEngine;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
-    public enum MachineControlAxis
-    {
-        X = 0,
-        Y = 1,
-        Z = 2,
-        All = 3
-    }
-
-    public partial class ctlMCXY : ctlUserPanel
+    public partial class ctlMCXY : ctlMCBase
     {
         Image[] mArches;
         Image[] mArchesSel;
-        Image[] mArchesUnsel;
         Rectangle[] mOffsets;
-        Color mFrameColor;
-        Color [] mArchColors;
-        Color mSelColor;
-        Color mArrowCol;
         PointF[] mArchTxtPos;
         Image mCentImg, mCentImgSel;
         Image mTRCornerImg, mTRCornerImgSel;
@@ -48,9 +35,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         int mCircWidth;
         float[] mArchVals;
 
-        public delegate void MotorMoveDelegate(Object sender, MachineControlAxis axis, float val);
         public event MotorMoveDelegate MotorMove;
-        public delegate void MotorHomeDelegate(Object sender, MachineControlAxis axis);
         public event MotorHomeDelegate MotorHome;
 
         //int mCircsize;
@@ -59,11 +44,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             InitializeComponent();
             mArches = new Image[4];
             mArchesSel = new Image[4];
-            mArchesUnsel = new Image[4];
             mOffsets = new Rectangle[4];
-            mArchColors = new Color[4];
             mArchTxtPos = new PointF[4];
-            mFrameColor = Color.RoyalBlue;
             mArchVals = new float[] { 0.1f, 1, 10, 100 };
             DoubleBuffered = true;
             mSelAxis = 0;
@@ -82,16 +64,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
             Font = new Font("Arial", (float)(mArchWidth * 0.75), System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             UpdateOffsets(mCircWidth);
-            UpdateBitmaps();
+            FrameColor = Color.RoyalBlue;
+            //UpdateBitmaps();
         }
-
-        [Description("Base color of all graphics"), Category("Data")]
-        public Color FrameColor
-        {
-            get { return mFrameColor; }
-            set { mFrameColor = value; UpdateBitmaps();  }
-        }
-
 
         // d = diameter of big circle in pixels
         void UpdateOffsets(int d)
@@ -104,47 +79,32 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             mOffsets[3] = new Rectangle((d - w) / 2 - d, 0, w, h);
         }
 
-
-        Color GetArchColor(int anum)
-        {
-            if (anum == 0)
-                return mFrameColor;
-            return Color.FromArgb(
-                mFrameColor.A,
-                mFrameColor.R + (anum * (255 - mFrameColor.R)) / 4,
-                mFrameColor.G + (anum * (255 - mFrameColor.G)) / 4,
-                mFrameColor.B + (anum * (255 - mFrameColor.B)) / 4
-            );
-        }
-
-        void UpdateBitmaps()
+        protected override void UpdateBitmaps()
         {
             float vang = (float)(45.0 * Math.PI / 180.0);
             for (int i = 0; i < 4; i++)
             {
-                mArchColors[i] = GetArchColor(i);
                 float vlen = (float)(mInRad + mArchWidth / 2 + i * mArchWidth);
-                mArchTxtPos[i] = new PointF((float)(mCenter - 16 + Math.Cos(vang) * vlen), (float)(mCenter - 10 - Math.Sin(vang) * vlen)); 
+                mArchTxtPos[i] = new PointF((float)(mCenter - 16 + Math.Cos(vang) * vlen), (float)(mCenter - 10 - Math.Sin(vang) * vlen));
             }
-            mArrowCol = Color.FromArgb(120, 200, 255, 200);
-            mArches[0] = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_px3, mArchColors[0]);
-            mArches[1] = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_px2, mArchColors[1]);
-            mArches[2] = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_px1, mArchColors[2]);
-            mArches[3] = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_px0, mArchColors[3]);
-            mSelColor = Color.FromArgb(mFrameColor.A, 255 - mFrameColor.R, 255 - mFrameColor.G, 255 - mFrameColor.B);
+            mArches[0] = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_px3, mLevelColors[0]);
+            mArches[1] = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_px2, mLevelColors[1]);
+            mArches[2] = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_px1, mLevelColors[2]);
+            mArches[3] = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_px0, mLevelColors[3]);
+
             mArchesSel[0] = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_px3, mSelColor);
             mArchesSel[1] = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_px2, mSelColor);
             mArchesSel[2] = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_px1, mSelColor);
             mArchesSel[3] = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_px0, mSelColor);
             // center
-            mCentImg = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_cent, mArchColors[3]);
+            mCentImg = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_cent, mLevelColors[3]);
             mCentImgSel = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_cent, mSelColor);
             // corners
             mTRCornerImg = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_trcorner, mFrameColor);
             mTRCornerImgSel = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_trcorner, mSelColor);
             mTLCornerImg = C2DGraphics.RotateBmp90deg(mTRCornerImg, 3);
             mTLCornerImgSel = C2DGraphics.RotateBmp90deg(mTRCornerImgSel, 3);
-            mHomeImg = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_home, mArchColors[3]);
+            mHomeImg = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_home, mLevelColors[3]);
             mhomeImgCent = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_home, mFrameColor);
             // arrows
             mArrowU = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_uparrow, mArrowCol);
@@ -198,7 +158,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             // text
             for (int i = 0; i < 4; i++)
             {
-                DrawText(gr, mArchVals[i].ToString(), mArchTxtPos[i].X, mArchTxtPos[i].Y, mArchColors[i], true);
+                DrawText(gr, mArchVals[i].ToString(), mArchTxtPos[i].X, mArchTxtPos[i].Y, mLevelColors[i], true);
             }
 
             // center
@@ -217,7 +177,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 if (lvl == 4)
                 {
                     DrawImageCentered(gr, mhomeImgCent, mCenter, mCenter);
-                    DrawText(gr, (mSelAxis == 0) ? "X" : "Y", mCenter, mCenter + 4, mArchColors[3]);
+                    DrawText(gr, (mSelAxis == 0) ? "X" : "Y", mCenter, mCenter + 4, mLevelColors[3]);
                 }
             }
 
@@ -244,27 +204,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             DrawText(gr, "-Y", mCenter, mCenter + mArrowPos, atcol);
             DrawImageCentered(gr, mArrowL, mCenter - mArrowPos, mCenter);
             DrawText(gr, "-X", mCenter - mArrowPos, mCenter, atcol);
-        }
-
-        void DrawImageCentered(Graphics gr, Image img, int x, int y)
-        {
-            int w = img.Width;
-            int h = img.Height;
-            gr.DrawImage(img, x - w / 2, y - h / 2, w, h);
-        }
-
-        void DrawText(Graphics gr, string str, float x, float y, Color col, bool outline = false)
-        {
-            SizeF sf = gr.MeasureString(str, Font);
-            x -= sf.Width / 2;
-            y -= sf.Height / 2;
-            if (outline)
-            {
-                Brush bkbr = new SolidBrush(Color.FromArgb(128, Color.Black));
-                gr.DrawString(str, Font, bkbr, x+1, y+1);
-            }
-            Brush br = new SolidBrush(col);
-            gr.DrawString(str, Font, br, x, y);
         }
 
         protected int  GetSelection(int x, int y, out int axis)

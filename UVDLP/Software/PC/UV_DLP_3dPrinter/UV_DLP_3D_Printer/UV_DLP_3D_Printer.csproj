@@ -204,11 +204,20 @@
     <Compile Include="GUI\CustomGUI\ctlImage.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="GUI\CustomGUI\ctlMCBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GUI\CustomGUI\ctlMCXY.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlMCXY.Designer.cs">
       <DependentUpon>ctlMCXY.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlMCZ.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlMCZ.Designer.cs">
+      <DependentUpon>ctlMCZ.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\CustomGUI\ctlMirror.cs">
       <SubType>UserControl</SubType>
@@ -696,6 +705,13 @@
     <None Include="resources\MachineControl\mc_home.png" />
     <None Include="resources\MachineControl\mc_trcorner.png" />
     <None Include="resources\MachineControl\mc_uparrow.png" />
+    <None Include="resources\MachineControl\mc_ztop.png" />
+    <None Include="resources\MachineControl\mc_centn.png" />
+    <None Include="resources\MachineControl\mc_uparrown.png" />
+    <None Include="resources\MachineControl\mc_z0.png" />
+    <None Include="resources\MachineControl\mc_z1.png" />
+    <None Include="resources\MachineControl\mc_z2.png" />
+    <None Include="resources\MachineControl\mc_z3.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />
