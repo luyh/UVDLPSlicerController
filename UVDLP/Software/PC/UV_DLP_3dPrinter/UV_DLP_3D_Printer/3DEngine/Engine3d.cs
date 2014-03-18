@@ -255,7 +255,17 @@ namespace Engine3D
         {
         
         }
-
+        public Object3d Find(string name) 
+        {
+            foreach (Object3d obj in m_objects) 
+            {
+                if (obj.Name.Equals(name)) 
+                {
+                    return obj;
+                }
+            }
+            return null;
+        }
         /*
          * This function try to rearranges all objects on the build platform so they 
          * do not touch each other

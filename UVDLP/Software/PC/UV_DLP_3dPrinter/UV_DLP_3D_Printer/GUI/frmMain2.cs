@@ -932,5 +932,16 @@ namespace UV_DLP_3D_Printer.GUI
                 Scene.Instance().Save(saveFileDialog1.FileName);                
             }
         }
+
+        private void testLoadSceneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (Scene.Instance().Load(openFileDialog1.FileName)) 
+                {
+                    UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
+                }
+            }
+        }
     }
 }

@@ -74,13 +74,14 @@
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pluginTesterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testMachineControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testSaveSceneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.plugInsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hardwareGuideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.testSaveSceneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testLoadSceneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlTopIcons.SuspendLayout();
             this.pnl3dview.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -686,7 +687,8 @@
             this.testToolStripMenuItem,
             this.pluginTesterToolStripMenuItem,
             this.testMachineControlToolStripMenuItem,
-            this.testSaveSceneToolStripMenuItem});
+            this.testSaveSceneToolStripMenuItem,
+            this.testLoadSceneToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
             this.fileToolStripMenuItem.Text = "File";
@@ -733,6 +735,13 @@
             this.testMachineControlToolStripMenuItem.Text = "Test Machine Control";
             this.testMachineControlToolStripMenuItem.Click += new System.EventHandler(this.testMachineControlToolStripMenuItem_Click);
             // 
+            // testSaveSceneToolStripMenuItem
+            // 
+            this.testSaveSceneToolStripMenuItem.Name = "testSaveSceneToolStripMenuItem";
+            this.testSaveSceneToolStripMenuItem.Size = new System.Drawing.Size(218, 24);
+            this.testSaveSceneToolStripMenuItem.Text = "Test Save Scene";
+            this.testSaveSceneToolStripMenuItem.Click += new System.EventHandler(this.testSaveSceneToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -772,12 +781,12 @@
             this.hardwareGuideToolStripMenuItem.Text = "Hardware Guide";
             this.hardwareGuideToolStripMenuItem.Click += new System.EventHandler(this.hardwareGuideToolStripMenuItem_Click);
             // 
-            // testSaveSceneToolStripMenuItem
+            // testLoadSceneToolStripMenuItem
             // 
-            this.testSaveSceneToolStripMenuItem.Name = "testSaveSceneToolStripMenuItem";
-            this.testSaveSceneToolStripMenuItem.Size = new System.Drawing.Size(218, 24);
-            this.testSaveSceneToolStripMenuItem.Text = "Test Save Scene";
-            this.testSaveSceneToolStripMenuItem.Click += new System.EventHandler(this.testSaveSceneToolStripMenuItem_Click);
+            this.testLoadSceneToolStripMenuItem.Name = "testLoadSceneToolStripMenuItem";
+            this.testLoadSceneToolStripMenuItem.Size = new System.Drawing.Size(218, 24);
+            this.testLoadSceneToolStripMenuItem.Text = "Test Load Scene";
+            this.testLoadSceneToolStripMenuItem.Click += new System.EventHandler(this.testLoadSceneToolStripMenuItem_Click);
             // 
             // frmMain2
             // 
@@ -867,5 +876,6 @@
         private System.Windows.Forms.Label lblTime;
         private System.Windows.Forms.Panel pnlTopIconsMain;
         private System.Windows.Forms.ToolStripMenuItem testSaveSceneToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testLoadSceneToolStripMenuItem;
     }
 }
