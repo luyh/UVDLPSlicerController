@@ -141,7 +141,41 @@ namespace Engine3D
 
             }
         }
- 
+
+        public Support MakeCopy() 
+        {
+            Support obj = new Support();
+            try
+            {
+                obj.m_name = UVDLPApp.Instance().Engine3D.GetUniqueName(this.m_name); // need to find unique name
+                obj.m_fullname = this.m_fullname;
+                obj.tag = this.tag;
+
+                foreach (Polygon ply in m_lstpolys)
+                {
+                    Polygon pl2 = new Polygon();
+                    pl2.m_color = ply.m_color;
+                    pl2.m_points = new Point3d[3];
+                    obj.m_lstpolys.Add(pl2);
+                    pl2.m_points[0] = new Point3d(ply.m_points[0]);
+                    pl2.m_points[1] = new Point3d(ply.m_points[1]);
+                    pl2.m_points[2] = new Point3d(ply.m_points[2]);
+                }
+                foreach (Polygon ply in obj.m_lstpolys)
+                {
+                    foreach (Point3d pnt in ply.m_points)
+                    {
+                        obj.m_lstpoints.Add(pnt); // a fair bit of overlap, but whatever...
+                    }
+                }
+                obj.Update();
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
+            return obj;            
+        }
         private void makeWalls(int li, int ui, int numdivs)
         {
             for (int cnt = 0; cnt < numdivs; cnt++)

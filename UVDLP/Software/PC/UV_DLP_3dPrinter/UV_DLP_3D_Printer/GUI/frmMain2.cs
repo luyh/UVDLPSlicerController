@@ -753,6 +753,7 @@ namespace UV_DLP_3D_Printer.GUI
             frmAbout frm = new frmAbout();
             frm.ShowDialog();
         }
+        /*
         private void saveSceneSTLToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -770,7 +771,7 @@ namespace UV_DLP_3D_Printer.GUI
                 DebugLogger.Instance().LogError(ex.Message);
             }
         }
-
+        */
         public void ShowLogPanel(bool visible)
         {
             splitContainer1.Panel2Collapsed = !visible;
@@ -860,17 +861,35 @@ namespace UV_DLP_3D_Printer.GUI
         public void LoadSTLModel_Click(object sender, object e)
         {
             openFileDialog1.FileName = "";
-            openFileDialog1.Filter = "3D Model Files(*.stl;*.obj;*.3ds;*.amf)|*.stl;*.obj;*.3ds;*.amf|All files (*.*)|*.*";
+            openFileDialog1.Filter = "3D Model Files (*.stl;*.obj;*.3ds;*.amf)|*.stl;*.obj;*.3ds;*.amf|Scene files (*.zip)|*.zip";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                if (UVDLPApp.Instance().LoadModel(openFileDialog1.FileName) == false)
+                foreach (string filename in openFileDialog1.FileNames)
                 {
-                    // MessageBox.Show("Error loading file " + openFileDialog1.FileName);
-                }
-                else
-                {
-                    //chkWireframe.Checked = false;
-                    //ctl3DView1.UpdateObjectInfo();
+                    if (filename.Contains(".zip"))
+                    {
+                        //scene file
+                        if (Scene.Instance().Load(filename))
+                        {
+                            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
+                        }
+                        else
+                        {
+                            DebugLogger.Instance().LogError("Error loading scene file : " + filename);
+                        }
+                    }
+                    else
+                    {
+                        if (UVDLPApp.Instance().LoadModel(filename) == false)
+                        {
+                            DebugLogger.Instance().LogError("Error loading object file : " + filename);
+                        }
+                        else
+                        {
+                            //chkWireframe.Checked = false;
+                            //ctl3DView1.UpdateObjectInfo();
+                        }
+                    }
                 }
             }
         }

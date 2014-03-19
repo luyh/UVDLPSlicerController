@@ -36,6 +36,35 @@ namespace Engine3D
             }
         }
         /// <summary>
+        /// Find a globally unique name for this 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public string GetUniqueName(string name) 
+        {
+            string unname = name;
+            int c = 0;
+            while (IsUniqueName(unname) == false) 
+            {
+                unname = name + "_" + c.ToString();
+                c++;
+            }
+            return unname;
+        }
+        public bool IsUniqueName(string name) 
+        {
+            bool ret = true;
+            foreach (Object3d obj in m_objects)
+            {
+                if (obj.Name.Equals(name))
+                {
+                    ret = false;
+                    break;
+                }
+            }
+            return ret;
+        }
+        /// <summary>
         /// This function calculates the Z scene extents.
         /// It will always incude z=0 to the max object z extent
         /// </summary>

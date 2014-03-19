@@ -183,9 +183,13 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             {
                 try
                 {
-                    Object3d s = UVDLPApp.Instance().SelectedObject.Clone();
-                    UVDLPApp.Instance().m_engine3d.AddObject(s);
-                    UVDLPApp.Instance().m_undoer.SaveAddition(s);
+                    Object3d obj = UVDLPApp.Instance().SelectedObject.Copy();
+                    foreach (Support sup in obj.m_supports) 
+                    {
+                        UVDLPApp.Instance().m_engine3d.AddObject(sup);
+                    }
+                    UVDLPApp.Instance().m_engine3d.AddObject(obj);
+                    UVDLPApp.Instance().m_undoer.SaveAddition(obj);
                     UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eModelAdded, "Model Created");
                     SetupSceneTree();
                 }

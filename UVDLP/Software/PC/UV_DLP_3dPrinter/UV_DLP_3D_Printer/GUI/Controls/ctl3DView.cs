@@ -729,6 +729,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                                 (float)(dat.intersect.x - UVDLPApp.Instance().SelectedObject.m_center.x),
                                 (float)(dat.intersect.y - UVDLPApp.Instance().SelectedObject.m_center.y),
                                 0.0f);
+                          //  UVDLPApp.Instance().Engine3D.UpdateLists();
+                            //UpdateView();
                         }
 
                     }

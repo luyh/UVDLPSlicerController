@@ -23,7 +23,7 @@ namespace Engine3D
         public List<Support> m_supports; // a list of support objects attached to this one
         public Object3d m_parrent = null;
 
-        private string m_name; // just the filename
+        public string m_name; // just the filename
         public string m_fullname; // full path with filename
         private bool m_visible;
         public Point3d m_min, m_max,m_center;
@@ -54,30 +54,43 @@ namespace Engine3D
             Init();
         }
 
-        public Object3d Clone() 
+        public Object3d Copy() 
+        {
+            //copy this object
+            Object3d cpy = Clone();
+            //copy the support structures
+            foreach (Support s in this.m_supports) 
+            {
+                Support newsup = (Support)s.MakeCopy();
+                cpy.AddSupport(newsup);
+            }
+            return cpy;
+        }
+        public virtual Object3d Clone() 
         {
             Object3d obj = new Object3d();
             try
             {
-                obj.m_name = this.m_name;
+                obj.m_name = UVDLPApp.Instance().Engine3D.GetUniqueName( this.m_name); // need to find unique name
                 obj.m_fullname = this.m_fullname;
                 obj.tag = this.tag;
-                foreach (Point3d pnt in m_lstpoints)
-                {
-                    Point3d p2 = new Point3d(pnt);
-                    obj.m_lstpoints.Add(p2);
-                }
-                //this could be faster if we just blindly clone all poly points
-                // then at the end, add all poly points to the main object point lst
-                // it would be essentially the same.
+
                 foreach (Polygon ply in m_lstpolys)
                 {
                     Polygon pl2 = new Polygon();
+                    pl2.m_color = ply.m_color;
                     pl2.m_points = new Point3d[3];
                     obj.m_lstpolys.Add(pl2);
-                    pl2.m_points[0] = obj.m_lstpoints[m_lstpoints.IndexOf(ply.m_points[0])]; // the indexof operation takes a little while
-                    pl2.m_points[1] = obj.m_lstpoints[m_lstpoints.IndexOf(ply.m_points[1])];
-                    pl2.m_points[2] = obj.m_lstpoints[m_lstpoints.IndexOf(ply.m_points[2])];
+                    pl2.m_points[0] = new Point3d(ply.m_points[0]);
+                    pl2.m_points[1] = new Point3d(ply.m_points[1]);
+                    pl2.m_points[2] = new Point3d(ply.m_points[2]);
+                }
+                foreach (Polygon ply in obj.m_lstpolys) 
+                {
+                    foreach (Point3d pnt in ply.m_points) 
+                    {
+                        obj.m_lstpoints.Add(pnt); // a fair bit of overlap, but whatever...
+                    }
                 }
                 obj.Update();
             }
@@ -437,7 +450,7 @@ namespace Engine3D
         {
             try
             {
-                m_name = Path.GetFileName(file);
+                m_name = Path.GetFileNameWithoutExtension(file);
                 Bitmap bm = new Bitmap(file);
                 // add 3d points
                 for (int y = 0; y < bm.Height; y++) 
@@ -803,7 +816,7 @@ namespace Engine3D
             {
                 br = new BinaryReader(stream);
                 m_fullname = name;
-                m_name = Path.GetFileName(name);
+                m_name = Path.GetFileNameWithoutExtension(name);
                 byte[] data = new byte[80];
                 data = br.ReadBytes(80); // read the header
                 uint numtri = br.ReadUInt32();
@@ -843,7 +856,7 @@ namespace Engine3D
             {
                 br = new BinaryReader(File.Open(filename, FileMode.Open));
                 m_fullname = filename;
-                m_name = Path.GetFileName(filename);
+                m_name = Path.GetFileNameWithoutExtension(filename);
                 byte[] data = new byte[80];
                 data = br.ReadBytes(80); // read the header
                 uint numtri = br.ReadUInt32();
@@ -886,7 +899,7 @@ namespace Engine3D
             {
                 StreamReader sr = new StreamReader(filename);
                 m_fullname = filename;
-                m_name = Path.GetFileName(filename);
+                m_name = Path.GetFileNameWithoutExtension(filename);
                 //first line should be "solid <name> " 
                 string line = sr.ReadLine();
                 string []toks = line.Split(' ');
@@ -1121,7 +1134,7 @@ namespace Engine3D
             {
                 StreamReader sr = new StreamReader(filename);
                 m_fullname = filename;
-                m_name = Path.GetFileName(filename);
+                m_name = Path.GetFileNameWithoutExtension(filename);
                 while (!sr.EndOfStream) 
                 {
                     string line = sr.ReadLine();
