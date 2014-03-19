@@ -28,9 +28,42 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ctlMCXY1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMCXY();
+            this.ctlMCTemp1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMCTemp();
             this.ctlMCZ1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMCZ();
+            this.ctlMCXY1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMCXY();
             this.SuspendLayout();
+            // 
+            // ctlMCTemp1
+            // 
+            this.ctlMCTemp1.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.ctlMCTemp1.FrameColor = System.Drawing.Color.RoyalBlue;
+            this.ctlMCTemp1.Gapx = 0;
+            this.ctlMCTemp1.Gapy = 0;
+            this.ctlMCTemp1.GLBackgroundImage = null;
+            this.ctlMCTemp1.GLVisible = false;
+            this.ctlMCTemp1.GuiAnchor = null;
+            this.ctlMCTemp1.Location = new System.Drawing.Point(359, 12);
+            this.ctlMCTemp1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.ctlMCTemp1.Name = "ctlMCTemp1";
+            this.ctlMCTemp1.Size = new System.Drawing.Size(70, 256);
+            this.ctlMCTemp1.StyleName = null;
+            this.ctlMCTemp1.TabIndex = 2;
+            // 
+            // ctlMCZ1
+            // 
+            this.ctlMCZ1.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.ctlMCZ1.FrameColor = System.Drawing.Color.RoyalBlue;
+            this.ctlMCZ1.Gapx = 0;
+            this.ctlMCZ1.Gapy = 0;
+            this.ctlMCZ1.GLBackgroundImage = null;
+            this.ctlMCZ1.GLVisible = false;
+            this.ctlMCZ1.GuiAnchor = null;
+            this.ctlMCZ1.Location = new System.Drawing.Point(280, 12);
+            this.ctlMCZ1.Margin = new System.Windows.Forms.Padding(4);
+            this.ctlMCZ1.Name = "ctlMCZ1";
+            this.ctlMCZ1.Size = new System.Drawing.Size(70, 256);
+            this.ctlMCZ1.StyleName = null;
+            this.ctlMCZ1.TabIndex = 1;
             // 
             // ctlMCXY1
             // 
@@ -49,27 +82,12 @@
             this.ctlMCXY1.StyleName = null;
             this.ctlMCXY1.TabIndex = 0;
             // 
-            // ctlMCZ1
-            // 
-            this.ctlMCZ1.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.ctlMCZ1.FrameColor = System.Drawing.Color.RoyalBlue;
-            this.ctlMCZ1.Gapx = 0;
-            this.ctlMCZ1.Gapy = 0;
-            this.ctlMCZ1.GLBackgroundImage = null;
-            this.ctlMCZ1.GLVisible = false;
-            this.ctlMCZ1.GuiAnchor = null;
-            this.ctlMCZ1.Location = new System.Drawing.Point(280, 12);
-            this.ctlMCZ1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ctlMCZ1.Name = "ctlMCZ1";
-            this.ctlMCZ1.Size = new System.Drawing.Size(70, 256);
-            this.ctlMCZ1.StyleName = null;
-            this.ctlMCZ1.TabIndex = 1;
-            // 
             // frmTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(442, 397);
+            this.ClientSize = new System.Drawing.Size(529, 397);
+            this.Controls.Add(this.ctlMCTemp1);
             this.Controls.Add(this.ctlMCZ1);
             this.Controls.Add(this.ctlMCXY1);
             this.Name = "frmTest";
@@ -82,5 +100,6 @@
 
         private CustomGUI.ctlMCXY ctlMCXY1;
         private CustomGUI.ctlMCZ ctlMCZ1;
+        private CustomGUI.ctlMCTemp ctlMCTemp1;
     }
 }

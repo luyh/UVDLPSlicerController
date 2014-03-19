@@ -207,6 +207,12 @@
     <Compile Include="GUI\CustomGUI\ctlMCBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="GUI\CustomGUI\ctlMCTemp.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlMCTemp.Designer.cs">
+      <DependentUpon>ctlMCTemp.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\CustomGUI\ctlMCXY.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -492,6 +498,9 @@
     <EmbeddedResource Include="GUI\CustomGUI\ctlImageButton.resx">
       <DependentUpon>ctlImageButton.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomGUI\ctlMCTemp.resx">
+      <DependentUpon>ctlMCTemp.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\ctlMirror.resx">
       <DependentUpon>ctlMirror.cs</DependentUpon>
     </EmbeddedResource>
@@ -712,6 +721,8 @@
     <None Include="resources\MachineControl\mc_z1.png" />
     <None Include="resources\MachineControl\mc_z2.png" />
     <None Include="resources\MachineControl\mc_z3.png" />
+    <None Include="resources\MachineControl\mc_temper.png" />
+    <None Include="resources\MachineControl\mc_tpoint.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />
