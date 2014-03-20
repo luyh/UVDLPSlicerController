@@ -34,7 +34,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         double mButtRad;
         double mArchWidth;
         int mCircWidth;
-        float[] mArchVals;
 
         public event MotorMoveDelegate MotorMove;
         public event MotorHomeDelegate MotorHome;
@@ -47,7 +46,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             mArchesSel = new Image[4];
             mOffsets = new Rectangle[4];
             mArchTxtPos = new PointF[4];
-            mArchVals = new float[] { 0.1f, 1, 10, 100 };
+            mLevelVals = new float[] { 0.1f, 1, 10, 100 };
             DoubleBuffered = true;
             mSelAxis = 0;
             mSelLevel = 0;
@@ -165,7 +164,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             // text
             for (int i = 0; i < 4; i++)
             {
-                DrawTextCentered(gr, mArchVals[i].ToString(), mArchTxtPos[i].X, mArchTxtPos[i].Y, mLevelColors[i], true);
+                DrawTextCentered(gr, mLevelVals[i].ToString(), mArchTxtPos[i].X, mArchTxtPos[i].Y, mLevelColors[i], true);
             }
 
             // center
@@ -178,7 +177,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 {
                     DrawTextCentered(gr, mSelAxis.ToString(), mCenter, mCenter - Font.Height / 2, mFrameColor, true);
                     String txt = (mSelLevel < 0) ? "-" : "";
-                    txt += mArchVals[lvl].ToString();
+                    txt += mLevelVals[lvl].ToString();
                     DrawTextCentered(gr, txt, mCenter, mCenter + Font.Height / 2, mFrameColor, true);
                 }
                 if (lvl == 4)
@@ -308,7 +307,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             {
                 if ((lvl >=0) && (lvl <= 3) && (MotorMove != null))
                 {
-                    float res = mArchVals[lvl];
+                    float res = mLevelVals[lvl];
                     if (mSelLevel < 0)
                         res = -res;
                     MotorMove(this, mSelAxis, res);

@@ -15,5 +15,10 @@ namespace UV_DLP_3D_Printer.GUI
         {
             InitializeComponent();
         }
+
+        private void ctlManualControl1_SizeChanged(object sender, EventArgs e)
+        {
+            ClientSize = ctlManualControl1.Size;
+        }
     }
 }

@@ -138,6 +138,12 @@
     <Compile Include="GUI\Controls\ctlMainConfig.Designer.cs">
       <DependentUpon>ctlMainConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\ctlManualControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\ctlManualControl.Designer.cs">
+      <DependentUpon>ctlManualControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Controls\ctlSliceGCodePanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -467,6 +473,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\ctlMainConfig.resx">
       <DependentUpon>ctlMainConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\ctlManualControl.resx">
+      <DependentUpon>ctlManualControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\ctlSliceGCodePanel.resx">
       <DependentUpon>ctlSliceGCodePanel.cs</DependentUpon>

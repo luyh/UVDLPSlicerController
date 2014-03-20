@@ -51,7 +51,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             mBgndPos = 20;
             mTMinPos = mBgndPos + mTempBgnd.Height - 36;
             mTMaxPos = mBgndPos + 20;
-            mBottomPos = mBgndPos + mTempBgnd.Height - 10;
+            mBottomPos = mBgndPos + mTempBgnd.Height - 16;
             UpdatePositions();
             FrameColor = Color.RoyalBlue;
             textSetTemp.Text = mTSet.ToString();

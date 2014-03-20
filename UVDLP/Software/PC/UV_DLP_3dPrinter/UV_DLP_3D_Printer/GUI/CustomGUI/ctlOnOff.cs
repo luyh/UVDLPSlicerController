@@ -22,6 +22,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         bool mOverSwitch;
         bool mIsOn;
         bool mIsDown;
+        public delegate void StateChangeDelegate(object obj, bool state);
+        public event StateChangeDelegate StateChange;
 
         public ctlOnOff()
         {
@@ -96,6 +98,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             {
                 mIsDown = false;
                 mIsOn = !mIsOn;
+                if (StateChange != null)
+                    StateChange(this, mIsOn);
                 Invalidate();
             }
                 

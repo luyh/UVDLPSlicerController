@@ -30,6 +30,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         protected Color mArrowCol;
         protected String mTitle;
         protected String mUnit;
+        protected float[] mLevelVals;
 
         public ctlMCBase()
         {
@@ -37,6 +38,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             mArrowCol = Color.FromArgb(120, 200, 255, 200);
             mTitle = "";
             mUnit = "";
+            mLevelVals = new float[] { 0, 0, 0, 0 };
         }
 
         public delegate void MotorMoveDelegate(Object sender, MachineControlAxis axis, float val);
@@ -64,6 +66,18 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             get { return mUnit; }
             set { mUnit = value; Invalidate(); }
         }
+
+        [Description("Return value array"), Category("Data")]
+        public float [] ReturnValues
+        {
+            get { return mLevelVals; }
+            set {
+                for (int i = 0; i < Math.Min(mLevelVals.Length, value.Length); i++)
+                    mLevelVals[i] = value[i];
+                Invalidate(); 
+            }
+        }
+
 
         
         protected void DrawImageCentered(Graphics gr, Image img, int x, int y)

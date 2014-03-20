@@ -20,7 +20,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         Image mTopImg, mTopImgSel;
         Image mHomeImg, mhomeImgCent;
         Image mArrowU, mArrowD;
-        Rectangle [] mOffsets;
+        Rectangle[] mOffsets;
         int mSelLevel, mLastSelLevel;
         int mCenterX, mCenterY;
         int mButHomeCent, mButHomeX, mButHomeY;
@@ -29,8 +29,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         int mStepHeight;
         int mCtlWidth;
         int mCtlHeight;
-        float[] mArchVals;
         String mAxisSign;
+        bool mHasHome;
         MachineControlAxis mAxis;
 
         public event MotorMoveDelegate MotorMove;
@@ -42,7 +42,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             mSteps = new Image[4];
             mStepsSel = new Image[4];
             mOffsets = new Rectangle[8];
-            mArchVals = new float[] { 0.1f, 1, 10, 100 };
+            mLevelVals = new float[] { 0.1f, 1, 10, 100 };
             DoubleBuffered = true;
             mSelLevel = 0;
             mCtlHeight = 256;
@@ -59,8 +59,25 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             UpdateOffsets();
             mAxisSign = "Z";
             mUnit = "mm";
+            mHasHome = true;
             mAxis = MachineControlAxis.Z;
             mLastSelLevel = 0;
+        }
+
+        [DefaultValue("Z")]
+        [Description("Axis sign"), Category("Data")]
+        public String AxisSign
+        {
+            get { return mAxisSign; }
+            set { mAxisSign = value; Invalidate(); }
+        }
+
+        [DefaultValue(true)]
+        [Description("Does this axis have home button"), Category("Data")]
+        public bool HasHome
+        {
+            get { return mHasHome; }
+            set { mHasHome = value; Invalidate(); }
         }
 
         // d = height of control in pixels
@@ -77,7 +94,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 mOffsets[i + 4] = new Rectangle((mCtlWidth - w) / 2, mCenterY + offs, mSteps[i].Width, mSteps[i].Height);
             }
 
-       }
+        }
 
         protected override void UpdateBitmaps()
         {
@@ -111,7 +128,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 return mStepsSel[4 - Math.Abs(level)];
             return mSteps[4 - Math.Abs(level)];
         }
-        
+
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -123,14 +140,14 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 gr.DrawImage(GetStepImage(4 - i), mOffsets[i]);
                 gr.DrawImage(GetStepImage(-4 + i), mOffsets[i + 4]);
             }
-            
+
             // text
             int txtStart = mCenterY - mStepStart - mStepHeight / 2;
             for (int i = 0; i < 3; i++)
             {
-                DrawTextCentered(gr, mArchVals[i].ToString(), mCenterX, txtStart - i * mStepHeight, mLevelColors[i], true);
+                DrawTextCentered(gr, mLevelVals[i].ToString(), mCenterX, txtStart - i * mStepHeight, mLevelColors[i], true);
             }
-            
+
             // center
             int lvl = Math.Abs(mSelLevel) - 1;
             if (lvl >= 0)
@@ -140,7 +157,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 if ((lvl >= 0) && (lvl <= 3))
                 {
                     String txt = (mSelLevel < 0) ? "-" : "";
-                    txt += mArchVals[lvl].ToString();
+                    txt += mLevelVals[lvl].ToString();
                     DrawTextCentered(gr, txt, mCenterX, mCenterY, mFrameColor, true);
                 }
                 if (lvl == 4)
@@ -153,13 +170,16 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             {
                 DrawTextCentered(gr, mUnit, mCenterX, mCenterY, mLevelColors[3]);
             }
-            
+
             // top
             bool issel = (mSelLevel == 5);
             Image topImg = issel ? mTopImgSel : mTopImg;
             DrawImageCentered(gr, topImg, mCenterX, mButHomeCent);
-            DrawImageCentered(gr, mHomeImg, mCenterX, mButHomeCent);
-            DrawTextCentered(gr, mAxisSign, mCenterX, mButHomeCent + 4, issel ? mSelColor : mFrameColor);
+            if (mHasHome)
+            {
+                DrawImageCentered(gr, mHomeImg, mCenterX, mButHomeCent);
+                DrawTextCentered(gr, mAxisSign, mCenterX, mButHomeCent + 4, issel ? mSelColor : mFrameColor);
+            }
 
             // arrows
             Color atcol = Color.FromArgb(120, 0, 0, 0);
@@ -180,7 +200,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             int level;
 
             // test for home button
-            if (HitBitmap(x, y, mTopImg, mButHomeX, mButHomeY))
+            if (mHasHome && HitBitmap(x, y, mTopImg, mButHomeX, mButHomeY))
                 return 5;
 
             x -= mCenterX;
@@ -232,7 +252,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             {
                 if ((lvl >= 0) && (lvl <= 3) && (MotorMove != null))
                 {
-                    float res = mArchVals[lvl];
+                    float res = mLevelVals[lvl];
                     if (mSelLevel < 0)
                         res = -res;
                     MotorMove(this, mAxis, res);
