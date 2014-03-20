@@ -727,6 +727,27 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap mc_onoff {
+            get {
+                object obj = ResourceManager.GetObject("mc_onoff", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap mc_onoffbgnd {
+            get {
+                object obj = ResourceManager.GetObject("mc_onoffbgnd", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap mc_onoffslide {
+            get {
+                object obj = ResourceManager.GetObject("mc_onoffslide", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap mc_px0 {
             get {
                 object obj = ResourceManager.GetObject("mc_px0", resourceCulture);

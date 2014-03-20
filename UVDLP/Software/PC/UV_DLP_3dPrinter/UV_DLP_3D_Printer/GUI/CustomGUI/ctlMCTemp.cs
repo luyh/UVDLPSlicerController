@@ -27,7 +27,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         int mBottomPos;
         int mTMin, mTMax;
         int mPointOffs;
-        String mTempType; // "F" or "C"
         String mTempSign;
 
         public delegate void SetTempChangedDelegate(Object obj, int newTemp);
@@ -57,7 +56,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             FrameColor = Color.RoyalBlue;
             textSetTemp.Text = mTSet.ToString();
             mTempSign = "°";
-            mTempType = "C";
+            mUnit = "C";
             mOverPointer = false;
             mPointOffs = 9999;
         }
@@ -118,8 +117,14 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             gr.DrawImage(mTempBgnd, mCenterX - mTempBgnd.Width / 2, mBgndPos, mTempBgnd.Width, mTempBgnd.Height);
             Image ptrImg = mOverPointer ? mTempPointSel : mTempPoint;
             DrawImageCentered(gr, ptrImg, mCenterX, mTSetPos);
-            String temp = mTCurrent.ToString() + mTempSign + mTempType;
-            DrawText(gr, temp, mCenterX, 16, mLevelColors[3], true);
+            String temp = mTCurrent.ToString() + mTempSign + mUnit;
+            DrawTextCentered(gr, temp, mCenterX, 16, mLevelColors[3], true);
+
+            // title
+            if (mTitle != null)
+            {
+                DrawTextCentered(gr, mTitle, mCenterX, mCtlHeight - Font.Height / 2, Style.ForeColor, true);
+            }
         }
 
         public override void ApplyStyle(ControlStyle ct)
@@ -130,19 +135,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             FrameColor = ct.FrameColor;
             textSetTemp.BackColor = ct.FrameColor;
             textSetTemp.ForeColor = ct.ForeColor;
-        }
-
-        protected bool IsOverPointer(int x, int y)
-        {
-            int tx = x - (mCenterX - mTempPoint.Width / 2);
-            int ty = y - (mTSetPos - mTempPoint.Height / 2);
-            if ((tx > 0) && (ty > 0) && (tx < mTempPoint.Width) && (ty < mTempPoint.Height))
-            {
-                Color pix = ((Bitmap)mTempPoint).GetPixel(tx, ty);
-                if (pix.A > 250)
-                    return true;
-            }
-            return false;
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -166,7 +158,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
             else
             {
-                bool overPtr = IsOverPointer(e.X, e.Y);
+                bool overPtr = HitBitmap(e.X, e.Y, mTempPoint, mCenterX - mTempPoint.Width / 2, mTSetPos - mTempPoint.Height / 2);
                 if (overPtr != mOverPointer)
                 {
                     mOverPointer = overPtr;

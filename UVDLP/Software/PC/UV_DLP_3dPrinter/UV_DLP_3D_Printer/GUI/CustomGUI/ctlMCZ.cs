@@ -58,6 +58,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             FrameColor = Color.RoyalBlue;
             UpdateOffsets();
             mAxisSign = "Z";
+            mUnit = "mm";
             mAxis = MachineControlAxis.Z;
             mLastSelLevel = 0;
         }
@@ -113,7 +114,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         
         protected override void OnPaint(PaintEventArgs e)
         {
-            //base.OnPaint(e);
+            base.OnPaint(e);
+
             Graphics gr = e.Graphics;
             gr.InterpolationMode = InterpolationMode.HighQualityBicubic;
             for (int i = 0; i < 4; i++)
@@ -126,7 +128,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             int txtStart = mCenterY - mStepStart - mStepHeight / 2;
             for (int i = 0; i < 3; i++)
             {
-                DrawText(gr, mArchVals[i].ToString(), mCenterX, txtStart - i * mStepHeight, mLevelColors[i], true);
+                DrawTextCentered(gr, mArchVals[i].ToString(), mCenterX, txtStart - i * mStepHeight, mLevelColors[i], true);
             }
             
             // center
@@ -139,13 +141,17 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 {
                     String txt = (mSelLevel < 0) ? "-" : "";
                     txt += mArchVals[lvl].ToString();
-                    DrawText(gr, txt, mCenterX, mCenterY, mFrameColor, true);
+                    DrawTextCentered(gr, txt, mCenterX, mCenterY, mFrameColor, true);
                 }
                 if (lvl == 4)
                 {
                     DrawImageCentered(gr, mhomeImgCent, mCenterX, mCenterY);
-                    DrawText(gr, mAxisSign, mCenterX, mCenterY + 4, mLevelColors[3]);
+                    DrawTextCentered(gr, mAxisSign, mCenterX, mCenterY + 4, mLevelColors[3]);
                 }
+            }
+            else
+            {
+                DrawTextCentered(gr, mUnit, mCenterX, mCenterY, mLevelColors[3]);
             }
             
             // top
@@ -153,30 +159,29 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             Image topImg = issel ? mTopImgSel : mTopImg;
             DrawImageCentered(gr, topImg, mCenterX, mButHomeCent);
             DrawImageCentered(gr, mHomeImg, mCenterX, mButHomeCent);
-            DrawText(gr, mAxisSign, mCenterX, mButHomeCent + 4, issel ? mSelColor : mFrameColor);
+            DrawTextCentered(gr, mAxisSign, mCenterX, mButHomeCent + 4, issel ? mSelColor : mFrameColor);
 
             // arrows
             Color atcol = Color.FromArgb(120, 0, 0, 0);
             DrawImageCentered(gr, mArrowU, mCenterX, mCenterY - mArrowPos);
-            DrawText(gr, "+" + mAxisSign, mCenterX, mCenterY - mArrowPos, atcol);
+            DrawTextCentered(gr, "+" + mAxisSign, mCenterX, mCenterY - mArrowPos, atcol);
             DrawImageCentered(gr, mArrowD, mCenterX, mCenterY + mArrowPos);
-            DrawText(gr, "-" + mAxisSign, mCenterX, mCenterY + mArrowPos, atcol);
-       }
+            DrawTextCentered(gr, "-" + mAxisSign, mCenterX, mCenterY + mArrowPos, atcol);
+
+            // title
+            if (mTitle != null)
+            {
+                DrawTextCentered(gr, mTitle, mCenterX, mCtlHeight - Font.Height / 2, Style.ForeColor, true);
+            }
+        }
 
         protected int GetSelection(int x, int y)
         {
             int level;
 
             // test for home button
-            int tx = x - mButHomeX;
-            int ty = y - mButHomeY;
-            if ((tx > 0) && (ty>0) && (tx < mTopImg.Width) && (ty < mTopImg.Height))
-            {
-                Color pix = ((Bitmap)mTopImg).GetPixel(tx, ty);
-                if (pix.A > 250)
-                    return 5;
-                return 0;
-            }
+            if (HitBitmap(x, y, mTopImg, mButHomeX, mButHomeY))
+                return 5;
 
             x -= mCenterX;
             y = mCenterY - y;

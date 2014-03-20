@@ -231,6 +231,9 @@
     <Compile Include="GUI\CustomGUI\ctlMirror.Designer.cs">
       <DependentUpon>ctlMirror.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\CustomGUI\ctlOnOff.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GUI\CustomGUI\ctlScene.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -723,6 +726,9 @@
     <None Include="resources\MachineControl\mc_z3.png" />
     <None Include="resources\MachineControl\mc_temper.png" />
     <None Include="resources\MachineControl\mc_tpoint.png" />
+    <None Include="resources\MachineControl\mc_onoff.png" />
+    <None Include="resources\MachineControl\mc_onoffbgnd.png" />
+    <None Include="resources\MachineControl\mc_onoffslide.png" />
     <Content Include="Slicing\OldSlicer\OldSliceNotes.txt" />
     <Content Include="Slicing\SlicerNotes1.txt" />
     <None Include="resources\Load.jpg" />
