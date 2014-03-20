@@ -40,6 +40,14 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             FrameColor = Color.RoyalBlue;
         }
 
+        [DefaultValue(false)]
+        [Description("Switch state"), Category("Data")]
+        public bool IsOn
+        {
+            get { return mIsOn; }
+            set { mIsOn = value; Invalidate(); }
+        }
+
         protected override void UpdateBitmaps()
         {
             mOnOffMain = C2DGraphics.ColorizeBitmapHQ(global::UV_DLP_3D_Printer.Properties.Resources.mc_onoff, mLevelColors[2]);

@@ -20,6 +20,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             cMCZ.Visible = false;
             cMCTempExtruder.Visible = false;
             cMCTempPlatform.Visible = false;
+            cOnOffMonitorTemp.Visible = false;
             cMCTilt.ReturnValues = new float[] { 1, 10, 360 };
         }
 
@@ -65,12 +66,14 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         private void ctlOnOffHeater_StateChange(object obj, bool state)
         {
             cMCTempExtruder.Visible = state;
+            cOnOffMonitorTemp.Visible = state || ctlOnOffPlatform.IsOn;
             FitSize();
         }
 
         private void ctlOnOffPlatform_StateChange(object obj, bool state)
         {
             cMCTempPlatform.Visible = state;
+            cOnOffMonitorTemp.Visible = state || ctlOnOffHeater.IsOn;
             FitSize();
         }
     }
