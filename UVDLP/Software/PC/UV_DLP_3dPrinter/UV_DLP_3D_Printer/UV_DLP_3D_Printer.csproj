@@ -240,6 +240,12 @@
     <Compile Include="GUI\CustomGUI\ctlOnOff.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="GUI\CustomGUI\ctlParameter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomGUI\ctlParameter.Designer.cs">
+      <DependentUpon>ctlParameter.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\CustomGUI\ctlScene.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -515,6 +521,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\ctlMirror.resx">
       <DependentUpon>ctlMirror.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomGUI\ctlParameter.resx">
+      <DependentUpon>ctlParameter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\ctlScene.resx">
       <DependentUpon>ctlScene.cs</DependentUpon>

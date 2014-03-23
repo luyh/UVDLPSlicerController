@@ -40,8 +40,11 @@
             this.ctlOnOffHeater = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff();
             this.ctlOnOffPlatform = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff();
             this.cOnOffMonitorTemp = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.ctlParamZrate = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlParameter();
             this.flowTop.SuspendLayout();
             this.flowData1.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowTop
@@ -69,6 +72,11 @@
             this.cMCXY.GuiAnchor = null;
             this.cMCXY.Location = new System.Drawing.Point(3, 3);
             this.cMCXY.Name = "cMCXY";
+            this.cMCXY.ReturnValues = new float[] {
+        0.1F,
+        1F,
+        10F,
+        100F};
             this.cMCXY.Size = new System.Drawing.Size(256, 256);
             this.cMCXY.StyleName = null;
             this.cMCXY.TabIndex = 0;
@@ -86,6 +94,11 @@
             this.cMCZ.GuiAnchor = null;
             this.cMCZ.Location = new System.Drawing.Point(265, 3);
             this.cMCZ.Name = "cMCZ";
+            this.cMCZ.ReturnValues = new float[] {
+        0.1F,
+        1F,
+        10F,
+        100F};
             this.cMCZ.Size = new System.Drawing.Size(70, 256);
             this.cMCZ.StyleName = null;
             this.cMCZ.TabIndex = 1;
@@ -105,6 +118,11 @@
             this.cMCExtruder.HasHome = false;
             this.cMCExtruder.Location = new System.Drawing.Point(341, 3);
             this.cMCExtruder.Name = "cMCExtruder";
+            this.cMCExtruder.ReturnValues = new float[] {
+        0.1F,
+        1F,
+        10F,
+        100F};
             this.cMCExtruder.Size = new System.Drawing.Size(70, 256);
             this.cMCExtruder.StyleName = null;
             this.cMCExtruder.TabIndex = 2;
@@ -123,6 +141,11 @@
             this.cMCTilt.GuiAnchor = null;
             this.cMCTilt.Location = new System.Drawing.Point(417, 3);
             this.cMCTilt.Name = "cMCTilt";
+            this.cMCTilt.ReturnValues = new float[] {
+        0.1F,
+        1F,
+        10F,
+        100F};
             this.cMCTilt.Size = new System.Drawing.Size(70, 256);
             this.cMCTilt.StyleName = null;
             this.cMCTilt.TabIndex = 3;
@@ -140,6 +163,11 @@
             this.cMCTempExtruder.GuiAnchor = null;
             this.cMCTempExtruder.Location = new System.Drawing.Point(493, 3);
             this.cMCTempExtruder.Name = "cMCTempExtruder";
+            this.cMCTempExtruder.ReturnValues = new float[] {
+        0F,
+        0F,
+        0F,
+        0F};
             this.cMCTempExtruder.Size = new System.Drawing.Size(70, 256);
             this.cMCTempExtruder.StyleName = null;
             this.cMCTempExtruder.TabIndex = 4;
@@ -157,6 +185,11 @@
             this.cMCTempPlatform.GuiAnchor = null;
             this.cMCTempPlatform.Location = new System.Drawing.Point(569, 3);
             this.cMCTempPlatform.Name = "cMCTempPlatform";
+            this.cMCTempPlatform.ReturnValues = new float[] {
+        0F,
+        0F,
+        0F,
+        0F};
             this.cMCTempPlatform.Size = new System.Drawing.Size(70, 256);
             this.cMCTempPlatform.StyleName = null;
             this.cMCTempPlatform.TabIndex = 5;
@@ -186,6 +219,11 @@
             this.ctlOnOffMotors.GuiAnchor = null;
             this.ctlOnOffMotors.Location = new System.Drawing.Point(3, 3);
             this.ctlOnOffMotors.Name = "ctlOnOffMotors";
+            this.ctlOnOffMotors.ReturnValues = new float[] {
+        0F,
+        0F,
+        0F,
+        0F};
             this.ctlOnOffMotors.Size = new System.Drawing.Size(202, 30);
             this.ctlOnOffMotors.StyleName = null;
             this.ctlOnOffMotors.TabIndex = 0;
@@ -203,6 +241,11 @@
             this.ctlOnOffHeater.GuiAnchor = null;
             this.ctlOnOffHeater.Location = new System.Drawing.Point(3, 39);
             this.ctlOnOffHeater.Name = "ctlOnOffHeater";
+            this.ctlOnOffHeater.ReturnValues = new float[] {
+        0F,
+        0F,
+        0F,
+        0F};
             this.ctlOnOffHeater.Size = new System.Drawing.Size(202, 30);
             this.ctlOnOffHeater.StyleName = null;
             this.ctlOnOffHeater.TabIndex = 1;
@@ -220,6 +263,11 @@
             this.ctlOnOffPlatform.GuiAnchor = null;
             this.ctlOnOffPlatform.Location = new System.Drawing.Point(3, 75);
             this.ctlOnOffPlatform.Name = "ctlOnOffPlatform";
+            this.ctlOnOffPlatform.ReturnValues = new float[] {
+        0F,
+        0F,
+        0F,
+        0F};
             this.ctlOnOffPlatform.Size = new System.Drawing.Size(202, 30);
             this.ctlOnOffPlatform.StyleName = null;
             this.ctlOnOffPlatform.TabIndex = 2;
@@ -237,20 +285,58 @@
             this.cOnOffMonitorTemp.GuiAnchor = null;
             this.cOnOffMonitorTemp.Location = new System.Drawing.Point(3, 111);
             this.cOnOffMonitorTemp.Name = "cOnOffMonitorTemp";
+            this.cOnOffMonitorTemp.ReturnValues = new float[] {
+        0F,
+        0F,
+        0F,
+        0F};
             this.cOnOffMonitorTemp.Size = new System.Drawing.Size(202, 30);
             this.cOnOffMonitorTemp.StyleName = null;
             this.cOnOffMonitorTemp.TabIndex = 3;
             this.cOnOffMonitorTemp.Title = "Monitor Temp:";
             // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.ctlParamZrate);
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(216, 267);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(274, 230);
+            this.flowLayoutPanel1.TabIndex = 2;
+            // 
+            // ctlParamZrate
+            // 
+            this.ctlParamZrate.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.ctlParamZrate.FrameColor = System.Drawing.Color.RoyalBlue;
+            this.ctlParamZrate.Gapx = 0;
+            this.ctlParamZrate.Gapy = 0;
+            this.ctlParamZrate.GLBackgroundImage = null;
+            this.ctlParamZrate.GLVisible = false;
+            this.ctlParamZrate.GuiAnchor = null;
+            this.ctlParamZrate.Location = new System.Drawing.Point(5, 4);
+            this.ctlParamZrate.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.ctlParamZrate.Name = "ctlParamZrate";
+            this.ctlParamZrate.ReturnValues = new float[] {
+        0F,
+        0F,
+        0F,
+        0F};
+            this.ctlParamZrate.Size = new System.Drawing.Size(250, 30);
+            this.ctlParamZrate.StyleName = null;
+            this.ctlParamZrate.TabIndex = 0;
+            this.ctlParamZrate.Title = "Z Rate";
+            // 
             // ctlManualControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.flowData1);
             this.Controls.Add(this.flowTop);
             this.Name = "ctlManualControl";
             this.Size = new System.Drawing.Size(652, 502);
             this.flowTop.ResumeLayout(false);
             this.flowData1.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -269,5 +355,7 @@
         private CustomGUI.ctlOnOff ctlOnOffHeater;
         private CustomGUI.ctlOnOff ctlOnOffPlatform;
         private CustomGUI.ctlOnOff cOnOffMonitorTemp;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private CustomGUI.ctlParameter ctlParamZrate;
     }
 }

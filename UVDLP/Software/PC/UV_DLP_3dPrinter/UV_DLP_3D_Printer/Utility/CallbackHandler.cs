@@ -7,12 +7,15 @@ using System.IO;
 namespace UV_DLP_3D_Printer
 {
     public delegate void CallbackType(Object sender, Object vars);
+    public delegate Object RetCallbackType(Object sender, Object vars);
     class CallbackItem
     {
         public String name;
         public String type;
+        public String retType;
         public String description;
         public CallbackType Callback;
+        public RetCallbackType RetCallback;
     }
 
     public class CallbackHandler
@@ -46,10 +49,39 @@ namespace UV_DLP_3D_Printer
                 cb.description = desc;
                 CallbackDB[cmdname] = cb;
             }
+            cb.RetCallback = null;
+            cb.retType = "void";
             cb.Callback += new CallbackType(func);
         }
+ 
+        public void RegisterRetCallback(String cmdname, RetCallbackType func, Type vartype, Type rettype, String desc)
+        {
+            CallbackItem cb;
+            String vartypename = "null";
+            String cmd = cmdname;
+            if (vartype != null)
+            {
+                vartypename = vartype.ToString();
+                cmd += "|" + vartypename;
+            }
+            if (CallbackDB.ContainsKey(cmdname))
+            {
+                cb = CallbackDB[cmd];
+            }
+            else
+            {
+                cb = new CallbackItem();
+                cb.name = cmdname;
+                cb.type = vartypename;
+                cb.description = desc;
+                CallbackDB[cmdname] = cb;
+            }
+            cb.RetCallback += new RetCallbackType(func);
+            cb.retType = rettype.ToString();
+            cb.Callback = null;
+        }
 
-        public bool Activate(String cmdname, Object sender, Object vars)
+        public Object Activate(String cmdname, Object sender, Object vars)
         {
             if (cmdname == null)
                 return false;
@@ -58,18 +90,24 @@ namespace UV_DLP_3D_Printer
             if (!CallbackDB.ContainsKey(cmdname))
                 return false;
             CallbackItem cb = CallbackDB[cmdname];
-            if (cb.Callback == null)
-                return false;
-            cb.Callback(sender, vars);
-            return true;
+            if (cb.Callback != null)
+            {
+                cb.Callback(sender, vars);
+                return true;
+            }
+            if (cb.RetCallback != null)
+            {
+                return cb.RetCallback(sender, vars);
+            }
+            return false;
         }
 
-        public bool Activate(String cmdname, Object sender)
+        public Object Activate(String cmdname, Object sender)
         {
             return Activate(cmdname, sender, null);
         }
 
-        public bool Activate(String cmdname)
+        public Object Activate(String cmdname)
         {
             return Activate(cmdname, null, null);
         }
@@ -80,7 +118,7 @@ namespace UV_DLP_3D_Printer
             foreach (KeyValuePair<String, CallbackItem> pair in CallbackDB)
             {
                 CallbackItem ci = pair.Value;
-                sw.WriteLine("{0}, \t{1}, \t{2}", ci.name, ci.type, ci.description);
+                sw.WriteLine("{0}, \t{1}, \t{2}, \t{3}", ci.retType, ci.name, ci.type, ci.description);
             }
             sw.Close();
             sw.Dispose();

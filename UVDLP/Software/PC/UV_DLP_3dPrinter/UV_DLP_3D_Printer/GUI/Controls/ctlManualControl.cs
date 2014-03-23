@@ -12,6 +12,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 {
     public partial class ctlManualControl : ctlUserPanel
     {
+        ctlNumber zrate;
         public ctlManualControl()
         {
             InitializeComponent();
@@ -22,6 +23,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             cMCTempPlatform.Visible = false;
             cOnOffMonitorTemp.Visible = false;
             cMCTilt.ReturnValues = new float[] { 1, 10, 360 };
+            zrate = ctlParamZrate.Parameter;
+            zrate.IsFloat = true;
         }
 
         public override void ApplyStyle(ControlStyle ct)
@@ -29,6 +32,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             base.ApplyStyle(ct);
             flowTop.BackColor = ct.BackColor;
             flowData1.BackColor = ct.BackColor;
+        }
+
+        CallbackHandler Callback
+        {
+            get { return UVDLPApp.Instance().m_callbackhandler; }
         }
 
         void FitSize()
@@ -54,6 +62,12 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             base.OnLoad(e);
             FitSize();
+            try
+            {
+                double res = (double)Callback.Activate("MCCmdGetZRate");
+                zrate.FloatVal = (float)res;
+            }
+            catch {}
         }
 
         private void ctlOnOffMotors_StateChange(object obj, bool state)

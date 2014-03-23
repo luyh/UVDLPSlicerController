@@ -33,6 +33,11 @@ namespace UV_DLP_3D_Printer.Device_Interface
             RegisterCallbacks();
         }
 
+        private DeviceInterface DevInterface
+        {
+            get { return UVDLPApp.Instance().m_deviceinterface; }
+        }
+
         public double XYRate 
         {
             get { return m_rateXY; }
@@ -86,17 +91,19 @@ namespace UV_DLP_3D_Printer.Device_Interface
             cb.RegisterCallback("MCCmdSetZDist", SetZdist, typeof(double), "Set distanse (zdist) in mm for manual up/down movement");
             cb.RegisterCallback("MCCmdMoveUp", cmdUp_Click, null, "Move print head up zdist amount");
             cb.RegisterCallback("MCCmdMoveDown", cmdDown_Click, null, "Move print head down zdist amount");
+            cb.RegisterCallback("MCCmdMoveZ", cmdMoveZ, typeof(double), "Move print head down zdist amount");
             cb.RegisterCallback("MCCmdZHome", cmd_ZHome, null, "Move the Z-axis to the home position");
+            cb.RegisterRetCallback("MCCmdGetZRate", cmdGetZRate, null, typeof(double), "Get Z-axis movement rate");
             //cb.RegisterCallback("", , null, "");
         }
         void cmd_ZHome(object sender, object vars) 
         {
             try
             {
-                if (UVDLPApp.Instance().m_deviceinterface.Connected == true)
+                if (DevInterface.Connected == true)
                 {
                     string zhomecmd = "G28 Z0\r\n";
-                    UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(zhomecmd);
+                    DevInterface.SendCommandToDevice(zhomecmd);
                 }
             }
             catch (Exception ex) 
@@ -121,7 +128,7 @@ namespace UV_DLP_3D_Printer.Device_Interface
             try
             {
                 //double dist = double.Parse(txtdist.Text);
-                UVDLPApp.Instance().m_deviceinterface.Move(m_distZ, m_rateZ); // (movecommand);
+                DevInterface.Move(m_distZ, m_rateZ); // (movecommand);
             }
             catch (Exception ex)
             {
@@ -138,7 +145,19 @@ namespace UV_DLP_3D_Printer.Device_Interface
             try
             {
                 //m_distZ *= -1.0;
-                UVDLPApp.Instance().m_deviceinterface.Move(m_distZ * -1.0d, m_rateZ); // (movecommand);
+                DevInterface.Move(m_distZ * -1.0d, m_rateZ); // (movecommand);
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogRecord(ex.Message);
+            }
+        }
+        private void cmdMoveZ(object sender, object e)
+        {
+            try
+            {
+                double dist = (double)e;
+                DevInterface.Move(dist, m_rateZ); // (movecommand);
             }
             catch (Exception ex)
             {
@@ -146,5 +165,9 @@ namespace UV_DLP_3D_Printer.Device_Interface
             }
         }
 
+        private Object cmdGetZRate(object sender, object e)
+        {
+            return m_rateZ;
+        }
     }
 }
