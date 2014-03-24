@@ -28,37 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ctlParam = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
+            this.ctlParam = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.ctlParam)).BeginInit();
             this.SuspendLayout();
             // 
             // ctlParam
             // 
-            this.ctlParam.BackColor = System.Drawing.Color.RoyalBlue;
-            this.ctlParam.ButtonsColor = System.Drawing.Color.RoyalBlue;
-            this.ctlParam.Checked = false;
-            this.ctlParam.ErrorColor = System.Drawing.Color.Red;
-            this.ctlParam.FloatVal = 10F;
-            this.ctlParam.Gapx = 5;
-            this.ctlParam.Gapy = 5;
-            this.ctlParam.GLBackgroundImage = null;
-            this.ctlParam.GLVisible = false;
-            this.ctlParam.GuiAnchor = null;
-            this.ctlParam.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.ctlParam.Increment = 1F;
-            this.ctlParam.IntVal = 1;
-            this.ctlParam.Location = new System.Drawing.Point(55, 3);
-            this.ctlParam.MaxFloat = 500F;
-            this.ctlParam.MaxInt = 1000;
-            this.ctlParam.MinFloat = -500F;
-            this.ctlParam.MinimumSize = new System.Drawing.Size(20, 5);
-            this.ctlParam.MinInt = 1;
+            this.ctlParam.Location = new System.Drawing.Point(76, 13);
+            this.ctlParam.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.ctlParam.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
             this.ctlParam.Name = "ctlParam";
-            this.ctlParam.Size = new System.Drawing.Size(95, 27);
-            this.ctlParam.StyleName = null;
+            this.ctlParam.Size = new System.Drawing.Size(71, 20);
             this.ctlParam.TabIndex = 0;
-            this.ctlParam.TextFont = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.ctlParam.ValidColor = System.Drawing.Color.White;
-            this.ctlParam.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.ctlParam.ValueChanged += new System.EventHandler(this.ctlParam_ValueChanged);
             // 
             // ctlParameter
             // 
@@ -68,13 +58,15 @@
             this.FrameColor = System.Drawing.Color.RoyalBlue;
             this.Name = "ctlParameter";
             this.Size = new System.Drawing.Size(150, 47);
+            ((System.ComponentModel.ISupportInitialize)(this.ctlParam)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private ctlNumber ctlParam;
+        private System.Windows.Forms.NumericUpDown ctlParam;
+
 
     }
 }

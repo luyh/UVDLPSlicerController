@@ -61,7 +61,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             base.OnPaint(e);
             Graphics gr = e.Graphics;
             if (mTitle != null)
-                DrawText(gr, mTitle, mTextX, mTextY, Style.ForeColor, true);
+                DrawText(gr, mTitle, mTextX, mTextY, mInvBackColor, true);
             int xpos = Width - mOnOffBgnd.Width;
             gr.DrawImage(mOnOffBgnd, xpos, 0, mOnOffBgnd.Width, mOnOffBgnd.Height);
             Image img = mOverSwitch ? mOnOffMainSel : mOnOffMain;

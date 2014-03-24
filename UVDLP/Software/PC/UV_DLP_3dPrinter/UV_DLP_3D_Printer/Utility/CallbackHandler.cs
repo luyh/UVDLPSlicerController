@@ -47,7 +47,7 @@ namespace UV_DLP_3D_Printer
                 cb.name = cmdname;
                 cb.type = vartypename;
                 cb.description = desc;
-                CallbackDB[cmdname] = cb;
+                CallbackDB[cmd] = cb;
             }
             cb.RetCallback = null;
             cb.retType = "void";
@@ -74,7 +74,7 @@ namespace UV_DLP_3D_Printer
                 cb.name = cmdname;
                 cb.type = vartypename;
                 cb.description = desc;
-                CallbackDB[cmdname] = cb;
+                CallbackDB[cmd] = cb;
             }
             cb.RetCallback += new RetCallbackType(func);
             cb.retType = rettype.ToString();

@@ -28,6 +28,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         protected Color[] mLevelColors;
         protected Color mSelColor;
         protected Color mArrowCol;
+        protected Color mInvBackColor;
         protected String mTitle;
         protected String mUnit;
         protected float[] mLevelVals;
@@ -39,6 +40,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             mTitle = "";
             mUnit = "";
             mLevelVals = new float[] { 0, 0, 0, 0 };
+            UpdateInvBackColor();
         }
 
         public delegate void MotorMoveDelegate(Object sender, MachineControlAxis axis, float val);
@@ -78,8 +80,26 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
         }
 
+        protected void UpdateInvBackColor()
+        {
+            if (BackColor == null)
+                return;
+            int r = BackColor.R;
+            int g = BackColor.G;
+            int b = BackColor.B;
+            int avr = (r + g + b) / 3;
+            if (avr > 128)
+                mInvBackColor = Color.FromArgb(r / 4, g / 4, b / 4);
+            else
+                mInvBackColor = Color.FromArgb(191 + r / 4, 191 + g / 4, 192 + b / 4);
+        }
 
-        
+        protected override void OnBackColorChanged(EventArgs e)
+        {
+            base.OnBackColorChanged(e);
+            UpdateInvBackColor();
+        }
+
         protected void DrawImageCentered(Graphics gr, Image img, int x, int y)
         {
             int w = img.Width;
@@ -91,7 +111,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             if (outline)
             {
-                Brush bkbr = new SolidBrush(Color.FromArgb(128, Color.Black));
+                Brush bkbr = new SolidBrush(Color.FromArgb((col.R + col.G + col.B) / 6, Color.Black));
                 gr.DrawString(str, Font, bkbr, x + 1, y + 1);
             }
             Brush br = new SolidBrush(col);
@@ -153,10 +173,21 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             base.OnPaint(e);
             Graphics gr = e.Graphics;
             gr.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            Pen pen = new Pen(mFrameColor,2);
+            Color fcol = Color.FromArgb(90, mInvBackColor);
+            Pen pen = new Pen(fcol, 2);
             DrawRoundRectangle(gr, pen, 0, 0, Width-1, Height-1, 5);
         }
 
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            if (BackColor == null)
+            {
+                base.OnPaintBackground(e);
+                return;
+            }
+            Brush br = new SolidBrush(BackColor);
+            e.Graphics.FillRectangle(br, 0, 0, Width, Height);
+        }
 
         public void DrawRoundRectangle(Graphics gr, Pen pen, float x, float y, float width, float height, float radius)
         {

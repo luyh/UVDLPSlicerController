@@ -40,7 +40,7 @@
             this.ctlManualControl1.GuiAnchor = null;
             this.ctlManualControl1.Location = new System.Drawing.Point(0, 0);
             this.ctlManualControl1.Name = "ctlManualControl1";
-            this.ctlManualControl1.Size = new System.Drawing.Size(652, 458);
+            this.ctlManualControl1.Size = new System.Drawing.Size(213, 375);
             this.ctlManualControl1.StyleName = null;
             this.ctlManualControl1.TabIndex = 0;
             this.ctlManualControl1.SizeChanged += new System.EventHandler(this.ctlManualControl1_SizeChanged);
@@ -48,7 +48,7 @@
             // frmTest
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackColor = System.Drawing.Color.Navy;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(667, 466);
             this.Controls.Add(this.ctlManualControl1);
             this.Name = "frmTest";

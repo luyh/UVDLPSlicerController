@@ -168,7 +168,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
             else
             {
-                DrawTextCentered(gr, mUnit, mCenterX, mCenterY, mLevelColors[3]);
+                DrawTextCentered(gr, mUnit, mCenterX, mCenterY, mInvBackColor);
             }
 
             // top
@@ -191,7 +191,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             // title
             if (mTitle != null)
             {
-                DrawTextCentered(gr, mTitle, mCenterX, mCtlHeight - Font.Height / 2, Style.ForeColor, true);
+                DrawTextCentered(gr, mTitle, mCenterX, mCtlHeight - Font.Height / 2, mInvBackColor, true);
             }
         }
 
@@ -269,7 +269,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public override void ApplyStyle(ControlStyle ct)
         {
             base.ApplyStyle(ct);
-            BackColor = ct.BackColor;
             ForeColor = ct.ForeColor;
             FrameColor = ct.FrameColor;
         }

@@ -118,19 +118,18 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             Image ptrImg = mOverPointer ? mTempPointSel : mTempPoint;
             DrawImageCentered(gr, ptrImg, mCenterX, mTSetPos);
             String temp = mTCurrent.ToString() + mTempSign + mUnit;
-            DrawTextCentered(gr, temp, mCenterX, 16, mLevelColors[3], true);
+            DrawTextCentered(gr, temp, mCenterX, 16, mInvBackColor, true);
 
             // title
             if (mTitle != null)
             {
-                DrawTextCentered(gr, mTitle, mCenterX, mCtlHeight - Font.Height / 2, Style.ForeColor, true);
+                DrawTextCentered(gr, mTitle, mCenterX, mCtlHeight - Font.Height / 2, mInvBackColor, true);
             }
         }
 
         public override void ApplyStyle(ControlStyle ct)
         {
             base.ApplyStyle(ct);
-            BackColor = ct.BackColor;
             ForeColor = ct.ForeColor;
             FrameColor = ct.FrameColor;
             textSetTemp.BackColor = ct.FrameColor;

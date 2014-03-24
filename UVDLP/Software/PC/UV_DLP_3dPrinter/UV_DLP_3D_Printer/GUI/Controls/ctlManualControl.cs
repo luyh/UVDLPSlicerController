@@ -12,7 +12,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 {
     public partial class ctlManualControl : ctlUserPanel
     {
-        ctlNumber zrate;
+        NumericUpDown zrate, xyrate;
         public ctlManualControl()
         {
             InitializeComponent();
@@ -24,7 +24,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             cOnOffMonitorTemp.Visible = false;
             cMCTilt.ReturnValues = new float[] { 1, 10, 360 };
             zrate = ctlParamZrate.Parameter;
-            zrate.IsFloat = true;
+            xyrate = ctlParamXYrate.Parameter;
         }
 
         public override void ApplyStyle(ControlStyle ct)
@@ -49,7 +49,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             }
             if (sx < (flowData1.Width + 4))
                 sx = flowData1.Width + 4;
-            int sy = flowData1.Location.Y;
+            int sy = flowBot.Location.Y;
             foreach (Control ct in flowData1.Controls)
             {
                 if (ct.Visible)
@@ -61,13 +61,33 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+            if ((Parent != null) && (Parent.BackColor != null))
+            {
+                foreach (Control ctl in Controls)
+                    ctl.BackColor = Parent.BackColor;
+                foreach (Control ctl in flowBot.Controls)
+                    ctl.BackColor = Parent.BackColor;
+            }
             FitSize();
             try
             {
                 double res = (double)Callback.Activate("MCCmdGetZRate");
-                zrate.FloatVal = (float)res;
+                ctlParamZrate.Value = (decimal)res;
+                res = (double)Callback.Activate("MCCmdGetXYRate");
+                ctlParamXYrate.Value = (decimal)res;
             }
             catch {}
+        }
+
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            if ((Parent == null) || (Parent.BackColor == null))
+            {
+                base.OnPaintBackground(e);
+                return;
+            }
+            Brush br = new SolidBrush(Parent.BackColor);
+            e.Graphics.FillRectangle(br, 0, 0, Width, Height);
         }
 
         private void ctlOnOffMotors_StateChange(object obj, bool state)
@@ -89,6 +109,16 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             cMCTempPlatform.Visible = state;
             cOnOffMonitorTemp.Visible = state || ctlOnOffHeater.IsOn;
             FitSize();
+        }
+
+        private void ctlParamZrate_ValueChanged(object sender, decimal newval)
+        {
+            Callback.Activate("MCCmdSetZRate", null, (double)newval);
+        }                      
+
+        private void ctlParamXYrate_ValueChanged(object sender, decimal newval)
+        {
+            Callback.Activate("MCCmdSetXYRate", null, (double)newval);
         }
     }
 }
