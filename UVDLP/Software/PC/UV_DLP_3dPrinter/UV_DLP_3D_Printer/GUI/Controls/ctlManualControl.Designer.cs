@@ -94,6 +94,8 @@
             this.cMCXY.TabIndex = 0;
             this.cMCXY.Title = "XY Axis";
             this.cMCXY.Unit = "mm";
+            this.cMCXY.MotorMove += new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMCBase.MotorMoveDelegate(this.cMCXY_MotorMove);
+            this.cMCXY.MotorHome += new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMCBase.MotorHomeDelegate(this.cMCXY_MotorHome);
             // 
             // cMCZ
             // 
@@ -116,6 +118,8 @@
             this.cMCZ.TabIndex = 1;
             this.cMCZ.Title = "Z Axis";
             this.cMCZ.Unit = "mm";
+            this.cMCZ.MotorMove += new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMCBase.MotorMoveDelegate(this.cMCXY_MotorMove);
+            this.cMCZ.MotorHome += new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMCBase.MotorHomeDelegate(this.cMCXY_MotorHome);
             // 
             // cMCExtruder
             // 
@@ -163,6 +167,8 @@
             this.cMCTilt.TabIndex = 3;
             this.cMCTilt.Title = "Tilt";
             this.cMCTilt.Unit = "Deg";
+            this.cMCTilt.MotorMove += new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMCBase.MotorMoveDelegate(this.cMCXY_MotorMove);
+            this.cMCTilt.MotorHome += new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMCBase.MotorHomeDelegate(this.cMCXY_MotorHome);
             // 
             // cMCTempExtruder
             // 

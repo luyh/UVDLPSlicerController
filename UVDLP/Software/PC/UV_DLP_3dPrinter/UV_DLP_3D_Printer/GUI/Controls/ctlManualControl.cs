@@ -17,8 +17,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             InitializeComponent();
             ApplyStyle(Style);
-            cMCXY.Visible = false;
-            cMCZ.Visible = false;
+            cMCExtruder.Visible = false;
             cMCTempExtruder.Visible = false;
             cMCTempPlatform.Visible = false;
             cOnOffMonitorTemp.Visible = false;
@@ -128,9 +127,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         private void ctlOnOffMotors_StateChange(object obj, bool state)
         {
-            cMCXY.Visible = state;
-            cMCZ.Visible = state;
-            FitSize();
+            string cmd = state ? "MCCmdMotorOn" : "MCCmdMotorOff";
+            Callback.Activate(cmd, this);
         }
 
         private void ctlOnOffHeater_StateChange(object obj, bool state)
@@ -149,18 +147,58 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         private void ctlParamZrate_ValueChanged(object sender, decimal newval)
         {
-            Callback.Activate("MCCmdSetZRate", null, (double)newval);
+            Callback.Activate("MCCmdSetZRate", this, (double)newval);
         }                      
 
         private void ctlParamXYrate_ValueChanged(object sender, decimal newval)
         {
-            Callback.Activate("MCCmdSetXYRate", null, (double)newval);
+            Callback.Activate("MCCmdSetXYRate", this, (double)newval);
         }
 
         private void ctlManGcode_StateChange(object obj, bool state)
         {
             cGCodeManual.Visible = state;
             FitSize();
+        }
+
+        private void cMCXY_MotorMove(object sender, MachineControlAxis axis, float val)
+        {
+            switch (axis)
+            {
+                case MachineControlAxis.X:
+                case MachineControlAxis.Tilt:
+                    Callback.Activate("MCCmdMoveX", this, (double)val);
+                    break;
+                case MachineControlAxis.Y:
+                    Callback.Activate("MCCmdMoveY", this, (double)val);
+                    break;
+                case MachineControlAxis.Z:
+                    Callback.Activate("MCCmdMoveZ", this, (double)val);
+                    break;
+                case MachineControlAxis.Extruder:
+                    Callback.Activate("MCCmdExtrude", this, (double)val);
+                    break;
+            }
+        }
+
+        private void cMCXY_MotorHome(object sender, MachineControlAxis axis)
+        {
+            switch (axis)
+            {
+                case MachineControlAxis.X:
+                case MachineControlAxis.Tilt:
+                    Callback.Activate("MCCmdXHome", this, null);
+                    break;
+                case MachineControlAxis.Y:
+                    Callback.Activate("MCCmdYHome", this, null);
+                    break;
+                case MachineControlAxis.Z:
+                    Callback.Activate("MCCmdZHome", this, null);
+                    break;
+                case MachineControlAxis.All:
+                    Callback.Activate("MCCmdAllHome", this, null);
+                    break;
+            }
         }
     }
 }

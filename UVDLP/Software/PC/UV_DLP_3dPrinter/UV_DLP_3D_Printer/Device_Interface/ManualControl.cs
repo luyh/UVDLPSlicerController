@@ -99,6 +99,9 @@ namespace UV_DLP_3D_Printer.Device_Interface
             cb.RegisterCallback("MCCmdYHome", cmd_YHome, null, "Move the Y-axis to the home position");
             cb.RegisterCallback("MCCmdMoveZ", cmdMoveZ, typeof(double), "Move the Z-axis specified amount");
             cb.RegisterCallback("MCCmdZHome", cmd_ZHome, null, "Move the Z-axis to the home position");
+            cb.RegisterCallback("MCCmdAllHome", cmd_HomeAll, null, "Move all axis to the home position");
+            cb.RegisterCallback("MCCmdMotorOn", cmdMotorsOn, null, "Turn motors ON");
+            cb.RegisterCallback("MCCmdMotorOff", cmdMotorsOff, null, "Turn motors OFF");
             cb.RegisterRetCallback("MCCmdGetZRate", cmdGetZRate, null, typeof(double), "Get Z-axis movement rate");
             cb.RegisterRetCallback("MCCmdGetXYRate", cmdGetXYRate, null, typeof(double), "Get XY-axis movement rate");
             //cb.RegisterCallback("", , null, "");
@@ -133,6 +136,11 @@ namespace UV_DLP_3D_Printer.Device_Interface
         void cmd_ZHome(object sender, object vars)
         {
             SendGcode("G28 Z0\r\n");
+        }
+
+        void cmd_HomeAll(object sender, object vars)
+        {
+            SendGcode("G28\r\n");
         }
 
 
@@ -243,6 +251,19 @@ namespace UV_DLP_3D_Printer.Device_Interface
                 DebugLogger.Instance().LogRecord(ex.Message);
             }
         }
+
+        private void cmdMotorsOn(object sender, object e)
+        {
+            string gcode = "M17\r\n";
+            UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(gcode);
+        }
+
+        private void cmdMotorsOff(object sender, object e)
+        {
+            string gcode = "M18\r\n";
+            UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(gcode);
+        }
+
 
         private Object cmdGetZRate(object sender, object e)
         {
