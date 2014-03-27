@@ -45,10 +45,18 @@
             this.ctlParamZrate = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlParameter();
             this.ctlParamXYrate = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlParameter();
             this.flowBot = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLeft = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowMain = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowRight = new System.Windows.Forms.FlowLayoutPanel();
+            this.ctlGCodeManual1 = new UV_DLP_3D_Printer.GUI.Controls.ManualControls.ctlGCodeManual();
+            this.ctlProjectorControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlProjectorControl();
             this.flowTop.SuspendLayout();
             this.flowData1.SuspendLayout();
             this.flowData2.SuspendLayout();
             this.flowBot.SuspendLayout();
+            this.flowLeft.SuspendLayout();
+            this.flowMain.SuspendLayout();
+            this.flowRight.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowTop
@@ -59,10 +67,10 @@
             this.flowTop.Controls.Add(this.cMCTilt);
             this.flowTop.Controls.Add(this.cMCTempExtruder);
             this.flowTop.Controls.Add(this.cMCTempPlatform);
-            this.flowTop.Location = new System.Drawing.Point(3, 3);
+            this.flowTop.Location = new System.Drawing.Point(2, 2);
             this.flowTop.Margin = new System.Windows.Forms.Padding(2);
             this.flowTop.Name = "flowTop";
-            this.flowTop.Size = new System.Drawing.Size(646, 260);
+            this.flowTop.Size = new System.Drawing.Size(645, 264);
             this.flowTop.TabIndex = 0;
             // 
             // cMCXY
@@ -211,7 +219,7 @@
             this.flowData1.Location = new System.Drawing.Point(0, 0);
             this.flowData1.Margin = new System.Windows.Forms.Padding(0);
             this.flowData1.Name = "flowData1";
-            this.flowData1.Size = new System.Drawing.Size(209, 230);
+            this.flowData1.Size = new System.Drawing.Size(209, 283);
             this.flowData1.TabIndex = 1;
             // 
             // ctlOnOffMotors
@@ -330,7 +338,7 @@
             this.flowData2.Location = new System.Drawing.Point(209, 0);
             this.flowData2.Margin = new System.Windows.Forms.Padding(0);
             this.flowData2.Name = "flowData2";
-            this.flowData2.Size = new System.Drawing.Size(266, 230);
+            this.flowData2.Size = new System.Drawing.Size(260, 283);
             this.flowData2.TabIndex = 2;
             // 
             // ctlParamZrate
@@ -393,22 +401,72 @@
             // 
             this.flowBot.Controls.Add(this.flowData1);
             this.flowBot.Controls.Add(this.flowData2);
-            this.flowBot.Location = new System.Drawing.Point(6, 272);
+            this.flowBot.Location = new System.Drawing.Point(3, 268);
+            this.flowBot.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.flowBot.Name = "flowBot";
-            this.flowBot.Size = new System.Drawing.Size(642, 250);
+            this.flowBot.Size = new System.Drawing.Size(645, 283);
             this.flowBot.TabIndex = 3;
+            // 
+            // flowLeft
+            // 
+            this.flowLeft.Controls.Add(this.flowTop);
+            this.flowLeft.Controls.Add(this.flowBot);
+            this.flowLeft.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLeft.Location = new System.Drawing.Point(0, 3);
+            this.flowLeft.Margin = new System.Windows.Forms.Padding(0, 3, 0, 0);
+            this.flowLeft.Name = "flowLeft";
+            this.flowLeft.Size = new System.Drawing.Size(653, 551);
+            this.flowLeft.TabIndex = 4;
+            // 
+            // flowMain
+            // 
+            this.flowMain.Controls.Add(this.flowLeft);
+            this.flowMain.Controls.Add(this.flowRight);
+            this.flowMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowMain.Location = new System.Drawing.Point(0, 0);
+            this.flowMain.Name = "flowMain";
+            this.flowMain.Size = new System.Drawing.Size(987, 557);
+            this.flowMain.TabIndex = 5;
+            // 
+            // flowRight
+            // 
+            this.flowRight.Controls.Add(this.ctlGCodeManual1);
+            this.flowRight.Controls.Add(this.ctlProjectorControl1);
+            this.flowRight.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowRight.Location = new System.Drawing.Point(656, 3);
+            this.flowRight.Name = "flowRight";
+            this.flowRight.Size = new System.Drawing.Size(311, 551);
+            this.flowRight.TabIndex = 5;
+            // 
+            // ctlGCodeManual1
+            // 
+            this.ctlGCodeManual1.Location = new System.Drawing.Point(3, 3);
+            this.ctlGCodeManual1.Name = "ctlGCodeManual1";
+            this.ctlGCodeManual1.Padding = new System.Windows.Forms.Padding(5);
+            this.ctlGCodeManual1.Size = new System.Drawing.Size(273, 345);
+            this.ctlGCodeManual1.TabIndex = 0;
+            // 
+            // ctlProjectorControl1
+            // 
+            this.ctlProjectorControl1.Location = new System.Drawing.Point(2, 353);
+            this.ctlProjectorControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ctlProjectorControl1.Name = "ctlProjectorControl1";
+            this.ctlProjectorControl1.Size = new System.Drawing.Size(226, 178);
+            this.ctlProjectorControl1.TabIndex = 1;
             // 
             // ctlManualControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.Controls.Add(this.flowBot);
-            this.Controls.Add(this.flowTop);
+            this.Controls.Add(this.flowMain);
             this.Name = "ctlManualControl";
-            this.Size = new System.Drawing.Size(652, 525);
+            this.Size = new System.Drawing.Size(987, 557);
             this.flowTop.ResumeLayout(false);
             this.flowData1.ResumeLayout(false);
             this.flowData2.ResumeLayout(false);
             this.flowBot.ResumeLayout(false);
+            this.flowLeft.ResumeLayout(false);
+            this.flowMain.ResumeLayout(false);
+            this.flowRight.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -432,5 +490,10 @@
         private CustomGUI.ctlOnOff ctlManGcode;
         private CustomGUI.ctlParameter ctlParamXYrate;
         private System.Windows.Forms.FlowLayoutPanel flowBot;
+        private System.Windows.Forms.FlowLayoutPanel flowLeft;
+        private System.Windows.Forms.FlowLayoutPanel flowMain;
+        private System.Windows.Forms.FlowLayoutPanel flowRight;
+        private ManualControls.ctlGCodeManual ctlGCodeManual1;
+        private ctlProjectorControl ctlProjectorControl1;
     }
 }
