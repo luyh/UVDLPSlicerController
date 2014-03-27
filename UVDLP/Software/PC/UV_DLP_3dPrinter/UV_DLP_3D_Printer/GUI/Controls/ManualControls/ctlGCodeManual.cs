@@ -12,7 +12,7 @@ using UV_DLP_3D_Printer.Drivers;
 
 namespace UV_DLP_3D_Printer.GUI.Controls.ManualControls
 {
-    public partial class ctlGCodeManual : UserControl
+    public partial class ctlGCodeManual : ctlRFrame
     {
         public ctlGCodeManual()
         {

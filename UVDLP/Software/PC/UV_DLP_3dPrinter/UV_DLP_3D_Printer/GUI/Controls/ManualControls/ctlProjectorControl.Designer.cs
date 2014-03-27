@@ -43,10 +43,10 @@
             // 
             // cmdSendProj
             // 
-            this.cmdSendProj.Location = new System.Drawing.Point(202, 132);
+            this.cmdSendProj.Location = new System.Drawing.Point(202, 129);
             this.cmdSendProj.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdSendProj.Name = "cmdSendProj";
-            this.cmdSendProj.Size = new System.Drawing.Size(75, 23);
+            this.cmdSendProj.Size = new System.Drawing.Size(67, 23);
             this.cmdSendProj.TabIndex = 6;
             this.cmdSendProj.Text = "Send";
             this.cmdSendProj.UseVisualStyleBackColor = true;
@@ -55,10 +55,10 @@
             // cmbCommands
             // 
             this.cmbCommands.FormattingEnabled = true;
-            this.cmbCommands.Location = new System.Drawing.Point(3, 132);
+            this.cmbCommands.Location = new System.Drawing.Point(3, 129);
             this.cmbCommands.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbCommands.Name = "cmbCommands";
-            this.cmbCommands.Size = new System.Drawing.Size(193, 24);
+            this.cmbCommands.Size = new System.Drawing.Size(193, 21);
             this.cmbCommands.TabIndex = 5;
             // 
             // cmdConnect
@@ -122,7 +122,7 @@
             this.labelManipType.ForeColor = System.Drawing.Color.Black;
             this.labelManipType.Location = new System.Drawing.Point(3, 1);
             this.labelManipType.Name = "labelManipType";
-            this.labelManipType.Size = new System.Drawing.Size(293, 31);
+            this.labelManipType.Size = new System.Drawing.Size(274, 30);
             this.labelManipType.TabIndex = 62;
             this.labelManipType.Text = "Projector Control";
             this.labelManipType.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -137,9 +137,9 @@
             this.flowLayoutPanel1.Controls.Add(this.cmbDisplays);
             this.flowLayoutPanel1.Controls.Add(this.cmbCommands);
             this.flowLayoutPanel1.Controls.Add(this.cmdSendProj);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 34);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(4, 34);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(293, 176);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(274, 158);
             this.flowLayoutPanel1.TabIndex = 63;
             // 
             // cmbDisplays
@@ -148,18 +148,17 @@
             this.cmbDisplays.Location = new System.Drawing.Point(3, 104);
             this.cmbDisplays.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbDisplays.Name = "cmbDisplays";
-            this.cmbDisplays.Size = new System.Drawing.Size(193, 24);
+            this.cmbDisplays.Size = new System.Drawing.Size(193, 21);
             this.cmbDisplays.TabIndex = 7;
             this.cmbDisplays.SelectedIndexChanged += new System.EventHandler(this.cmbDisplays_SelectedIndexChanged);
             // 
             // ctlProjectorControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.labelManipType);
             this.Name = "ctlProjectorControl";
-            this.Size = new System.Drawing.Size(301, 219);
+            this.Size = new System.Drawing.Size(281, 196);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

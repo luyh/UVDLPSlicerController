@@ -11,7 +11,7 @@ using UV_DLP_3D_Printer.Configs;
 
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
-    public partial class ctlProjectorControl : UserControl //ctlAnchorable
+    public partial class ctlProjectorControl : ctlRFrame //ctlAnchorable
     {
         public ctlProjectorControl()
         {

@@ -48,7 +48,7 @@
             this.flowLeft = new System.Windows.Forms.FlowLayoutPanel();
             this.flowMain = new System.Windows.Forms.FlowLayoutPanel();
             this.flowRight = new System.Windows.Forms.FlowLayoutPanel();
-            this.ctlGCodeManual1 = new UV_DLP_3D_Printer.GUI.Controls.ManualControls.ctlGCodeManual();
+            this.cGCodeManual = new UV_DLP_3D_Printer.GUI.Controls.ManualControls.ctlGCodeManual();
             this.ctlProjectorControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlProjectorControl();
             this.flowTop.SuspendLayout();
             this.flowData1.SuspendLayout();
@@ -264,6 +264,7 @@
             this.ctlManGcode.StyleName = null;
             this.ctlManGcode.TabIndex = 4;
             this.ctlManGcode.Title = "Manual Gcode:";
+            this.ctlManGcode.StateChange += new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff.StateChangeDelegate(this.ctlManGcode_StateChange);
             // 
             // ctlOnOffHeater
             // 
@@ -422,7 +423,6 @@
             // 
             this.flowMain.Controls.Add(this.flowLeft);
             this.flowMain.Controls.Add(this.flowRight);
-            this.flowMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowMain.Location = new System.Drawing.Point(0, 0);
             this.flowMain.Name = "flowMain";
             this.flowMain.Size = new System.Drawing.Size(987, 557);
@@ -430,28 +430,28 @@
             // 
             // flowRight
             // 
-            this.flowRight.Controls.Add(this.ctlGCodeManual1);
+            this.flowRight.Controls.Add(this.cGCodeManual);
             this.flowRight.Controls.Add(this.ctlProjectorControl1);
             this.flowRight.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowRight.Location = new System.Drawing.Point(656, 3);
             this.flowRight.Name = "flowRight";
-            this.flowRight.Size = new System.Drawing.Size(311, 551);
+            this.flowRight.Size = new System.Drawing.Size(294, 551);
             this.flowRight.TabIndex = 5;
             // 
-            // ctlGCodeManual1
+            // cGCodeManual
             // 
-            this.ctlGCodeManual1.Location = new System.Drawing.Point(3, 3);
-            this.ctlGCodeManual1.Name = "ctlGCodeManual1";
-            this.ctlGCodeManual1.Padding = new System.Windows.Forms.Padding(5);
-            this.ctlGCodeManual1.Size = new System.Drawing.Size(273, 345);
-            this.ctlGCodeManual1.TabIndex = 0;
+            this.cGCodeManual.Location = new System.Drawing.Point(3, 3);
+            this.cGCodeManual.Name = "cGCodeManual";
+            this.cGCodeManual.Padding = new System.Windows.Forms.Padding(5);
+            this.cGCodeManual.Size = new System.Drawing.Size(280, 345);
+            this.cGCodeManual.TabIndex = 0;
             // 
             // ctlProjectorControl1
             // 
-            this.ctlProjectorControl1.Location = new System.Drawing.Point(2, 353);
-            this.ctlProjectorControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ctlProjectorControl1.Location = new System.Drawing.Point(3, 353);
+            this.ctlProjectorControl1.Margin = new System.Windows.Forms.Padding(3, 2, 2, 0);
             this.ctlProjectorControl1.Name = "ctlProjectorControl1";
-            this.ctlProjectorControl1.Size = new System.Drawing.Size(226, 178);
+            this.ctlProjectorControl1.Size = new System.Drawing.Size(280, 196);
             this.ctlProjectorControl1.TabIndex = 1;
             // 
             // ctlManualControl
@@ -493,7 +493,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLeft;
         private System.Windows.Forms.FlowLayoutPanel flowMain;
         private System.Windows.Forms.FlowLayoutPanel flowRight;
-        private ManualControls.ctlGCodeManual ctlGCodeManual1;
+        private ManualControls.ctlGCodeManual cGCodeManual;
         private ctlProjectorControl ctlProjectorControl1;
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 //using System.Drawing.Imaging;
 using Engine3D;
 using OpenTK.Graphics;
@@ -506,6 +507,59 @@ namespace UV_DLP_3D_Printer._3DEngine
                 x += chr.w;
             }
         }
+
+        public static void DrawRoundRectangle(Graphics gr, Pen pen, float x, float y, float width, float height, float radius)
+        {
+            RectangleF rectangle = new RectangleF(x, y, width, height);
+            GraphicsPath path = GetRoundedRect(rectangle, radius);
+            gr.DrawPath(pen, path);
+        }
+
+
+        private static GraphicsPath GetRoundedRect(RectangleF baseRect,
+           float radius)
+        {
+            if (radius <= 0.0F)
+            {
+                GraphicsPath mPath = new GraphicsPath();
+                mPath.AddRectangle(baseRect);
+                mPath.CloseFigure();
+                return mPath;
+            }
+
+            // if the corner radius is greater than or equal to 
+            // half the width, or height (whichever is shorter) 
+            // then return a capsule instead of a lozenge 
+            float minRadius = Math.Min(baseRect.Width, baseRect.Height) / 2.0f;
+            if (radius >= minRadius)
+                radius = minRadius;
+
+            // create the arc for the rectangle sides and declare 
+            // a graphics path object for the drawing 
+            float diameter = radius * 2.0F;
+            SizeF sizeF = new SizeF(diameter, diameter);
+            RectangleF arc = new RectangleF(baseRect.Location, sizeF);
+            GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
+
+            // top left arc 
+            path.AddArc(arc, 180, 90);
+
+            // top right arc 
+            arc.X = baseRect.Right - diameter;
+            path.AddArc(arc, 270, 90);
+
+            // bottom right arc 
+            arc.Y = baseRect.Bottom - diameter;
+            path.AddArc(arc, 0, 90);
+
+            // bottom left arc
+            arc.X = baseRect.Left;
+            path.AddArc(arc, 90, 90);
+
+            path.CloseFigure();
+            return path;
+        }
+
 
         #endregion // fonts
     }

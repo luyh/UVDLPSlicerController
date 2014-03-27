@@ -246,6 +246,9 @@
     <Compile Include="GUI\CustomGUI\ctlParameter.Designer.cs">
       <DependentUpon>ctlParameter.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\CustomGUI\ctlRFrame.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GUI\CustomGUI\ctlScene.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -22,6 +22,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             cMCTempExtruder.Visible = false;
             cMCTempPlatform.Visible = false;
             cOnOffMonitorTemp.Visible = false;
+            cGCodeManual.Visible = false;
             cMCTilt.ReturnValues = new float[] { 1, 10, 360 };
             zrate = ctlParamZrate.Parameter;
             xyrate = ctlParamXYrate.Parameter;
@@ -41,21 +42,54 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         void FitSize()
         {
-            int sx = flowTop.Location.X;
-            foreach (Control ct in flowTop.Controls)
+            PackFlowPanelRecurse(flowMain);
+
+            Size = new Size(flowMain.Width+flowMain.Margin.Left + flowMain.Margin.Right, 
+                flowMain.Height + flowMain.Margin.Top + flowMain.Margin.Bottom);
+        }
+
+        void PackFlowPanelRecurse(FlowLayoutPanel flp)
+        {
+            foreach (Control ctl in flp.Controls)
             {
-                if (ct.Visible)
-                    sx += ct.Width + ct.Margin.Left + ct.Margin.Right;
+                if (ctl is FlowLayoutPanel)
+                    PackFlowPanelRecurse((FlowLayoutPanel)ctl);
             }
-            if (sx < (flowData1.Width + 4))
-                sx = flowData1.Width + 4;
-            int sy = flowBot.Location.Y;
-            foreach (Control ct in flowData1.Controls)
+            PackFlowPanel(flp);
+        }
+
+        void PackFlowPanel(FlowLayoutPanel flp)
+        {
+            int w = 0;
+            int h = 0;
+            foreach (Control ctl in flp.Controls)
             {
-                if (ct.Visible)
-                    sy += ct.Height + ct.Margin.Top + ct.Margin.Bottom;
+                int cw = ctl.Width + ctl.Margin.Left + ctl.Margin.Right;
+                int ch = ctl.Height + ctl.Margin.Top + ctl.Margin.Bottom;
+                if (ctl.Visible)
+                {
+                    if ((flp.FlowDirection == FlowDirection.LeftToRight) || (flp.FlowDirection == FlowDirection.RightToLeft))
+                    {
+                        w += cw;
+                        if (h < ch) h = ch;
+                    }
+                    else
+                    {
+                        if (w < cw) w = cw;
+                        h += ch;
+                    }
+                }
             }
-            Size = new Size(sx, sy);
+            if ((w == 0) || (h == 0))
+            {
+                flp.Visible = false;
+            }
+            else
+            {
+                flp.Visible = true;
+                flp.Width = w + flp.Padding.Left + flp.Padding.Right;
+                flp.Height = h + flp.Padding.Top + flp.Padding.Bottom;
+            }
         }
 
         protected override void OnLoad(EventArgs e)
@@ -63,9 +97,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             base.OnLoad(e);
             if ((Parent != null) && (Parent.BackColor != null))
             {
-                foreach (Control ctl in Controls)
+                foreach (Control ctl in flowLeft.Controls)
                     ctl.BackColor = Parent.BackColor;
                 foreach (Control ctl in flowBot.Controls)
+                    ctl.BackColor = Parent.BackColor;
+                foreach (Control ctl in flowTop.Controls)
                     ctl.BackColor = Parent.BackColor;
             }
             FitSize();
@@ -119,6 +155,12 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         private void ctlParamXYrate_ValueChanged(object sender, decimal newval)
         {
             Callback.Activate("MCCmdSetXYRate", null, (double)newval);
+        }
+
+        private void ctlManGcode_StateChange(object obj, bool state)
+        {
+            cGCodeManual.Visible = state;
+            FitSize();
         }
     }
 }
