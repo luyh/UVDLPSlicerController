@@ -12,19 +12,16 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 {
     public partial class ctlManualControl : ctlUserPanel
     {
-        NumericUpDown zrate, xyrate;
+        // component support holds a string with a letter for each supported axis by HW
+        // X, Y, Z, T (tilt), E (Extruder), H (Head heater), B (Bed heater), G (gcode panel), P (projector control)
+        string mComponentSupport;
         public ctlManualControl()
         {
             InitializeComponent();
             ApplyStyle(Style);
-            cMCExtruder.Visible = false;
-            cMCTempExtruder.Visible = false;
-            cMCTempPlatform.Visible = false;
-            cOnOffMonitorTemp.Visible = false;
-            cGCodeManual.Visible = false;
+            mComponentSupport = "XYZPG";
+
             cMCTilt.ReturnValues = new float[] { 1, 10, 360 };
-            zrate = ctlParamZrate.Parameter;
-            xyrate = ctlParamXYrate.Parameter;
         }
 
         public override void ApplyStyle(ControlStyle ct)
@@ -37,6 +34,75 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         CallbackHandler Callback
         {
             get { return UVDLPApp.Instance().m_callbackhandler; }
+        }
+
+        void UpdateComponentDisplay()
+        {
+            cMCExtruder.Visible = false;
+            cMCTempExtruder.Visible = false;
+            cMCTempPlatform.Visible = false;
+            cMCTilt.Visible = false;
+            cMCXY.Visible = false;
+            cMCZ.Visible = false;
+
+            cOnOffMonitorTemp.Visible = false;
+            cOnOffHeater.Visible = false;
+            cOnOffPlatform.Visible = false;
+            cOnOffMotors.Visible = false;
+            cOnOffManGcode.Visible = false;
+
+            ctlParamXYrate.Visible = false;
+            ctlParamZrate.Visible = false;
+            ctlParamExtrudeRate.Visible = false;
+
+            cGCodeManual.Visible = false;
+            cProjectorControl.Visible = false;
+
+            foreach (char ch in mComponentSupport)
+            {
+                switch (ch)
+                {
+                    case 'X':
+                    case 'Y':
+                        cMCXY.Visible = true;
+                        cOnOffMotors.Visible = true;
+                        ctlParamXYrate.Visible = true;
+                        break;
+                    case 'Z':
+                        cMCZ.Visible = true;
+                        cOnOffMotors.Visible = true;
+                        ctlParamZrate.Visible = true;
+                        break;
+                    case 'T':
+                        cMCTilt.Visible = true;
+                        cOnOffMotors.Visible = true;
+                        break;
+                    case 'E':
+                        cMCExtruder.Visible = true;
+                        cOnOffMotors.Visible = true;
+                        ctlParamExtrudeRate.Visible = true;
+                        break;
+                    case 'H':
+                        cMCTempExtruder.Visible = true;
+                        cOnOffHeater.Visible = true;
+                        cOnOffMonitorTemp.Visible = true;
+                        break;
+                    case 'B':
+                        cMCTempPlatform.Visible = true;
+                        cOnOffPlatform.Visible = true;
+                        cOnOffMonitorTemp.Visible = true;
+                        break;
+                    case 'P':
+                        cProjectorControl.Visible = true;
+                        break;
+                    case 'G':
+                        cOnOffManGcode.Visible = true;
+                        cGCodeManual.Visible = cOnOffManGcode.IsOn;
+                        break;
+                }
+            }
+
+            FitSize();
         }
 
         void FitSize()
@@ -103,7 +169,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 foreach (Control ctl in flowTop.Controls)
                     ctl.BackColor = Parent.BackColor;
             }
-            FitSize();
+            UpdateComponentDisplay();
             try
             {
                 double res = (double)Callback.Activate("MCCmdGetZRate");
@@ -133,16 +199,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         private void ctlOnOffHeater_StateChange(object obj, bool state)
         {
-            cMCTempExtruder.Visible = state;
-            cOnOffMonitorTemp.Visible = state || ctlOnOffPlatform.IsOn;
-            FitSize();
         }
 
         private void ctlOnOffPlatform_StateChange(object obj, bool state)
         {
-            cMCTempPlatform.Visible = state;
-            cOnOffMonitorTemp.Visible = state || ctlOnOffHeater.IsOn;
-            FitSize();
         }
 
         private void ctlParamZrate_ValueChanged(object sender, decimal newval)

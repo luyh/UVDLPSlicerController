@@ -28,54 +28,38 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ctlMachineControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlMachineControl();
-            this.ctlProjectorControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlProjectorControl();
-            this.ctlGCodeManual1 = new UV_DLP_3D_Printer.GUI.Controls.ManualControls.ctlGCodeManual();
+            this.ctlManualControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlManualControl();
             this.SuspendLayout();
             // 
-            // ctlMachineControl1
+            // ctlManualControl1
             // 
-            this.ctlMachineControl1.Location = new System.Drawing.Point(2, 2);
-            this.ctlMachineControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.ctlMachineControl1.Name = "ctlMachineControl1";
-            this.ctlMachineControl1.Size = new System.Drawing.Size(368, 213);
-            this.ctlMachineControl1.TabIndex = 2;
-            // 
-            // ctlProjectorControl1
-            // 
-            this.ctlProjectorControl1.Location = new System.Drawing.Point(2, 219);
-            this.ctlProjectorControl1.Margin = new System.Windows.Forms.Padding(2);
-            this.ctlProjectorControl1.Name = "ctlProjectorControl1";
-            this.ctlProjectorControl1.Size = new System.Drawing.Size(295, 195);
-            this.ctlProjectorControl1.TabIndex = 1;
-            // 
-            // ctlGCodeManual1
-            // 
-            this.ctlGCodeManual1.Location = new System.Drawing.Point(374, 16);
-            this.ctlGCodeManual1.Margin = new System.Windows.Forms.Padding(2);
-            this.ctlGCodeManual1.Name = "ctlGCodeManual1";
-            this.ctlGCodeManual1.Padding = new System.Windows.Forms.Padding(4);
-            this.ctlGCodeManual1.Size = new System.Drawing.Size(276, 358);
-            this.ctlGCodeManual1.TabIndex = 0;
+            this.ctlManualControl1.Gapx = 0;
+            this.ctlManualControl1.Gapy = 0;
+            this.ctlManualControl1.GLBackgroundImage = null;
+            this.ctlManualControl1.GLVisible = false;
+            this.ctlManualControl1.GuiAnchor = null;
+            this.ctlManualControl1.Location = new System.Drawing.Point(3, 3);
+            this.ctlManualControl1.Name = "ctlManualControl1";
+            this.ctlManualControl1.Size = new System.Drawing.Size(771, 351);
+            this.ctlManualControl1.StyleName = "DefaultControl";
+            this.ctlManualControl1.TabIndex = 0;
             // 
             // ctlMainManual
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.ctlMachineControl1);
-            this.Controls.Add(this.ctlProjectorControl1);
-            this.Controls.Add(this.ctlGCodeManual1);
+            this.AutoScroll = true;
+            this.Controls.Add(this.ctlManualControl1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ctlMainManual";
-            this.Size = new System.Drawing.Size(661, 424);
+            this.Size = new System.Drawing.Size(945, 627);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private ctlGCodeManual ctlGCodeManual1;
-        private ctlProjectorControl ctlProjectorControl1;
-        private ctlMachineControl ctlMachineControl1;
+        private ctlManualControl ctlManualControl1;
+
     }
 }

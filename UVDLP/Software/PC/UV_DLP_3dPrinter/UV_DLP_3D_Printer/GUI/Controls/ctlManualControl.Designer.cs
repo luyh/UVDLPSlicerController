@@ -36,20 +36,21 @@
             this.cMCTempExtruder = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMCTemp();
             this.cMCTempPlatform = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMCTemp();
             this.flowData1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.ctlOnOffMotors = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff();
-            this.ctlManGcode = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff();
-            this.ctlOnOffHeater = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff();
-            this.ctlOnOffPlatform = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff();
+            this.cOnOffMotors = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff();
+            this.cOnOffManGcode = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff();
+            this.cOnOffHeater = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff();
+            this.cOnOffPlatform = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff();
             this.cOnOffMonitorTemp = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff();
             this.flowData2 = new System.Windows.Forms.FlowLayoutPanel();
             this.ctlParamZrate = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlParameter();
             this.ctlParamXYrate = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlParameter();
+            this.ctlParamExtrudeRate = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlParameter();
             this.flowBot = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLeft = new System.Windows.Forms.FlowLayoutPanel();
             this.flowMain = new System.Windows.Forms.FlowLayoutPanel();
             this.flowRight = new System.Windows.Forms.FlowLayoutPanel();
             this.cGCodeManual = new UV_DLP_3D_Printer.GUI.Controls.ManualControls.ctlGCodeManual();
-            this.ctlProjectorControl1 = new UV_DLP_3D_Printer.GUI.Controls.ctlProjectorControl();
+            this.cProjectorControl = new UV_DLP_3D_Printer.GUI.Controls.ctlProjectorControl();
             this.flowTop.SuspendLayout();
             this.flowData1.SuspendLayout();
             this.flowData2.SuspendLayout();
@@ -216,10 +217,10 @@
             // 
             // flowData1
             // 
-            this.flowData1.Controls.Add(this.ctlOnOffMotors);
-            this.flowData1.Controls.Add(this.ctlManGcode);
-            this.flowData1.Controls.Add(this.ctlOnOffHeater);
-            this.flowData1.Controls.Add(this.ctlOnOffPlatform);
+            this.flowData1.Controls.Add(this.cOnOffMotors);
+            this.flowData1.Controls.Add(this.cOnOffManGcode);
+            this.flowData1.Controls.Add(this.cOnOffHeater);
+            this.flowData1.Controls.Add(this.cOnOffPlatform);
             this.flowData1.Controls.Add(this.cOnOffMonitorTemp);
             this.flowData1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowData1.Location = new System.Drawing.Point(0, 0);
@@ -228,93 +229,93 @@
             this.flowData1.Size = new System.Drawing.Size(209, 283);
             this.flowData1.TabIndex = 1;
             // 
-            // ctlOnOffMotors
+            // cOnOffMotors
             // 
-            this.ctlOnOffMotors.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.ctlOnOffMotors.FrameColor = System.Drawing.Color.RoyalBlue;
-            this.ctlOnOffMotors.Gapx = 0;
-            this.ctlOnOffMotors.Gapy = 0;
-            this.ctlOnOffMotors.GLBackgroundImage = null;
-            this.ctlOnOffMotors.GLVisible = false;
-            this.ctlOnOffMotors.GuiAnchor = null;
-            this.ctlOnOffMotors.Location = new System.Drawing.Point(3, 3);
-            this.ctlOnOffMotors.Name = "ctlOnOffMotors";
-            this.ctlOnOffMotors.ReturnValues = new float[] {
+            this.cOnOffMotors.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cOnOffMotors.FrameColor = System.Drawing.Color.RoyalBlue;
+            this.cOnOffMotors.Gapx = 0;
+            this.cOnOffMotors.Gapy = 0;
+            this.cOnOffMotors.GLBackgroundImage = null;
+            this.cOnOffMotors.GLVisible = false;
+            this.cOnOffMotors.GuiAnchor = null;
+            this.cOnOffMotors.Location = new System.Drawing.Point(3, 3);
+            this.cOnOffMotors.Name = "cOnOffMotors";
+            this.cOnOffMotors.ReturnValues = new float[] {
         0F,
         0F,
         0F,
         0F};
-            this.ctlOnOffMotors.Size = new System.Drawing.Size(202, 30);
-            this.ctlOnOffMotors.StyleName = null;
-            this.ctlOnOffMotors.TabIndex = 0;
-            this.ctlOnOffMotors.Title = "Motors:";
-            this.ctlOnOffMotors.StateChange += new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff.StateChangeDelegate(this.ctlOnOffMotors_StateChange);
+            this.cOnOffMotors.Size = new System.Drawing.Size(202, 30);
+            this.cOnOffMotors.StyleName = null;
+            this.cOnOffMotors.TabIndex = 0;
+            this.cOnOffMotors.Title = "Motors:";
+            this.cOnOffMotors.StateChange += new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff.StateChangeDelegate(this.ctlOnOffMotors_StateChange);
             // 
-            // ctlManGcode
+            // cOnOffManGcode
             // 
-            this.ctlManGcode.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.ctlManGcode.FrameColor = System.Drawing.Color.RoyalBlue;
-            this.ctlManGcode.Gapx = 0;
-            this.ctlManGcode.Gapy = 0;
-            this.ctlManGcode.GLBackgroundImage = null;
-            this.ctlManGcode.GLVisible = false;
-            this.ctlManGcode.GuiAnchor = null;
-            this.ctlManGcode.Location = new System.Drawing.Point(3, 39);
-            this.ctlManGcode.Name = "ctlManGcode";
-            this.ctlManGcode.ReturnValues = new float[] {
+            this.cOnOffManGcode.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cOnOffManGcode.FrameColor = System.Drawing.Color.RoyalBlue;
+            this.cOnOffManGcode.Gapx = 0;
+            this.cOnOffManGcode.Gapy = 0;
+            this.cOnOffManGcode.GLBackgroundImage = null;
+            this.cOnOffManGcode.GLVisible = false;
+            this.cOnOffManGcode.GuiAnchor = null;
+            this.cOnOffManGcode.Location = new System.Drawing.Point(3, 39);
+            this.cOnOffManGcode.Name = "cOnOffManGcode";
+            this.cOnOffManGcode.ReturnValues = new float[] {
         0F,
         0F,
         0F,
         0F};
-            this.ctlManGcode.Size = new System.Drawing.Size(202, 30);
-            this.ctlManGcode.StyleName = null;
-            this.ctlManGcode.TabIndex = 4;
-            this.ctlManGcode.Title = "Manual Gcode:";
-            this.ctlManGcode.StateChange += new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff.StateChangeDelegate(this.ctlManGcode_StateChange);
+            this.cOnOffManGcode.Size = new System.Drawing.Size(202, 30);
+            this.cOnOffManGcode.StyleName = null;
+            this.cOnOffManGcode.TabIndex = 4;
+            this.cOnOffManGcode.Title = "Manual Gcode:";
+            this.cOnOffManGcode.StateChange += new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff.StateChangeDelegate(this.ctlManGcode_StateChange);
             // 
-            // ctlOnOffHeater
+            // cOnOffHeater
             // 
-            this.ctlOnOffHeater.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.ctlOnOffHeater.FrameColor = System.Drawing.Color.RoyalBlue;
-            this.ctlOnOffHeater.Gapx = 0;
-            this.ctlOnOffHeater.Gapy = 0;
-            this.ctlOnOffHeater.GLBackgroundImage = null;
-            this.ctlOnOffHeater.GLVisible = false;
-            this.ctlOnOffHeater.GuiAnchor = null;
-            this.ctlOnOffHeater.Location = new System.Drawing.Point(3, 75);
-            this.ctlOnOffHeater.Name = "ctlOnOffHeater";
-            this.ctlOnOffHeater.ReturnValues = new float[] {
+            this.cOnOffHeater.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cOnOffHeater.FrameColor = System.Drawing.Color.RoyalBlue;
+            this.cOnOffHeater.Gapx = 0;
+            this.cOnOffHeater.Gapy = 0;
+            this.cOnOffHeater.GLBackgroundImage = null;
+            this.cOnOffHeater.GLVisible = false;
+            this.cOnOffHeater.GuiAnchor = null;
+            this.cOnOffHeater.Location = new System.Drawing.Point(3, 75);
+            this.cOnOffHeater.Name = "cOnOffHeater";
+            this.cOnOffHeater.ReturnValues = new float[] {
         0F,
         0F,
         0F,
         0F};
-            this.ctlOnOffHeater.Size = new System.Drawing.Size(202, 30);
-            this.ctlOnOffHeater.StyleName = null;
-            this.ctlOnOffHeater.TabIndex = 1;
-            this.ctlOnOffHeater.Title = "Heater:";
-            this.ctlOnOffHeater.StateChange += new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff.StateChangeDelegate(this.ctlOnOffHeater_StateChange);
+            this.cOnOffHeater.Size = new System.Drawing.Size(202, 30);
+            this.cOnOffHeater.StyleName = null;
+            this.cOnOffHeater.TabIndex = 1;
+            this.cOnOffHeater.Title = "Heater:";
+            this.cOnOffHeater.StateChange += new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff.StateChangeDelegate(this.ctlOnOffHeater_StateChange);
             // 
-            // ctlOnOffPlatform
+            // cOnOffPlatform
             // 
-            this.ctlOnOffPlatform.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.ctlOnOffPlatform.FrameColor = System.Drawing.Color.RoyalBlue;
-            this.ctlOnOffPlatform.Gapx = 0;
-            this.ctlOnOffPlatform.Gapy = 0;
-            this.ctlOnOffPlatform.GLBackgroundImage = null;
-            this.ctlOnOffPlatform.GLVisible = false;
-            this.ctlOnOffPlatform.GuiAnchor = null;
-            this.ctlOnOffPlatform.Location = new System.Drawing.Point(3, 111);
-            this.ctlOnOffPlatform.Name = "ctlOnOffPlatform";
-            this.ctlOnOffPlatform.ReturnValues = new float[] {
+            this.cOnOffPlatform.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.cOnOffPlatform.FrameColor = System.Drawing.Color.RoyalBlue;
+            this.cOnOffPlatform.Gapx = 0;
+            this.cOnOffPlatform.Gapy = 0;
+            this.cOnOffPlatform.GLBackgroundImage = null;
+            this.cOnOffPlatform.GLVisible = false;
+            this.cOnOffPlatform.GuiAnchor = null;
+            this.cOnOffPlatform.Location = new System.Drawing.Point(3, 111);
+            this.cOnOffPlatform.Name = "cOnOffPlatform";
+            this.cOnOffPlatform.ReturnValues = new float[] {
         0F,
         0F,
         0F,
         0F};
-            this.ctlOnOffPlatform.Size = new System.Drawing.Size(202, 30);
-            this.ctlOnOffPlatform.StyleName = null;
-            this.ctlOnOffPlatform.TabIndex = 2;
-            this.ctlOnOffPlatform.Title = "Platform:";
-            this.ctlOnOffPlatform.StateChange += new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff.StateChangeDelegate(this.ctlOnOffPlatform_StateChange);
+            this.cOnOffPlatform.Size = new System.Drawing.Size(202, 30);
+            this.cOnOffPlatform.StyleName = null;
+            this.cOnOffPlatform.TabIndex = 2;
+            this.cOnOffPlatform.Title = "Platform:";
+            this.cOnOffPlatform.StateChange += new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff.StateChangeDelegate(this.ctlOnOffPlatform_StateChange);
             // 
             // cOnOffMonitorTemp
             // 
@@ -341,6 +342,7 @@
             // 
             this.flowData2.Controls.Add(this.ctlParamZrate);
             this.flowData2.Controls.Add(this.ctlParamXYrate);
+            this.flowData2.Controls.Add(this.ctlParamExtrudeRate);
             this.flowData2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowData2.Location = new System.Drawing.Point(209, 0);
             this.flowData2.Margin = new System.Windows.Forms.Padding(0);
@@ -357,8 +359,7 @@
             this.ctlParamZrate.GLBackgroundImage = null;
             this.ctlParamZrate.GLVisible = false;
             this.ctlParamZrate.GuiAnchor = null;
-            this.ctlParamZrate.Location = new System.Drawing.Point(5, 4);
-            this.ctlParamZrate.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.ctlParamZrate.Location = new System.Drawing.Point(3, 3);
             this.ctlParamZrate.Name = "ctlParamZrate";
             this.ctlParamZrate.ReturnValues = new float[] {
         0F,
@@ -385,8 +386,7 @@
             this.ctlParamXYrate.GLBackgroundImage = null;
             this.ctlParamXYrate.GLVisible = false;
             this.ctlParamXYrate.GuiAnchor = null;
-            this.ctlParamXYrate.Location = new System.Drawing.Point(5, 42);
-            this.ctlParamXYrate.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.ctlParamXYrate.Location = new System.Drawing.Point(3, 39);
             this.ctlParamXYrate.Name = "ctlParamXYrate";
             this.ctlParamXYrate.ReturnValues = new float[] {
         0F,
@@ -403,6 +403,32 @@
             0,
             0});
             this.ctlParamXYrate.ValueChanged += new UV_DLP_3D_Printer.GUI.CustomGUI.ctlParameter.ValueChangedDelegate(this.ctlParamXYrate_ValueChanged);
+            // 
+            // ctlParamExtrudeRate
+            // 
+            this.ctlParamExtrudeRate.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.ctlParamExtrudeRate.FrameColor = System.Drawing.Color.RoyalBlue;
+            this.ctlParamExtrudeRate.Gapx = 0;
+            this.ctlParamExtrudeRate.Gapy = 0;
+            this.ctlParamExtrudeRate.GLBackgroundImage = null;
+            this.ctlParamExtrudeRate.GLVisible = false;
+            this.ctlParamExtrudeRate.GuiAnchor = null;
+            this.ctlParamExtrudeRate.Location = new System.Drawing.Point(3, 75);
+            this.ctlParamExtrudeRate.Name = "ctlParamExtrudeRate";
+            this.ctlParamExtrudeRate.ReturnValues = new float[] {
+        0F,
+        0F,
+        0F,
+        0F};
+            this.ctlParamExtrudeRate.Size = new System.Drawing.Size(250, 30);
+            this.ctlParamExtrudeRate.StyleName = null;
+            this.ctlParamExtrudeRate.TabIndex = 2;
+            this.ctlParamExtrudeRate.Title = "Extrude Rate (mm/m):";
+            this.ctlParamExtrudeRate.Value = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
             // 
             // flowBot
             // 
@@ -437,7 +463,7 @@
             // flowRight
             // 
             this.flowRight.Controls.Add(this.cGCodeManual);
-            this.flowRight.Controls.Add(this.ctlProjectorControl1);
+            this.flowRight.Controls.Add(this.cProjectorControl);
             this.flowRight.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowRight.Location = new System.Drawing.Point(656, 3);
             this.flowRight.Name = "flowRight";
@@ -452,13 +478,13 @@
             this.cGCodeManual.Size = new System.Drawing.Size(280, 345);
             this.cGCodeManual.TabIndex = 0;
             // 
-            // ctlProjectorControl1
+            // cProjectorControl
             // 
-            this.ctlProjectorControl1.Location = new System.Drawing.Point(3, 353);
-            this.ctlProjectorControl1.Margin = new System.Windows.Forms.Padding(3, 2, 2, 0);
-            this.ctlProjectorControl1.Name = "ctlProjectorControl1";
-            this.ctlProjectorControl1.Size = new System.Drawing.Size(280, 196);
-            this.ctlProjectorControl1.TabIndex = 1;
+            this.cProjectorControl.Location = new System.Drawing.Point(3, 353);
+            this.cProjectorControl.Margin = new System.Windows.Forms.Padding(3, 2, 2, 0);
+            this.cProjectorControl.Name = "cProjectorControl";
+            this.cProjectorControl.Size = new System.Drawing.Size(280, 196);
+            this.cProjectorControl.TabIndex = 1;
             // 
             // ctlManualControl
             // 
@@ -487,19 +513,20 @@
         private CustomGUI.ctlMCTemp cMCTempExtruder;
         private CustomGUI.ctlMCTemp cMCTempPlatform;
         private System.Windows.Forms.FlowLayoutPanel flowData1;
-        private CustomGUI.ctlOnOff ctlOnOffMotors;
-        private CustomGUI.ctlOnOff ctlOnOffHeater;
-        private CustomGUI.ctlOnOff ctlOnOffPlatform;
+        private CustomGUI.ctlOnOff cOnOffMotors;
+        private CustomGUI.ctlOnOff cOnOffHeater;
+        private CustomGUI.ctlOnOff cOnOffPlatform;
         private CustomGUI.ctlOnOff cOnOffMonitorTemp;
         private System.Windows.Forms.FlowLayoutPanel flowData2;
         private CustomGUI.ctlParameter ctlParamZrate;
-        private CustomGUI.ctlOnOff ctlManGcode;
+        private CustomGUI.ctlOnOff cOnOffManGcode;
         private CustomGUI.ctlParameter ctlParamXYrate;
         private System.Windows.Forms.FlowLayoutPanel flowBot;
         private System.Windows.Forms.FlowLayoutPanel flowLeft;
         private System.Windows.Forms.FlowLayoutPanel flowMain;
         private System.Windows.Forms.FlowLayoutPanel flowRight;
         private ManualControls.ctlGCodeManual cGCodeManual;
-        private ctlProjectorControl ctlProjectorControl1;
+        private ctlProjectorControl cProjectorControl;
+        private CustomGUI.ctlParameter ctlParamExtrudeRate;
     }
 }
