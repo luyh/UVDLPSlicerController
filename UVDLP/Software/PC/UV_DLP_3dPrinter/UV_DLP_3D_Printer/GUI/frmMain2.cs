@@ -25,6 +25,7 @@ namespace UV_DLP_3D_Printer.GUI
         }
         private eViewTypes m_viewtype;
         public event delBuildStatus BuildStatusInvoked; // rund the build delegate in Form thread
+        public string m_appname = "Creation Workshop";
         //frmDLP m_frmdlp = new frmDLP();
         frmSlice m_frmSlice = new frmSlice();
 
@@ -71,6 +72,8 @@ namespace UV_DLP_3D_Printer.GUI
                 testToolStripMenuItem.Visible = false;
                 testMachineControlToolStripMenuItem.Visible = false;
             #endif
+            SetTitle();
+            UVDLPApp.Instance().PerformPluginCommand("MainFormLoadedCommand", true);
         }
         /// <summary>
         /// This adds buttons to the GUI config for later skinning
@@ -483,10 +486,10 @@ namespace UV_DLP_3D_Printer.GUI
             ctl3DView1.m_camera.UpdateBuildVolume((float)mc.m_PlatXSize, (float)mc.m_PlatYSize, (float)mc.m_PlatZSize);
         }
 
-        private void SetTitle()
+        public void SetTitle()
         {
             
-            this.Text = "Creation Workshop - UV DLP 3D Printer Control and Slicing" + "  ( Slice Profile : ";
+            this.Text = m_appname + " - " + "  ( Slice Profile : ";
             this.Text += Path.GetFileNameWithoutExtension(UVDLPApp.Instance().m_buildparms.m_filename);
             this.Text += ", Machine : " + Path.GetFileNameWithoutExtension(UVDLPApp.Instance().m_printerinfo.m_filename) + ")";
              
