@@ -250,6 +250,11 @@ namespace UV_DLP_3D_Printer
             m_flipY = false;
             m_notes = "";
             m_resinprice = 0.0;//
+            //set the default gcode segments
+            m_headercode = DefGCodeHeader();
+            m_footercode = DefGCodeFooter();
+            m_liftcode = DefGCodeLift();
+            m_preslicecode = DefGCodePreslice();
         }
 
         public bool Load(String filename) 
