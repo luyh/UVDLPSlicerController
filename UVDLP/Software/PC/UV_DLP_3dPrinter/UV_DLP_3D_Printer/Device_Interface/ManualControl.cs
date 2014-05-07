@@ -218,7 +218,7 @@ namespace UV_DLP_3D_Printer.Device_Interface
             try
             {
                 double dist = (double)e;
-                DevInterface.MoveX(dist, m_rateZ); // (movecommand);
+                DevInterface.MoveX(dist, m_rateXY); // (movecommand);
             }
             catch (Exception ex)
             {
@@ -231,7 +231,7 @@ namespace UV_DLP_3D_Printer.Device_Interface
             try
             {
                 double dist = (double)e;
-                DevInterface.MoveY(dist, m_rateZ); // (movecommand);
+                DevInterface.MoveY(dist, m_rateXY); // (movecommand);
             }
             catch (Exception ex)
             {

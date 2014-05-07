@@ -110,7 +110,7 @@
             this.cMCZ.Location = new System.Drawing.Point(265, 3);
             this.cMCZ.Name = "cMCZ";
             this.cMCZ.ReturnValues = new float[] {
-        0.1F,
+        0.025F,
         1F,
         10F,
         100F};
@@ -359,7 +359,8 @@
             this.ctlParamZrate.GLBackgroundImage = null;
             this.ctlParamZrate.GLVisible = false;
             this.ctlParamZrate.GuiAnchor = null;
-            this.ctlParamZrate.Location = new System.Drawing.Point(3, 3);
+            this.ctlParamZrate.Location = new System.Drawing.Point(5, 5);
+            this.ctlParamZrate.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.ctlParamZrate.Name = "ctlParamZrate";
             this.ctlParamZrate.ReturnValues = new float[] {
         0F,
@@ -386,7 +387,8 @@
             this.ctlParamXYrate.GLBackgroundImage = null;
             this.ctlParamXYrate.GLVisible = false;
             this.ctlParamXYrate.GuiAnchor = null;
-            this.ctlParamXYrate.Location = new System.Drawing.Point(3, 39);
+            this.ctlParamXYrate.Location = new System.Drawing.Point(5, 45);
+            this.ctlParamXYrate.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.ctlParamXYrate.Name = "ctlParamXYrate";
             this.ctlParamXYrate.ReturnValues = new float[] {
         0F,
@@ -413,7 +415,8 @@
             this.ctlParamExtrudeRate.GLBackgroundImage = null;
             this.ctlParamExtrudeRate.GLVisible = false;
             this.ctlParamExtrudeRate.GuiAnchor = null;
-            this.ctlParamExtrudeRate.Location = new System.Drawing.Point(3, 75);
+            this.ctlParamExtrudeRate.Location = new System.Drawing.Point(5, 85);
+            this.ctlParamExtrudeRate.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.ctlParamExtrudeRate.Name = "ctlParamExtrudeRate";
             this.ctlParamExtrudeRate.ReturnValues = new float[] {
         0F,

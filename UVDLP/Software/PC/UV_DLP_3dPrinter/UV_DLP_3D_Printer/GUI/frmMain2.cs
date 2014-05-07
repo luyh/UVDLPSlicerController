@@ -10,6 +10,7 @@ using UV_DLP_3D_Printer.GUI.CustomGUI;
 using System.IO;
 using UV_DLP_3D_Printer.Slicing;
 using UV_DLP_3D_Printer._3DEngine;
+using UV_DLP_3D_Printer.Device_Interface;
 
 namespace UV_DLP_3D_Printer.GUI
 {
@@ -28,12 +29,14 @@ namespace UV_DLP_3D_Printer.GUI
         public string m_appname = "Creation Workshop";
         //frmDLP m_frmdlp = new frmDLP();
         frmSlice m_frmSlice = new frmSlice();
+        public ManualControl m_manctl;
 
         public frmMain2()
         {
             InitializeComponent();
             m_viewtype = eViewTypes.eNone;
             UVDLPApp.Instance().m_mainform = this;
+            m_manctl = ManualControl.Instance(); // late intialization happens here after the UVDLP app Singleton is initiated.
 
             ctlTitle3dView.Checked = true; // set it as checked
             ctlTitle3dView_Click(null, null); // and click the button
@@ -834,12 +837,14 @@ namespace UV_DLP_3D_Printer.GUI
                         MessageBox.Show("No GCode file, cannot begin build");
                         return;
                     }
+                    /* remove non-uvdlp gcode check for now - dean piper special..
                     // not a UV DLP GCode file
                     if (UVDLPApp.Instance().m_gcode.IsUVDLPGCode() == false)
                     {
                         MessageBox.Show("Not a UV DLP GCode file\r\nCannot begin build\r\nPossibly wrong slicer used");
                         return;
                     }
+                     */ 
                     UVDLPApp.Instance().m_buildmgr.StartPrint(UVDLPApp.Instance().m_slicefile, UVDLPApp.Instance().m_gcode);
 
                 }

@@ -186,7 +186,7 @@ namespace UV_DLP_3D_Printer
                     sf.m_mode = SliceFile.SFMode.eImmediate;
                     UVDLPApp.Instance().m_slicer.SliceFile = sf; // wasn't set
                 }
-                
+                //create new list for each layer to hold unsupported regions
                 List<UnsupportedRegions> lstunsup = new List<UnsupportedRegions>();
                 List<Object3d> lstsupports = new List<Object3d>(); // final list of supports
 
@@ -331,7 +331,7 @@ namespace UV_DLP_3D_Printer
                 foreach (UnsupportedRegions region in lstunsup)
                 {
                     Support s = new Support();
-                    Point3d center = region.Center();
+                    Point3d center = region.Center(); // taking the center of the region is a naive approach 
                     float lz = center.z;
                     AddNewSupport(center.x, center.y, center.z, scnt++, null, lstsupports);
                     //region.ply.m_derived.

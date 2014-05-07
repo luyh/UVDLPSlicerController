@@ -120,7 +120,9 @@ namespace UV_DLP_3D_Printer
                 m_driver.DeviceStatus += new DeviceDriver.DeviceStatusEvent(DriverDeviceStatusEvent);
             }
         }
-
+        /*
+         Adds a new projector driver serial port
+         */
         public void AddDriver(DeviceDriver d)
         {
             m_lstprojectors.Add(d);
@@ -128,6 +130,9 @@ namespace UV_DLP_3D_Printer
             d.DataReceived += new DeviceDriver.DataReceivedEvent(DriverDataReceivedEvent);
             d.DeviceStatus += new DeviceDriver.DeviceStatusEvent(DriverDeviceStatusEvent);
         }
+        /*
+         R4emove a projector driver serial port
+         */
         public void RemoveAllProjDrivers() 
         {
             foreach (DeviceDriver d in m_lstprojectors) 
@@ -164,12 +169,12 @@ namespace UV_DLP_3D_Printer
             d.DeviceStatus -= new DeviceDriver.DeviceStatusEvent(DriverDeviceStatusEvent);
         }
          * */
-        /*
+        
         public DeviceDriver GetDriver(int i) 
         {
             return m_lstprojectors[i];
         }
-         * */
+        
         /*
         // get and set the printdriver
         public DeviceDriver[] DriverProjector

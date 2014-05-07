@@ -26,6 +26,7 @@ using CreationWorkshop.Licensing;
 using UV_DLP_3D_Printer.GUI.CustomGUI;
 using UV_DLP_3D_Printer.GUI;
 
+
 namespace UV_DLP_3D_Printer
 {
     public enum eAppEvent
@@ -137,7 +138,7 @@ namespace UV_DLP_3D_Printer
             m_plugins = new List<PluginEntry>(); // list of user plug-ins
             m_undoer = new Undoer();
             m_2d_graphics = new C2DGraphics();
-            m_gui_config = new GuiConfig();
+            m_gui_config = new GuiConfig();            
         }
 
         public enum Platform

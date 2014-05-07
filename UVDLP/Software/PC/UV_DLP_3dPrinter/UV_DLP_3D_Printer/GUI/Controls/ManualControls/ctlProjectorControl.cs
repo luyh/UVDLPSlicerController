@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using UV_DLP_3D_Printer.GUI.CustomGUI;
 using UV_DLP_3D_Printer.Configs;
+using UV_DLP_3D_Printer.Drivers;
 
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
@@ -165,7 +166,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             try
             {
-                /*
+                
                 // get the index from the combo box
                 int idx = cmbCommands.SelectedIndex;
                 if (idx == -1) return;
@@ -173,9 +174,21 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 byte[] dat = cmd.GetBytes();
                 if (dat != null)
                 {
-                    UVDLPApp.Instance().m_deviceinterface.DriverProjector.Write(dat, dat.Length);
-                }
-                 * */
+                    int idx2 = cmbDisplays.SelectedIndex;
+                    if (idx2 == -1) return;
+                    MonitorConfig mc = UVDLPApp.Instance().m_printerinfo.m_lstMonitorconfigs[idx2];
+                    //mc.m_displayconnection.
+                    //get the correct projector driver
+                    DeviceDriver prjdrv = UVDLPApp.Instance().m_deviceinterface.GetDriver(idx2);
+                    if (prjdrv.Connected)
+                    {
+                        prjdrv.Write(dat, dat.Length); // write it                       
+                    }
+                    else 
+                    {
+                        MessageBox.Show("Projector Driver Not connected");
+                    }
+                }                
             }
             catch (Exception ex)
             {

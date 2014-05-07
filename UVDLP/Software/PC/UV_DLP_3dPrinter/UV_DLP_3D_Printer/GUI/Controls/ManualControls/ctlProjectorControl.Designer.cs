@@ -30,7 +30,6 @@
         {
             this.cmdSendProj = new System.Windows.Forms.Button();
             this.cmbCommands = new System.Windows.Forms.ComboBox();
-            this.cmdConnect = new System.Windows.Forms.Button();
             this.cmdEditPC = new System.Windows.Forms.Button();
             this.cmdHide = new System.Windows.Forms.Button();
             this.cmdShowBlank = new System.Windows.Forms.Button();
@@ -43,7 +42,7 @@
             // 
             // cmdSendProj
             // 
-            this.cmdSendProj.Location = new System.Drawing.Point(202, 129);
+            this.cmdSendProj.Location = new System.Drawing.Point(202, 98);
             this.cmdSendProj.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdSendProj.Name = "cmdSendProj";
             this.cmdSendProj.Size = new System.Drawing.Size(67, 23);
@@ -55,26 +54,15 @@
             // cmbCommands
             // 
             this.cmbCommands.FormattingEnabled = true;
-            this.cmbCommands.Location = new System.Drawing.Point(3, 129);
+            this.cmbCommands.Location = new System.Drawing.Point(3, 98);
             this.cmbCommands.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbCommands.Name = "cmbCommands";
-            this.cmbCommands.Size = new System.Drawing.Size(193, 21);
+            this.cmbCommands.Size = new System.Drawing.Size(193, 24);
             this.cmbCommands.TabIndex = 5;
-            // 
-            // cmdConnect
-            // 
-            this.cmdConnect.Location = new System.Drawing.Point(139, 36);
-            this.cmdConnect.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdConnect.Name = "cmdConnect";
-            this.cmdConnect.Size = new System.Drawing.Size(130, 30);
-            this.cmdConnect.TabIndex = 4;
-            this.cmdConnect.Text = "Connect Display";
-            this.cmdConnect.UseVisualStyleBackColor = true;
-            this.cmdConnect.Click += new System.EventHandler(this.cmdConnect_Click);
             // 
             // cmdEditPC
             // 
-            this.cmdEditPC.Location = new System.Drawing.Point(3, 70);
+            this.cmdEditPC.Location = new System.Drawing.Point(139, 36);
             this.cmdEditPC.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmdEditPC.Name = "cmdEditPC";
             this.cmdEditPC.Size = new System.Drawing.Size(130, 30);
@@ -132,7 +120,6 @@
             this.flowLayoutPanel1.Controls.Add(this.cmdShowCalib);
             this.flowLayoutPanel1.Controls.Add(this.cmdShowBlank);
             this.flowLayoutPanel1.Controls.Add(this.cmdHide);
-            this.flowLayoutPanel1.Controls.Add(this.cmdConnect);
             this.flowLayoutPanel1.Controls.Add(this.cmdEditPC);
             this.flowLayoutPanel1.Controls.Add(this.cmbDisplays);
             this.flowLayoutPanel1.Controls.Add(this.cmbCommands);
@@ -145,10 +132,10 @@
             // cmbDisplays
             // 
             this.cmbDisplays.FormattingEnabled = true;
-            this.cmbDisplays.Location = new System.Drawing.Point(3, 104);
+            this.cmbDisplays.Location = new System.Drawing.Point(3, 70);
             this.cmbDisplays.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbDisplays.Name = "cmbDisplays";
-            this.cmbDisplays.Size = new System.Drawing.Size(193, 21);
+            this.cmbDisplays.Size = new System.Drawing.Size(193, 24);
             this.cmbDisplays.TabIndex = 7;
             this.cmbDisplays.SelectedIndexChanged += new System.EventHandler(this.cmbDisplays_SelectedIndexChanged);
             // 
@@ -168,7 +155,6 @@
 
         private System.Windows.Forms.Button cmdSendProj;
         private System.Windows.Forms.ComboBox cmbCommands;
-        private System.Windows.Forms.Button cmdConnect;
         private System.Windows.Forms.Button cmdEditPC;
         private System.Windows.Forms.Button cmdHide;
         private System.Windows.Forms.Button cmdShowBlank;

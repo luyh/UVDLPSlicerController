@@ -1,7 +1,19 @@
 ﻿
 ToDo:
+- In 3d view, make the left and right side parent control panels vertically scroll, (may need to override the flowpanel)
+- serial port auto-detect
+- allow importing a set of images (png,bmp) along with a layer height. Generate a GCode file and allow printing from imported.
+- In the machine configuration screen, allow the user to specify the visible machine controls
+- Allow selected model to be displayed either with a bounding box, or with a selected color,
+    this would imply that there is a non-selected color (probably grey).
+- Fix the Adaptive support generation.
+- Allow projector controls in the GCode sections (<PrjCmd , MonitorID , 'cmdname' >) - this will allow users to turn on/off projector during prints.
+- Add class to launch/ wait for an external process 
+- Make platform walls light up when objects are not fully enclosed in platform
+- add a base (flat cube / cylinder) option in support generation
+- add additonal anti-aliasing re-sampling options other than bi-cubic.
 
-XML system to add/remove/slin controls in the following areas:
+XML system to add/remove controls in the following areas:
 	Top panel
 	Top Lower
 	Left on 3d view
@@ -10,12 +22,9 @@ XML system to add/remove/slin controls in the following areas:
 	in any of the major panels
 
 
-Copy the layout of matter control.
- expanding controls, clean layout, 
 better hierchachal xml panels - 
-panel layout manager (docking / free position)
 The panels/controls can be defined by coding a new control, or defining xml guidef docs
-the part library and view is a nice touch - very handy!
+-part library and view is a nice touch - very handy!
 
  Load Models, 
  auto layout
@@ -29,10 +38,7 @@ the part library and view is a nice touch - very handy!
 	
 	
 -in the slicing configuration screen,
-	group icons on the bottom panel so that the on/off visibilty switches of the panels	
--Make the log view only visible by default in the debug build
-		
--Make platform walls light up when objects are not fully enclosed in platform
+	group icons on the bottom panel so that the on/off visibilty switches of the panels			
 
 support generation
 	2d/3d
@@ -47,10 +53,8 @@ USF Universal Slice File
 SLC File
 SSL Statasys Layer File
 
-
 GCode reference help section loaded from file
 
-Add class to launch/ wait for an external process
 Firmware upload via AVRDude
 
 support for powder based printers
