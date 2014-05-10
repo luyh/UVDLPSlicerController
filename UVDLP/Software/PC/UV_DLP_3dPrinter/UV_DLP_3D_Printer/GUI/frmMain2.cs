@@ -30,6 +30,7 @@ namespace UV_DLP_3D_Printer.GUI
         //frmDLP m_frmdlp = new frmDLP();
         frmSlice m_frmSlice = new frmSlice();
         public ManualControl m_manctl;
+        int rightToolsWidth = 0;
 
         public frmMain2()
         {
@@ -969,6 +970,17 @@ namespace UV_DLP_3D_Printer.GUI
                     UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
                 }
             }
+        }
+
+        private void flowLayoutPanel1_ClientSizeChanged(object sender, EventArgs e)
+        {
+            if (rightToolsWidth == 0)
+                rightToolsWidth = flowLayoutPanel1.Width;
+            int newwidth = rightToolsWidth;
+            if (flowLayoutPanel1.VerticalScroll.Visible)
+                newwidth = rightToolsWidth + flowLayoutPanel1.Width - flowLayoutPanel1.ClientSize.Width;
+            if (flowLayoutPanel1.Width != newwidth)
+                flowLayoutPanel1.Width = newwidth;
         }
     }
 }
