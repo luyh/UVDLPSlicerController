@@ -33,9 +33,11 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.buttEnableTransparency = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttShowSlice = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.buttBoundingBox = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.buttShowConsole = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.buttBoundingBox = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttSelOutline = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttSelColor = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -78,7 +80,7 @@
             this.flowLayoutPanel1.BackColor = System.Drawing.Color.RoyalBlue;
             this.flowLayoutPanel1.Controls.Add(this.buttEnableTransparency);
             this.flowLayoutPanel1.Controls.Add(this.buttShowSlice);
-            this.flowLayoutPanel1.Controls.Add(this.buttBoundingBox);
+            this.flowLayoutPanel1.Controls.Add(this.buttShowConsole);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 54);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -131,39 +133,6 @@
             this.buttShowSlice.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttShowSlice.Click += new System.EventHandler(this.buttShowSlice_Click);
             // 
-            // buttBoundingBox
-            // 
-            this.buttBoundingBox.BackColor = System.Drawing.Color.Navy;
-            this.buttBoundingBox.Checked = false;
-            this.buttBoundingBox.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
-            this.buttBoundingBox.Gapx = 5;
-            this.buttBoundingBox.Gapy = 5;
-            this.buttBoundingBox.GLBackgroundImage = null;
-            this.buttBoundingBox.GLImage = null;
-            this.buttBoundingBox.GLVisible = false;
-            this.buttBoundingBox.GuiAnchor = null;
-            this.buttBoundingBox.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.buttBoundingBox.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttBoundingBox;
-            this.buttBoundingBox.Location = new System.Drawing.Point(111, 5);
-            this.buttBoundingBox.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
-            this.buttBoundingBox.Name = "buttBoundingBox";
-            this.buttBoundingBox.Size = new System.Drawing.Size(48, 48);
-            this.buttBoundingBox.StyleName = null;
-            this.buttBoundingBox.TabIndex = 25;
-            this.ctlToolTip1.SetToolTip(this.buttBoundingBox, "Show bounding box\r\naround selected objects");
-            this.buttBoundingBox.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.buttBoundingBox.Click += new System.EventHandler(this.buttBoundingBox_Click);
-            // 
-            // flowLayoutPanel3
-            // 
-            this.flowLayoutPanel3.BackColor = System.Drawing.Color.RoyalBlue;
-            this.flowLayoutPanel3.Controls.Add(this.buttShowConsole);
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 115);
-            this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(164, 58);
-            this.flowLayoutPanel3.TabIndex = 5;
-            // 
             // buttShowConsole
             // 
             this.buttShowConsole.BackColor = System.Drawing.Color.Navy;
@@ -177,8 +146,8 @@
             this.buttShowConsole.GuiAnchor = null;
             this.buttShowConsole.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttShowConsole.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttConsole;
-            this.buttShowConsole.Location = new System.Drawing.Point(5, 5);
-            this.buttShowConsole.Margin = new System.Windows.Forms.Padding(5);
+            this.buttShowConsole.Location = new System.Drawing.Point(111, 5);
+            this.buttShowConsole.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
             this.buttShowConsole.Name = "buttShowConsole";
             this.buttShowConsole.Size = new System.Drawing.Size(48, 48);
             this.buttShowConsole.StyleName = null;
@@ -186,6 +155,87 @@
             this.ctlToolTip1.SetToolTip(this.buttShowConsole, "Show Console");
             this.buttShowConsole.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttShowConsole.Click += new System.EventHandler(this.buttShowConsole_Click);
+            // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.BackColor = System.Drawing.Color.RoyalBlue;
+            this.flowLayoutPanel3.Controls.Add(this.buttBoundingBox);
+            this.flowLayoutPanel3.Controls.Add(this.buttSelOutline);
+            this.flowLayoutPanel3.Controls.Add(this.buttSelColor);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 115);
+            this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(164, 58);
+            this.flowLayoutPanel3.TabIndex = 5;
+            // 
+            // buttBoundingBox
+            // 
+            this.buttBoundingBox.BackColor = System.Drawing.Color.Navy;
+            this.buttBoundingBox.Checked = false;
+            this.buttBoundingBox.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.buttBoundingBox.Gapx = 5;
+            this.buttBoundingBox.Gapy = 5;
+            this.buttBoundingBox.GLBackgroundImage = null;
+            this.buttBoundingBox.GLImage = null;
+            this.buttBoundingBox.GLVisible = false;
+            this.buttBoundingBox.GuiAnchor = null;
+            this.buttBoundingBox.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttBoundingBox.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttBoundingBox;
+            this.buttBoundingBox.Location = new System.Drawing.Point(5, 5);
+            this.buttBoundingBox.Margin = new System.Windows.Forms.Padding(5);
+            this.buttBoundingBox.Name = "buttBoundingBox";
+            this.buttBoundingBox.Size = new System.Drawing.Size(48, 48);
+            this.buttBoundingBox.StyleName = null;
+            this.buttBoundingBox.TabIndex = 25;
+            this.ctlToolTip1.SetToolTip(this.buttBoundingBox, "Mark selected objects\r\nwith a bounding box");
+            this.buttBoundingBox.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttBoundingBox.Click += new System.EventHandler(this.buttBoundingBox_Click);
+            // 
+            // buttSelOutline
+            // 
+            this.buttSelOutline.BackColor = System.Drawing.Color.Navy;
+            this.buttSelOutline.Checked = false;
+            this.buttSelOutline.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.buttSelOutline.Gapx = 5;
+            this.buttSelOutline.Gapy = 5;
+            this.buttSelOutline.GLBackgroundImage = null;
+            this.buttSelOutline.GLImage = null;
+            this.buttSelOutline.GLVisible = false;
+            this.buttSelOutline.GuiAnchor = null;
+            this.buttSelOutline.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttSelOutline.Image = global::UV_DLP_3D_Printer.Properties.Resources.SelOutline;
+            this.buttSelOutline.Location = new System.Drawing.Point(58, 5);
+            this.buttSelOutline.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
+            this.buttSelOutline.Name = "buttSelOutline";
+            this.buttSelOutline.Size = new System.Drawing.Size(48, 48);
+            this.buttSelOutline.StyleName = null;
+            this.buttSelOutline.TabIndex = 26;
+            this.ctlToolTip1.SetToolTip(this.buttSelOutline, "Mark selected objects\r\nwith an outline");
+            this.buttSelOutline.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttSelOutline.Click += new System.EventHandler(this.buttSelOutline_Click);
+            // 
+            // buttSelColor
+            // 
+            this.buttSelColor.BackColor = System.Drawing.Color.Navy;
+            this.buttSelColor.Checked = false;
+            this.buttSelColor.CheckImage = global::UV_DLP_3D_Printer.Properties.Resources.buttChecked;
+            this.buttSelColor.Gapx = 5;
+            this.buttSelColor.Gapy = 5;
+            this.buttSelColor.GLBackgroundImage = null;
+            this.buttSelColor.GLImage = null;
+            this.buttSelColor.GLVisible = false;
+            this.buttSelColor.GuiAnchor = null;
+            this.buttSelColor.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttSelColor.Image = global::UV_DLP_3D_Printer.Properties.Resources.SelShaded;
+            this.buttSelColor.Location = new System.Drawing.Point(111, 5);
+            this.buttSelColor.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
+            this.buttSelColor.Name = "buttSelColor";
+            this.buttSelColor.Size = new System.Drawing.Size(48, 48);
+            this.buttSelColor.StyleName = null;
+            this.buttSelColor.TabIndex = 27;
+            this.ctlToolTip1.SetToolTip(this.buttSelColor, "Mark selected objects\r\nwith a different shade");
+            this.buttSelColor.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.buttSelColor.Click += new System.EventHandler(this.buttSelColor_Click);
             // 
             // ctlToolTip1
             // 
@@ -220,5 +270,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
         private ctlImageButton buttShowConsole;
         private ctlTitle ctlTitle1;
+        private ctlImageButton buttSelOutline;
+        private ctlImageButton buttSelColor;
     }
 }

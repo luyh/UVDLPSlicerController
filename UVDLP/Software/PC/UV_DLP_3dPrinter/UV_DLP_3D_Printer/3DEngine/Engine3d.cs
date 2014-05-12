@@ -232,12 +232,20 @@ namespace Engine3D
                 GL.Disable(EnableCap.LineSmooth);
                 foreach (Object3d obj in m_objects)
                 {
+                    Color objColor = Color.Gray;
+                    if (UVDLPApp.Instance().m_appconfig.m_showShaded)
+                    {
+                        if (UVDLPApp.Instance().SelectedObject == obj)
+                            objColor = Color.DarkGreen;
+                        else if (obj.m_inSelectedList)
+                            objColor = Color.DarkKhaki;
+                    }
                     if (UVDLPApp.Instance().SelectedObject == obj) {
-                        obj.RenderGL(alpha, true, !UVDLPApp.Instance().m_appconfig.m_showBoundingBox);
+                        obj.RenderGL(alpha, true, UVDLPApp.Instance().m_appconfig.m_showOutline, objColor);
                     }
                     else 
                     {
-                        obj.RenderGL(alpha, false, !UVDLPApp.Instance().m_appconfig.m_showBoundingBox);
+                        obj.RenderGL(alpha, false, UVDLPApp.Instance().m_appconfig.m_showOutline, objColor);
                     }
                 }
                 GL.Disable(EnableCap.Lighting);

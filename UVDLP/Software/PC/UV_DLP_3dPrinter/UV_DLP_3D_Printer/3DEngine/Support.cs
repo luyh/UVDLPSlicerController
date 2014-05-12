@@ -322,7 +322,7 @@ namespace Engine3D
         }
 
 
-        public override void RenderGL(bool showalpha, bool selected, bool renderSelection)
+        public override void RenderGL(bool showalpha, bool selected, bool renderOutline, Color renderColor)
          {
              GL.Begin(PrimitiveType.Lines);//.LineStrip);
              GL.Color4(Color4.Red);
@@ -359,7 +359,7 @@ namespace Engine3D
                  GL.Vertex3(p.x, p.y, p.z);
              }
              GL.End();
-             base.RenderGL(showalpha, selected, renderSelection);
+             base.RenderGL(showalpha, selected, renderOutline, renderColor);
          }
     }
 }

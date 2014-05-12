@@ -324,13 +324,13 @@ namespace Engine3D
             return lstholes;
         }
         
-        public virtual void RenderGL(bool showalpha, bool selected, bool renderSelection)
+        public virtual void RenderGL(bool showalpha, bool selected, bool renderOutline, Color renderColor)
         {
             if (m_listid == -1)
             {
                 m_listid = GetListID();
                 GL.NewList(m_listid, ListMode.CompileAndExecute);
-                if (m_inSelectedList && renderSelection)
+                if (m_inSelectedList && renderOutline)
                 {
                     GL.Enable(EnableCap.StencilTest);
                     GL.StencilFunc(StencilFunction.Always, 1, 0xFF);
@@ -341,9 +341,9 @@ namespace Engine3D
                 }
                 foreach (Polygon poly in m_lstpolys)
                 {
-                    poly.RenderGL(this.m_wireframe, showalpha, poly.m_color);
+                    poly.RenderGL(this.m_wireframe, showalpha, renderColor != Color.Gray ? renderColor : poly.m_color);
                 }
-                if (m_inSelectedList && renderSelection)
+                if (m_inSelectedList && renderOutline)
                 {
                     GL.Disable(EnableCap.Lighting);
                     GL.StencilFunc(StencilFunction.Notequal, 1, 0xFF);

@@ -902,6 +902,20 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap SelOutline {
+            get {
+                object obj = ResourceManager.GetObject("SelOutline", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap SelShaded {
+            get {
+                object obj = ResourceManager.GetObject("SelShaded", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap slice {
             get {
                 object obj = ResourceManager.GetObject("slice", resourceCulture);

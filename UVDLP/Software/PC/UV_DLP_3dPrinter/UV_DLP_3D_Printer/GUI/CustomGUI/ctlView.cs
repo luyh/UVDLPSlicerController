@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using Engine3D;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
@@ -25,6 +26,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             mTreeViewHolder = null;
             //set some initial states
             buttBoundingBox.Checked = UVDLPApp.Instance().m_appconfig.m_showBoundingBox;
+            buttSelOutline.Checked = UVDLPApp.Instance().m_appconfig.m_showOutline;
+            buttSelColor.Checked = UVDLPApp.Instance().m_appconfig.m_showShaded;
             buttShowSlice.Checked = UVDLPApp.Instance().m_appconfig.m_viewslice3d;
             mLayerNumberScroll = null;
             mMessagePanelHolder = null;
@@ -125,8 +128,28 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         private void buttBoundingBox_Click(object sender, EventArgs e)
         {
-            UVDLPApp.Instance().m_appconfig.m_showBoundingBox = buttBoundingBox.Checked;
+            setSelectedObjectViewMode(true, false, false);
+        }
+
+        private void buttSelOutline_Click(object sender, EventArgs e)
+        {
+            setSelectedObjectViewMode(false, true, false);
+        }
+
+        private void buttSelColor_Click(object sender, EventArgs e)
+        {
+            setSelectedObjectViewMode(false, false, true);
+        }
+
+        private void setSelectedObjectViewMode(bool isBoundingBox, bool isOutline, bool isShaded)
+        {
+            UVDLPApp.Instance().m_appconfig.m_showBoundingBox = buttBoundingBox.Checked = isBoundingBox;
+            UVDLPApp.Instance().m_appconfig.m_showOutline = buttSelOutline.Checked = isOutline;
+            UVDLPApp.Instance().m_appconfig.m_showShaded = buttSelColor.Checked = isShaded;
             UVDLPApp.Instance().m_appconfig.Save(UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + UVDLPApp.m_appconfigname);
+            foreach (Object3d obj in UVDLPApp.Instance().SelectedObjectList)
+                obj.InvalidateList();
+
             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
         }
 
@@ -178,6 +201,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             flowLayoutPanel1.Width = flowLayoutPanel1.Parent.Width - 6;
             flowLayoutPanel3.Width = flowLayoutPanel3.Parent.Width - 6;
         }
+
 
     }
 }
