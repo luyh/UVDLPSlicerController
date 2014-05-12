@@ -1,17 +1,20 @@
 ﻿
 ToDo:
 - In 3d view, make the left and right side parent control panels vertically scroll, (may need to override the flowpanel)
+- Allow selected model to be displayed either with a bounding box, or with a selected color,
+    this would imply that there is a non-selected color (probably grey).
+
 - serial port auto-detect
 - allow importing a set of images (png,bmp) along with a layer height. Generate a GCode file and allow printing from imported.
 - In the machine configuration screen, allow the user to specify the visible machine controls
-- Allow selected model to be displayed either with a bounding box, or with a selected color,
-    this would imply that there is a non-selected color (probably grey).
 - Fix the Adaptive support generation.
 - Allow projector controls in the GCode sections (<PrjCmd , MonitorID , 'cmdname' >) - this will allow users to turn on/off projector during prints.
 - Add class to launch/ wait for an external process 
 - Make platform walls light up when objects are not fully enclosed in platform
 - add a base (flat cube / cylinder) option in support generation
 - add additonal anti-aliasing re-sampling options other than bi-cubic.
+- Ability to enable/disable licensed plug-ins
+	-keep a file list of plug-ins that have been licensed, save an enabled/disabled status, use that when loading plugins
 
 XML system to add/remove controls in the following areas:
 	Top panel
@@ -60,7 +63,21 @@ Firmware upload via AVRDude
 support for powder based printers
 
 Bugs**************************************
+Hey Steve,
+I'm using now always the RC5 but have still the problem with the command to move down. At the moment I write all commands on hand and so it works.
 
+But I have some possible amendments which would allow to handle the programm easier:
+
+    If you have the projector at the right side of your monitor and click on a model in the 3D-View the name is to long to display and is shown in the projector and so light some resin
+    In the 3D-View there is not enough space to open all command windows on the right side. There would be another design helpful like the CW13
+    I didn't figure out the function of the fifth value at the supports. What does it do?
+    At the Manuel G-Code Commands it would be nice to send the code with Enter
+    While the machine is printing and you look an other layer at the Slice View, the projector shows the layer your looking at and not the layer which the G-Code tells him. Here it comes to funny results.
+
+I know these are mistakes just for beauty and easier handling but I wanted to add them to the list for later updates.
+
+Looking forward to the next release of this creat programm. Do you know when it will start?
+Toby
 
 Improvement Requests:***************************
 

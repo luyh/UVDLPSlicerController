@@ -466,7 +466,7 @@
             "Adaptive"});
             this.cmbSupType.Location = new System.Drawing.Point(7, 25);
             this.cmbSupType.Name = "cmbSupType";
-            this.cmbSupType.Size = new System.Drawing.Size(147, 21);
+            this.cmbSupType.Size = new System.Drawing.Size(147, 24);
             this.cmbSupType.TabIndex = 35;
             this.cmbSupType.SelectedIndexChanged += new System.EventHandler(this.cmbSupType_SelectedIndexChanged);
             // 
@@ -681,7 +681,8 @@
             // 
             // ctlSupports
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.ctlTitle1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.progressTitle);

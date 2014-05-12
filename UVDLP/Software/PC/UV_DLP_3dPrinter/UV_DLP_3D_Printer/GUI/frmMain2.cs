@@ -947,6 +947,10 @@ namespace UV_DLP_3D_Printer.GUI
         }
         #endregion
 
+        public MenuStrip GetMenuStrip() 
+        {
+            return this.menuStrip1;
+        }
         private void testMachineControlToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form frm = new frmTest();
