@@ -36,6 +36,21 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             get { return UVDLPApp.Instance().m_callbackhandler; }
         }
 
+        /// <summary>
+        /// This changes the visibility of the components on the screen
+        /// </summary>
+        public string ComponentSupport 
+        {
+            get 
+            {
+                return mComponentSupport;
+            }
+            set 
+            {
+                mComponentSupport = value;
+                UpdateComponentDisplay(); 
+            }
+        }
         void UpdateComponentDisplay()
         {
             cMCExtruder.Visible = false;

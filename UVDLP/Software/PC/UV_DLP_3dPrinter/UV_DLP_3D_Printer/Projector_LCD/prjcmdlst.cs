@@ -21,7 +21,24 @@ namespace UV_DLP_3D_Printer
         {
             m_commands = new List<ProjectorCommand>();
         }
-
+        public ProjectorCommand FindByName(string name) 
+        {
+            try
+            {
+                foreach (ProjectorCommand pc in m_commands)
+                {
+                    if (pc.name.Equals(name))
+                    {
+                        return pc;
+                    }
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
+            return null;
+        }
         // load from xml file -SHS
         public bool Load(String filename)
         {

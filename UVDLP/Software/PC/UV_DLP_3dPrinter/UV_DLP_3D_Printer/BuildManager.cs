@@ -6,6 +6,8 @@ using System.Timers;
 using System.Drawing;
 using System.Threading;
 using UV_DLP_3D_Printer.Slicing;
+using UV_DLP_3D_Printer.Configs;
+using UV_DLP_3D_Printer.Drivers;
 
 namespace UV_DLP_3D_Printer
 {
@@ -364,6 +366,110 @@ namespace UV_DLP_3D_Printer
                 return 0;
             }            
         }
+
+        private void SendProjCmd(MonitorConfig mc, ProjectorCommand pc)
+        {
+            try
+            {
+                //send the command
+                if (mc.m_displayconnectionenabled == false)
+                {
+                    DebugLogger.Instance().LogWarning("Display connection not enabled");
+                    return;
+                }
+                //Find the driver
+                DeviceDriver driver = UVDLPApp.Instance().m_deviceinterface.FindProjDriverByComName(mc.m_displayconnection.comname);
+                if (driver == null)
+                {
+                    DebugLogger.Instance().LogError("Driver not found");
+                    return;
+                }
+                if (driver.Connected == true)
+                {
+                    //send the command.
+                    driver.Write(pc.GetBytes(), pc.GetBytes().Length);
+                }
+                else
+                {
+                    DebugLogger.Instance().LogError("Driver not connected");
+                    return;
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
+     
+        }
+        /// <summary>
+        /// This function sends commands to the projector(s)
+        /// The format is <DispCmd> MonitorID , cmdname
+        /// Monitor ID can be any monitor on the system, or ALL
+        /// </summary>
+        /// <param name="line"></param>
+        private void PerformDisplayCommand(string line)
+        {
+            try
+            {
+                line = line.Replace(';', ' '); // remove comments
+                line = line.Replace(')', ' '); // remove comments
+                int bidx = line.IndexOf('>');
+                if (bidx == -1) 
+                {
+                    DebugLogger.Instance().LogError("Improperly formated display command");
+                    return;
+                }
+                string ss1 = line.Substring(bidx+1);
+                string[] lines = ss1.Split(',');
+                if (lines.Length != 2) 
+                {
+                    DebugLogger.Instance().LogError("Improperly formated display command");
+                    return;                
+                }
+                string monname = lines[0].Trim();
+                string cmdname = lines[1].Trim();
+                //get the command name
+                ProjectorCommand pc = null;
+                pc = UVDLPApp.Instance().m_proj_cmd_lst.FindByName(cmdname);
+                if (pc == null) 
+                {
+                    DebugLogger.Instance().LogError("Could not find Display Command " + cmdname);
+                    return;
+                }
+                // get the monitor ID
+                if (monname.Equals("All"))
+                {
+                    //iterate through all configured monitors in machine monitor list
+                    foreach (MonitorConfig mc in UVDLPApp.Instance().m_printerinfo.m_lstMonitorconfigs) 
+                    {
+                        SendProjCmd(mc, pc);
+                    }
+                }
+                else 
+                {
+                    MonitorConfig mc = UVDLPApp.Instance().m_printerinfo.FindMonitorByName(monname);
+                    if (mc != null)
+                    {
+                        SendProjCmd(mc, pc);
+                    }
+                    else 
+                    {
+                        DebugLogger.Instance().LogError("Monitor ID " + monname + " not found");
+                        return;
+                    }
+                }
+                
+                // get the commands name
+                //find the command in the projector command list
+                // make sure the com port for the projector is open
+                //send the command to the projector over serial
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
+        }
+
         /*
          This is the thread that controls the build process
          * it needs to read the lines of gcode, one by one
@@ -434,6 +540,10 @@ namespace UV_DLP_3D_Printer
                                     m_state = STATE_WAITING_FOR_LAYER;
                                     continue;
                                 }
+                                else if (line.Contains("<DispCmd>"))  // display command
+                                {
+                                    PerformDisplayCommand(line);
+                                }
                                 else if (line.Contains("<Slice> "))//get the slice number
                                 {
                                     int layer = getvarfromline(line);
@@ -461,7 +571,7 @@ namespace UV_DLP_3D_Printer
                                                 MakeBlank(m_sf.XRes, m_sf.YRes);
                                             }
                                             bmp = m_blankimage;
-                                        }                                        
+                                        }
                                         curtype = BuildManager.SLICE_BLANK;
                                     }
                                     else

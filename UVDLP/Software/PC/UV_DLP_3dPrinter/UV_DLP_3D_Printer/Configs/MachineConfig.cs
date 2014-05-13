@@ -65,7 +65,24 @@ namespace UV_DLP_3D_Printer
             string retstr = xh.GetString(mc, varname,"");
             return retstr;        
         }
-
+        public MonitorConfig FindMonitorByName(string monid) 
+        {
+            try
+            {
+                foreach (MonitorConfig mc in m_lstMonitorconfigs) 
+                {
+                    if (mc.Monitorid.Equals(monid)) 
+                    {
+                        return mc;
+                    }
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
+            return null;
+        }
         public bool Load(string filename)
         {
             m_filename = filename;

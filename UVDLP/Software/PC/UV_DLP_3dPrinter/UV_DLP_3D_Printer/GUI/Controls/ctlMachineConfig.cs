@@ -121,18 +121,30 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         /// <param name="e"></param>
         private void cmdOK_Click(object sender, EventArgs e)
         {
-            if (GetData())
+            try
             {
-                //UVDLPApp.Instance().SaveCurrentMachineConfig();
-                m_config.Save(m_config.m_filename);
-                // if its the current used config, update the system
-                if (Path.GetFileNameWithoutExtension(m_config.m_filename) == cmbMachineProfiles.SelectedItem.ToString())
+                if (GetData())
                 {
-                    ConfigUpdated(m_config.m_filename);
+                    //UVDLPApp.Instance().SaveCurrentMachineConfig();
+                    m_config.Save(m_config.m_filename);
+                    // if its the current used config, update the system
+                    if (Path.GetFileNameWithoutExtension(m_config.m_filename) == cmbMachineProfiles.SelectedItem.ToString())
+                    {
+                        ConfigUpdated(m_config.m_filename);
+                    }
+                    // Close();
+                    UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eMachineConfigChanged, "");
                 }
-               // Close();
-                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eMachineConfigChanged, "");
+                if (m_config.m_lstMonitorconfigs.Count == 0) 
+                {
+                    MessageBox.Show("You Must Configure at least 1 Display Device");
+                }
             }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
+
         }
         private void FillMonitors()
         {
@@ -159,37 +171,50 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         }
         private void FillConfiguredDisplays() 
         {
-            lbConfigured.Items.Clear();
-            if (m_config.m_lstMonitorconfigs.Count == 1)
+            try
             {
-                // if there is only 1 configured monitor, then we will set the res to that
-                lblMulti.Visible = false;
-                cmbMultiSel.Visible = false;
-                int xr = (int)m_config.m_lstMonitorconfigs[0].m_XDLPRes;
-                int yr = (int)m_config.m_lstMonitorconfigs[0].m_YDLPRes;
-                txtXRes.Text = xr.ToString();
-                txtYRes.Text = yr.ToString();
-            }
-            else 
-            {
-                if (m_config.m_lstMonitorconfigs.Count != 0)
+                lbConfigured.Items.Clear();
+                if (m_config.m_lstMonitorconfigs.Count == 1)
                 {
-                    lblMulti.Visible = true;
-                    cmbMultiSel.Visible = true;
+                    // if there is only 1 configured monitor, then we will set the res to that
+                    lblMulti.Visible = false;
+                    cmbMultiSel.Visible = false;
+                    int xr = (int)m_config.m_lstMonitorconfigs[0].m_XDLPRes;
+                    int yr = (int)m_config.m_lstMonitorconfigs[0].m_YDLPRes;
+                    txtXRes.Text = xr.ToString();
+                    txtYRes.Text = yr.ToString();
                 }
-            
+                else
+                {
+                    if (m_config.m_lstMonitorconfigs.Count != 0)
+                    {
+                        lblMulti.Visible = true;
+                        cmbMultiSel.Visible = true;
+                    }
+
+                }
+                foreach (Configs.MonitorConfig mc in m_config.m_lstMonitorconfigs)
+                {
+                    //lbConfigured.Items.Add(mc.Monitorid);
+                    string sn = CleanScreenName(mc.Monitorid);
+                    sn = CleanMonitorString(sn);
+                    int xr = (int)mc.m_XDLPRes;
+                    int yr = (int)mc.m_YDLPRes;
+                    string wh = xr.ToString() + "*" + yr.ToString();
+                    lbConfigured.Items.Add(sn + " " + wh);
+                }
+                cmbMultiSel_SelectedIndexChanged(null, null);
+                //now select the first monitor in this list (if one is available)
+                if (lbConfigured.Items.Count > 0)
+                {
+                    lbConfigured.SelectedIndex = 0;
+                }
             }
-            foreach (Configs.MonitorConfig mc in m_config.m_lstMonitorconfigs) 
+            catch (Exception ex) 
             {
-                //lbConfigured.Items.Add(mc.Monitorid);
-                string sn = CleanScreenName(mc.Monitorid);
-                sn = CleanMonitorString(sn);
-                int xr = (int)mc.m_XDLPRes;
-                int yr = (int)mc.m_YDLPRes;
-                string wh = xr.ToString() + "*" + yr.ToString();
-                lbConfigured.Items.Add(sn + " " +wh);
+                DebugLogger.Instance().LogError(ex);
             }
-            cmbMultiSel_SelectedIndexChanged(null, null);
+
         }
         private void cmdRefreshMonitors_Click(object sender, EventArgs e)
         {

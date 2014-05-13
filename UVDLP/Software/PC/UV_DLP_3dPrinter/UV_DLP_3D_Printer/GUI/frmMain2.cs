@@ -959,6 +959,8 @@ namespace UV_DLP_3D_Printer.GUI
 
         private void testSaveSceneToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            saveFileDialog1.Filter = "Scene files (*.zip)|*.zip";
+            saveFileDialog1.FilterIndex = 0;
             if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) 
             {
                 Scene.Instance().Save(saveFileDialog1.FileName);                

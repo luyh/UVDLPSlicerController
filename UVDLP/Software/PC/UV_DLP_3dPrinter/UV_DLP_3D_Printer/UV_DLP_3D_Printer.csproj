@@ -168,12 +168,6 @@
     <Compile Include="GUI\Controls\ctlMachineConfig.Designer.cs">
       <DependentUpon>ctlMachineConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Controls\ManualControls\ctlMachineControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Controls\ManualControls\ctlMachineControl.Designer.cs">
-      <DependentUpon>ctlMachineControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\Controls\ManualControls\ctlMainManual.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -497,9 +491,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\ctlMachineConfig.resx">
       <DependentUpon>ctlMachineConfig.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Controls\ManualControls\ctlMachineControl.resx">
-      <DependentUpon>ctlMachineControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\ctlSliceView.resx">
       <DependentUpon>ctlSliceView.cs</DependentUpon>

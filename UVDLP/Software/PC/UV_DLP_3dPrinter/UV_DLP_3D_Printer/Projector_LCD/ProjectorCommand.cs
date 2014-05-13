@@ -9,7 +9,7 @@ namespace UV_DLP_3D_Printer
     [Serializable]
     public class ProjectorCommand
     {
-        public string command;
+        public string command; // the hex-encoded string
         public bool hex; // hex or ascii
         public string name; // the name of this command
         
@@ -32,33 +32,5 @@ namespace UV_DLP_3D_Printer
             hex = false;
             name = "none";
         }
-        /*
-        public bool Save(StreamWriter sw) 
-        {
-            try
-            {
-                return true;
-            }
-            catch (Exception ex) 
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-
-            }
-            return false;
-        }
-        public bool Load(StreamReader sr)
-        {
-            try
-            {
-                return true;
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-
-            }
-            return false;
-        }
-         * */
     }
 }

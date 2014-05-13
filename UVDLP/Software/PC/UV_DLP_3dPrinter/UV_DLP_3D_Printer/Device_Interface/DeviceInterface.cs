@@ -120,6 +120,26 @@ namespace UV_DLP_3D_Printer
                 m_driver.DeviceStatus += new DeviceDriver.DeviceStatusEvent(DriverDeviceStatusEvent);
             }
         }
+
+        public DeviceDriver FindProjDriverByComName(string comname) 
+        {
+            try
+            {
+                foreach (DeviceDriver dd in m_lstprojectors) 
+                {
+                    ConnectionConfig cc = dd.m_config;
+                    if (cc.comname.Equals(comname)) 
+                    {
+                        return dd;
+                    }
+                }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
+            return null;
+        }
         /*
          Adds a new projector driver serial port
          */
