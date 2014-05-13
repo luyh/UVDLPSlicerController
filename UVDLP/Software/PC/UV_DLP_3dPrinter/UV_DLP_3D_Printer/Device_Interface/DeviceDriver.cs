@@ -41,7 +41,7 @@ namespace UV_DLP_3D_Printer.Drivers
         public DataReceivedEvent DataReceived; // a delegate to notify when data is received
         public DeviceStatusEvent DeviceStatus;
         public DriverMessageEvent DeviceMessages;
-        protected ConnectionConfig m_config; // the serial port configuration
+        public ConnectionConfig m_config; // the serial port configuration
         protected byte[] m_buffer;
 
         private Thread m_readthread = null;
@@ -132,6 +132,8 @@ namespace UV_DLP_3D_Printer.Drivers
         public abstract bool Disconnect();
         public abstract int Write(byte[] data, int len);
         public abstract int Write(String line);
+
+
         public void Configure(ConnectionConfig cc) 
         {
             m_config = cc;

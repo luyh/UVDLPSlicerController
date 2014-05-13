@@ -1,6 +1,6 @@
 ﻿
 ToDo:
-- Make platform walls light up when objects are not fully enclosed in platform
+
 - In the machine configuration screen, allow the user to specify the visible machine controls
 
 - serial port auto-detect
@@ -86,6 +86,7 @@ This would give people the possibility to use Other slicers like "VISCam RP" an 
 
 
 Completed**********************************
+* Make platform walls light up when objects are not fully enclosed in platform
 * Allow projector controls in the GCode sections (<PrjCmd , MonitorID , 'cmdname' >) - this will allow users to turn on/off projector during prints or make adjustments.
 * In 3d view, make the left and right side parent control panels vertically scroll, (may need to override the flowpanel)
 * Allow selected model to be displayed either with a bounding box, or with a selected color,
