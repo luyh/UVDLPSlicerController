@@ -10,6 +10,13 @@ Arial18
   orig: 208, 126
   offset: 0, 0
   index: -1
+WarnWall
+  rotate: false
+  xy: 210, 100
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
 cwlogo_round
   rotate: false
   xy: 0, 0
@@ -19,7 +26,7 @@ cwlogo_round
   index: -1
 cwlogo_tr
   rotate: false
-  xy: 210, 140
+  xy: 340, 140
   size: 88, 88
   orig: 88, 88
   offset: 0, 0
@@ -33,7 +40,7 @@ cwpanel
   index: -1
 glButtHome1
   rotate: false
-  xy: 300, 164
+  xy: 430, 164
   size: 64, 64
   orig: 64, 64
   offset: 0, 0

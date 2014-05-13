@@ -98,6 +98,7 @@
     <Compile Include="3DEngine\ModelLoaderType.cs" />
     <Compile Include="3DEngine\ModelLoaderAmf.cs" />
     <Compile Include="3DEngine\Primitives.cs" />
+    <Compile Include="3DEngine\Quad3d.cs" />
     <Compile Include="3DEngine\RTUtils.cs" />
     <Compile Include="3DEngine\Scene.cs" />
     <Compile Include="3DEngine\Support.cs" />

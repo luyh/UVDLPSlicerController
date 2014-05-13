@@ -8,6 +8,7 @@ using Engine3D;
 using UV_DLP_3D_Printer;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using UV_DLP_3D_Printer._3DEngine;
 namespace Engine3D
 {
     public delegate void ModelAdded(Object3d model);
@@ -17,6 +18,7 @@ namespace Engine3D
     {
         List<PolyLine3d> m_lines;
         public List<Object3d> m_objects;
+        public List<Quad3d> m_walls;
         public event ModelAdded ModelAddedEvent;
         public event ModelRemoved ModelRemovedEvent;
         public bool m_alpha;
@@ -25,6 +27,7 @@ namespace Engine3D
         {
             m_lines = new List<PolyLine3d>();
             m_objects = new List<Object3d>();
+            m_walls = new List<Quad3d>();
             m_alpha = false;
             //AddGrid(); // grid actually was created twice. -SHS
         }
@@ -103,6 +106,7 @@ namespace Engine3D
             m_lines = new List<PolyLine3d>();
             AddGrid();
             AddPlatCube();
+            AddPlatWalls();
         }
         public void AddGridLine(float x1, float y1, float x2, float y2, Color col)
         {
@@ -191,10 +195,70 @@ namespace Engine3D
 
             AddLine(new PolyLine3d(new Point3d(-X, Y, 0), new Point3d(-X, Y, Z), cubecol));
             AddLine(new PolyLine3d(new Point3d(-X, -Y, 0), new Point3d(-X, -Y, Z), cubecol));
-
-
-        
         }
+
+        void AddPlatWalls()
+        {
+            float platX, platY, platZ;
+            float X, Y, Z;
+            platX = (float)UVDLPApp.Instance().m_printerinfo.m_PlatXSize;
+            platY = (float)UVDLPApp.Instance().m_printerinfo.m_PlatYSize;
+            platZ = (float)UVDLPApp.Instance().m_printerinfo.m_PlatZSize;
+            X = platX / 2;
+            Y = platY / 2;
+            Z = platZ;
+            Quad3d q;
+
+            // right wall
+            q = new Quad3d("WarnWall");
+            q.SetPoint(0, X, Y, Z);
+            q.SetPoint(1, X, -Y, Z);
+            q.SetPoint(2, X, -Y, 0);
+            q.SetPoint(3, X, Y, 0);
+            m_walls.Add(q);
+
+            // left wall
+            q = new Quad3d("WarnWall");
+            q.SetPoint(0, -X, -Y, Z);
+            q.SetPoint(1, -X, Y, Z);
+            q.SetPoint(2, -X, Y, 0);
+            q.SetPoint(3, -X, -Y, 0);
+            m_walls.Add(q);
+
+            // front wall
+            q = new Quad3d("WarnWall");
+            q.SetPoint(0, X, -Y, Z);
+            q.SetPoint(1, -X, -Y, Z);
+            q.SetPoint(2, -X, -Y, 0);
+            q.SetPoint(3, X, -Y, 0);
+            m_walls.Add(q);
+
+            // back wall
+            q = new Quad3d("WarnWall");
+            q.SetPoint(0, -X, Y, Z);
+            q.SetPoint(1, X, Y, Z);
+            q.SetPoint(2, X, Y, 0);
+            q.SetPoint(3, -X, Y, 0);
+            m_walls.Add(q);
+
+            // top wall
+            q = new Quad3d("WarnWall");
+            q.SetPoint(0, X, Y, Z);
+            q.SetPoint(1, -X, Y, Z);
+            q.SetPoint(2, -X, -Y, Z);
+            q.SetPoint(3, X, -Y, Z);
+            m_walls.Add(q);
+
+            // bottom wall
+            q = new Quad3d("WarnWall");
+            q.SetPoint(0, X, -Y, 0);
+            q.SetPoint(1, -X, -Y, 0);
+            q.SetPoint(2, -X, Y, 0);
+            q.SetPoint(3, X, Y, 0);
+            m_walls.Add(q);
+ 
+        }
+
         public void RemoveAllObjects() 
         {
             m_objects = new List<Object3d>();
@@ -222,9 +286,38 @@ namespace Engine3D
             m_lines = new List<PolyLine3d>();
         }
 
+        void UpdateWallVisibility()
+        {
+            float platX, platY, platZ;
+            float X, Y, Z;
+            platX = (float)UVDLPApp.Instance().m_printerinfo.m_PlatXSize;
+            platY = (float)UVDLPApp.Instance().m_printerinfo.m_PlatYSize;
+            platZ = (float)UVDLPApp.Instance().m_printerinfo.m_PlatZSize;
+            X = platX / 2;
+            Y = platY / 2;
+            Z = platZ;
+            foreach (Quad3d q in m_walls)
+                q.visible = false;
+            foreach (Object3d obj in m_objects)
+            {
+                if (obj.m_max.x > X)
+                    m_walls[0].visible = true;
+                if (obj.m_min.x < -X)
+                    m_walls[1].visible = true;
+                if (obj.m_min.y < -Y)
+                    m_walls[2].visible = true;
+                if (obj.m_max.y > Y)
+                    m_walls[3].visible = true;
+                if (obj.m_max.z > Z)
+                    m_walls[4].visible = true;
+                if (obj.m_min.z < -0.1)
+                    m_walls[5].visible = true;
+            }
+        }
+
         public void RenderGL(bool alpha) 
         {
-
+            UpdateWallVisibility();
             try
             {
                 GL.Enable(EnableCap.Lighting);
@@ -256,6 +349,8 @@ namespace Engine3D
                 {
                     ply.RenderGL();
                 }
+
+                // render selection bounding box
                 if (UVDLPApp.Instance().m_appconfig.m_showBoundingBox && (UVDLPApp.Instance().SelectedObjectList != null))
                 {
                     GL.LineWidth(2);
@@ -269,6 +364,21 @@ namespace Engine3D
                         }
                         clr = Color.Orange;
                     }
+                }
+
+                // render walls if object is out of platform
+                // GL.CullFace(CullFaceMode.Back); // specify culling backfaces               
+                GL.CullFace(CullFaceMode.Front); // specify culling backfaces
+                foreach (Quad3d q in m_walls)
+                {
+                    if (q.visible)
+                        q.RenderGL();
+                }
+                GL.CullFace(CullFaceMode.Back); // specify culling backfaces
+                foreach (Quad3d q in m_walls)
+                {
+                    if (q.visible)
+                        q.RenderGL();
                 }
             }
             catch (Exception ex) 
