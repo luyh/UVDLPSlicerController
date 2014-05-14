@@ -885,6 +885,17 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             m_modelAnimTmr.Start();
         }
 
+        private void buttGLTop_Click(object sender, EventArgs e)
+        {
+            if (m_modelAnimTmr != null)
+                return;
+            m_camera.ResetViewAnim(0, -200, 0, 90, 20);
+            m_modelAnimTmr = new Timer();
+            m_modelAnimTmr.Interval = 25;
+            m_modelAnimTmr.Tick += new EventHandler(m_modelAnimTmr_Tick);
+            m_modelAnimTmr.Start();
+        }
+
         void m_modelAnimTmr_Tick(object sender, EventArgs e)
         {
             if (m_camera.AnimTick() == false)
@@ -1009,7 +1020,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         void UpdateButtonList()
         {
             // buttons
-            guiconf.AddButton("home", buttGlHome); 
+            guiconf.AddButton("home", buttGlHome);
+            guiconf.AddButton("top", buttGLTop);
             guiconf.AddButton("undo", buttUndo); 
             guiconf.AddButton("redo", buttRedo); 
             guiconf.AddControl("clayernum", numLayer);
@@ -1125,6 +1137,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 //sup.
             }
         }
+
 
         /*
        public void SetButtonStatus(bool stButtConnect, bool stButtDisconnect, bool stButtPlay, bool stButtStop, bool stButtPause)

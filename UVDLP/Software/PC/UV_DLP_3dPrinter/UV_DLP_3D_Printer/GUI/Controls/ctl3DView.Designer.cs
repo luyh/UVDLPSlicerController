@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.mainViewSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.buttGLTop = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttRedo = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.buttUndo = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.numLayer = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
@@ -49,6 +50,7 @@
             // 
             // mainViewSplitContainer.Panel2
             // 
+            this.mainViewSplitContainer.Panel2.Controls.Add(this.buttGLTop);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.buttRedo);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.buttUndo);
             this.mainViewSplitContainer.Panel2.Controls.Add(this.numLayer);
@@ -58,6 +60,28 @@
             this.mainViewSplitContainer.Size = new System.Drawing.Size(1200, 700);
             this.mainViewSplitContainer.SplitterDistance = 77;
             this.mainViewSplitContainer.TabIndex = 28;
+            // 
+            // buttGLTop
+            // 
+            this.buttGLTop.BackColor = System.Drawing.Color.Transparent;
+            this.buttGLTop.Checked = false;
+            this.buttGLTop.CheckImage = null;
+            this.buttGLTop.Gapx = 10;
+            this.buttGLTop.Gapy = 10;
+            this.buttGLTop.GLBackgroundImage = null;
+            this.buttGLTop.GLImage = "glTopView";
+            this.buttGLTop.GLVisible = false;
+            this.buttGLTop.GuiAnchor = null;
+            this.buttGLTop.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Right;
+            this.buttGLTop.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttDownward;
+            this.buttGLTop.Location = new System.Drawing.Point(69, 15);
+            this.buttGLTop.Name = "buttGLTop";
+            this.buttGLTop.Size = new System.Drawing.Size(48, 48);
+            this.buttGLTop.StyleName = null;
+            this.buttGLTop.TabIndex = 31;
+            this.ctlToolTip1.SetToolTip(this.buttGLTop, "Home");
+            this.buttGLTop.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
+            this.buttGLTop.Click += new System.EventHandler(this.buttGLTop_Click);
             // 
             // buttRedo
             // 
@@ -211,5 +235,6 @@
         private CustomGUI.ctlToolTip ctlToolTip1;
         private CustomGUI.ctlImageButton buttRedo;
         private ctlGL glControl1;
+        private CustomGUI.ctlImageButton buttGLTop;
     }
 }

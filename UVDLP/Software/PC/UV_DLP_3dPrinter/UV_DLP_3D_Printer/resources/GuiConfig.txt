@@ -4,6 +4,7 @@
 		<style backcolor="RoyalBlue" hovercolor="White" forecolor="#DCDCDC" checkcolor="#DCDCDC" presscolor="White" nimages="1" pressscale="92" gl="false"/>
 		<style name="glbutt1" backcolor="Transparent" hovercolor="Navy" forecolor="Navy" checkcolor="Navy" presscolor="White" nimages="1" hoverscale="106" gl="true"/>
 		<button name="home" dock="tr" x="10" y="100" image="glButtHome1" w="48" h="48" style="glbutt1"/>
+		<button name="top" dock="tr" x="10" y="160" image="glTopView" w="48" h="48" style="glbutt1"/>
 		<button name="undo" dock="tl" x="10" y="30" image="buttUndo" w="48" h="48"/>
 		<button name="redo" dock="tl" x="60" y="30" image="buttRedo" w="48" h="48"/>
 	</buttons>
