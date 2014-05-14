@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="3DEngine\ArcBall.cs" />
+    <Compile Include="3DEngine\AxisIndicator.cs" />
     <Compile Include="3DEngine\C2DGraphics.cs" />
     <Compile Include="3DEngine\CSG\CSG.cs" />
     <Compile Include="3DEngine\CSG\csgjs_csnode.cs" />

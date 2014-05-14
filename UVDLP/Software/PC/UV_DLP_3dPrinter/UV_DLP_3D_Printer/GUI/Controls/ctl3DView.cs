@@ -27,6 +27,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         Control m_selectedControl = null;
         Timer m_modelAnimTmr;
         public GLCamera m_camera;
+        public GLCamera m_axisCam;
         bool loaded = false;
         float m_ix = 1.0f, m_iy = 1.0f, m_iz = 2.0f;
         Engine3D.Vector3d m_isectnormal; // the normal at the intersection
@@ -35,6 +36,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         private int mdx, mdy;
         IGraphicsContext m_context = null;
         OpenTK.Matrix4 m_projection;
+        OpenTK.Matrix4 m_axisProjection;
         OpenTK.Matrix4 m_modelView;
         private bool firstTime = true;
         float m_savex, m_savey, m_saveh; // m_savez
@@ -62,6 +64,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             //SetupSceneTree();
             m_modelAnimTmr = null;
             m_camera = new GLCamera();
+            m_axisCam = new GLCamera();
             ResetCameraView();
             m_isectnormal = new Engine3D.Vector3d();
 
@@ -215,6 +218,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         public void ResetCameraView()
         {
             m_camera.ResetView(0, -200, 0, 20, 20);
+            m_axisCam.ResetView(0, -100, 0, 20, 0);
             UpdateView();
         }
 
@@ -254,7 +258,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             GL.LoadMatrix(ref m_projection);
             GL.MatrixMode(MatrixMode.Modelview);
             //GL.LoadIdentity();
-            GL.LoadMatrix(ref m_modelView);
+            //GL.LoadMatrix(ref m_modelView);
             m_camera.SetViewGL();
         }
 
@@ -277,6 +281,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 GL.CullFace(CullFaceMode.Back); // specify culling backfaces               
 
                 m_projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(0.55f, aspect, 1, 2000);
+                m_axisProjection = OpenTK.Matrix4.CreatePerspectiveOffCenter(-2 * aspect + 0.3f, 0.3f, -0.3f, 1.7f, 1, 2000);
                 m_modelView = OpenTK.Matrix4.LookAt(new OpenTK.Vector3(5, 0, -5), new OpenTK.Vector3(0, 0, 0), new OpenTK.Vector3(0, 0, 1));
                 
                 GL.ShadeModel(ShadingModel.Smooth); // tell it to shade smoothly
@@ -431,6 +436,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 //glControl1.SelectForePainting();
                 //DrawISect();
                 Render3dSlice();
+                RenderAxisIndicator();
+
                 GL.BindTexture(TextureTarget.Texture2D, mColorBuffer);
                 GL.CopyTexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba8, 0, 0, Width, Height, 0);
                 GL.BindTexture(TextureTarget.Texture2D, 0);
@@ -462,6 +469,18 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 ply.RenderGL();
             }
+        }
+
+        private void RenderAxisIndicator()
+        {
+            GL.Clear(ClearBufferMask.DepthBufferBit);
+            GL.Enable(EnableCap.Lighting);
+            GL.Enable(EnableCap.Light0);
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadMatrix(ref m_axisProjection);
+            GL.MatrixMode(MatrixMode.Modelview);
+            m_axisCam.SetViewGL();
+            UVDLPApp.Instance().Engine3D.RenderAxisIndicator();
         }
 
         private List<ISectData> TestHitTest(int X, int Y)
@@ -701,6 +720,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 m_camera.RotateRightFlat((float)dx);
                 m_camera.RotateUp((float)dy);
+                m_axisCam.RotateRightFlat((float)dx);
+                m_axisCam.RotateUp((float)dy);
+
                 UpdateView();
             }
             else if (mmdown)
@@ -879,6 +901,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             if (m_modelAnimTmr != null)
                 return;
             m_camera.ResetViewAnim(0, -200, 0, 20, 20);
+            m_axisCam.ResetViewAnim(0, -100, 0, 20, 0);
             m_modelAnimTmr = new Timer();
             m_modelAnimTmr.Interval = 25;
             m_modelAnimTmr.Tick += new EventHandler(m_modelAnimTmr_Tick);
@@ -890,6 +913,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             if (m_modelAnimTmr != null)
                 return;
             m_camera.ResetViewAnim(0, -200, 0, 90, 20);
+            m_axisCam.ResetViewAnim(0, -100, 0, 90, 0);
             m_modelAnimTmr = new Timer();
             m_modelAnimTmr.Interval = 25;
             m_modelAnimTmr.Tick += new EventHandler(m_modelAnimTmr_Tick);
@@ -898,7 +922,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         void m_modelAnimTmr_Tick(object sender, EventArgs e)
         {
-            if (m_camera.AnimTick() == false)
+            bool cameraon = m_camera.AnimTick();
+            bool axison = m_axisCam.AnimTick();
+            if ((cameraon == false) && (axison == false))
             {
                 m_modelAnimTmr.Stop();
                 m_modelAnimTmr = null;

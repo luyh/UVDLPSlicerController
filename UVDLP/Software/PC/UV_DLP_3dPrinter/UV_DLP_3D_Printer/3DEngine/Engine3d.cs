@@ -19,6 +19,7 @@ namespace Engine3D
         List<PolyLine3d> m_lines;
         public List<Object3d> m_objects;
         public List<Quad3d> m_walls;
+        protected AxisIndicator m_axisInd;
         public event ModelAdded ModelAddedEvent;
         public event ModelRemoved ModelRemovedEvent;
         public bool m_alpha;
@@ -27,8 +28,9 @@ namespace Engine3D
         {
             m_lines = new List<PolyLine3d>();
             m_objects = new List<Object3d>();
-            m_walls = new List<Quad3d>();
             m_alpha = false;
+            m_axisInd = new AxisIndicator();
+            m_axisInd.Create(14, 0.5f, 3, 5, 1.2f);
             //AddGrid(); // grid actually was created twice. -SHS
         }
         public void UpdateLists() 
@@ -200,63 +202,10 @@ namespace Engine3D
         void AddPlatWalls()
         {
             float platX, platY, platZ;
-            float X, Y, Z;
-            platX = (float)UVDLPApp.Instance().m_printerinfo.m_PlatXSize;
-            platY = (float)UVDLPApp.Instance().m_printerinfo.m_PlatYSize;
+            platX = (float)UVDLPApp.Instance().m_printerinfo.m_PlatXSize / 2;
+            platY = (float)UVDLPApp.Instance().m_printerinfo.m_PlatYSize / 2;
             platZ = (float)UVDLPApp.Instance().m_printerinfo.m_PlatZSize;
-            X = platX / 2;
-            Y = platY / 2;
-            Z = platZ;
-            Quad3d q;
-
-            // right wall
-            q = new Quad3d("WarnWall");
-            q.SetPoint(0, X, Y, Z);
-            q.SetPoint(1, X, -Y, Z);
-            q.SetPoint(2, X, -Y, 0);
-            q.SetPoint(3, X, Y, 0);
-            m_walls.Add(q);
-
-            // left wall
-            q = new Quad3d("WarnWall");
-            q.SetPoint(0, -X, -Y, Z);
-            q.SetPoint(1, -X, Y, Z);
-            q.SetPoint(2, -X, Y, 0);
-            q.SetPoint(3, -X, -Y, 0);
-            m_walls.Add(q);
-
-            // front wall
-            q = new Quad3d("WarnWall");
-            q.SetPoint(0, X, -Y, Z);
-            q.SetPoint(1, -X, -Y, Z);
-            q.SetPoint(2, -X, -Y, 0);
-            q.SetPoint(3, X, -Y, 0);
-            m_walls.Add(q);
-
-            // back wall
-            q = new Quad3d("WarnWall");
-            q.SetPoint(0, -X, Y, Z);
-            q.SetPoint(1, X, Y, Z);
-            q.SetPoint(2, X, Y, 0);
-            q.SetPoint(3, -X, Y, 0);
-            m_walls.Add(q);
-
-            // top wall
-            q = new Quad3d("WarnWall");
-            q.SetPoint(0, X, Y, Z);
-            q.SetPoint(1, -X, Y, Z);
-            q.SetPoint(2, -X, -Y, Z);
-            q.SetPoint(3, X, -Y, Z);
-            m_walls.Add(q);
-
-            // bottom wall
-            q = new Quad3d("WarnWall");
-            q.SetPoint(0, X, -Y, 0);
-            q.SetPoint(1, -X, -Y, 0);
-            q.SetPoint(2, -X, Y, 0);
-            q.SetPoint(3, X, Y, 0);
-            m_walls.Add(q);
- 
+            m_walls = Quad3d.CreateQuadBox(platX, platX, -platY, platY, 0, platZ, "WarnWall"); 
         }
 
         public void RemoveAllObjects() 
@@ -341,6 +290,7 @@ namespace Engine3D
                         obj.RenderGL(alpha, false, UVDLPApp.Instance().m_appconfig.m_showOutline, objColor);
                     }
                 }
+
                 GL.Disable(EnableCap.Lighting);
                 GL.Disable(EnableCap.Light0);
                 GL.Enable(EnableCap.LineSmooth);
@@ -349,7 +299,6 @@ namespace Engine3D
                 {
                     ply.RenderGL();
                 }
-
                 // render selection bounding box
                 if (UVDLPApp.Instance().m_appconfig.m_showBoundingBox && (UVDLPApp.Instance().SelectedObjectList != null))
                 {
@@ -392,6 +341,10 @@ namespace Engine3D
             RenderGL(m_alpha);
         }
 
+        public void RenderAxisIndicator()
+        {
+            m_axisInd.RenderGL();
+        }
         /*
          This function takes the specified vector and intersects all objects
          * in the scene, it will return the polygon? or point that intersects first
