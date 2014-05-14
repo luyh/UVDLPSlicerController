@@ -205,7 +205,7 @@ namespace Engine3D
             platX = (float)UVDLPApp.Instance().m_printerinfo.m_PlatXSize / 2;
             platY = (float)UVDLPApp.Instance().m_printerinfo.m_PlatYSize / 2;
             platZ = (float)UVDLPApp.Instance().m_printerinfo.m_PlatZSize;
-            m_walls = Quad3d.CreateQuadBox(platX, platX, -platY, platY, 0, platZ, "WarnWall"); 
+            m_walls = Quad3d.CreateQuadBox(-platX, platX, -platY, platY, 0, platZ, "WarnWall"); 
         }
 
         public void RemoveAllObjects() 
