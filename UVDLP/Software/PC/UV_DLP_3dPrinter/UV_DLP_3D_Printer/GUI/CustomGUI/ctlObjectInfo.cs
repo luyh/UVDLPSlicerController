@@ -59,13 +59,16 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         private void layoutPanel_Resize(object sender, EventArgs e)
         {
-            float totalHeight = TitleHeight + NameHeight + 7 * ItemHeihft;
+            float totalHeight = NameHeight + 7 * ItemHeihft;
             float totalMargin = 0;
             foreach (Control ctl in layoutPanel.Controls)
             {
                 totalMargin += ctl.Margin.Top + ctl.Margin.Bottom;
                 ctl.Width = Width - ctl.Margin.Left - ctl.Margin.Right;
             }
+            totalMargin += ctlTitle1.Height;
+            if (Height <= totalMargin)
+                return;
             float hScale = ((float)Height - totalMargin) / totalHeight;
             //AdjustHeight(tTitle, TitleHeight * hScale);
             AdjustHeight(tName, NameHeight * hScale);
@@ -128,7 +131,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             if (ctlTitle1.Checked)
             {
-                this.Height = 225 + 5;
+                this.Height = 250;
                 /*
                 int h = 0;
                 h += ctlTitle1.Height;
