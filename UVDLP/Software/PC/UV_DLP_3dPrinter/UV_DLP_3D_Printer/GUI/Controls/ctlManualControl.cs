@@ -92,6 +92,14 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             cGCodeManual.Visible = false;
             cProjectorControl.Visible = false;
 
+            flowBot.Visible = true;
+            flowData1.Visible = true;
+            flowData2.Visible = true;
+            flowLeft.Visible = true;
+            flowMain.Visible = true;
+            flowRight.Visible = true;
+            flowTop.Visible = true;
+
             foreach (char ch in mComponentSupport)
             {
                 switch (ch)
