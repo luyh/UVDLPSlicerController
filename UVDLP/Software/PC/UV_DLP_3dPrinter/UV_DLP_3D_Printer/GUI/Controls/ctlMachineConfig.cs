@@ -58,12 +58,37 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 //projheight.Text = "" + m_config.m_monitorconfig.YRes;
                 txtXRes.Text = "" + m_config.XRenderSize.ToString();
                 txtYRes.Text = "" + m_config.YRenderSize.ToString();
-
+                SetMachineControls(m_config.MachineControls);
+                labelPressApply.Visible = false;
                 FillConfiguredDisplays();
             }
             catch (Exception) 
             {
             
+            }
+        }
+
+        void SetMachineControls(string mctl)
+        {
+            foreach (Control ctl in groupMCControls.Controls)
+            {
+                if (ctl is CheckBox)
+                    ((CheckBox)ctl).Checked = false;
+            }
+            foreach (char ch in mctl)
+            {
+                switch (ch)
+                {
+                    case 'X':
+                    case 'Y': checkMCXY.Checked = true; break;
+                    case 'Z': checkMCZ.Checked = true; break;
+                    case 'T': checkMCTilt.Checked = true; break;
+                    case 'E': checkMCExtrude.Checked = true; break;
+                    case 'H': checkMCHeater.Checked = true; break;
+                    case 'B': checkMCBed.Checked = true; break;
+                    case 'P': checkMCProjector.Checked = true; break;
+                    case 'G': checkMCGCode.Checked = true; break;
+                }
             }
         }
 
@@ -105,6 +130,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_config.XRenderSize = int.Parse(txtXRes.Text);
                 m_config.YRenderSize = int.Parse(txtYRes.Text);
                 m_config.CalcPixPerMM();
+                m_config.MachineControls = GetMachineControls();
+                labelPressApply.Visible = false;
                 return true;
             }
             catch (Exception ex) 
@@ -114,6 +141,29 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 return false;
             }
         }
+
+        string GetMachineControls()
+        {
+            String res = "";
+            if (checkMCXY.Checked)
+                res += "XY";
+            if (checkMCZ.Checked)
+                res += "Z";
+            if (checkMCTilt.Checked)
+                res += "T";
+            if (checkMCExtrude.Checked)
+                res += "E";
+            if (checkMCHeater.Checked)
+                res += "H";
+            if (checkMCBed.Checked)
+                res += "B";
+            if (checkMCProjector.Checked)
+                res += "P";
+            if (checkMCGCode.Checked)
+                res += "G";
+            return res;
+        }
+
         /// <summary>
         /// On apply
         /// </summary>
@@ -609,6 +659,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     //error
                 }                
             }
+        }
+
+        private void checkMCXXXX_CheckedChanged(object sender, EventArgs e)
+        {
+            labelPressApply.Visible = true;
         }
     }
 }

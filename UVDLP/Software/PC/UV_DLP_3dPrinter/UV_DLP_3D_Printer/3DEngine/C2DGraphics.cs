@@ -212,15 +212,15 @@ namespace UV_DLP_3D_Printer._3DEngine
                     case "xy:":
                         img.x = float.Parse(tokens[1]);
                         img.y = float.Parse(tokens[2]);
-                        img.x1 = img.x / tw;
-                        img.y1 = img.y / th;
+                        img.x1 = (img.x + 0.5f) / tw;
+                        img.y1 = (img.y + 0.5f) / th;
                         break;
 
                     case "size:":
                         img.w = int.Parse(tokens[1]);
                         img.h = int.Parse(tokens[2]);
-                        img.x2 = img.x1 + (float)img.w / tw;
-                        img.y2 = img.y1 + (float)img.h / th;
+                        img.x2 = img.x1 + (float)(img.w -1) / tw;
+                        img.y2 = img.y1 + (float)(img.h -1) / th;
                         break;
                 }
             }

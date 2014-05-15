@@ -33,6 +33,7 @@
             // 
             // ctlManualControl1
             // 
+            this.ctlManualControl1.ComponentSupport = "XYZPG";
             this.ctlManualControl1.Gapx = 0;
             this.ctlManualControl1.Gapy = 0;
             this.ctlManualControl1.GLBackgroundImage = null;
@@ -40,7 +41,7 @@
             this.ctlManualControl1.GuiAnchor = null;
             this.ctlManualControl1.Location = new System.Drawing.Point(3, 3);
             this.ctlManualControl1.Name = "ctlManualControl1";
-            this.ctlManualControl1.Size = new System.Drawing.Size(771, 351);
+            this.ctlManualControl1.Size = new System.Drawing.Size(771, 355);
             this.ctlManualControl1.StyleName = "DefaultControl";
             this.ctlManualControl1.TabIndex = 0;
             // 

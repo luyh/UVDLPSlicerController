@@ -51,6 +51,7 @@ namespace UV_DLP_3D_Printer
         //of multiple monitors stiched together
         public int XRenderSize;
         public int YRenderSize;
+        public string MachineControls;
 
         /// <summary>
         /// This allows for retrieve arbitrary variables from the machine XML configuration
@@ -101,8 +102,10 @@ namespace UV_DLP_3D_Printer
             m_ZMaxFeedrate = xh.GetDouble(mc, "MaxZFeedRate", 100.0);
             XRenderSize = xh.GetInt(mc, "XRenderSize", 1024);
             YRenderSize = xh.GetInt(mc, "YRenderSize", 768);
+            MachineControls = xh.GetString(mc, "DisplayedControls", "XYZPG");
             m_machinetype = (eMachineType)xh.GetEnum(mc, "MachineType", typeof(eMachineType), eMachineType.UV_DLP);
             m_multimontype = (eMultiMonType)xh.GetEnum(mc, "MultiMonType", typeof(eMultiMonType), eMultiMonType.eHorizontal);
+            
             if (m_driverconfig.Load(xh, mc))
             {
                 retval = true;
@@ -155,6 +158,7 @@ namespace UV_DLP_3D_Printer
             xh.SetParameter(mc, "MaxZFeedRate", m_ZMaxFeedrate);
             xh.SetParameter(mc, "XRenderSize", XRenderSize);
             xh.SetParameter(mc, "YRenderSize", YRenderSize);
+            xh.SetParameter(mc, "DisplayedControls", MachineControls);
 
             xh.SetParameter(mc, "MachineType", m_machinetype);
             xh.SetParameter(mc, "MultiMonType", m_multimontype);

@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using UV_DLP_3D_Printer;
 using UV_DLP_3D_Printer.GUI.CustomGUI;
 
 namespace UV_DLP_3D_Printer.GUI.Controls
@@ -15,6 +16,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         // component support holds a string with a letter for each supported axis by HW
         // X, Y, Z, T (tilt), E (Extruder), H (Head heater), B (Bed heater), G (gcode panel), P (projector control)
         string mComponentSupport;
+        bool mComponentSupportChanged = true;
         public ctlManualControl()
         {
             InitializeComponent();
@@ -22,6 +24,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             mComponentSupport = "XYZPG";
 
             cMCTilt.ReturnValues = new float[] { 1, 10, 360 };
+            UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEv);
         }
 
         public override void ApplyStyle(ControlStyle ct)
@@ -47,10 +50,26 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             }
             set 
             {
-                mComponentSupport = value;
-                UpdateComponentDisplay(); 
+                if (mComponentSupport != value)
+                {
+                    mComponentSupport = value;
+                    mComponentSupportChanged = true;
+                    if (Visible)
+                        UpdateComponentDisplay();
+                }
             }
         }
+
+        public void AppEv(eAppEvent ev, string s)
+        {
+            switch (ev)
+            {
+                case eAppEvent.eMachineConfigChanged:
+                    ComponentSupport = UVDLPApp.Instance().m_printerinfo.MachineControls;
+                    break;
+            }
+        }
+
         void UpdateComponentDisplay()
         {
             cMCExtruder.Visible = false;
@@ -184,6 +203,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 foreach (Control ctl in flowTop.Controls)
                     ctl.BackColor = Parent.BackColor;
             }
+            ComponentSupport = UVDLPApp.Instance().m_printerinfo.MachineControls;
             UpdateComponentDisplay();
             try
             {
@@ -193,6 +213,16 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 ctlParamXYrate.Value = (decimal)res;
             }
             catch {}
+        }
+
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+            if (mComponentSupportChanged)
+            {
+                UpdateComponentDisplay();
+                mComponentSupportChanged = false;
+            }
         }
 
         protected override void OnPaintBackground(PaintEventArgs e)

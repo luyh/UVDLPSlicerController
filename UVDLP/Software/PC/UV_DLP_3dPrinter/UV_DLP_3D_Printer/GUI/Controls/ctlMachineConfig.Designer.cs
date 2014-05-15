@@ -52,6 +52,16 @@
             this.lblConDisp = new System.Windows.Forms.Label();
             this.cmdCfgConDsp = new System.Windows.Forms.Button();
             this.grpMachineConfig = new System.Windows.Forms.GroupBox();
+            this.groupMCControls = new System.Windows.Forms.GroupBox();
+            this.labelPressApply = new System.Windows.Forms.Label();
+            this.checkMCGCode = new System.Windows.Forms.CheckBox();
+            this.checkMCProjector = new System.Windows.Forms.CheckBox();
+            this.checkMCBed = new System.Windows.Forms.CheckBox();
+            this.checkMCHeater = new System.Windows.Forms.CheckBox();
+            this.checkMCExtrude = new System.Windows.Forms.CheckBox();
+            this.checkMCTilt = new System.Windows.Forms.CheckBox();
+            this.checkMCZ = new System.Windows.Forms.CheckBox();
+            this.checkMCXY = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lblMulti = new System.Windows.Forms.Label();
             this.cmbMultiSel = new System.Windows.Forms.ComboBox();
@@ -70,6 +80,7 @@
             this.groupBox4.SuspendLayout();
             this.grpPrjSerial.SuspendLayout();
             this.grpMachineConfig.SuspendLayout();
+            this.groupMCControls.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -115,7 +126,7 @@
             this.lblMonInfo.AutoSize = true;
             this.lblMonInfo.Location = new System.Drawing.Point(9, 147);
             this.lblMonInfo.Name = "lblMonInfo";
-            this.lblMonInfo.Size = new System.Drawing.Size(0, 18);
+            this.lblMonInfo.Size = new System.Drawing.Size(0, 15);
             this.lblMonInfo.TabIndex = 2;
             // 
             // cmdRefreshMonitors
@@ -132,11 +143,11 @@
             // lstMonitors
             // 
             this.lstMonitors.FormattingEnabled = true;
-            this.lstMonitors.ItemHeight = 18;
+            this.lstMonitors.ItemHeight = 15;
             this.lstMonitors.Location = new System.Drawing.Point(9, 32);
             this.lstMonitors.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lstMonitors.Name = "lstMonitors";
-            this.lstMonitors.Size = new System.Drawing.Size(178, 76);
+            this.lstMonitors.Size = new System.Drawing.Size(178, 64);
             this.lstMonitors.TabIndex = 0;
             this.lstMonitors.SelectedIndexChanged += new System.EventHandler(this.lstMonitors_SelectedIndexChanged);
             // 
@@ -162,7 +173,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(9, 101);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(17, 18);
+            this.label3.Size = new System.Drawing.Size(14, 15);
             this.label3.TabIndex = 5;
             this.label3.Text = "Z";
             // 
@@ -171,7 +182,7 @@
             this.txtPlatTall.Location = new System.Drawing.Point(37, 98);
             this.txtPlatTall.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPlatTall.Name = "txtPlatTall";
-            this.txtPlatTall.Size = new System.Drawing.Size(61, 24);
+            this.txtPlatTall.Size = new System.Drawing.Size(61, 21);
             this.txtPlatTall.TabIndex = 4;
             this.txtPlatTall.Text = "200";
             // 
@@ -180,7 +191,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(9, 67);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(17, 18);
+            this.label6.Size = new System.Drawing.Size(14, 15);
             this.label6.TabIndex = 3;
             this.label6.Text = "Y";
             // 
@@ -189,7 +200,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(9, 36);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(18, 18);
+            this.label5.Size = new System.Drawing.Size(15, 15);
             this.label5.TabIndex = 2;
             this.label5.Text = "X";
             // 
@@ -198,7 +209,7 @@
             this.txtPlatHeight.Location = new System.Drawing.Point(37, 63);
             this.txtPlatHeight.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPlatHeight.Name = "txtPlatHeight";
-            this.txtPlatHeight.Size = new System.Drawing.Size(61, 24);
+            this.txtPlatHeight.Size = new System.Drawing.Size(61, 21);
             this.txtPlatHeight.TabIndex = 1;
             this.txtPlatHeight.Text = "77";
             // 
@@ -207,7 +218,7 @@
             this.txtPlatWidth.Location = new System.Drawing.Point(37, 31);
             this.txtPlatWidth.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPlatWidth.Name = "txtPlatWidth";
-            this.txtPlatWidth.Size = new System.Drawing.Size(61, 24);
+            this.txtPlatWidth.Size = new System.Drawing.Size(61, 21);
             this.txtPlatWidth.TabIndex = 0;
             this.txtPlatWidth.Text = "102";
             // 
@@ -228,7 +239,7 @@
             this.cmbMachineProfiles.Location = new System.Drawing.Point(8, 15);
             this.cmbMachineProfiles.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cmbMachineProfiles.Name = "cmbMachineProfiles";
-            this.cmbMachineProfiles.Size = new System.Drawing.Size(321, 28);
+            this.cmbMachineProfiles.Size = new System.Drawing.Size(321, 25);
             this.cmbMachineProfiles.TabIndex = 57;
             this.cmbMachineProfiles.SelectedIndexChanged += new System.EventHandler(this.cmbMachineProfiles_SelectedIndexChanged);
             // 
@@ -251,7 +262,7 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(10, 38);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(40, 18);
+            this.label13.Size = new System.Drawing.Size(32, 15);
             this.label13.TabIndex = 5;
             this.label13.Text = "Port:";
             // 
@@ -271,7 +282,7 @@
             this.lblConMachine.AutoSize = true;
             this.lblConMachine.Location = new System.Drawing.Point(12, 67);
             this.lblConMachine.Name = "lblConMachine";
-            this.lblConMachine.Size = new System.Drawing.Size(13, 18);
+            this.lblConMachine.Size = new System.Drawing.Size(11, 15);
             this.lblConMachine.TabIndex = 0;
             this.lblConMachine.Text = "-";
             // 
@@ -296,7 +307,7 @@
             this.checkConDispEnable.Location = new System.Drawing.Point(17, 33);
             this.checkConDispEnable.Margin = new System.Windows.Forms.Padding(4);
             this.checkConDispEnable.Name = "checkConDispEnable";
-            this.checkConDispEnable.Size = new System.Drawing.Size(75, 22);
+            this.checkConDispEnable.Size = new System.Drawing.Size(59, 17);
             this.checkConDispEnable.TabIndex = 5;
             this.checkConDispEnable.Text = "Enable";
             this.checkConDispEnable.UseVisualStyleBackColor = true;
@@ -307,7 +318,7 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(11, 67);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(40, 18);
+            this.label12.Size = new System.Drawing.Size(32, 15);
             this.label12.TabIndex = 4;
             this.label12.Text = "Port:";
             // 
@@ -316,7 +327,7 @@
             this.lblConDisp.AutoSize = true;
             this.lblConDisp.Location = new System.Drawing.Point(67, 67);
             this.lblConDisp.Name = "lblConDisp";
-            this.lblConDisp.Size = new System.Drawing.Size(13, 18);
+            this.lblConDisp.Size = new System.Drawing.Size(11, 15);
             this.lblConDisp.TabIndex = 3;
             this.lblConDisp.Text = "-";
             // 
@@ -333,6 +344,7 @@
             // 
             // grpMachineConfig
             // 
+            this.grpMachineConfig.Controls.Add(this.groupMCControls);
             this.grpMachineConfig.Controls.Add(this.groupBox3);
             this.grpMachineConfig.Controls.Add(this.groupBox2);
             this.grpMachineConfig.Controls.Add(this.groupBox1);
@@ -341,10 +353,136 @@
             this.grpMachineConfig.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpMachineConfig.Location = new System.Drawing.Point(10, 55);
             this.grpMachineConfig.Name = "grpMachineConfig";
-            this.grpMachineConfig.Size = new System.Drawing.Size(650, 365);
+            this.grpMachineConfig.Size = new System.Drawing.Size(761, 365);
             this.grpMachineConfig.TabIndex = 61;
             this.grpMachineConfig.TabStop = false;
             this.grpMachineConfig.Text = "Name";
+            // 
+            // groupMCControls
+            // 
+            this.groupMCControls.Controls.Add(this.labelPressApply);
+            this.groupMCControls.Controls.Add(this.checkMCGCode);
+            this.groupMCControls.Controls.Add(this.checkMCProjector);
+            this.groupMCControls.Controls.Add(this.checkMCBed);
+            this.groupMCControls.Controls.Add(this.checkMCHeater);
+            this.groupMCControls.Controls.Add(this.checkMCExtrude);
+            this.groupMCControls.Controls.Add(this.checkMCTilt);
+            this.groupMCControls.Controls.Add(this.checkMCZ);
+            this.groupMCControls.Controls.Add(this.checkMCXY);
+            this.groupMCControls.Location = new System.Drawing.Point(621, 28);
+            this.groupMCControls.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupMCControls.Name = "groupMCControls";
+            this.groupMCControls.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupMCControls.Size = new System.Drawing.Size(129, 324);
+            this.groupMCControls.TabIndex = 63;
+            this.groupMCControls.TabStop = false;
+            this.groupMCControls.Text = "Machine Controls";
+            // 
+            // labelPressApply
+            // 
+            this.labelPressApply.AutoSize = true;
+            this.labelPressApply.ForeColor = System.Drawing.Color.Red;
+            this.labelPressApply.Location = new System.Drawing.Point(15, 258);
+            this.labelPressApply.Name = "labelPressApply";
+            this.labelPressApply.Size = new System.Drawing.Size(91, 30);
+            this.labelPressApply.TabIndex = 14;
+            this.labelPressApply.Text = "Press \"Apply\" to\r\napply changes.";
+            // 
+            // checkMCGCode
+            // 
+            this.checkMCGCode.AutoSize = true;
+            this.checkMCGCode.Location = new System.Drawing.Point(7, 220);
+            this.checkMCGCode.Margin = new System.Windows.Forms.Padding(4);
+            this.checkMCGCode.Name = "checkMCGCode";
+            this.checkMCGCode.Size = new System.Drawing.Size(109, 19);
+            this.checkMCGCode.TabIndex = 13;
+            this.checkMCGCode.Text = "Manual GCode";
+            this.checkMCGCode.UseVisualStyleBackColor = true;
+            this.checkMCGCode.CheckedChanged += new System.EventHandler(this.checkMCXXXX_CheckedChanged);
+            // 
+            // checkMCProjector
+            // 
+            this.checkMCProjector.AutoSize = true;
+            this.checkMCProjector.Location = new System.Drawing.Point(7, 193);
+            this.checkMCProjector.Margin = new System.Windows.Forms.Padding(4);
+            this.checkMCProjector.Name = "checkMCProjector";
+            this.checkMCProjector.Size = new System.Drawing.Size(115, 19);
+            this.checkMCProjector.TabIndex = 12;
+            this.checkMCProjector.Text = "Projector control";
+            this.checkMCProjector.UseVisualStyleBackColor = true;
+            this.checkMCProjector.CheckedChanged += new System.EventHandler(this.checkMCXXXX_CheckedChanged);
+            // 
+            // checkMCBed
+            // 
+            this.checkMCBed.AutoSize = true;
+            this.checkMCBed.Location = new System.Drawing.Point(7, 166);
+            this.checkMCBed.Margin = new System.Windows.Forms.Padding(4);
+            this.checkMCBed.Name = "checkMCBed";
+            this.checkMCBed.Size = new System.Drawing.Size(114, 19);
+            this.checkMCBed.TabIndex = 11;
+            this.checkMCBed.Text = "Heated platform";
+            this.checkMCBed.UseVisualStyleBackColor = true;
+            this.checkMCBed.CheckedChanged += new System.EventHandler(this.checkMCXXXX_CheckedChanged);
+            // 
+            // checkMCHeater
+            // 
+            this.checkMCHeater.AutoSize = true;
+            this.checkMCHeater.Location = new System.Drawing.Point(7, 135);
+            this.checkMCHeater.Margin = new System.Windows.Forms.Padding(4);
+            this.checkMCHeater.Name = "checkMCHeater";
+            this.checkMCHeater.Size = new System.Drawing.Size(110, 19);
+            this.checkMCHeater.TabIndex = 10;
+            this.checkMCHeater.Text = "Extruder heater";
+            this.checkMCHeater.UseVisualStyleBackColor = true;
+            this.checkMCHeater.CheckedChanged += new System.EventHandler(this.checkMCXXXX_CheckedChanged);
+            // 
+            // checkMCExtrude
+            // 
+            this.checkMCExtrude.AutoSize = true;
+            this.checkMCExtrude.Location = new System.Drawing.Point(7, 108);
+            this.checkMCExtrude.Margin = new System.Windows.Forms.Padding(4);
+            this.checkMCExtrude.Name = "checkMCExtrude";
+            this.checkMCExtrude.Size = new System.Drawing.Size(107, 19);
+            this.checkMCExtrude.TabIndex = 9;
+            this.checkMCExtrude.Text = "Extruder motor";
+            this.checkMCExtrude.UseVisualStyleBackColor = true;
+            this.checkMCExtrude.CheckedChanged += new System.EventHandler(this.checkMCXXXX_CheckedChanged);
+            // 
+            // checkMCTilt
+            // 
+            this.checkMCTilt.AutoSize = true;
+            this.checkMCTilt.Location = new System.Drawing.Point(7, 80);
+            this.checkMCTilt.Margin = new System.Windows.Forms.Padding(4);
+            this.checkMCTilt.Name = "checkMCTilt";
+            this.checkMCTilt.Size = new System.Drawing.Size(82, 19);
+            this.checkMCTilt.TabIndex = 8;
+            this.checkMCTilt.Text = "Tilt control";
+            this.checkMCTilt.UseVisualStyleBackColor = true;
+            this.checkMCTilt.CheckedChanged += new System.EventHandler(this.checkMCXXXX_CheckedChanged);
+            // 
+            // checkMCZ
+            // 
+            this.checkMCZ.AutoSize = true;
+            this.checkMCZ.Location = new System.Drawing.Point(7, 53);
+            this.checkMCZ.Margin = new System.Windows.Forms.Padding(4);
+            this.checkMCZ.Name = "checkMCZ";
+            this.checkMCZ.Size = new System.Drawing.Size(58, 19);
+            this.checkMCZ.TabIndex = 7;
+            this.checkMCZ.Text = "Z Axis";
+            this.checkMCZ.UseVisualStyleBackColor = true;
+            this.checkMCZ.CheckedChanged += new System.EventHandler(this.checkMCXXXX_CheckedChanged);
+            // 
+            // checkMCXY
+            // 
+            this.checkMCXY.AutoSize = true;
+            this.checkMCXY.Location = new System.Drawing.Point(7, 26);
+            this.checkMCXY.Margin = new System.Windows.Forms.Padding(4);
+            this.checkMCXY.Name = "checkMCXY";
+            this.checkMCXY.Size = new System.Drawing.Size(69, 19);
+            this.checkMCXY.TabIndex = 6;
+            this.checkMCXY.Text = "X Y Axis";
+            this.checkMCXY.UseVisualStyleBackColor = true;
+            this.checkMCXY.CheckedChanged += new System.EventHandler(this.checkMCXXXX_CheckedChanged);
             // 
             // groupBox3
             // 
@@ -358,7 +496,7 @@
             this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox3.Size = new System.Drawing.Size(420, 179);
+            this.groupBox3.Size = new System.Drawing.Size(400, 179);
             this.groupBox3.TabIndex = 62;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Configured Displays";
@@ -368,7 +506,7 @@
             this.lblMulti.AutoSize = true;
             this.lblMulti.Location = new System.Drawing.Point(65, 112);
             this.lblMulti.Name = "lblMulti";
-            this.lblMulti.Size = new System.Drawing.Size(149, 18);
+            this.lblMulti.Size = new System.Drawing.Size(125, 15);
             this.lblMulti.TabIndex = 67;
             this.lblMulti.Text = "Multi Mon Orientation";
             // 
@@ -377,7 +515,7 @@
             this.cmbMultiSel.FormattingEnabled = true;
             this.cmbMultiSel.Location = new System.Drawing.Point(68, 135);
             this.cmbMultiSel.Name = "cmbMultiSel";
-            this.cmbMultiSel.Size = new System.Drawing.Size(146, 26);
+            this.cmbMultiSel.Size = new System.Drawing.Size(146, 23);
             this.cmbMultiSel.TabIndex = 66;
             this.cmbMultiSel.SelectedIndexChanged += new System.EventHandler(this.cmbMultiSel_SelectedIndexChanged);
             // 
@@ -408,17 +546,17 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(9, 147);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(0, 18);
+            this.label8.Size = new System.Drawing.Size(0, 15);
             this.label8.TabIndex = 2;
             // 
             // lbConfigured
             // 
             this.lbConfigured.FormattingEnabled = true;
-            this.lbConfigured.ItemHeight = 18;
+            this.lbConfigured.ItemHeight = 15;
             this.lbConfigured.Location = new System.Drawing.Point(9, 32);
             this.lbConfigured.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lbConfigured.Name = "lbConfigured";
-            this.lbConfigured.Size = new System.Drawing.Size(178, 76);
+            this.lbConfigured.Size = new System.Drawing.Size(178, 64);
             this.lbConfigured.TabIndex = 0;
             this.lbConfigured.SelectedIndexChanged += new System.EventHandler(this.lbConfigured_SelectedIndexChanged);
             // 
@@ -442,7 +580,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(9, 64);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(50, 18);
+            this.label4.Size = new System.Drawing.Size(43, 15);
             this.label4.TabIndex = 3;
             this.label4.Text = "Height";
             // 
@@ -451,7 +589,7 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(9, 30);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(46, 18);
+            this.label7.Size = new System.Drawing.Size(38, 15);
             this.label7.TabIndex = 2;
             this.label7.Text = "Width";
             // 
@@ -460,7 +598,7 @@
             this.txtYRes.Location = new System.Drawing.Point(71, 62);
             this.txtYRes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtYRes.Name = "txtYRes";
-            this.txtYRes.Size = new System.Drawing.Size(67, 24);
+            this.txtYRes.Size = new System.Drawing.Size(67, 21);
             this.txtYRes.TabIndex = 1;
             this.txtYRes.Text = "768";
             // 
@@ -469,7 +607,7 @@
             this.txtXRes.Location = new System.Drawing.Point(71, 27);
             this.txtXRes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtXRes.Name = "txtXRes";
-            this.txtXRes.Size = new System.Drawing.Size(67, 24);
+            this.txtXRes.Size = new System.Drawing.Size(67, 21);
             this.txtXRes.TabIndex = 0;
             this.txtXRes.Text = "1024";
             // 
@@ -517,7 +655,7 @@
             // 
             // ctlMachineConfig
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.cmdRemove);
             this.Controls.Add(this.cmdCreate);
@@ -527,7 +665,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ctlMachineConfig";
-            this.Size = new System.Drawing.Size(678, 485);
+            this.Size = new System.Drawing.Size(865, 485);
             this.Load += new System.EventHandler(this.ctlMachineConfig_Load);
             this.Monitors.ResumeLayout(false);
             this.Monitors.PerformLayout();
@@ -538,6 +676,8 @@
             this.grpPrjSerial.ResumeLayout(false);
             this.grpPrjSerial.PerformLayout();
             this.grpMachineConfig.ResumeLayout(false);
+            this.groupMCControls.ResumeLayout(false);
+            this.groupMCControls.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -585,5 +725,15 @@
         private CustomGUI.ctlImageButton cmdRemoveConfigured;
         private System.Windows.Forms.Label lblMulti;
         private System.Windows.Forms.ComboBox cmbMultiSel;
+        private System.Windows.Forms.GroupBox groupMCControls;
+        private System.Windows.Forms.CheckBox checkMCXY;
+        private System.Windows.Forms.CheckBox checkMCBed;
+        private System.Windows.Forms.CheckBox checkMCHeater;
+        private System.Windows.Forms.CheckBox checkMCExtrude;
+        private System.Windows.Forms.CheckBox checkMCTilt;
+        private System.Windows.Forms.CheckBox checkMCZ;
+        private System.Windows.Forms.CheckBox checkMCProjector;
+        private System.Windows.Forms.CheckBox checkMCGCode;
+        private System.Windows.Forms.Label labelPressApply;
     }
 }
