@@ -118,6 +118,117 @@ namespace Engine3D
             }
         }
 
+        void OrderPoints(ref Point3d p1, ref Point3d p2)
+        {
+            // order the points such that p1 is left then p2
+            if (p1.x > p2.x)
+            {
+                Point3d t = p1;
+                p1 = p2;
+                p2 = t;
+            }
+        }
+
+        void FillColumnInMap(int ix, float y1, float y2)
+        {
+            int iy1 = (int)((y1 - m_platey) / m_spacing);
+            int iy2 = (int)((y2 - m_platey) / m_spacing);
+            if (iy2 < iy1)
+            {
+                int t = iy1;
+                iy1 = iy2;
+                iy2 = t;
+            }
+            for (int iy = iy1; iy <= iy2; iy++)
+                m_tileMap[ix, iy] = true;
+        }
+
+        void FillColumnInMap(int ix, float y1, float y2, float oy1, float oy2)
+        {
+            if (oy2 < oy1)
+            {
+                float t = oy1;
+                oy1 = oy2;
+                oy2 = t;
+            }
+            if (y2 < y1)
+            {
+                float t = y1;
+                y1 = y2;
+                y2 = t;
+            }
+            if (oy2 > y2)
+                y2 = oy2;
+            if (oy1 < y1)
+                y1 = oy1;
+            FillColumnInMap(ix, y1, y2);
+        }
+
+        void FillTriangleInMap(Polygon ply)
+        {
+            // order points by height
+            Point3d p1 = ply.m_points[0];
+            Point3d p2 = ply.m_points[1];
+            Point3d p3 = ply.m_points[2];
+            OrderPoints(ref p1, ref p2);
+            OrderPoints(ref p2, ref p3);
+            OrderPoints(ref p1, ref p2);
+
+            // find first crossing line
+            int ix = (int)((p1.x - m_platex) / m_spacing);
+            float x = (float)(ix + 1)*m_spacing + m_platex;
+            if (p2.x <= x)
+            {
+                FillColumnInMap(ix, p1.y, p2.y);
+                if (p3.x < x) // all in the same column
+                {
+                    FillColumnInMap(ix, p1.y, p3.y);
+                    return;
+                }
+            }
+            float m13 = (p3.y - p1.y) / (p3.x - p1.x);
+            float n13 = p1.y - (m13 * p1.x);
+            float oy1, oy2;
+            if (p2.x > x)
+            {
+                float m12 = (p2.y - p1.y) / (p2.x - p1.x);
+                float n12 = p1.y - (m12 * p1.x);
+                oy1 = p1.y;
+                oy2 = p1.y;
+                while (p2.x > x)
+                {
+                    float y1 = m12 * x + n12;
+                    float y2 = m13 * x + n13;
+                    FillColumnInMap(ix, y1, y2, oy1, oy2);
+                    oy1 = y1;
+                    oy2 = y2;
+                    x += m_spacing;
+                    ix++;
+                }
+            }
+            if (p3.x < x)
+            {
+                // same column as p2
+                FillColumnInMap(ix, p2.y, p3.y);
+                return;
+            }
+            float m23 = (p3.y - p2.y) / (p3.x - p2.x);
+            float n23 = p2.y - (m23 * p2.x);
+            oy1 = p2.y;
+            oy2 = p2.y;
+            while (p3.x > x)
+            {
+                float y1 = m23 * x + n23;
+                float y2 = m13 * x + n13;
+                FillColumnInMap(ix, y1, y2, oy1, oy2);
+                oy1 = y1;
+                oy2 = y2;
+                x += m_spacing;
+                ix++;
+            }
+            FillColumnInMap(ix, oy1, oy2, p3.y, p3.y);
+        }
+
         void GenerateTileMap()
         {
             float objl = m_refObj.m_max.x - m_refObj.m_min.x;
@@ -134,8 +245,9 @@ namespace Engine3D
                 for (y = 0; y < m_ntilesy; y++)
                     m_tileMap[x, y] = false;
             foreach (Polygon ply in m_refObj.m_lstpolys)
-                foreach (Point3d pt in ply.m_points)
-                    m_tileMap[(int)((pt.x - m_platex) / m_spacing), (int)((pt.y - m_platey) / m_spacing)] = true;
+                FillTriangleInMap(ply);
+                //foreach (Point3d pt in ply.m_points)
+                  //  m_tileMap[(int)((pt.x - m_platex) / m_spacing), (int)((pt.y - m_platey) / m_spacing)] = true;
         }
 
         void FillTiles()
