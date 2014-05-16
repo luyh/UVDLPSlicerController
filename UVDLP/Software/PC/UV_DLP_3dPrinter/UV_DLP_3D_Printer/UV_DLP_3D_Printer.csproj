@@ -103,6 +103,7 @@
     <Compile Include="3DEngine\RTUtils.cs" />
     <Compile Include="3DEngine\Scene.cs" />
     <Compile Include="3DEngine\Support.cs" />
+    <Compile Include="3DEngine\SupportBase.cs" />
     <Compile Include="3DEngine\ThreeDSFile.cs" />
     <Compile Include="3DEngine\TreeSupport.cs" />
     <Compile Include="3DEngine\Undoer.cs" />
