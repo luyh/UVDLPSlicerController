@@ -187,6 +187,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             UVDLPApp.Instance().SaveSupportConfig(UVDLPApp.Instance().m_appconfig.SupportConfigName);
         }
 
+        private void buttGenBase_Click(object sender, EventArgs e)
+        {
+            UVDLPApp.Instance().AddSupportBase();
+        }
+        
         private void buttAutoSupport_Click(object sender, EventArgs e)
         {
             try

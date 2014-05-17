@@ -303,17 +303,50 @@ namespace UV_DLP_3D_Printer
         /// <summary>
         /// Adds a new dummy support
         /// </summary>
-        public void AddSupport() 
+        public void AddSupport()
         {
-           // Cylinder3d cyl = new Cylinder3d();
-           // cyl.Create(2.5, 1.5, 10, 15, 2);
+            // Cylinder3d cyl = new Cylinder3d();
+            // cyl.Create(2.5, 1.5, 10, 15, 2);
             Support s = new Support();
             //s.Create((float)m_supportconfig.fbrad, 1.5f, 1.5f, .75f, 2f, 5f, 2f, 20);
-            s.Create(null,(float)m_supportconfig.fbrad, (float)m_supportconfig.ftrad, (float)m_supportconfig.hbrad,
+            s.Create(null, (float)m_supportconfig.fbrad, (float)m_supportconfig.ftrad, (float)m_supportconfig.hbrad,
                 (float)m_supportconfig.htrad, 2f, 5f, 2f, 11);
             m_engine3d.AddObject(s);
             UVDLPApp.Instance().m_undoer.SaveAddition(s);
             RaiseAppEvent(eAppEvent.eModelAdded, "Model Created");
+        }
+
+        /// <summary>
+        /// Adds a support base plate under objects 
+        /// </summary>
+        public void AddSupportBase()
+        {
+            // add support base - SHS
+            List<Object3d> stdObs = new List<Object3d>();
+            foreach (Object3d obj in UVDLPApp.Instance().m_engine3d.m_objects)
+            {
+                if ((obj != null) && (obj.tag == Object3d.OBJ_NORMAL))
+                    stdObs.Add(obj);
+            }
+
+            foreach (Object3d obj in stdObs)
+            {
+                // remove old support base if exists
+                SupportBase sb = obj.GetSupportBase();
+                if (sb != null)
+                {
+                    obj.RemoveSupport(sb);
+                    UVDLPApp.Instance().m_undoer.SaveDelition(sb);
+                    UVDLPApp.Instance().m_engine3d.RemoveObject(sb);
+                }
+                sb = new SupportBase();
+                sb.Generate(obj, 5);
+                //lstsupports.Add(sb);
+                obj.AddSupport(sb);
+                m_engine3d.AddObject(sb);
+                UVDLPApp.Instance().m_undoer.SaveAddition(sb);
+            }
+            RaiseAppEvent(eAppEvent.eModelAdded, "Support bases Created");
         }
         /// <summary>
         /// Removes the currently selected object

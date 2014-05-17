@@ -28,6 +28,10 @@ namespace Engine3D
         Object3d m_refObj;
         float m_zbot = 0, m_ztop = 1;
 
+        public SupportBase()
+        {
+            tag = OBJ_SUPPORT_BASE;
+        }
 
         Point3d CreatePoint(float x, float y, float z, float scale, int rotate90, float offsx, float offsy)
         {
@@ -54,20 +58,27 @@ namespace Engine3D
             }
             pt.x += offsx;
             pt.y += offsy;
+            m_lstpoints.Add(pt);
             return pt;
         }
 
         Point3d GetTilePointTop(int ix, int iy)
         {
             if (m_tilePointsTop[ix, iy] == null)
+            {
                 m_tilePointsTop[ix, iy] = new Point3d(m_platex + ix * m_spacing, m_platey + iy * m_spacing, m_ztop);
+                m_lstpoints.Add(m_tilePointsTop[ix, iy]);
+            }
             return m_tilePointsTop[ix, iy];
         }
 
         Point3d GetTilePointBot(int ix, int iy)
         {
             if (m_tilePointsBot[ix, iy] == null)
+            {
                 m_tilePointsBot[ix, iy] = new Point3d(m_platex + ix * m_spacing, m_platey + iy * m_spacing, m_zbot);
+                m_lstpoints.Add(m_tilePointsBot[ix, iy]);
+            }
             return m_tilePointsBot[ix, iy];
         }
 

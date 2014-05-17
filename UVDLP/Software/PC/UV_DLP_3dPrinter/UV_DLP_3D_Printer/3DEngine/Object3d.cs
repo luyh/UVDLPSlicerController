@@ -20,7 +20,7 @@ namespace Engine3D
         public List<Point3d> m_lstpoints; // list of 3d points in object
         public List<Polygon> m_lstpolys;// list of polygons
         public List<PolyLine3d> m_boundingBox;
-        public List<Support> m_supports; // a list of support objects attached to this one
+        public List<Object3d> m_supports; // a list of support objects attached to this one
         public Object3d m_parrent = null;
 
         public string m_name; // just the filename
@@ -34,6 +34,7 @@ namespace Engine3D
         public static int OBJ_NORMAL        =0; // a regular old object
         public static int OBJ_SUPPORT = 1; // a generated support
         public static int OBJ_GROUND = 2; // ground plane usewd for hit-testing
+        public static int OBJ_SUPPORT_BASE = 3; // base support plate
         public bool m_inSelectedList = false;
         private int m_listid; // gl call list id 
         private double m_volume = -1;
@@ -101,7 +102,7 @@ namespace Engine3D
             return obj;
         }
 
-        public void AddSupport(Support s)
+        public void AddSupport(Object3d s)
         {
             if (s == null)
                 return;
@@ -112,13 +113,23 @@ namespace Engine3D
                 m_supports.Add(s);
         }
 
-        public void RemoveSupport(Support s)
+        public void RemoveSupport(Object3d s)
         {
             if (s == null)
                 return;
             while (m_supports.IndexOf(s) >= 0)
                 m_supports.Remove(s);
             s.m_parrent = null;
+        }
+
+        public SupportBase GetSupportBase()
+        {
+            foreach (Object3d obj in m_supports)
+            {
+                if (obj is SupportBase)
+                    return (SupportBase)obj;
+            }
+            return null;
         }
 
 
@@ -130,7 +141,7 @@ namespace Engine3D
         {
             m_lstpolys = new List<Polygon>();
             m_lstpoints = new List<Point3d>();
-            m_supports = new List<Support>();
+            m_supports = new List<Object3d>();
             m_center = new Point3d();
             m_name = "Model";
             m_fullname = "Model";
@@ -699,13 +710,14 @@ namespace Engine3D
             // translate connected supports as well
             if ((x != 0) || (y != 0))
             {
-                foreach (Support sup in m_supports)
+                foreach (Object3d sup in m_supports)
                     sup.Translate(x, y, 0);
             }
             if (z != 0)
             {
-                foreach (Support sup in m_supports)
-                    sup.AddToHeight(z);
+                foreach (Object3d sup in m_supports)
+                    if (sup is Support)
+                        ((Support)sup).AddToHeight(z);
             }
             Update();
             if (updateUndo)

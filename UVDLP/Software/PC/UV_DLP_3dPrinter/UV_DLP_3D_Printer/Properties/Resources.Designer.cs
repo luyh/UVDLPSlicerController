@@ -471,6 +471,13 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap buttSupBase {
+            get {
+                object obj = ResourceManager.GetObject("buttSupBase", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap buttSupport {
             get {
                 object obj = ResourceManager.GetObject("buttSupport", resourceCulture);
@@ -598,36 +605,36 @@ namespace UV_DLP_3D_Printer.Properties {
         ///repeat: none
         ///Arial18
         ///  rotate: false
-        ///  xy: 0, 102
+        ///  xy: 0, 116
         ///  size: 208, 126
         ///  orig: 208, 126
         ///  offset: 0, 0
         ///  index: -1
+        ///WarnWall
+        ///  rotate: false
+        ///  xy: 210, 114
+        ///  size: 128, 128
+        ///  orig: 128, 128
+        ///  offset: 0, 0
+        ///  index: -1
         ///cwlogo_round
         ///  rotate: false
-        ///  xy: 0, 0
+        ///  xy: 0, 14
         ///  size: 100, 100
         ///  orig: 100, 100
         ///  offset: 0, 0
         ///  index: -1
         ///cwlogo_tr
         ///  rotate: false
-        ///  xy: 210, 140
+        ///  xy: 340, 154
         ///  size: 88, 88
         ///  orig: 88, 88
         ///  offset: 0, 0
         ///  index: -1
         ///cwpanel
         ///  rotate: false
-        ///  xy: 102, 20
-        ///  size: 80, 80
-        ///  orig: 80, 80
-        ///  offset: 0, 0
-        ///  index: -1
-        ///glButtHome1
-        ///  rotate: false
-        ///  xy: 300, 164
-        ///  size: 6 [rest of string was truncated]&quot;;.
+        ///  xy: 102, 34
+        ///  size: [rest of string was truncated]&quot;;.
         /// </summary>
         public static string cwtexture1_index {
             get {
@@ -677,7 +684,7 @@ namespace UV_DLP_3D_Printer.Properties {
         ///		&lt;style backcolor=&quot;RoyalBlue&quot; hovercolor=&quot;White&quot; forecolor=&quot;#DCDCDC&quot; checkcolor=&quot;#DCDCDC&quot; presscolor=&quot;White&quot; nimages=&quot;1&quot; pressscale=&quot;92&quot; gl=&quot;false&quot;/&gt;
         ///		&lt;style name=&quot;glbutt1&quot; backcolor=&quot;Transparent&quot; hovercolor=&quot;Navy&quot; forecolor=&quot;Navy&quot; checkcolor=&quot;Navy&quot; presscolor=&quot;White&quot; nimages=&quot;1&quot; hoverscale=&quot;106&quot; gl=&quot;true&quot;/&gt;
         ///		&lt;button name=&quot;home&quot; dock=&quot;tr&quot; x=&quot;10&quot; y=&quot;100&quot; image=&quot;glButtHome1&quot; w=&quot;48&quot; h=&quot;48&quot; style=&quot;glbutt1&quot;/&gt;
-        ///		&lt;button name=&quot;undo&quot; d [rest of string was truncated]&quot;;.
+        ///		&lt;button name=&quot;top&quot; do [rest of string was truncated]&quot;;.
         /// </summary>
         public static string GuiConfig {
             get {

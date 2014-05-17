@@ -375,10 +375,6 @@ namespace UV_DLP_3D_Printer
             // interface between the support and the model
             List<Object3d> lstsupports = new List<Object3d>();
 
-            // add support base - SHS
-            SupportBase sb = new SupportBase();
-            sb.Generate(UVDLPApp.Instance().SelectedObject, 5);
-            lstsupports.Add(sb);
 
             float ZVal = (float)UVDLPApp.Instance().m_printerinfo.m_PlatZSize;
             m_model.Update();
