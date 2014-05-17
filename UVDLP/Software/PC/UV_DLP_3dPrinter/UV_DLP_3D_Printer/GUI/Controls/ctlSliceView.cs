@@ -14,7 +14,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 {
     public partial class ctlSliceView : UserControl
     {
-        frmDLP m_frmdlp = null;
+       // frmDLP m_frmdlp = null; // now that we support multiple monitors, we can't use this approach anymore
 
         public ctlSliceView()
         {
@@ -58,6 +58,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 DebugLogger.Instance().LogError(ex.Message);
             }
         }
+        /*
         public frmDLP DlpForm
         {
             get { return m_frmdlp; }
@@ -78,17 +79,20 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 }
             }
         }
-
+        */
         void UpdateChecked()
         {
+            /*
             if ((m_frmdlp == null) || m_frmdlp.IsDisposed)
             {
                 buttPreviewOnDisplay.Checked = false;
                 return;
             }
-            buttPreviewOnDisplay.Checked = m_frmdlp.Visible && UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay;
+             * */
+            //buttPreviewOnDisplay.Checked = m_frmdlp.Visible && UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay;
+            buttPreviewOnDisplay.Checked = UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay;
         }
-
+        /*
         void m_frmdlp_VisibleChanged(object sender, EventArgs e)
         {
             if (m_frmdlp.Visible == false)
@@ -98,7 +102,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             }
             UpdateChecked();
         }
-
+        */
         public void SetNumLayers(int val)
         {
             try
@@ -141,30 +145,16 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     {
                         return;
                     }
-                    //dispose the previous image?
-                    //picSlice.Image = bmp;//now show the 2d slice
+                    // change the picture on this control
                     picSlice.Image = bmp;//now show the 2d slice
-
-
                     picSlice.Refresh();               
-                //GC.Collect();
-                // if we're a UV DLP printer, show on the frmDLP
-                if ((UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP) && (m_frmdlp != null))
-                {
-                    // only show the image on the dlp if we're previewing
-                    //need to make sure we show the layer if building
-                    if (UVDLPApp.Instance().m_buildmgr.IsPrinting == true || UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay == true)
+
+                    //if we're printing, DO NOT show the preview slices on the frmDLP's
+                    if (UVDLPApp.Instance().m_buildmgr.IsPrinting != true && UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay == true)
                     {
-                        //make sure we show the screen
-                        if (m_frmdlp.Visible != true)
-                        {
-                            m_frmdlp.ShowDLPScreen();
-                        }
-                        m_frmdlp.ShowImage(bmp);
+                        DisplayManager.Instance().PreviewOnDisplays(bmp);
                     }
-                }
                 });
-               // GC.Collect();
             }
             catch (Exception ex) 
             {

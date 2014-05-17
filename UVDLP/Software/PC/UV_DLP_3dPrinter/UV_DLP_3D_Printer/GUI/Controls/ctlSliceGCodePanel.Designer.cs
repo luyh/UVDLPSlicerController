@@ -104,7 +104,6 @@
             // 
             // ctlSliceView1
             // 
-            this.ctlSliceView1.DlpForm = null;
             this.ctlSliceView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ctlSliceView1.Location = new System.Drawing.Point(0, 0);
             this.ctlSliceView1.Name = "ctlSliceView1";
