@@ -60,10 +60,13 @@ namespace Engine3D
             //copy this object
             Object3d cpy = Clone();
             //copy the support structures
-            foreach (Support s in this.m_supports) 
+            foreach (Object3d obj in this.m_supports) 
             {
-                Support newsup = (Support)s.MakeCopy();
-                cpy.AddSupport(newsup);
+                if (obj is Support)
+                {
+                    Support newsup = ((Support)obj).MakeCopy();
+                    cpy.AddSupport(newsup);
+                }
             }
             return cpy;
         }

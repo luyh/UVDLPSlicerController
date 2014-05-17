@@ -184,7 +184,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 try
                 {
                     Object3d obj = UVDLPApp.Instance().SelectedObject.Copy();
-                    foreach (Support sup in obj.m_supports) 
+                    foreach (Object3d sup in obj.m_supports) 
                     {
                         UVDLPApp.Instance().m_engine3d.AddObject(sup);
                     }

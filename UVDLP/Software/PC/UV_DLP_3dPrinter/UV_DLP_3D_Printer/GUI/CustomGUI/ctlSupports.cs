@@ -384,6 +384,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         }
         public void ListSupports() 
         {
+            if (UVDLPApp.Instance().m_supportgenerator.Generating)
+                return; // avoid cross-thread using of support list
             lbSupports.Items.Clear();
             foreach (Object3d obj in UVDLPApp.Instance().Engine3D.m_objects) 
             {

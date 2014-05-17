@@ -418,10 +418,10 @@ namespace UV_DLP_3D_Printer
 
                     foreach (ISectData htd in lstISects)
                     {
-                        if (htd.obj.tag != Object3d.OBJ_SUPPORT)  // if this is not another support or the ground
+                        if (htd.obj.tag == Object3d.OBJ_NORMAL)  // if this is not another support or the ground
                         {
-                            if (htd.obj.tag != Object3d.OBJ_GROUND) // if it's not the ground
-                            {
+                            //if (htd.obj.tag != Object3d.OBJ_GROUND) // if it's not the ground
+                            //{
                                 if (m_sc.m_onlydownward && htd.poly.tag != Polygon.TAG_MARKDOWN)
                                     break; // not a downward facing and we're only doing downward
                                 // this should be the closest intersected
@@ -438,7 +438,7 @@ namespace UV_DLP_3D_Printer
                                 RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eSupportGenerated, s.Name, s);
                                  */
                                 break; // only need to make one support
-                            }
+                            //}
                         }
                     }
 
