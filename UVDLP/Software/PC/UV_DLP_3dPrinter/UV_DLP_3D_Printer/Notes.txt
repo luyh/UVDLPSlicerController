@@ -1,8 +1,8 @@
 ﻿
 ToDo:
 
-- In the machine configuration screen, allow the user to specify the visible machine controls
-
+- Fix the 'preview slice on Monitor' option
+- When the Scene node in the scene control is selected, show the volume of all objects in the scene
 - serial port auto-detect
 - allow importing a set of images (png,bmp) along with a layer height. Generate a GCode file and allow printing from imported.
 - Fix the Adaptive support generation.
@@ -20,6 +20,16 @@ XML system to add/remove controls in the following areas:
 	Right on 3d view
 	in 3d view
 	in any of the major panels
+
+1)      Memory problem for support generation:  We import several high resolution models and add supports.   When the number of supports is high,  the imported models will disappear and only the generated supports will remain on the 3D view
+2)      Maneuvering the 3D view is slow when the model has higher resolution,  I believe this is caused by the memory problem too
+3)      It would be great if you can add side, front, back, top and bottom views to help position the supports accurately
+4)      We have tried to create supports in other software and import the stl to creation workshop for slicing.   The overlap regions between the supports and the model do not have a union effect.    Unless we merge all supports with the model into one shell,   the sliced 2D images cannot be used.
+5)      Adaptive support generation does not help most of the time,  because removing redundant supports is a pain.   
+6)      It would be helpful if a simple 2D editor can be included in the slice view
+7)      Is it possible to do for loop or while loop in the G-code?    It is painful to modify parameters layer by layer for more optimized printing. 
+8)      Is it possible to turn off the projector when printing is completed? 
+
 
 
 better hierchachal xml panels - 
@@ -86,6 +96,8 @@ This would give people the possibility to use Other slicers like "VISCam RP" an 
 
 
 Completed**********************************
+* Fix the Object info control
+* In the machine configuration screen, allow the user to specify the visible machine controls
 * Make platform walls light up when objects are not fully enclosed in platform
 * Allow projector controls in the GCode sections (<PrjCmd , MonitorID , 'cmdname' >) - this will allow users to turn on/off projector during prints or make adjustments.
 * In 3d view, make the left and right side parent control panels vertically scroll, (may need to override the flowpanel)

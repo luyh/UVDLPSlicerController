@@ -5,6 +5,7 @@ using System.Text;
 using UV_DLP_3D_Printer.Configs;
 using UV_DLP_3D_Printer;
 using UV_DLP_3D_Printer.Drivers;
+using System.Drawing;
 
 namespace UV_DLP_3D_Printer
 {
@@ -31,7 +32,17 @@ namespace UV_DLP_3D_Printer
             m_displays = new List<frmDLP>();
             UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEv);
         }
-
+        /// <summary>
+        /// This function is different from the PrintLayer delegate in the frmDLP
+        /// This function is used to preview a slice on the display
+        /// </summary>
+        public void PreviewOnDisplays( Image image) 
+        {
+            foreach (frmDLP frm in m_displays) 
+            {
+                frm.ShowImage(image);
+            }
+        }
         /// <summary>
         /// This function removes all previous device drivers for the projector
         /// serial ports, it will then re-create the drivers, configure them, and 
