@@ -129,7 +129,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             txtResinPriceL.Text = m_config.m_resinprice.ToString();
 
            // txtRaiseTime.Text = m_config.raise_time_ms.ToString();
-
+            cmbBuildDirection.Items.Clear();
             foreach(String name in Enum.GetNames(typeof(SliceBuildConfig.eBuildDirection)))
             {
                 cmbBuildDirection.Items.Add(name);

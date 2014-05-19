@@ -130,9 +130,13 @@ namespace plugTest
         public void ExecuteFunction(string name) 
         {
             if (name.Equals("TestFunction"))
-                MyTestFunc();
-        
+                MyTestFunc();        
         }
+        public void ExecuteFunction(string name, object[] parms)
+        {
+
+        }
+
         /// <summary>
         /// This is an example of a test function that can
         /// be called from the plug in host.

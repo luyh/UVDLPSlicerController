@@ -137,9 +137,21 @@ namespace UV_DLP_3D_Printer
                 //
                 Rectangle srcRect = new Rectangle(xp, yp, xh - xp, yh - yp);
                 Bitmap b = (Bitmap)i;
-                Bitmap cropped = (Bitmap)b.Clone(srcRect, i.PixelFormat); 
-                //i.
-                picDLP.Image = cropped;
+                Bitmap cropped = (Bitmap)b.Clone(srcRect, i.PixelFormat);                 
+                //check screen ID for laser SLA
+                if (m_screenid.Contains("LASERSHARK"))
+                {
+                    // create an object array to hold parameters
+                    object[] parms = new object[1];
+                    //set the first parameter to be the image
+                    parms[0] = (object)cropped;
+                    //call the plugin command
+                    UVDLPApp.Instance().PerformPluginCommand("", parms, false);
+                }
+                else
+                {
+                    picDLP.Image = cropped;
+                }
                 GC.Collect();
             }
             catch (Exception ex) 

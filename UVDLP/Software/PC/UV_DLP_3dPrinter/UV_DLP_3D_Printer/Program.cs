@@ -23,7 +23,7 @@ namespace UV_DLP_3D_Printer
             //init the app object
             UVDLPApp.Instance().DoAppStartup(); // start the app and load the plug-ins
             frmSplash splash = new frmSplash(); // should pull from a licensed plug-in if need-be
-            //splash.Show();
+            splash.Show();
             Application.Run(new frmMain2());
         }
 

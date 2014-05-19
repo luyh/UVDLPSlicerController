@@ -17,18 +17,35 @@ namespace UV_DLP_3D_Printer.GUI
         public frmSplash()
         {
             InitializeComponent();
+
+            LoadPluginSplash();
+            /*
             label1.Parent = pictureBox1;
             label1.BackColor = Color.Transparent;
             label2.Parent = pictureBox1;
             label2.BackColor = Color.Transparent;
             version.Parent = pictureBox1;
             version.BackColor = Color.Transparent;
+            version.Text = "Version " + Application.ProductVersion;
+            */
             m_timer = new Timer();
             m_timer.Interval = 20;
             m_timer.Tick += new EventHandler(m_timer_Tick);
             m_timer.Start();
-            version.Text = "Version " + Application.ProductVersion;
+            
             Opacity = 0.0;
+        }
+        private void LoadPluginSplash() 
+        {
+            Bitmap bmp = UVDLPApp.Instance().GetPluginImage("Splash");
+            if (bmp != null) 
+            {
+                //set the width and height of the form
+                this.Width = bmp.Width;
+                this.Height = bmp.Height;
+                pictureBox1.Image = bmp;
+                Refresh();
+            }
         }
 
         void m_timer_Tick(object sender, EventArgs e)

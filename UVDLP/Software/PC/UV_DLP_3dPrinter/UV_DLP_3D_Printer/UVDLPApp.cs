@@ -876,7 +876,26 @@ namespace UV_DLP_3D_Printer
             }
 
         }
+        
 
+        public void PerformPluginCommand(string cmd,object[] parms, bool verifyLicense)
+        {
+            foreach (PluginEntry pe in m_plugins)
+            {
+                try
+                {
+                    // iterate through all loaded plugins
+                    if (!verifyLicense || (pe.m_licensed == true)) 
+                    {
+                        pe.m_plugin.ExecuteFunction(cmd,parms);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    DebugLogger.Instance().LogError(ex);
+                }
+            }
+        }
         public void PerformPluginCommand(string cmd, bool verifyLicense)
         {
             foreach (PluginEntry pe in m_plugins)
@@ -884,7 +903,8 @@ namespace UV_DLP_3D_Printer
                 try
                 {
                     // iterate through all loaded plugins
-                    if (!verifyLicense || (pe.m_licensed == true)) {
+                    if (!verifyLicense || (pe.m_licensed == true))
+                    {
                         pe.m_plugin.ExecuteFunction(cmd);
                     }
                 }
