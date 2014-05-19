@@ -211,7 +211,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 foreach (Control ctl in flowTop.Controls)
                     ctl.BackColor = Parent.BackColor;
             }
-            ComponentSupport = UVDLPApp.Instance().m_printerinfo.MachineControls;
+            if (UVDLPApp.Instance().m_printerinfo.MachineControls != null)
+                ComponentSupport = UVDLPApp.Instance().m_printerinfo.MachineControls;
             UpdateComponentDisplay();
             try
             {
