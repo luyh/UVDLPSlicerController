@@ -1,14 +1,12 @@
 ﻿
 ToDo:
 
-- Fix the 'preview slice on Monitor' option
+- Modify slicing to allow a single model to self-intersect
 - When the Scene node in the scene control is selected, show the volume of all objects in the scene
 - serial port auto-detect
 - allow importing a set of images (png,bmp) along with a layer height. Generate a GCode file and allow printing from imported.
 - Fix the Adaptive support generation.
 - Add class to launch/ wait for an external process 
-
-- add a base (flat cube / cylinder) option in support generation
 - add additonal anti-aliasing re-sampling options other than bi-cubic.
 - Ability to enable/disable licensed plug-ins
 	-keep a file list of plug-ins that have been licensed, save an enabled/disabled status, use that when loading plugins
@@ -28,7 +26,7 @@ XML system to add/remove controls in the following areas:
 5)      Adaptive support generation does not help most of the time,  because removing redundant supports is a pain.   
 6)      It would be helpful if a simple 2D editor can be included in the slice view
 7)      Is it possible to do for loop or while loop in the G-code?    It is painful to modify parameters layer by layer for more optimized printing. 
-8)      Is it possible to turn off the projector when printing is completed? 
+
 
 
 
@@ -96,6 +94,8 @@ This would give people the possibility to use Other slicers like "VISCam RP" an 
 
 
 Completed**********************************
+* add a base (flat cube / cylinder) option in support generation
+* Fix the 'preview slice on Monitor' option
 * Fix the Object info control
 * In the machine configuration screen, allow the user to specify the visible machine controls
 * Make platform walls light up when objects are not fully enclosed in platform
