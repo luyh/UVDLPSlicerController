@@ -17,6 +17,7 @@ namespace UV_DLP_3D_Printer
     {
         public int x, y;
         public PolyLine3d m_parent;
+        public bool m_backfacing;
 
         int IComparable.CompareTo(object obj)
         {
@@ -443,34 +444,118 @@ namespace UV_DLP_3D_Printer
                     // sort the points in increasing x order
                     //SortXIncreasing(points);
                     points.Sort();
-                    //      draw the X-Spans (should be even number)    
-                    //    For a given pair of intersectin points
-                    //    (Xi, Y), (Xj, Y)
-                    //  −> Fill ceiling(Xi) to floor(Xj)
+                    SortBackfaces(points);
 
-                    if (points.Count % 2 == 0)  // is even
+                    if (UVDLPApp.Instance().m_slicer.m_slicemethod == Slicer.eSliceMethod.eEvenOdd)
                     {
-                        for (int cnt = 0; cnt < points.Count; cnt += 2)  // increment by 2
+                        //      draw the X-Spans (should be even number)    
+                        //    For a given pair of intersectin points
+                        //    (Xi, Y), (Xj, Y)
+                        //  −> Fill ceiling(Xi) to floor(Xj)
+
+                        if (points.Count % 2 == 0)  // is even
                         {
-                            Point2d p1 = (Point2d)points[cnt];
-                            Point2d p2 = (Point2d)points[cnt + 1];
-                            pnt1.X = (int)(p1.x + sp.XOffset + hxres);
-                            pnt1.Y = (int)(p1.y + sp.YOffset + hyres);
-                            pnt2.X = (int)(p2.x + sp.XOffset + hxres);
-                            pnt2.Y = (int)(p2.y + sp.YOffset + hyres);
-                            //graph.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                            graph.DrawLine(pen, pnt1.X, pnt1.Y, pnt2.X, pnt2.Y);
+                            for (int cnt = 0; cnt < points.Count; cnt += 2)  // increment by 2
+                            {
+                                Point2d p1 = (Point2d)points[cnt];
+                                Point2d p2 = (Point2d)points[cnt + 1];
+                                pnt1.X = (int)(p1.x + sp.XOffset + hxres);
+                                pnt1.Y = (int)(p1.y + sp.YOffset + hyres);
+                                pnt2.X = (int)(p2.x + sp.XOffset + hxres);
+                                pnt2.Y = (int)(p2.y + sp.YOffset + hyres);
+                                //graph.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                                graph.DrawLine(pen, pnt1.X, pnt1.Y, pnt2.X, pnt2.Y);
+                            }
+                        }
+                        else  // flag error
+                        {
+                            DebugLogger.Instance().LogRecord("Row y=" + y + " odd # of points = " + points.Count + " - Model may have holes");
                         }
                     }
-                    else  // flag error
+
+                    else if (UVDLPApp.Instance().m_slicer.m_slicemethod == Slicer.eSliceMethod.eNormalCount)
                     {
-                        DebugLogger.Instance().LogRecord("Row y=" + y + " odd # of points = " + points.Count + " - Model may have holes");
+                        Point2d p1 = null;
+                        Point2d p2 = null;
+                        int turncount = 0;
+                        if (points.Count != 0)
+                        {
+                            for (int cnt = 0; cnt < points.Count; cnt++)
+                            {
+                                if (points[cnt].m_backfacing)
+                                {
+                                    if (turncount == 0) //p1 == null)
+                                        p1 = (Point2d)points[cnt];
+                                    turncount++;
+                                }
+                                else
+                                {
+                                    //if (turncount > 0)
+                                        turncount--;
+                                    if ((turncount == 0) && (p1 != null))
+                                    {
+                                        p2 = (Point2d)points[cnt];
+                                        pnt1.X = (int)(p1.x + sp.XOffset + hxres);
+                                        pnt1.Y = (int)(p1.y + sp.YOffset + hyres);
+                                        pnt2.X = (int)(p2.x + sp.XOffset + hxres);
+                                        pnt2.Y = (int)(p2.y + sp.YOffset + hyres);
+                                        //graph.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                                        graph.DrawLine(pen, pnt1.X, pnt1.Y, pnt2.X, pnt2.Y);
+                                        p1 = p2;
+                                        p2 = null;
+                                    }
+                                }
+                            }
+                            if (turncount > 0)// flag error
+                            {
+                                DebugLogger.Instance().LogRecord("Row y=" + y + " odd # of points = " + points.Count + " - Model may have holes");
+                            }
+                        }
                     }
                 }
             }
             catch (Exception ex) 
             {
                 DebugLogger.Instance().LogError(ex.Message);
+            }
+        }
+
+        // original slicer using even odd algorithm
+        private void fillLinesEvenOdd(Graphics graph, List<Point2d> points, int y)
+        {
+        }
+
+        private void SortBackfaces(List<Point2d> points)
+        {
+            bool lastBackface = false;
+            int cnt = 0;
+            while (cnt < points.Count)
+            {
+                int cnt1 = cnt + 1;
+                while ((cnt1 < points.Count) && (points[cnt1].x == points[cnt].x))
+                    cnt1++;
+                cnt1--;
+                if (cnt1 > cnt)
+                {
+                    for (int i = cnt; i < cnt1; i++)
+                    {
+                        if (points[i].m_backfacing == lastBackface)
+                        {
+                            for (int k = i + 1; k <= cnt1; k++)
+                            {
+                                if (points[k].m_backfacing != lastBackface)
+                                {
+                                    Point2d pt = points[k];
+                                    points[k] = points[i];
+                                    points[i] = pt;
+                                }
+                            }
+                        }
+                        lastBackface = points[i].m_backfacing;
+                    }
+                }
+                lastBackface = points[cnt1].m_backfacing;
+                cnt = cnt1 + 1;
             }
         }
 
@@ -490,6 +575,12 @@ namespace UV_DLP_3D_Printer
 
                 if (ln.p1.y == ypos && ln.p2.y == ypos)  
                 {
+                    if (ln.p1.x < ln.p1.y)
+                        ln.p1.m_backfacing = true;
+                    else 
+                        ln.p1.m_backfacing = false;
+                    ln.p2.m_backfacing = !ln.p1.m_backfacing;
+
                     points.Add(ln.p1);
                     points.Add(ln.p2);
                 }                    
@@ -499,6 +590,7 @@ namespace UV_DLP_3D_Printer
                     //endpoint, count it. Otherwise, don’t
                     if (ln.p1.y == ymin) // if the 
                     {
+                        ln.p1.m_backfacing = (ln.m_parent.m_derived.m_normal.x < 0);
                         points.Add(ln.p1);
                     }
                     
@@ -510,6 +602,7 @@ namespace UV_DLP_3D_Printer
 
                     if (ln.p2.y == ymin)
                     {
+                        ln.p2.m_backfacing = (ln.m_parent.m_derived.m_normal.x < 0);
                         points.Add(ln.p2);
                     }
                 }                     
@@ -518,6 +611,7 @@ namespace UV_DLP_3D_Printer
                  
                     Point2d isect = ln.IntersectY(ypos); // singled point of intersection
                     isect.m_parent = ln.m_parent;
+                    isect.m_backfacing = (ln.m_parent.m_derived.m_normal.x < 0);
                     points.Add(isect);
                 }
             }
@@ -538,7 +632,7 @@ namespace UV_DLP_3D_Printer
             foreach (PolyLine3d ply in segments)  
             {
                 Line2d ln = new Line2d();
-                ln.SetParent(ply.m_plyderived);
+                ln.SetParent(ply);
                 //get the 3d points of the line
                 Point3d p3d1 = (Point3d)ply.m_points[0];
                 Point3d p3d2 = (Point3d)ply.m_points[1];

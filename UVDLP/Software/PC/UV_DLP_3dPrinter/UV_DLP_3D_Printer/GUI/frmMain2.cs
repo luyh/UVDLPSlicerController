@@ -988,5 +988,13 @@ namespace UV_DLP_3D_Printer.GUI
             if (flowLayoutPanel1.Width != newwidth)
                 flowLayoutPanel1.Width = newwidth;
         }
+
+        private void testNewSlicerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (testNewSlicerToolStripMenuItem.Checked)
+                UVDLPApp.Instance().m_slicer.m_slicemethod = Slicer.eSliceMethod.eNormalCount;
+            else
+                UVDLPApp.Instance().m_slicer.m_slicemethod = Slicer.eSliceMethod.eEvenOdd;
+        }
     }
 }

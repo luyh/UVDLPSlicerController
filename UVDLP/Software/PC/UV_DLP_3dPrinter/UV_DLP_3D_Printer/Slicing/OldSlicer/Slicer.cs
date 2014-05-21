@@ -23,6 +23,11 @@ namespace UV_DLP_3D_Printer
             eSliceCompleted,
             eSliceCancelled
         }
+        public enum eSliceMethod
+        {
+            eEvenOdd,
+            eNormalCount
+        }
         public delegate void SliceEvent(eSliceEvent ev, int layer, int totallayers,SliceFile sf);
 
         private SliceFile m_sf; // the current file being sliced
@@ -31,6 +36,7 @@ namespace UV_DLP_3D_Printer
         private bool m_cancel = false;
         private bool isslicing = false;
         private ZipFile m_zip; // for storing image slices
+        public eSliceMethod m_slicemethod = eSliceMethod.eEvenOdd;
 
         public Slicer() 
         {
