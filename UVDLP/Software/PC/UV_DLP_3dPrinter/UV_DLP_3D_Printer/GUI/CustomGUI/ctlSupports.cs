@@ -389,7 +389,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             lbSupports.Items.Clear();
             foreach (Object3d obj in UVDLPApp.Instance().Engine3D.m_objects) 
             {
-                if (obj.tag == Object3d.OBJ_SUPPORT) 
+                if ((obj.tag == Object3d.OBJ_SUPPORT) || (obj.tag == Object3d.OBJ_SUPPORT_BASE)) 
                 {
                     ListViewItem lvi = new ListViewItem(obj.Name);
                     lvi.Tag = obj;

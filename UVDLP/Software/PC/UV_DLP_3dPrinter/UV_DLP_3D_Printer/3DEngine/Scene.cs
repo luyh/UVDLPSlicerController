@@ -49,6 +49,7 @@ namespace UV_DLP_3D_Printer._3DEngine
                 XmlNode topnode = manifest.m_toplevel;
                 XmlNode models = manifest.FindSection(topnode, "Models");
                 List<XmlNode> modelnodes = manifest.FindAllChildElement(models, "model");
+                bool supportLoaded = false;
                 foreach (XmlNode nd in modelnodes) 
                 {
                     string name = manifest.GetString(nd, "name", "noname");
@@ -61,37 +62,45 @@ namespace UV_DLP_3D_Printer._3DEngine
                     modstr.Seek(0, SeekOrigin.Begin);
                     //fix the name
                     name = name.Substring(0, name.Length - 5);// get rid of the _XXXX at the end
-                    if (tag == Object3d.OBJ_SUPPORT)
+                    string parentName = manifest.GetString(nd, "parent", "noname");
+                    Object3d obj, tmpObj;
+                    switch (tag)
                     {
-                        Support s = new Support();
-                        //load the model
-                        s.LoadSTL_Binary(modstr, name);
-                        //add to the 3d engine
-                        UVDLPApp.Instance().m_engine3d.AddObject(s);
-                        //set the tag
-                        s.tag = tag;
-                        string parent = manifest.GetString(nd, "parent", "noname");
-                        s.SetColor(System.Drawing.Color.Yellow);
-                        //find and set the parent
-                        Object3d tmp = UVDLPApp.Instance().m_engine3d.Find(parent);
-                        if (tmp != null) 
-                        {
-                            tmp.AddSupport(s);
-                        }
-                    }
-                    else 
-                    {
-                        //load as normal object
-                        Object3d obj = new Object3d();
-                        //load the model
-                        obj.LoadSTL_Binary((MemoryStream)modstr, name);
-                        //add to the 3d engine
-                        UVDLPApp.Instance().m_engine3d.AddObject(obj);
-                        //set the tag
-                        obj.tag = tag;
+                        case Object3d.OBJ_SUPPORT:
+                        case Object3d.OBJ_SUPPORT_BASE:
+                            if (tag == Object3d.OBJ_SUPPORT)
+                                obj = (Object3d)(new Support());
+                            else
+                                obj = (Object3d)(new SupportBase());
+                            //load the model
+                            obj.LoadSTL_Binary(modstr, name);
+                            //add to the 3d engine
+                            UVDLPApp.Instance().m_engine3d.AddObject(obj);
+                            //set the tag
+                            obj.tag = tag;
+                            obj.SetColor(System.Drawing.Color.Yellow);
+                            //find and set the parent
+                            tmpObj = UVDLPApp.Instance().m_engine3d.Find(parentName);
+                            if (tmpObj != null)
+                            {
+                                tmpObj.AddSupport(obj);
+                            }
+                            supportLoaded = true;
+                            break;
+
+                        default:
+                            //load as normal object
+                            obj = new Object3d();
+                            //load the model
+                            obj.LoadSTL_Binary((MemoryStream)modstr, name);
+                            //add to the 3d engine
+                            UVDLPApp.Instance().m_engine3d.AddObject(obj);
+                            //set the tag
+                            obj.tag = tag;
+                            break;
                     }
                 }
-
+                UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eModelAdded, "Scene loaded");
                 return true;
             }
             catch (Exception ex) 
@@ -158,7 +167,7 @@ namespace UV_DLP_3D_Printer._3DEngine
                     XmlNode objnode = manifest.AddSection(mc, "model");
                     manifest.SetParameter(objnode, "name", objnameNE);
                     manifest.SetParameter(objnode, "tag", obj.tag);
-                    if (obj.tag == Object3d.OBJ_SUPPORT && obj.m_parrent !=null) 
+                    if (obj.tag != Object3d.OBJ_NORMAL && obj.m_parrent != null) 
                     {
                         // note it's parent name in the entry
                         manifest.SetParameter(objnode, "parent", Path.GetFileNameWithoutExtension(obj.m_parrent.Name));

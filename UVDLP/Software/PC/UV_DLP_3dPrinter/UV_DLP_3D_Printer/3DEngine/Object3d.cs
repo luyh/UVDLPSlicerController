@@ -31,10 +31,10 @@ namespace Engine3D
         public float m_radius;
         public Material material;// = new Material();
         public int tag = -1; // acting as an object ID
-        public static int OBJ_NORMAL        =0; // a regular old object
-        public static int OBJ_SUPPORT = 1; // a generated support
-        public static int OBJ_GROUND = 2; // ground plane usewd for hit-testing
-        public static int OBJ_SUPPORT_BASE = 3; // base support plate
+        public const int OBJ_NORMAL        =0; // a regular old object
+        public const int OBJ_SUPPORT = 1; // a generated support
+        public const int OBJ_GROUND = 2; // ground plane usewd for hit-testing
+        public const int OBJ_SUPPORT_BASE = 3; // base support plate
         public bool m_inSelectedList = false;
         private int m_listid; // gl call list id 
         private double m_volume = -1;

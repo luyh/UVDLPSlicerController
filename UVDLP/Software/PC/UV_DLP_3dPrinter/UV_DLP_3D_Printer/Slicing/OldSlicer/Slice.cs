@@ -506,9 +506,9 @@ namespace UV_DLP_3D_Printer
                                     }
                                 }
                             }
-                            if (turncount > 0)// flag error
+                            if (turncount != 0)// flag error
                             {
-                                DebugLogger.Instance().LogRecord("Row y=" + y + " odd # of points = " + points.Count + " - Model may have holes");
+                                DebugLogger.Instance().LogRecord("Row y=" + y + " non equal in/outs = " + turncount + " - Model may have holes");
                             }
                         }
                     }

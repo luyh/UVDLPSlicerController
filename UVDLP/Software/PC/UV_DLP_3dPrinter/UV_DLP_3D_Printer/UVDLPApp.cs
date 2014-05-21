@@ -287,7 +287,7 @@ namespace UV_DLP_3D_Printer
 
             foreach (Object3d obj in m_engine3d.m_objects) 
             {
-                if (obj.tag == Object3d.OBJ_SUPPORT) 
+                if ((obj.tag == Object3d.OBJ_SUPPORT) || (obj.tag == Object3d.OBJ_SUPPORT_BASE))
                 {
                     lst.Add(obj);
                 }

@@ -369,6 +369,7 @@ namespace Engine3D
             }
             Update();
             SetColor(Color.Yellow);
+            m_name = refObj.m_name + "_Base";
         }
     }
 }
