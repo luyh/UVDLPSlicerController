@@ -146,7 +146,7 @@ namespace UV_DLP_3D_Printer
                     //set the first parameter to be the image
                     parms[0] = (object)cropped;
                     //call the plugin command
-                    UVDLPApp.Instance().PerformPluginCommand("", parms, false);
+                    UVDLPApp.Instance().PerformPluginCommand("SendToLaserDisplay", parms, false);
                 }
                 else
                 {
