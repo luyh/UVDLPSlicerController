@@ -86,6 +86,7 @@
             this.cmbSliceEngine.Name = "cmbSliceEngine";
             this.cmbSliceEngine.Size = new System.Drawing.Size(194, 24);
             this.cmbSliceEngine.TabIndex = 29;
+            this.cmbSliceEngine.Visible = false;
             // 
             // label1
             // 
@@ -95,6 +96,7 @@
             this.label1.Size = new System.Drawing.Size(97, 17);
             this.label1.TabIndex = 30;
             this.label1.Text = "Slicing Engine";
+            this.label1.Visible = false;
             // 
             // pictureBox1
             // 
