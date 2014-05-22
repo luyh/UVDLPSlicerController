@@ -12,11 +12,13 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
     public partial class ctlScene : ctlAnchorable
     {
+        bool ignorerefresh;
         public ctlScene()
         {
             InitializeComponent();
             UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEventDel);
             UpdateSceneTree();
+            ignorerefresh = false;
         }
         private void AppEventDel(eAppEvent ev, String Message) 
         {
@@ -26,11 +28,13 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
             else
             {
+                
                 switch (ev) 
                 {
                     case eAppEvent.eObjectSelected:
                     case eAppEvent.eModelRemoved: 
                     case eAppEvent.eModelAdded:
+                        if (ignorerefresh) return;
                         UpdateSceneTree();
                         break;
                 }
@@ -74,6 +78,17 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             SetupSceneTree();
         }
 
+	    private TreeNode FindObjectNode(TreeNodeCollection nodes, Object3d sel) 
+        {
+	        TreeNode found = null;
+	        foreach (TreeNode node in nodes) {
+	            if (node.Tag == sel) { return node; }
+                found = FindObjectNode(node.Nodes, sel);
+	            if (found!=null) { break; }
+	        }
+	        return found;
+        }
+
         private void SetupSceneTree()
         {
             treeScene.Nodes.Clear();//clear the old
@@ -96,6 +111,19 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                         //treeScene.SelectedNode = objnode;
                         selNode = objnode;
                     }
+                    if (obj.m_supports.Count > 0) //if object has supports, create a node for them
+                    {
+                        TreeNode supnode = new TreeNode("Supports");
+                        objnode.Nodes.Add(supnode);
+                        supnode.Collapse();
+                        foreach (Object3d sup in obj.m_supports) 
+                        {
+                            TreeNode tn = new TreeNode(sup.Name);
+                            tn.Tag = sup;
+                            supnode.Nodes.Add(tn);
+                        }
+                    }
+                    
                 }
             }
             if (selNode != null)
@@ -109,7 +137,15 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             // delete the current selected object
             if (UVDLPApp.Instance().SelectedObject != null)
             {
+                //if this is a support, remove it from the parent as to not create an orphan
+                if (UVDLPApp.Instance().SelectedObject.tag == Object3d.OBJ_SUPPORT || UVDLPApp.Instance().SelectedObject.tag == Object3d.OBJ_SUPPORT_BASE)
+                {
+                    if (UVDLPApp.Instance().SelectedObject.m_parrent != null)
+                        UVDLPApp.Instance().SelectedObject.m_parrent.RemoveSupport(UVDLPApp.Instance().SelectedObject);
+                }
+                
                 UVDLPApp.Instance().RemoveCurrentModel();
+
                 SetupSceneTree();
             }
         }
@@ -133,10 +169,17 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             //if (e.Node.Tag != null)            
             if (e.Button == System.Windows.Forms.MouseButtons.Left && e.Node.Tag != null)
             {
+                ignorerefresh = true;
+                TreeNode tn = FindObjectNode(treeScene.Nodes, UVDLPApp.Instance().SelectedObject); // find the node that's currently selected
+                if (tn != null) //set it back to the original color
+                    tn.BackColor = treeScene.BackColor;
+
                 UVDLPApp.Instance().SelectedObject = (Object3d)e.Node.Tag;
-                // objectInfoPanel.FillObjectInfo(UVDLPApp.Instance().SelectedObject);
-                SetupSceneTree();
+                e.Node.BackColor = Color.Green; // now set the selected color
+
+               // SetupSceneTree();                
                 UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eUpdateSelectedObject, "updateobject");
+                ignorerefresh = false;
             }
 
             if (e.Button == System.Windows.Forms.MouseButtons.Right)  // we right clicked a menu item, check and see if it has a tag

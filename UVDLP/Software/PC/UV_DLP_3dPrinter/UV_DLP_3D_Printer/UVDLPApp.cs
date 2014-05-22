@@ -354,7 +354,11 @@ namespace UV_DLP_3D_Printer
         public void RemoveCurrentModel() 
         {
             UVDLPApp.Instance().m_undoer.SaveDelition(SelectedObject);
-            m_engine3d.RemoveObject(SelectedObject);
+            foreach (Object3d sup in SelectedObject.m_supports) 
+            {
+                m_engine3d.RemoveObject(sup,false); // remove all the supports of this object, hold out on sending events
+            }
+            m_engine3d.RemoveObject(SelectedObject); // now remove the object
             SelectedObject = null;
             RaiseAppEvent(eAppEvent.eModelRemoved, "model removed");
         }

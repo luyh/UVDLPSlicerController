@@ -229,6 +229,17 @@ namespace Engine3D
                 ModelRemovedEvent(obj);
             }                 
         }
+        public void RemoveObject(Object3d obj, bool sendevents)
+        {
+            m_objects.Remove(obj);
+            if (sendevents == true)
+            {
+                if (ModelRemovedEvent != null)
+                {
+                    ModelRemovedEvent(obj);
+                }
+            }
+        }
         public void AddLine(PolyLine3d ply) { m_lines.Add(ply); }
         public void RemoveAllLines() 
         {
