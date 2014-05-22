@@ -28,11 +28,12 @@ namespace UV_DLP_3D_Printer._3DEngine
             }
             return m_instance;
         }
-        public bool Load(string scenename) 
+        public bool Load(string scenefilename) 
         {
             try
             {
-                ZipFile zip = ZipFile.Read(scenename);
+                UVDLPApp.Instance().SceneFileName = scenefilename;
+                ZipFile zip = ZipFile.Read(scenefilename);
                 string xmlname = "manifest.xml";
                 ZipEntry manifestentry = zip[xmlname];
                 //create new manifest xml doc
@@ -115,10 +116,11 @@ namespace UV_DLP_3D_Printer._3DEngine
         /// </summary>
         /// <param name="scenename"></param>
         /// <returns></returns>
-        public bool Save(string scenename) 
+        public bool Save(string scenefilename) 
         {
             try
             {
+                UVDLPApp.Instance().SceneFileName = scenefilename;
                 // open a zip file with the scenename
                 // iterate through all objects in engine
                 string xmlname = "manifest.xml";
@@ -173,7 +175,8 @@ namespace UV_DLP_3D_Printer._3DEngine
                         manifest.SetParameter(objnode, "parent", Path.GetFileNameWithoutExtension(obj.m_parrent.Name));
                     }
                 }
-                 
+                //save the gcode
+
                 //save the XML document to memorystream
                 manifest.Save(1, ref manifeststream);
                 manifeststream.Seek(0, SeekOrigin.Begin);
@@ -182,7 +185,7 @@ namespace UV_DLP_3D_Printer._3DEngine
                 zip.AddEntry(xmlname, manifeststream);
 
                 //save the zip file
-                zip.Save(scenename);
+                zip.Save(scenefilename);
                 return true;
             }
             catch (Exception ex) 

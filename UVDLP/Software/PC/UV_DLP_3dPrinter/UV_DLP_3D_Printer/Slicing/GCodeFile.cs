@@ -20,6 +20,25 @@ namespace UV_DLP_3D_Printer
         {
             m_lines = m_gcode.Split('\n'); // split on the newline
         }
+
+        public bool Load(Stream instream) 
+        {
+            try
+            {
+                TextReader tw = new StreamReader(instream);
+                m_lines = null;
+                m_gcode = tw.ReadToEnd();
+                tw.Close();
+                m_lines = null;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogRecord(ex.Message);
+                return false;
+            }            
+        
+        }
         public bool Load(String filename) 
         {
             try
@@ -52,6 +71,21 @@ namespace UV_DLP_3D_Printer
                 DebugLogger.Instance().LogRecord(ex.Message);
                 return false;
             }            
+        }
+        public bool Save(Stream outstream)
+        {
+            try
+            {
+                TextWriter tw = new StreamWriter(outstream);
+                tw.Write(m_gcode);
+                tw.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogRecord(ex.Message);
+                return false;
+            }
         }
         /// <summary>
         /// this is a cheat to find, parse and return the number of slices in a gcode file for UV DLP GCode

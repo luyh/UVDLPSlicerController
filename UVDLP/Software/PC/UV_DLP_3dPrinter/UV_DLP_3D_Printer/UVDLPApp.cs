@@ -53,7 +53,8 @@ namespace UV_DLP_3D_Printer
         eReDraw, // this is used when an application action needs to re-draw the 3d display
         eReDraw2D, // update only the top 2D layer of the 3D display
         eUpdateSelectedObject, // this will update object information and will perform a redraw.
-        eShowLogWindow
+        eShowLogWindow,
+        eSceneFileNameChanged
     }
     public delegate void AppEventDelegate(eAppEvent ev, String Message);
     /*
@@ -66,6 +67,7 @@ namespace UV_DLP_3D_Printer
         public String m_PathMachines;
         public String m_PathProfiles;
         public String m_apppath;
+        private String m_scenefilename;
         // the current application configuration object
         public AppConfig m_appconfig;
         public string appconfigname; // the full filename
@@ -119,6 +121,7 @@ namespace UV_DLP_3D_Printer
 
         private UVDLPApp() 
         {
+            SceneFileName = "";
             m_callbackhandler = new CallbackHandler();
             m_appconfig = new AppConfig();
             m_printerinfo = new MachineConfig();
@@ -239,6 +242,21 @@ namespace UV_DLP_3D_Printer
             m_supportconfig.Save(m_apppath + m_pathsep + filename);
             return true;
         }
+
+        public String SceneFileName
+        {
+            get { return m_scenefilename; }
+            set {
+                m_scenefilename = value;
+                RaiseAppEvent(eAppEvent.eSceneFileNameChanged, m_scenefilename);
+            }
+          
+        }
+
+        /// <summary>
+        /// I want to get rid of this function, need to replace the 
+        /// Slic3r model and the supportgenerator model
+        /// </summary>
         public void CalcScene() 
         {
             m_sceneobject = new Object3d();
@@ -424,6 +442,10 @@ namespace UV_DLP_3D_Printer
             try
             {
                 ModelLoader ml = new ModelLoader();
+                if (SceneFileName.Length == 0) 
+                {
+                    SceneFileName = filename; // set it to be the first file loaded
+                }
                 List<Object3d> objs = ml.Load(filename);
                 if (objs != null)
                 {
@@ -587,7 +609,7 @@ namespace UV_DLP_3D_Printer
                 DebugLogger.Instance().LogRecord(ex.Message);
             }
         }
-
+        
         // a public property to get the 3d engine
         public Engine3d Engine3D { get { return m_engine3d; } }
 

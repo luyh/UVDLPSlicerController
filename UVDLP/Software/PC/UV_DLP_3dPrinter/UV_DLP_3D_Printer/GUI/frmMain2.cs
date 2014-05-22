@@ -446,6 +446,9 @@ namespace UV_DLP_3D_Printer.GUI
                             break;
                         case eAppEvent.eMachineDisconnected:
                             break;
+                        case eAppEvent.eSceneFileNameChanged:
+                            SetTitle();
+                            break;
                         
                   case eAppEvent.eSlicedLoaded: // update the gui to view
                       DebugLogger.Instance().LogRecord(Message);
@@ -495,7 +498,8 @@ namespace UV_DLP_3D_Printer.GUI
             
             this.Text = m_appname + " - " + "  ( Slice Profile : ";
             this.Text += Path.GetFileNameWithoutExtension(UVDLPApp.Instance().m_buildparms.m_filename);
-            this.Text += ", Machine : " + Path.GetFileNameWithoutExtension(UVDLPApp.Instance().m_printerinfo.m_filename) + ")";
+            this.Text += ", Machine : " + Path.GetFileNameWithoutExtension(UVDLPApp.Instance().m_printerinfo.m_filename);// +")";
+            this.Text += ", Scene : " + Path.GetFileNameWithoutExtension(UVDLPApp.Instance().SceneFileName) + ")";
              
         }
         private void UpdateSceneInfo()
@@ -870,7 +874,7 @@ namespace UV_DLP_3D_Printer.GUI
         public void LoadSTLModel_Click(object sender, object e)
         {
             openFileDialog1.FileName = "";
-            openFileDialog1.Filter = "3D Model Files (*.stl;*.obj;*.3ds;*.amf)|*.stl;*.obj;*.3ds;*.amf|Scene files (*.zip)|*.zip";
+            openFileDialog1.Filter = "3D Model Files (*.stl;*.obj;*.3ds;*.amf)|*.stl;*.obj;*.3ds;*.amf|Scene files (*.cws)|*.cws";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 foreach (string filename in openFileDialog1.FileNames)
@@ -959,7 +963,7 @@ namespace UV_DLP_3D_Printer.GUI
 
         private void testSaveSceneToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            saveFileDialog1.Filter = "Scene files (*.zip)|*.zip";
+            saveFileDialog1.Filter = "Scene files (*.cws)|*.cws";
             saveFileDialog1.FilterIndex = 0;
             if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) 
             {

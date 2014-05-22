@@ -1,8 +1,6 @@
 ﻿
 ToDo:
-
-- Modify slicing to allow a single model to self-intersect
-- When the Scene node in the scene control is selected, show the volume of all objects in the scene
+- Use single zip file for everything - gcode,models,support, image slices...
 - serial port auto-detect
 - allow importing a set of images (png,bmp) along with a layer height. Generate a GCode file and allow printing from imported.
 - Fix the Adaptive support generation.
@@ -94,6 +92,8 @@ This would give people the possibility to use Other slicers like "VISCam RP" an 
 
 
 Completed**********************************
+* When the Scene node in the scene control is selected, show the volume of all objects in the scene
+* Modify slicing to allow a single model to self-intersect
 * add a base (flat cube / cylinder) option in support generation
 * Fix the 'preview slice on Monitor' option
 * Fix the Object info control

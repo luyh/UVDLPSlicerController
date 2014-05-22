@@ -105,6 +105,36 @@ namespace UV_DLP_3D_Printer.GUI
                         SliceBuildConfig sp = UVDLPApp.Instance().m_buildparms;
                         sp.UpdateFrom(UVDLPApp.Instance().m_printerinfo); // make sure we've got the correct display size and PixPerMM values                        
                         int numslices = UVDLPApp.Instance().m_slicer.GetNumberOfSlices(sp); // determine the number of slices\
+                        /* // not using this yet...
+                        // if the user has not specificed a scenename yet, prompt thm here...
+                        if (UVDLPApp.Instance().SceneFileName.Length == 0) 
+                        {
+                            saveFileDialog1.Title = "Save Scene";
+                            saveFileDialog1.Filter = "Scene files (*.cws)|*.cws";
+                            //set a default name of the loaded object
+                            if (UVDLPApp.Instance().SelectedObject != null) 
+                            {
+                                //UVDLPApp.Instance().SelectedObject.m_fullname;
+                                //String fname = ()
+                                String fname = Path.GetFileNameWithoutExtension(UVDLPApp.Instance().SelectedObject.m_fullname);
+                                String pth = Path.GetDirectoryName(UVDLPApp.Instance().SelectedObject.m_fullname);
+                                String ext = ".cws"; // Creation Workshop Scene file
+                                String fsn = pth + UVDLPApp.m_pathsep + fname + ext;
+                                saveFileDialog1.FileName = fsn;
+                            }
+                            
+                            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) 
+                            {
+                                String fname = Path.GetFileNameWithoutExtension(saveFileDialog1.FileName);
+                                String pth = Path.GetDirectoryName(saveFileDialog1.FileName);
+                                String ext = ".cws"; // Creation Workshop Scene file
+                                String fsn = pth + UVDLPApp.m_pathsep + fname + ext;
+                                UVDLPApp.Instance().SceneFileName = fsn;
+
+                            }
+
+                        }
+                        */
                         UVDLPApp.Instance().m_slicefile = UVDLPApp.Instance().m_slicer.Slice(sp); // start slicing the scene
                     }
                 }
