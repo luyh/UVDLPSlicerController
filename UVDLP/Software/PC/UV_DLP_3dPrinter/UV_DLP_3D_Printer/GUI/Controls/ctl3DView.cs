@@ -770,18 +770,15 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                         bool foundObject = false;
                         foreach (ISectData htd in iss)
                         {
-                            if (htd.obj.tag != Object3d.OBJ_SUPPORT)  // if this is not another support or the ground
+                            if (htd.obj.tag == Object3d.OBJ_NORMAL)  // if this is not another support or the ground
                             {
-                                if (htd.obj.tag != Object3d.OBJ_GROUND)
-                                {
-                                    // this should be it...
-                                    tmpsup.ScaleToHeight(htd.intersect.z);
-                                    //set the parent object
-                                    tmpsup.m_supporting = htd.obj;
-                                    htd.obj.AddSupport(tmpsup);
-                                    foundObject = true;
-                                    break;
-                                }
+                                // this should be it...
+                                tmpsup.ScaleToHeight(htd.intersect.z);
+                                //set the parent object
+                                 tmpsup.m_supporting = htd.obj;
+                                htd.obj.AddSupport(tmpsup);
+                                foundObject = true;
+                                break;
                             }
                         }
                         if (!foundObject && (tmpsup.m_parrent != null))
