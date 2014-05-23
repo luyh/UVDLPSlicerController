@@ -632,6 +632,7 @@
     <Compile Include="Configs\SliceBuildConfig.cs" />
     <Compile Include="Slicing\OldSlicer\Slicer.cs" />
     <Compile Include="Utility\DisplayManager.cs" />
+    <Compile Include="Utility\ServerContact.cs" />
     <Compile Include="Utility\Utility.cs" />
     <Compile Include="UVDLPApp.cs" />
     <Compile Include="3DEngine\Vector3d.cs" />

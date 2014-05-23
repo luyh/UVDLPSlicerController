@@ -17,9 +17,6 @@ namespace UV_DLP_3D_Printer.GUI
         public frmSplash()
         {
             InitializeComponent();
-
-            LoadPluginSplash();
-            /*
             label1.Parent = pictureBox1;
             label1.BackColor = Color.Transparent;
             label2.Parent = pictureBox1;
@@ -27,7 +24,8 @@ namespace UV_DLP_3D_Printer.GUI
             version.Parent = pictureBox1;
             version.BackColor = Color.Transparent;
             version.Text = "Version " + Application.ProductVersion;
-            */
+
+            LoadPluginSplash();
             m_timer = new Timer();
             m_timer.Interval = 20;
             m_timer.Tick += new EventHandler(m_timer_Tick);
@@ -44,6 +42,10 @@ namespace UV_DLP_3D_Printer.GUI
                 this.Width = bmp.Width;
                 this.Height = bmp.Height;
                 pictureBox1.Image = bmp;
+                //hide the control labels for the default version
+                label1.Visible = false;
+                label2.Visible = false;
+                version.Visible = false;
                 Refresh();
             }
         }

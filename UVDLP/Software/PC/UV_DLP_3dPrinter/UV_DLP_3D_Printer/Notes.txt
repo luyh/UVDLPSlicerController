@@ -1,5 +1,17 @@
 ﻿
 ToDo:
+- Have CW connect via HTTPPost to server at www.buildyourownsla.com and hit a php script
+   Have server address be configurable
+	Things the plugin should report:
+		list of Plugin ID's
+		List of plugin keys
+		version of CW
+
+ On server: have the posts go to a php script 
+	post to a sql database table
+	use this for statistics
+	post time/data, ip address
+
 - Use single zip file for everything - gcode,models,support, image slices...
 - serial port auto-detect
 - allow importing a set of images (png,bmp) along with a layer height. Generate a GCode file and allow printing from imported.

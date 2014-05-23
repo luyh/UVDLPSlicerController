@@ -372,8 +372,8 @@ namespace UV_DLP_3D_Printer
             sb.Append(";(****Build and Slicing Parameters****)\r\n");
             sb.Append(";(Pix per mm X            = " + String.Format("{0:0.00000}", dpmmX) + " px/mm )\r\n");
             sb.Append(";(Pix per mm Y            = " + String.Format("{0:0.00000}", dpmmY) + " px/mm )\r\n");
-            sb.Append(";(X Resolution            = " + xres + " px )\r\n");
-            sb.Append(";(Y Resolution            = " + yres + " px )\r\n");
+            sb.Append(";(X Resolution            = " + xres + " )\r\n");
+            sb.Append(";(Y Resolution            = " + yres + " )\r\n");
             sb.Append(";(X Pixel Offset          = " + XOffset + " px )\r\n");
             sb.Append(";(Y Pixel Offset          = " + YOffset + " px )\r\n");
             sb.Append(";(Layer Thickness         = " + String.Format("{0:0.00000}", ZThick) + " mm )\r\n");

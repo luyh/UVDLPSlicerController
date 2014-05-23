@@ -16,6 +16,11 @@ namespace UV_DLP_3D_Printer
             m_gcode = gc;
             m_lines = null;
         }
+        public GCodeFile(Stream gcs)
+        {
+            Load(gcs);
+        }
+
         private void GenerateLines()         
         {
             m_lines = m_gcode.Split('\n'); // split on the newline
@@ -28,7 +33,7 @@ namespace UV_DLP_3D_Printer
                 TextReader tw = new StreamReader(instream);
                 m_lines = null;
                 m_gcode = tw.ReadToEnd();
-                tw.Close();
+              //  tw.Close();
                 m_lines = null;
                 return true;
             }
@@ -78,7 +83,7 @@ namespace UV_DLP_3D_Printer
             {
                 TextWriter tw = new StreamWriter(outstream);
                 tw.Write(m_gcode);
-                tw.Close();
+               // tw.Close();
                 return true;
             }
             catch (Exception ex)
@@ -115,6 +120,33 @@ namespace UV_DLP_3D_Printer
             }
             return -1;
         }
+
+        public double GetDoubleVar(string var)
+        {
+            try
+            {
+                foreach (string s in Lines)
+                {
+                    if (s.Contains(var))
+                    {
+                        String str = s;
+                        str = str.Replace('(', ' ');
+                        str = str.Replace(')', ' ');
+                        str = str.Replace(';', ' ');
+                        string[] tmp = str.Split('=');
+                        string[] t2 = tmp[1].Split(' ');
+                        return double.Parse(t2[0]);
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex.StackTrace);
+            }
+            return -1;
+        }
+        
         public String[] Lines 
         {
             get 

@@ -25,7 +25,7 @@ using UV_DLP_3D_Printer.Licensing;
 using CreationWorkshop.Licensing;
 using UV_DLP_3D_Printer.GUI.CustomGUI;
 using UV_DLP_3D_Printer.GUI;
-
+using UV_DLP_3D_Printer;
 
 namespace UV_DLP_3D_Printer
 {
@@ -54,7 +54,8 @@ namespace UV_DLP_3D_Printer
         eReDraw2D, // update only the top 2D layer of the 3D display
         eUpdateSelectedObject, // this will update object information and will perform a redraw.
         eShowLogWindow,
-        eSceneFileNameChanged
+        eSceneFileNameChanged,
+        eNewVersionAvailable, // the app contacted the server and saw there was a new version available
     }
     public delegate void AppEventDelegate(eAppEvent ev, String Message);
     /*
@@ -108,7 +109,7 @@ namespace UV_DLP_3D_Printer
         public List<PluginEntry> m_plugins; // list of plug-ins
 
         public Undoer m_undoer;
-        public frmMain2 m_mainform;
+        public frmMain2 m_mainform; // reference to the main application form       
 
         public static UVDLPApp Instance() 
         {
@@ -459,6 +460,7 @@ namespace UV_DLP_3D_Printer
                     UVDLPApp.Instance().m_engine3d.UpdateLists();
                     m_slicefile = null; // the slice file is not longer current
                     RaiseAppEvent(eAppEvent.eModelAdded, "Model Loaded " + filename);
+                    /*
                     //now try to load the gcode file
                     String gcodefile = Path.GetFileNameWithoutExtension(filename) + ".gcode";
                     String gcodepath = SliceFile.GetSliceFilePath(filename);
@@ -500,6 +502,7 @@ namespace UV_DLP_3D_Printer
                         m_slicefile.m_config = null; //this can be null if we're loading it...
                         RaiseAppEvent(eAppEvent.eSlicedLoaded, "SliceFile Created");
                     }
+                     * */
                 }
                 else 
                 {
@@ -546,7 +549,7 @@ namespace UV_DLP_3D_Printer
                     m_slicefile = sf;
                     //generate the GCode
                     m_gcode = GCodeGenerator.Generate(m_slicefile, m_printerinfo);
-                    
+                    /*
                     path = SliceFile.GetSliceFilePath(m_slicefile.modelname);
                     fileName = Path.GetFileNameWithoutExtension(m_slicefile.modelname) + ".gcode";
                     //see if we're exporting this to a zip file 
@@ -566,7 +569,7 @@ namespace UV_DLP_3D_Printer
                         String sdn = path + UVDLPApp.m_pathsep + fileName;
                         SaveGCode(sdn);
                     }
-                    
+                    */
                     //save the slicer object for later too                    
                     //save the slice file
 
@@ -857,6 +860,7 @@ namespace UV_DLP_3D_Printer
             ScanForPlugins();
             // validate those loaded plugins against license keys
             CheckLicensing();
+            // initialize the plugins, the main form will send a secondary init after the main app gui is created
             PerformPluginCommand("InitCommand", true);
 
         }

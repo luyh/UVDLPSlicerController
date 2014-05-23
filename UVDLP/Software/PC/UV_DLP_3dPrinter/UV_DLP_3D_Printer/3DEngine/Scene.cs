@@ -7,7 +7,7 @@ using Engine3D;
 using System.IO;
 using System.Xml;
 using UV_DLP_3D_Printer.Configs;
-
+using UV_DLP_3D_Printer.Slicing;
 namespace UV_DLP_3D_Printer._3DEngine
 {
     /// <summary>
@@ -48,6 +48,46 @@ namespace UV_DLP_3D_Printer._3DEngine
                 //examine manifest
                 //find the node with models
                 XmlNode topnode = manifest.m_toplevel;
+
+                XmlNode gcn = manifest.FindSection(topnode, "GCode");
+                string gcodename = manifest.GetString(gcn, "filename", "none");
+                if (!gcodename.Equals("none")) 
+                {
+                    try
+                    {
+                        ZipEntry gcodeentry = zip[gcodename];
+                        MemoryStream gcstr = new MemoryStream();
+                        gcodeentry.Extract(gcstr);
+                        //rewind to beginning
+                        gcstr.Seek(0, SeekOrigin.Begin);
+                        UVDLPApp.Instance().m_gcode = new GCodeFile(gcstr);
+                        UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eGCodeLoaded,"");
+                        //if we load the gcode, we can create the slice file here too
+                        if (UVDLPApp.Instance().m_gcode != null)
+                        {
+                            int xres, yres, numslices;
+                            xres = UVDLPApp.Instance().m_gcode.GetVar("X Resolution");
+                            yres = UVDLPApp.Instance().m_gcode.GetVar("Y Resolution");
+                            numslices = UVDLPApp.Instance().m_gcode.GetVar("Number of Slices");
+                            UVDLPApp.Instance().m_slicefile = new SliceFile(xres, yres, numslices);
+                            if (UVDLPApp.Instance().SelectedObject != null) 
+                            {
+                                UVDLPApp.Instance().m_slicefile.modelname = UVDLPApp.Instance().SelectedObject.m_fullname;
+                            }
+                            //UVDLPApp.Instance().m_slicefile.m_config = new SliceBuildConfig();
+                            UVDLPApp.Instance().m_slicefile.m_config = null;
+                            //UVDLPApp.Instance().m_slicefile.m_config.ZThick = UVDLPApp.Instance().m_gcode.GetVar("Layer Thickness");
+                            //UVDLPApp.Instance().m_slicefile.m_mode = SliceFile.SFMode.eImmediate;
+
+                            UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eSlicedLoaded, "SliceFile Created");
+                        }                        
+                    }
+                    catch (Exception ex) 
+                    {
+                        DebugLogger.Instance().LogError(ex);
+                    }
+                }
+
                 XmlNode models = manifest.FindSection(topnode, "Models");
                 List<XmlNode> modelnodes = manifest.FindAllChildElement(models, "model");
                 bool supportLoaded = false;
@@ -133,6 +173,22 @@ namespace UV_DLP_3D_Printer._3DEngine
                 ZipFile zip = new ZipFile();
                 //get the top-level node in the manifest
                 //XmlNode mc = manifest.m_toplevel;
+
+                // Add in a section for GCode if present
+                XmlNode gcn = manifest.AddSection(manifest.m_toplevel, "GCode");
+                if (UVDLPApp.Instance().m_gcode != null)
+                {
+                    //create the name of the gcode file
+                    String GCodeFileName = Path.GetFileNameWithoutExtension(scenefilename) + ".gcode";
+                    manifest.SetParameter(gcn, "filename", GCodeFileName);
+                    Stream gcs = new MemoryStream();
+                    //save to memory stream
+                    UVDLPApp.Instance().m_gcode.Save(gcs);
+                    //rewind
+                    gcs.Seek(0, SeekOrigin.Begin);
+                    //create new zip entry   
+                    zip.AddEntry(GCodeFileName, gcs);
+                }
                 XmlNode mc = manifest.AddSection(manifest.m_toplevel, "Models");
                 //we need to make sure that only unique names are put in the zipentry
                 // cloned objects yield the same name

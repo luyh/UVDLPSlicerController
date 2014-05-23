@@ -879,7 +879,7 @@ namespace UV_DLP_3D_Printer.GUI
             {
                 foreach (string filename in openFileDialog1.FileNames)
                 {
-                    if (filename.Contains(".zip"))
+                    if (filename.Contains(".cws"))
                     {
                         //scene file
                         if (Scene.Instance().Load(filename))
