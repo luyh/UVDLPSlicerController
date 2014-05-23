@@ -214,10 +214,9 @@ namespace Engine3D
             Rotate(rotmat);
             if ((x == 0) && (y == 0))
             {
-                foreach (Support sup in m_supports)
+                foreach (Object3d sup in m_supports)
                     sup.Rotate(rotmat);
             }
- 
             Translate((float)center.x, (float)center.y, (float)cz);
         }
         public void Scale(float sfx,float sfy, float sfz)
