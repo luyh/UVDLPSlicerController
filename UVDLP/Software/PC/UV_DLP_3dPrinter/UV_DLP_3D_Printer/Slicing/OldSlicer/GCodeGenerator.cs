@@ -30,14 +30,15 @@ namespace UV_DLP_3D_Printer
         protected static PreProcessor PreparePreprocessor(SliceFile sf, MachineConfig pi)
         {
             PreProcessor pp = new PreProcessor();
-            pp.SetVar("$LayerThickness", sf.m_config.ZThick);
-            pp.SetVar("$ZLiftDist", sf.m_config.liftdistance);
-            pp.SetVar("$ZLiftRate", sf.m_config.liftfeedrate);
-            pp.SetVar("$ZRetractRate", sf.m_config.liftretractrate);
-            pp.SetVar("$SlideTiltVal", sf.m_config.slidetiltval);
-            pp.SetVar("$BlankTime", sf.m_config.blanktime_ms);
-            pp.SetVar("$LayerTime", sf.m_config.layertime_ms);
-            pp.SetVar("$FirstLayerTime", sf.m_config.firstlayertime_ms);
+            pp.SetVar("$LayerThickness", sf.m_config.ZThick); // the thickenss of the layer in mm
+            pp.SetVar("$ZLiftDist", sf.m_config.liftdistance); // how far we're lifting
+            pp.SetVar("$ZLiftRate", sf.m_config.liftfeedrate); // the rate at which we're lifting
+            pp.SetVar("$ZRetractRate", sf.m_config.liftretractrate); // how fast we'r retracting
+            pp.SetVar("$SlideTiltVal", sf.m_config.slidetiltval); // any used slide / tilt value on the x axis
+            pp.SetVar("$BlankTime", sf.m_config.blanktime_ms); // how long to show the blank in ms
+            pp.SetVar("$LayerTime", sf.m_config.layertime_ms); // total delay for a layer for gcode commands to complete - not including expusre time
+            pp.SetVar("$FirstLayerTime", sf.m_config.firstlayertime_ms); // time to expose the first layers in ms
+            pp.SetVar("$NumFirstLayers", sf.m_config.numfirstlayers); // number of first layers
             return pp;
         }
 
@@ -81,8 +82,13 @@ namespace UV_DLP_3D_Printer
             String preSliceGCode = pp.Process(sf.m_config.PreSliceCode);
             String LiftGCode = pp.Process(sf.m_config.LiftCode);
 
+
+            // for a per-slice basis, we're going to re-evaluate the prelift and lift gcode
+            // doing this will allow us to have per-slice determinations based on slice index.
             for (int c = 0; c < sf.NumSlices; c++)
             {
+                preSliceGCode = pp.Process(sf.m_config.PreSliceCode);
+                pp.SetVar("$CURSLICE", c);
                 sb.Append(preSliceGCode);//add in the pre-slice code
                 // this is the marker the BuildManager uses to display the correct slice
                 sb.Append(";<Slice> " + c + " \r\n");
@@ -96,6 +102,7 @@ namespace UV_DLP_3D_Printer
                     sb.Append(layerdelay);
                 }
                 sb.Append(";<Slice> Blank \r\n"); // show the blank layer
+                LiftGCode = pp.Process(sf.m_config.LiftCode); // re-run the lift code
                 sb.Append(LiftGCode); // append the pre-lift codes
             }
             //append the footer

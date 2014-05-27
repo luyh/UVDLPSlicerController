@@ -36,6 +36,9 @@ namespace UV_DLP_3D_Printer
         public bool m_showBoundingBox; // selected objects will be marked with a bounding box
         public bool m_showShaded;      // selected objects will be marked with a different shade
         public bool m_showOutline;     // selected objects will be marked with an outline
+
+        public string m_serveraddress = "www.buildyourownsla.com"; // for the http post
+        public string m_contactform = "cwupdate.php"; // the form to contact
         public string m_licensekey;
 
         public void CreateDefault() 
@@ -85,6 +88,8 @@ namespace UV_DLP_3D_Printer
                 m_showShaded = xh.GetBool(ac, "ShowShaded", false);
                 m_showOutline = xh.GetBool(ac, "ShowOutline", false);
                 m_licensekey = xh.GetString(ac, "LicenseKey", "00000000000000000000");
+                m_serveraddress = xh.GetString(ac,"ServerAddress","www.buildyourownsla.com");
+                m_contactform = xh.GetString(ac,"ContactForm","cwupdate.php");
                 if (!fileExist)
                 {
                     xh.Save(FILE_VERSION);
@@ -122,7 +127,10 @@ namespace UV_DLP_3D_Printer
                 xh.SetParameter(ac, "ShowOutline", m_showOutline);
                 xh.SetParameter(ac, "ShowShaded", m_showShaded);
                 xh.SetParameter(ac, "LicenseKey", m_licensekey);
+                xh.SetParameter(ac, "ServerAddress", m_serveraddress);
+                xh.SetParameter(ac, "ContactForm", m_contactform);
                 xh.Save(FILE_VERSION);
+
                 return true;
             }catch(Exception ex)
             {

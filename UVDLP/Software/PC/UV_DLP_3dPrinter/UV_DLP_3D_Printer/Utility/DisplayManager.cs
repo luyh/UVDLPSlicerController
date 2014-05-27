@@ -26,7 +26,65 @@ namespace UV_DLP_3D_Printer
             }
             return m_instance;
         }
+        public bool SendProjCommand(string displayname, string commandname) 
+        {
+            try
+            {
+                // get the projector command for 'on'
+                // ACER_ON
+                ProjectorCommand pcmd = UVDLPApp.Instance().m_proj_cmd_lst.FindByName(commandname);
+                if (pcmd != null)
+                {
+                    DeviceDriver dd = DisplayManager.Instance().FindDisplaySerialPortDriverByName(displayname);
+                    if (dd != null)
+                    {
+                        if (dd.Connected)
+                        {
+                            byte[] data = pcmd.GetBytes();
+                            dd.Write(data, data.Length);
+                            return true;
+                        }
+                        else 
+                        {
+                            DebugLogger.Instance().LogError("Projector Driver not connected");    
+                        }
+                    }
+                    else
+                    {
+                        DebugLogger.Instance().LogError("Projector Driver not found");
+                    }
+                }
+                else
+                {
+                    DebugLogger.Instance().LogError("Projector command not found");
+                }
 
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
+            return false;
+        }
+        public DeviceDriver FindDisplaySerialPortDriverByName(string name) 
+        {
+            //find the serial port for display 2
+            foreach (MonitorConfig mc in UVDLPApp.Instance().m_printerinfo.m_lstMonitorconfigs)
+            {
+                if (mc.Monitorid.Contains(name)) // we found our monitor
+                {
+                    if (mc.m_displayconnectionenabled)
+                    {
+                        DeviceDriver driver = UVDLPApp.Instance().m_deviceinterface.FindProjDriverByComName(mc.m_displayconnection.comname);
+                        return driver;
+                    }
+                    break;
+                }
+                // find the display by name, we should have a function for this already somewhere
+            }
+            return null;
+        }
+        /**/
         private DisplayManager() 
         {            
             m_displays = new List<frmDLP>();

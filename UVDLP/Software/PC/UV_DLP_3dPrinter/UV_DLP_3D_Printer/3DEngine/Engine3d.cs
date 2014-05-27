@@ -70,6 +70,20 @@ namespace Engine3D
             return ret;
         }
         /// <summary>
+        /// Iterate through all models in scene, along with all supports
+        /// calculate the volume
+        /// </summary>
+        /// <returns></returns>
+        public double CalcSceneVolume() 
+        {
+            double volume = 0.0d;
+            foreach (Object3d obj in m_objects) 
+            {
+                volume += obj.CalculateVolume();
+            }
+            return volume;
+        }
+        /// <summary>
         /// This function calculates the Z scene extents.
         /// It will always incude z=0 to the max object z extent
         /// </summary>

@@ -348,7 +348,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                     switch (xnode.Name)
                     {
                         case "decals": HandleDecals(xnode); break;
-                        case "buttons": HandleButtons(xnode); break;
+                        case "buttons": HandleButtons(xnode); break; 
                         case "controls": HandleControls(xnode); break;
                     }
                 }
@@ -514,6 +514,37 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 butt.Image = GetImageParam(buttnode, "image", null);
             }
             butt.CheckImage = GetImageParam(buttnode, "check", butt.CheckImage);
+
+
+            // add the ability to add buttons in various named parents
+            // this will allow adding buttons to toolbar from plugins
+            string action = GetStrParam(buttnode, "action", "none");  // telling something to happen to this control
+            if (action.Contains("remove")) // this handles removing a control from it's parent
+            {
+                // remove this control from it's parent
+                if (butt.Parent != null)
+                {
+                    butt.Parent.Controls.Remove(butt);
+                    butt.Parent = null;
+                }
+            }
+            else if (action.Contains("addto")) // this handles adding a new control to a parent control
+            {
+                // Get the name of the parent
+                string parentname = GetStrParam(buttnode, "parent", "");
+                if (parentname == null) return;
+                if (parentname.Length == 0) return;
+                //find the parent
+                Control ctlParent = Controls[parentname];
+                if (ctlParent == null)
+                {
+                    DebugLogger.Instance().LogWarning("Button parent now found: " + parentname);
+                    return;
+                }
+                {
+                    ctlParent.Controls.Add(butt);
+                }
+            }
         }
 
         #endregion
