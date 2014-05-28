@@ -7,7 +7,9 @@ using System.Threading;
 using UV_DLP_3D_Printer.Licensing;
 using CreationWorkshop.Licensing;
 using UV_DLP_3D_Printer.Plugin;
-
+using System.Net;
+using System.Collections.Specialized;
+using System.Windows.Forms;
 namespace UV_DLP_3D_Printer
 {
     /// <summary>
@@ -30,10 +32,14 @@ namespace UV_DLP_3D_Printer
         }
 
         // generate the name/value pairs to send to the server
-        private void GenerateInfo() 
+        private NameValueCollection GenerateInfo() 
         {
+            NameValueCollection nvc = new NameValueCollection();
+            //nvc["thing1"] = "hello";
+            //nvc["thing2"] = "world";
             int lc = 0; // licence counter
             // iterate through all license keys in keyring
+            nvc["NumLicenses"] = KeyRing.Instance().m_keys.Count.ToString();
             foreach (LicenseKey lk in KeyRing.Instance().m_keys) 
             {
                 string License = lk.m_key;
@@ -43,9 +49,16 @@ namespace UV_DLP_3D_Printer
                 if (ve != null) 
                 {
                     string VendorName = ve.m_name;
+                    nvc["VendorName_" + lc.ToString()] = VendorName;
                 }
+                nvc["License_" + lc.ToString()] = License;
+                nvc["VendorID_" + lc.ToString()] = VendorID;
+                nvc["LicenseValid_" + lc.ToString()] = LicenseValid;                
+                lc++;
             }
             // when talking to plugins, be sure to add some error handling when poking them
+            nvc["NumPlugins"] = UVDLPApp.Instance().m_plugins.Count.ToString();
+            int pc = 0; // plugin count
             foreach (PluginEntry pe in UVDLPApp.Instance().m_plugins) 
             {
                 try
@@ -57,6 +70,8 @@ namespace UV_DLP_3D_Printer
                 }
                 catch (Exception) { }
             }
+            nvc["CWVersion"] =  Application.ProductVersion; // include the product version
+            return nvc;
         }
 
         private void ContactServerThread() 
@@ -64,12 +79,38 @@ namespace UV_DLP_3D_Printer
             // try the HTTP Post
             try
             {
-                GenerateInfo();
+                NameValueCollection values = GenerateInfo();
+                WebClient client = new WebClient();
+                string postform = UVDLPApp.Instance().m_appconfig.m_contactform;
+                string posturl = UVDLPApp.Instance().m_appconfig.m_serveraddress;
+
+                var response = client.UploadValues(posturl + "//" + postform, values);
+                ParseResponse(Encoding.Default.GetString(response));
+                //parse the response
             }
-            catch (Exception) 
+            catch (Exception ex) 
             {
+                DebugLogger.Instance().LogError("Couldn't contact server");
+                DebugLogger.Instance().LogError(ex);
                 // may want to silently fail here
             }
         }
+
+        private void ParseResponse(string response) 
+        {
+        
+        }
+
+        /*using (var client = new WebClient())
+{
+    var values = new NameValueCollection();
+    values["thing1"] = "hello";
+    values["thing2"] = "world";
+
+    var response = client.UploadValues("http://www.mydomain.com/recepticle.aspx", values);
+
+    var responseString = Encoding.Default.GetString(response);
+}*/
+
     }
 }
