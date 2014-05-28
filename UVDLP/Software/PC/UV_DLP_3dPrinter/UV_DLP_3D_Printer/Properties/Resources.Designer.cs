@@ -373,6 +373,20 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap buttProjOff {
+            get {
+                object obj = ResourceManager.GetObject("buttProjOff", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttProjOn {
+            get {
+                object obj = ResourceManager.GetObject("buttProjOn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap buttPSphere {
             get {
                 object obj = ResourceManager.GetObject("buttPSphere", resourceCulture);
