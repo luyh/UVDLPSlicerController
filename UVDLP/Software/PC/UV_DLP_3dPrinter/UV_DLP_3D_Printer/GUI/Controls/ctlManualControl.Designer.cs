@@ -125,6 +125,7 @@
             // cMCExtruder
             // 
             this.cMCExtruder.AxisSign = "E";
+            this.cMCExtruder.AxisValue = UV_DLP_3D_Printer.GUI.CustomGUI.MachineControlAxis.Extruder;
             this.cMCExtruder.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cMCExtruder.FrameColor = System.Drawing.Color.RoyalBlue;
             this.cMCExtruder.Gapx = 0;
@@ -149,6 +150,7 @@
             // cMCTilt
             // 
             this.cMCTilt.AxisSign = "T";
+            this.cMCTilt.AxisValue = UV_DLP_3D_Printer.GUI.CustomGUI.MachineControlAxis.Tilt;
             this.cMCTilt.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.cMCTilt.FrameColor = System.Drawing.Color.RoyalBlue;
             this.cMCTilt.Gapx = 0;
@@ -480,6 +482,7 @@
             this.cGCodeManual.Padding = new System.Windows.Forms.Padding(5);
             this.cGCodeManual.Size = new System.Drawing.Size(280, 345);
             this.cGCodeManual.TabIndex = 0;
+            this.cGCodeManual.Load += new System.EventHandler(this.cGCodeManual_Load);
             // 
             // cProjectorControl
             // 

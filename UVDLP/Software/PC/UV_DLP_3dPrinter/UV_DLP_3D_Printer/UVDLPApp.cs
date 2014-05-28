@@ -25,7 +25,6 @@ using UV_DLP_3D_Printer.Licensing;
 using CreationWorkshop.Licensing;
 using UV_DLP_3D_Printer.GUI.CustomGUI;
 using UV_DLP_3D_Printer.GUI;
-using UV_DLP_3D_Printer;
 
 namespace UV_DLP_3D_Printer
 {
@@ -548,11 +547,11 @@ namespace UV_DLP_3D_Printer
                 case Slicer.eSliceEvent.eLayerSliced:
                   
                     break;
-                case Slicer.eSliceEvent.eSliceCompleted:
+                case Slicer.eSliceEvent.eSliceCompleted: // this all needs to be changed....
                     m_slicefile = sf;
                     //generate the GCode
                     m_gcode = GCodeGenerator.Generate(m_slicefile, m_printerinfo);
-                    /*
+                    
                     path = SliceFile.GetSliceFilePath(m_slicefile.modelname);
                     fileName = Path.GetFileNameWithoutExtension(m_slicefile.modelname) + ".gcode";
                     //see if we're exporting this to a zip file 
@@ -572,7 +571,7 @@ namespace UV_DLP_3D_Printer
                         String sdn = path + UVDLPApp.m_pathsep + fileName;
                         SaveGCode(sdn);
                     }
-                    */
+                    
                     //save the slicer object for later too                    
                     //save the slice file
 

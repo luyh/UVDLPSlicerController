@@ -98,6 +98,7 @@ namespace UV_DLP_3D_Printer.Device_Interface
             cb.RegisterCallback("MCCmdMoveY", cmdMoveY, typeof(double), "Move the Y-axis specified amount");
             cb.RegisterCallback("MCCmdYHome", cmd_YHome, null, "Move the Y-axis to the home position");
             cb.RegisterCallback("MCCmdMoveZ", cmdMoveZ, typeof(double), "Move the Z-axis specified amount");
+            cb.RegisterCallback("MCCmdExtrude", cmdMoveE, typeof(double), "Move the E-axis specified amount");
             cb.RegisterCallback("MCCmdZHome", cmd_ZHome, null, "Move the Z-axis to the home position");
             cb.RegisterCallback("MCCmdAllHome", cmd_HomeAll, null, "Move all axis to the home position");
             cb.RegisterCallback("MCCmdMotorOn", cmdMotorsOn, null, "Turn motors ON");
@@ -251,7 +252,18 @@ namespace UV_DLP_3D_Printer.Device_Interface
                 DebugLogger.Instance().LogRecord(ex.Message);
             }
         }
-
+        private void cmdMoveE(object sender, object e)
+        {
+            try
+            {
+                double dist = (double)e;
+                DevInterface.MoveE(dist, m_rateE); // (movecommand);
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogRecord(ex.Message);
+            }
+        }
         private void cmdMotorsOn(object sender, object e)
         {
             string gcode = "M17\r\n";

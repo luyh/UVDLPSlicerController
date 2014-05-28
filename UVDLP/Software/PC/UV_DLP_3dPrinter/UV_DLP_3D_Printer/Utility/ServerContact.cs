@@ -7,7 +7,6 @@ using System.Threading;
 using UV_DLP_3D_Printer.Licensing;
 using CreationWorkshop.Licensing;
 using UV_DLP_3D_Printer.Plugin;
-using System.Net;
 using System.Collections.Specialized;
 using System.Windows.Forms;
 namespace UV_DLP_3D_Printer

@@ -64,6 +64,14 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             mLastSelLevel = 0;
         }
 
+        [DefaultValue(MachineControlAxis.Z)]
+        [Description("Axis enum"), Category("Data")]
+        public MachineControlAxis AxisValue 
+        {
+            get { return mAxis; }
+            set { mAxis = value; }
+        }
+
         [DefaultValue("Z")]
         [Description("Axis sign"), Category("Data")]
         public String AxisSign

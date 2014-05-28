@@ -388,6 +388,24 @@ namespace UV_DLP_3D_Printer
                 SendCommandToDevice("G90\r\n");
             }
         }
+
+        public void MoveE(double edist, double rate)
+        {
+            if (!Connected)
+            {
+                DebugLogger.Instance().LogInfo("Device not connected");
+                return;
+            }
+            else
+            {
+                String command = "G1 E" + edist + " F" + rate + "\r\n";
+                SendCommandToDevice("M83\r\n");
+                SendCommandToDevice(command);
+                //SendCommandToDevice("G90\r\n");
+            }
+        }
+
+
         /*
          This function moves the X (Tilt/Slide) axis to by the distance in mm 
          * at the specified feed rate

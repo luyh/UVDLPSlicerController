@@ -314,5 +314,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     break;
             }
         }
+
+        private void cGCodeManual_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

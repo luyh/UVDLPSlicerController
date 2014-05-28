@@ -337,10 +337,10 @@
     <Compile Include="GUI\CustomGUI\ctlView.Designer.cs">
       <DependentUpon>ctlView.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\CustomGUI\Expanding\ctlMoveExpand.cs">
+    <Compile Include="GUI\Controls\Expanding\ctlMoveExpand.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\CustomGUI\Expanding\ctlMoveExpand.Designer.cs">
+    <Compile Include="GUI\Controls\Expanding\ctlMoveExpand.Designer.cs">
       <DependentUpon>ctlMoveExpand.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\CustomGUI\frmBmpSplash.cs">
@@ -559,7 +559,7 @@
     <EmbeddedResource Include="GUI\CustomGUI\ctlView.resx">
       <DependentUpon>ctlView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\CustomGUI\Expanding\ctlMoveExpand.resx">
+    <EmbeddedResource Include="GUI\Controls\Expanding\ctlMoveExpand.resx">
       <DependentUpon>ctlMoveExpand.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomGUI\frmBmpSplash.resx">
