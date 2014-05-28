@@ -102,6 +102,7 @@
     <Compile Include="3DEngine\Quad3d.cs" />
     <Compile Include="3DEngine\RTUtils.cs" />
     <Compile Include="3DEngine\Scene.cs" />
+    <Compile Include="3DEngine\SceneManifest.cs" />
     <Compile Include="3DEngine\Support.cs" />
     <Compile Include="3DEngine\SupportBase.cs" />
     <Compile Include="3DEngine\ThreeDSFile.cs" />

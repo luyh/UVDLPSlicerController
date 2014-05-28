@@ -275,10 +275,10 @@
             this.rbzip.AutoSize = true;
             this.rbzip.Location = new System.Drawing.Point(7, 22);
             this.rbzip.Name = "rbzip";
-            this.rbzip.Size = new System.Drawing.Size(76, 22);
+            this.rbzip.Size = new System.Drawing.Size(143, 22);
             this.rbzip.TabIndex = 0;
             this.rbzip.TabStop = true;
-            this.rbzip.Text = "Zip File";
+            this.rbzip.Text = "Scene File (.cws)";
             this.rbzip.UseVisualStyleBackColor = true;
             // 
             // grpLift

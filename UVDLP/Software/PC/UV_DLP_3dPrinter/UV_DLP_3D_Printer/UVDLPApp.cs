@@ -111,6 +111,8 @@ namespace UV_DLP_3D_Printer
         public Undoer m_undoer;
         public frmMain2 m_mainform; // reference to the main application form       
 
+        private ServerContact m_sc;
+
         public static UVDLPApp Instance() 
         {
             if (m_instance == null) 
@@ -130,6 +132,7 @@ namespace UV_DLP_3D_Printer
             m_deviceinterface = new DeviceInterface();
             m_buildmgr = new BuildManager();
             m_slicer = new Slicer();
+            m_slicer.m_slicemethod = Slicer.eSliceMethod.eNormalCount;// configure the slicer to user the new normal count - Thanks Shai!!!
             m_slicer.Slice_Event += new Slicer.SliceEvent(SliceEv);
             //m_dispmgr = DisplayManager.Instance(); // initialize the singleton for early event app binding
             //m_flexslice = new FlexSlice();
@@ -862,6 +865,7 @@ namespace UV_DLP_3D_Printer
             CheckLicensing();
             // initialize the plugins, the main form will send a secondary init after the main app gui is created
             PerformPluginCommand("InitCommand", true);
+            m_sc = new ServerContact();
 
         }
 

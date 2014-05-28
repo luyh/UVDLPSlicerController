@@ -210,7 +210,14 @@ namespace Engine3D
             return ret;
         }
 
-
+        // this will skip over re-calculateing the radius and normal, because we just moved
+        public void UpdateMove(float x, float y, float z) 
+        {
+            //CalcCenter();
+            m_center.Translate(x, y, z);
+            CalcMinMax();
+            
+        }
         /*
          The update function should be called after the containing object
          * moves, scales or rotates to update the polygon information

@@ -134,28 +134,8 @@ namespace UV_DLP_3D_Printer.Slicing
             {
                 if (m_mode == SFMode.eImmediate)
                 {
-                    /*
-                    if (layer == m_cachedsliceidx && m_cachedslice != null)
-                    {
-                        return m_cachedslice;
-                    }
-                    else
-                    {
-                        if (m_cachedslice != null) 
-                        {
-                            m_cachedslice.Dispose();
-                            m_cachedslice = null;
-                        }
-                        m_cachedsliceidx = layer;
-                        // we're rendering slices immediately here
-                        float zlev = (float)(layer * m_config.ZThick);
-                        m_cachedslice = UVDLPApp.Instance().m_slicer.SliceImmediate(zlev);
-                        return m_cachedslice;
-                    }
-                     * */
-                    float zlev = (float)(layer * m_config.ZThick);
-                    //m_cachedslice = 
-                    return UVDLPApp.Instance().m_slicer.SliceImmediate(zlev);;
+                     float zlev = (float)(layer * m_config.ZThick);
+                     return UVDLPApp.Instance().m_slicer.SliceImmediate(zlev);;
                 }
                 else
                 {

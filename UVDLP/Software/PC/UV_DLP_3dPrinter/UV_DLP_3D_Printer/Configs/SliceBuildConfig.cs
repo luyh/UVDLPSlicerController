@@ -408,6 +408,7 @@ namespace UV_DLP_3D_Printer
                 return false;
             }
         }
+        /*
         public void SaveGCodes() 
         {
             try
@@ -434,5 +435,6 @@ namespace UV_DLP_3D_Printer
                 DebugLogger.Instance().LogError(ex.Message);
             }
         }
+         * */
     }
 }

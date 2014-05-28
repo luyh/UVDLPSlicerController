@@ -28,6 +28,21 @@ namespace UV_DLP_3D_Printer._3DEngine
             }
             return m_instance;
         }
+
+        // we might be able to do the slice add the same way as before,
+        // trap for the slice events and add them
+        public void RemoveExistingSlices(string scenefilename) 
+        {
+        
+        }
+        // add a slice to the cws / manifest file
+        // remove all slices from the cws / manifest file
+        //add/replace gcode in a cws / manifest file
+        public bool AddGCodeToFile(string scenefilename) 
+        {
+            return false;
+        }
+
         public bool Load(string scenefilename) 
         {
             try

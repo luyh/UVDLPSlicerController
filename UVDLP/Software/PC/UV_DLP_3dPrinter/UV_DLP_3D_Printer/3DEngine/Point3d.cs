@@ -70,7 +70,12 @@ namespace Engine3D
             y = yp;
             z = zp;     
         }
-
+        public void Translate(float xp, float yp, float zp)
+        {
+            x += xp;
+            y += yp;
+            z += zp;     
+        }
         public void Set(Point3d pnt) 
         {
             Set(pnt.x, pnt.y, pnt.z);

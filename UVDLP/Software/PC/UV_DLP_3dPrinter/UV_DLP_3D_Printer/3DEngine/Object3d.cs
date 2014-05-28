@@ -642,6 +642,33 @@ namespace Engine3D
                 DebugLogger.Instance().LogError(ex.StackTrace);
             }
         }
+
+        public void UpdateMove(float x, float y , float z)
+        {
+            try
+            {
+                //Update
+                //CalcCenter();
+                m_center.Translate(x, y, z);
+                //CalcRadius();
+                //FindMinMax();
+                m_min.Translate(x, y, z);
+                m_max.Translate(x, y, z);
+
+                UpdateBoundingBox();
+                foreach (Polygon p in m_lstpolys)
+                {
+                    p.UpdateMove( x,  y ,  z);
+                }
+                // MarkPolysDown();
+                m_listid = -1; // invalidate the list id
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex.Message);
+                DebugLogger.Instance().LogError(ex.StackTrace);
+            }
+        }
         /*This cuntion adds the objects points and polygons to this one*/
         public void Add(Object3d obj) 
         {
@@ -721,7 +748,7 @@ namespace Engine3D
                     if (sup is Support)
                         ((Support)sup).AddToHeight(z);
             }
-            Update();
+            UpdateMove(x,y,z);
             if (updateUndo)
                 UVDLPApp.Instance().m_undoer.SaveTranslation(this, x, y, z);
         }

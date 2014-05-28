@@ -963,11 +963,23 @@ namespace UV_DLP_3D_Printer.GUI
 
         private void testSaveSceneToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            saveFileDialog1.Filter = "Scene files (*.cws)|*.cws";
+            saveFileDialog1.Filter = "Scene files (*.cws)|*.cws|STL File (*.stl)|*.stl";
             saveFileDialog1.FilterIndex = 0;
             if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) 
             {
-                Scene.Instance().Save(saveFileDialog1.FileName);                
+                //check the filter index
+                switch (saveFileDialog1.FilterIndex) // index starts at 1 instead of 0
+                {
+                    case 1:
+                        Scene.Instance().Save(saveFileDialog1.FileName);
+                        break;
+                    case 2:
+                        //stl file
+                        UVDLPApp.Instance().CalcScene(); // calc the scene object
+                        UVDLPApp.Instance().Scene.SaveSTL_Binary(saveFileDialog1.FileName);
+                        UVDLPApp.Instance().Scene.m_fullname = saveFileDialog1.FileName;
+                        break;
+                }
             }
         }
 

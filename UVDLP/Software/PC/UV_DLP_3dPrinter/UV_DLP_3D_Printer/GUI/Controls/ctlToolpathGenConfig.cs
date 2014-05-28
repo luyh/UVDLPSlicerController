@@ -318,7 +318,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     string fname = GetSlicingFilename(shortname);
                     File.Delete(fname); // delete the file
                     string pname = UVDLPApp.Instance().m_PathProfiles + UVDLPApp.m_pathsep + shortname;
-                    Directory.Delete(pname, true);
+                   // Directory.Delete(pname, true); // no longer creating specific directories for profiles - gcode is now embedded
                     PopulateProfiles();
                 }
             }
