@@ -6,6 +6,7 @@ using UV_DLP_3D_Printer.Configs;
 using UV_DLP_3D_Printer;
 using UV_DLP_3D_Printer.Drivers;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace UV_DLP_3D_Printer
 {
@@ -26,6 +27,26 @@ namespace UV_DLP_3D_Printer
             }
             return m_instance;
         }
+
+        public bool GetMonitorResoultion(string monitorid, ref int xres, ref int yres) 
+        {
+            bool retval = false;
+            // iterate through screens
+            foreach (Screen s in Screen.AllScreens)
+            {
+                string mn = Utility.CleanMonitorString(s.DeviceName);
+                string mid = Utility.CleanMonitorString(monitorid);
+                if (mn.Contains(mid))
+                {
+                    xres = s.Bounds.Width;
+                    yres = s.Bounds.Height;
+                    retval = true;
+                    break;
+                }
+            }
+            return retval;
+        }
+
         public bool SendProjCommand(string displayname, string commandname) 
         {
             try

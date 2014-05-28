@@ -75,7 +75,7 @@ namespace UV_DLP_3D_Printer.Configs
         {
            // XmlNode mdc = xh.FindSection(parent, "MonitorDriverConfig");
             XmlNode mdc = xh.AddSection(parent, "MonitorDriverConfig");
-            xh.SetParameter(mdc, "DLP_X_Res", m_XDLPRes);
+            xh.SetParameter(mdc, "DLP_X_Res", m_XDLPRes); // gotta make this auto..
             xh.SetParameter(mdc, "DLP_Y_Res", m_YDLPRes);
             xh.SetParameter(mdc, "MonitorID", m_monitorid);
             xh.SetParameter(mdc, "DisplayCommEnabled", m_displayconnectionenabled);

@@ -84,6 +84,26 @@ namespace UV_DLP_3D_Printer
             }
             return null;
         }
+
+        /// <summary>
+        /// The reason this is here is to make sure that the 
+        /// monitor X/Y size matches with what is detected with the system
+        /// saving the monitor x/y res and reloading it has caused confusion, causing users to 
+        /// have to remove, then re-add the indicated monitor
+        /// </summary>
+        private void CorrectMonitorConfig() 
+        {
+            foreach (MonitorConfig mc in m_lstMonitorconfigs)
+            {
+                int xres =0, yres =0;
+                if (DisplayManager.Instance().GetMonitorResoultion(mc.Monitorid, ref xres, ref yres)) 
+                {
+                    mc.m_XDLPRes = xres;
+                    mc.m_YDLPRes = yres;
+                }
+            }
+        }
+
         public bool Load(string filename)
         {
             m_filename = filename;
@@ -127,7 +147,7 @@ namespace UV_DLP_3D_Printer
             }
             else 
             {
-                DebugLogger.Instance().LogError("Not monitor configurations found!");
+                DebugLogger.Instance().LogError("No monitor configurations found!");
             }
 
             CalcPixPerMM();
@@ -136,6 +156,7 @@ namespace UV_DLP_3D_Printer
             {
                 xh.Save(FILE_VERSION);
             }
+            CorrectMonitorConfig();
             return retval;
         }
 
