@@ -478,11 +478,14 @@
   <data name="buttProjOn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\CustomGUI\buttProjOn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="buttHomeZ" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\CustomGUI\buttHomeZ.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="buttZeroZ" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\CustomGUI\buttZeroZ.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="buttGoZHome" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\CustomGUI\buttGoZHome.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
