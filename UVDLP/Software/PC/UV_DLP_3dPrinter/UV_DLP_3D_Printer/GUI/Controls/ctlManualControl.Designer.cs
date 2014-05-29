@@ -146,6 +146,7 @@
             this.cMCExtruder.TabIndex = 2;
             this.cMCExtruder.Title = "Extrude";
             this.cMCExtruder.Unit = "mm";
+            this.cMCExtruder.MotorMove += new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMCBase.MotorMoveDelegate(this.cMCXY_MotorMove);
             // 
             // cMCTilt
             // 

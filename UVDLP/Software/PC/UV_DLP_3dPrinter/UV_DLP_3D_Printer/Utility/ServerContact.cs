@@ -72,24 +72,28 @@ namespace UV_DLP_3D_Printer
             nvc["CWVersion"] =  Application.ProductVersion; // include the product version
             return nvc;
         }
-
+        /// <summary>
+        /// I think I need to change this to make multiple posts
+        /// one post for each licensed plug-in
+        /// </summary>
         private void ContactServerThread() 
         {
             // try the HTTP Post
             try
             {
-                NameValueCollection values = GenerateInfo();
-                WebClient client = new WebClient();
+                
+               WebClient client = new WebClient();
                 string postform = UVDLPApp.Instance().m_appconfig.m_contactform;
                 string posturl = UVDLPApp.Instance().m_appconfig.m_serveraddress;
-
+                //foreach licensed plugin, generate the info...
+                NameValueCollection values = GenerateInfo();
                 var response = client.UploadValues(posturl + "//" + postform, values);
                 ParseResponse(Encoding.Default.GetString(response));
                 //parse the response
             }
             catch (Exception ex) 
             {
-                DebugLogger.Instance().LogError("Couldn't contact server");
+               // DebugLogger.Instance().LogError("Couldn't contact server");
                 DebugLogger.Instance().LogError(ex);
                 // may want to silently fail here
             }

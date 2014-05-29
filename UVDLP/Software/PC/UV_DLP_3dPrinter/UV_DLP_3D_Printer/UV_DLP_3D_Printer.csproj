@@ -68,6 +68,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -633,6 +634,7 @@
     <Compile Include="Configs\SliceBuildConfig.cs" />
     <Compile Include="Slicing\OldSlicer\Slicer.cs" />
     <Compile Include="Utility\DisplayManager.cs" />
+    <Compile Include="Utility\FingerPrint.cs" />
     <Compile Include="Utility\ServerContact.cs" />
     <Compile Include="Utility\Utility.cs" />
     <Compile Include="UVDLPApp.cs" />
