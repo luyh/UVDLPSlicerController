@@ -233,6 +233,13 @@ namespace UV_DLP_3D_Printer.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap buttHomeZ {
+            get {
+                object obj = ResourceManager.GetObject("buttHomeZ", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap buttInchMm {
             get {
                 object obj = ResourceManager.GetObject("buttInchMm", resourceCulture);
@@ -572,6 +579,13 @@ namespace UV_DLP_3D_Printer.Properties {
         public static System.Drawing.Bitmap buttViewSlice {
             get {
                 object obj = ResourceManager.GetObject("buttViewSlice", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap buttZeroZ {
+            get {
+                object obj = ResourceManager.GetObject("buttZeroZ", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
