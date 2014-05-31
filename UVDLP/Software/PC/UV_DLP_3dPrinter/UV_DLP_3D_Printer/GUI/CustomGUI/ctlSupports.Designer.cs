@@ -113,7 +113,7 @@
             this.buttAddSupport.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.buttAddSupport.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttAddSupport;
             this.buttAddSupport.Location = new System.Drawing.Point(4, 4);
-            this.buttAddSupport.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttAddSupport.Margin = new System.Windows.Forms.Padding(4);
             this.buttAddSupport.Name = "buttAddSupport";
             this.buttAddSupport.Size = new System.Drawing.Size(36, 39);
             this.buttAddSupport.StyleName = null;
@@ -182,7 +182,7 @@
             this.panelSuppotShape.Location = new System.Drawing.Point(6, 116);
             this.panelSuppotShape.Margin = new System.Windows.Forms.Padding(0);
             this.panelSuppotShape.Name = "panelSuppotShape";
-            this.panelSuppotShape.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panelSuppotShape.Padding = new System.Windows.Forms.Padding(2);
             this.panelSuppotShape.Size = new System.Drawing.Size(150, 153);
             this.panelSuppotShape.TabIndex = 25;
             this.panelSuppotShape.Text = "Support Parameters";
@@ -363,7 +363,7 @@
             // pictureSupport
             // 
             this.pictureSupport.Location = new System.Drawing.Point(4, 25);
-            this.pictureSupport.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureSupport.Margin = new System.Windows.Forms.Padding(2);
             this.pictureSupport.Name = "pictureSupport";
             this.pictureSupport.Size = new System.Drawing.Size(81, 122);
             this.pictureSupport.TabIndex = 12;
@@ -397,7 +397,7 @@
             this.chkDownPolys.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.chkDownPolys.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttViewDown;
             this.chkDownPolys.Location = new System.Drawing.Point(5, 26);
-            this.chkDownPolys.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkDownPolys.Margin = new System.Windows.Forms.Padding(4);
             this.chkDownPolys.Name = "chkDownPolys";
             this.chkDownPolys.Size = new System.Drawing.Size(24, 26);
             this.chkDownPolys.StyleName = null;
@@ -484,9 +484,10 @@
             this.cmbSupType.ForeColor = System.Drawing.SystemColors.Info;
             this.cmbSupType.FormattingEnabled = true;
             this.cmbSupType.Items.AddRange(new object[] {
-            "Bed of Nails"});
+            "Bed of Nails",
+            "Adaptive"});
             this.cmbSupType.Location = new System.Drawing.Point(5, 20);
-            this.cmbSupType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cmbSupType.Margin = new System.Windows.Forms.Padding(2);
             this.cmbSupType.Name = "cmbSupType";
             this.cmbSupType.Size = new System.Drawing.Size(111, 21);
             this.cmbSupType.TabIndex = 35;
@@ -506,7 +507,7 @@
             this.chkOnlyDownward.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.chkOnlyDownward.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttAutoDown;
             this.chkOnlyDownward.Location = new System.Drawing.Point(5, 46);
-            this.chkOnlyDownward.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkOnlyDownward.Margin = new System.Windows.Forms.Padding(4);
             this.chkOnlyDownward.Name = "chkOnlyDownward";
             this.chkOnlyDownward.Size = new System.Drawing.Size(24, 26);
             this.chkOnlyDownward.StyleName = null;
@@ -636,7 +637,7 @@
             // cmdRemoveSupports
             // 
             this.cmdRemoveSupports.Location = new System.Drawing.Point(2, 128);
-            this.cmdRemoveSupports.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cmdRemoveSupports.Margin = new System.Windows.Forms.Padding(2);
             this.cmdRemoveSupports.Name = "cmdRemoveSupports";
             this.cmdRemoveSupports.Size = new System.Drawing.Size(141, 26);
             this.cmdRemoveSupports.TabIndex = 32;
@@ -653,7 +654,7 @@
             this.lbSupports.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lbSupports.HideSelection = false;
             this.lbSupports.Location = new System.Drawing.Point(2, 26);
-            this.lbSupports.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.lbSupports.Margin = new System.Windows.Forms.Padding(2);
             this.lbSupports.MultiSelect = false;
             this.lbSupports.Name = "lbSupports";
             this.lbSupports.Size = new System.Drawing.Size(142, 98);
@@ -698,7 +699,7 @@
             this.ctlTitle1.GuiAnchor = null;
             this.ctlTitle1.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttSupport;
             this.ctlTitle1.Location = new System.Drawing.Point(2, 2);
-            this.ctlTitle1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ctlTitle1.Margin = new System.Windows.Forms.Padding(2);
             this.ctlTitle1.Name = "ctlTitle1";
             this.ctlTitle1.OnClickCallback = "";
             this.ctlTitle1.Size = new System.Drawing.Size(278, 37);
@@ -718,7 +719,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel3);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ctlSupports";
             this.Size = new System.Drawing.Size(284, 440);
             this.flowLayoutPanel1.ResumeLayout(false);

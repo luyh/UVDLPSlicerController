@@ -63,6 +63,7 @@ namespace UV_DLP_3D_Printer
         private bool m_cancel;
         private bool m_generating; // true while this is running
         public SupportGeneratorEvent SupportEvent;
+        private int m_supportgap;
 
         public void RaiseSupportEvent(SupportEvent evnt, string message, Object obj) 
         {
@@ -110,7 +111,7 @@ namespace UV_DLP_3D_Printer
                     GenerateSupportObjects();
                     break;
                 case SupportConfig.eAUTOSUPPORTTYPE.eADAPTIVE:
-                    GenerateAdaptive();
+                    GenerateAdaptive2();
                     break;
             }
             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "Support generation ended");
@@ -167,7 +168,7 @@ namespace UV_DLP_3D_Printer
         /// The way that it does this is by generating a closed polyline loop for each layer
         /// and checking the 2d projection of the current layer with the previous layer
         /// </summary>
-        public void GenerateAdaptive() 
+        public void GenerateAdaptive()
         {
             //iterate through all the layers starting from z=0            
             // check every polyline in the current layer to make sure it is encased or overlaps polylines in the previous layer
@@ -176,11 +177,11 @@ namespace UV_DLP_3D_Printer
             // this has to do slicing of the scene
             try
             {
-                
-                SliceBuildConfig config = UVDLPApp.Instance().m_buildparms;                
+
+                SliceBuildConfig config = UVDLPApp.Instance().m_buildparms;
                 config.UpdateFrom(UVDLPApp.Instance().m_printerinfo); // make sure we've got the correct display size and PixPerMM values   
-                 
-                if (UVDLPApp.Instance().m_slicer.SliceFile == null) 
+
+                if (UVDLPApp.Instance().m_slicer.SliceFile == null)
                 {
                     SliceFile sf = new SliceFile(config);
                     sf.m_mode = SliceFile.SFMode.eImmediate;
@@ -209,9 +210,9 @@ namespace UV_DLP_3D_Printer
                     Slice sl = UVDLPApp.Instance().m_slicer.GetSliceImmediate(zlev);
                     zlev += (float)config.ZThick;
 
-                    if (sl == null) 
+                    if (sl == null)
                         continue;
-                    if (sl.m_segments == null) 
+                    if (sl.m_segments == null)
                         continue;
                     if (sl.m_segments.Count == 0)
                         continue;
@@ -286,7 +287,7 @@ namespace UV_DLP_3D_Printer
                                         //iterate from pnt1.X to pnt2.x and check colors
                                         for (int xc = pnt1.X; xc < pnt2.X; xc++)
                                         {
-                                            if (xc >= lbm.Width || xc <=0 ) continue;
+                                            if (xc >= lbm.Width || xc <= 0) continue;
                                             if (pnt1.Y >= lbm.Height || pnt1.Y <= 0) continue;
                                             try
                                             {
@@ -299,7 +300,7 @@ namespace UV_DLP_3D_Printer
                                                     plysupported = true;
                                                 }
                                             }
-                                            catch (Exception ex) 
+                                            catch (Exception ex)
                                             {
                                                 DebugLogger.Instance().LogError(ex);
                                             }
@@ -314,7 +315,7 @@ namespace UV_DLP_3D_Printer
                             if (plysupported == false)
                             {
 
-                               // layerneedssupport = true;
+                                // layerneedssupport = true;
                                 supportmap[pln] = false;
                                 lstunsup.Add(new UnsupportedRegions(pln));
                             }
@@ -348,11 +349,317 @@ namespace UV_DLP_3D_Printer
                 RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eCompleted, "Support Generation Completed", lstsupports);
                 m_generating = false;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 DebugLogger.Instance().LogError(ex);
             }
         }
+
+        #region Adaptive Slicer ver 2
+
+        class SliceIsland
+        {
+            public int sliceid;  // z location of the slice
+            public int islandid; // id of a single island in the slice
+            public int minx, miny, maxx, maxy;
+            public int pixCount;
+            public int supportedCount;
+            public int m_supportGap, supportRad;
+            public int xres, yres;
+            public SliceIsland(int iid, int sid, int xr, int yr)
+            {
+                minx = miny = 99999999;
+                maxx = maxy = -99999999;
+                sliceid = sid;
+                islandid = iid;
+                xres = xr;
+                yres = yr;
+                pixCount = supportedCount = 0;
+                supportGap = 50;
+            }
+
+            public int supportGap
+            {
+                get { return m_supportGap; }
+                set { m_supportGap = value; supportRad = supportGap / 2; }
+            }
+
+            void CheckIslandPoint(int[,] searchmap, LockBitmap lbm, LockBitmap lbmz, int x, int y, List<Point> pts)
+            {
+                if ((x < 0) || (y < 0) || (x >= xres) || (y >= yres))
+                    return;
+                int lyr = lbm.GetPixel(x, y).ToArgb();
+                if ((lyr == 0) || (searchmap[x, y] != 0))
+                    return;
+                Point pt = new Point(x, y);
+                searchmap[x, y] = islandid;
+                pts.Add(pt);
+                if (x > maxx) maxx = x;
+                if (x < minx) minx = x;
+                if (y > maxy) maxy = y;
+                if (y < miny) miny = y;
+                pixCount++;
+                if (lbmz.GetPixel(x, y).ToArgb() == (lyr - 1))
+                    supportedCount++;
+            }
+
+            // find an island in a slice using flood fill
+            public void FloodIsland(int [,] searchmap, LockBitmap lbm, LockBitmap lbmz, int xp, int yp)
+            {
+                List<Point> fillPts = new List<Point>();
+                List<Point> tpts;
+                CheckIslandPoint(searchmap, lbm, lbmz, xp, yp, fillPts);
+                while (fillPts.Count > 0)
+                {
+                    tpts = fillPts;
+                    fillPts = new List<Point>();
+                    foreach (Point pt in tpts)
+                    {
+                        CheckIslandPoint(searchmap, lbm, lbmz, pt.X + 1, pt.Y, fillPts);
+                        CheckIslandPoint(searchmap, lbm, lbmz, pt.X, pt.Y + 1, fillPts);
+                        CheckIslandPoint(searchmap, lbm, lbmz, pt.X - 1, pt.Y, fillPts);
+                        CheckIslandPoint(searchmap, lbm, lbmz, pt.X, pt.Y - 1, fillPts);
+                    }
+                }
+            }
+
+            void CheckSupportPoint(int[,] searchmap, int x, int y, int supx, int supy, List<Point> pts)
+            {
+                if ((x < 0) || (y < 0) || (x >= xres) || (y >= yres))
+                    return;
+                if (Math.Abs(supx - x) > supportRad)
+                    return;
+                if (Math.Abs(supy - y) > supportRad)
+                    return;
+                if (searchmap[x, y] != islandid)
+                    return;
+                Point pt = new Point(x, y);
+                searchmap[x, y] = 0;
+                pts.Add(pt);
+            }
+
+            // clear island surface near set support 
+            public void FloodSupport(int [,] searchmap, int xp, int yp, int supx, int supy)
+            {
+                List<Point> fillPts = new List<Point>();
+                List<Point> tpts;
+                CheckSupportPoint(searchmap, xp, yp, supx, supy, fillPts);
+                while (fillPts.Count > 0)
+                {
+                    tpts = fillPts;
+                    fillPts = new List<Point>();
+                    foreach (Point pt in tpts)
+                    {
+                        CheckSupportPoint(searchmap, pt.X + 1, pt.Y, supx, supy, fillPts);
+                        CheckSupportPoint(searchmap, pt.X, pt.Y + 1, supx, supy, fillPts);
+                        CheckSupportPoint(searchmap, pt.X - 1, pt.Y, supx, supy, fillPts);
+                        CheckSupportPoint(searchmap, pt.X, pt.Y - 1, supx, supy, fillPts);
+                    }
+                }
+            }
+       }
+
+        class SupportLocation
+        {
+            public int x, y;
+            public int ztop, zbottom;
+            public SupportLocation(int sx, int sy, int stop, int sbot)
+            {
+                x = sx;
+                y = sy;
+                ztop = stop & 0xFFFFFF;
+                zbottom = sbot & 0xFFFFFF;
+            }
+        }
+
+        void SupportLooseIsland(int[,] searchmap, SliceIsland si, LockBitmap lbm, LockBitmap lbmz, List<SupportLocation> sl)
+        {
+            int l = si.maxx - si.minx;
+            int w = si.maxy - si.miny;
+            int x, y, t, b;
+            SupportLocation s = null;
+            // /*P*/ = need to use parameters here
+            if ((l < m_supportgap) && (w < m_supportgap)) 
+            {
+                // Island is small, in this case just put as Single support in the center
+                x = (si.minx + si.maxx) / 2;
+                y = (si.miny + si.maxy) / 2;
+                t = lbm.GetPixel(x,y).ToArgb();
+                b = lbmz.GetPixel(x,y).ToArgb();
+                if ((t != 0) && (b == 0)) // right now we support only base supports, so b must be 0;
+                {
+                    s = new SupportLocation(x, y, t, b);
+                    sl.Add(s);
+                }
+            }
+            if (s != null)
+                return;
+
+            // island is big or irregular shape, iterate over the island surface and add supports.
+            for (x = si.minx; x <= si.maxx; x++)
+            {
+                for (y = si.miny; y < si.maxy; y++)
+                {
+                    if (searchmap[x,y] != si.islandid)
+                        continue;
+                    b = lbmz.GetPixel(x, y).ToArgb() & 0xFFFFFF;
+                    if (b != 0)
+                        continue; // right now we support only base supports, so b must be 0;
+                    // add support to current location, and mark this area as supported
+                    s = new SupportLocation(x, y, si.sliceid, b);
+                    sl.Add(s);
+                    si.FloodSupport(searchmap, x, y, x, y);
+                }
+            }
+
+        }
+
+        void ProcessSlice(Bitmap bm, Bitmap bmz, List<SupportLocation> sl)
+        {
+            int xres = bm.Width;
+            int yres = bm.Height;
+            int[,] searchmap = new int[xres, yres];
+            int x, y;
+            for (x = 0; x < xres; x++)
+                for (y = 0; y < yres; y++)
+                    searchmap[x, y] = 0;
+            LockBitmap lbm = new LockBitmap(bm);
+            lbm.LockBits();
+            LockBitmap lbmz = new LockBitmap(bmz);
+            lbmz.LockBits();
+            int islandid = 1;
+            List <SliceIsland> islands = new List<SliceIsland>();
+
+            // find islands in the slice
+            for (x = 0; x < xres; x++)
+                for (y = 0; y < yres; y++)
+                {
+                    int sid = lbm.GetPixel(x, y).ToArgb() & 0xFFFFFF;
+                    if ((searchmap[x, y] == 0) && (sid != 0))
+                    {
+                        SliceIsland si = new SliceIsland(islandid, sid, xres, yres);
+                        si.supportGap = m_supportgap;
+                        si.FloodIsland(searchmap, lbm, lbmz, x, y);
+                        islands.Add(si);
+                        islandid++;
+                    }
+                }
+
+            // locate potential supports locations
+            foreach (SliceIsland si in islands)
+            {
+                // case 1: island is not supported at all.
+                if (si.supportedCount == 0)
+                {
+                    SupportLooseIsland(searchmap, si, lbm, lbmz, sl);
+                }
+            }
+            lbm.UnlockBits();
+            lbmz.UnlockBits();
+        }
+
+
+        /// <summary>
+        /// This is the adaptive support generation, it should automatically 
+        /// detect overhangs,
+        /// The way that it does this is by generating bitmap slices and detecting non 
+        /// supported areas based on prev layaers. 
+        /// </summary>
+        public void GenerateAdaptive2()
+        {
+            //iterate through all the layers starting from z=0            
+            // check every polyline in the current layer to make sure it is encased or overlaps polylines in the previous layer
+            // generate a list of unsupported polylines
+            // 'check' to see if the polyline can be dropped straight down
+            // this has to do slicing of the scene
+            try
+            {
+
+                SliceBuildConfig config = UVDLPApp.Instance().m_buildparms;
+                config.UpdateFrom(UVDLPApp.Instance().m_printerinfo); // make sure we've got the correct display size and PixPerMM values   
+
+                if (UVDLPApp.Instance().m_slicer.SliceFile == null)
+                {
+                    SliceFile sf = new SliceFile(config);
+                    sf.m_mode = SliceFile.SFMode.eImmediate;
+                    UVDLPApp.Instance().m_slicer.SliceFile = sf; // wasn't set
+                }
+                //create new list for new supports
+                List<Object3d> lstsupports = new List<Object3d>(); // final list of supports
+                List<SupportLocation> supLocs = new List<SupportLocation>(); // temporary list of support locations.
+
+                int numslices = UVDLPApp.Instance().m_slicer.GetNumberOfSlices(config);
+                float zlev = 0.0f;
+                //Slice curslice = null;
+                //Slice prevslice = null;
+                int hxres = config.xres / 2;
+                int hyres = config.yres / 2;
+                Bitmap bm = new Bitmap(config.xres, config.yres, System.Drawing.Imaging.PixelFormat.Format32bppArgb); // working bitmap
+                using (Graphics gfx = Graphics.FromImage(bm))
+                    gfx.Clear(Color.Black);
+                Bitmap bmz = bm.Clone(new Rectangle(0, 0, bm.Width, bm.Height), bm.PixelFormat); // zbuff bitmap
+                Color savecol = UVDLPApp.Instance().m_appconfig.m_foregroundcolor;
+                m_supportgap = (int)(m_sc.xspace * config.dpmmX);
+                for (int c = 0; c < numslices; c++)
+                {
+                    //bool layerneedssupport = false;
+                    if (m_cancel)
+                    {
+                        RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eCancel, "Support Generation Cancelled", null);
+                        return;
+                    }
+                    RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eProgress, "" + c + "/" + numslices, null);
+
+                    Slice sl = UVDLPApp.Instance().m_slicer.GetSliceImmediate(zlev);
+                    zlev += (float)config.ZThick;
+
+                    if ((sl == null) || (sl.m_segments == null) || (sl.m_segments.Count == 0))
+                        continue;
+                    sl.Optimize();// find loops
+                    //sl.DetermineInteriorExterior(config); // mark the interior/exterior loops
+                    //prevslice = curslice;
+                    //curslice = sl;
+                    //Bitmap bm = new Bitmap(config.xres, config.yres);
+                    using (Graphics gfx = Graphics.FromImage(bm))
+                        gfx.Clear(Color.Transparent);
+
+                    //if (prevslice != null && curslice != null)
+                    //{
+                    //render current slice
+                    UVDLPApp.Instance().m_appconfig.m_foregroundcolor = Color.FromArgb((0xFF << 24) | c);
+                    sl.RenderSlice(config, ref bm);
+                    if (c > 0)
+                    {
+                        ProcessSlice(bm, bmz, supLocs);
+                    }
+
+                    // add slice to zbuffer bitmap
+                    using (Graphics gfx = Graphics.FromImage(bmz))
+                        gfx.DrawImage(bm, 0, 0, bm.Width, bm.Height);
+                }
+
+                int scnt = 0;
+                foreach (SupportLocation spl in supLocs)
+                {
+                    float px = (float)(spl.x - hxres) / (float)config.dpmmX;
+                    float py = (float)(spl.y - hyres) / (float)config.dpmmY;
+                    float pz = (float)(spl.ztop) * (float)config.ZThick;
+                    AddNewSupport(px, py, pz, scnt++, null, lstsupports);
+
+                }
+                RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eCompleted, "Support Generation Completed", lstsupports);
+                m_generating = false;
+
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
+        }
+        #endregion
+
+
+
         private void SaveBM(Bitmap bmp, int layer) 
         {
             String fn = UVDLPApp.Instance().SelectedObject.m_fullname;
