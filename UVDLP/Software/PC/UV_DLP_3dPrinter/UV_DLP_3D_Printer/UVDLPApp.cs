@@ -858,7 +858,7 @@ namespace UV_DLP_3D_Printer
             }
             //load the license keys
             LoadLicenseKeys();
-            //look for plug-ins
+            //look for plug-ins and validate licensing
             ScanForPlugins();
             // validate those loaded plugins against license keys
             CheckLicensing();
@@ -901,6 +901,7 @@ namespace UV_DLP_3D_Printer
                     if (lk != null) 
                     {
                         pe.m_licensed = true;
+                        
                     }
                 }
                 catch (Exception ex)             
@@ -1016,9 +1017,24 @@ namespace UV_DLP_3D_Printer
                             // OK Lets create the object as we have the Report Type
                             if (ObjType != null)
                             {
+                                // create an instance of the plugin
                                 IPlugin plug = (IPlugin)Activator.CreateInstance(ObjType); 
-                                m_plugins.Add(new PluginEntry(plug));
-                                plug.Host = this;
+                                // create an entry for the plugin
+                                PluginEntry pe = new PluginEntry(plug);
+                                //add the entry to the list of plugins
+                                m_plugins.Add(pe);
+                                //get the vendor id of the newly loaded plugin
+                                int vid = plug.GetInt("VendorID");
+                                //look for the license key for this plugin
+                                LicenseKey lk = KeyRing.Instance().Find(vid);
+                                // if we found it, mark it as licensed
+                                if (lk != null)
+                                {
+                                    pe.m_licensed = true;
+                                    //initialize the plugin by setting the host.
+                                    plug.Host = this; // this will initialize the plugin - the plugin's init function will be called
+                                    DebugLogger.Instance().LogInfo("Loaded licensed plugin " + args);
+                                }                                
                                 DebugLogger.Instance().LogInfo("Loaded plugin " + args);
                             }
                         }

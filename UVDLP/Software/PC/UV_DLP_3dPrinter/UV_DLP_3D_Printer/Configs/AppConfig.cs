@@ -37,7 +37,7 @@ namespace UV_DLP_3D_Printer
         public bool m_showShaded;      // selected objects will be marked with a different shade
         public bool m_showOutline;     // selected objects will be marked with an outline
 
-        public string m_serveraddress = "www.buildyourownsla.com"; // for the http post
+        public string m_serveraddress = "http://www.buildyourownsla.com"; // for the http post
         public string m_contactform = "cwphp/cwupdate.php"; // the form to contact
         public string m_licensekey;
 

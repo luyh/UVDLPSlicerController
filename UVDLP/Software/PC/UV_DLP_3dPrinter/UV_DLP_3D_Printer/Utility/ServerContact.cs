@@ -23,54 +23,23 @@ namespace UV_DLP_3D_Printer
         {
             ContactServer();// this will kick off contacting the server
         }
+
         public void ContactServer() 
         {
             m_thread = new Thread(new ThreadStart(ContactServerThread));
             m_thread.Start();
             //try an http post            
         }
-
-        // generate the name/value pairs to send to the server
-        private NameValueCollection GenerateInfo() 
+        private string FindLicenseKey(int vendorID) 
         {
-            NameValueCollection nvc = new NameValueCollection();
-            //nvc["thing1"] = "hello";
-            //nvc["thing2"] = "world";
-            int lc = 0; // licence counter
-            // iterate through all license keys in keyring
-            nvc["NumLicenses"] = KeyRing.Instance().m_keys.Count.ToString();
-            foreach (LicenseKey lk in KeyRing.Instance().m_keys) 
+            foreach (LicenseKey lk in KeyRing.Instance().m_keys)
             {
-                string License = lk.m_key;
-                string VendorID = lk.VendorID.ToString();
-                VIDs.VEntry ve = VIDs.Find(lk.VendorID);
-                string LicenseValid = lk.valid.ToString();
-                if (ve != null) 
+                if (vendorID == lk.VendorID) 
                 {
-                    string VendorName = ve.m_name;
-                    nvc["VendorName_" + lc.ToString()] = VendorName;
+                    return lk.m_key;
                 }
-                nvc["License_" + lc.ToString()] = License;
-                nvc["VendorID_" + lc.ToString()] = VendorID;
-                nvc["LicenseValid_" + lc.ToString()] = LicenseValid;                
-                lc++;
             }
-            // when talking to plugins, be sure to add some error handling when poking them
-            nvc["NumPlugins"] = UVDLPApp.Instance().m_plugins.Count.ToString();
-            int pc = 0; // plugin count
-            foreach (PluginEntry pe in UVDLPApp.Instance().m_plugins) 
-            {
-                try
-                {
-                    string PluginName = pe.m_plugin.GetString("PluginName");
-                    string VendorName = pe.m_plugin.GetString("VendorName");
-                    string Version = pe.m_plugin.GetString("Version");
-                    string VendorID = pe.m_plugin.GetString("VendorID");
-                }
-                catch (Exception) { }
-            }
-            nvc["CWVersion"] =  Application.ProductVersion; // include the product version
-            return nvc;
+            return "no key";
         }
         /// <summary>
         /// I think I need to change this to make multiple posts
@@ -80,21 +49,35 @@ namespace UV_DLP_3D_Printer
         {
             // try the HTTP Post
             try
-            {
-                
-               WebClient client = new WebClient();
+            {                
+                WebClient client = new WebClient();
                 string postform = UVDLPApp.Instance().m_appconfig.m_contactform;
                 string posturl = UVDLPApp.Instance().m_appconfig.m_serveraddress;
-                //foreach licensed plugin, generate the info...
-                NameValueCollection values = GenerateInfo();
-                var response = client.UploadValues(posturl + "//" + postform, values);
-                ParseResponse(Encoding.Default.GetString(response));
-                //parse the response
+                string postaddr = posturl + "/" + postform;
+                foreach (PluginEntry pe in UVDLPApp.Instance().m_plugins)//foreach licensed plugin, generate the info...
+                {
+                    try
+                    {
+                        NameValueCollection nvc = new NameValueCollection(); ;
+                        nvc["CWVersion"] = Application.ProductVersion; // include the product version
+                        nvc["Machine_ID"] = FingerPrint.Value(); //get the unique identifier of this machine
+                        nvc["PluginLicenseKey"] = FindLicenseKey(pe.m_plugin.GetInt("VendorID")); // find the license key for this plugin
+                        nvc["PluginName"] = pe.m_plugin.GetString("PluginName"); //
+                        nvc["PluginVendorID"] = pe.m_plugin.GetInt("VendorID").ToString();
+                        nvc["PluginVendorName"] = pe.m_plugin.GetString("VendorName");
+                        nvc["PluginVersion"] = pe.m_plugin.GetString("Version");// version of the plugin
+
+                        var response = client.UploadValues(postaddr, "POST", nvc);
+                        string resp = Encoding.Default.GetString(response);
+                        //DebugLogger.Instance().LogInfo(resp); // log the response as a test
+                        ParseResponse(resp);//parse the response
+                    }
+                    catch (Exception) { }
+                }                
             }
             catch (Exception ex) 
             {
-               // DebugLogger.Instance().LogError("Couldn't contact server");
-                DebugLogger.Instance().LogError(ex);
+                //DebugLogger.Instance().LogError(ex);
                 // may want to silently fail here
             }
         }
@@ -103,17 +86,5 @@ namespace UV_DLP_3D_Printer
         {
         
         }
-
-        /*using (var client = new WebClient())
-{
-    var values = new NameValueCollection();
-    values["thing1"] = "hello";
-    values["thing2"] = "world";
-
-    var response = client.UploadValues("http://www.mydomain.com/recepticle.aspx", values);
-
-    var responseString = Encoding.Default.GetString(response);
-}*/
-
     }
 }
