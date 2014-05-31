@@ -427,9 +427,9 @@ namespace UV_DLP_3D_Printer
             {
                 if ((x < 0) || (y < 0) || (x >= xres) || (y >= yres))
                     return;
-                if (Math.Abs(supx - x) > supportRad)
+                if (Math.Abs(supx - x) > m_supportGap)
                     return;
-                if (Math.Abs(supy - y) > supportRad)
+                if (Math.Abs(supy - y) > m_supportGap)
                     return;
                 if (searchmap[x, y] != islandid)
                     return;
