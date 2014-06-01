@@ -479,14 +479,36 @@ namespace UV_DLP_3D_Printer
             }
         }
 
-        void SupportLooseIsland(int[] searchmap, SliceIsland si, int[] lbm, int[] lbmz, List<SupportLocation> sl)
+        void UpdateSupportMap(bool[] lbms, int px, int py, int resx, int resy)
+        {
+            int x1 = px - m_supportgap;
+            if (x1 < 0)
+                x1 = 0;
+            int y1 = py - m_supportgap;
+            if (y1 < 0)
+                y1 = 0;
+            int x2 = px + m_supportgap;
+            if (x2 > resx)
+                x2 = resx;
+            int y2 = py + m_supportgap;
+            if (y2 > resy)
+                y2 = resy;
+            x2 -= x1;
+            y2 -= y1;
+            int p = y1 * resx + x1;
+            for (y1 = 0; y1 < y2; y1++, p += resx - y2)
+                for (x1 = 0; x1 < x2; x1++, p++)
+                    lbms[p] = true;
+        }
+
+        void SupportLooseIsland(int[] searchmap, SliceIsland si, int[] lbm, int[] lbmz, bool[] lbms, List<SupportLocation> sl)
         {
             int l = si.maxx - si.minx;
             int w = si.maxy - si.miny;
             int x, y, t, b, p;
             SupportLocation s = null;
             // /*P*/ = need to use parameters here
-            if ((l < m_supportgap) && (w < m_supportgap)) 
+            if ((l < m_supportgap) && (w < m_supportgap))
             {
                 // Island is small, in this case just put as Single support in the center
                 x = (si.minx + si.maxx) / 2;
@@ -498,6 +520,7 @@ namespace UV_DLP_3D_Printer
                 {
                     s = new SupportLocation(x, y, t, b);
                     sl.Add(s);
+                    UpdateSupportMap(lbms, x, y, si.xres, si.yres);
                 }
             }
             if (s != null)
@@ -517,13 +540,38 @@ namespace UV_DLP_3D_Printer
                     // add support to current location, and mark this area as supported
                     s = new SupportLocation(x, y, si.sliceid, b);
                     sl.Add(s);
+                    UpdateSupportMap(lbms, x, y, si.xres, si.yres);
                     si.FloodSupport(searchmap, x, y, x, y);
                 }
             }
-
         }
 
-        void ProcessSlice(int [] lbm, int [] lbmz, int xres, int yres, List<SupportLocation> sl)
+        void SupportSupportedIsland(int[] searchmap, SliceIsland si, int[] lbm, int[] lbmz, bool[] lbms, List<SupportLocation> sl)
+        {
+            int l = si.maxx - si.minx;
+            int w = si.maxy - si.miny;
+            int x, y, b, p;
+            SupportLocation s = null;
+            for (x = si.minx; x <= si.maxx; x++)
+            {
+                for (y = si.miny; y < si.maxy; y++)
+                {
+                    p = y * si.xres + x;
+                    if (lbms[p] || (searchmap[p] != si.islandid)) // skip if area is already supported
+                        continue;
+                    b = lbmz[p];
+                    if (b != 0)
+                        continue; // right now we support only base supports, so b must be 0;
+                    // add support to current location, and mark this area as supported
+                    s = new SupportLocation(x, y, si.sliceid, b);
+                    sl.Add(s);
+                    UpdateSupportMap(lbms, x, y, si.xres, si.yres);
+                    si.FloodSupport(searchmap, x, y, x, y);
+                }
+            }
+        }
+
+        void ProcessSlice(int[] lbm, int[] lbmz, bool[] lbms, int xres, int yres, List<SupportLocation> sl)
         {
             int npix = xres * yres;
             int[] searchmap = new int[npix];
@@ -568,7 +616,12 @@ namespace UV_DLP_3D_Printer
                 // case 1: island is not supported at all.
                 if (si.supportedCount == 0)
                 {
-                    SupportLooseIsland(searchmap, si, lbm, lbmz, sl);
+                    SupportLooseIsland(searchmap, si, lbm, lbmz, lbms, sl);
+                }
+                // case 2: island is partially supported
+                else
+                {
+                    SupportSupportedIsland(searchmap, si, lbm, lbmz, lbms, sl);
                 }
             }
          }
@@ -610,11 +663,15 @@ namespace UV_DLP_3D_Printer
                 int hxres = config.xres / 2;
                 int hyres = config.yres / 2;
                 int npix = config.xres * config.yres;
-                int[] lbm = new int[npix];
-                int[] lbmz = new int[npix];
+                int[] lbm = new int[npix];  // current slice
+                int[] lbmz = new int[npix]; // z buffer
+                bool[] lbms = new bool[npix]; // support map
                 int p;
                 for (p = 0; p < npix; p++)
+                {
                     lbmz[p] = 0;
+                    lbms[p] = false;
+                }
                 Bitmap bm = new Bitmap(config.xres, config.yres, System.Drawing.Imaging.PixelFormat.Format32bppArgb); // working bitmap
                 //using (Graphics gfx = Graphics.FromImage(bm))
                 //    gfx.Clear(Color.Black);
@@ -657,7 +714,7 @@ namespace UV_DLP_3D_Printer
                     bm.UnlockBits(data);
                     if (c > 0)
                     {
-                        ProcessSlice(lbm, lbmz, config.xres, config.yres, supLocs);
+                        ProcessSlice(lbm, lbmz, lbms, config.xres, config.yres, supLocs);
                     }
 
                     // add slice to zbuffer bitmap
