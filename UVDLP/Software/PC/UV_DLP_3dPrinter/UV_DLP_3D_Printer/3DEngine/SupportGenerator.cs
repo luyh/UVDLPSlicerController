@@ -7,9 +7,12 @@ using UV_DLP_3D_Printer._3DEngine;
 using Engine3D;
 using UV_DLP_3D_Printer.Configs;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.IO;
 using UV_DLP_3D_Printer.Slicing;
+
 namespace UV_DLP_3D_Printer
 {
     /*
@@ -384,46 +387,48 @@ namespace UV_DLP_3D_Printer
                 set { m_supportGap = value; supportRad = supportGap / 2; }
             }
 
-            void CheckIslandPoint(int[,] searchmap, LockBitmap lbm, LockBitmap lbmz, int x, int y, List<Point> pts)
+            void CheckIslandPoint(int[] searchmap, int[] lbm, int[] lbmz, int x, int y, List<int> pts)
             {
                 if ((x < 0) || (y < 0) || (x >= xres) || (y >= yres))
                     return;
-                int lyr = lbm.GetPixel(x, y).ToArgb();
-                if ((lyr == 0) || (searchmap[x, y] != 0))
+                int p = y * xres + x;
+                int lyr = lbm[p];
+                if ((lyr == 0) || (searchmap[p] != 0))
                     return;
-                Point pt = new Point(x, y);
-                searchmap[x, y] = islandid;
-                pts.Add(pt);
+                searchmap[p] = islandid;
+                pts.Add(p);
                 if (x > maxx) maxx = x;
                 if (x < minx) minx = x;
                 if (y > maxy) maxy = y;
                 if (y < miny) miny = y;
                 pixCount++;
-                if (lbmz.GetPixel(x, y).ToArgb() == (lyr - 1))
+                if (lbmz[p] == (lyr - 1))
                     supportedCount++;
             }
 
             // find an island in a slice using flood fill
-            public void FloodIsland(int [,] searchmap, LockBitmap lbm, LockBitmap lbmz, int xp, int yp)
+            public void FloodIsland(int [] searchmap, int[] lbm, int[] lbmz, int xp, int yp)
             {
-                List<Point> fillPts = new List<Point>();
-                List<Point> tpts;
+                List<int> fillPts = new List<int>();
+                List<int> tpts;
                 CheckIslandPoint(searchmap, lbm, lbmz, xp, yp, fillPts);
                 while (fillPts.Count > 0)
                 {
                     tpts = fillPts;
-                    fillPts = new List<Point>();
-                    foreach (Point pt in tpts)
+                    fillPts = new List<int>();
+                    foreach (int p in tpts)
                     {
-                        CheckIslandPoint(searchmap, lbm, lbmz, pt.X + 1, pt.Y, fillPts);
-                        CheckIslandPoint(searchmap, lbm, lbmz, pt.X, pt.Y + 1, fillPts);
-                        CheckIslandPoint(searchmap, lbm, lbmz, pt.X - 1, pt.Y, fillPts);
-                        CheckIslandPoint(searchmap, lbm, lbmz, pt.X, pt.Y - 1, fillPts);
+                        int x = p % xres;
+                        int y = p / xres;
+                        CheckIslandPoint(searchmap, lbm, lbmz, x + 1, y, fillPts);
+                        CheckIslandPoint(searchmap, lbm, lbmz, x, y + 1, fillPts);
+                        CheckIslandPoint(searchmap, lbm, lbmz, x - 1, y, fillPts);
+                        CheckIslandPoint(searchmap, lbm, lbmz, x, y - 1, fillPts);
                     }
                 }
             }
 
-            void CheckSupportPoint(int[,] searchmap, int x, int y, int supx, int supy, List<Point> pts)
+            void CheckSupportPoint(int[] searchmap, int x, int y, int supx, int supy, List<int> pts)
             {
                 if ((x < 0) || (y < 0) || (x >= xres) || (y >= yres))
                     return;
@@ -431,29 +436,31 @@ namespace UV_DLP_3D_Printer
                     return;
                 if (Math.Abs(supy - y) > m_supportGap)
                     return;
-                if (searchmap[x, y] != islandid)
+                int p = y * xres + x;
+                if (searchmap[p] != islandid)
                     return;
-                Point pt = new Point(x, y);
-                searchmap[x, y] = 0;
-                pts.Add(pt);
+                searchmap[p] = 0;
+                pts.Add(p);
             }
 
             // clear island surface near set support 
-            public void FloodSupport(int [,] searchmap, int xp, int yp, int supx, int supy)
+            public void FloodSupport(int [] searchmap, int xp, int yp, int supx, int supy)
             {
-                List<Point> fillPts = new List<Point>();
-                List<Point> tpts;
+                List<int> fillPts = new List<int>();
+                List<int> tpts;
                 CheckSupportPoint(searchmap, xp, yp, supx, supy, fillPts);
                 while (fillPts.Count > 0)
                 {
                     tpts = fillPts;
-                    fillPts = new List<Point>();
-                    foreach (Point pt in tpts)
+                    fillPts = new List<int>();
+                    foreach (int p in tpts)
                     {
-                        CheckSupportPoint(searchmap, pt.X + 1, pt.Y, supx, supy, fillPts);
-                        CheckSupportPoint(searchmap, pt.X, pt.Y + 1, supx, supy, fillPts);
-                        CheckSupportPoint(searchmap, pt.X - 1, pt.Y, supx, supy, fillPts);
-                        CheckSupportPoint(searchmap, pt.X, pt.Y - 1, supx, supy, fillPts);
+                        int x = p % xres;
+                        int y = p / xres;
+                        CheckSupportPoint(searchmap, x + 1, y, supx, supy, fillPts);
+                        CheckSupportPoint(searchmap, x, y + 1, supx, supy, fillPts);
+                        CheckSupportPoint(searchmap, x - 1, y, supx, supy, fillPts);
+                        CheckSupportPoint(searchmap, x, y - 1, supx, supy, fillPts);
                     }
                 }
             }
@@ -467,16 +474,16 @@ namespace UV_DLP_3D_Printer
             {
                 x = sx;
                 y = sy;
-                ztop = stop & 0xFFFFFF;
-                zbottom = sbot & 0xFFFFFF;
+                ztop = stop;// &0xFFFFFF;
+                zbottom = sbot;// &0xFFFFFF;
             }
         }
 
-        void SupportLooseIsland(int[,] searchmap, SliceIsland si, LockBitmap lbm, LockBitmap lbmz, List<SupportLocation> sl)
+        void SupportLooseIsland(int[] searchmap, SliceIsland si, int[] lbm, int[] lbmz, List<SupportLocation> sl)
         {
             int l = si.maxx - si.minx;
             int w = si.maxy - si.miny;
-            int x, y, t, b;
+            int x, y, t, b, p;
             SupportLocation s = null;
             // /*P*/ = need to use parameters here
             if ((l < m_supportgap) && (w < m_supportgap)) 
@@ -484,8 +491,9 @@ namespace UV_DLP_3D_Printer
                 // Island is small, in this case just put as Single support in the center
                 x = (si.minx + si.maxx) / 2;
                 y = (si.miny + si.maxy) / 2;
-                t = lbm.GetPixel(x,y).ToArgb();
-                b = lbmz.GetPixel(x,y).ToArgb();
+                p = y * si.xres + x;
+                t = lbm[p];
+                b = lbmz[p];
                 if ((t != 0) && (b == 0)) // right now we support only base supports, so b must be 0;
                 {
                     s = new SupportLocation(x, y, t, b);
@@ -500,9 +508,10 @@ namespace UV_DLP_3D_Printer
             {
                 for (y = si.miny; y < si.maxy; y++)
                 {
-                    if (searchmap[x,y] != si.islandid)
+                    p = y * si.xres + x;
+                    if (searchmap[p] != si.islandid)
                         continue;
-                    b = lbmz.GetPixel(x, y).ToArgb() & 0xFFFFFF;
+                    b = lbmz[p]; // &0xFFFFFF;
                     if (b != 0)
                         continue; // right now we support only base supports, so b must be 0;
                     // add support to current location, and mark this area as supported
@@ -514,19 +523,26 @@ namespace UV_DLP_3D_Printer
 
         }
 
-        void ProcessSlice(Bitmap bm, Bitmap bmz, List<SupportLocation> sl)
+        void ProcessSlice(int [] lbm, int [] lbmz, int xres, int yres, List<SupportLocation> sl)
         {
-            int xres = bm.Width;
-            int yres = bm.Height;
-            int[,] searchmap = new int[xres, yres];
-            int x, y;
-            for (x = 0; x < xres; x++)
-                for (y = 0; y < yres; y++)
-                    searchmap[x, y] = 0;
-            LockBitmap lbm = new LockBitmap(bm);
-            lbm.LockBits();
-            LockBitmap lbmz = new LockBitmap(bmz);
-            lbmz.LockBits();
+            int npix = xres * yres;
+            int[] searchmap = new int[npix];
+            int x, y, p;
+            for (p = 0; p < npix; p++)
+                searchmap[p] = 0;
+
+            /*BitmapData data = bm.LockBits(new Rectangle(0, 0, xres, yres),
+                    ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            int[] lbm = new int[data.Stride / 4 * data.Height];
+            Marshal.Copy(data.Scan0, lbm, 0, lbm.Length);
+            bm.UnlockBits(data);
+
+            data = bmz.LockBits(new Rectangle(0, 0, xres, yres),
+                    ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            int[] lbmz = new int[data.Stride / 4 * data.Height];
+            Marshal.Copy(data.Scan0, lbmz, 0, lbmz.Length);
+            bmz.UnlockBits(data);*/
+
             int islandid = 1;
             List <SliceIsland> islands = new List<SliceIsland>();
 
@@ -534,8 +550,9 @@ namespace UV_DLP_3D_Printer
             for (x = 0; x < xres; x++)
                 for (y = 0; y < yres; y++)
                 {
-                    int sid = lbm.GetPixel(x, y).ToArgb() & 0xFFFFFF;
-                    if ((searchmap[x, y] == 0) && (sid != 0))
+                    p = y * xres + x;
+                    int sid = lbm[p];// &0xFFFFFF;
+                    if ((searchmap[p] == 0) && (sid != 0))
                     {
                         SliceIsland si = new SliceIsland(islandid, sid, xres, yres);
                         si.supportGap = m_supportgap;
@@ -554,9 +571,7 @@ namespace UV_DLP_3D_Printer
                     SupportLooseIsland(searchmap, si, lbm, lbmz, sl);
                 }
             }
-            lbm.UnlockBits();
-            lbmz.UnlockBits();
-        }
+         }
 
 
         /// <summary>
@@ -594,11 +609,17 @@ namespace UV_DLP_3D_Printer
                 //Slice prevslice = null;
                 int hxres = config.xres / 2;
                 int hyres = config.yres / 2;
+                int npix = config.xres * config.yres;
+                int[] lbm = new int[npix];
+                int[] lbmz = new int[npix];
+                int p;
+                for (p = 0; p < npix; p++)
+                    lbmz[p] = 0;
                 Bitmap bm = new Bitmap(config.xres, config.yres, System.Drawing.Imaging.PixelFormat.Format32bppArgb); // working bitmap
-                using (Graphics gfx = Graphics.FromImage(bm))
-                    gfx.Clear(Color.Black);
-                Bitmap bmz = bm.Clone(new Rectangle(0, 0, bm.Width, bm.Height), bm.PixelFormat); // zbuff bitmap
-                Color savecol = UVDLPApp.Instance().m_appconfig.m_foregroundcolor;
+                //using (Graphics gfx = Graphics.FromImage(bm))
+                //    gfx.Clear(Color.Black);
+                //Bitmap bmz = bm.Clone(new Rectangle(0, 0, bm.Width, bm.Height), bm.PixelFormat); // zbuff bitmap
+                //Color savecol = UVDLPApp.Instance().m_appconfig.m_foregroundcolor;
                 m_supportgap = (int)(m_sc.xspace * config.dpmmX);
                 for (int c = 0; c < numslices; c++)
                 {
@@ -628,14 +649,23 @@ namespace UV_DLP_3D_Printer
                     //render current slice
                     UVDLPApp.Instance().m_appconfig.m_foregroundcolor = Color.FromArgb((0xFF << 24) | c);
                     sl.RenderSlice(config, ref bm);
+                    BitmapData data = bm.LockBits(new Rectangle(0, 0, bm.Width, bm.Height),
+                            ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                    Marshal.Copy(data.Scan0, lbm, 0, lbm.Length);
+                    for (p = 0; p < npix; p++)
+                        lbm[p] &= 0xFFFFFF;
+                    bm.UnlockBits(data);
                     if (c > 0)
                     {
-                        ProcessSlice(bm, bmz, supLocs);
+                        ProcessSlice(lbm, lbmz, config.xres, config.yres, supLocs);
                     }
 
                     // add slice to zbuffer bitmap
-                    using (Graphics gfx = Graphics.FromImage(bmz))
-                        gfx.DrawImage(bm, 0, 0, bm.Width, bm.Height);
+                    //using (Graphics gfx = Graphics.FromImage(bmz))
+                    //    gfx.DrawImage(bm, 0, 0, bm.Width, bm.Height);
+                    for (p = 0; p < npix; p++)
+                        if (lbm[p] != 0)
+                            lbmz[p] = lbm[p];
                 }
 
                 int scnt = 0;
