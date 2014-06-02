@@ -626,6 +626,48 @@ namespace UV_DLP_3D_Printer
             }
          }
 
+        Object3d GetSupportParrent(float x, float y, float z)
+        {
+            //Object3d obj;
+            List<Object3d> matchingObjects = new List<Object3d>();
+            foreach (Object3d obj in UVDLPApp.Instance().Engine3D.m_objects)
+            {
+                if (obj.tag != Object3d.OBJ_NORMAL)
+                    continue;
+                if ((x > obj.m_min.x) && (x < obj.m_max.x) && (y > obj.m_min.y) && (y < obj.m_max.y))
+                    matchingObjects.Add(obj);
+            }
+            if (matchingObjects.Count == 0)
+                return null; // Should not happen!
+            if (matchingObjects.Count == 1)
+                return matchingObjects[0]; // the easy case.
+
+            Point3d origin;
+            origin = new Point3d(); // bottom point
+            origin.Set(x, y, 0.0f);
+            //intersected = false; // reset the intersected flag to be false
+
+            Vector3d up = new Vector3d(); // the up vector
+            up.x = 0.0f;
+            up.y = 0.0f;
+            up.z = 1.0f;
+
+            List<ISectData> lstISects = RTUtils.IntersectObjects(up, origin, matchingObjects, false);
+            Object3d objFound = null;
+            float minzdiff = 99999999f;
+            // find the intersection closest to z.
+            foreach (ISectData htd in lstISects)
+            {
+                float zdiff = Math.Abs(htd.intersect.z - z);
+                if (zdiff < minzdiff)
+                {
+                    minzdiff = zdiff;
+                    objFound = htd.obj;
+                }
+            }
+            return objFound;
+        }
+
 
         /// <summary>
         /// This is the adaptive support generation, it should automatically 
@@ -731,7 +773,7 @@ namespace UV_DLP_3D_Printer
                     float px = (float)(spl.x - hxres) / (float)config.dpmmX;
                     float py = (float)(spl.y - hyres) / (float)config.dpmmY;
                     float pz = (float)(spl.ztop) * (float)config.ZThick;
-                    AddNewSupport(px, py, pz, scnt++, null, lstsupports);
+                    AddNewSupport(px, py, pz, scnt++, GetSupportParrent(px,py,pz), lstsupports);
 
                 }
                 RaiseSupportEvent(UV_DLP_3D_Printer.SupportEvent.eCompleted, "Support Generation Completed", lstsupports);
