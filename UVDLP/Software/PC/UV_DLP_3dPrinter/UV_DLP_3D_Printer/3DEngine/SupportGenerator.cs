@@ -719,7 +719,7 @@ namespace UV_DLP_3D_Printer
                 //    gfx.Clear(Color.Black);
                 //Bitmap bmz = bm.Clone(new Rectangle(0, 0, bm.Width, bm.Height), bm.PixelFormat); // zbuff bitmap
                 //Color savecol = UVDLPApp.Instance().m_appconfig.m_foregroundcolor;
-                m_supportgap = (int)(m_sc.xspace * config.dpmmX);
+                m_supportgap = (int)(m_sc.mingap * config.dpmmX);
                 for (int c = 0; c < numslices; c++)
                 {
                     //bool layerneedssupport = false;

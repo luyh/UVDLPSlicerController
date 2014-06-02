@@ -78,8 +78,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 numHB.FloatVal = (float)m_sc.hbrad;
                 numHT.FloatVal = (float)m_sc.htrad;
                 numFB1.FloatVal = (float)m_sc.fbrad2;
-                numX.FloatVal = (float)m_sc.xspace;
                 numY.FloatVal = (float)m_sc.yspace;
+                numX.FloatVal = (float)m_sc.xspace;
+                numGap.FloatVal = (float)m_sc.mingap;
                 chkOnlyDownward.Checked = m_sc.m_onlydownward;
                 switch (m_sc.eSupType)
                 {
@@ -107,8 +108,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 m_sc.hbrad = (double)numHB.FloatVal;
                 m_sc.htrad = (double)numHT.FloatVal;
                 m_sc.fbrad2 = (double)numFB1.FloatVal;
-                m_sc.xspace = (double)numX.FloatVal;
                 m_sc.yspace = (double)numY.FloatVal;
+                m_sc.xspace = (double)numX.FloatVal;
+                m_sc.mingap = (double)numGap.FloatVal;
                 m_sc.m_onlydownward = chkOnlyDownward.Checked;
                 pictureSupport.Invalidate();
                 switch (cmbSupType.SelectedIndex) 
@@ -359,19 +361,23 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             {
                 case SupportConfig.eAUTOSUPPORTTYPE.eBON:
                     chkOnlyDownward.Visible = true;
-                    label5.Visible = true;
+                    //labelAutoSup.Visible = true;
+                    labelAutoSup.Text = "Automatic Sipport";
                     label6.Visible = true;
                     label7.Visible = true;
                     numX.Visible = true;
+                    numGap.Visible = false;
                     numY.Visible = true;
                     
                     break;
                 case SupportConfig.eAUTOSUPPORTTYPE.eADAPTIVE:
                     chkOnlyDownward.Visible = false;
-                    label5.Visible = false;
+                    //labelAutoSup.Visible = false;
+                    labelAutoSup.Text = "Minimum Gap (mm)";
                     label6.Visible = false;
                     label7.Visible = false;
                     numX.Visible = false;
+                    numGap.Visible = true;
                     numY.Visible = false;
 
                     break;
@@ -408,7 +414,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 label2.ForeColor = ct.ForeColor;
                 label3.ForeColor = ct.ForeColor;
                 label4.ForeColor = ct.ForeColor;
-                label5.ForeColor = ct.ForeColor;
+                labelAutoSup.ForeColor = ct.ForeColor;
                 label6.ForeColor = ct.ForeColor;
                 label7.ForeColor = ct.ForeColor;
                 label9.ForeColor = ct.ForeColor;

@@ -22,6 +22,7 @@ namespace UV_DLP_3D_Printer.Configs
         }
         public const int FILE_VERSION = 1; // this should change every time the format changes
         public double xspace, yspace;
+        public double mingap; // minimum gap between adaptively generated supports
         public double htrad; // head top radius 
         public double hbrad; // head bottom radius
         public double ftrad; // foot top radius
@@ -36,6 +37,7 @@ namespace UV_DLP_3D_Printer.Configs
             eSupType = eAUTOSUPPORTTYPE.eBON;
             xspace = 5.0; // 5 mm spacing
             yspace = 5.0; // 5 mm spacing
+            mingap = 5.0; // 5 mm spacing
             htrad = .2;//
             hbrad = .5; //
             ftrad = .5;
@@ -53,6 +55,7 @@ namespace UV_DLP_3D_Printer.Configs
 
             xspace = xh.GetDouble(sc, "XSpace", 5.0);
             yspace = xh.GetDouble(sc, "YSpace", 5.0);
+            mingap = xh.GetDouble(sc, "MinAdaptiveGap", 5.0);
             htrad = xh.GetDouble(sc, "HeadTopRadiusMM", 0.2);
             hbrad = xh.GetDouble(sc, "HeadBottomRadiusMM", 0.5);
             ftrad = xh.GetDouble(sc, "FootTopRadiusMM", 0.5);
@@ -72,6 +75,7 @@ namespace UV_DLP_3D_Printer.Configs
             XmlNode sc = xh.m_toplevel;
             xh.SetParameter(sc, "XSpace", xspace);
             xh.SetParameter(sc, "YSpace", yspace);
+            xh.SetParameter(sc, "MinAdaptiveGap", mingap);
             xh.SetParameter(sc, "HeadTopRadiusMM", htrad);
             xh.SetParameter(sc, "HeadBottomRadiusMM", hbrad);
             xh.SetParameter(sc, "FootTopRadiusMM", ftrad);
