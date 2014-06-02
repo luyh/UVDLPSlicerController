@@ -671,17 +671,18 @@ namespace UV_DLP_3D_Printer
 
         /// <summary>
         /// This is the adaptive support generation, it should automatically 
-        /// detect overhangs,
-        /// The way that it does this is by generating bitmap slices and detecting non 
-        /// supported areas based on prev layaers. 
+        /// detect overhangs and generate supports acordingly
         /// </summary>
         public void GenerateAdaptive2()
         {
-            //iterate through all the layers starting from z=0            
-            // check every polyline in the current layer to make sure it is encased or overlaps polylines in the previous layer
-            // generate a list of unsupported polylines
-            // 'check' to see if the polyline can be dropped straight down
-            // this has to do slicing of the scene
+            // iterate through all the layers starting from z=0
+            // slice all layers
+            // split each layer into non overlapping polygons
+            // check each polygon to see if it is completely overhangs in the air, or partially
+            //   supported by previous layers.
+            // for complete overhangs always create supports
+            // for partialy supported polygons, generate supports only if there is no other
+            //   support in the vicinity
             try
             {
 
@@ -700,8 +701,6 @@ namespace UV_DLP_3D_Printer
 
                 int numslices = UVDLPApp.Instance().m_slicer.GetNumberOfSlices(config);
                 float zlev = 0.0f;
-                //Slice curslice = null;
-                //Slice prevslice = null;
                 int hxres = config.xres / 2;
                 int hyres = config.yres / 2;
                 int npix = config.xres * config.yres;
@@ -715,10 +714,7 @@ namespace UV_DLP_3D_Printer
                     lbms[p] = false;
                 }
                 Bitmap bm = new Bitmap(config.xres, config.yres, System.Drawing.Imaging.PixelFormat.Format32bppArgb); // working bitmap
-                //using (Graphics gfx = Graphics.FromImage(bm))
-                //    gfx.Clear(Color.Black);
-                //Bitmap bmz = bm.Clone(new Rectangle(0, 0, bm.Width, bm.Height), bm.PixelFormat); // zbuff bitmap
-                //Color savecol = UVDLPApp.Instance().m_appconfig.m_foregroundcolor;
+                Color savecol = UVDLPApp.Instance().m_appconfig.m_foregroundcolor;
                 m_supportgap = (int)(m_sc.mingap * config.dpmmX);
                 for (int c = 0; c < numslices; c++)
                 {
@@ -736,16 +732,10 @@ namespace UV_DLP_3D_Printer
                     if ((sl == null) || (sl.m_segments == null) || (sl.m_segments.Count == 0))
                         continue;
                     sl.Optimize();// find loops
-                    //sl.DetermineInteriorExterior(config); // mark the interior/exterior loops
-                    //prevslice = curslice;
-                    //curslice = sl;
-                    //Bitmap bm = new Bitmap(config.xres, config.yres);
                     using (Graphics gfx = Graphics.FromImage(bm))
                         gfx.Clear(Color.Transparent);
 
-                    //if (prevslice != null && curslice != null)
-                    //{
-                    //render current slice
+                     //render current slice
                     UVDLPApp.Instance().m_appconfig.m_foregroundcolor = Color.FromArgb((0xFF << 24) | c);
                     sl.RenderSlice(config, ref bm);
                     BitmapData data = bm.LockBits(new Rectangle(0, 0, bm.Width, bm.Height),
@@ -760,12 +750,11 @@ namespace UV_DLP_3D_Printer
                     }
 
                     // add slice to zbuffer bitmap
-                    //using (Graphics gfx = Graphics.FromImage(bmz))
-                    //    gfx.DrawImage(bm, 0, 0, bm.Width, bm.Height);
                     for (p = 0; p < npix; p++)
                         if (lbm[p] != 0)
                             lbmz[p] = lbm[p];
                 }
+                UVDLPApp.Instance().m_appconfig.m_foregroundcolor = savecol;
 
                 int scnt = 0;
                 foreach (SupportLocation spl in supLocs)
