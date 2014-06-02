@@ -19,6 +19,7 @@ namespace UV_DLP_3D_Printer.Configs
         {
             eBON, // bed of nails
             eADAPTIVE, // a tree-like structure
+            eADAPTIVE2, // a tree-like structure
         }
         public const int FILE_VERSION = 1; // this should change every time the format changes
         public double xspace, yspace;

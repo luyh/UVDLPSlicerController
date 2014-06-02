@@ -59,6 +59,18 @@ namespace UV_DLP_3D_Printer
     }
     public delegate void SupportGeneratorEvent(SupportEvent evnt, string message, Object obj);
 
+    public class AdaptiveSupportParams
+    {
+        public int [] lbm;
+        public int [] lbmz;
+        public bool[] lbms;
+        public int[] searchmap;
+        public int xres, yres;
+        public int mingap;
+        public int noverlaped;
+        public int nsupported;
+    }
+
     public class SupportGenerator
     {
         private SupportConfig m_sc;
@@ -67,6 +79,7 @@ namespace UV_DLP_3D_Printer
         private bool m_generating; // true while this is running
         public SupportGeneratorEvent SupportEvent;
         private int m_supportgap;
+        private AdaptiveSupportParams m_asp;
 
         public void RaiseSupportEvent(SupportEvent evnt, string message, Object obj) 
         {
@@ -84,6 +97,7 @@ namespace UV_DLP_3D_Printer
         public SupportGenerator() 
         {
             m_cancel = false;
+            m_asp = new AdaptiveSupportParams();
         }
         /// <summary>
         /// Start the support generation
@@ -114,6 +128,7 @@ namespace UV_DLP_3D_Printer
                     GenerateSupportObjects();
                     break;
                 case SupportConfig.eAUTOSUPPORTTYPE.eADAPTIVE:
+                case SupportConfig.eAUTOSUPPORTTYPE.eADAPTIVE2:
                     GenerateAdaptive2();
                     break;
             }
@@ -579,20 +594,8 @@ namespace UV_DLP_3D_Printer
             for (p = 0; p < npix; p++)
                 searchmap[p] = 0;
 
-            /*BitmapData data = bm.LockBits(new Rectangle(0, 0, xres, yres),
-                    ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            int[] lbm = new int[data.Stride / 4 * data.Height];
-            Marshal.Copy(data.Scan0, lbm, 0, lbm.Length);
-            bm.UnlockBits(data);
-
-            data = bmz.LockBits(new Rectangle(0, 0, xres, yres),
-                    ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            int[] lbmz = new int[data.Stride / 4 * data.Height];
-            Marshal.Copy(data.Scan0, lbmz, 0, lbmz.Length);
-            bmz.UnlockBits(data);*/
-
             int islandid = 1;
-            List <SliceIsland> islands = new List<SliceIsland>();
+            List<SliceIsland> islands = new List<SliceIsland>();
 
             // find islands in the slice
             for (x = 0; x < xres; x++)
@@ -624,7 +627,90 @@ namespace UV_DLP_3D_Printer
                     SupportSupportedIsland(searchmap, si, lbm, lbmz, lbms, sl);
                 }
             }
-         }
+        }
+
+        void CheckSupportPoint(int x, int y, int supx, int supy, int ptid, List<int> pts)
+        {
+            if ((x == 493) && (y == 427))
+            {
+                m_asp.nsupported++;
+                m_asp.nsupported--;
+            }
+            if ((x < 0) || (y < 0) || (x >= m_asp.xres) || (y >= m_asp.yres))
+                return;
+            if (Math.Abs(supx - x) > m_asp.mingap)
+                return;
+            if (Math.Abs(supy - y) > m_asp.mingap)
+                return;
+            int p = y * m_asp.xres + x;
+            if (m_asp.searchmap[p] == ptid)
+                return;
+            int lyr = m_asp.lbm[p];
+            if ((lyr == 0) && (m_asp.lbmz[p] == 0))
+                return;
+            m_asp.searchmap[p] = ptid;
+            if (m_asp.lbmz[p] == (lyr - 1))
+                m_asp.noverlaped++;
+            if (m_asp.lbms[p])
+                m_asp.nsupported++;
+            pts.Add(p);
+        }
+
+        bool UpdateSearchMap(int xp, int yp, int ptid)
+        {
+                List<int> fillPts = new List<int>();
+                List<int> tpts;
+                m_asp.nsupported = m_asp.noverlaped = 0;
+                CheckSupportPoint(xp, yp, xp, yp, ptid, fillPts);
+                while (fillPts.Count > 0)
+                {
+                    tpts = fillPts;
+                    fillPts = new List<int>();
+                    foreach (int p in tpts)
+                    {
+                        int x = p % m_asp.xres;
+                        int y = p / m_asp.xres;
+                        CheckSupportPoint(x + 1, y, xp, yp, ptid, fillPts);
+                        CheckSupportPoint(x, y + 1, xp, yp, ptid, fillPts);
+                        CheckSupportPoint(x - 1, y, xp, yp, ptid, fillPts);
+                        CheckSupportPoint(x, y - 1, xp, yp, ptid, fillPts);
+                    }
+                }
+                return ((m_asp.noverlaped == 0) || (m_asp.nsupported == 0));
+            }
+        
+
+        // alternative method of support detection
+        void ProcessSlice2(List<SupportLocation> sl)
+        {
+            int npix = m_asp.xres * m_asp.yres;
+            int x, y, p;
+            for (p = 0; p < npix; p++)
+                m_asp.searchmap[p] = 0;
+            int ptid = 0;
+
+            // find islands in the slice
+            for (x = 0; x < m_asp.xres; x++)
+            {
+                for (y = 0; y < m_asp.yres; y++)
+                {
+                    p = y * m_asp.xres + x;
+                    int sid = m_asp.lbm[p];
+                    if ((sid != 0) && (m_asp.lbmz[p] != sid - 1) && (m_asp.searchmap[p] == 0))
+                    {
+                        if (m_asp.lbmz[p] != 0)
+                            continue;   // right now intra-object supports not supported
+                        ptid++;
+                        if (UpdateSearchMap(x, y, ptid))
+                        {
+                            SupportLocation s = new SupportLocation(x, y, sid, m_asp.lbmz[p]);
+                            sl.Add(s);
+                            m_asp.lbms[p] = true;
+                        }
+                    }
+                }
+            }
+        }
 
         Object3d GetSupportParrent(float x, float y, float z)
         {
@@ -713,9 +799,19 @@ namespace UV_DLP_3D_Printer
                     lbmz[p] = 0;
                     lbms[p] = false;
                 }
+
                 Bitmap bm = new Bitmap(config.xres, config.yres, System.Drawing.Imaging.PixelFormat.Format32bppArgb); // working bitmap
                 Color savecol = UVDLPApp.Instance().m_appconfig.m_foregroundcolor;
                 m_supportgap = (int)(m_sc.mingap * config.dpmmX);
+
+                m_asp.lbm = lbm;
+                m_asp.lbms = lbms;
+                m_asp.lbmz = lbmz;
+                m_asp.searchmap = new int[npix];
+                m_asp.xres = config.xres;
+                m_asp.yres = config.yres;
+                m_asp.mingap = m_supportgap;
+
                 for (int c = 0; c < numslices; c++)
                 {
                     //bool layerneedssupport = false;
@@ -746,7 +842,10 @@ namespace UV_DLP_3D_Printer
                     bm.UnlockBits(data);
                     if (c > 0)
                     {
-                        ProcessSlice(lbm, lbmz, lbms, config.xres, config.yres, supLocs);
+                        if (m_sc.eSupType == SupportConfig.eAUTOSUPPORTTYPE.eADAPTIVE)
+                            ProcessSlice(lbm, lbmz, lbms, config.xres, config.yres, supLocs);
+                        else
+                            ProcessSlice2(supLocs);
                     }
 
                     // add slice to zbuffer bitmap
@@ -775,7 +874,6 @@ namespace UV_DLP_3D_Printer
             }
         }
         #endregion
-
 
 
         private void SaveBM(Bitmap bmp, int layer) 

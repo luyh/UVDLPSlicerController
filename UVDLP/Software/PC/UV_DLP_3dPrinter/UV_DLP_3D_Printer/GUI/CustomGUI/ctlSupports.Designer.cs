@@ -47,6 +47,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.numGap = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
             this.cmbSupType = new System.Windows.Forms.ComboBox();
             this.chkOnlyDownward = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.numY = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
@@ -62,7 +63,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.ctlToolTip1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlToolTip();
             this.ctlTitle1 = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlTitle();
-            this.numGap = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlNumber();
             this.flowLayoutPanel1.SuspendLayout();
             this.panelSuppotShape.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureSupport)).BeginInit();
@@ -480,6 +480,37 @@
             this.panel2.Size = new System.Drawing.Size(122, 133);
             this.panel2.TabIndex = 1;
             // 
+            // numGap
+            // 
+            this.numGap.BackColor = System.Drawing.Color.RoyalBlue;
+            this.numGap.ButtonsColor = System.Drawing.Color.Navy;
+            this.numGap.Checked = false;
+            this.numGap.ErrorColor = System.Drawing.Color.Red;
+            this.numGap.FloatVal = 1F;
+            this.numGap.Gapx = 5;
+            this.numGap.Gapy = 5;
+            this.numGap.GLBackgroundImage = null;
+            this.numGap.GLVisible = false;
+            this.numGap.GuiAnchor = null;
+            this.numGap.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.numGap.Increment = 0.1F;
+            this.numGap.IntVal = 1;
+            this.numGap.IsFloat = true;
+            this.numGap.Location = new System.Drawing.Point(18, 94);
+            this.numGap.MaxFloat = 20F;
+            this.numGap.MaxInt = 1000;
+            this.numGap.MinFloat = -20F;
+            this.numGap.MinimumSize = new System.Drawing.Size(15, 4);
+            this.numGap.MinInt = 1;
+            this.numGap.Name = "numGap";
+            this.numGap.Size = new System.Drawing.Size(59, 17);
+            this.numGap.StyleName = null;
+            this.numGap.TabIndex = 36;
+            this.numGap.TextFont = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.ctlToolTip1.SetToolTip(this.numGap, "Horizontal grid spacing");
+            this.numGap.ValidColor = System.Drawing.Color.White;
+            this.numGap.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            // 
             // cmbSupType
             // 
             this.cmbSupType.BackColor = System.Drawing.Color.RoyalBlue;
@@ -487,7 +518,8 @@
             this.cmbSupType.FormattingEnabled = true;
             this.cmbSupType.Items.AddRange(new object[] {
             "Bed of Nails",
-            "Adaptive"});
+            "Adaptive",
+            "Adaptive v2"});
             this.cmbSupType.Location = new System.Drawing.Point(5, 20);
             this.cmbSupType.Margin = new System.Windows.Forms.Padding(2);
             this.cmbSupType.Name = "cmbSupType";
@@ -709,37 +741,6 @@
             this.ctlTitle1.TabIndex = 28;
             this.ctlTitle1.Text = "Support Generation";
             this.ctlTitle1.Click += new System.EventHandler(this.ctlTitle1_Click);
-            // 
-            // numGap
-            // 
-            this.numGap.BackColor = System.Drawing.Color.RoyalBlue;
-            this.numGap.ButtonsColor = System.Drawing.Color.Navy;
-            this.numGap.Checked = false;
-            this.numGap.ErrorColor = System.Drawing.Color.Red;
-            this.numGap.FloatVal = 1F;
-            this.numGap.Gapx = 5;
-            this.numGap.Gapy = 5;
-            this.numGap.GLBackgroundImage = null;
-            this.numGap.GLVisible = false;
-            this.numGap.GuiAnchor = null;
-            this.numGap.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.numGap.Increment = 0.1F;
-            this.numGap.IntVal = 1;
-            this.numGap.IsFloat = true;
-            this.numGap.Location = new System.Drawing.Point(18, 94);
-            this.numGap.MaxFloat = 20F;
-            this.numGap.MaxInt = 1000;
-            this.numGap.MinFloat = -20F;
-            this.numGap.MinimumSize = new System.Drawing.Size(15, 4);
-            this.numGap.MinInt = 1;
-            this.numGap.Name = "numGap";
-            this.numGap.Size = new System.Drawing.Size(59, 17);
-            this.numGap.StyleName = null;
-            this.numGap.TabIndex = 36;
-            this.numGap.TextFont = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.ctlToolTip1.SetToolTip(this.numGap, "Horizontal grid spacing");
-            this.numGap.ValidColor = System.Drawing.Color.White;
-            this.numGap.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             // 
             // ctlSupports
             // 
