@@ -128,6 +128,9 @@ namespace UV_DLP_3D_Printer.GUI
             UVDLPApp.Instance().m_gui_config.AddControl("mainmsg", lblMainMessage);
             UVDLPApp.Instance().m_gui_config.AddControl("timemsg", lblTime);
 
+            UVDLPApp.Instance().m_gui_config.AddControl("ctlMainManual", ctlMainManual1);
+
+            
 
         }
         /// <summary>
@@ -728,6 +731,7 @@ namespace UV_DLP_3D_Printer.GUI
                 m_frmSlice = new frmSlice();
             }
             m_frmSlice.Show();
+            m_frmSlice.BringToFront();
         } 
         private void hardwareGuideToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -882,8 +886,13 @@ namespace UV_DLP_3D_Printer.GUI
                     if (filename.Contains(".cws"))
                     {
                         //scene file
-                        if (Scene.Instance().Load(filename))
+                        if (SceneFile.Instance().Load(filename))
                         {
+                            //set up for newly loaded scene
+                            //load gcode
+                            UVDLPApp.Instance().PostLoadScene();
+                            //raise events
+                            //load slicing info?
                             UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
                         }
                         else
@@ -961,24 +970,31 @@ namespace UV_DLP_3D_Printer.GUI
             frm.ShowDialog();
         }
 
-        private void testSaveSceneToolStripMenuItem_Click(object sender, EventArgs e)
+        public void SaveScene(object sender, EventArgs e)
         {
-            saveFileDialog1.Filter = "Scene files (*.cws)|*.cws|STL File (*.stl)|*.stl";
-            saveFileDialog1.FilterIndex = 0;
-            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) 
+            if (InvokeRequired)
             {
-                //check the filter index
-                switch (saveFileDialog1.FilterIndex) // index starts at 1 instead of 0
+                BeginInvoke(new MethodInvoker(delegate() { SaveScene(sender, e); }));
+            }
+            else
+            {
+                saveFileDialog1.Filter = "Scene files (*.cws)|*.cws|STL File (*.stl)|*.stl";
+                saveFileDialog1.FilterIndex = 0;
+                if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    case 1:
-                        Scene.Instance().Save(saveFileDialog1.FileName);
-                        break;
-                    case 2:
-                        //stl file
-                        UVDLPApp.Instance().CalcScene(); // calc the scene object
-                        UVDLPApp.Instance().Scene.SaveSTL_Binary(saveFileDialog1.FileName);
-                        UVDLPApp.Instance().Scene.m_fullname = saveFileDialog1.FileName;
-                        break;
+                    //check the filter index
+                    switch (saveFileDialog1.FilterIndex) // index starts at 1 instead of 0
+                    {
+                        case 1:
+                            SceneFile.Instance().Save(saveFileDialog1.FileName);
+                            break;
+                        case 2:
+                            //stl file
+                            UVDLPApp.Instance().CalcScene(); // calc the scene object
+                            UVDLPApp.Instance().Scene.SaveSTL_Binary(saveFileDialog1.FileName);
+                            UVDLPApp.Instance().Scene.m_fullname = saveFileDialog1.FileName;
+                            break;
+                    }
                 }
             }
         }
@@ -987,7 +1003,7 @@ namespace UV_DLP_3D_Printer.GUI
         {
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                if (Scene.Instance().Load(openFileDialog1.FileName)) 
+                if (SceneFile.Instance().Load(openFileDialog1.FileName)) 
                 {
                     UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
                 }

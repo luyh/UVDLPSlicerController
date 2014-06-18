@@ -24,19 +24,15 @@ namespace UV_DLP_3D_Printer
         }
         public double dpmmX; // dots per mm x
         public double dpmmY; // dots per mm y
-
         public int xres, yres; // the resolution of the output image in pixels - set by the machine configuration
-
         public double ZThick; // thickness of the z layer - slicing height
         public int layertime_ms; // time to project image per layer in milliseconds
         public int firstlayertime_ms; // first layer exposure time 
         public int numfirstlayers;
         public int blanktime_ms; // blanking time between layers
-       // public int raise_time_ms; // time delay for the z axis to raise on a per-layer basis
         public int plat_temp; // desired platform temperature in celsius 
-       // public bool exportgcode; // export the gcode file when slicing
         public bool exportsvg; // export the svg slices when building
-        public bool export; // export image slices when building
+        public bool export; // export image slices when building into cws file
         public eBuildDirection direction;
         public double liftdistance; // distance to lift and retract
         public double slidetiltval; // a value used for slide / tilt 
@@ -47,19 +43,14 @@ namespace UV_DLP_3D_Printer
         public double liftretractrate; // the feedrate that this lowers(for bottom-up) or raises(top-down) the build platform, this is the retraction rate of the lift.
         private String m_headercode; // inserted at beginning of file
         private String m_footercode; // inserted at end of file
-        //private String m_preliftcode; // inserted before each slice
-        //private String m_postliftcode; // inserted after each slice
         private String m_preslicecode; // inserted before each slice
-        //private String m_mainliftcode; // inserted before each slice
         private String m_liftcode; // inserted before each slice
-        //private String TiltLiftCode; // inserted before each slice on machines with tilt mechanism
         public int XOffset, YOffset; // the X/Y pixel offset used 
         public String m_exportopt; // export sliced images in ZIP or SUBDIR
         public bool m_flipX; // mirror the x axis
         public bool m_flipY; // mirror the y axis
         public string m_notes;
         public double m_resinprice; // per liter
-       // public bool m_sliceimmediate; // slice and render on a per-needed basis
         
         //need some parms here for auto support
 
@@ -146,7 +137,6 @@ namespace UV_DLP_3D_Printer
             set { m_liftcode = value; }
         }
 
-
         public String PreSliceCode
         {
             get { return m_preslicecode; }
@@ -208,15 +198,22 @@ namespace UV_DLP_3D_Printer
 
         public void UpdateFrom(MachineConfig mf)
         {
-            //update the slice / build profile here with the 
-            // x/y resolution for the current display(s)
-            xres = mf.XRenderSize;
-            yres = mf.YRenderSize;
-            //get the first monitor configuration
-            MonitorConfig mc = mf.m_lstMonitorconfigs[0];
-            
-            dpmmX = (xres) / mf.m_PlatXSize;
-            dpmmY = (yres) / mf.m_PlatYSize;        
+            try
+            {
+                //update the slice / build profile here with the 
+                // x/y resolution for the current display(s)
+                xres = mf.XRenderSize;
+                yres = mf.YRenderSize;
+                //get the first monitor configuration
+                MonitorConfig mc = mf.m_lstMonitorconfigs[0];
+
+                dpmmX = (xres) / mf.m_PlatXSize;
+                dpmmY = (yres) / mf.m_PlatYSize;
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
         }
         public void CreateDefault() 
         {
@@ -257,14 +254,74 @@ namespace UV_DLP_3D_Printer
             m_preslicecode = DefGCodePreslice();
         }
 
+        private void LoadInternal(ref XmlHelper xh) 
+        {
+            XmlNode sbc = xh.m_toplevel;
+            dpmmX = xh.GetDouble(sbc, "DotsPermmX", 102.4);
+            dpmmY = xh.GetDouble(sbc, "DotsPermmY", 76.8);
+            xres = xh.GetInt(sbc, "XResolution", 1024);
+            yres = xh.GetInt(sbc, "YResolution", 768);
+            ZThick = xh.GetDouble(sbc, "SliceHeight", 0.05);
+            layertime_ms = xh.GetInt(sbc, "LayerTime", 1000); // 1 second default
+            firstlayertime_ms = xh.GetInt(sbc, "FirstLayerTime", 5000);
+            blanktime_ms = xh.GetInt(sbc, "BlankTime", 2000); // 2 seconds blank
+            plat_temp = xh.GetInt(sbc, "PlatformTemp", 75);
+            //exportgcode = xh.GetBool(sbc, "ExportGCode"));
+            exportsvg = xh.GetBool(sbc, "ExportSVG", false);
+            export = xh.GetBool(sbc, "Export", false); ;
+            XOffset = xh.GetInt(sbc, "XOffset", 0);
+            YOffset = xh.GetInt(sbc, "YOffset", 0);
+            numfirstlayers = xh.GetInt(sbc, "NumberofBottomLayers", 3);
+            direction = (eBuildDirection)xh.GetEnum(sbc, "Direction", typeof(eBuildDirection), eBuildDirection.Bottom_Up);
+            liftdistance = xh.GetDouble(sbc, "LiftDistance", 5.0);
+            slidetiltval = xh.GetDouble(sbc, "SlideTiltValue", 0.0);
+            antialiasing = xh.GetBool(sbc, "AntiAliasing", false);
+            usemainliftgcode = xh.GetBool(sbc, "UseMainLiftGCode", false);
+            aaval = xh.GetDouble(sbc, "AntiAliasingValue", 1.5);
+            liftfeedrate = xh.GetDouble(sbc, "LiftFeedRate", 50.0); // 50mm/s
+            liftretractrate = xh.GetDouble(sbc, "LiftRetractRate", 100.0); // 100mm/s
+            m_exportopt = xh.GetString(sbc, "ExportOption", "SUBDIR"); // default to saving in subdirectory
+            m_flipX = xh.GetBool(sbc, "FlipX", false);
+            m_flipY = xh.GetBool(sbc, "FlipY", false);
+            m_notes = xh.GetString(sbc, "Notes", "");
+            m_resinprice = xh.GetDouble(sbc, "ResinPriceL", 0.0);
+
+            m_headercode = xh.GetString(sbc, "GCodeHeader", DefGCodeHeader());
+            m_footercode = xh.GetString(sbc, "GCodeFooter", DefGCodeFooter());
+            m_preslicecode = xh.GetString(sbc, "GCodePreslice", DefGCodePreslice());
+            m_liftcode = xh.GetString(sbc, "GCodeLift", DefGCodeLift());        
+        }
+        /// <summary>
+        /// Load the slice and build profile from a Stream
+        /// This is used when we're serializing / deserializing from the 
+        /// Memory stream pulled from a zip file
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public bool Load(Stream stream, String filename) 
+        {
+            m_filename = filename;
+            XmlHelper xh = new XmlHelper();
+            bool fileExist = xh.LoadFromStream(stream, "SliceBuildConfig");
+            LoadInternal(ref xh);
+            /*
+            if (!fileExist)
+            {
+                return xh.Save(FILE_VERSION);
+            }
+            */
+            return true;
+            
+        }
+
         public bool Load(String filename) 
         {
-             m_filename = filename;
-
+            m_filename = filename;
             XmlHelper xh = new XmlHelper();
             bool fileExist = xh.Start(filename, "SliceBuildConfig");
+            /*
             XmlNode sbc = xh.m_toplevel;
-
             dpmmX = xh.GetDouble(sbc, "DotsPermmX", 102.4);
             dpmmY = xh.GetDouble(sbc, "DotsPermmY", 76.8);
             xres = xh.GetInt(sbc, "XResolution", 1024);
@@ -298,7 +355,8 @@ namespace UV_DLP_3D_Printer
             m_footercode = xh.GetString(sbc, "GCodeFooter", DefGCodeFooter()); 
             m_preslicecode = xh.GetString(sbc, "GCodePreslice", DefGCodePreslice()); 
             m_liftcode = xh.GetString(sbc, "GCodeLift", DefGCodeLift()); 
-
+            */
+            LoadInternal(ref xh);
             if (!fileExist)
             {
                 return xh.Save(FILE_VERSION);
@@ -308,14 +366,9 @@ namespace UV_DLP_3D_Printer
          
         }
 
-
-        public bool Save(String filename) 
+        private void SaveInternal(ref XmlHelper xh) 
         {
-            m_filename = filename;
-            XmlHelper xh = new XmlHelper();
-            bool fileExist = xh.Start(filename, "SliceBuildConfig");
             XmlNode sbc = xh.m_toplevel;
-
             xh.SetParameter(sbc, "DotsPermmX", dpmmX);
             xh.SetParameter(sbc, "DotsPermmY", dpmmY);
             xh.SetParameter(sbc, "XResolution", xres);
@@ -349,12 +402,17 @@ namespace UV_DLP_3D_Printer
             xh.SetParameter(sbc, "GCodeFooter", m_footercode);
             xh.SetParameter(sbc, "GCodePreslice", m_preslicecode);
             xh.SetParameter(sbc, "GCodeLift", m_liftcode);
-            // xh.SetParameter(sbc, "Raise_Time_Delay",raise_time_ms);
+        }
 
+        public bool Save(String filename) 
+        {
+            m_filename = filename;
+            XmlHelper xh = new XmlHelper();
+            bool fileExist = xh.Start(filename, "SliceBuildConfig");
+            SaveInternal(ref xh);
             try
             {
                 xh.Save(FILE_VERSION);
-                //SaveGCodes();
             }
             catch (Exception ex)
             {
@@ -364,7 +422,15 @@ namespace UV_DLP_3D_Printer
             return true;
         }
 
-
+        public bool Save(MemoryStream stream, string filename) 
+        {
+            m_filename = filename;
+            XmlHelper xh = new XmlHelper();
+            bool fileExist = xh.Start(filename, "SliceBuildConfig");
+            SaveInternal(ref xh);
+            xh.Save(FILE_VERSION, ref stream);
+            return true;            
+        }
         // these get stored to the gcode file as a reference
         public override String ToString() 
         {
@@ -408,33 +474,5 @@ namespace UV_DLP_3D_Printer
                 return false;
             }
         }
-        /*
-        public void SaveGCodes() 
-        {
-            try
-            {
-                String profilepath = Path.GetDirectoryName(m_filename);
-                profilepath += UVDLPApp.m_pathsep;
-                profilepath += Path.GetFileNameWithoutExtension(m_filename);
-                //create the directory if it doesn't exist
-                if (!Directory.Exists(profilepath))
-                {
-                    Directory.CreateDirectory(profilepath);
-                }
-
-                SaveFile(profilepath + UVDLPApp.m_pathsep + "start.gcode", m_headercode);
-                SaveFile(profilepath + UVDLPApp.m_pathsep + "end.gcode", m_footercode);
-                //LL SaveFile(profilepath + UVDLPApp.m_pathsep + "prelift.gcode", m_preliftcode);
-                //LL SaveFile(profilepath + UVDLPApp.m_pathsep + "postlift.gcode", m_postliftcode);
-                SaveFile(profilepath + UVDLPApp.m_pathsep + "preslice.gcode", m_preslicecode);
-                //LL SaveFile(profilepath + UVDLPApp.m_pathsep + "mainlift.gcode", m_mainliftcode);
-                SaveFile(profilepath + UVDLPApp.m_pathsep + "lift.gcode", m_liftcode);
-            }
-            catch (Exception ex) 
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-            }
-        }
-         * */
     }
 }

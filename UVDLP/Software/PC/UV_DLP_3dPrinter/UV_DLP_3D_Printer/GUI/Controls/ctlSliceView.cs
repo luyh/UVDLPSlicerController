@@ -23,13 +23,41 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 InitializeComponent();
                 buttPreviewOnDisplay.Checked = UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay; // set the initial check state
                 UVDLPApp.Instance().m_slicer.Slice_Event += new Slicer.SliceEvent(SliceEv);
+                UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEventDel);
+
             }
             catch (Exception ex) 
             {
                 DebugLogger.Instance().LogError(ex);
             }
         }
-
+        private void AppEventDel(eAppEvent ev, String Message)
+        {
+            try
+            {
+                if (InvokeRequired)
+                {
+                    BeginInvoke(new MethodInvoker(delegate() { AppEventDel(ev, Message); }));
+                }
+                else
+                {
+                    switch (ev)
+                    {
+                        case eAppEvent.eSlicedLoaded:
+                            if (UVDLPApp.Instance().m_slicefile != null) 
+                            {
+                                SetNumLayers(UVDLPApp.Instance().m_slicefile.NumSlices);
+                            }
+                           // DebugLogger.Instance().LogRecord(Message);
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
+        }
         private void SliceEv(Slicer.eSliceEvent ev, int layer, int totallayers, SliceFile sf)
         {
             try
@@ -58,28 +86,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 DebugLogger.Instance().LogError(ex.Message);
             }
         }
-        /*
-        public frmDLP DlpForm
-        {
-            get { return m_frmdlp; }
-            set 
-            {
-                try
-                {
-                    m_frmdlp = value;
-                    if (m_frmdlp != null)
-                    {
-                        m_frmdlp.VisibleChanged += new EventHandler(m_frmdlp_VisibleChanged);
-                        UpdateChecked();
-                    }
-                }
-                catch (Exception ex) 
-                {
-                    DebugLogger.Instance().LogError(ex);
-                }
-            }
-        }
-        */
+
         void UpdateChecked()
         {
             /*
@@ -92,17 +99,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             //buttPreviewOnDisplay.Checked = m_frmdlp.Visible && UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay;
             buttPreviewOnDisplay.Checked = UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay;
         }
-        /*
-        void m_frmdlp_VisibleChanged(object sender, EventArgs e)
-        {
-            if (m_frmdlp.Visible == false)
-            {
-                UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay = false;
-                UVDLPApp.Instance().m_appconfig.Save(UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + UVDLPApp.m_appconfigname);
-            }
-            UpdateChecked();
-        }
-        */
         public void SetNumLayers(int val)
         {
             try

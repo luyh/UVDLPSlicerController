@@ -41,9 +41,6 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.chkReflectY = new System.Windows.Forms.CheckBox();
             this.chkReflectX = new System.Windows.Forms.CheckBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.rbsub = new System.Windows.Forms.RadioButton();
-            this.rbzip = new System.Windows.Forms.RadioButton();
             this.grpLift = new System.Windows.Forms.GroupBox();
             this.cmdAutoCalc = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
@@ -89,7 +86,6 @@
             this.tabOptions.SuspendLayout();
             this.tbOptions.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.grpLift.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tbGCode.SuspendLayout();
@@ -119,7 +115,6 @@
             this.tbOptions.Controls.Add(this.label15);
             this.tbOptions.Controls.Add(this.label9);
             this.tbOptions.Controls.Add(this.groupBox3);
-            this.tbOptions.Controls.Add(this.groupBox2);
             this.tbOptions.Controls.Add(this.grpLift);
             this.tbOptions.Controls.Add(this.chkantialiasing);
             this.tbOptions.Controls.Add(this.label1);
@@ -247,39 +242,6 @@
             this.chkReflectX.TabIndex = 0;
             this.chkReflectX.Text = "Reflect X";
             this.chkReflectX.UseVisualStyleBackColor = true;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.rbsub);
-            this.groupBox2.Controls.Add(this.rbzip);
-            this.groupBox2.Location = new System.Drawing.Point(29, 304);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(218, 81);
-            this.groupBox2.TabIndex = 50;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Image Slice Export Options";
-            // 
-            // rbsub
-            // 
-            this.rbsub.AutoSize = true;
-            this.rbsub.Location = new System.Drawing.Point(7, 49);
-            this.rbsub.Name = "rbsub";
-            this.rbsub.Size = new System.Drawing.Size(112, 22);
-            this.rbsub.TabIndex = 1;
-            this.rbsub.TabStop = true;
-            this.rbsub.Text = "Subdirectory";
-            this.rbsub.UseVisualStyleBackColor = true;
-            // 
-            // rbzip
-            // 
-            this.rbzip.AutoSize = true;
-            this.rbzip.Location = new System.Drawing.Point(7, 22);
-            this.rbzip.Name = "rbzip";
-            this.rbzip.Size = new System.Drawing.Size(143, 22);
-            this.rbzip.TabIndex = 0;
-            this.rbzip.TabStop = true;
-            this.rbzip.Text = "Scene File (.cws)";
-            this.rbzip.UseVisualStyleBackColor = true;
             // 
             // grpLift
             // 
@@ -726,8 +688,6 @@
             this.tbOptions.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.grpLift.ResumeLayout(false);
             this.grpLift.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -748,9 +708,6 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.CheckBox chkReflectY;
         private System.Windows.Forms.CheckBox chkReflectX;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.RadioButton rbsub;
-        private System.Windows.Forms.RadioButton rbzip;
         private System.Windows.Forms.GroupBox grpLift;
         private System.Windows.Forms.Button cmdAutoCalc;
         private System.Windows.Forms.Label label14;

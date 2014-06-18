@@ -104,16 +104,16 @@ namespace UV_DLP_3D_Printer.Slicing
         {
             try
             {
-                if (m_mode == SFMode.eImmediate)
+                //if (m_mode == SFMode.eImmediate)
                 {
                     // we're rendering slices immediately here
                     float zlev = (float)(layer * m_config.ZThick);
                     return UVDLPApp.Instance().m_slicer.GetSliceImmediate(zlev);
                 }
-                else
-                {
+                //else
+               // {
                     
-                }
+                //}
                 return null;
             }
             catch (Exception ex)
@@ -139,14 +139,14 @@ namespace UV_DLP_3D_Printer.Slicing
                 }
                 else
                 {
-                    string path = GetSliceFilePath(modelname);
+                    string path = UVDLPApp.Instance().SceneFileName;// GetSliceFilePath();
                     try
                     {
                         
                         // try first to load from zip
                         // read the bitmap from the zip
-                        m_zip = ZipFile.Read(path + ".zip");
-                        string fname = Path.GetFileNameWithoutExtension(modelname) + String.Format("{0:0000}", layer) + ".png";
+                        m_zip = ZipFile.Read(path);
+                        string fname = Path.GetFileNameWithoutExtension(path) + String.Format("{0:0000}", layer) + ".png";
                         ZipEntry ze = m_zip[fname];
                         Stream stream = new MemoryStream();
                         ze.Extract(stream);
@@ -158,6 +158,7 @@ namespace UV_DLP_3D_Printer.Slicing
                     {
 
                     }
+                    /*
                     try
                     {
                         //try to read bitmap from disk
@@ -167,6 +168,7 @@ namespace UV_DLP_3D_Printer.Slicing
                         return bmp;
                     }
                     catch (Exception) { }
+                     * */
                 }
                 return null;
             }

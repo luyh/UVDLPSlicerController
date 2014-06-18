@@ -102,7 +102,7 @@
     <Compile Include="3DEngine\Primitives.cs" />
     <Compile Include="3DEngine\Quad3d.cs" />
     <Compile Include="3DEngine\RTUtils.cs" />
-    <Compile Include="3DEngine\Scene.cs" />
+    <Compile Include="3DEngine\SceneFile.cs" />
     <Compile Include="3DEngine\SceneManifest.cs" />
     <Compile Include="3DEngine\Support.cs" />
     <Compile Include="3DEngine\SupportBase.cs" />
@@ -787,7 +787,12 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\CWPrivate\Software\TrialMaker\TrialMaker.csproj">
+      <Project>{2A803CAE-16F1-44C4-BF6D-2CAE88CDE659}</Project>
+      <Name>TrialMaker</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

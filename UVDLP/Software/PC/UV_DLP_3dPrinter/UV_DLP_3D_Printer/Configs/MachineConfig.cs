@@ -212,6 +212,7 @@ namespace UV_DLP_3D_Printer
             m_lstMonitorconfigs = new List<MonitorConfig>(); // create a list of monitors attached to the system
             m_machinetype = eMachineType.UV_DLP;
             m_multimontype = eMultiMonType.eVertical;
+            MachineControls = "";
             CalcPixPerMM();
         }
         // create a null loop-back machine for test

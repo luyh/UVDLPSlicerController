@@ -248,8 +248,12 @@ namespace UV_DLP_3D_Printer
 
         public String SceneFileName
         {
-            get { return m_scenefilename; }
-            set {
+            get 
+            { 
+                return m_scenefilename; 
+            }
+            set 
+            {
                 m_scenefilename = value;
                 RaiseAppEvent(eAppEvent.eSceneFileNameChanged, m_scenefilename);
             }
@@ -445,10 +449,6 @@ namespace UV_DLP_3D_Printer
             try
             {
                 ModelLoader ml = new ModelLoader();
-                if (SceneFileName.Length == 0) 
-                {
-                    SceneFileName = filename; // set it to be the first file loaded
-                }
                 List<Object3d> objs = ml.Load(filename);
                 if (objs != null)
                 {
@@ -462,49 +462,6 @@ namespace UV_DLP_3D_Printer
                     UVDLPApp.Instance().m_engine3d.UpdateLists();
                     m_slicefile = null; // the slice file is not longer current
                     RaiseAppEvent(eAppEvent.eModelAdded, "Model Loaded " + filename);
-                    /*
-                    //now try to load the gcode file
-                    String gcodefile = Path.GetFileNameWithoutExtension(filename) + ".gcode";
-                    String gcodepath = SliceFile.GetSliceFilePath(filename);
-
-                    String gpath = gcodepath + UVDLPApp.m_pathsep + gcodefile;
-                    if (File.Exists(gpath))
-                    {
-                        LoadGCode(gpath);
-                    }
-                    else // read the gcode from the zip file 
-                    {
-                        String zpath = gcodepath + ".zip";
-                        if(File.Exists(zpath)) // make sure the file exists before we try to read it
-                        {
-                            Stream s = Utility.ReadFromZip(zpath, gcodefile);
-                            if(s  != null)
-                            {
-                                s.Seek(0, 0); // go to the beginning of the stream
-                                byte []array = Utility.ReadFully(s);
-                                string gc = System.Text.Encoding.ASCII.GetString(array);
-                                m_gcode = new GCodeFile(gc);
-                                RaiseAppEvent(eAppEvent.eGCodeLoaded, "GCode Loaded " + gcodefile);
-                            }
-                            else 
-                            {
-                                DebugLogger.Instance().LogError("Could not load GCode from Zip " + zpath);
-                            }
-                        }
-                        
-                    }
-                    if(m_gcode !=null)
-                    {
-                        int xres, yres, numslices;
-                        xres = m_gcode.GetVar("Projector X Res");
-                        yres = m_gcode.GetVar("Projector Y Res");
-                        numslices = m_gcode.GetVar("Number of Slices");
-                        m_slicefile = new SliceFile(xres,yres,numslices);
-                        m_slicefile.modelname = SelectedObject.m_fullname;
-                        m_slicefile.m_config = null; //this can be null if we're loading it...
-                        RaiseAppEvent(eAppEvent.eSlicedLoaded, "SliceFile Created");
-                    }
-                     * */
                 }
                 else 
                 {
@@ -537,8 +494,8 @@ namespace UV_DLP_3D_Printer
 
         void SliceEv(Slicer.eSliceEvent ev, int layer, int totallayers,SliceFile sf) 
         {
-            String path = "";
-            String fileName = "";
+          //  String path = "";
+           // String fileName = "";
             switch (ev) 
             {
                 case Slicer.eSliceEvent.eSliceStarted:
@@ -551,27 +508,18 @@ namespace UV_DLP_3D_Printer
                     m_slicefile = sf;
                     //generate the GCode
                     m_gcode = GCodeGenerator.Generate(m_slicefile, m_printerinfo);
-                    
-                    path = SliceFile.GetSliceFilePath(m_slicefile.modelname);
-                    fileName = Path.GetFileNameWithoutExtension(m_slicefile.modelname) + ".gcode";
+                    //we only need the file name of the gcode if we're saving it somewhere...
                     //see if we're exporting this to a zip file 
-                    if (sf.m_config.m_exportopt.Contains("ZIP") && sf.m_config.export)
-                    {
-                        // open the existing zip file
-                        //store the gcode
-                        Stream stream = new MemoryStream(System.Text.Encoding.ASCII.GetBytes (m_gcode.RawGCode));
-                        String zpath = path + ".zip";
-                        if (!Utility.StoreInZip(zpath, fileName, stream)) 
+                    //if (sf.m_config.m_exportopt.Contains("ZIP") && sf.m_config.export)
+                    if (sf.m_config.export)
                         {
-                            DebugLogger.Instance().LogError("Could not store GCode in Zip " + zpath);
-                        }
+                        // open the existing scene file
+                        //store the gcode
+                        MemoryStream stream = new MemoryStream(System.Text.Encoding.ASCII.GetBytes(m_gcode.RawGCode));
+                        String gcn = Path.GetFileNameWithoutExtension(UVDLPApp.Instance().SceneFileName) + ".gcode";
+                        SceneFile.Instance().RemoveExistingGCode(UVDLPApp.Instance().SceneFileName);
+                        SceneFile.Instance().AddGCodeToFile(UVDLPApp.Instance().SceneFileName, stream, gcn);
                     }
-                    else  // or just to the disk
-                    {
-                        String sdn = path + UVDLPApp.m_pathsep + fileName;
-                        SaveGCode(sdn);
-                    }
-                    
                     //save the slicer object for later too                    
                     //save the slice file
 
@@ -583,6 +531,27 @@ namespace UV_DLP_3D_Printer
 
 
             }
+        }
+        /// <summary>
+        /// This is called after the scene file is loaded
+        /// It will also load the gcode file and slicing profile / vector slices
+        /// </summary>
+        public void PostLoadScene() 
+        {
+            m_gcode = SceneFile.Instance().LoadGCodeFromScene(SceneFileName);
+            if (m_gcode == null) 
+            {
+                m_gcode = new GCodeFile(""); // create empty file
+            }
+            RaiseAppEvent(eAppEvent.eGCodeLoaded, "GCode Loaded ");
+            SceneFile.Instance().LoadSliceProfileFromScene(SceneFileName);
+            m_slicefile = new SliceFile(m_buildparms);
+            m_slicefile.m_mode = SliceFile.SFMode.eLoaded;
+            m_slicer.SliceFile = m_slicefile;
+            //set the number of slices
+            m_slicefile.NumSlices = m_slicer.GetNumberOfSlices(m_buildparms);
+            RaiseAppEvent(eAppEvent.eSliceProfileChanged, "Slice Profile loaded");
+            RaiseAppEvent(eAppEvent.eSlicedLoaded, "Slice Profile loaded");
         }
         public void LoadGCode(String filename)
         {

@@ -18,7 +18,32 @@ namespace UV_DLP_3D_Printer
     /// </summary>
     public class ServerContact
     {
+        public class VersionInfo 
+        {
+            string mLink; // download link
+            DateTime mTimestamp; // when was this created?
+            string mVersion; // in the form of '1.0.0.X' or similar so we can compare version numbers to this one.
+            public VersionInfo() 
+            {
+                mLink = "";
+                mTimestamp = DateTime.Now;
+                mVersion = "1.0.0.1";
+            }
+            // This class is created from the server response
+        }
         private Thread m_thread; // this will be user
+
+        /// <summary>
+        /// This function will contact the server and get the latest version number of the app
+        /// CW can then use this to 
+        /// </summary>
+        /// <returns></returns>
+        public static VersionInfo LatestVersion() 
+        {
+            VersionInfo vi = new VersionInfo();
+
+            return vi;
+        }
         public ServerContact() 
         {
             ContactServer();// this will kick off contacting the server

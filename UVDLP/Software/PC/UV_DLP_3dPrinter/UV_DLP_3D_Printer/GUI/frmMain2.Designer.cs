@@ -74,13 +74,13 @@
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pluginTesterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testMachineControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testNewSlicerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.plugInsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hardwareGuideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.testNewSlicerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlTopIcons.SuspendLayout();
             this.pnl3dview.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -109,7 +109,7 @@
             this.pnlTopIcons.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlTopIcons.Location = new System.Drawing.Point(0, 0);
             this.pnlTopIcons.Name = "pnlTopIcons";
-            this.pnlTopIcons.Size = new System.Drawing.Size(741, 65);
+            this.pnlTopIcons.Size = new System.Drawing.Size(865, 65);
             this.pnlTopIcons.TabIndex = 0;
             // 
             // buttOpenFile
@@ -155,7 +155,7 @@
             this.buttSaveScene.StyleName = null;
             this.buttSaveScene.TabIndex = 44;
             this.buttSaveScene.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.Top;
-            this.buttSaveScene.Click += new System.EventHandler(this.testSaveSceneToolStripMenuItem_Click);
+            this.buttSaveScene.Click += new System.EventHandler(this.SaveScene);
             // 
             // buttConnect
             // 
@@ -486,7 +486,7 @@
             this.pnlTopTabs.Controls.Add(this.ctlTitleViewControls);
             this.pnlTopTabs.Controls.Add(this.ctlTitleConfigure);
             this.pnlTopTabs.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlTopTabs.Location = new System.Drawing.Point(0, 91);
+            this.pnlTopTabs.Location = new System.Drawing.Point(0, 93);
             this.pnlTopTabs.Name = "pnlTopTabs";
             this.pnlTopTabs.Size = new System.Drawing.Size(1380, 50);
             this.pnlTopTabs.TabIndex = 2;
@@ -593,7 +593,7 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 141);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 143);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -607,8 +607,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.txtLog);
-            this.splitContainer1.Size = new System.Drawing.Size(1380, 553);
-            this.splitContainer1.SplitterDistance = 450;
+            this.splitContainer1.Size = new System.Drawing.Size(1380, 551);
+            this.splitContainer1.SplitterDistance = 448;
             this.splitContainer1.TabIndex = 4;
             // 
             // ctlMainConfig1
@@ -653,7 +653,7 @@
             this.pnlTopIconsMain.Controls.Add(this.flowLayoutPanel3);
             this.pnlTopIconsMain.Controls.Add(this.pnlTopIcons);
             this.pnlTopIconsMain.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlTopIconsMain.Location = new System.Drawing.Point(0, 26);
+            this.pnlTopIconsMain.Location = new System.Drawing.Point(0, 28);
             this.pnlTopIconsMain.Name = "pnlTopIconsMain";
             this.pnlTopIconsMain.Size = new System.Drawing.Size(1380, 65);
             this.pnlTopIconsMain.TabIndex = 45;
@@ -704,7 +704,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1380, 26);
+            this.menuStrip1.Size = new System.Drawing.Size(1380, 28);
             this.menuStrip1.TabIndex = 17;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -718,43 +718,51 @@
             this.testMachineControlToolStripMenuItem,
             this.testNewSlicerToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(40, 22);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // preferencesToolStripMenuItem
             // 
             this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(218, 24);
             this.preferencesToolStripMenuItem.Text = "Preferences";
             this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(218, 24);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // testToolStripMenuItem
             // 
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(218, 24);
             this.testToolStripMenuItem.Text = "Dump Commands";
             this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
             // pluginTesterToolStripMenuItem
             // 
             this.pluginTesterToolStripMenuItem.Name = "pluginTesterToolStripMenuItem";
-            this.pluginTesterToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.pluginTesterToolStripMenuItem.Size = new System.Drawing.Size(218, 24);
             this.pluginTesterToolStripMenuItem.Text = "Plugin Tester";
             this.pluginTesterToolStripMenuItem.Click += new System.EventHandler(this.pluginTesterToolStripMenuItem_Click);
             // 
             // testMachineControlToolStripMenuItem
             // 
             this.testMachineControlToolStripMenuItem.Name = "testMachineControlToolStripMenuItem";
-            this.testMachineControlToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.testMachineControlToolStripMenuItem.Size = new System.Drawing.Size(218, 24);
             this.testMachineControlToolStripMenuItem.Text = "Test Machine Control";
             this.testMachineControlToolStripMenuItem.Click += new System.EventHandler(this.testMachineControlToolStripMenuItem_Click);
+            // 
+            // testNewSlicerToolStripMenuItem
+            // 
+            this.testNewSlicerToolStripMenuItem.CheckOnClick = true;
+            this.testNewSlicerToolStripMenuItem.Name = "testNewSlicerToolStripMenuItem";
+            this.testNewSlicerToolStripMenuItem.Size = new System.Drawing.Size(218, 24);
+            this.testNewSlicerToolStripMenuItem.Text = "Test new slicer";
+            this.testNewSlicerToolStripMenuItem.Click += new System.EventHandler(this.testNewSlicerToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -764,44 +772,36 @@
             this.userManualToolStripMenuItem,
             this.hardwareGuideToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(48, 22);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // plugInsToolStripMenuItem
             // 
             this.plugInsToolStripMenuItem.Name = "plugInsToolStripMenuItem";
-            this.plugInsToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.plugInsToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
             this.plugInsToolStripMenuItem.Text = "Plug-Ins";
             this.plugInsToolStripMenuItem.Click += new System.EventHandler(this.plugInsToolStripMenuItem_Click);
             // 
             // userManualToolStripMenuItem
             // 
             this.userManualToolStripMenuItem.Name = "userManualToolStripMenuItem";
-            this.userManualToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.userManualToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
             this.userManualToolStripMenuItem.Text = "User Manual";
             this.userManualToolStripMenuItem.Click += new System.EventHandler(this.userManualToolStripMenuItem_Click);
             // 
             // hardwareGuideToolStripMenuItem
             // 
             this.hardwareGuideToolStripMenuItem.Name = "hardwareGuideToolStripMenuItem";
-            this.hardwareGuideToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.hardwareGuideToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
             this.hardwareGuideToolStripMenuItem.Text = "Hardware Guide";
             this.hardwareGuideToolStripMenuItem.Click += new System.EventHandler(this.hardwareGuideToolStripMenuItem_Click);
-            // 
-            // testNewSlicerToolStripMenuItem
-            // 
-            this.testNewSlicerToolStripMenuItem.CheckOnClick = true;
-            this.testNewSlicerToolStripMenuItem.Name = "testNewSlicerToolStripMenuItem";
-            this.testNewSlicerToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
-            this.testNewSlicerToolStripMenuItem.Text = "Test new slicer";
-            this.testNewSlicerToolStripMenuItem.Click += new System.EventHandler(this.testNewSlicerToolStripMenuItem_Click);
             // 
             // frmMain2
             // 

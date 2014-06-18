@@ -97,10 +97,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             lblProfName.Text = lstSliceProfiles.SelectedItem.ToString();
             txtZThick.Text = "" + String.Format("{0:0.000}",m_config.ZThick);
             chkExport.Checked = m_config.export;
-            groupBox2.Enabled = chkExport.Checked;
+           // groupBox2.Enabled = chkExport.Checked;
            // chkgengcode.Checked = m_config.exportgcode;
            // chkExportSlices.Checked = m_config.exportimages;
             //chkexportsvg.Checked = m_config.exportsvg;
+            /*
             if (m_config.m_exportopt.ToUpper().Contains("ZIP"))
             {
                 rbzip.Checked = true;
@@ -109,6 +110,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 rbsub.Checked = true;
             }
+             * */
             txtAAVal.Text = "" + m_config.aaval.ToString();
             txtLayerTime.Text = "" + m_config.layertime_ms;
             txtFirstLayerTime.Text = m_config.firstlayertime_ms.ToString();
@@ -143,14 +145,14 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 
                 m_config.ZThick = Single.Parse(txtZThick.Text);
-                if (rbzip.Checked == true)
-                {
+               // if (rbzip.Checked == true)
+               // {
                     m_config.m_exportopt = "ZIP";
-                }
-                else 
-                {
-                   m_config.m_exportopt = "SUBDIR";
-                }
+               // }
+               // else 
+               // {
+               //    m_config.m_exportopt = "SUBDIR";
+               // }
                 m_config.layertime_ms = int.Parse(txtLayerTime.Text);
                 m_config.firstlayertime_ms = int.Parse(txtFirstLayerTime.Text);
                 m_config.blanktime_ms = int.Parse(txtBlankTime.Text);
@@ -404,7 +406,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
         private void chkExport_CheckedChanged(object sender, EventArgs e)
         {
-            groupBox2.Enabled = chkExport.Checked;
+            //groupBox2.Enabled = chkExport.Checked;
         }
 
 

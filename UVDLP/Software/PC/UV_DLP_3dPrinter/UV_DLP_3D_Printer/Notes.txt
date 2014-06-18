@@ -1,16 +1,5 @@
 ﻿
 ToDo:
-- Have CW connect via HTTPPost to server at www.buildyourownsla.com and hit a php script
-   Have server address be configurable
-	Things the plugin should report:
-		list of Plugin ID's
-		List of plugin keys
-		version of CW
-
- On server: have the posts go to a php script 
-	post to a sql database table
-	use this for statistics
-	post time/data, ip address
 
 - Use single zip file for everything - gcode,models,support, image slices...
 - serial port auto-detect
@@ -104,6 +93,22 @@ This would give people the possibility to use Other slicers like "VISCam RP" an 
 
 
 Completed**********************************
+
+
+* Have CW connect via HTTPPost to server at www.buildyourownsla.com and hit a php script
+   Have server address be configurable
+	Things the plugin should report:
+		list of Plugin ID's
+		List of plugin keys
+		version of CW
+
+ * On server: have the posts go to a php script 
+	post to a sql database table
+	use this for statistics
+	post time/data, ip address
+
+
+
 * When the Scene node in the scene control is selected, show the volume of all objects in the scene
 * Modify slicing to allow a single model to self-intersect
 * add a base (flat cube / cylinder) option in support generation

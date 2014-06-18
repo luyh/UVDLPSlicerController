@@ -7,10 +7,11 @@ using System.Collections;
 using System.Drawing;
 using System.Threading;
 using UV_DLP_3D_Printer.Slicing;
-//using UV_DLP_3D_Printer.Utility;
 using Ionic.Zip;
 using System.Drawing.Imaging;
 using System.IO;
+using UV_DLP_3D_Printer._3DEngine;
+using System.Windows.Forms;
 
 namespace UV_DLP_3D_Printer
 {
@@ -35,7 +36,7 @@ namespace UV_DLP_3D_Printer
         private Thread m_slicethread;
         private bool m_cancel = false;
         private bool isslicing = false;
-        private ZipFile m_zip; // for storing image slices
+        //private ZipFile m_zip; // for storing image slices
         public eSliceMethod m_slicemethod = eSliceMethod.eEvenOdd;
 
         public Slicer() 
@@ -52,6 +53,13 @@ namespace UV_DLP_3D_Printer
         {
             m_cancel = true;
             isslicing = false;
+            if (m_sf.m_config.export == true) // if we're exporting image slices
+            {
+                //if (m_sf.m_config.m_exportopt.ToUpper().Contains("ZIP")) // into the scene cws file
+                {
+                    SceneFile.Instance().CloseSceneFile(true);
+                }
+            }
         }
         public void RaiseSliceEvent(eSliceEvent ev, int curlayer, int totallayers)
         {
@@ -244,7 +252,7 @@ namespace UV_DLP_3D_Printer
             catch (Exception ex)
             {
                 string s = ex.StackTrace;
-                DebugLogger.Instance().LogRecord(ex.Message);
+                DebugLogger.Instance().LogError(ex);
                 return null;
             }        
                         
@@ -272,34 +280,17 @@ namespace UV_DLP_3D_Printer
                     scaler = 1.0; // no scaling
                 }
 
-                //determine the number of slices
-                //UVDLPApp.Instance().Scene.FindMinMax();
-
                 MinMax mm = UVDLPApp.Instance().Engine3D.CalcSceneExtents();
-                //int numslices = (int)((mm.m_max - mm.m_min) / m_sf.m_config.ZThick);
                 int numslices = (int)((mm.m_max) / m_sf.m_config.ZThick);
-                //int numslices = (int)((UVDLPApp.Instance().Scene.m_max.z) / m_sf.m_config.ZThick);
-                // I should start slicing at Wz 0, not Oz 0
-                float curz = 0; // start at Wz0
-                
-                // an alternative here is to slice the scene from wZ 0, therefore, all object geometry beneath the ground plane won't be slice;
-                //double curz = (double)0.0;// start at the ground   
-            
-                
+                float curz = 0; // start at Wz0               
                 int c = 0;
-                string scenename = "";
+                string scenename = UVDLPApp.Instance().SceneFileName;
                 // a little housework here...
                 foreach (Object3d obj in UVDLPApp.Instance().Engine3D.m_objects) 
                 {
                     obj.CalcMinMaxes();
-                    if (c == 0) 
-                    {
-                        //get the first objects' name
-                        scenename = obj.m_fullname;
-                        m_sf.modelname = obj.m_fullname;
-                    }
-                    c++;
                 }
+
                 m_sf.NumSlices = numslices;
                 SliceStarted(scenename, numslices);
                 DebugLogger.Instance().LogRecord("Slicing started");
@@ -313,6 +304,7 @@ namespace UV_DLP_3D_Printer
                     isslicing = false;
                     return; // exit slicing, nothing more to do...
                 }
+                // if we're actually exporting something here, iterate through slices
                 for (c = 0; c < numslices; c++)
                 {
                     Bitmap bmp = new Bitmap(m_sf.m_config.xres,m_sf.m_config.yres); // create a new bitmap on a per-slice basis
@@ -384,50 +376,37 @@ namespace UV_DLP_3D_Printer
         }
         private void SliceStarted(string scenename, int numslices) 
         {
-           // if (m_buildparms.exportimages)
+            if ( m_sf.m_config.export == true) // if we're exporting
             {
-                string path = "";
-                // get the model name, could be scene....
-                String modelname = scenename;
-                String barename = Path.GetFileNameWithoutExtension(modelname);
-                // strip off the file extension
-                path = SliceFile.GetSliceFilePath(modelname);
-
-                // remove previousely created slices -SHS
-                if (Directory.Exists(path))
+                //exporting to cws file
+                //get the name oif the scene file
+                if (UVDLPApp.Instance().SceneFileName.Length == 0) 
                 {
-                    String searchPattern = Path.GetFileNameWithoutExtension(modelname) + "*.png";
-                    String [] fileNames = Directory.GetFiles(path, searchPattern);
-                    try
-                    {
-                        foreach (String fname in fileNames)
-                        {
-                            File.Delete(fname);
-                        }
-                        File.Delete(path + UVDLPApp.m_pathsep + barename + ".gcode");
-                        Directory.Delete(path);
-                    }
-                    catch (Exception) { }
+                    MessageBox.Show("Please Save the Scene First Before Exporting Slices");
+                    CancelSlicing();
+                    return;
                 }
-                try
+                if (UVDLPApp.Instance().SceneFileName.Length != 0) // check again to make sure we've really got a name
                 {
-                    File.Delete(path + ".zip");
-                }
-                catch (Exception ex) 
-                {
-                    DebugLogger.Instance().LogError(ex.Message);
-                }
-
-                if (m_sf.m_config.m_exportopt.ToUpper().Contains("ZIP"))
-                {
-                    m_zip = new ZipFile();
+                    //remove all the previous images first
+                    SceneFile.Instance().RemoveExistingSlices(UVDLPApp.Instance().SceneFileName);
+                    //remove any slice profile in the scene file
+                    SceneFile.Instance().RemoveExistingSliceProfile(UVDLPApp.Instance().SceneFileName);
+                    //create a memory stream to hold the slicing profile in memory
+                    MemoryStream ms = new MemoryStream();
+                    //serialize the slciing profile into the memory stream
+                    string sliceprofilename = Path.GetFileNameWithoutExtension(UVDLPApp.Instance().m_buildparms.m_filename) + ".slicing";
+                    UVDLPApp.Instance().m_buildparms.Save(ms, sliceprofilename);
+                    ms.Seek(0, SeekOrigin.Begin); // rewind
+                    //save the stream to the scene cws zip file
+                    SceneFile.Instance().AddSliceProfileToFile(UVDLPApp.Instance().SceneFileName, ms, sliceprofilename);
+                    // if we've saved this scene before, then we can save the images into it. Open it up for add
+                    SceneFile.Instance().OpenSceneFile(UVDLPApp.Instance().SceneFileName);
                 }
                 else 
                 {
-                    if (!Directory.Exists(path)) // check and see if a directory of that name exists,
-                    {
-                        Directory.CreateDirectory(path);// if not, create it
-                    }                
+                    //no name? cancel slicing
+                    CancelSlicing();
                 }
             }
             RaiseSliceEvent(eSliceEvent.eSliceStarted, 0, numslices);
@@ -445,22 +424,19 @@ namespace UV_DLP_3D_Printer
                     String modelname = scenename;
                     // strip off the file extension
                     path = SliceFile.GetSliceFilePath(modelname);
-                   // = null;
                     String imname = Path.GetFileNameWithoutExtension(modelname) + String.Format("{0:0000}", layer) + ".png";
                     String imagename = path + UVDLPApp.m_pathsep + imname;
-                    if (m_sf.m_config.m_exportopt.ToUpper().Contains("ZIP"))
+                    //if (m_sf.m_config.m_exportopt.ToUpper().Contains("ZIP"))
                     {
                         // create a memory stream for this to save into
                         MemoryStream ms = new MemoryStream();
                         bmp.Save(ms, ImageFormat.Png);
                         ms.Seek(0, SeekOrigin.Begin); // seek back to beginning
-                        m_zip.AddEntry(imname, ms);
-                    }
-                    else
-                    {
-                        bmp.Save(imagename);
-                    }
-                    
+                        if (!m_cancel) // if we're not in the process of cancelling
+                        {
+                            SceneFile.Instance().AddSlice(ms, imname);
+                        }
+                    }                   
                     RaiseSliceEvent(eSliceEvent.eLayerSliced, layer, numslices);
                 }
             }
@@ -474,13 +450,9 @@ namespace UV_DLP_3D_Printer
         {
             if (m_sf.m_config.export == true) // if we're exporting image slices
             {
-                if (m_sf.m_config.m_exportopt.ToUpper().Contains("ZIP"))
+                //if (m_sf.m_config.m_exportopt.ToUpper().Contains("ZIP"))
                 {
-                    String modelname = scenename;
-                    // strip off the file extension
-                    String path = SliceFile.GetSliceFilePath(modelname);
-                    path += ".zip";
-                    m_zip.Save(path);
+                    SceneFile.Instance().CloseSceneFile(false);
                 }
             }
             RaiseSliceEvent(eSliceEvent.eSliceCompleted, layer, numslices);

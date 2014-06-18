@@ -15,6 +15,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls.ManualControls
         public ctlMainManual()
         {
             InitializeComponent();
+            UVDLPApp.Instance().m_gui_config.AddControl("ctlManualControl", ctlManualControl1);
         }
     }
 }
