@@ -16,7 +16,7 @@ namespace UV_DLP_3D_Printer.GUI
             InitializeComponent();
             SetData();
         }
-
+        /*
         private void button1_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) 
@@ -24,23 +24,24 @@ namespace UV_DLP_3D_Printer.GUI
                 lblSlic3rlocation.Text = openFileDialog1.FileName;
             }
         }
+         * */
         private void SetData() 
         {
-            lblSlic3rlocation.Text = UVDLPApp.Instance().m_appconfig.m_slic3rloc;
+            //lblSlic3rlocation.Text = UVDLPApp.Instance().m_appconfig.m_slic3rloc;
             panelback.BackColor = UVDLPApp.Instance().m_appconfig.m_backgroundcolor;
             panelfore.BackColor = UVDLPApp.Instance().m_appconfig.m_foregroundcolor;
             chkDriverLog.Checked = UVDLPApp.Instance().m_appconfig.m_driverdebuglog;
             chkIgnoreGCRsp.Checked = UVDLPApp.Instance().m_appconfig.m_ignoreGCrsp;
-            txtSlic3rParams.Text = UVDLPApp.Instance().m_appconfig.m_slic3rparameters;
+           // txtSlic3rParams.Text = UVDLPApp.Instance().m_appconfig.m_slic3rparameters;
         }
         private void GetData() 
         {
-            UVDLPApp.Instance().m_appconfig.m_slic3rloc = lblSlic3rlocation.Text;
+            //UVDLPApp.Instance().m_appconfig.m_slic3rloc = lblSlic3rlocation.Text;
             UVDLPApp.Instance().m_appconfig.m_backgroundcolor = panelback.BackColor;
             UVDLPApp.Instance().m_appconfig.m_foregroundcolor = panelfore.BackColor;
             UVDLPApp.Instance().m_appconfig.m_driverdebuglog = chkDriverLog.Checked;
             UVDLPApp.Instance().m_appconfig.m_ignoreGCrsp = chkIgnoreGCRsp.Checked;
-            UVDLPApp.Instance().m_appconfig.m_slic3rparameters = txtSlic3rParams.Text;
+            //UVDLPApp.Instance().m_appconfig.m_slic3rparameters = txtSlic3rParams.Text;
             UVDLPApp.Instance().SaveAppConfig();
         }
 

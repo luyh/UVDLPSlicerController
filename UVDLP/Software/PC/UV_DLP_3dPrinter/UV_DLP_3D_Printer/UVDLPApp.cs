@@ -106,6 +106,7 @@ namespace UV_DLP_3D_Printer
         public static String m_pathsep = "\\";
 
         public List<PluginEntry> m_plugins; // list of plug-ins
+        public PluginStates m_pluginstates;
 
         public Undoer m_undoer;
         public frmMain2 m_mainform; // reference to the main application form       
@@ -142,6 +143,7 @@ namespace UV_DLP_3D_Printer
             CSG.Instance().CSGEvent += new CSG.CSGEventDel(CSGEvent);
             m_proj_cmd_lst = new prjcmdlst();
             m_plugins = new List<PluginEntry>(); // list of user plug-ins
+            m_pluginstates =  PluginStates.Instance(); // initialize the plugin state singleton           
             m_undoer = new Undoer();
             m_2d_graphics = new C2DGraphics();
             m_gui_config = new GuiConfig();            
@@ -836,7 +838,7 @@ namespace UV_DLP_3D_Printer
             m_sc = new ServerContact();
 
         }
-
+        #region Plug-in management and licensing
         private void LoadLicenseKeys() 
         {
             try
@@ -872,6 +874,15 @@ namespace UV_DLP_3D_Printer
                         pe.m_licensed = true;
                         
                     }
+                    int options = pe.m_plugin.GetInt("Options");
+                    if (options != -1) 
+                    {
+                        if ((options & PluginOptions.OPTION_NOLICENSE) != 0) 
+                        {
+                            pe.m_licensed = true;
+                        }
+                    }
+                    
                 }
                 catch (Exception ex)             
                 {
@@ -892,7 +903,10 @@ namespace UV_DLP_3D_Printer
                     // iterate through all loaded plugins
                     if (!verifyLicense || (pe.m_licensed == true)) 
                     {
-                        pe.m_plugin.ExecuteFunction(cmd,parms);
+                        if (pe.m_enabled)
+                        {
+                            pe.m_plugin.ExecuteFunction(cmd, parms);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -910,7 +924,10 @@ namespace UV_DLP_3D_Printer
                     // iterate through all loaded plugins
                     if (!verifyLicense || (pe.m_licensed == true))
                     {
-                        pe.m_plugin.ExecuteFunction(cmd);
+                        if (pe.m_enabled == true)
+                        {
+                            pe.m_plugin.ExecuteFunction(cmd);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -936,7 +953,7 @@ namespace UV_DLP_3D_Printer
                 try
                 {
                     // iterate through all loaded plugins
-                    if (pe.m_licensed == true) // only check the licensed plugins
+                    if (pe.m_licensed == true && pe.m_enabled == true) // only check the licensed plugins
                     {
                         bmp = pe.m_plugin.GetImage(name);
                         if (bmp != null)
@@ -960,13 +977,21 @@ namespace UV_DLP_3D_Printer
         {
             return Path.GetFileNameWithoutExtension(m_appconfig.m_cursliceprofilename);            
         }
-
+        //licenses can be in a few states:
+        // licensed and enabled - load the plugin and use it
+        // licensed and disabled - do not use the plugin, do not initialize
+        // un-licensed and enabled - prompt the user for license key, do not initialize it
+        // un-licensed and disabled - ignore this plugin, keep entry for it, do not initialize
         public void ScanForPlugins() 
         {
+
+            // load the list of plugin states
+            string picn = m_apppath + m_pathsep + "pluginconfig.cfg"; // plugin configuration name
+            m_pluginstates.Load(picn);
+
             // get a list of dll's in this current directory
             // try to register them as a plug-in
-            //string[] filePaths = Directory.GetFiles(m_apppath + m_pathsep + "Plugins", "*.dll");
-            string[] filePaths = Directory.GetFiles(m_apppath , "*.dll");
+            string[] filePaths = Directory.GetFiles(m_apppath, "*.dll");
             foreach (String pluginname in filePaths)
             {
                 string args = Path.GetFileNameWithoutExtension(pluginname);
@@ -989,9 +1014,18 @@ namespace UV_DLP_3D_Printer
                                 // create an instance of the plugin
                                 IPlugin plug = (IPlugin)Activator.CreateInstance(ObjType); 
                                 // create an entry for the plugin
-                                PluginEntry pe = new PluginEntry(plug);
+                                PluginEntry pe = new PluginEntry(plug,args);
                                 //add the entry to the list of plugins
                                 m_plugins.Add(pe);
+                                //mark the plugin as enabled by default
+                                pe.m_enabled = true; 
+                                if (m_pluginstates.InList(args))
+                                {
+                                    // this plugin is listed in the disabled list.
+                                    DebugLogger.Instance().LogInfo("Plugin " + args + " marked disabled");
+                                    pe.m_enabled = false; 
+                                }
+
                                 //get the vendor id of the newly loaded plugin
                                 int vid = plug.GetInt("VendorID");
                                 //look for the license key for this plugin
@@ -999,11 +1033,19 @@ namespace UV_DLP_3D_Printer
                                 // if we found it, mark it as licensed
                                 if (lk != null)
                                 {
-                                    pe.m_licensed = true;
                                     //initialize the plugin by setting the host.
-                                    plug.Host = this; // this will initialize the plugin - the plugin's init function will be called
-                                    DebugLogger.Instance().LogInfo("Loaded licensed plugin " + args);
-                                }                                
+                                    if(pe.m_enabled)
+                                    {
+                                        plug.Host = this; // this will initialize the plugin - the plugin's init function will be called
+                                        DebugLogger.Instance().LogInfo("Loaded licensed plugin " + args);
+                                    }
+                                }
+                                /*
+                                if (pe.m_enabled && pe.m_licensed) 
+                                {
+                                    DebugLogger.Instance().LogInfo("Loaded licensed plugin " + args);                                
+                                }else if (pe.m_enabled && )                                
+                                 * */
                                 DebugLogger.Instance().LogInfo("Loaded plugin " + args);
                             }
                         }
@@ -1026,6 +1068,7 @@ namespace UV_DLP_3D_Printer
         {
             //DebugLogger.Instance().LogInfo("Registered: " + ipi.Name);
             return true;
-        }     
+        }
+        #endregion
     }
 }

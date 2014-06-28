@@ -129,6 +129,7 @@ namespace UV_DLP_3D_Printer.GUI
             UVDLPApp.Instance().m_gui_config.AddControl("timemsg", lblTime);
 
             UVDLPApp.Instance().m_gui_config.AddControl("ctlMainManual", ctlMainManual1);
+            //UVDLPApp.Instance().m_gui_config.AddControl("preferencesToolStripMenuItem", preferencesToolStripMenuItem);
 
             
 

@@ -28,9 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.lblSlic3rlocation = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cmdOK = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -45,49 +42,15 @@
             this.grpDebug = new System.Windows.Forms.GroupBox();
             this.chkIgnoreGCRsp = new System.Windows.Forms.CheckBox();
             this.chkDriverLog = new System.Windows.Forms.CheckBox();
-            this.txtSlic3rParams = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.grpDebug.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(6, 21);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Browse";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // lblSlic3rlocation
-            // 
-            this.lblSlic3rlocation.AutoSize = true;
-            this.lblSlic3rlocation.Location = new System.Drawing.Point(16, 56);
-            this.lblSlic3rlocation.Name = "lblSlic3rlocation";
-            this.lblSlic3rlocation.Size = new System.Drawing.Size(0, 17);
-            this.lblSlic3rlocation.TabIndex = 2;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.txtSlic3rParams);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.lblSlic3rlocation);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(803, 150);
-            this.groupBox1.TabIndex = 3;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "FDM Slic3r Location";
-            // 
             // cmdOK
             // 
-            this.cmdOK.Location = new System.Drawing.Point(128, 334);
+            this.cmdOK.Location = new System.Drawing.Point(164, 181);
             this.cmdOK.Name = "cmdOK";
-            this.cmdOK.Size = new System.Drawing.Size(75, 23);
+            this.cmdOK.Size = new System.Drawing.Size(82, 36);
             this.cmdOK.TabIndex = 4;
             this.cmdOK.Text = "OK";
             this.cmdOK.UseVisualStyleBackColor = true;
@@ -95,9 +58,9 @@
             // 
             // cmdCancel
             // 
-            this.cmdCancel.Location = new System.Drawing.Point(252, 334);
+            this.cmdCancel.Location = new System.Drawing.Point(252, 181);
             this.cmdCancel.Name = "cmdCancel";
-            this.cmdCancel.Size = new System.Drawing.Size(75, 23);
+            this.cmdCancel.Size = new System.Drawing.Size(75, 36);
             this.cmdCancel.TabIndex = 5;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
@@ -167,7 +130,7 @@
             this.groupBox2.Controls.Add(this.panelfore);
             this.groupBox2.Controls.Add(this.cmdselectback);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Location = new System.Drawing.Point(12, 168);
+            this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(315, 153);
             this.groupBox2.TabIndex = 12;
@@ -178,7 +141,7 @@
             // 
             this.grpDebug.Controls.Add(this.chkIgnoreGCRsp);
             this.grpDebug.Controls.Add(this.chkDriverLog);
-            this.grpDebug.Location = new System.Drawing.Point(333, 168);
+            this.grpDebug.Location = new System.Drawing.Point(333, 12);
             this.grpDebug.Name = "grpDebug";
             this.grpDebug.Size = new System.Drawing.Size(482, 153);
             this.grpDebug.TabIndex = 13;
@@ -205,36 +168,17 @@
             this.chkDriverLog.Text = "Log Driver debugging to comm.log";
             this.chkDriverLog.UseVisualStyleBackColor = true;
             // 
-            // txtSlic3rParams
-            // 
-            this.txtSlic3rParams.Location = new System.Drawing.Point(6, 106);
-            this.txtSlic3rParams.Name = "txtSlic3rParams";
-            this.txtSlic3rParams.Size = new System.Drawing.Size(755, 22);
-            this.txtSlic3rParams.TabIndex = 3;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 86);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(194, 17);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Slic3r Command Line Options";
-            // 
             // frmPrefs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(827, 369);
+            this.ClientSize = new System.Drawing.Size(827, 220);
             this.Controls.Add(this.grpDebug);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdOK);
-            this.Controls.Add(this.groupBox1);
             this.Name = "frmPrefs";
             this.Text = "Program Preferences";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.grpDebug.ResumeLayout(false);
@@ -245,9 +189,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label lblSlic3rlocation;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button cmdOK;
         private System.Windows.Forms.Button cmdCancel;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
@@ -262,7 +203,5 @@
         private System.Windows.Forms.GroupBox grpDebug;
         private System.Windows.Forms.CheckBox chkIgnoreGCRsp;
         private System.Windows.Forms.CheckBox chkDriverLog;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtSlic3rParams;
     }
 }

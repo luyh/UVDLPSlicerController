@@ -1060,48 +1060,62 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             IPlugin plugin = null;
             foreach (PluginEntry ip in UVDLPApp.Instance().m_plugins)
             {
-                if (ip.m_licensed != true)
-                    continue;
-
-                plugin = ip.m_plugin;
-                if (plugin == null)
-                    continue;
-
-                if (!plugin.SupportFunctionality(PluginFuctionality.CustomGUI))
-                    continue;
-
-
-                string guiconfname = null;
-                foreach (PluginItem pi in plugin.GetPluginItems)
+                try
                 {
-                    switch (pi.m_type)
+                    if (ip.m_licensed != true || ip.m_enabled == false)
+                        continue;
+
+                    plugin = ip.m_plugin;
+                    if (plugin == null)
+                        continue;
+
+                    if (!plugin.SupportFunctionality(PluginFuctionality.CustomGUI))
+                        continue;
+
+
+                    string guiconfname = null;
+                    foreach (PluginItem pi in plugin.GetPluginItems)
                     {
-                        case ePlItemType.eTexture:
-                            gr2d.LoadTexture(plugin.GetString(pi.m_name + "_index"), plugin);
-                            break;
-
-                        case ePlItemType.eGuiConfig:
-                            guiconfname = plugin.GetString(pi.m_name);
-                            break;
-
-                        case ePlItemType.eControl:
-                            UserControl ctl = plugin.GetControl(pi.m_name);
-                            if ((ctl.GetType() == typeof(ctlImageButton)) || ctl.GetType().IsSubclassOf(typeof(ctlImageButton)))
+                        try
+                        {
+                            switch (pi.m_type)
                             {
-                                guiconf.AddButton(pi.m_name, (ctlImageButton)ctl);
+                                case ePlItemType.eTexture:
+                                    gr2d.LoadTexture(plugin.GetString(pi.m_name + "_index"), plugin);
+                                    break;
+
+                                case ePlItemType.eGuiConfig:
+                                    guiconfname = plugin.GetString(pi.m_name);
+                                    break;
+
+                                case ePlItemType.eControl:
+                                    UserControl ctl = plugin.GetControl(pi.m_name);
+                                    if ((ctl.GetType() == typeof(ctlImageButton)) || ctl.GetType().IsSubclassOf(typeof(ctlImageButton)))
+                                    {
+                                        guiconf.AddButton(pi.m_name, (ctlImageButton)ctl);
+                                    }
+                                    else  //(ctl.GetType().IsSubclassOf(typeof(ctlUserPanel)))
+                                    {
+                                        guiconf.AddControl(pi.m_name, ctl);
+                                    }
+                                    break;
                             }
-                            else  //(ctl.GetType().IsSubclassOf(typeof(ctlUserPanel)))
-                            {
-                                guiconf.AddControl(pi.m_name, ctl);
-                            }
-                            break;
+                        }
+                        catch (Exception ex) 
+                        {
+                            DebugLogger.Instance().LogError(ex);
+                        }
+                    }
+                    if (guiconf != null)
+                    {
+                        //gc.ClearLayout();
+                        guiconf.LoadConfiguration(guiconfname, plugin);
+                        RearrangeGui();
                     }
                 }
-                if (guiconf != null)
+                catch (Exception ex) 
                 {
-                    //gc.ClearLayout();
-                    guiconf.LoadConfiguration(guiconfname, plugin);
-                    RearrangeGui();
+                    DebugLogger.Instance().LogError(ex);
                 }
             }
         }

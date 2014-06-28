@@ -1,14 +1,13 @@
 ﻿
 ToDo:
 
+-fix php script to first look for matching machine GUID to update record, if no existing record, add new
 - Use single zip file for everything - gcode,models,support, image slices...
 - serial port auto-detect
 - allow importing a set of images (png,bmp) along with a layer height. Generate a GCode file and allow printing from imported.
-- Fix the Adaptive support generation.
+
 - Add class to launch/ wait for an external process 
 - add additonal anti-aliasing re-sampling options other than bi-cubic.
-- Ability to enable/disable licensed plug-ins
-	-keep a file list of plug-ins that have been licensed, save an enabled/disabled status, use that when loading plugins
 
 XML system to add/remove controls in the following areas:
 	Top panel
@@ -93,6 +92,14 @@ This would give people the possibility to use Other slicers like "VISCam RP" an 
 
 
 Completed**********************************
+- Plugins:
+	If there is a plugin, check for license,
+		if no license for a plugin is found, prompt for license for plugin
+			only if the plugin REQUIRES a license
+		plugins (if marked) can be tested for 30 days
+
+* Ability to enable/disable licensed plug-ins
+	*keep a file list of plug-ins that have been licensed, save an enabled/disabled status, use that when loading plugins
 
 
 * Have CW connect via HTTPPost to server at www.buildyourownsla.com and hit a php script

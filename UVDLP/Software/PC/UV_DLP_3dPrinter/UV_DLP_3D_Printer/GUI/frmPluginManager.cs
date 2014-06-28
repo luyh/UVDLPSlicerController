@@ -29,6 +29,7 @@ namespace UV_DLP_3D_Printer.GUI
             {
                 ListViewItem lvi = new ListViewItem(ip.m_plugin.Name);
                 lvi.SubItems.Add(ip.m_licensed.ToString());
+                lvi.SubItems.Add(ip.m_enabled.ToString());
                 lvi.SubItems.Add(ip.m_plugin.GetString("Version"));
                 lvi.SubItems.Add(ip.m_plugin.GetString("Description"));
                 lvplugins.Items.Add(lvi);
@@ -37,7 +38,15 @@ namespace UV_DLP_3D_Printer.GUI
 
         private void UpdateButtons() 
         {
-            if (ipsel == null) return;
+            if (ipsel == null)
+            {
+                cmdEnable.Enabled = false;
+                return;
+            }
+            else 
+            {
+                cmdEnable.Enabled = true;
+            }
             if (ipsel.m_licensed)
             {
                 cmdLicense.Enabled = false;
@@ -45,6 +54,14 @@ namespace UV_DLP_3D_Printer.GUI
             else 
             {
                 cmdLicense.Enabled = true;
+            }
+            if (ipsel.m_enabled)
+            {
+                cmdEnable.Text = "Disable";
+            }
+            else 
+            {
+                cmdEnable.Text = "Enable";
             }
         }
 
@@ -97,6 +114,29 @@ namespace UV_DLP_3D_Printer.GUI
             {
                 MessageBox.Show("Error validating license, please re-check");
             }
+        }
+
+        private void cmdEnable_Click(object sender, EventArgs e)
+        {
+            if (ipsel == null)
+            {
+                return;
+            }
+            if (cmdEnable.Text.Contains("Disable"))
+            {
+                //disable the current ipsel
+                ipsel.m_enabled = false;
+            }
+            else 
+            {
+                ipsel.m_enabled = true;
+            }
+            // save the enabled status
+            UVDLPApp.Instance().m_pluginstates.Save(); // save the state of the plugin enabled statuses
+            //now refresh the buttons
+            UpdateButtons();
+            //refresh the plugin list as well
+            SetupPlugins();
         }
     }
 }

@@ -34,6 +34,7 @@ namespace plugTest
             new  PluginItem("Icon",ePlItemType.eImage,0),
             new  PluginItem("Splash",ePlItemType.eImage,0),
             new PluginItem("VendorID",ePlItemType.eInt,0),
+            new PluginItem("Options",ePlItemType.eInt,0),
             new PluginItem("TestControl",ePlItemType.eControl,0),
             new PluginItem("TestXML",ePlItemType.eString,PluginItem.TAG_XML), // string resource - xml file
             new PluginItem("TestBinary",ePlItemType.eBin,PluginItem.TAG_ZIP), // binary zip file
@@ -45,6 +46,8 @@ namespace plugTest
         private static int m_VendorID =         1234;
         private static string m_PluginName =    "TestPlugin";
         private static string version = "1.0.0.1";
+        private static ushort m_options = PluginOptions.OPTION_NOLICENSE;
+
         private byte []m_hash; // simple SHA1 hash for validating against license keys
         public String Name { get { return m_PluginName; } }
         /// <summary>
@@ -102,6 +105,9 @@ namespace plugTest
         {
             if (name.Equals("VendorID"))
                 return m_VendorID;
+            if (name.Equals("Options"))
+                return m_options;
+
             return -1;
             
         }

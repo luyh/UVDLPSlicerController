@@ -440,6 +440,8 @@
     <Compile Include="Plugin\IPluginHost.cs" />
     <Compile Include="Plugin\PluginEntry.cs" />
     <Compile Include="Plugin\PluginItem.cs" />
+    <Compile Include="Plugin\PluginOptions.cs" />
+    <Compile Include="Plugin\PluginStates.cs" />
     <Compile Include="Projector_LCD\prjcmdlst.cs" />
     <Compile Include="Projector_LCD\ProjectorCommand.cs" />
     <Compile Include="Configs\Parm.cs" />
@@ -786,12 +788,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\CWPrivate\Software\TrialMaker\TrialMaker.csproj">
-      <Project>{2A803CAE-16F1-44C4-BF6D-2CAE88CDE659}</Project>
-      <Name>TrialMaker</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

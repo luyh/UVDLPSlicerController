@@ -37,6 +37,8 @@
             this.clmDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.cmdLicense = new System.Windows.Forms.Button();
             this.txtLicense = new System.Windows.Forms.TextBox();
+            this.cmdEnable = new System.Windows.Forms.Button();
+            this.clmEnabled = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // label1
@@ -53,6 +55,7 @@
             this.lvplugins.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.clmName,
             this.clmLicensed,
+            this.clmEnabled,
             this.clmVersion,
             this.clmDescription});
             this.lvplugins.FullRowSelect = true;
@@ -75,22 +78,22 @@
             // clmLicensed
             // 
             this.clmLicensed.Text = "Licensed";
-            this.clmLicensed.Width = 80;
+            this.clmLicensed.Width = 71;
             // 
             // clmVersion
             // 
             this.clmVersion.Text = "Version";
-            this.clmVersion.Width = 87;
+            this.clmVersion.Width = 80;
             // 
             // clmDescription
             // 
             this.clmDescription.Text = "Description";
-            this.clmDescription.Width = 255;
+            this.clmDescription.Width = 266;
             // 
             // cmdLicense
             // 
             this.cmdLicense.Enabled = false;
-            this.cmdLicense.Location = new System.Drawing.Point(16, 258);
+            this.cmdLicense.Location = new System.Drawing.Point(16, 271);
             this.cmdLicense.Name = "cmdLicense";
             this.cmdLicense.Size = new System.Drawing.Size(130, 30);
             this.cmdLicense.TabIndex = 4;
@@ -100,16 +103,32 @@
             // 
             // txtLicense
             // 
-            this.txtLicense.Location = new System.Drawing.Point(166, 262);
+            this.txtLicense.Location = new System.Drawing.Point(166, 275);
             this.txtLicense.Name = "txtLicense";
             this.txtLicense.Size = new System.Drawing.Size(277, 22);
             this.txtLicense.TabIndex = 5;
+            // 
+            // cmdEnable
+            // 
+            this.cmdEnable.Location = new System.Drawing.Point(16, 230);
+            this.cmdEnable.Name = "cmdEnable";
+            this.cmdEnable.Size = new System.Drawing.Size(130, 29);
+            this.cmdEnable.TabIndex = 6;
+            this.cmdEnable.Text = "Enable";
+            this.cmdEnable.UseVisualStyleBackColor = true;
+            this.cmdEnable.Click += new System.EventHandler(this.cmdEnable_Click);
+            // 
+            // clmEnabled
+            // 
+            this.clmEnabled.Text = "Enabled";
+            this.clmEnabled.Width = 74;
             // 
             // frmPluginManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(651, 313);
+            this.Controls.Add(this.cmdEnable);
             this.Controls.Add(this.txtLicense);
             this.Controls.Add(this.cmdLicense);
             this.Controls.Add(this.lvplugins);
@@ -133,5 +152,7 @@
         private System.Windows.Forms.ColumnHeader clmDescription;
         private System.Windows.Forms.Button cmdLicense;
         private System.Windows.Forms.TextBox txtLicense;
+        private System.Windows.Forms.Button cmdEnable;
+        private System.Windows.Forms.ColumnHeader clmEnabled;
     }
 }

@@ -1,4 +1,4 @@
-﻿//#define TIMEDTRIAL
+﻿
 
 using System;
 using System.Collections.Generic;
@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Reflection;
 using UV_DLP_3D_Printer.GUI;
 using SoftwareLocker;
+using UV_DLP_3D_Printer.Plugin;
 
 namespace UV_DLP_3D_Printer
 {
@@ -25,31 +26,52 @@ namespace UV_DLP_3D_Printer
             Application.SetCompatibleTextRenderingDefault(false);
             //init the app object
             UVDLPApp.Instance().DoAppStartup(); // start the app and load the plug-ins
-            //check to see if a loaded plugin has licensing issues for trial
-            // if so, who the timed trial dialog
-#if (TIMEDTRIAL)
-            if (CheckTrial())
+            //iterate through the plugins
+            bool showlicensedialog = false;
+            //iterate through all plugins,
+            // if they are un-licensed and enabled - show licensing dialog.
+            foreach (PluginEntry pe in UVDLPApp.Instance().m_plugins) 
             {
-                frmSplash splash = new frmSplash(); // should pull from a licensed plug-in if need-be
-                splash.Show();
-                Application.Run(new frmMain2());
+                if (pe.m_licensed == false && pe.m_enabled == true) // if we don't have a license, and it's marked enabled
+                {
+                    showlicensedialog = true;
+                }
+                int options = pe.m_plugin.GetInt("Options");
+                if (options != -1 && pe.m_enabled == true) // check to see if this plugin has options
+                {
+                    if ((options & PluginOptions.OPTION_TIMED_TRIAL) != 0) // check for timed trial bit
+                    {
+                        // check for trial version
+                        //start trial version 
+                        if (!CheckTrial(pe)) 
+                        {
+                            //disable the plug-in
+                            pe.m_enabled = false;
+                        }
+                    }
+                }
+                
+            }
+            if (showlicensedialog == true) 
+            {
+                frmPluginManager pim = new frmPluginManager();
+                pim.ShowDialog();
             }
 
-#else
             frmSplash splash = new frmSplash(); // should pull from a licensed plug-in if need-be
             splash.Show();
             Application.Run(new frmMain2());
 
-#endif
         }
-        static bool CheckTrial() 
+        static bool CheckTrial(PluginEntry pe) 
         {
 
             TrialMaker t = new TrialMaker("TT1", Application.StartupPath + "\\RegFile.reg",
-                Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\TMSetp.dbf",
+                //Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\TMSetp.dbf",
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\TMSetp.dbf",
                 "",
                 30, 1000, "745");
-
+            //Environment.SpecialFolder.ApplicationData
             byte[] MyOwnKey = { 97, 250, 1, 5, 84, 21, 7, 63,
             4, 54, 87, 56, 123, 10, 3, 62,
             7, 9, 20, 36, 37, 21, 101, 57};
