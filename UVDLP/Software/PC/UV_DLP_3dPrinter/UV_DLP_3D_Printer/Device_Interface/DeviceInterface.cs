@@ -493,6 +493,7 @@ namespace UV_DLP_3D_Printer
 
         public bool SendCommandToDevice(String command) 
         {
+            UVDLPApp.Instance().m_callbackhandler.Activate("cmdLogGcode", this, command);
             try
             {
                 lock (lockobj)

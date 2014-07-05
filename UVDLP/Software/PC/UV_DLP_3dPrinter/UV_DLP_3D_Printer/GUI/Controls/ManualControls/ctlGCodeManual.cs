@@ -14,20 +14,25 @@ namespace UV_DLP_3D_Printer.GUI.Controls.ManualControls
 {
     public partial class ctlGCodeManual : ctlRFrame
     {
+        delegate void LogGcodeCallback(object sender, object vars);
+
         public ctlGCodeManual()
         {
             InitializeComponent();
             // the data received should be dis-abled during prints and re-enabled when not printing
             UVDLPApp.Instance().m_deviceinterface.LineDataEvent += new DeviceInterface.DeviceLineReceived(LineDataReceived);
             UVDLPApp.Instance().m_buildmgr.BuildStatus += new delBuildStatus(BuildStatus);
+            UVDLPApp.Instance().m_callbackhandler.RegisterCallback("cmdLogGcode", LogGcode, typeof(string), "Log all commands sent to machine");
         }
+
         private void cmdSendGCode_Click(object sender, EventArgs e)
         {
             try
             {
                 if (UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(txtGCode.Text + "\r\n"))
                 {
-                    txtSent.Text = txtGCode.Text + "\r\n" + txtSent.Text;
+                    if (!checkLogAll.Checked)
+                        txtSent.Text = txtGCode.Text + "\r\n" + txtSent.Text;
                 }
                 else
                 {
@@ -39,6 +44,22 @@ namespace UV_DLP_3D_Printer.GUI.Controls.ManualControls
                 DebugLogger.Instance().LogRecord(ex.Message);
             }
         }
+
+        void LogGcode(object sender, object vars)
+        {
+            if (this.txtSent.InvokeRequired)
+            {
+                LogGcodeCallback d = new LogGcodeCallback(LogGcode);
+                this.Invoke(d, new object[] { sender, vars });
+            }
+            else
+            {
+                string txt = (String)vars;
+                if (checkLogAll.Checked && (txt[0] != ';'))
+                    txtSent.Text = txt + txtSent.Text;
+            }
+        }
+
         private void cmdClear_Click(object sender, EventArgs e)
         {
             txtReceived.Text = "";

@@ -38,6 +38,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtReceived = new System.Windows.Forms.TextBox();
             this.cmdClear = new System.Windows.Forms.Button();
+            this.checkLogAll = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel5.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -76,6 +77,7 @@
             this.flowLayoutPanel1.Controls.Add(this.label2);
             this.flowLayoutPanel1.Controls.Add(this.txtReceived);
             this.flowLayoutPanel1.Controls.Add(this.cmdClear);
+            this.flowLayoutPanel1.Controls.Add(this.checkLogAll);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(6, 23);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -158,6 +160,16 @@
             this.cmdClear.UseVisualStyleBackColor = true;
             this.cmdClear.Click += new System.EventHandler(this.cmdClear_Click);
             // 
+            // checkLogAll
+            // 
+            this.checkLogAll.AutoSize = true;
+            this.checkLogAll.Location = new System.Drawing.Point(84, 286);
+            this.checkLogAll.Name = "checkLogAll";
+            this.checkLogAll.Size = new System.Drawing.Size(116, 17);
+            this.checkLogAll.TabIndex = 71;
+            this.checkLogAll.Text = "Log all GCode sent";
+            this.checkLogAll.UseVisualStyleBackColor = true;
+            // 
             // ctlGCodeManual
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -184,5 +196,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtReceived;
         private System.Windows.Forms.Button cmdClear;
+        private System.Windows.Forms.CheckBox checkLogAll;
     }
 }

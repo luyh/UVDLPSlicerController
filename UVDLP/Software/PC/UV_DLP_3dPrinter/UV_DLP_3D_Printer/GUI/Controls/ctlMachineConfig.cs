@@ -95,6 +95,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         // clean bad characters from device name -SHS
         private string CleanScreenName(String name)
         {
+            name = CleanMonitorString(name);
             int zero_place = name.IndexOf((char)0);
             if (zero_place >= 0)
                 name = name.Substring(0,zero_place);
@@ -204,7 +205,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 foreach (Screen s in Screen.AllScreens)
                 {
                     string sn = CleanScreenName(s.DeviceName);
-                    sn = CleanMonitorString(sn);
+                    sn = CleanScreenName(sn); // SHS CleanMonitorString(sn);
                     int xr = s.Bounds.Width;
                     int yr = s.Bounds.Height;
                     string wh = xr.ToString()+ "*"+yr.ToString();
@@ -247,7 +248,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 {
                     //lbConfigured.Items.Add(mc.Monitorid);
                     string sn = CleanScreenName(mc.Monitorid);
-                    sn = CleanMonitorString(sn);
+                    sn = CleanScreenName(sn); // SHS CleanMonitorString(sn);
                     int xr = (int)mc.m_XDLPRes;
                     int yr = (int)mc.m_YDLPRes;
                     string wh = xr.ToString() + "*" + yr.ToString();
@@ -561,14 +562,16 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             if (lstMonitors.SelectedIndex == -1) return;
             string monname = lstMonitors.SelectedItem.ToString();
             Configs.MonitorConfig mc = new Configs.MonitorConfig();
-            // set the name
-            mc.Monitorid = CleanMonitorString(Screen.AllScreens[lstMonitors.SelectedIndex].DeviceName); //CleanMonitorString(monname);
+            // set the name 
+            //mc.Monitorid = CleanMonitorString(Screen.AllScreens[lstMonitors.SelectedIndex].DeviceName); //CleanMonitorString(monname);
+            mc.Monitorid = CleanScreenName(Screen.AllScreens[lstMonitors.SelectedIndex].DeviceName); // SHS - use other clean function
             //set the X/Y resolution
             mc.m_XDLPRes = Screen.AllScreens[lstMonitors.SelectedIndex].Bounds.Width;
             mc.m_YDLPRes = Screen.AllScreens[lstMonitors.SelectedIndex].Bounds.Height;
             m_config.m_lstMonitorconfigs.Add(mc);
             FillConfiguredDisplays();
         }
+
         private string CleanMonitorString(string str)
         {
             string tmp = str.Replace("\\", string.Empty);
