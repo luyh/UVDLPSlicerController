@@ -55,16 +55,19 @@ namespace UV_DLP_3D_Printer.Plugin
         {
             try
             {
-                //string fname = UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + "pluginconfig.cfg";
-                using (StreamReader reader = new StreamReader(fname))
+                if (File.Exists(fname))
                 {
-                    string line;
-                    while ((line = reader.ReadLine()) != null)
+                    //string fname = UVDLPApp.Instance().m_apppath + UVDLPApp.m_pathsep + "pluginconfig.cfg";
+                    using (StreamReader reader = new StreamReader(fname))
                     {
-                        PluginEntry pe = new PluginEntry(null, line.Trim());//Find(line.Trim());
-                        m_entries.Add(pe);                 
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            PluginEntry pe = new PluginEntry(null, line.Trim());//Find(line.Trim());
+                            m_entries.Add(pe);
+                        }
+                        reader.Close();
                     }
-                    reader.Close();
                 }
             }
             catch (Exception ex) 

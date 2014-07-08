@@ -1,10 +1,22 @@
 ﻿
 ToDo:
 
--fix php script to first look for matching machine GUID to update record, if no existing record, add new
-- Use single zip file for everything - gcode,models,support, image slices...
+How a bout a template that lets you print 10 versions of the same model where each one has a slightly different exposure time all in the same print job? that way it would be pretty easy to find the right parameters, especially if you have a new material to test.
+
+- Better Pause functionality . A button that lets you pause the print, raise platform let's say 50mm, lets you inspect the model (especially in the first phase, when you don't know if all the supports work out or if the exposure needs to be adjusted) and then lower it again to continue printing. this would improve the workflow(at least for me) immensely, since i tend to experiment a lot and i'm sure lots of others do too.
+
+- Preset GCode commands! Or at least an individually selectable list of previous commands to reuse without the need for copy-pasting.
+
+- OnEnter event for the custom GCode txt field, so there is no need to send it using the mouse.
+- AutoScroll for the GCode replies
+
+- fix php script to first look for matching machine GUID to update record, if no existing record, add new
+
 - serial port auto-detect
+
 - allow importing a set of images (png,bmp) along with a layer height. Generate a GCode file and allow printing from imported.
+
+- Model preview section / additional tab
 
 - Add class to launch/ wait for an external process 
 - add additonal anti-aliasing re-sampling options other than bi-cubic.
@@ -25,19 +37,9 @@ XML system to add/remove controls in the following areas:
 6)      It would be helpful if a simple 2D editor can be included in the slice view
 7)      Is it possible to do for loop or while loop in the G-code?    It is painful to modify parameters layer by layer for more optimized printing. 
 
-
-
-
 better hierchachal xml panels - 
 The panels/controls can be defined by coding a new control, or defining xml guidef docs
 -part library and view is a nice touch - very handy!
-
- Load Models, 
- auto layout
- auto support generation
- slice
- 3d view or 2d slice view
- Print 
 
  This autosupport generation can do intra-object supports, as well as a tree-structure
  I need to determine inside/outside

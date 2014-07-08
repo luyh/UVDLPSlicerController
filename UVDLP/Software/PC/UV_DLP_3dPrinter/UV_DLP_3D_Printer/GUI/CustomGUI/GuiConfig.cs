@@ -655,11 +655,16 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (action.Contains("remove")) // this handles removing a control from it's parent
             {
                 // remove this control from it's parent
-                if (ct.Parent != null) 
+                if (ct.Parent != null)
                 {
                     ct.Parent.Controls.Remove(ct);
                     ct.Parent = null;
                 }
+            }
+            else if (action.Contains("hide")) // this handles hiding
+            {
+                // hide this control
+                ct.Hide();
             }
             else if (action.Contains("addto")) // this handles adding a new control to a parent control
             {
