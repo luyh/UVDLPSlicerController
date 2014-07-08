@@ -15,7 +15,7 @@ namespace UV_DLP_3D_Printer
     [Serializable()]
     public class SliceBuildConfig
     {
-        public static int FILE_VERSION = 1;
+        public static int FILE_VERSION = 2;
         public string m_filename; // for housekeeping
         public enum eBuildDirection 
         {
@@ -51,6 +51,8 @@ namespace UV_DLP_3D_Printer
         public bool m_flipY; // mirror the y axis
         public string m_notes;
         public double m_resinprice; // per liter
+        public Dictionary<string, InkConfig> inks;
+        public String selectedInk;
         
         //need some parms here for auto support
 
@@ -185,7 +187,16 @@ namespace UV_DLP_3D_Printer
             m_flipX = source.m_flipX;
             m_flipY = source.m_flipY;
             m_notes = source.m_notes;
-            m_resinprice = source.m_resinprice;        
+            m_resinprice = source.m_resinprice;
+            selectedInk = source.selectedInk;
+            if (source.inks != null)
+            {
+                inks = new Dictionary<string, InkConfig>();
+                foreach (KeyValuePair<string, InkConfig> entry in source.inks)
+                {
+                    inks[entry.Key] = entry.Value;
+                }
+            }
         }
         public SliceBuildConfig() 
         {           
@@ -252,6 +263,40 @@ namespace UV_DLP_3D_Printer
             m_footercode = DefGCodeFooter();
             m_liftcode = DefGCodeLift();
             m_preslicecode = DefGCodePreslice();
+            inks = new Dictionary<string, InkConfig>();
+            selectedInk = "Default";
+            inks[selectedInk] = new InkConfig(selectedInk);
+        }
+
+        public bool SetCurrentInk(string inkname)
+        {
+            if (inks.ContainsKey(inkname))
+            {
+                selectedInk = inkname;
+                InkConfig ic = inks[inkname];
+                ZThick = ic.ZThick;
+                layertime_ms = ic.layertime_ms;
+                firstlayertime_ms = ic.firstlayertime_ms;
+                numfirstlayers = ic.numfirstlayers;
+                m_resinprice = ic.resinprice;
+                return true;
+            }
+            return false;
+        }
+
+        public bool UpdateCurrentInk()
+        {
+            if (inks.ContainsKey(selectedInk))
+            {
+                InkConfig ic = inks[selectedInk];
+                ic.ZThick = ZThick;
+                ic.layertime_ms = layertime_ms;
+                ic.firstlayertime_ms = firstlayertime_ms;
+                ic.numfirstlayers = numfirstlayers;
+                ic.resinprice = m_resinprice;
+                return true;
+            }
+            return false;
         }
 
         private void LoadInternal(ref XmlHelper xh) 
@@ -261,9 +306,9 @@ namespace UV_DLP_3D_Printer
             dpmmY = xh.GetDouble(sbc, "DotsPermmY", 76.8);
             xres = xh.GetInt(sbc, "XResolution", 1024);
             yres = xh.GetInt(sbc, "YResolution", 768);
-            ZThick = xh.GetDouble(sbc, "SliceHeight", 0.05);
-            layertime_ms = xh.GetInt(sbc, "LayerTime", 1000); // 1 second default
-            firstlayertime_ms = xh.GetInt(sbc, "FirstLayerTime", 5000);
+            //ZThick = xh.GetDouble(sbc, "SliceHeight", 0.05);
+            //layertime_ms = xh.GetInt(sbc, "LayerTime", 1000); // 1 second default
+            //firstlayertime_ms = xh.GetInt(sbc, "FirstLayerTime", 5000);
             blanktime_ms = xh.GetInt(sbc, "BlankTime", 2000); // 2 seconds blank
             plat_temp = xh.GetInt(sbc, "PlatformTemp", 75);
             //exportgcode = xh.GetBool(sbc, "ExportGCode"));
@@ -271,7 +316,7 @@ namespace UV_DLP_3D_Printer
             export = xh.GetBool(sbc, "Export", false); ;
             XOffset = xh.GetInt(sbc, "XOffset", 0);
             YOffset = xh.GetInt(sbc, "YOffset", 0);
-            numfirstlayers = xh.GetInt(sbc, "NumberofBottomLayers", 3);
+            //numfirstlayers = xh.GetInt(sbc, "NumberofBottomLayers", 3);
             direction = (eBuildDirection)xh.GetEnum(sbc, "Direction", typeof(eBuildDirection), eBuildDirection.Bottom_Up);
             liftdistance = xh.GetDouble(sbc, "LiftDistance", 5.0);
             slidetiltval = xh.GetDouble(sbc, "SlideTiltValue", 0.0);
@@ -284,12 +329,29 @@ namespace UV_DLP_3D_Printer
             m_flipX = xh.GetBool(sbc, "FlipX", false);
             m_flipY = xh.GetBool(sbc, "FlipY", false);
             m_notes = xh.GetString(sbc, "Notes", "");
-            m_resinprice = xh.GetDouble(sbc, "ResinPriceL", 0.0);
+            //m_resinprice = xh.GetDouble(sbc, "ResinPriceL", 0.0);
 
             m_headercode = xh.GetString(sbc, "GCodeHeader", DefGCodeHeader());
             m_footercode = xh.GetString(sbc, "GCodeFooter", DefGCodeFooter());
             m_preslicecode = xh.GetString(sbc, "GCodePreslice", DefGCodePreslice());
-            m_liftcode = xh.GetString(sbc, "GCodeLift", DefGCodeLift());        
+            m_liftcode = xh.GetString(sbc, "GCodeLift", DefGCodeLift());
+            selectedInk = xh.GetString(sbc, "SelectedInk", "Default");
+            inks = new Dictionary<string, InkConfig>();
+            List<XmlNode> inkNodes = xh.FindAllChildElement(sbc, "InkConfig");
+            foreach (XmlNode xnode in inkNodes)
+            {
+                string name = xh.GetString(xnode, "Name", "Default");
+                InkConfig ic = new InkConfig(name);
+                ic.Load(xh, xnode);
+                inks[name] = ic;
+            }
+            if (!inks.ContainsKey(selectedInk))
+            {
+                InkConfig ic = new InkConfig(selectedInk);
+                ic.Load(xh, sbc); // try loading legacy settings from parent
+                inks[selectedInk] = ic;
+            }
+            SetCurrentInk(selectedInk);
         }
         /// <summary>
         /// Load the slice and build profile from a Stream
@@ -373,9 +435,9 @@ namespace UV_DLP_3D_Printer
             xh.SetParameter(sbc, "DotsPermmY", dpmmY);
             xh.SetParameter(sbc, "XResolution", xres);
             xh.SetParameter(sbc, "YResolution", yres);
-            xh.SetParameter(sbc, "SliceHeight", ZThick);
-            xh.SetParameter(sbc, "LayerTime", layertime_ms);
-            xh.SetParameter(sbc, "FirstLayerTime", firstlayertime_ms);
+            //xh.SetParameter(sbc, "SliceHeight", ZThick);
+            //xh.SetParameter(sbc, "LayerTime", layertime_ms);
+            //xh.SetParameter(sbc, "FirstLayerTime", firstlayertime_ms);
             xh.SetParameter(sbc, "BlankTime", blanktime_ms);
             xh.SetParameter(sbc, "PlatformTemp", plat_temp);
             // xh.SetParameter(sbc, "ExportGCode", exportgcode);
@@ -383,7 +445,7 @@ namespace UV_DLP_3D_Printer
             xh.SetParameter(sbc, "Export", export);
             xh.SetParameter(sbc, "XOffset", XOffset);
             xh.SetParameter(sbc, "YOffset", YOffset);
-            xh.SetParameter(sbc, "NumberofBottomLayers", numfirstlayers);
+            //xh.SetParameter(sbc, "NumberofBottomLayers", numfirstlayers);
             xh.SetParameter(sbc, "Direction", direction);
             xh.SetParameter(sbc, "LiftDistance", liftdistance);
             xh.SetParameter(sbc, "SlideTiltValue", slidetiltval);
@@ -397,18 +459,24 @@ namespace UV_DLP_3D_Printer
             xh.SetParameter(sbc, "FlipX", m_flipX);
             xh.SetParameter(sbc, "FlipY", m_flipY);
             xh.SetParameter(sbc, "Notes", m_notes);
-            xh.SetParameter(sbc, "ResinPriceL", m_resinprice);
+            //xh.SetParameter(sbc, "ResinPriceL", m_resinprice);
             xh.SetParameter(sbc, "GCodeHeader", m_headercode);
             xh.SetParameter(sbc, "GCodeFooter", m_footercode);
             xh.SetParameter(sbc, "GCodePreslice", m_preslicecode);
             xh.SetParameter(sbc, "GCodeLift", m_liftcode);
+
+            xh.SetParameter(sbc, "SelectedInk", selectedInk);
+            foreach (KeyValuePair<string, InkConfig> entry in inks)
+            {
+                inks[entry.Key].Save(xh, sbc);
+            }
         }
 
         public bool Save(String filename) 
         {
             m_filename = filename;
             XmlHelper xh = new XmlHelper();
-            bool fileExist = xh.Start(filename, "SliceBuildConfig");
+            xh.StartNew(filename, "SliceBuildConfig");
             SaveInternal(ref xh);
             try
             {
@@ -473,6 +541,37 @@ namespace UV_DLP_3D_Printer
                 DebugLogger.Instance().LogRecord(ex.Message);
                 return false;
             }
+        }
+
+        public string AddNewResin(string resinName)
+        {
+            if (inks.ContainsKey(resinName))
+                return "Resin profile name already exists";
+            InkConfig ic = new InkConfig(resinName);
+            if ((selectedInk != null) && inks.ContainsKey(selectedInk))
+                ic.CopyFrom(inks[selectedInk]);
+            inks[resinName] = ic;
+            SetCurrentInk(resinName);
+            return "OK";
+        }
+
+        public string RemoveSelectedInk()
+        {
+            if (inks.ContainsKey(selectedInk))
+            {
+                inks.Remove(selectedInk);
+                if (inks.Count == 0)
+                {
+                    selectedInk = null;
+                    AddNewResin("Default");
+                    return "Resin profile reset to default|Attention";
+                }
+                else
+                {
+                    SetCurrentInk(inks.First().Key);
+                }
+            }
+            return "OK";
         }
     }
 }

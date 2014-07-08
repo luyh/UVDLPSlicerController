@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using UV_DLP_3D_Printer.GUI.CustomGUI;
+using UV_DLP_3D_Printer.Configs;
+
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
     public partial class ctlToolpathGenConfig : UserControl
@@ -95,7 +97,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         private void SetValues() 
         {
             lblProfName.Text = lstSliceProfiles.SelectedItem.ToString();
-            txtZThick.Text = "" + String.Format("{0:0.000}",m_config.ZThick);
             chkExport.Checked = m_config.export;
            // groupBox2.Enabled = chkExport.Checked;
            // chkgengcode.Checked = m_config.exportgcode;
@@ -112,13 +113,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             }
              * */
             txtAAVal.Text = "" + m_config.aaval.ToString();
-            txtLayerTime.Text = "" + m_config.layertime_ms;
-            txtFirstLayerTime.Text = m_config.firstlayertime_ms.ToString();
             txtBlankTime.Text = m_config.blanktime_ms.ToString();
             txtXOffset.Text = m_config.XOffset.ToString();
             txtYOffset.Text = m_config.YOffset.ToString();
             txtLiftDistance.Text = m_config.liftdistance.ToString();
-            txtnumbottom.Text = m_config.numfirstlayers.ToString();
             txtSlideTilt.Text = m_config.slidetiltval.ToString();
             chkantialiasing.Checked = m_config.antialiasing;
             //chkmainliftgcode.Checked = m_config.usemainliftgcode;
@@ -128,7 +126,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             chkReflectX.Checked = m_config.m_flipX;
             chkReflectY.Checked = m_config.m_flipY;
             txtNotes.Text = m_config.m_notes;
-            txtResinPriceL.Text = m_config.m_resinprice.ToString();
+
+            // resin
+            UpdateResinList();
+            SetResinValues();
 
            // txtRaiseTime.Text = m_config.raise_time_ms.ToString();
             cmbBuildDirection.Items.Clear();
@@ -139,12 +140,33 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             cmbBuildDirection.SelectedItem = m_config.direction.ToString();
         }
 
+        private void SetResinValues()
+        {
+            txtZThick.Text = "" + String.Format("{0:0.000}", m_config.ZThick);
+            txtLayerTime.Text = "" + m_config.layertime_ms;
+            txtFirstLayerTime.Text = m_config.firstlayertime_ms.ToString();
+            txtResinPriceL.Text = m_config.m_resinprice.ToString();
+            txtnumbottom.Text = m_config.numfirstlayers.ToString();
+        }
+
+        private void UpdateResinList()
+        {
+            comboResin.Items.Clear();
+            int i = 0;
+            foreach (KeyValuePair<string, InkConfig> entry in m_config.inks)
+            {
+                comboResin.Items.Add(entry.Key);
+                if (entry.Key == m_config.selectedInk)
+                    comboResin.SelectedIndex = i;
+                i++;
+            }
+        }
+
         private bool GetValues() 
         {
             try
             {
                 
-                m_config.ZThick = Single.Parse(txtZThick.Text);
                // if (rbzip.Checked == true)
                // {
                     m_config.m_exportopt = "ZIP";
@@ -153,13 +175,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                // {
                //    m_config.m_exportopt = "SUBDIR";
                // }
-                m_config.layertime_ms = int.Parse(txtLayerTime.Text);
-                m_config.firstlayertime_ms = int.Parse(txtFirstLayerTime.Text);
                 m_config.blanktime_ms = int.Parse(txtBlankTime.Text);
                 m_config.XOffset = int.Parse(txtXOffset.Text);
                 m_config.YOffset = int.Parse(txtYOffset.Text);
                 m_config.liftdistance = double.Parse(txtLiftDistance.Text);
-                m_config.numfirstlayers = int.Parse(txtnumbottom.Text);
                 m_config.slidetiltval = double.Parse(txtSlideTilt.Text);
                 m_config.antialiasing = chkantialiasing.Checked;
                 //m_config.usemainliftgcode = chkmainliftgcode.Checked;
@@ -171,9 +190,15 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_config.m_flipY = chkReflectY.Checked;
                 m_config.m_notes = txtNotes.Text;
                 m_config.aaval = double.Parse(txtAAVal.Text);
-                m_config.m_resinprice = double.Parse(txtResinPriceL.Text);
                 m_config.direction = (SliceBuildConfig.eBuildDirection)Enum.Parse(typeof(SliceBuildConfig.eBuildDirection), cmbBuildDirection.SelectedItem.ToString());
                 m_config.export = chkExport.Checked;
+                // resin
+                m_config.ZThick = Single.Parse(txtZThick.Text);
+                m_config.layertime_ms = int.Parse(txtLayerTime.Text);
+                m_config.firstlayertime_ms = int.Parse(txtFirstLayerTime.Text);
+                m_config.numfirstlayers = int.Parse(txtnumbottom.Text);
+                m_config.m_resinprice = double.Parse(txtResinPriceL.Text);
+                m_config.UpdateCurrentInk();
                 return true;
             }
             catch (Exception ex) 
@@ -414,5 +439,48 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             txtAAVal.Enabled = chkantialiasing.Checked;
         }
+
+        private void comboResin_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            m_config.SetCurrentInk(comboResin.SelectedItem.ToString());
+            SetResinValues();
+        }
+
+        private void cmdNewResin_Click(object sender, EventArgs e)
+        {
+            frmProfileName frm = new frmProfileName();
+            frm.Text = "New Resin Profile";
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                //create a new resin profile
+                string res = m_config.AddNewResin(frm.ProfileName);
+                if (res != "OK")
+                {
+                    MessageBox.Show(res, "Error");
+                    return;
+                }
+                UpdateResinList();
+                SetResinValues();
+                //comboResin.Items.Add(frm.ProfileName);
+                //comboResin.SelectedIndex = comboResin.Items.Count - 1;
+            }
+        }
+
+        private void cmdDelResin_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(this, "Are you sure you want to delete this Resin Profile?", "Confirm Delete", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) != System.Windows.Forms.DialogResult.OK)
+            {
+                return;
+            }
+            string res = m_config.RemoveSelectedInk();
+            if (res != "OK")
+            {
+                string[] strs = res.Split('|');
+                MessageBox.Show(strs[0], strs.Length > 1 ? strs[1] : "Error");
+            }
+            UpdateResinList();
+            SetResinValues();
+        }
+
     }
 }
