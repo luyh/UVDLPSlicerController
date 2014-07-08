@@ -29,6 +29,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             ClickViewConfMachine(null, null);
             UVDLPApp.Instance().m_gui_config.AddControl("guimachineconfig", ctlMachineConfig1);
             UVDLPApp.Instance().m_gui_config.AddControl("guimachineconfigparent", pnlMachineConfig);
+            UVDLPApp.Instance().m_gui_config.AddControl("ctlSliceProfileConfig", ctlSliceProfileConfig);
+            
         }
         private void HideControls() 
         {

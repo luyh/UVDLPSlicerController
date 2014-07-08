@@ -398,8 +398,8 @@ namespace UV_DLP_3D_Printer
             }
             else
             {
-                String command = "G1 E" + edist + " F" + rate + "\r\n";
                 SendCommandToDevice("M83\r\n");
+                String command = "G1 E" + edist + " F" + rate + "\r\n";
                 SendCommandToDevice(command);
                 //SendCommandToDevice("G90\r\n");
             }

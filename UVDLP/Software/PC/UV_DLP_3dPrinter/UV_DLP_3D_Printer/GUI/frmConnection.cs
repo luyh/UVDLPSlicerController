@@ -28,8 +28,6 @@ namespace UV_DLP_3D_Printer.GUI
                 m_config.comname = cmbPorts.SelectedItem.ToString();
                 m_config.speed = int.Parse(cmbSpeed.SelectedItem.ToString());
                 m_config.databits = int.Parse(txtDataBits.Text);
-
-
                 return true;
             }
             catch (Exception ex) 

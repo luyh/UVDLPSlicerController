@@ -57,10 +57,16 @@ namespace UV_DLP_3D_Printer
                 frmPluginManager pim = new frmPluginManager();
                 pim.ShowDialog();
             }
-
-            frmSplash splash = new frmSplash(); // should pull from a licensed plug-in if need-be
-            splash.Show();
-            Application.Run(new frmMain2());
+            try
+            {
+                frmSplash splash = new frmSplash(); // should pull from a licensed plug-in if need-be
+                splash.Show();
+                Application.Run(new frmMain2());
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
 
         }
         static bool CheckTrial(PluginEntry pe) 
