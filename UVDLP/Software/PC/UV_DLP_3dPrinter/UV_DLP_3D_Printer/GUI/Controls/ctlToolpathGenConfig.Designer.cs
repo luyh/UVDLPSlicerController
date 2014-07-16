@@ -159,6 +159,7 @@
             // comboResin
             // 
             this.comboResin.FormattingEnabled = true;
+            this.comboResin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboResin.Location = new System.Drawing.Point(55, 23);
             this.comboResin.Name = "comboResin";
             this.comboResin.Size = new System.Drawing.Size(134, 26);
