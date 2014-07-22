@@ -225,16 +225,21 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     double zlift = m_config.liftdistance; // in mm
                     double zliftrate = m_config.liftfeedrate; // in mm/m
                     double zliftretract = m_config.liftretractrate; // in mm/m
+                    double tilt = m_config.slidetiltval; // in mm
+                    double totalpath = Math.Sqrt(tilt * tilt + zlift * zlift);
                     zliftrate /= 60.0d;     // to convert to mm/s
                     zliftretract /= 60.0d;  // to convert to mm/s
 
+
                     double tval = 0;
                     double settlingtime = 1500.0d; // 500 ms
-                    tval = (zlift / zliftrate);
-                    tval += (zlift / zliftretract);
+                    tval = (totalpath / zliftrate);
+                    tval += (totalpath / zliftretract);
                     tval *= 1000.0d; // convert to ms
                     tval += settlingtime;
-                    String stime = ((int)tval).ToString();
+                    int itval = (int)tval;
+                    itval = (itval / 100 + 1) * 100;  // round to the nearest 0.1 second
+                    String stime = itval.ToString();
                     txtBlankTime.Text = stime;
 
                 }
