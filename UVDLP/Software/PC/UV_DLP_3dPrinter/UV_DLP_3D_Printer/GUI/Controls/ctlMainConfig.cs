@@ -30,6 +30,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             UVDLPApp.Instance().m_gui_config.AddControl("guimachineconfig", ctlMachineConfig1);
             UVDLPApp.Instance().m_gui_config.AddControl("guimachineconfigparent", pnlMachineConfig);
             UVDLPApp.Instance().m_gui_config.AddControl("ctlSliceProfileConfig", ctlSliceProfileConfig);
+            UVDLPApp.Instance().m_gui_config.AddControl("ctlToolpathGenConfig1", ctlToolpathGenConfig1); // the slice profile settings
+            UVDLPApp.Instance().m_gui_config.AddControl("pnlToolpathGenConfig", pnlToolpathGenConfig); // the slice profile settings parent
+            
+            //
             
         }
         private void HideControls() 

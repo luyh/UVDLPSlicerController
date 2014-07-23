@@ -901,7 +901,7 @@ namespace UV_DLP_3D_Printer
                 try
                 {
                     // iterate through all loaded plugins
-                    if (!verifyLicense || (pe.m_licensed == true)) 
+                    if (!verifyLicense || (pe.m_licensed )) 
                     {
                         if (pe.m_enabled)
                         {

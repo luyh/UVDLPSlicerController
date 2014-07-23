@@ -1,6 +1,9 @@
 ﻿
 ToDo:
 
+- When I open the control tab, even though I have the manual control button checked, I cannot seem to get it to show up?
+- crash when pressing delete with no model
+
 How a bout a template that lets you print 10 versions of the same model where each one has a slightly different exposure time all in the same print job? that way it would be pretty easy to find the right parameters, especially if you have a new material to test.
 
 - Better Pause functionality . A button that lets you pause the print, raise platform let's say 50mm, lets you inspect the model (especially in the first phase, when you don't know if all the supports work out or if the exposure needs to be adjusted) and then lower it again to continue printing. this would improve the workflow(at least for me) immensely, since i tend to experiment a lot and i'm sure lots of others do too.

@@ -306,6 +306,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 if (m_config != null)
                 {
                     SetValues();
+                    lbGCodeSection_SelectedIndexChanged(this, null);
                 }
                 else 
                 {

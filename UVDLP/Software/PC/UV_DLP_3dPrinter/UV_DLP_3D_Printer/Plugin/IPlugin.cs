@@ -23,6 +23,7 @@ namespace UV_DLP_3D_Printer.Plugin
         CustomGUI,  // this plugin can GUI apearence, and optionally add GUI fucntions 
         HWDriver,   // this plugin can comunicate with a HW device. (Sending/Translating GCode to HW)
         Slicer,     // this plugin can convert objects to GCode,
+        GCodePostProcess, // this plugin can post-process sliced GCode
 
     }
     /// 
