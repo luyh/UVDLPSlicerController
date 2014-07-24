@@ -597,12 +597,16 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         #region style applying for non-ctlUsercontrol controls
         public void ApplyStyleRecurse(Control ctl, ControlStyle ct)
         {
+            
             if (ct.BackColor != ControlStyle.NullColor)
                 ctl.BackColor = ct.BackColor;
 
             if (ct.BackColor != ControlStyle.NullColor)
                 ctl.BackColor = ct.BackColor;
 
+            if (ct.ForeColor != ControlStyle.NullColor)
+                ctl.ForeColor = ct.ForeColor;
+            
             if (!ct.applySubControls)
                 return;
 
@@ -614,12 +618,16 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 }
                 else
                 {
+                    
                     if (ct.BackColor != ControlStyle.NullColor)
                         ctl.BackColor = ct.BackColor;
 
                     if (ct.BackColor != ControlStyle.NullColor)
                         ctl.BackColor = ct.BackColor;
 
+                    if (ct.ForeColor != ControlStyle.NullColor)
+                        ctl.ForeColor = ct.ForeColor;
+                    
                     ApplyStyleRecurse(subctl, ct);
                 }
             }

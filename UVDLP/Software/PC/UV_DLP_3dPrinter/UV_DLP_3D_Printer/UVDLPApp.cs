@@ -953,7 +953,7 @@ namespace UV_DLP_3D_Printer
                 try
                 {
                     // iterate through all loaded plugins
-                    if (pe.m_licensed == true && pe.m_enabled == true) // only check the licensed plugins
+                    if (pe.m_licensed == true && pe.m_enabled == true) // only check the licensed, enabled plugins
                     {
                         bmp = pe.m_plugin.GetImage(name);
                         if (bmp != null)

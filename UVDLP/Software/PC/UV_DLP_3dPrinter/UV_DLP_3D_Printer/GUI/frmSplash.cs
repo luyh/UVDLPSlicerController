@@ -21,9 +21,17 @@ namespace UV_DLP_3D_Printer.GUI
             label1.BackColor = Color.Transparent;
             label2.Parent = pictureBox1;
             label2.BackColor = Color.Transparent;
+            label3.Parent = pictureBox1;
+            label3.BackColor = Color.Transparent;
+            label4.Parent = pictureBox1;
+            label4.BackColor = Color.Transparent;
             version.Parent = pictureBox1;
             version.BackColor = Color.Transparent;
+            lblbuilddate.Parent = pictureBox1;
+            lblbuilddate.BackColor = Color.Transparent;
+            
             version.Text = "Version " + Application.ProductVersion;
+            lblbuilddate.Text = "Build Date: " + Utility.RetrieveLinkerTimestamp().ToString();
 
             LoadPluginSplash();
             m_timer = new Timer();
@@ -46,6 +54,9 @@ namespace UV_DLP_3D_Printer.GUI
                 label1.Visible = false;
                 label2.Visible = false;
                 version.Visible = false;
+                lblbuilddate.Visible = false;
+                label3.Visible = false;
+                label4.Visible = false;
                 Refresh();
             }
         }

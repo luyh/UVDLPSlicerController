@@ -106,7 +106,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             try
             {
-                m_config.m_machinetype = MachineConfig.eMachineType.UV_DLP;
+               // m_config.m_machinetype = MachineConfig.eMachineType.UV_DLP;
                 /*
                 if (cmbMachineType.SelectedIndex != -1) 
                 {
