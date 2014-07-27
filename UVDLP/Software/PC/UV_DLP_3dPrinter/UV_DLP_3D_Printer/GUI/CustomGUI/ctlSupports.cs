@@ -428,6 +428,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 cmbSupType.ForeColor = ct.ForeColor;
                 lbSupports.ForeColor = ct.ForeColor;
                 cmdRemoveSupports.ForeColor = ct.ForeColor;
+                progressTitle.ForeColor = ct.ForeColor;
             }
             if (ct.BackColor != ControlStyle.NullColor)
             {
@@ -435,6 +436,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 BackColor = ct.BackColor;
                 cmbSupType.BackColor = ct.BackColor;
                 //flowLayoutPanel2.BackColor = ct.BackColor;
+                progressTitle.BackColor = ct.BackColor;
             }
             if (ct.FrameColor != ControlStyle.NullColor)
             {

@@ -1,5 +1,6 @@
 ﻿
 ToDo:
+- Add a height selection for Support bases - just the footer portion
 - Make a generic plugin
 	XML GUIConfig can set splash, name, basic settings, hash for vendor id
 	load the guiconfig.txt file
