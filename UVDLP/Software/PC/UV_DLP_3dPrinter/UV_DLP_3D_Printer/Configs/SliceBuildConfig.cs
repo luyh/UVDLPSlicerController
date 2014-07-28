@@ -53,6 +53,8 @@ namespace UV_DLP_3D_Printer
         public double m_resinprice; // per liter
         public Dictionary<string, InkConfig> inks;
         public String selectedInk;
+        public int minExposure; // for resin test model
+        public int exposureStep; // for resin test model
         
         //need some parms here for auto support
 
@@ -197,6 +199,8 @@ namespace UV_DLP_3D_Printer
                     inks[entry.Key] = entry.Value;
                 }
             }
+            minExposure = source.minExposure;
+            exposureStep = source.exposureStep;
         }
         public SliceBuildConfig() 
         {           
@@ -266,6 +270,8 @@ namespace UV_DLP_3D_Printer
             inks = new Dictionary<string, InkConfig>();
             selectedInk = "Default";
             inks[selectedInk] = new InkConfig(selectedInk);
+            minExposure = 500;
+            exposureStep = 200;
         }
 
         public bool SetCurrentInk(string inkname)
@@ -352,6 +358,8 @@ namespace UV_DLP_3D_Printer
                 inks[selectedInk] = ic;
             }
             SetCurrentInk(selectedInk);
+            minExposure = xh.GetInt(sbc, "MinTestExposure", 500);
+            exposureStep = xh.GetInt(sbc, "TestExposureStep", 200);
         }
         /// <summary>
         /// Load the slice and build profile from a Stream
@@ -470,6 +478,8 @@ namespace UV_DLP_3D_Printer
             {
                 inks[entry.Key].Save(xh, sbc);
             }
+            xh.SetParameter(sbc, "MinTestExposure", minExposure);
+            xh.SetParameter(sbc, "TestExposureStep", exposureStep);
         }
 
         public bool Save(String filename) 

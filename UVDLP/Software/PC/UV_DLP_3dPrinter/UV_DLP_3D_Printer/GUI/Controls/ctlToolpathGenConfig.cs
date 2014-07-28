@@ -487,5 +487,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             SetResinValues();
         }
 
+        private void buttResinCalib_Click(object sender, EventArgs e)
+        {
+            frmCalibResin frmCalib = new frmCalibResin();
+            frmCalib.ShowDialog();
+        }
+
     }
 }

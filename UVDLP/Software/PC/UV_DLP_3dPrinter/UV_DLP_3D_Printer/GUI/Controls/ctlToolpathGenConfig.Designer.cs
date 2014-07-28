@@ -31,6 +31,8 @@
             this.tabOptions = new System.Windows.Forms.TabControl();
             this.tbOptions = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cmdDelResin = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.cmdNewResin = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.comboResin = new System.Windows.Forms.ComboBox();
             this.label18 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -86,8 +88,7 @@
             this.lstSliceProfiles = new System.Windows.Forms.ListBox();
             this.cmdDelete = new System.Windows.Forms.Button();
             this.cmdNew = new System.Windows.Forms.Button();
-            this.cmdDelResin = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.cmdNewResin = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.buttResinCalib = new System.Windows.Forms.Button();
             this.tabOptions.SuspendLayout();
             this.tbOptions.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -135,6 +136,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.buttResinCalib);
             this.groupBox2.Controls.Add(this.cmdDelResin);
             this.groupBox2.Controls.Add(this.cmdNewResin);
             this.groupBox2.Controls.Add(this.comboResin);
@@ -149,17 +151,59 @@
             this.groupBox2.Controls.Add(this.txtZThick);
             this.groupBox2.Controls.Add(this.txtFirstLayerTime);
             this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Location = new System.Drawing.Point(18, 127);
+            this.groupBox2.Location = new System.Drawing.Point(18, 113);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(258, 224);
+            this.groupBox2.Size = new System.Drawing.Size(258, 238);
             this.groupBox2.TabIndex = 63;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Resin";
             // 
+            // cmdDelResin
+            // 
+            this.cmdDelResin.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.cmdDelResin.Checked = false;
+            this.cmdDelResin.CheckImage = null;
+            this.cmdDelResin.Gapx = 5;
+            this.cmdDelResin.Gapy = 5;
+            this.cmdDelResin.GLBackgroundImage = null;
+            this.cmdDelResin.GLImage = null;
+            this.cmdDelResin.GLVisible = false;
+            this.cmdDelResin.GuiAnchor = null;
+            this.cmdDelResin.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.cmdDelResin.Image = global::UV_DLP_3D_Printer.Properties.Resources.butMinus;
+            this.cmdDelResin.Location = new System.Drawing.Point(226, 23);
+            this.cmdDelResin.Name = "cmdDelResin";
+            this.cmdDelResin.Size = new System.Drawing.Size(26, 26);
+            this.cmdDelResin.StyleName = null;
+            this.cmdDelResin.TabIndex = 65;
+            this.cmdDelResin.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.cmdDelResin.Click += new System.EventHandler(this.cmdDelResin_Click);
+            // 
+            // cmdNewResin
+            // 
+            this.cmdNewResin.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.cmdNewResin.Checked = false;
+            this.cmdNewResin.CheckImage = null;
+            this.cmdNewResin.Gapx = 5;
+            this.cmdNewResin.Gapy = 5;
+            this.cmdNewResin.GLBackgroundImage = null;
+            this.cmdNewResin.GLImage = null;
+            this.cmdNewResin.GLVisible = false;
+            this.cmdNewResin.GuiAnchor = null;
+            this.cmdNewResin.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.cmdNewResin.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPlus;
+            this.cmdNewResin.Location = new System.Drawing.Point(195, 23);
+            this.cmdNewResin.Name = "cmdNewResin";
+            this.cmdNewResin.Size = new System.Drawing.Size(26, 26);
+            this.cmdNewResin.StyleName = null;
+            this.cmdNewResin.TabIndex = 64;
+            this.cmdNewResin.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.cmdNewResin.Click += new System.EventHandler(this.cmdNewResin_Click);
+            // 
             // comboResin
             // 
-            this.comboResin.FormattingEnabled = true;
             this.comboResin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboResin.FormattingEnabled = true;
             this.comboResin.Location = new System.Drawing.Point(55, 23);
             this.comboResin.Name = "comboResin";
             this.comboResin.Size = new System.Drawing.Size(134, 26);
@@ -178,7 +222,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 79);
+            this.label1.Location = new System.Drawing.Point(5, 118);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(152, 18);
             this.label1.TabIndex = 28;
@@ -186,7 +230,7 @@
             // 
             // txtResinPriceL
             // 
-            this.txtResinPriceL.Location = new System.Drawing.Point(136, 53);
+            this.txtResinPriceL.Location = new System.Drawing.Point(186, 87);
             this.txtResinPriceL.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtResinPriceL.Name = "txtResinPriceL";
             this.txtResinPriceL.Size = new System.Drawing.Size(64, 24);
@@ -196,7 +240,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(103, 190);
+            this.label8.Location = new System.Drawing.Point(102, 208);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(64, 18);
             this.label8.TabIndex = 42;
@@ -205,7 +249,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(7, 56);
+            this.label17.Location = new System.Drawing.Point(5, 90);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(98, 18);
             this.label17.TabIndex = 57;
@@ -213,7 +257,7 @@
             // 
             // txtnumbottom
             // 
-            this.txtnumbottom.Location = new System.Drawing.Point(172, 190);
+            this.txtnumbottom.Location = new System.Drawing.Point(171, 208);
             this.txtnumbottom.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtnumbottom.Name = "txtnumbottom";
             this.txtnumbottom.Size = new System.Drawing.Size(56, 24);
@@ -222,7 +266,7 @@
             // 
             // txtLayerTime
             // 
-            this.txtLayerTime.Location = new System.Drawing.Point(10, 143);
+            this.txtLayerTime.Location = new System.Drawing.Point(9, 161);
             this.txtLayerTime.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtLayerTime.Name = "txtLayerTime";
             this.txtLayerTime.Size = new System.Drawing.Size(56, 24);
@@ -232,7 +276,7 @@
             // lblLayerTime
             // 
             this.lblLayerTime.AutoSize = true;
-            this.lblLayerTime.Location = new System.Drawing.Point(7, 123);
+            this.lblLayerTime.Location = new System.Drawing.Point(6, 141);
             this.lblLayerTime.Name = "lblLayerTime";
             this.lblLayerTime.Size = new System.Drawing.Size(210, 18);
             this.lblLayerTime.TabIndex = 27;
@@ -240,16 +284,16 @@
             // 
             // txtZThick
             // 
-            this.txtZThick.Location = new System.Drawing.Point(10, 98);
+            this.txtZThick.Location = new System.Drawing.Point(186, 115);
             this.txtZThick.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtZThick.Name = "txtZThick";
-            this.txtZThick.Size = new System.Drawing.Size(56, 24);
+            this.txtZThick.Size = new System.Drawing.Size(64, 24);
             this.txtZThick.TabIndex = 29;
             this.txtZThick.Text = ".05";
             // 
             // txtFirstLayerTime
             // 
-            this.txtFirstLayerTime.Location = new System.Drawing.Point(10, 190);
+            this.txtFirstLayerTime.Location = new System.Drawing.Point(9, 208);
             this.txtFirstLayerTime.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtFirstLayerTime.Name = "txtFirstLayerTime";
             this.txtFirstLayerTime.Size = new System.Drawing.Size(56, 24);
@@ -259,7 +303,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 170);
+            this.label2.Location = new System.Drawing.Point(8, 188);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(244, 18);
             this.label2.TabIndex = 33;
@@ -711,47 +755,15 @@
             this.cmdNew.UseVisualStyleBackColor = true;
             this.cmdNew.Click += new System.EventHandler(this.cmdNew_Click);
             // 
-            // cmdDelResin
+            // buttResinCalib
             // 
-            this.cmdDelResin.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.cmdDelResin.Checked = false;
-            this.cmdDelResin.CheckImage = null;
-            this.cmdDelResin.Gapx = 5;
-            this.cmdDelResin.Gapy = 5;
-            this.cmdDelResin.GLBackgroundImage = null;
-            this.cmdDelResin.GLImage = null;
-            this.cmdDelResin.GLVisible = false;
-            this.cmdDelResin.GuiAnchor = null;
-            this.cmdDelResin.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.cmdDelResin.Image = global::UV_DLP_3D_Printer.Properties.Resources.butMinus;
-            this.cmdDelResin.Location = new System.Drawing.Point(226, 23);
-            this.cmdDelResin.Name = "cmdDelResin";
-            this.cmdDelResin.Size = new System.Drawing.Size(26, 26);
-            this.cmdDelResin.StyleName = null;
-            this.cmdDelResin.TabIndex = 65;
-            this.cmdDelResin.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.cmdDelResin.Click += new System.EventHandler(this.cmdDelResin_Click);
-            // 
-            // cmdNewResin
-            // 
-            this.cmdNewResin.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.cmdNewResin.Checked = false;
-            this.cmdNewResin.CheckImage = null;
-            this.cmdNewResin.Gapx = 5;
-            this.cmdNewResin.Gapy = 5;
-            this.cmdNewResin.GLBackgroundImage = null;
-            this.cmdNewResin.GLImage = null;
-            this.cmdNewResin.GLVisible = false;
-            this.cmdNewResin.GuiAnchor = null;
-            this.cmdNewResin.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.cmdNewResin.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPlus;
-            this.cmdNewResin.Location = new System.Drawing.Point(195, 23);
-            this.cmdNewResin.Name = "cmdNewResin";
-            this.cmdNewResin.Size = new System.Drawing.Size(26, 26);
-            this.cmdNewResin.StyleName = null;
-            this.cmdNewResin.TabIndex = 64;
-            this.cmdNewResin.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.cmdNewResin.Click += new System.EventHandler(this.cmdNewResin_Click);
+            this.buttResinCalib.Location = new System.Drawing.Point(6, 57);
+            this.buttResinCalib.Name = "buttResinCalib";
+            this.buttResinCalib.Size = new System.Drawing.Size(97, 30);
+            this.buttResinCalib.TabIndex = 66;
+            this.buttResinCalib.Text = "Calibrate";
+            this.buttResinCalib.UseVisualStyleBackColor = true;
+            this.buttResinCalib.Click += new System.EventHandler(this.buttResinCalib_Click);
             // 
             // ctlToolpathGenConfig
             // 
@@ -846,5 +858,6 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private CustomGUI.ctlImageButton cmdDelResin;
         private CustomGUI.ctlImageButton cmdNewResin;
+        private System.Windows.Forms.Button buttResinCalib;
     }
 }
