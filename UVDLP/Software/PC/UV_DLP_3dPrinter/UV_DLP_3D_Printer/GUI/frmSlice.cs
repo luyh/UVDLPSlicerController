@@ -10,7 +10,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Threading;
 using UV_DLP_3D_Printer.Slicing;
-
+using UV_DLP_3D_Printer.Plugin;
 namespace UV_DLP_3D_Printer.GUI
 {
     public partial class frmSlice : Form
@@ -27,10 +27,12 @@ namespace UV_DLP_3D_Printer.GUI
             //default to the appropriate slicer
             if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
             {
+                cmbSliceEngine.Visible = false;
                 cmbSliceEngine.SelectedIndex = 0;
             }
             else 
             {
+                cmbSliceEngine.Visible = true; // could be FDM based machine, allow user t ochoose slicing engine
                 cmbSliceEngine.SelectedIndex = 1;
             }
         }
@@ -164,15 +166,32 @@ namespace UV_DLP_3D_Printer.GUI
                 Close();
             }        
         }
-        private void TriggerLoadGCode(string gcode) 
+
+        private string RunGCodePostProcess(string gcodefilename) 
+        {
+            //iterate throguh all loaded/enabled plugins
+            //check to see if they support post-processing of gcode
+
+            object[] parms = new object[1];
+            //set the first parameter to be the image
+            parms[0] = (object)gcodefilename;
+            //call the plugin command
+            UVDLPApp.Instance().PerformPluginCommand("GCodePostProcess", parms, true);
+            return gcodefilename;
+        }
+        private void TriggerLoadGCode(string gcodefilename) 
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new MethodInvoker(delegate() { TriggerLoadGCode(gcode); }));
+                BeginInvoke(new MethodInvoker(delegate() { TriggerLoadGCode(gcodefilename); }));
             }
             else
             {                
-                UVDLPApp.Instance().LoadGCode(gcode);
+                // if this is the powder-based printer, or
+                // any machine profile that requires post-processing of the gcode,
+                // then we need to run the post-process command here...
+                UVDLPApp.Instance().LoadGCode(RunGCodePostProcess(gcodefilename));
+
             }        
         }
         private void SetCmdSliceText(string txt)         

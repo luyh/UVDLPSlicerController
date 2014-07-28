@@ -33,19 +33,19 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         /*
         public override void ApplyStyle(ControlStyle ct)
         {
-            base.ApplyStyle(ct);
+            //base.ApplyStyle(ct);
             if (ct.ForeColor != ControlStyle.NullColor)
             {
             }
             if (ct.BackColor != ControlStyle.NullColor)
             {
-                BackColor = ct.BackColor;
+               // BackColor = ct.BackColor;
             }
             if (ct.FrameColor != ControlStyle.NullColor)
             {
             }
         }
-         * */
+         */
         /// <summary>
         /// Disables/enables items based on up to date configuration) -SHS
         /// </summary>

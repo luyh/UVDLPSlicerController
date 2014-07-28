@@ -380,16 +380,26 @@ namespace UV_DLP_3D_Printer
         /// </summary>
         public void RemoveCurrentModel() 
         {
-            UVDLPApp.Instance().m_undoer.SaveDelition(SelectedObject);
-            foreach (Object3d sup in SelectedObject.m_supports) 
+            try
             {
-                UVDLPApp.Instance().m_undoer.SaveDelition(sup);
-                UVDLPApp.Instance().m_undoer.LinkToPrev();
-                m_engine3d.RemoveObject(sup, false); // remove all the supports of this object, hold out on sending events
+                if (SelectedObject != null)
+                {
+                    UVDLPApp.Instance().m_undoer.SaveDelition(SelectedObject);
+                    foreach (Object3d sup in SelectedObject.m_supports)
+                    {
+                        UVDLPApp.Instance().m_undoer.SaveDelition(sup);
+                        UVDLPApp.Instance().m_undoer.LinkToPrev();
+                        m_engine3d.RemoveObject(sup, false); // remove all the supports of this object, hold out on sending events
+                    }
+                    m_engine3d.RemoveObject(SelectedObject); // now remove the object
+                    SelectedObject = null;
+                    RaiseAppEvent(eAppEvent.eModelRemoved, "model removed");
+                }
             }
-            m_engine3d.RemoveObject(SelectedObject); // now remove the object
-            SelectedObject = null;
-            RaiseAppEvent(eAppEvent.eModelRemoved, "model removed");
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
         }
 
         public Object3d SelectedObject
@@ -901,7 +911,7 @@ namespace UV_DLP_3D_Printer
                 try
                 {
                     // iterate through all loaded plugins
-                    if (!verifyLicense || (pe.m_licensed == true)) 
+                    if (!verifyLicense || (pe.m_licensed )) 
                     {
                         if (pe.m_enabled)
                         {
@@ -953,7 +963,7 @@ namespace UV_DLP_3D_Printer
                 try
                 {
                     // iterate through all loaded plugins
-                    if (pe.m_licensed == true && pe.m_enabled == true) // only check the licensed plugins
+                    if (pe.m_licensed == true && pe.m_enabled == true) // only check the licensed, enabled plugins
                     {
                         bmp = pe.m_plugin.GetImage(name);
                         if (bmp != null)

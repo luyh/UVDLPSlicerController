@@ -1,11 +1,27 @@
 ﻿
 ToDo:
+- Add a height selection for Support bases - just the footer portion
+- Make a generic plugin
+	XML GUIConfig can set splash, name, basic settings, hash for vendor id
+	load the guiconfig.txt file
+	load the splash
+	use the guiconfig xml configuration to configure various settings.
+- export images - put back
+- Flip the direction of the Debug window text from bottom-up to top-down
+- When I open the control tab, even though I have the manual control button checked, I cannot seem to get it to show up? <- projecter/gcode tab mixup?
+- CW fails to cleanly close - memory/resource issues
+- show which layer # is being exposed on the upper right of the screen
+- print up to a certain layer or %
+- start print on a specific layer
+- pulsing exposure per layer with user defined pulsing duration and number of pulses per layer
+- Re-Write the manual with new screen shots
+- crash when pressing delete with no model
 
 How a bout a template that lets you print 10 versions of the same model where each one has a slightly different exposure time all in the same print job? that way it would be pretty easy to find the right parameters, especially if you have a new material to test.
 
 - Better Pause functionality . A button that lets you pause the print, raise platform let's say 50mm, lets you inspect the model (especially in the first phase, when you don't know if all the supports work out or if the exposure needs to be adjusted) and then lower it again to continue printing. this would improve the workflow(at least for me) immensely, since i tend to experiment a lot and i'm sure lots of others do too.
 
-- Preset GCode commands! Or at least an individually selectable list of previous commands to reuse without the need for copy-pasting.
+- Preset GCode commands. Or at least an individually selectable list of previous commands to reuse without the need for copy-pasting.
 
 - OnEnter event for the custom GCode txt field, so there is no need to send it using the mouse.
 - AutoScroll for the GCode replies

@@ -469,7 +469,10 @@ namespace UV_DLP_3D_Printer
                 DebugLogger.Instance().LogError(ex);
             }
         }
-
+        int GetTimerValue() 
+        {
+            return Environment.TickCount;
+        }
         /*
          This is the thread that controls the build process
          * it needs to read the lines of gcode, one by one
@@ -478,14 +481,14 @@ namespace UV_DLP_3D_Printer
          * and also wait for the layer interval timer
          */
         void BuildThread() 
-        {            
-            int now = Environment.TickCount;
+        {
+            int now = GetTimerValue();
             int nextlayertime = 0;
             while (m_running)
             {
                 try
                 {
-                    Thread.Sleep(0); // 
+                    Thread.Sleep(1); //  sleep for 1 ms max
                     switch (m_state)
                     {
                         case BuildManager.STATE_START:
@@ -498,8 +501,10 @@ namespace UV_DLP_3D_Printer
                             break;
                         case BuildManager.STATE_WAITING_FOR_LAYER:
                             //check time var
-                            if (Environment.TickCount >= nextlayertime)
+                            if (GetTimerValue() >= nextlayertime)
                             {
+                                DebugLogger.Instance().LogInfo("elapsed Layer time: " + GetTimerValue().ToString());
+                                DebugLogger.Instance().LogInfo("Diff = " + (GetTimerValue() - nextlayertime).ToString());
                                 m_state = BuildManager.STATE_DO_NEXT_LAYER; // move onto next layer
                             }
                             break;
@@ -536,7 +541,8 @@ namespace UV_DLP_3D_Printer
                                 // if the line is a comment, parse it to see if we need to take action
                                 if (line.Contains("<Delay> "))// get the delay
                                 {
-                                    nextlayertime = Environment.TickCount + getvarfromline(line);
+                                    nextlayertime = GetTimerValue() + getvarfromline(line);
+                                    DebugLogger.Instance().LogInfo("Next Layer time: " + nextlayertime.ToString());
                                     m_state = STATE_WAITING_FOR_LAYER;
                                     continue;
                                 }

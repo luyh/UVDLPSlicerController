@@ -12,7 +12,7 @@ using UV_DLP_3D_Printer.Configs;
 
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
-    public partial class ctlToolpathGenConfig : UserControl
+    public partial class ctlToolpathGenConfig : ctlUserPanel// UserControl
     {
         public ctlToolpathGenConfig()
         {
@@ -71,6 +71,18 @@ namespace UV_DLP_3D_Printer.GUI.Controls
            string fname = UVDLPApp.Instance().m_PathProfiles;
            fname += UVDLPApp.m_pathsep + shortname + ".slicing";
            return fname;
+       }
+       public override void ApplyStyle(ControlStyle ct)
+       {
+           //base.ApplyStyle(ct);
+           //cmdCreate.ApplyStyle(ct);
+           //cmdRemove.ApplyStyle(ct);
+           this.BackColor = Control.DefaultBackColor;
+           this.ForeColor = Control.DefaultForeColor;
+           if (ct.ForeColor != ControlStyle.NullColor)
+           {
+
+           }
        }
         private SliceBuildConfig LoadProfile(string shortname) 
         {
@@ -306,6 +318,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 if (m_config != null)
                 {
                     SetValues();
+                    lbGCodeSection_SelectedIndexChanged(this, null);
                 }
                 else 
                 {

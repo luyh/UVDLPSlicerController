@@ -362,6 +362,44 @@ namespace UV_DLP_3D_Printer
             exposureStep = xh.GetInt(sbc, "TestExposureStep", 200);
         }
         /// <summary>
+        /// This allows for retrieve arbitrary variables from the slice XML configuration
+        /// </summary>
+        /// <param name="varname"></param>
+        /// <returns></returns>
+        public string GetStringVar(string varname)
+        {
+            XmlHelper xh = new XmlHelper();
+            bool fileExist = xh.Start(m_filename, "SliceBuildConfig");
+            XmlNode mc = xh.m_toplevel;
+            string retstr = xh.GetString(mc, varname, "");
+            return retstr;
+        }
+        /// <summary>
+        /// This function assumes that the file has already been saved
+        /// after setting the variable, it will re-save the file
+        /// </summary>
+        /// <param name="varname"></param>
+        /// <param name="value"></param>
+        public void SetStringVar(string varname, string value) 
+        {
+            //m_filename = filename;
+            XmlHelper xh = new XmlHelper();
+            xh.StartNew(m_filename, "SliceBuildConfig");
+            SaveInternal(ref xh);
+            //save the var
+            XmlNode sbc = xh.m_toplevel;
+            xh.SetParameter(sbc, varname, value);
+            try
+            {
+                xh.Save(FILE_VERSION);
+            }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogRecord(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Load the slice and build profile from a Stream
         /// This is used when we're serializing / deserializing from the 
         /// Memory stream pulled from a zip file
@@ -390,42 +428,7 @@ namespace UV_DLP_3D_Printer
             m_filename = filename;
             XmlHelper xh = new XmlHelper();
             bool fileExist = xh.Start(filename, "SliceBuildConfig");
-            /*
-            XmlNode sbc = xh.m_toplevel;
-            dpmmX = xh.GetDouble(sbc, "DotsPermmX", 102.4);
-            dpmmY = xh.GetDouble(sbc, "DotsPermmY", 76.8);
-            xres = xh.GetInt(sbc, "XResolution", 1024);
-            yres = xh.GetInt(sbc, "YResolution", 768);
-            ZThick = xh.GetDouble(sbc, "SliceHeight", 0.05);
-            layertime_ms = xh.GetInt(sbc, "LayerTime", 1000); // 1 second default
-            firstlayertime_ms = xh.GetInt(sbc, "FirstLayerTime", 5000);
-            blanktime_ms = xh.GetInt(sbc, "BlankTime", 2000); // 2 seconds blank
-            plat_temp = xh.GetInt(sbc, "PlatformTemp", 75);
-            //exportgcode = xh.GetBool(sbc, "ExportGCode"));
-            exportsvg = xh.GetBool(sbc, "ExportSVG", false);
-            export = xh.GetBool(sbc, "Export", false); ;
-            XOffset = xh.GetInt(sbc, "XOffset", 0);
-            YOffset = xh.GetInt(sbc, "YOffset", 0);
-            numfirstlayers = xh.GetInt(sbc, "NumberofBottomLayers", 3);
-            direction = (eBuildDirection)xh.GetEnum(sbc, "Direction", typeof(eBuildDirection), eBuildDirection.Bottom_Up);
-            liftdistance = xh.GetDouble(sbc, "LiftDistance", 5.0);
-            slidetiltval = xh.GetDouble(sbc, "SlideTiltValue", 0.0);
-            antialiasing = xh.GetBool(sbc, "AntiAliasing", false);
-            usemainliftgcode = xh.GetBool(sbc, "UseMainLiftGCode", false);
-            aaval = xh.GetDouble(sbc, "AntiAliasingValue", 1.5);
-            liftfeedrate = xh.GetDouble(sbc, "LiftFeedRate", 50.0); // 50mm/s
-            liftretractrate = xh.GetDouble(sbc, "LiftRetractRate", 100.0); // 100mm/s
-            m_exportopt = xh.GetString(sbc, "ExportOption", "SUBDIR"); // default to saving in subdirectory
-            m_flipX = xh.GetBool(sbc, "FlipX", false);
-            m_flipY = xh.GetBool(sbc, "FlipY", false);
-            m_notes = xh.GetString(sbc, "Notes", "");
-            m_resinprice = xh.GetDouble(sbc, "ResinPriceL", 0.0);
 
-            m_headercode = xh.GetString(sbc, "GCodeHeader", DefGCodeHeader());
-            m_footercode = xh.GetString(sbc, "GCodeFooter", DefGCodeFooter()); 
-            m_preslicecode = xh.GetString(sbc, "GCodePreslice", DefGCodePreslice()); 
-            m_liftcode = xh.GetString(sbc, "GCodeLift", DefGCodeLift()); 
-            */
             LoadInternal(ref xh);
             if (!fileExist)
             {
