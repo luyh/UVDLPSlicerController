@@ -71,12 +71,12 @@ namespace UV_DLP_3D_Printer
         }
         static bool CheckTrial(PluginEntry pe) 
         {
-
-            TrialMaker t = new TrialMaker("TT1", Application.StartupPath + "\\RegFile.reg",
+            
+            TrialMaker t = new TrialMaker("TT2", Application.StartupPath + "\\RegFile.reg",
                 //Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\TMSetp.dbf",
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\TMSetp.dbf",
                 "",
-                30, 1000, "745");
+                60, 1000, "745");
             //Environment.SpecialFolder.ApplicationData
             byte[] MyOwnKey = { 97, 250, 1, 5, 84, 21, 7, 63,
             4, 54, 87, 56, 123, 10, 3, 62,
