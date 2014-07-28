@@ -82,10 +82,14 @@ namespace UV_DLP_3D_Printer
             String preSliceGCode = pp.Process(sf.m_config.PreSliceCode);
             String LiftGCode = pp.Process(sf.m_config.LiftCode);
 
+            int numslices = sf.NumSlices;
+            if (sf.m_modeltype == SliceFile.ModelType.eResinTest1)
+                numslices -= 10;
 
             // for a per-slice basis, we're going to re-evaluate the prelift and lift gcode
             // doing this will allow us to have per-slice determinations based on slice index.
-            for (int c = 0; c < sf.NumSlices; c++)
+            int c;
+            for (c = 0; c < numslices; c++)
             {
                 preSliceGCode = pp.Process(sf.m_config.PreSliceCode);
                 pp.SetVar("$CURSLICE", c);
@@ -105,6 +109,26 @@ namespace UV_DLP_3D_Printer
                 LiftGCode = pp.Process(sf.m_config.LiftCode); // re-run the lift code
                 sb.Append(LiftGCode); // append the pre-lift codes
             }
+
+            // special ending on resin test model slicing
+            if (sf.m_modeltype == SliceFile.ModelType.eResinTest1)
+            {
+                for (; c < sf.NumSlices; c++)
+                {
+                    sb.Append(";<Slice> " + c + " \r\n");
+                    // add a pause for the UV resin to be set using this image
+                    if (c == sf.NumSlices -1) // set minimus exposure time on final layer
+                        sb.Append(";<Delay> " + sf.m_config.minExposure + " \r\n");
+                    else
+                        sb.Append(";<Delay> " + sf.m_config.exposureStep + " \r\n");
+                }
+                sb.Append(";<Slice> Blank \r\n"); // show the blank layer
+                LiftGCode = pp.Process(sf.m_config.LiftCode); // re-run the lift code
+                sb.Append(LiftGCode); // append the pre-lift codes
+            }
+
+
+
             //append the footer
             sb.Append(pp.Process(sf.m_config.FooterCode));
             gcode = sb.ToString();

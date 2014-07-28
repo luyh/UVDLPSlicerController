@@ -26,6 +26,12 @@ namespace UV_DLP_3D_Printer.Slicing
             eSliced,
             eImmediate // 
         }
+
+        public enum ModelType
+        {
+            eScene,       // normal printing, slice the scene
+            eResinTest1   // resin exposure text print v1
+        }
          
         public SliceBuildConfig m_config; // the slicing parameters used to create the image slices
         public string modelname; // the fully qualified model/scene name, so we can load up the image files
@@ -33,6 +39,8 @@ namespace UV_DLP_3D_Printer.Slicing
         private int m_xres, m_yres;
         public SFMode m_mode;
         public static String m_sliceext = ".slice";
+        public ModelType m_modeltype = ModelType.eScene;
+        // for test models
         //Bitmap m_cachedslice;
         //int m_cachedsliceidx;
 
@@ -134,8 +142,12 @@ namespace UV_DLP_3D_Printer.Slicing
             {
                 if (m_mode == SFMode.eImmediate)
                 {
-                     float zlev = (float)(layer * m_config.ZThick);
-                     return UVDLPApp.Instance().m_slicer.SliceImmediate(zlev);;
+                    if (m_modeltype == ModelType.eResinTest1)
+                        return UVDLPApp.Instance().m_slicer.GetTestModelV1Slice(layer);
+                    else {
+                        float zlev = (float)(layer * m_config.ZThick);
+                        return UVDLPApp.Instance().m_slicer.SliceImmediate(zlev);;
+                    }
                 }
                 else
                 {

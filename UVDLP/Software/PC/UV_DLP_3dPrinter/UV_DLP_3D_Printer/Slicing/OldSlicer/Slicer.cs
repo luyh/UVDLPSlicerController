@@ -92,24 +92,52 @@ namespace UV_DLP_3D_Printer
             }
         }
 
+        // standard scene slicing
         // this function takes the object, the slicing parameters,
         // and the output directory. it generates the object slices
         // and saves them in the directory
         public SliceFile Slice(SliceBuildConfig sp)//, Object3d obj) 
         {
-                //m_obj = obj;
-                m_cancel = false;
-                // create new slice file
-                m_sf = new SliceFile(sp);
-                if (sp.export == false) 
-                {
-                    m_sf.m_mode = SliceFile.SFMode.eImmediate;
-                }
-                m_slicethread = new Thread(new ThreadStart(slicefunc));
-                m_slicethread.Start();
-                isslicing = true;
-                return m_sf;
+            // create new slice file
+            m_sf = new SliceFile(sp);
+            m_sf.m_modeltype = Slicing.SliceFile.ModelType.eScene;
+            if (sp.export == false)
+            {
+                m_sf.m_mode = SliceFile.SFMode.eImmediate;
+            }
+            m_slicethread = new Thread(new ThreadStart(slicefunc));
+            m_slicethread.Start();
+            isslicing = true;
+            return m_sf;
         }
+
+        // slicing of special objects. this is done in immediate mode only. no thread needed
+        public SliceFile Slice(SliceBuildConfig sp, SliceFile.ModelType modeltype)//, Object3d obj)
+        {
+            int numslices = 0;
+            string scenename = "";
+            switch (modeltype)
+            {
+                case SliceFile.ModelType.eScene:
+                    return Slice(sp);
+                    //break;
+
+                case SliceFile.ModelType.eResinTest1:
+                    numslices = (int)(7.0 / sp.ZThick);
+                    scenename = "Test Model V1";
+                    break;
+            }
+
+            m_sf = new SliceFile(sp);
+            m_sf.m_modeltype = modeltype;
+            m_sf.m_mode = SliceFile.SFMode.eImmediate;
+            m_sf.NumSlices = numslices;
+            SliceStarted(scenename, numslices);
+            DebugLogger.Instance().LogRecord("Test model slicing started");
+            SliceCompleted(scenename, 0, numslices);
+            return m_sf;
+        }
+
         private static Bitmap ReflectX(Bitmap source)
         {
             try
@@ -258,7 +286,68 @@ namespace UV_DLP_3D_Printer
                         
         }
 
-        private void slicefunc() 
+        private void slicefunc()
+        {
+            try
+            {
+                MinMax mm = UVDLPApp.Instance().Engine3D.CalcSceneExtents();
+                int numslices = (int)((mm.m_max) / m_sf.m_config.ZThick);
+                float curz = 0; // start at Wz0               
+                int c = 0;
+                string scenename = UVDLPApp.Instance().SceneFileName;
+                // a little housework here...
+                foreach (Object3d obj in UVDLPApp.Instance().Engine3D.m_objects)
+                {
+                    obj.CalcMinMaxes();
+                }
+
+                m_sf.NumSlices = numslices;
+                SliceStarted(scenename, numslices);
+                DebugLogger.Instance().LogRecord("Slicing started");
+
+                if (m_sf.m_config.export == false)
+                {
+                    // if we're not actually exporting slices right now, then 
+                    // raise the completed event and exit
+                    SliceCompleted(scenename, 0, numslices);
+                    //m_sf.m_config.CopyFrom(m_saved);
+                    isslicing = false;
+                    return; // exit slicing, nothing more to do...
+                }
+                // if we're actually exporting something here, iterate through slices
+                for (c = 0; c < numslices; c++)
+                {
+                    Bitmap savebm = SliceImmediate(curz);
+                    if (m_cancel || (savebm == null))
+                    {
+                        isslicing = false;
+                        m_cancel = false;
+                        //restore the original sizes 
+                        //m_sf.m_config.CopyFrom(m_saved);
+                        RaiseSliceEvent(eSliceEvent.eSliceCancelled, c, numslices);
+                        return;
+                    }
+                    curz += (float)m_sf.m_config.ZThick;// move the slice for the next layer
+                    //raise an event to say we've finished a slice
+                    LayerSliced(scenename, c, numslices, savebm);
+                }
+                // restore the original
+                m_sf.m_config.CopyFrom(m_saved);
+                SliceCompleted(scenename, c, numslices);
+                DebugLogger.Instance().LogRecord("Slicing Completed");
+                isslicing = false;
+
+            }
+            catch (Exception ex)
+            {
+                string s = ex.StackTrace;
+                DebugLogger.Instance().LogRecord(ex.Message);
+                //RaiseSliceEvent(eSliceEvent.eSliceCancelled,0,0);
+                m_cancel = true;
+            }
+        }
+
+        private void oldslicefunc()
         {
             try
             {
@@ -266,7 +355,7 @@ namespace UV_DLP_3D_Printer
                 double scaler = 1.5; // specify the scale factor
                 m_saved.CopyFrom(m_sf.m_config); // save the original
                 if (m_sf.m_config.antialiasing == true)
-                {                    
+                {
                     scaler = m_sf.m_config.aaval;
                     //  scale them up.
                     m_sf.m_config.dpmmX *= scaler;
@@ -286,7 +375,7 @@ namespace UV_DLP_3D_Printer
                 int c = 0;
                 string scenename = UVDLPApp.Instance().SceneFileName;
                 // a little housework here...
-                foreach (Object3d obj in UVDLPApp.Instance().Engine3D.m_objects) 
+                foreach (Object3d obj in UVDLPApp.Instance().Engine3D.m_objects)
                 {
                     obj.CalcMinMaxes();
                 }
@@ -294,8 +383,8 @@ namespace UV_DLP_3D_Printer
                 m_sf.NumSlices = numslices;
                 SliceStarted(scenename, numslices);
                 DebugLogger.Instance().LogRecord("Slicing started");
-                
-                if (m_sf.m_config.export == false) 
+
+                if (m_sf.m_config.export == false)
                 {
                     // if we're not actually exporting slices right now, then 
                     // raise the completed event and exit
@@ -307,7 +396,7 @@ namespace UV_DLP_3D_Printer
                 // if we're actually exporting something here, iterate through slices
                 for (c = 0; c < numslices; c++)
                 {
-                    Bitmap bmp = new Bitmap(m_sf.m_config.xres,m_sf.m_config.yres); // create a new bitmap on a per-slice basis
+                    Bitmap bmp = new Bitmap(m_sf.m_config.xres, m_sf.m_config.yres); // create a new bitmap on a per-slice basis
                     //clear the image for rendering
                     Graphics graph = Graphics.FromImage(bmp);
                     graph.Clear(UVDLPApp.Instance().m_appconfig.m_backgroundcolor);
@@ -315,7 +404,7 @@ namespace UV_DLP_3D_Printer
                     //convert all to 2d lines
                     Bitmap savebm = null;
                     // check for cancelation
-                    if (m_cancel) 
+                    if (m_cancel)
                     {
                         isslicing = false;
                         m_cancel = false;
@@ -324,19 +413,19 @@ namespace UV_DLP_3D_Printer
                         RaiseSliceEvent(eSliceEvent.eSliceCancelled, c, numslices);
                         return;
                     }
-                    
+
                     foreach (Object3d obj in UVDLPApp.Instance().Engine3D.m_objects)
                     {
                         savebm = bmp; // need to set this here in case it's not rendered
-                        if (curz >=obj.m_min.z &&  curz <= obj.m_max.z) // only slice from the bottom to the top of the objects
+                        if (curz >= obj.m_min.z && curz <= obj.m_max.z) // only slice from the bottom to the top of the objects
                         {
                             //obj.ClearCached();
                             List<Polygon> lstply = GetZPolys(obj, curz);//get a list of polygons at this slice z height that potentially intersect
                             List<PolyLine3d> lstintersections = GetZIntersections(lstply, curz);//iterate through all the polygons and generate x/y line segments at this 3d z level
-                          
+
                             Slice sl = new Slice();//create a new slice
                             sl.m_segments = lstintersections;// Set the list of intersections 
-                           // m_sf.m_slices.Add(sl);// add the slice to slicefile        
+                            // m_sf.m_slices.Add(sl);// add the slice to slicefile        
                             // now render the slice into the scaled, pre-allocated bitmap
                             sl.RenderSlice(m_sf.m_config, ref bmp);
                             savebm = bmp;
@@ -345,9 +434,9 @@ namespace UV_DLP_3D_Printer
 
                     if (m_sf.m_config.antialiasing == true) // we're using anti-aliasing here, so resize the image
                     {
-                        savebm = ResizeImage(bmp, new Size(m_saved.xres,m_saved.yres));
+                        savebm = ResizeImage(bmp, new Size(m_saved.xres, m_saved.yres));
                     }
-                    if (m_sf.m_config.m_flipX == true) 
+                    if (m_sf.m_config.m_flipX == true)
                     {
                         savebm = ReflectX(savebm);
                     }
@@ -357,11 +446,11 @@ namespace UV_DLP_3D_Printer
                     }
                     curz += (float)m_sf.m_config.ZThick;// move the slice for the next layer
                     //raise an event to say we've finished a slice
-                    LayerSliced(scenename, c,numslices,savebm);
+                    LayerSliced(scenename, c, numslices, savebm);
                 }
                 // restore the original
                 m_sf.m_config.CopyFrom(m_saved);
-                SliceCompleted(scenename, c, numslices);                
+                SliceCompleted(scenename, c, numslices);
                 DebugLogger.Instance().LogRecord("Slicing Completed");
                 isslicing = false;
 
@@ -372,8 +461,9 @@ namespace UV_DLP_3D_Printer
                 DebugLogger.Instance().LogRecord(ex.Message);
                 //RaiseSliceEvent(eSliceEvent.eSliceCancelled,0,0);
                 m_cancel = true;
-            }        
+            }
         }
+
         private void SliceStarted(string scenename, int numslices) 
         {
             if ( m_sf.m_config.export == true) // if we're exporting
@@ -513,5 +603,71 @@ namespace UV_DLP_3D_Printer
             }
             return lst;
         }
+
+        // this function generates slices for a test object needed for layer calibration
+        public Bitmap GetTestModelV1Slice(int layer)
+        {
+            float pw = 50; // test pattern width (user parameter?)
+            float ph = 20; // test pattern height
+            float xdp = (float)m_sf.m_config.dpmmX;
+            float ydp = (float)m_sf.m_config.dpmmY;
+            int bw = m_sf.m_config.xres;
+            int bh = m_sf.m_config.yres;
+            // make sure the test pattern is not too wide
+            if ((pw * xdp) > (0.9f * bw))
+            {
+                pw = (0.9f * bw) / xdp;
+                ph = (0.9f * bh) / ydp;
+            }
+            Bitmap bmp = new Bitmap(bw, bh); // create a new bitmap on a per-slice basis                    
+            Graphics graph = Graphics.FromImage(bmp);
+            graph.Clear(UVDLPApp.Instance().m_appconfig.m_backgroundcolor); //clear the image for rendering
+            Brush br = new SolidBrush(UVDLPApp.Instance().m_appconfig.m_foregroundcolor);
+            int testlayer = m_sf.NumSlices - 10;
+            if (layer < 10)
+            {
+                // generate a 54 * 24 mm base
+                float w = xdp * (pw + 4);
+                float h = ydp * (ph + 4);
+                float x = (bw - w) / 2;
+                float y = (bh - h) / 2;
+                graph.FillRectangle(br, x, y, w, h);
+            }
+            else 
+            {
+                // generate support walls
+                float w = xdp * pw;
+                float h = ydp * ph;
+                float x = (bw - w) / 2;
+                float y = (bh - h) / 2;
+                float step = w / 5;
+                // vertical bars
+                for (int i = 0; i < 6; i++)
+                {
+                    float x1 = x + i * step - xdp;
+                    graph.FillRectangle(br, x1, y, 2 * xdp, h);
+                }
+                // center horizontal bar
+                float y1 = y + h / 2 - ydp;
+                graph.FillRectangle(br, x, y1, w, 2 * xdp);
+            }
+            if ((layer >= testlayer) && (layer < m_sf.NumSlices))
+            {
+                float w = xdp * pw;
+                float h = ydp * ph;
+                float x = (bw - w) / 2;
+                float y = (bh - h) / 2;
+                float stepx = w / 5;
+                float stepy = h / 2;
+                for (int i = 0; i <= layer - testlayer; i++)
+                {
+                    float x1 = x + stepx * (i % 5);
+                    float y1 = y + stepy * (i / 5);
+                    graph.FillRectangle(br, x1, y1, stepx, stepy);
+                }
+            }
+            return bmp;
+        }
+
     }
 }
