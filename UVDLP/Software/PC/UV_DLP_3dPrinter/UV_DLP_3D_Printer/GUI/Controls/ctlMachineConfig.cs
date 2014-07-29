@@ -14,7 +14,7 @@ using UV_DLP_3D_Printer.Configs;
 
 namespace UV_DLP_3D_Printer.GUI.Controls
 {
-    public partial class ctlMachineConfig :ctlUserPanel //UserControl
+    public partial class ctlMachineConfig : UserControl //ctlUserPanel //
     {
         private eDriverType m_saved;
         private MachineConfig m_config = new MachineConfig(); // just so it's not blank
@@ -506,7 +506,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             mc.m_displayconnectionenabled = checkConDispEnable.Checked;
 
         }
-        public override void ApplyStyle(ControlStyle ct)
+        /*public override void ApplyStyle(ControlStyle ct)
         {
             //base.ApplyStyle(ct);
             cmdCreate.ApplyStyle(ct);
@@ -516,7 +516,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             if (ct.ForeColor != ControlStyle.NullColor)
             {
             }
-        }
+        }*/
 
         private void lbConfigured_SelectedIndexChanged(object sender, EventArgs e)
         {

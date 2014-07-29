@@ -12,7 +12,7 @@
 		<style bgndimage="cwpanel" panelpad="2" backcolor="Navy" framecolor="RoyalBlue" hovercolor="White" forecolor="#DCDCDC" checkcolor="#DCDCDC" presscolor="White" nimages="1" pressscale="92" gl="false"/>
 		<style name="TopBars" backcolor="RoyalBlue" hovercolor="White" forecolor="#DCDCDC" checkcolor="#DCDCDC" presscolor="White" nimages="1" pressscale="92"/>
 		<style name="SideBars" backcolor="RoyalBlue" forecolor="White" applysubcontrols="false"/>
-		<style name="Windows" backcolor="Grey" forecolor="Black" applysubcontrols="true"/>
+		<style name="Windows" backcolor="default" forecolor="default" applysubcontrols="true"/>
 		<style name="gltext1" backcolor="Transparent" forecolor="White" gl="true"/>
 		<control name="pmove" dock="bl" x="20" y="90" />
 		<control name="pscale" dock="bl" x="20" y="90"/>
@@ -25,7 +25,7 @@
 		<control name="pobjectinf" dock="br" x="20" y="90" />		
 		<control name="pmachinecontrol" dock="bc" x="20" y="90" />
 		<control name="pmanualgcode" dock="tl" x="20" y="90" />		
-		<control name="pprojectorcontrol" dock="br" x="20" y="90" />		
+		<control name="pprojectorcontrol" dock="br" x="20" y="90" />
 		<control name="clayernum" dock="bc" x="0" y="80"/>
 		<control name="progress" dock="br" x="10" y="80" style="gltext1"/>
 		<control name="mainmsg" dock="tr" x="100" y="8" style="gltext1" w="400"/>
@@ -35,8 +35,6 @@
 		<control name="pnlTopIconsMain" style="TopBars"/>
 		<control name="pnlRightBar" style="SideBars"/>
 		<control name="pnlLeftBar" style="SideBars"/>
-	
-		
 	</controls>
 	<decals>
 		<bar dock="n" tlcolor="AliceBlue" trcolor="AliceBlue" blcolor="LightBlue" brcolor="SkyBlue" level="background"/>

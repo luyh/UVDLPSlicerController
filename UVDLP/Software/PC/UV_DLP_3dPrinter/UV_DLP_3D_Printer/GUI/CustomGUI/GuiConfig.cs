@@ -101,6 +101,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
     public class ControlStyle
     {
         public static Color NullColor = Color.FromArgb(1);
+        public static Color DefaultColor = Color.FromArgb(2);
 
         public ControlStyle(Color forecol, Color backcol)
         {
@@ -141,6 +142,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
         // misc
         public bool applySubControls;
+        public bool applyWindowsControls;
 
 
         public virtual void SetDefault()
@@ -160,6 +162,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             PanelPad = new ControlPad();
             PanelPad.Left = PanelPad.Right = PanelPad.Top = PanelPad.Bottom = 10;
             applySubControls = true;
+            applyWindowsControls = false;
         }
 
         public void CopyFrom(ControlStyle sctl)
@@ -186,6 +189,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             PanelPad.Top = sctl.PanelPad.Top;
             PanelPad.Bottom = sctl.PanelPad.Bottom;
             applySubControls = sctl.applySubControls;
+            applyWindowsControls = sctl.applyWindowsControls;
             CheckedImage = sctl.CheckedImage;
         }
 
@@ -354,7 +358,10 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 }
 
             }
-            catch (Exception) { }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
         }
 
         public void LoadConfiguration(String xmlConf)
@@ -597,16 +604,15 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         #region style applying for non-ctlUsercontrol controls
         public void ApplyStyleRecurse(Control ctl, ControlStyle ct)
         {
-            
-            if (ct.BackColor != ControlStyle.NullColor)
-                ctl.BackColor = ct.BackColor;
 
-            if (ct.BackColor != ControlStyle.NullColor)
-                ctl.BackColor = ct.BackColor;
+            if ((ctl is ctlUserPanel) || ct.applyWindowsControls)
+            {
+                if (ct.BackColor != ControlStyle.NullColor)
+                    ctl.BackColor = ct.BackColor;
 
-            if (ct.ForeColor != ControlStyle.NullColor)
-                ctl.ForeColor = ct.ForeColor;
-            
+                if (ct.ForeColor != ControlStyle.NullColor)
+                    ctl.ForeColor = ct.ForeColor;
+            }
             if (!ct.applySubControls)
                 return;
 
@@ -618,16 +624,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 }
                 else
                 {
-                    
-                    if (ct.BackColor != ControlStyle.NullColor)
-                        ctl.BackColor = ct.BackColor;
-
-                    if (ct.BackColor != ControlStyle.NullColor)
-                        ctl.BackColor = ct.BackColor;
-
-                    if (ct.ForeColor != ControlStyle.NullColor)
-                        ctl.ForeColor = ct.ForeColor;
-                    
                     ApplyStyleRecurse(subctl, ct);
                 }
             }
@@ -801,6 +797,14 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                     else
                         res = Color.FromArgb((int)(long.Parse(sres, System.Globalization.NumberStyles.HexNumber) | 0xFF000000));
                 }
+                else if (sres == "null")
+                {
+                    res = ControlStyle.NullColor;
+                }
+                else if (sres == "default")
+                {
+                    res = ControlStyle.DefaultColor;
+                }
                 else
                 {
                     res = Color.FromName(sres);
@@ -861,6 +865,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ct.PressedSize = GetIntParam(xnode, "pressscale", (int)ct.PressedSize);
             ct.BgndImageName = GetStrParam(xnode, "bgndimage", ct.BgndImageName);
             ct.applySubControls = GetBoolParam(xnode, "applysubcontrols", ct.applySubControls);
+            ct.applyWindowsControls = GetBoolParam(xnode, "applywincontrols", ct.applyWindowsControls);
             int[] sizes = GetIntArrayParam(xnode, "panelpad");
             if (sizes.Length >= 4)
             {
