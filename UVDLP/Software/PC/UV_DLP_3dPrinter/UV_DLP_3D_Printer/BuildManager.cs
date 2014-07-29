@@ -484,11 +484,13 @@ namespace UV_DLP_3D_Printer
         {
             int now = GetTimerValue();
             int nextlayertime = 0;
+            int sltime = -1, bltime = -1;
             while (m_running)
             {
                 try
                 {
-                    Thread.Sleep(1); //  sleep for 1 ms max
+                    //Thread.Sleep(1); //  sleep for 1 ms max
+                    Thread.Sleep(0); //  sleep for 1 ms max
                     switch (m_state)
                     {
                         case BuildManager.STATE_START:
@@ -503,8 +505,8 @@ namespace UV_DLP_3D_Printer
                             //check time var
                             if (GetTimerValue() >= nextlayertime)
                             {
-                                DebugLogger.Instance().LogInfo("elapsed Layer time: " + GetTimerValue().ToString());
-                                DebugLogger.Instance().LogInfo("Diff = " + (GetTimerValue() - nextlayertime).ToString());
+                             //   DebugLogger.Instance().LogInfo("elapsed Layer time: " + GetTimerValue().ToString());
+                             //   DebugLogger.Instance().LogInfo("Diff = " + (GetTimerValue() - nextlayertime).ToString());
                                 m_state = BuildManager.STATE_DO_NEXT_LAYER; // move onto next layer
                             }
                             break;
@@ -542,7 +544,7 @@ namespace UV_DLP_3D_Printer
                                 if (line.Contains("<Delay> "))// get the delay
                                 {
                                     nextlayertime = GetTimerValue() + getvarfromline(line);
-                                    DebugLogger.Instance().LogInfo("Next Layer time: " + nextlayertime.ToString());
+                                    //DebugLogger.Instance().LogInfo("Next Layer time: " + nextlayertime.ToString());
                                     m_state = STATE_WAITING_FOR_LAYER;
                                     continue;
                                 }
@@ -564,6 +566,11 @@ namespace UV_DLP_3D_Printer
                                         }
                                         bmp = m_blankimage;
                                         curtype = BuildManager.SLICE_BLANK;
+                                        bltime = GetTimerValue();
+                                        //DebugLogger.Instance().LogInfo("Showing Blank image at :" + bltime.ToString());
+                                        if (sltime != -1 && bltime != -1)
+                                        DebugLogger.Instance().LogInfo("Time between Blank and Slice :" + (bltime - sltime).ToString());
+
                                     }
                                     else if (layer == SLICE_SPECIAL) // plugins can override special images by named resource
                                     {
@@ -588,6 +595,12 @@ namespace UV_DLP_3D_Printer
                                         {
                                             DebugLogger.Instance().LogError("Buildmanager bitmap is null layer = " + m_curlayer + " ");
                                         }
+                                        sltime = GetTimerValue();
+                                        //DebugLogger.Instance().LogInfo("Showing Slice image at :" + sltime.ToString());
+                                        if(sltime != -1 && bltime != -1)
+                                        DebugLogger.Instance().LogInfo("Time between slice and blank :" + (sltime - bltime).ToString());
+
+
                                     }
 
                                     //raise a delegate so the main form can catch it and display layer information.
