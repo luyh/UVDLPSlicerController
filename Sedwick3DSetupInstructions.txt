@@ -1,0 +1,83 @@
+Sedgwick3D specific Setup
+
+* - Configure the machine - *
+NOTE: I am assuming your projector is 1024x768 and your teensy connects on COM3 at 9600.
+Left-click on "Configure"
+Left-click on "Configure Machine"
+Under the label "Build Size (mm)", enter the following for each field
+Set the X to 102
+Set the Y to 77
+Set the Z to 100
+
+Under the label "Machine Connection", left-click the button labeled "Configure"
+NOTE: I am assuming your teensy connects on COM3 at 9600.  If you are using the custom sketch, your speed will be 9600.  Your COM port could be different, ours is COM3.
+In the combobox labeled "Port", select "COM3" (or whatever port your teensy is on).
+In the combobox labeled "Speed", select "9600" 
+In the textbox labeled "# Data Bits", enter 8.  
+
+Under the label "Output Resolution (px) enter the following for each field
+NOTE: I am assuming your projector is 1024x768
+In the width textbox, enter "1024"
+In the height textbox, enter "768"
+
+Plug your projector in.  You will see your projector available in the section labeled "Available Displays".  If you don't, select the button labeled "Refresh".  Find your projector, left-click on it, and left-click on the button with the "plus sign" (+).
+Left-click on the following checkbox under the label "Machine Control":
+
+"X Y Axis"
+"Z Axis"
+"Projector Control"
+"Manual GCode"
+
+Left-click on the button labeled "Apply".
+
+
+* - Cofigure the slicing profile - *	
+Left-click on "Configure" 
+Left-click on "Configure Slicing Profile"
+Left-click on the button labeled "Create"
+Type in "sedgwick"
+In the textbox with the label "Slice Thickness (mm)", enter "0.102"
+In the textbox with the label "Exposure Time Per Layer (ms), enter: "6000"
+The Combobox labeled "Build Direction" should be set to, "Bottom_up"
+Click the button labeled "Apply" to save your changed to the current profile.
+Select the tab labeled "GCode"
+Under "GCode Section", left-click "Start", erase everything and paste the following:
+
+;********** Header Start ********
+;Here you can set any G or M-Code which should be executed BEFORE the build process
+O
+E
+;********** Header End **********
+
+Click the button labeled "Save"
+Left-click the label "Lift" and paste the following:
+
+;********** Lift Sequence ********
+L
+;********** Lift Sequence **********
+Click the button labeled "Save"
+Left-click the label "End" and paste the following:
+
+;********** Footer Start ********
+;Here you can set any G or M-Code which should be executed after the last Layer is Printed
+D
+C
+;<Completed>
+;********** Footer End ********
+
+Click the button labeled "Save"
+Lastly, left-click on the combobox under the label "Profile in Use:" and select "sedgwick" (the profile we just created).
+
+
+* - Manually operating the machine - *
+
+Left-click on the menu item labeled "Control"
+Controls guide:
+Enable/disable stepper motor = Toggle button labeled "Motors:" 
+Z-axis control = Z-axis control buttons
+Close the projector apeture = Y-axis buttons
+Open the projector apeture = X-axis buttons 
+
+
+
+
