@@ -21,7 +21,7 @@ namespace UV_DLP_3D_Printer.Device_Interface
         private double m_distZ; // how far in Z to move
         private double m_distXY; // the X/Y distance to move
 
-        private ManualControl() 
+        private ManualControl()
         {
             m_rateXY = 200;
             m_rateZ = 200;
@@ -38,7 +38,7 @@ namespace UV_DLP_3D_Printer.Device_Interface
             get { return UVDLPApp.Instance().m_deviceinterface; }
         }
 
-        public double XYRate 
+        public double XYRate
         {
             get { return m_rateXY; }
             set { m_rateXY = value; Save(); }
@@ -48,7 +48,7 @@ namespace UV_DLP_3D_Printer.Device_Interface
             get { return m_distXY; }
             set { m_distXY = value; Save(); }
         }
-        public double ZRate 
+        public double ZRate
         {
             get { return m_rateZ; }
             set { m_rateZ = value; Save(); }
@@ -68,20 +68,20 @@ namespace UV_DLP_3D_Printer.Device_Interface
             get { return m_distE; }
             set { m_distE = value; Save(); }
         }
-        public static ManualControl Instance() 
+        public static ManualControl Instance()
         {
             if (m_instance == null)
             {
                 m_instance = new ManualControl();
             }
             return m_instance;
-        
+
         }
-        public bool Load() 
+        public bool Load()
         {
             return false;
         }
-        public bool Save() 
+        public bool Save()
         {
             return false;
         }
@@ -115,7 +115,7 @@ namespace UV_DLP_3D_Printer.Device_Interface
             {
                 if (DevInterface.Connected == true)
                 {
-                     DevInterface.SendCommandToDevice(cmd);
+                    DevInterface.SendCommandToDevice(cmd);
                 }
             }
             catch (Exception ex)
@@ -189,11 +189,12 @@ namespace UV_DLP_3D_Printer.Device_Interface
             try
             {
                 //double dist = double.Parse(txtdist.Text);
-                DevInterface.Move(m_distZ, m_rateZ); // (movecommand);
+                //DevInterface.Move(m_distZ, m_rateZ); // (movecommand); MODIFIED //SO
+                SendGcode("U\r\n");
             }
             catch (Exception ex)
             {
-                DebugLogger.Instance().LogRecord(ex.Message);                
+                DebugLogger.Instance().LogRecord(ex.Message);
             }
         }
         /// <summary>
@@ -206,7 +207,8 @@ namespace UV_DLP_3D_Printer.Device_Interface
             try
             {
                 //m_distZ *= -1.0;
-                DevInterface.Move(m_distZ * -1.0d, m_rateZ); // (movecommand);
+                //DevInterface.Move(m_distZ * -1.0d, m_rateZ); // (movecommand);
+                SendGcode("J\r\n");
             }
             catch (Exception ex)
             {
@@ -218,8 +220,10 @@ namespace UV_DLP_3D_Printer.Device_Interface
         {
             try
             {
-                double dist = (double)e;
-                DevInterface.MoveX(dist, m_rateXY); // (movecommand);
+
+                SendGcode("O\r\n");
+                //double dist = (double)e;
+                //DevInterface.MoveX(dist, m_rateXY); // (movecommand);
             }
             catch (Exception ex)
             {
@@ -231,8 +235,9 @@ namespace UV_DLP_3D_Printer.Device_Interface
         {
             try
             {
-                double dist = (double)e;
-                DevInterface.MoveY(dist, m_rateXY); // (movecommand);
+                SendGcode("C\r\n");
+                //double dist = (double)e;
+                //DevInterface.MoveY(dist, m_rateXY); // (movecommand);
             }
             catch (Exception ex)
             {
@@ -245,7 +250,33 @@ namespace UV_DLP_3D_Printer.Device_Interface
             try
             {
                 double dist = (double)e;
-                DevInterface.Move(dist, m_rateZ); // (movecommand);
+                if (dist > .024 && dist < .026)
+                { // small reverse 
+                    SendGcode("Y\r\n");
+                }
+                if (dist == 1.0)
+                { // medium reverse
+                    SendGcode("U\r\n");
+                }
+                if (dist == 10.0)
+                { // large reverse
+                    SendGcode("I\r\n");
+                }
+                if (dist < -.024 && dist > -.026)
+                { // small forward
+                    SendGcode("H\r\n");
+                }
+                if (dist == -1.0)
+                {  // medium forward
+                    SendGcode("J\r\n");
+                }
+                if (dist == -10.0)
+                {  // large forward
+                    SendGcode("K\r\n");
+                }
+
+
+                //DevInterface.Move(dist, m_rateZ); // (movecommand);
             }
             catch (Exception ex)
             {
@@ -266,13 +297,15 @@ namespace UV_DLP_3D_Printer.Device_Interface
         }
         private void cmdMotorsOn(object sender, object e)
         {
-            string gcode = "M17\r\n";
+            //string gcode = "M17\r\n";
+            string gcode = "E\r\n";
             UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(gcode);
         }
 
         private void cmdMotorsOff(object sender, object e)
         {
-            string gcode = "M18\r\n";
+            //string gcode = "M18\r\n";
+            string gcode = "D\r\n";
             UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(gcode);
         }
 
