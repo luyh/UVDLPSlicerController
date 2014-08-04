@@ -119,7 +119,7 @@ namespace UV_DLP_3D_Printer
         {
             foreach (frmDLP frm in m_displays) 
             {
-                frm.ShowImage(image);
+                frm.ShowImage(image,BuildManager.SLICE_NORMAL);
             }
         }
         /// <summary>

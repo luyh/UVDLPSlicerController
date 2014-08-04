@@ -19,6 +19,7 @@ namespace UV_DLP_3D_Printer.Drivers
         eGENERIC, // whatever class of driver you call this, I've been using sailfish, and it seems to work great
         eRF_3DLPRINTER, // the Italian Robot Factory 3DLPrinter
         eEIW_DEEPIMAGER, // Elite Image works  - deep imager 5
+        eUNCIA,
     }
     public enum eDeviceStatus 
     {

@@ -19,6 +19,7 @@ namespace UV_DLP_3D_Printer
     public partial class frmDLP : Form
     {
         Screen m_dlpscreen = null;
+        static int slcnt = 0; // slice / blank image counter
         private string m_screenid;
         Timer m_tmr;
         //float m_l, m_r, m_t, m_b;
@@ -92,7 +93,7 @@ namespace UV_DLP_3D_Printer
                     if (UVDLPApp.Instance().m_buildmgr.IsPrinting == true || UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay == true
                         || layertype == BuildManager.SLICE_BLANK || layertype == BuildManager.SLICE_CALIBRATION)
                     {
-                        ShowImage(bmp);
+                        ShowImage(bmp,layertype);
                     }
                 }
             }
@@ -124,8 +125,9 @@ namespace UV_DLP_3D_Printer
         /*
          Shows the specified image on the picture control
          */
-        public void ShowImage(Image i) 
+        public void ShowImage(Image i, int layertype) 
         {
+            
             try
             {
                 // change this to show only the visible portion of the image based on the 
@@ -152,7 +154,16 @@ namespace UV_DLP_3D_Printer
                 {
                     picDLP.Image = cropped;
                 }
-                GC.Collect();
+                
+
+                if (layertype == BuildManager.SLICE_BLANK)
+                {
+                    slcnt++; // increment the slice count (used for garbage collection)
+                    if (slcnt % 30 == 0)
+                    {
+                        GC.Collect();
+                    }
+                }
             }
             catch (Exception ex) 
             {

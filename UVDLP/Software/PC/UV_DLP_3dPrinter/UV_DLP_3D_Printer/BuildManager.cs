@@ -8,6 +8,7 @@ using System.Threading;
 using UV_DLP_3D_Printer.Slicing;
 using UV_DLP_3D_Printer.Configs;
 using UV_DLP_3D_Printer.Drivers;
+using UV_DLP_3D_Printer.Building;
 
 namespace UV_DLP_3D_Printer
 {
@@ -401,6 +402,35 @@ namespace UV_DLP_3D_Printer
             }
      
         }
+        
+        /// <summary>
+        /// This function will perform an auxilary command as specified by the command name
+        /// This can encompass a single extra gcode command defined somewhere else, 
+        /// or an algorithm that blocks until complete
+        /// </summary>
+        /// <param name="line"></param>
+        public void PerformAuxCommand(string line) 
+        {
+            try
+            {
+                line = line.Replace(';', ' '); // remove comments
+                line = line.Replace(')', ' '); // remove comments
+                int bidx = line.IndexOf('>');
+                if (bidx == -1)
+                {
+                    DebugLogger.Instance().LogError("Improperly formated display command");
+                    return;
+                }
+                string ss1 = line.Substring(bidx + 1);
+                //ss1 should now contain the command to perform
+                ss1 = ss1.Trim();
+                AuxBuildCmds.Instance().RunCmd(ss1);
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
+        }
         /// <summary>
         /// This function sends commands to the projector(s)
         /// The format is <DispCmd> MonitorID , cmdname
@@ -552,6 +582,10 @@ namespace UV_DLP_3D_Printer
                                 {
                                     PerformDisplayCommand(line);
                                 }
+                                else if (line.Contains("<AuxCmd>")) //auxillary command to run a pre-defined sequence
+                                {
+                                    PerformAuxCommand(line);
+                                }
                                 else if (line.Contains("<Slice> "))//get the slice number
                                 {
                                     int layer = getvarfromline(line);
@@ -569,7 +603,7 @@ namespace UV_DLP_3D_Printer
                                         bltime = GetTimerValue();
                                         //DebugLogger.Instance().LogInfo("Showing Blank image at :" + bltime.ToString());
                                         if (sltime != -1 && bltime != -1)
-                                        DebugLogger.Instance().LogInfo("Time between Blank and Slice :" + (bltime - sltime).ToString());
+                                            DebugLogger.Instance().LogInfo("Time between Blank and Slice :" + (bltime - sltime).ToString());
 
                                     }
                                     else if (layer == SLICE_SPECIAL) // plugins can override special images by named resource
@@ -597,8 +631,8 @@ namespace UV_DLP_3D_Printer
                                         }
                                         sltime = GetTimerValue();
                                         //DebugLogger.Instance().LogInfo("Showing Slice image at :" + sltime.ToString());
-                                        if(sltime != -1 && bltime != -1)
-                                        DebugLogger.Instance().LogInfo("Time between slice and blank :" + (sltime - bltime).ToString());
+                                        if (sltime != -1 && bltime != -1)
+                                            DebugLogger.Instance().LogInfo("Time between slice and blank :" + (sltime - bltime).ToString());
 
 
                                     }
