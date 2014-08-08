@@ -1,5 +1,16 @@
 ﻿
 ToDo:
+- In the gcode, add a passthrough command (eGeneric driver level) to allow any character/byte sequence to be passed through to the serial port
+	maybe an escape sequence?
+
+- Add the ability to save/load GCode snippets (strings) from XML docs - slicing profile / machine profile
+- Add ability for GUIConfig.txt to be loaded from file
+- Add the ability for a button in the GUI defined by the GUIConfig.txt file to call a GCode / Build script seqeunce
+- Add the ability for a run-time loaded XML script of a build process to use state machine and similar to generate gcode during a build
+to interactively build for a scene . This should have the ability to run G/M code commands and read the results into variable that can be used in
+the gcode scripts. This can be built into complex structures in the future. This script can be save as a string varaible in an XML file.
+This script has a name, and can be called to execute by script.
+
 - Add a height selection for Support bases - just the footer portion
 - Make a generic plugin
 	XML GUIConfig can set splash, name, basic settings, hash for vendor id
@@ -10,30 +21,19 @@ ToDo:
 - Flip the direction of the Debug window text from bottom-up to top-down
 - When I open the control tab, even though I have the manual control button checked, I cannot seem to get it to show up? <- projecter/gcode tab mixup?
 - CW fails to cleanly close - memory/resource issues
-- show which layer # is being exposed on the upper right of the screen
+- show which layer # is being exposed 
 - print up to a certain layer or %
 - start print on a specific layer
 - pulsing exposure per layer with user defined pulsing duration and number of pulses per layer
 - Re-Write the manual with new screen shots
-- crash when pressing delete with no model
-
-How a bout a template that lets you print 10 versions of the same model where each one has a slightly different exposure time all in the same print job? that way it would be pretty easy to find the right parameters, especially if you have a new material to test.
-
-- Better Pause functionality . A button that lets you pause the print, raise platform let's say 50mm, lets you inspect the model (especially in the first phase, when you don't know if all the supports work out or if the exposure needs to be adjusted) and then lower it again to continue printing. this would improve the workflow(at least for me) immensely, since i tend to experiment a lot and i'm sure lots of others do too.
-
-- Preset GCode commands. Or at least an individually selectable list of previous commands to reuse without the need for copy-pasting.
-
+- Preset GCode commands (Manual Control Window). Or at least an individually selectable list of previous commands to reuse without the need for copy-pasting.
 - OnEnter event for the custom GCode txt field, so there is no need to send it using the mouse.
 - AutoScroll for the GCode replies
 
 - fix php script to first look for matching machine GUID to update record, if no existing record, add new
-
 - serial port auto-detect
-
 - allow importing a set of images (png,bmp) along with a layer height. Generate a GCode file and allow printing from imported.
-
 - Model preview section / additional tab
-
 - Add class to launch/ wait for an external process 
 - add additonal anti-aliasing re-sampling options other than bi-cubic.
 
@@ -76,29 +76,13 @@ CLI Common Layer Interface export <- http://www.forwiss.uni-passau.de/~welisch/p
 USF Universal Slice File
 SLC File
 SSL Statasys Layer File
-
 GCode reference help section loaded from file
 
 Firmware upload via AVRDude
 
 support for powder based printers
 
-Bugs**************************************
-Hey Steve,
-I'm using now always the RC5 but have still the problem with the command to move down. At the moment I write all commands on hand and so it works.
-
-But I have some possible amendments which would allow to handle the programm easier:
-
-    If you have the projector at the right side of your monitor and click on a model in the 3D-View the name is to long to display and is shown in the projector and so light some resin
-    In the 3D-View there is not enough space to open all command windows on the right side. There would be another design helpful like the CW13
-    I didn't figure out the function of the fifth value at the supports. What does it do?
-    At the Manuel G-Code Commands it would be nice to send the code with Enter
-    While the machine is printing and you look an other layer at the Slice View, the projector shows the layer your looking at and not the layer which the G-Code tells him. Here it comes to funny results.
-
-I know these are mistakes just for beauty and easier handling but I wanted to add them to the list for later updates.
-
-Looking forward to the next release of this creat programm. Do you know when it will start?
-Toby
+If you have the projector at the right side of your monitor and click on a model in the 3D-View the name is to long to display and is shown in the projector and so light some resin
 
 Improvement Requests:***************************
 
@@ -110,6 +94,11 @@ This would give people the possibility to use Other slicers like "VISCam RP" an 
 
 
 Completed**********************************
+08/08/2014 - SMH - Pause will now stop on a blank screen 
+
+ - Template that lets you print 10 versions of the same model where each one has a slightly different exposure time all in the same print job? 
+	that way it would be pretty easy to find the right parameters, especially if you have a new material to test.
+- crash when pressing delete with no model
 - Plugins:
 	If there is a plugin, check for license,
 		if no license for a plugin is found, prompt for license for plugin

@@ -73,11 +73,19 @@ namespace UV_DLP_3D_Printer
         Bitmap m_calibimage = null; // a calibration image to display
         private DateTime m_buildstarttime;
         private string estimatedbuildtime = "";
+
+        // the pause request and cancel request are used to ensure that
+        // the build stops on a blank image, and not on exposing a slice
+        private bool m_pause_request;
+      //  private bool m_cancel_request;
+
         public BuildManager() 
         {
             m_buildtimer = new System.Timers.Timer();
             m_buildtimer.Elapsed += new ElapsedEventHandler(m_buildtimer_Elapsed);
             m_buildtimer.Interval = BUILD_TIMER_INTERVAL;
+            m_pause_request = false;
+          //  m_cancel_request = false;
         }
         private void StartBuildTimer() 
         {
@@ -263,8 +271,36 @@ namespace UV_DLP_3D_Printer
         {
             return m_paused;
         }
+        private void ImplementPause() 
+        {
+            m_paused = true;
+            m_state = STATE_IDLE;
+            StopBuildTimer();
+            RaiseStatusEvent(eBuildStatus.eBuildPaused, "Print Paused");
+            // special coding for Elite Image Works
+            // in the future, this should be pulled from the machine config file
+            // special commands or something...
+            Drivers.DeviceDriver dr = UVDLPApp.Instance().m_deviceinterface.Driver;
+            string pausecmd = UVDLPApp.Instance().m_printerinfo.GetStringVar("PauseCommand");
+            if (pausecmd.Length > 0)
+            {
+                UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(pausecmd);
+            }        
+        }
+
         public void PausePrint() 
         {
+            if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
+            {
+                // for UV DLP printers, we need to wait till a blank screen before pausing
+                m_pause_request = true;
+            }
+            else  
+            {
+                // for FDM or other printer types, we can stop immendiately
+                ImplementPause();
+            }
+            /*
             m_paused = true;
             m_state = STATE_IDLE;
             StopBuildTimer();
@@ -278,6 +314,7 @@ namespace UV_DLP_3D_Printer
             {
                 UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(pausecmd);
             }
+             */ 
         }
         public void ResumePrint() 
         {
@@ -298,6 +335,9 @@ namespace UV_DLP_3D_Printer
         {
             if (m_printing)  // already printing
                 return;
+            //make sure to reset these
+            m_pause_request = false;
+            //m_cancel_request = false;
 
             m_printing = true;
             m_buildstarttime = new DateTime();
@@ -605,6 +645,7 @@ namespace UV_DLP_3D_Printer
                                         if (sltime != -1 && bltime != -1)
                                             DebugLogger.Instance().LogInfo("Time between Blank and Slice :" + (bltime - sltime).ToString());
 
+
                                     }
                                     else if (layer == SLICE_SPECIAL) // plugins can override special images by named resource
                                     {
@@ -635,6 +676,16 @@ namespace UV_DLP_3D_Printer
                                             DebugLogger.Instance().LogInfo("Time between slice and blank :" + (sltime - bltime).ToString());
 
 
+                                    }
+                                    // if a pause is requested, stop here...
+                                    if (m_pause_request == true)
+                                    {
+                                        m_pause_request = false;
+                                        ImplementPause();
+                                        // if the slice is blank, continue on to display it
+                                        // if it's a new image slice (non-blank) continue the loop to go to the next state
+                                        if (curtype != BuildManager.SLICE_BLANK)
+                                            continue;
                                     }
 
                                     //raise a delegate so the main form can catch it and display layer information.
