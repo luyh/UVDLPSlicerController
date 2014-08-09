@@ -69,7 +69,7 @@ namespace UV_DLP_3D_Printer._3DEngine
         /// <param name="bmp"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public bool AddSlice(MemoryStream ms, string imname) 
+        public bool AddSlice(MemoryStream ms, string imname)
         {
             try
             {
@@ -84,9 +84,33 @@ namespace UV_DLP_3D_Printer._3DEngine
                 }
                 //add the slice file name into the manifest
                 XmlNode curslice = mManifest.AddSection(slicesnode, "Slice");
-                mManifest.SetParameter(curslice,"name",imname);                
+                mManifest.SetParameter(curslice, "name", imname);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
+            return false;
+        }
+
+        public bool AddVectorSlice(MemoryStream ms, string imname)
+        {
+            try
+            {
+                // store the slice file into the zip
+                mZip.AddEntry(imname, ms);
+                // find the slices node in the top level
+                XmlNode slicesnode = mManifest.FindSection(mManifest.m_toplevel, "VectorSlices");
+                if (slicesnode == null)  // no slice node
+                {
+                    //create one
+                    slicesnode = mManifest.AddSection(mManifest.m_toplevel, "VectorSlices");
+                }
+                //add the slice file name into the manifest
+                XmlNode curslice = mManifest.AddSection(slicesnode, "Slice");
+                mManifest.SetParameter(curslice, "name", imname);
+            }
+            catch (Exception ex)
             {
                 DebugLogger.Instance().LogError(ex);
             }
@@ -159,7 +183,7 @@ namespace UV_DLP_3D_Printer._3DEngine
                         List<ZipEntry> etr = new List<ZipEntry>(); // entries to remove
                         foreach (ZipEntry ze in mZip) // create a list of entries to remove
                         {
-                            if (ze.FileName.Contains(".stl"))
+                            if (ze.FileName.EndsWith(".stl"))
                             {
                                 etr.Add(ze);
                             }
@@ -199,7 +223,7 @@ namespace UV_DLP_3D_Printer._3DEngine
                         List<ZipEntry> etr = new List<ZipEntry>(); // entries to remove
                         foreach (ZipEntry ze in mZip) // create a list of entries to remove
                         {
-                            if (ze.FileName.Contains(".png"))
+                            if (ze.FileName.EndsWith(".png") || ze.FileName.EndsWith(".svg"))
                             {
                                 etr.Add(ze);
                             }

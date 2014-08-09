@@ -31,6 +31,7 @@
             this.tabOptions = new System.Windows.Forms.TabControl();
             this.tbOptions = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.buttResinCalib = new System.Windows.Forms.Button();
             this.cmdDelResin = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.cmdNewResin = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.comboResin = new System.Windows.Forms.ComboBox();
@@ -88,7 +89,7 @@
             this.lstSliceProfiles = new System.Windows.Forms.ListBox();
             this.cmdDelete = new System.Windows.Forms.Button();
             this.cmdNew = new System.Windows.Forms.Button();
-            this.buttResinCalib = new System.Windows.Forms.Button();
+            this.checkExportSVG = new System.Windows.Forms.CheckBox();
             this.tabOptions.SuspendLayout();
             this.tbOptions.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -113,6 +114,7 @@
             // 
             // tbOptions
             // 
+            this.tbOptions.Controls.Add(this.checkExportSVG);
             this.tbOptions.Controls.Add(this.groupBox2);
             this.tbOptions.Controls.Add(this.txtAAVal);
             this.tbOptions.Controls.Add(this.chkExport);
@@ -157,6 +159,16 @@
             this.groupBox2.TabIndex = 63;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Resin";
+            // 
+            // buttResinCalib
+            // 
+            this.buttResinCalib.Location = new System.Drawing.Point(6, 57);
+            this.buttResinCalib.Name = "buttResinCalib";
+            this.buttResinCalib.Size = new System.Drawing.Size(97, 30);
+            this.buttResinCalib.TabIndex = 66;
+            this.buttResinCalib.Text = "Calibrate";
+            this.buttResinCalib.UseVisualStyleBackColor = true;
+            this.buttResinCalib.Click += new System.EventHandler(this.buttResinCalib_Click);
             // 
             // cmdDelResin
             // 
@@ -755,15 +767,16 @@
             this.cmdNew.UseVisualStyleBackColor = true;
             this.cmdNew.Click += new System.EventHandler(this.cmdNew_Click);
             // 
-            // buttResinCalib
+            // checkExportSVG
             // 
-            this.buttResinCalib.Location = new System.Drawing.Point(6, 57);
-            this.buttResinCalib.Name = "buttResinCalib";
-            this.buttResinCalib.Size = new System.Drawing.Size(97, 30);
-            this.buttResinCalib.TabIndex = 66;
-            this.buttResinCalib.Text = "Calibrate";
-            this.buttResinCalib.UseVisualStyleBackColor = true;
-            this.buttResinCalib.Click += new System.EventHandler(this.buttResinCalib_Click);
+            this.checkExportSVG.AutoSize = true;
+            this.checkExportSVG.Location = new System.Drawing.Point(235, 387);
+            this.checkExportSVG.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.checkExportSVG.Name = "checkExportSVG";
+            this.checkExportSVG.Size = new System.Drawing.Size(186, 22);
+            this.checkExportSVG.TabIndex = 64;
+            this.checkExportSVG.Text = "Export Vector art (SVG)";
+            this.checkExportSVG.UseVisualStyleBackColor = true;
             // 
             // ctlToolpathGenConfig
             // 
@@ -859,5 +872,6 @@
         private CustomGUI.ctlImageButton cmdDelResin;
         private CustomGUI.ctlImageButton cmdNewResin;
         private System.Windows.Forms.Button buttResinCalib;
+        private System.Windows.Forms.CheckBox checkExportSVG;
     }
 }
