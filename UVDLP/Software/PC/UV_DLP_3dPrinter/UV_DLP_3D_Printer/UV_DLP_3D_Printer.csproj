@@ -109,6 +109,8 @@
     <Compile Include="3DEngine\ThreeDSFile.cs" />
     <Compile Include="3DEngine\TreeSupport.cs" />
     <Compile Include="3DEngine\Undoer.cs" />
+    <Compile Include="Building\AuxBuildCmds.cs" />
+    <Compile Include="Building\AuxCmd.cs" />
     <Compile Include="Configs\AppConfig.cs" />
     <Compile Include="Configs\ConnectionConfig.cs" />
     <Compile Include="Configs\DeviceDriverConfig.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="Device_Interface\DriverFactory.cs" />
     <Compile Include="Device_Interface\GenericDriver.cs" />
     <Compile Include="Device_Interface\RobotFactorySRL_3DLPrinter.cs" />
+    <Compile Include="Device_Interface\Uncia\UnciaDriver.cs" />
     <Compile Include="GUI\Controls\ctl3DView.cs">
       <SubType>UserControl</SubType>
     </Compile>

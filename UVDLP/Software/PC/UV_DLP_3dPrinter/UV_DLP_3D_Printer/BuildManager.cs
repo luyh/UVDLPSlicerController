@@ -8,6 +8,7 @@ using System.Threading;
 using UV_DLP_3D_Printer.Slicing;
 using UV_DLP_3D_Printer.Configs;
 using UV_DLP_3D_Printer.Drivers;
+using UV_DLP_3D_Printer.Building;
 
 namespace UV_DLP_3D_Printer
 {
@@ -72,11 +73,19 @@ namespace UV_DLP_3D_Printer
         Bitmap m_calibimage = null; // a calibration image to display
         private DateTime m_buildstarttime;
         private string estimatedbuildtime = "";
+
+        // the pause request and cancel request are used to ensure that
+        // the build stops on a blank image, and not on exposing a slice
+        private bool m_pause_request;
+      //  private bool m_cancel_request;
+
         public BuildManager() 
         {
             m_buildtimer = new System.Timers.Timer();
             m_buildtimer.Elapsed += new ElapsedEventHandler(m_buildtimer_Elapsed);
             m_buildtimer.Interval = BUILD_TIMER_INTERVAL;
+            m_pause_request = false;
+          //  m_cancel_request = false;
         }
         private void StartBuildTimer() 
         {
@@ -262,8 +271,36 @@ namespace UV_DLP_3D_Printer
         {
             return m_paused;
         }
+        private void ImplementPause() 
+        {
+            m_paused = true;
+            m_state = STATE_IDLE;
+            StopBuildTimer();
+            RaiseStatusEvent(eBuildStatus.eBuildPaused, "Print Paused");
+            // special coding for Elite Image Works
+            // in the future, this should be pulled from the machine config file
+            // special commands or something...
+            Drivers.DeviceDriver dr = UVDLPApp.Instance().m_deviceinterface.Driver;
+            string pausecmd = UVDLPApp.Instance().m_printerinfo.GetStringVar("PauseCommand");
+            if (pausecmd.Length > 0)
+            {
+                UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(pausecmd);
+            }        
+        }
+
         public void PausePrint() 
         {
+            if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
+            {
+                // for UV DLP printers, we need to wait till a blank screen before pausing
+                m_pause_request = true;
+            }
+            else  
+            {
+                // for FDM or other printer types, we can stop immendiately
+                ImplementPause();
+            }
+            /*
             m_paused = true;
             m_state = STATE_IDLE;
             StopBuildTimer();
@@ -277,6 +314,7 @@ namespace UV_DLP_3D_Printer
             {
                 UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(pausecmd);
             }
+             */ 
         }
         public void ResumePrint() 
         {
@@ -297,6 +335,9 @@ namespace UV_DLP_3D_Printer
         {
             if (m_printing)  // already printing
                 return;
+            //make sure to reset these
+            m_pause_request = false;
+            //m_cancel_request = false;
 
             m_printing = true;
             m_buildstarttime = new DateTime();
@@ -400,6 +441,35 @@ namespace UV_DLP_3D_Printer
                 DebugLogger.Instance().LogError(ex);
             }
      
+        }
+        
+        /// <summary>
+        /// This function will perform an auxilary command as specified by the command name
+        /// This can encompass a single extra gcode command defined somewhere else, 
+        /// or an algorithm that blocks until complete
+        /// </summary>
+        /// <param name="line"></param>
+        public void PerformAuxCommand(string line) 
+        {
+            try
+            {
+                line = line.Replace(';', ' '); // remove comments
+                line = line.Replace(')', ' '); // remove comments
+                int bidx = line.IndexOf('>');
+                if (bidx == -1)
+                {
+                    DebugLogger.Instance().LogError("Improperly formated display command");
+                    return;
+                }
+                string ss1 = line.Substring(bidx + 1);
+                //ss1 should now contain the command to perform
+                ss1 = ss1.Trim();
+                AuxBuildCmds.Instance().RunCmd(ss1);
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
         }
         /// <summary>
         /// This function sends commands to the projector(s)
@@ -552,6 +622,10 @@ namespace UV_DLP_3D_Printer
                                 {
                                     PerformDisplayCommand(line);
                                 }
+                                else if (line.Contains("<AuxCmd>")) //auxillary command to run a pre-defined sequence
+                                {
+                                    PerformAuxCommand(line);
+                                }
                                 else if (line.Contains("<Slice> "))//get the slice number
                                 {
                                     int layer = getvarfromline(line);
@@ -569,7 +643,8 @@ namespace UV_DLP_3D_Printer
                                         bltime = GetTimerValue();
                                         //DebugLogger.Instance().LogInfo("Showing Blank image at :" + bltime.ToString());
                                         if (sltime != -1 && bltime != -1)
-                                        DebugLogger.Instance().LogInfo("Time between Blank and Slice :" + (bltime - sltime).ToString());
+                                            DebugLogger.Instance().LogInfo("Time between Blank and Slice :" + (bltime - sltime).ToString());
+
 
                                     }
                                     else if (layer == SLICE_SPECIAL) // plugins can override special images by named resource
@@ -597,10 +672,20 @@ namespace UV_DLP_3D_Printer
                                         }
                                         sltime = GetTimerValue();
                                         //DebugLogger.Instance().LogInfo("Showing Slice image at :" + sltime.ToString());
-                                        if(sltime != -1 && bltime != -1)
-                                        DebugLogger.Instance().LogInfo("Time between slice and blank :" + (sltime - bltime).ToString());
+                                        if (sltime != -1 && bltime != -1)
+                                            DebugLogger.Instance().LogInfo("Time between slice and blank :" + (sltime - bltime).ToString());
 
 
+                                    }
+                                    // if a pause is requested, stop here...
+                                    if (m_pause_request == true)
+                                    {
+                                        m_pause_request = false;
+                                        ImplementPause();
+                                        // if the slice is blank, continue on to display it
+                                        // if it's a new image slice (non-blank) continue the loop to go to the next state
+                                        if (curtype != BuildManager.SLICE_BLANK)
+                                            continue;
                                     }
 
                                     //raise a delegate so the main form can catch it and display layer information.

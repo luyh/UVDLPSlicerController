@@ -244,7 +244,7 @@ namespace UV_DLP_3D_Printer.GUI
                 }
                 else
                 {
-                    ctl3DView1.ViewLayer(layer); // set the 3d layer
+                    //ctl3DView1.ViewLayer(layer); // set the 3d layer
                     // display info only if it's a normal layer
                     if (layertype == BuildManager.SLICE_NORMAL)
                     {

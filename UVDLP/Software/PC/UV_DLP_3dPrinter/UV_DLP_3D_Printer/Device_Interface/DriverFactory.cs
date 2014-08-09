@@ -20,6 +20,8 @@ namespace UV_DLP_3D_Printer.Drivers
                     return new RobotFactorySRL_3DLPrinter();
                 case eDriverType.eEIW_DEEPIMAGER:
                     return new DIDriver();
+                case eDriverType.eUNCIA:
+                    return new UnciaDriver();
                 default:
                     return null;
             }
