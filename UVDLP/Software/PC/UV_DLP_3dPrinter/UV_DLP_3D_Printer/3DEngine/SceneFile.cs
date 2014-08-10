@@ -214,27 +214,25 @@ namespace UV_DLP_3D_Printer._3DEngine
                 // open the zip file
                 if (OpenSceneFile(scenefilename))
                 {
-                    //remove all *.png files
+                    //remove all *.png and *.svg files
                     //delete the slices node
                     XmlNode slices = mManifest.FindSection(mManifest.m_toplevel, "Slices");
                     if (slices != null)
-                    {
                         slices.RemoveAll(); // remove all child nodes for this manifest entry
-                        List<ZipEntry> etr = new List<ZipEntry>(); // entries to remove
-                        foreach (ZipEntry ze in mZip) // create a list of entries to remove
-                        {
-                            if (ze.FileName.EndsWith(".png") || ze.FileName.EndsWith(".svg"))
-                            {
-                                etr.Add(ze);
-                            }
-                        }
-                        //and remove them
-                        mZip.RemoveEntries(etr);
-                    }
-                    else
+                    XmlNode vslices = mManifest.FindSection(mManifest.m_toplevel, "VectorSlices");
+                    if (vslices != null)
+                        vslices.RemoveAll(); // remove all child nodes for this manifest entry
+
+                    List<ZipEntry> etr = new List<ZipEntry>(); // entries to remove
+                    foreach (ZipEntry ze in mZip) // create a list of entries to remove
                     {
-                        //slices does equal null, nothing to do...
+                        if (ze.FileName.EndsWith(".png") || ze.FileName.EndsWith(".svg"))
+                        {
+                            etr.Add(ze);
+                        }
                     }
+                    //and remove them
+                    mZip.RemoveEntries(etr);
                     CloseSceneFile(false);
                 }
             }
