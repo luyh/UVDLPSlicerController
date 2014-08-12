@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using UV_DLP_3D_Printer.Configs;
+using ImageArithmetic;
 
 namespace UV_DLP_3D_Printer
 {
@@ -23,6 +24,7 @@ namespace UV_DLP_3D_Printer
         private string m_screenid;
         Timer m_tmr;
         //float m_l, m_r, m_t, m_b;
+        MonitorConfig m_monitorconfig;
         MonitorConfig.MRect m_rect;
         public frmDLP()
         {
@@ -45,10 +47,11 @@ namespace UV_DLP_3D_Printer
         /// This sets the screen identifier and display portion so this form knows which screen to display into
         /// </summary>
         /// 
-        public void Setup(string screenid, MonitorConfig.MRect rect) 
+        public void Setup(string screenid, MonitorConfig monitorconfig) 
         {
             m_screenid = screenid;
-            m_rect = rect;
+            m_monitorconfig = monitorconfig;
+            m_rect = monitorconfig.m_monitorrect;
         }
         
         //This delegate is called when the print manager is printing a new layer
@@ -152,7 +155,18 @@ namespace UV_DLP_3D_Printer
                 }
                 else
                 {
-                    picDLP.Image = cropped;
+                    if (m_monitorconfig.m_usemask == true && m_monitorconfig.m_mask != null && layertype != BuildManager.SLICE_BLANK)
+                    {
+                        //take the cropped bitmap
+                        //subtract away the mask image                        
+                        Bitmap result = ImageArithmetic.ExtBitmap.ArithmeticBlend(cropped, m_monitorconfig.m_mask, ColorCalculator.ColorCalculationType.SubtractLeft);
+                        picDLP.Image = result;
+                    }
+                    else 
+                    {
+                        picDLP.Image = cropped;
+                    }
+                    
                 }
                 
 

@@ -159,7 +159,7 @@ namespace UV_DLP_3D_Printer
             foreach (MonitorConfig mc in UVDLPApp.Instance().m_printerinfo.m_lstMonitorconfigs) 
             {
                 frmDLP frm = new frmDLP();
-                frm.Setup(mc.Monitorid, mc.m_monitorrect);
+                frm.Setup(mc.Monitorid, mc);
                 m_displays.Add(frm);
             }
 
