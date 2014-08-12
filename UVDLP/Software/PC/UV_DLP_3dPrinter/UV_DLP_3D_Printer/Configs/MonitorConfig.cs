@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Drawing;
 
 namespace UV_DLP_3D_Printer.Configs
 {
@@ -42,6 +43,10 @@ namespace UV_DLP_3D_Printer.Configs
         public ConnectionConfig m_displayconnection; // to the projector or similar
         private string m_monitorid; // which monitor we're using
         public MRect m_monitorrect; // the display portions of the larger image
+        //brightness / color correction mask
+        public string m_brightmask_filename; // a brightness / color correction mask
+        public bool m_usemask;//
+        public Bitmap m_mask; // the loaded mask (if any)        
 
         public MonitorConfig()
         {
@@ -54,6 +59,9 @@ namespace UV_DLP_3D_Printer.Configs
             m_monitorrect = new MRect();
             m_displayconnection.CreateDefault();
             m_monitorid = "";
+            m_mask = null;
+            m_usemask = false;
+            m_brightmask_filename = "";
         }
 
         public bool Load(XmlHelper xh, XmlNode thisnode)
@@ -68,6 +76,12 @@ namespace UV_DLP_3D_Printer.Configs
             m_monitorrect.left = (float)xh.GetDouble(mdc, "MonitorLeft", 0.0);
             m_monitorrect.right = (float)xh.GetDouble(mdc, "MonitorRight", 1.0);
             m_monitorrect.bottom = (float)xh.GetDouble(mdc, "MonitorBottom", 1.0);
+            m_brightmask_filename = xh.GetString(mdc, "CorrectionMask", "");
+            m_usemask = xh.GetBool(mdc, "UseMask", false);
+            if (m_usemask == true) 
+            {
+                m_mask = new Bitmap(m_brightmask_filename);
+            }
             return true;
         }        
 
@@ -86,6 +100,8 @@ namespace UV_DLP_3D_Printer.Configs
             xh.SetParameter(mdc, "MonitorRight", m_monitorrect.right);
             xh.SetParameter(mdc, "MonitorBottom", m_monitorrect.bottom);
 
+            xh.SetParameter(mdc, "CorrectionMask", m_brightmask_filename);
+            xh.SetParameter(mdc, "UseMask", m_usemask);
             return true;
         }
 
