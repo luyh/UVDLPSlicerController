@@ -471,6 +471,8 @@
     </Compile>
     <Compile Include="Slicing\GCodeFile.cs" />
     <Compile Include="Slicing\OldSlicer\GCodeGenerator.cs" />
+    <Compile Include="Utility\ImageUtils\ColorCalculator.cs" />
+    <Compile Include="Utility\ImageUtils\ExtBitmap.cs" />
     <Compile Include="Utility\LockBitmap.cs" />
     <Compile Include="Utility\Logger.cs" />
     <Compile Include="Configs\MachineConfig.cs" />
