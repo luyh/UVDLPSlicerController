@@ -59,8 +59,11 @@ namespace UV_DLP_3D_Printer
             }
             try
             {
+#if !DEBUG  // no splash screen under debug release
+
                 frmSplash splash = new frmSplash(); // should pull from a licensed plug-in if need-be
                 splash.Show();
+#endif
                 Application.Run(new frmMain2());
             }
             catch (Exception ex) 

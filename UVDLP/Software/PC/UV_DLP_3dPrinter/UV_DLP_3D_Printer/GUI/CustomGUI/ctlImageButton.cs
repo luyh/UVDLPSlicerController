@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using UV_DLP_3D_Printer._3DEngine;
-
+using UV_DLP_3D_Printer.Util.Sequence;
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
     public partial class ctlImageButton : ctlAnchorable
@@ -198,7 +198,26 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             base.OnClick(e);
             if (mOnClickCallback == null)
                 return;
-            UVDLPApp.Instance().m_callbackhandler.Activate(mOnClickCallback, this);
+            Object retobj = UVDLPApp.Instance().m_callbackhandler.Activate(mOnClickCallback, this);
+            if(retobj != null)
+            {
+                //if the return object is null, then this was probably a successful call
+                //if the return object type is boolean, and the value is false,
+                //then this could be a sequence to execute
+                // I'm debating whether this code should get put into the CallbackHandler code
+                // as-is, only buttons can trigger sequences, this may change in the future.
+                try
+                {
+                    Boolean val = (System.Boolean)retobj;
+                    if (val == false) 
+                    {
+                        // try to execute it as a sequence
+                        SequenceManager.Instance().ExecuteSequence(mOnClickCallback); 
+                    }
+                }
+                catch (Exception) { }
+            }
+            
         }
 
         private void InitializeComponent()

@@ -110,10 +110,10 @@
             this.cMCZ.Location = new System.Drawing.Point(265, 3);
             this.cMCZ.Name = "cMCZ";
             this.cMCZ.ReturnValues = new float[] {
-        0.025F,
+        0.1F,
         1F,
         10F,
-        100F};
+        50F};
             this.cMCZ.Size = new System.Drawing.Size(70, 256);
             this.cMCZ.StyleName = null;
             this.cMCZ.TabIndex = 1;
@@ -170,7 +170,7 @@
             this.cMCTilt.StyleName = null;
             this.cMCTilt.TabIndex = 3;
             this.cMCTilt.Title = "Tilt";
-            this.cMCTilt.Unit = "Deg";
+            this.cMCTilt.Unit = "mm";
             this.cMCTilt.MotorMove += new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMCBase.MotorMoveDelegate(this.cMCXY_MotorMove);
             this.cMCTilt.MotorHome += new UV_DLP_3D_Printer.GUI.CustomGUI.ctlMCBase.MotorHomeDelegate(this.cMCXY_MotorHome);
             // 
@@ -252,6 +252,7 @@
             this.cOnOffMotors.StyleName = null;
             this.cOnOffMotors.TabIndex = 0;
             this.cOnOffMotors.Title = "Motors:";
+            this.cOnOffMotors.Visible = false;
             this.cOnOffMotors.StateChange += new UV_DLP_3D_Printer.GUI.CustomGUI.ctlOnOff.StateChangeDelegate(this.ctlOnOffMotors_StateChange);
             // 
             // cOnOffManGcode

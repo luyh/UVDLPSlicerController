@@ -23,8 +23,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             ApplyStyle(Style);
             mComponentSupport = "XYZPG";
 
-            cMCTilt.ReturnValues = new float[] { 1, 10, 360 };
+            cMCTilt.ReturnValues = new float[] { 1, 10, 100 };
             UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEv);
+            UVDLPApp.Instance().m_gui_config.AddControl("flowTop_manual_control", flowTop);
         }
 
         public override void ApplyStyle(ControlStyle ct)
@@ -82,7 +83,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             cOnOffMonitorTemp.Visible = false;
             cOnOffHeater.Visible = false;
             cOnOffPlatform.Visible = false;
-            cOnOffMotors.Visible = false;
+            //cOnOffMotors.Visible = false; // turn off for now... - smh 08/19/2014
             cOnOffManGcode.Visible = false;
 
             ctlParamXYrate.Visible = false;
@@ -107,26 +108,27 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     case 'X':
                     case 'Y':
                         cMCXY.Visible = true;
-                        cOnOffMotors.Visible = true;
+                        // cOnOffMotors.Visible = true;// turn off the motor on/off switch - smh 08/19/2014
                         ctlParamXYrate.Visible = true;
                         break;
                     case 'Z':
                         cMCZ.Visible = true;
-                        cOnOffMotors.Visible = true;
+                       // cOnOffMotors.Visible = true;// turn off the motor on/off switch - smh 08/19/2014
                         ctlParamZrate.Visible = true;
                         break;
                     case 'T':
                         cMCTilt.Visible = true;
-                        cOnOffMotors.Visible = true;
+                        //cOnOffMotors.Visible = true; // turn off the motor on/off switch - smh 08/19/2014
+                        ctlParamXYrate.Visible = true; // turn on the rate for the x/tilt axis
                         break;
                     case 'E':
                         cMCExtruder.Visible = true;
-                        cOnOffMotors.Visible = true;
+                        // cOnOffMotors.Visible = true;// turn off the motor on/off switch - smh 08/19/2014
                         ctlParamExtrudeRate.Visible = true;
                         break;
                     case 'H':
                         cMCTempExtruder.Visible = true;
-                        cOnOffHeater.Visible = true;
+                         cOnOffHeater.Visible = true;
                         cOnOffMonitorTemp.Visible = true;
                         break;
                     case 'B':

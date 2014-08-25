@@ -31,9 +31,11 @@ namespace UV_DLP_3D_Printer.GUI
         frmSlice m_frmSlice = new frmSlice();
         public ManualControl m_manctl;
         int rightToolsWidth = 0;
+        StringBuilder m_logSB;
 
         public frmMain2()
         {
+            m_logSB = new StringBuilder();
             InitializeComponent();
             m_viewtype = eViewTypes.eNone;
             UVDLPApp.Instance().m_mainform = this;
@@ -56,7 +58,8 @@ namespace UV_DLP_3D_Printer.GUI
             // set up initial log data in form
             foreach (string lg in DebugLogger.Instance().GetLog())
             {
-                txtLog.Text = lg + "\r\n" + txtLog.Text;
+                //txtLog.Text = lg + "\r\n" + txtLog.Text;
+                AddtoLog(lg);
             }
             //RearrangeGui
             AddButtons();
@@ -379,10 +382,19 @@ namespace UV_DLP_3D_Printer.GUI
                 switch (status)
                 {
                     case eLogStatus.eLogWroteRecord:
-                        txtLog.Text = message + "\r\n" + txtLog.Text;
+                        AddtoLog(message);
                         break;
                 }
             }
+        }
+        private void AddtoLog(string message) 
+        {
+            m_logSB.Append(message);
+            m_logSB.Append("\r\n");
+            txtLog.Text = m_logSB.ToString();//message + "\r\n" + txtLog.Text;         
+            txtLog.SelectionStart = txtLog.Text.Length;
+            txtLog.ScrollToCaret();
+            txtLog.Refresh();
         }
         /*
           This handles specific events triggered by the app

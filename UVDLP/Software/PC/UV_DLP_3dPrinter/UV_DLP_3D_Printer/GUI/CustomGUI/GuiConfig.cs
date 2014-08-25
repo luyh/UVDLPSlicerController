@@ -11,9 +11,11 @@ using System.IO;
 using System.Xml;
 using UV_DLP_3D_Printer._3DEngine;
 using UV_DLP_3D_Printer.Plugin;
+using UV_DLP_3D_Printer.Util.Sequence;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
+   
     public abstract class DecorItem
     {
         public abstract void Show(C2DGraphics g2d, int w, int h);
@@ -354,6 +356,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                         case "decals": HandleDecals(xnode); break;
                         case "buttons": HandleButtons(xnode); break; 
                         case "controls": HandleControls(xnode); break;
+                        case "sequences": HandleSequences(xnode); break;
                     }
                 }
 
@@ -368,6 +371,43 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             LoadConfiguration(xmlConf, null);
         }
+        #region Sequences
+        // sequences are command sequences that can be used
+        // to send gcode (or other) commmands.
+        // These sequences can be tied to a button onclick handler
+        // this allows for creating a new button in the GUIConfig, and 
+        //causing the click to send special sequences to the printer.
+        void HandleSequences(XmlNode seqnode) 
+        {
+            foreach (XmlNode xnode in seqnode.ChildNodes)
+            {
+                switch (xnode.Name.ToLower())
+                {
+                    case "sequence": HandleSequence(xnode); break;                    
+                }
+            }
+
+        }
+
+        void HandleSequence(XmlNode seqnode) 
+        {
+            //get name
+            string name = GetStrParam(seqnode, "name", "");
+            //get sequence
+            string seq = GetStrParam(seqnode, "seqdata", "");
+            //get type
+            string seqtype = GetStrParam(seqnode, "seqtype", "");
+            if (seqtype.ToLower().Equals("gcode"))
+            {
+                GCodeSequence gcseq = new GCodeSequence(name, seq);
+                SequenceManager.Instance().Add(gcseq);
+            }
+            else
+            {
+                DebugLogger.Instance().LogWarning("Unknown sequence type " + seqtype + " in GUIConfig");
+            }
+        }
+        #endregion
 
         #region Decals
 

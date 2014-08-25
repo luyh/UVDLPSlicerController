@@ -654,6 +654,8 @@
     <Compile Include="Slicing\OldSlicer\Slicer.cs" />
     <Compile Include="Utility\DisplayManager.cs" />
     <Compile Include="Utility\FingerPrint.cs" />
+    <Compile Include="Utility\Sequences\CommandSequence.cs" />
+    <Compile Include="Utility\Sequences\SequenceManager.cs" />
     <Compile Include="Utility\ServerContact.cs" />
     <Compile Include="Utility\Utility.cs" />
     <Compile Include="UVDLPApp.cs" />

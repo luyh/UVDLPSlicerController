@@ -33,6 +33,7 @@ namespace UV_DLP_3D_Printer
         public int plat_temp; // desired platform temperature in celsius 
         public bool exportsvg; // export the svg slices when building
         public bool export; // export image slices when building into cws file
+        public bool exportpng;// export png slices to disk
         public eBuildDirection direction;
         public double liftdistance; // distance to lift and retract
         public double slidetiltval; // a value used for slide / tilt 
@@ -168,6 +169,7 @@ namespace UV_DLP_3D_Printer
             // exportgcode = source.exportgcode; // export the gcode file when slicing
             exportsvg = source.exportsvg; // export the svg slices when building
             export = source.export; // export image slices when building
+            exportpng = source.exportpng;
             m_headercode = source.m_headercode; // inserted at beginning of file
             m_footercode = source.m_footercode; // inserted at end of file
             m_preslicecode = source.m_preslicecode; // inserted before each slice
@@ -248,6 +250,7 @@ namespace UV_DLP_3D_Printer
             //exportgcode = true;
             exportsvg = false;
             export = false;
+            exportpng = false;
             direction = eBuildDirection.Bottom_Up;
             liftdistance = 5.0;
             //raise_time_ms = 750;
@@ -320,6 +323,8 @@ namespace UV_DLP_3D_Printer
             //exportgcode = xh.GetBool(sbc, "ExportGCode"));
             exportsvg = xh.GetBool(sbc, "ExportSVG", false);
             export = xh.GetBool(sbc, "Export", false); ;
+            exportpng = xh.GetBool(sbc, "ExportPNG", false); ;
+
             XOffset = xh.GetInt(sbc, "XOffset", 0);
             YOffset = xh.GetInt(sbc, "YOffset", 0);
             //numfirstlayers = xh.GetInt(sbc, "NumberofBottomLayers", 3);
@@ -454,6 +459,8 @@ namespace UV_DLP_3D_Printer
             // xh.SetParameter(sbc, "ExportGCode", exportgcode);
             xh.SetParameter(sbc, "ExportSVG", exportsvg);
             xh.SetParameter(sbc, "Export", export);
+            xh.SetParameter(sbc, "ExportPNG", exportpng);
+            
             xh.SetParameter(sbc, "XOffset", XOffset);
             xh.SetParameter(sbc, "YOffset", YOffset);
             //xh.SetParameter(sbc, "NumberofBottomLayers", numfirstlayers);

@@ -26,6 +26,7 @@ using CreationWorkshop.Licensing;
 using UV_DLP_3D_Printer.GUI.CustomGUI;
 using UV_DLP_3D_Printer.GUI;
 using UV_DLP_3D_Printer.Building;
+using UV_DLP_3D_Printer.Util.Sequence;
 
 namespace UV_DLP_3D_Printer
 {
@@ -89,6 +90,7 @@ namespace UV_DLP_3D_Printer
 
         public SupportConfig m_supportconfig;
         public SupportGenerator m_supportgenerator;
+        public SequenceManager m_sequencemanager;
         // the interface to the printer
         public DeviceInterface m_deviceinterface;// = new PrinterInterface();
         // the generated or loaded GCode File;
@@ -150,6 +152,7 @@ namespace UV_DLP_3D_Printer
             m_2d_graphics = new C2DGraphics();
             m_gui_config = new GuiConfig();
             m_AuxBuildCmds = AuxBuildCmds.Instance(); // make sure the singleton doesn't go away...
+            m_sequencemanager = SequenceManager.Instance();
         }
 
         public enum Platform

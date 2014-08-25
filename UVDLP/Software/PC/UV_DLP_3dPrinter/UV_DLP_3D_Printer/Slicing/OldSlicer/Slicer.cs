@@ -357,7 +357,9 @@ namespace UV_DLP_3D_Printer
                 m_cancel = true;
             }
         }
-
+        /// <summary>
+        /// Not used....
+        /// </summary>
         private void oldslicefunc()
         {
             try
@@ -487,6 +489,23 @@ namespace UV_DLP_3D_Printer
                     CancelSlicing();
                     return;
                 }
+                if (m_sf.m_config.exportpng == true) 
+                {
+                    // if we're exporting png slices to disk as well, then make sure we have a directory to export them into
+                    try
+                    {
+                        string exportdirname = SliceFile.GetSliceFilePath(UVDLPApp.Instance().SceneFileName);
+                        if (!Directory.Exists(exportdirname))  // if the directory does not exist
+                        {
+                            //create the directory to export images into
+                            Directory.CreateDirectory(exportdirname);
+                        }
+                    }
+                    catch (Exception ex) 
+                    {
+                        DebugLogger.Instance().LogError(ex);
+                    }
+                }
                 if (UVDLPApp.Instance().SceneFileName.Length != 0) // check again to make sure we've really got a name
                 {
                     //remove all the previous images first
@@ -548,7 +567,14 @@ namespace UV_DLP_3D_Printer
             return sw;
         }
 
-        // currently, this will save both into a zip file and into a subdirectory
+        /// <summary>
+        /// This will be called when we're exporting 
+        /// </summary>
+        /// <param name="scenename"></param>
+        /// <param name="layer"></param>
+        /// <param name="numslices"></param>
+        /// <param name="bmp"></param>
+        /// <param name="lstPoly"></param>
         private void LayerSliced(string scenename, int layer, int numslices, Bitmap bmp, List<PolyLine3d> lstPoly = null) 
         {
             string path;
@@ -572,6 +598,11 @@ namespace UV_DLP_3D_Printer
                         {
                             SceneFile.Instance().AddSlice(ms, imname);
                         }
+                    }
+                    if (m_sf.m_config.exportpng) 
+                    {
+                        //imagename
+                        bmp.Save(imagename);
                     }
                     if (lstPoly != null)
                     {

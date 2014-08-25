@@ -30,10 +30,9 @@
         {
             this.tabOptions = new System.Windows.Forms.TabControl();
             this.tbOptions = new System.Windows.Forms.TabPage();
+            this.checkExportSVG = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.buttResinCalib = new System.Windows.Forms.Button();
-            this.cmdDelResin = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.cmdNewResin = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.comboResin = new System.Windows.Forms.ComboBox();
             this.label18 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -89,7 +88,9 @@
             this.lstSliceProfiles = new System.Windows.Forms.ListBox();
             this.cmdDelete = new System.Windows.Forms.Button();
             this.cmdNew = new System.Windows.Forms.Button();
-            this.checkExportSVG = new System.Windows.Forms.CheckBox();
+            this.cmdDelResin = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.cmdNewResin = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
+            this.chkExportPNG = new System.Windows.Forms.CheckBox();
             this.tabOptions.SuspendLayout();
             this.tbOptions.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -109,11 +110,12 @@
             this.tabOptions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabOptions.Name = "tabOptions";
             this.tabOptions.SelectedIndex = 0;
-            this.tabOptions.Size = new System.Drawing.Size(931, 459);
+            this.tabOptions.Size = new System.Drawing.Size(931, 491);
             this.tabOptions.TabIndex = 46;
             // 
             // tbOptions
             // 
+            this.tbOptions.Controls.Add(this.chkExportPNG);
             this.tbOptions.Controls.Add(this.checkExportSVG);
             this.tbOptions.Controls.Add(this.groupBox2);
             this.tbOptions.Controls.Add(this.txtAAVal);
@@ -131,10 +133,21 @@
             this.tbOptions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbOptions.Name = "tbOptions";
             this.tbOptions.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tbOptions.Size = new System.Drawing.Size(923, 428);
+            this.tbOptions.Size = new System.Drawing.Size(923, 460);
             this.tbOptions.TabIndex = 0;
             this.tbOptions.Text = "Options";
             this.tbOptions.UseVisualStyleBackColor = true;
+            // 
+            // checkExportSVG
+            // 
+            this.checkExportSVG.AutoSize = true;
+            this.checkExportSVG.Location = new System.Drawing.Point(251, 413);
+            this.checkExportSVG.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.checkExportSVG.Name = "checkExportSVG";
+            this.checkExportSVG.Size = new System.Drawing.Size(186, 22);
+            this.checkExportSVG.TabIndex = 64;
+            this.checkExportSVG.Text = "Export Vector art (SVG)";
+            this.checkExportSVG.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -169,48 +182,6 @@
             this.buttResinCalib.Text = "Calibrate";
             this.buttResinCalib.UseVisualStyleBackColor = true;
             this.buttResinCalib.Click += new System.EventHandler(this.buttResinCalib_Click);
-            // 
-            // cmdDelResin
-            // 
-            this.cmdDelResin.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.cmdDelResin.Checked = false;
-            this.cmdDelResin.CheckImage = null;
-            this.cmdDelResin.Gapx = 5;
-            this.cmdDelResin.Gapy = 5;
-            this.cmdDelResin.GLBackgroundImage = null;
-            this.cmdDelResin.GLImage = null;
-            this.cmdDelResin.GLVisible = false;
-            this.cmdDelResin.GuiAnchor = null;
-            this.cmdDelResin.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.cmdDelResin.Image = global::UV_DLP_3D_Printer.Properties.Resources.butMinus;
-            this.cmdDelResin.Location = new System.Drawing.Point(226, 23);
-            this.cmdDelResin.Name = "cmdDelResin";
-            this.cmdDelResin.Size = new System.Drawing.Size(26, 26);
-            this.cmdDelResin.StyleName = null;
-            this.cmdDelResin.TabIndex = 65;
-            this.cmdDelResin.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.cmdDelResin.Click += new System.EventHandler(this.cmdDelResin_Click);
-            // 
-            // cmdNewResin
-            // 
-            this.cmdNewResin.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.cmdNewResin.Checked = false;
-            this.cmdNewResin.CheckImage = null;
-            this.cmdNewResin.Gapx = 5;
-            this.cmdNewResin.Gapy = 5;
-            this.cmdNewResin.GLBackgroundImage = null;
-            this.cmdNewResin.GLImage = null;
-            this.cmdNewResin.GLVisible = false;
-            this.cmdNewResin.GuiAnchor = null;
-            this.cmdNewResin.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.cmdNewResin.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPlus;
-            this.cmdNewResin.Location = new System.Drawing.Point(195, 23);
-            this.cmdNewResin.Name = "cmdNewResin";
-            this.cmdNewResin.Size = new System.Drawing.Size(26, 26);
-            this.cmdNewResin.StyleName = null;
-            this.cmdNewResin.TabIndex = 64;
-            this.cmdNewResin.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
-            this.cmdNewResin.Click += new System.EventHandler(this.cmdNewResin_Click);
             // 
             // comboResin
             // 
@@ -635,7 +606,7 @@
             this.tbGCode.Controls.Add(this.txtGCode);
             this.tbGCode.Location = new System.Drawing.Point(4, 27);
             this.tbGCode.Name = "tbGCode";
-            this.tbGCode.Size = new System.Drawing.Size(923, 428);
+            this.tbGCode.Size = new System.Drawing.Size(923, 460);
             this.tbGCode.TabIndex = 7;
             this.tbGCode.Text = "GCode";
             this.tbGCode.UseVisualStyleBackColor = true;
@@ -767,16 +738,58 @@
             this.cmdNew.UseVisualStyleBackColor = true;
             this.cmdNew.Click += new System.EventHandler(this.cmdNew_Click);
             // 
-            // checkExportSVG
+            // cmdDelResin
             // 
-            this.checkExportSVG.AutoSize = true;
-            this.checkExportSVG.Location = new System.Drawing.Point(235, 387);
-            this.checkExportSVG.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.checkExportSVG.Name = "checkExportSVG";
-            this.checkExportSVG.Size = new System.Drawing.Size(186, 22);
-            this.checkExportSVG.TabIndex = 64;
-            this.checkExportSVG.Text = "Export Vector art (SVG)";
-            this.checkExportSVG.UseVisualStyleBackColor = true;
+            this.cmdDelResin.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.cmdDelResin.Checked = false;
+            this.cmdDelResin.CheckImage = null;
+            this.cmdDelResin.Gapx = 5;
+            this.cmdDelResin.Gapy = 5;
+            this.cmdDelResin.GLBackgroundImage = null;
+            this.cmdDelResin.GLImage = null;
+            this.cmdDelResin.GLVisible = false;
+            this.cmdDelResin.GuiAnchor = null;
+            this.cmdDelResin.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.cmdDelResin.Image = global::UV_DLP_3D_Printer.Properties.Resources.butMinus;
+            this.cmdDelResin.Location = new System.Drawing.Point(226, 23);
+            this.cmdDelResin.Name = "cmdDelResin";
+            this.cmdDelResin.Size = new System.Drawing.Size(26, 26);
+            this.cmdDelResin.StyleName = null;
+            this.cmdDelResin.TabIndex = 65;
+            this.cmdDelResin.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.cmdDelResin.Click += new System.EventHandler(this.cmdDelResin_Click);
+            // 
+            // cmdNewResin
+            // 
+            this.cmdNewResin.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.cmdNewResin.Checked = false;
+            this.cmdNewResin.CheckImage = null;
+            this.cmdNewResin.Gapx = 5;
+            this.cmdNewResin.Gapy = 5;
+            this.cmdNewResin.GLBackgroundImage = null;
+            this.cmdNewResin.GLImage = null;
+            this.cmdNewResin.GLVisible = false;
+            this.cmdNewResin.GuiAnchor = null;
+            this.cmdNewResin.HorizontalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.cmdNewResin.Image = global::UV_DLP_3D_Printer.Properties.Resources.buttPlus;
+            this.cmdNewResin.Location = new System.Drawing.Point(195, 23);
+            this.cmdNewResin.Name = "cmdNewResin";
+            this.cmdNewResin.Size = new System.Drawing.Size(26, 26);
+            this.cmdNewResin.StyleName = null;
+            this.cmdNewResin.TabIndex = 64;
+            this.cmdNewResin.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
+            this.cmdNewResin.Click += new System.EventHandler(this.cmdNewResin_Click);
+            // 
+            // chkExportPNG
+            // 
+            this.chkExportPNG.AutoSize = true;
+            this.chkExportPNG.Location = new System.Drawing.Point(59, 413);
+            this.chkExportPNG.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkExportPNG.Name = "chkExportPNG";
+            this.chkExportPNG.Size = new System.Drawing.Size(161, 22);
+            this.chkExportPNG.TabIndex = 65;
+            this.chkExportPNG.Text = "Export PNG to Disk";
+            this.chkExportPNG.UseVisualStyleBackColor = true;
             // 
             // ctlToolpathGenConfig
             // 
@@ -788,7 +801,7 @@
             this.Controls.Add(this.tabOptions);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "ctlToolpathGenConfig";
-            this.Size = new System.Drawing.Size(1312, 505);
+            this.Size = new System.Drawing.Size(1312, 533);
             this.tabOptions.ResumeLayout(false);
             this.tbOptions.ResumeLayout(false);
             this.tbOptions.PerformLayout();
@@ -873,5 +886,6 @@
         private CustomGUI.ctlImageButton cmdNewResin;
         private System.Windows.Forms.Button buttResinCalib;
         private System.Windows.Forms.CheckBox checkExportSVG;
+        private System.Windows.Forms.CheckBox chkExportPNG;
     }
 }

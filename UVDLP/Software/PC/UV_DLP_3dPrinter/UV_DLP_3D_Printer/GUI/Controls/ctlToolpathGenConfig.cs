@@ -113,6 +113,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             chkExport.Checked = m_config.export;
             checkExportSVG.Enabled = chkExport.Checked;
             checkExportSVG.Checked = m_config.exportsvg;
+            chkExportPNG.Enabled = chkExport.Checked;
+            chkExportPNG.Checked = m_config.exportpng;
            // groupBox2.Enabled = chkExport.Checked;
            // chkgengcode.Checked = m_config.exportgcode;
            // chkExportSlices.Checked = m_config.exportimages;
@@ -208,6 +210,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_config.direction = (SliceBuildConfig.eBuildDirection)Enum.Parse(typeof(SliceBuildConfig.eBuildDirection), cmbBuildDirection.SelectedItem.ToString());
                 m_config.export = chkExport.Checked;
                 m_config.exportsvg = checkExportSVG.Checked;
+                m_config.exportpng = chkExportPNG.Checked;
                 // resin
                 m_config.ZThick = Single.Parse(txtZThick.Text);
                 m_config.layertime_ms = int.Parse(txtLayerTime.Text);
@@ -455,6 +458,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             //groupBox2.Enabled = chkExport.Checked;
             checkExportSVG.Enabled = chkExport.Checked;
+            chkExportPNG.Enabled = chkExport.Checked;
         }
 
 

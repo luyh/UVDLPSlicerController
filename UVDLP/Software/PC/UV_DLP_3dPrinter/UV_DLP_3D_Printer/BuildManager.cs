@@ -17,6 +17,8 @@ namespace UV_DLP_3D_Printer
      * one at a time, along with control information and GCode over the PrinterInterface
      * it can now also control FDM builds
      * 
+     * A new function of this class is to run gcode 'snippets', or short sequences
+     * triggered by GUIConfig defined sequences and onclick button events
      */
     /*
      This class raises an event when the printing starts,
@@ -59,6 +61,8 @@ namespace UV_DLP_3D_Printer
         public delPrinterLayer PrintLayer; // the delegate to show a new layer (UV DLP Printers)
         private bool m_printing = false;
         private bool m_paused = false;
+        private bool m_runningsnippet; // are we executing a short gcode snippet?
+
         private int m_curlayer = 0; // the current visible slice layer index #
         SliceFile m_sf = null; // current file we're building
         GCodeFile m_gcode = null; // a reference from the active gcode file
@@ -255,9 +259,12 @@ namespace UV_DLP_3D_Printer
 
         private void RaiseStatusEvent(eBuildStatus status,string message, int data) 
         {
-            if (BuildStatus != null) 
+            if (m_runningsnippet == false) // don't emit build events for gcode snippets
             {
-                BuildStatus(status, message, data);
+                if (BuildStatus != null)
+                {
+                    BuildStatus(status, message, data);
+                }
             }
         }
 
@@ -331,8 +338,10 @@ namespace UV_DLP_3D_Printer
         }
 
         // This function is called to start the print job
-        public void StartPrint(SliceFile sf, GCodeFile gcode) 
+        public void StartPrint(SliceFile sf, GCodeFile gcode, bool snippet = false) 
         {
+            m_runningsnippet = snippet;
+
             if (m_printing)  // already printing
                 return;
             //make sure to reset these
@@ -665,10 +674,17 @@ namespace UV_DLP_3D_Printer
                                     else
                                     {
                                         m_curlayer = layer;
-                                        bmp = m_sf.GetSliceImage(m_curlayer); // get the rendered image slice or load it if already rendered                                    
-                                        if (bmp == null)
+                                        if (m_sf != null)
                                         {
-                                            DebugLogger.Instance().LogError("Buildmanager bitmap is null layer = " + m_curlayer + " ");
+                                            bmp = m_sf.GetSliceImage(m_curlayer); // get the rendered image slice or load it if already rendered                                    
+                                            if (bmp == null)
+                                            {
+                                                DebugLogger.Instance().LogError("Buildmanager bitmap is null layer = " + m_curlayer + " ");
+                                            }
+                                        }
+                                        else
+                                        {
+                                            DebugLogger.Instance().LogWarning("Slice File is null during build and slice image is specified");
                                         }
                                         sltime = GetTimerValue();
                                         //DebugLogger.Instance().LogInfo("Showing Slice image at :" + sltime.ToString());
