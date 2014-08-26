@@ -31,7 +31,7 @@ namespace UV_DLP_3D_Printer
         public int numfirstlayers;
         public int blanktime_ms; // blanking time between layers
         public int plat_temp; // desired platform temperature in celsius 
-        public bool exportsvg; // export the svg slices when building
+        public int exportsvg; // export the svg slices when building 0-none, 1-compound path, 2-filled polygons
         public bool export; // export image slices when building into cws file
         public bool exportpng;// export png slices to disk
         public eBuildDirection direction;
@@ -248,7 +248,7 @@ namespace UV_DLP_3D_Printer
             YOffset = 0;
             numfirstlayers = 3;
             //exportgcode = true;
-            exportsvg = false;
+            exportsvg = 0;
             export = false;
             exportpng = false;
             direction = eBuildDirection.Bottom_Up;
@@ -321,7 +321,9 @@ namespace UV_DLP_3D_Printer
             blanktime_ms = xh.GetInt(sbc, "BlankTime", 2000); // 2 seconds blank
             plat_temp = xh.GetInt(sbc, "PlatformTemp", 75);
             //exportgcode = xh.GetBool(sbc, "ExportGCode"));
-            exportsvg = xh.GetBool(sbc, "ExportSVG", false);
+            exportsvg = xh.GetInt(sbc, "ExportSVG", 0);
+            if ((exportsvg < 0) || (exportsvg > 2))
+                exportsvg = 0;
             export = xh.GetBool(sbc, "Export", false); ;
             exportpng = xh.GetBool(sbc, "ExportPNG", false); ;
 

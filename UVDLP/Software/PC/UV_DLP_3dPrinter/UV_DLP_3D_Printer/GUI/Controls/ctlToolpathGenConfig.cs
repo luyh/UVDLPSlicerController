@@ -111,8 +111,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             lblProfName.Text = lstSliceProfiles.SelectedItem.ToString();
             chkExport.Checked = m_config.export;
-            checkExportSVG.Enabled = chkExport.Checked;
-            checkExportSVG.Checked = m_config.exportsvg;
+            comboExportSvg.Enabled = chkExport.Checked;
+            comboExportSvg.SelectedIndex = m_config.exportsvg;
             chkExportPNG.Enabled = chkExport.Checked;
             chkExportPNG.Checked = m_config.exportpng;
            // groupBox2.Enabled = chkExport.Checked;
@@ -209,7 +209,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_config.aaval = double.Parse(txtAAVal.Text);
                 m_config.direction = (SliceBuildConfig.eBuildDirection)Enum.Parse(typeof(SliceBuildConfig.eBuildDirection), cmbBuildDirection.SelectedItem.ToString());
                 m_config.export = chkExport.Checked;
-                m_config.exportsvg = checkExportSVG.Checked;
+                m_config.exportsvg = comboExportSvg.SelectedIndex;
                 m_config.exportpng = chkExportPNG.Checked;
                 // resin
                 m_config.ZThick = Single.Parse(txtZThick.Text);
@@ -457,7 +457,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         private void chkExport_CheckedChanged(object sender, EventArgs e)
         {
             //groupBox2.Enabled = chkExport.Checked;
-            checkExportSVG.Enabled = chkExport.Checked;
+            comboExportSvg.Enabled = chkExport.Checked;
             chkExportPNG.Enabled = chkExport.Checked;
         }
 

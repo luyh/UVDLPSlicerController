@@ -326,7 +326,7 @@ namespace UV_DLP_3D_Printer
                 for (c = 0; c < numslices; c++)
                 {
                     List<PolyLine3d> lstPoly = null;
-                    if (m_sf.m_config.exportsvg)
+                    if (m_sf.m_config.exportsvg != 0)
                         lstPoly = new List<PolyLine3d>();
                     Bitmap savebm = SliceImmediate(curz, lstPoly);
                     if (m_cancel || (savebm == null))
@@ -532,7 +532,8 @@ namespace UV_DLP_3D_Printer
             RaiseSliceEvent(eSliceEvent.eSliceStarted, 0, numslices);
         }
 
-        StreamWriter GenerateSVG(List<PolyLine3d> lstPoly)
+
+        StreamWriter GenerateSVG(List<PolyLine3d> lstPoly, bool isFillPoly)
         {
             MemoryStream ms = new MemoryStream();
             StreamWriter sw = new StreamWriter(ms);
@@ -542,22 +543,52 @@ namespace UV_DLP_3D_Printer
             sw.WriteLine("<!-- Created with CreationWorkshop (http://www.envisionlabs.net/) -->");
             sw.WriteLine();
             sw.WriteLine("<svg width=\"{0}mm\" height=\"{1}mm\" viewBox=\"{2} {3} {0} {1}\">", width, height, -width/2, -height/2);
-            sw.Write("<path d=\"");
-            foreach (PolyLine3d pl in lstPoly)
+            if (isFillPoly)
             {
-                int plen = pl.m_points.Count;
-                if (pl.m_points[0].Matches(pl.m_points[plen - 1]))
-                    plen--; // no need for last point if it matches the firat
-                for (int i = 0; i < plen; i++)
+                foreach (PolyLine3d pl in lstPoly)
                 {
-                    if (i == 0)
-                        sw.Write("M{0} {1} ", pl.m_points[i].x, -pl.m_points[i].y);
-                    else
-                        sw.Write("L{0} {1} ", pl.m_points[i].x, -pl.m_points[i].y);
+                    int plen = pl.m_points.Count;
+                    if (pl.m_points[0].Matches(pl.m_points[plen - 1]))
+                        plen--; // no need for last point if it matches the firat
+                    // determine polygon direction
+                    float dir = 0;
+                    for (int i = 1; i < plen; i++)
+                    {
+                        dir += (pl.m_points[i].x - pl.m_points[i - 1].x) * (pl.m_points[i].y + pl.m_points[i - 1].y);
+                    }
+                    dir += (pl.m_points[0].x - pl.m_points[plen - 1].x) * (pl.m_points[0].y + pl.m_points[plen - 1].y);
+
+                    // draw polygon
+                    sw.Write("<polygon points=\"");
+                    for (int i = 1; i < plen; i++)
+                    {
+                        sw.Write("{0},{1}", pl.m_points[i].x, -pl.m_points[i].y);
+                        if (i < (plen - 1))
+                            sw.Write(" ");
+                    }
+                    sw.WriteLine("\" style=\"fill:{0}\" />", dir<0?"black":"white");
                 }
-                sw.WriteLine("Z ");
+              
             }
-            sw.WriteLine("\" />");
+            else
+            {
+                sw.Write("<path d=\"");
+                foreach (PolyLine3d pl in lstPoly)
+                {
+                    int plen = pl.m_points.Count;
+                    if (pl.m_points[0].Matches(pl.m_points[plen - 1]))
+                        plen--; // no need for last point if it matches the firat
+                    for (int i = 0; i < plen; i++)
+                    {
+                        if (i == 0)
+                            sw.Write("M{0} {1} ", pl.m_points[i].x, -pl.m_points[i].y);
+                        else
+                            sw.Write("L{0} {1} ", pl.m_points[i].x, -pl.m_points[i].y);
+                    }
+                    sw.WriteLine("Z ");
+                }
+                sw.WriteLine("\" />");
+            }
 
              //<path d="M 15 2 L9.5 18.0 L25.5 22.0 Z M 15.0 0 L7.5 20.0 L22.5 20.0 Z" fill-rule="evenodd"/>
             sw.WriteLine("</svg>");
@@ -608,7 +639,7 @@ namespace UV_DLP_3D_Printer
                     {
                         imname = Path.GetFileNameWithoutExtension(modelname) + String.Format("{0:0000}", layer) + ".svg";
                         imagename = path + UVDLPApp.m_pathsep + imname;
-                        StreamWriter sw = GenerateSVG(lstPoly);
+                        StreamWriter sw = GenerateSVG(lstPoly, m_sf.m_config.exportsvg == 2);
                         if (!m_cancel)
                             SceneFile.Instance().AddVectorSlice((MemoryStream)sw.BaseStream, imname);
                         //StreamReader sr = new StreamReader(sw.BaseStream);

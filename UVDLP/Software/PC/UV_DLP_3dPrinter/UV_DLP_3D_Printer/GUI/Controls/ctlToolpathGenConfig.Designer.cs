@@ -30,7 +30,7 @@
         {
             this.tabOptions = new System.Windows.Forms.TabControl();
             this.tbOptions = new System.Windows.Forms.TabPage();
-            this.checkExportSVG = new System.Windows.Forms.CheckBox();
+            this.chkExportPNG = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.buttResinCalib = new System.Windows.Forms.Button();
             this.comboResin = new System.Windows.Forms.ComboBox();
@@ -88,9 +88,10 @@
             this.lstSliceProfiles = new System.Windows.Forms.ListBox();
             this.cmdDelete = new System.Windows.Forms.Button();
             this.cmdNew = new System.Windows.Forms.Button();
+            this.label19 = new System.Windows.Forms.Label();
+            this.comboExportSvg = new System.Windows.Forms.ComboBox();
             this.cmdDelResin = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.cmdNewResin = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.chkExportPNG = new System.Windows.Forms.CheckBox();
             this.tabOptions.SuspendLayout();
             this.tbOptions.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -115,8 +116,9 @@
             // 
             // tbOptions
             // 
+            this.tbOptions.Controls.Add(this.comboExportSvg);
+            this.tbOptions.Controls.Add(this.label19);
             this.tbOptions.Controls.Add(this.chkExportPNG);
-            this.tbOptions.Controls.Add(this.checkExportSVG);
             this.tbOptions.Controls.Add(this.groupBox2);
             this.tbOptions.Controls.Add(this.txtAAVal);
             this.tbOptions.Controls.Add(this.chkExport);
@@ -138,16 +140,16 @@
             this.tbOptions.Text = "Options";
             this.tbOptions.UseVisualStyleBackColor = true;
             // 
-            // checkExportSVG
+            // chkExportPNG
             // 
-            this.checkExportSVG.AutoSize = true;
-            this.checkExportSVG.Location = new System.Drawing.Point(251, 413);
-            this.checkExportSVG.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.checkExportSVG.Name = "checkExportSVG";
-            this.checkExportSVG.Size = new System.Drawing.Size(186, 22);
-            this.checkExportSVG.TabIndex = 64;
-            this.checkExportSVG.Text = "Export Vector art (SVG)";
-            this.checkExportSVG.UseVisualStyleBackColor = true;
+            this.chkExportPNG.AutoSize = true;
+            this.chkExportPNG.Location = new System.Drawing.Point(59, 413);
+            this.chkExportPNG.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkExportPNG.Name = "chkExportPNG";
+            this.chkExportPNG.Size = new System.Drawing.Size(161, 22);
+            this.chkExportPNG.TabIndex = 65;
+            this.chkExportPNG.Text = "Export PNG to Disk";
+            this.chkExportPNG.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -738,6 +740,28 @@
             this.cmdNew.UseVisualStyleBackColor = true;
             this.cmdNew.Click += new System.EventHandler(this.cmdNew_Click);
             // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(241, 414);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(90, 18);
+            this.label19.TabIndex = 66;
+            this.label19.Text = "Export SVG:";
+            // 
+            // comboExportSvg
+            // 
+            this.comboExportSvg.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboExportSvg.FormattingEnabled = true;
+            this.comboExportSvg.Items.AddRange(new object[] {
+            "None",
+            "Compound path",
+            "Filled polygons"});
+            this.comboExportSvg.Location = new System.Drawing.Point(330, 411);
+            this.comboExportSvg.Name = "comboExportSvg";
+            this.comboExportSvg.Size = new System.Drawing.Size(142, 26);
+            this.comboExportSvg.TabIndex = 67;
+            // 
             // cmdDelResin
             // 
             this.cmdDelResin.BackColor = System.Drawing.Color.CornflowerBlue;
@@ -779,17 +803,6 @@
             this.cmdNewResin.TabIndex = 64;
             this.cmdNewResin.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.cmdNewResin.Click += new System.EventHandler(this.cmdNewResin_Click);
-            // 
-            // chkExportPNG
-            // 
-            this.chkExportPNG.AutoSize = true;
-            this.chkExportPNG.Location = new System.Drawing.Point(59, 413);
-            this.chkExportPNG.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.chkExportPNG.Name = "chkExportPNG";
-            this.chkExportPNG.Size = new System.Drawing.Size(161, 22);
-            this.chkExportPNG.TabIndex = 65;
-            this.chkExportPNG.Text = "Export PNG to Disk";
-            this.chkExportPNG.UseVisualStyleBackColor = true;
             // 
             // ctlToolpathGenConfig
             // 
@@ -885,7 +898,8 @@
         private CustomGUI.ctlImageButton cmdDelResin;
         private CustomGUI.ctlImageButton cmdNewResin;
         private System.Windows.Forms.Button buttResinCalib;
-        private System.Windows.Forms.CheckBox checkExportSVG;
         private System.Windows.Forms.CheckBox chkExportPNG;
+        private System.Windows.Forms.ComboBox comboExportSvg;
+        private System.Windows.Forms.Label label19;
     }
 }
