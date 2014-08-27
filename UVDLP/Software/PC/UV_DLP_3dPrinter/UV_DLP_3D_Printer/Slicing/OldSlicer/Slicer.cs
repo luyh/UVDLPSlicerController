@@ -545,30 +545,57 @@ namespace UV_DLP_3D_Printer
             sw.WriteLine("<svg width=\"{0}mm\" height=\"{1}mm\" viewBox=\"{2} {3} {0} {1}\">", width, height, -width/2, -height/2);
             if (isFillPoly)
             {
-                foreach (PolyLine3d pl in lstPoly)
+                // sort polygons into display layers
+                int[] dispLevel = new int[lstPoly.Count];
+                int i, j, k;
+                int maxLevel = 0;
+                for (i = 0; i < lstPoly.Count; i++)
                 {
-                    int plen = pl.m_points.Count;
-                    if (pl.m_points[0].Matches(pl.m_points[plen - 1]))
-                        plen--; // no need for last point if it matches the firat
-                    // determine polygon direction
-                    float dir = 0;
-                    for (int i = 1; i < plen; i++)
+                    dispLevel[i] = 0;
+                    for (j = 0; j < lstPoly.Count; j++)
                     {
-                        dir += (pl.m_points[i].x - pl.m_points[i - 1].x) * (pl.m_points[i].y + pl.m_points[i - 1].y);
+                        if (j == i)
+                            continue;
+                        if (lstPoly[j].PointInPoly2D(lstPoly[i].m_points[0].x, lstPoly[i].m_points[0].y))
+                            dispLevel[i]++;
                     }
-                    dir += (pl.m_points[0].x - pl.m_points[plen - 1].x) * (pl.m_points[0].y + pl.m_points[plen - 1].y);
-
-                    // draw polygon
-                    sw.Write("<polygon points=\"");
-                    for (int i = 1; i < plen; i++)
-                    {
-                        sw.Write("{0},{1}", pl.m_points[i].x, -pl.m_points[i].y);
-                        if (i < (plen - 1))
-                            sw.Write(" ");
-                    }
-                    sw.WriteLine("\" style=\"fill:{0}\" />", dir<0?"black":"white");
+                    if (dispLevel[i] > maxLevel)
+                        maxLevel = dispLevel[i];
                 }
-              
+
+                // draw polygons layer by layer
+                for (k = 0; k <= maxLevel; k++)
+                {
+                    for (j = 0; j < lstPoly.Count; j++)
+                    {
+                        if (dispLevel[j] != k)
+                            continue;
+                        PolyLine3d pl = lstPoly[j];
+                        int plen = pl.m_points.Count;
+                        if (pl.m_points[0].Matches(pl.m_points[plen - 1]))
+                            plen--; // no need for last point if it matches the firat
+                        // determine polygon direction
+                   
+                        float dir = 0;
+                        for (i = 1; i < plen; i++)
+                        {
+                            dir += (pl.m_points[i].x - pl.m_points[i - 1].x) * (pl.m_points[i].y + pl.m_points[i - 1].y);
+                        }
+                        dir += (pl.m_points[0].x - pl.m_points[plen - 1].x) * (pl.m_points[0].y + pl.m_points[plen - 1].y);
+
+                        // draw polygon
+                        sw.Write("<polygon points=\"");
+                        for (i = 0; i < plen; i++)
+                        {
+                            sw.Write("{0},{1}", pl.m_points[i].x, -pl.m_points[i].y);
+                            if (i < (plen - 1))
+                                sw.Write(" ");
+                        }
+                        // sw.WriteLine("\" style=\"fill:{0}\" />", dir < 0 ? "black" : "white"); - for some resaon it seems 
+                        //     that polygon direction does not work properly so i use layer level instead.
+                        sw.WriteLine("\" style=\"fill:{0}\" />", (k & 1) == 1 ? "black" : "white");
+                    }
+                }
             }
             else
             {

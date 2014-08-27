@@ -252,6 +252,22 @@ namespace Engine3D
             m_points.Add(pnt);
         }
 
+        public bool PointInPoly2D(float x, float y)
+        {
+            int i, j, nvert = m_points.Count;
+            bool c = false;
+
+            for (i = 0, j = nvert - 1; i < nvert; j = i++)
+            {
+                if (((m_points[i].y >= y) != (m_points[j].y >= y)) &&
+                    (x <= (m_points[j].x - m_points[i].x) * (y - m_points[i].y) / (m_points[j].y - m_points[i].y) + m_points[i].x)
+                  )
+                    c = !c;
+            }
+
+            return c;
+        }
+
         public void RenderGL() 
         {
             if (!visible)
