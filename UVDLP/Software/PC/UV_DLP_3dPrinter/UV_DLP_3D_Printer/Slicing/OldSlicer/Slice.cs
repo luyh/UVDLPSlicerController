@@ -321,6 +321,8 @@ namespace UV_DLP_3D_Printer
                         double curveDir = Math.Atan2(curline.m_points[1].y - curline.m_points[0].y, curline.m_points[1].x - curline.m_points[0].x);
                         double normalDir = Math.Atan2(curline.m_derived.m_normal.y, curline.m_derived.m_normal.x);
                         double dirDiff = curveDir - normalDir;
+                        if (dirDiff < 0)
+                            dirDiff += 2 * Math.PI; // handle negative result
                         if ((dirDiff > 0) && (dirDiff < Math.PI))
                             curline.m_points.Reverse(); // reverse curve direction to match normal
 

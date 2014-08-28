@@ -591,9 +591,10 @@ namespace UV_DLP_3D_Printer
                             if (i < (plen - 1))
                                 sw.Write(" ");
                         }
-                        // sw.WriteLine("\" style=\"fill:{0}\" />", dir < 0 ? "black" : "white"); - for some resaon it seems 
+                        sw.WriteLine("\" style=\"fill:{0}\" />", dir < 0 ? "black" : "white");
+                        // - for some resaon it seems 
                         //     that polygon direction does not work properly so i use layer level instead.
-                        sw.WriteLine("\" style=\"fill:{0}\" />", (k & 1) == 1 ? "black" : "white");
+                        //sw.WriteLine("\" style=\"fill:{0}\" />", (k & 1) == 1 ? "black" : "white");
                     }
                 }
             }
