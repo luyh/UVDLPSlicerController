@@ -542,7 +542,7 @@ namespace UV_DLP_3D_Printer
             sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>");
             sw.WriteLine("<!-- Created with CreationWorkshop (http://www.envisionlabs.net/) -->");
             sw.WriteLine();
-            sw.WriteLine("<svg width=\"{0}mm\" height=\"{1}mm\" viewBox=\"{2} {3} {0} {1}\">", width, height, -width/2, -height/2);
+            sw.WriteLine("<svg width=\"{0}mm\" height=\"{1}mm\" viewBox=\"{2} {3} {0} {1}\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">", width, height, -width/2, -height/2);
             if (isFillPoly)
             {
                 // sort polygons into display layers
