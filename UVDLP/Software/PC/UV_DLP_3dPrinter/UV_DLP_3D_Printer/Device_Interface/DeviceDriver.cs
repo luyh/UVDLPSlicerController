@@ -67,14 +67,21 @@ namespace UV_DLP_3D_Printer.Drivers
         }
         private void Mono_Serial_ReadThread() 
         {
-            try
+            while (m_readthreadrunning)
             {
-                while (m_readthreadrunning) 
+                if ((UVDLPApp.Instance().m_mainform != null) && UVDLPApp.Instance().m_mainform.IsDisposed)
+                    return;
+                if (!m_serialport.IsOpen)
+                {
+                    Thread.Sleep(20);
+                    continue;
+                }
+                try
                 {
                     // try to read from serial port,                   
-                    if (m_serialport.BytesToRead > 0) 
+                    if (m_serialport.BytesToRead > 0)
                     {
-                       // m_serialport_DataReceived(null, null);
+                        // m_serialport_DataReceived(null, null);
                         int read = m_serialport.BytesToRead;
                         byte[] data = new byte[read];
                         for (int cnt = 0; cnt < read; cnt++)
@@ -86,11 +93,11 @@ namespace UV_DLP_3D_Printer.Drivers
                         RaiseDataReceivedEvent(this, data, read);
                     }
                     Thread.Sleep(0); // yield the remainder of the timeslice      
-                }                          
-            }
-            catch (Exception ex) 
-            {
-                DebugLogger.Instance().LogError(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    DebugLogger.Instance().LogError(ex.Message);
+                }
             }
         }
         /// <summary>
