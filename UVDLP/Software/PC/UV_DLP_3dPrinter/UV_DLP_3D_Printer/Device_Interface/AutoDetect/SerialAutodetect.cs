@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.IO.Ports;
 using System.Collections;
+using UV_DLP_3D_Printer.Drivers;
 
 namespace UV_DLP_3D_Printer.Device_Interface.AutoDetect
 {
@@ -71,7 +72,8 @@ namespace UV_DLP_3D_Printer.Device_Interface.AutoDetect
             try
             {
                 //get the list of serial ports
-                foreach (String s in SerialPort.GetPortNames())
+                // foreach (String s in SerialPort.GetPortNames())
+                foreach (String s in DeviceDriver.GetPortNames())
                 {
                     // create a new tester
                     ConnectionTester tester = new ConnectionTester(s); // specify the name of the port we're trying to detect

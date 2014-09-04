@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO.Ports;
 using UV_DLP_3D_Printer.Configs;
+using UV_DLP_3D_Printer.Drivers;
 
 namespace UV_DLP_3D_Printer.GUI
 {
@@ -42,7 +43,8 @@ namespace UV_DLP_3D_Printer.GUI
             ConnectionConfig cc = m_config;
             cmbPorts.Items.Clear();
             //set all available port names
-            foreach (String s in SerialPort.GetPortNames()) 
+            //foreach (String s in SerialPort.GetPortNames()) 
+            foreach (String s in DeviceDriver.GetPortNames()) 
             {
                 cmbPorts.Items.Add(s);
             }
