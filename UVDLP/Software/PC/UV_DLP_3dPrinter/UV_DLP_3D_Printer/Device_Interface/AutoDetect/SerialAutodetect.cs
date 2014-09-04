@@ -22,7 +22,7 @@ namespace UV_DLP_3D_Printer.Device_Interface.AutoDetect
     {
         public class SerialAutodetectConfig 
         {
-            public int m_baud;
+            public int m_baud; // we need to specify the baud at which we're auto-detecting...
         }
         public enum eDetectStatus
         {
@@ -35,7 +35,7 @@ namespace UV_DLP_3D_Printer.Device_Interface.AutoDetect
         private bool m_running;
         private Thread m_thread;
         private List<ConnectionTester> m_list; // list of connectionTester objects we're spawning
-        private List<ConnectionTester> m_lstresults;
+        private List<ConnectionTester> m_lstresults; // the results of the autodetect - 
         public event DetectionStatus DetectionStatusEvent;
         private SerialAutodetectConfig m_config;
         private const long TIMEOUTTIME = 10000; // ten seconds total 
@@ -68,24 +68,30 @@ namespace UV_DLP_3D_Printer.Device_Interface.AutoDetect
 
         private void run() 
         {
-
-            //get the list of serial ports
-            foreach (String s in SerialPort.GetPortNames())
+            try
             {
-                // create a new tester
-                ConnectionTester tester = new ConnectionTester(s);
-                //set the baud
-                tester.m_baud = m_config.m_baud;
-                //set up to listen to events
-                tester.ConnectionTesterStatusEvent += new ConnectionTester.ConnectionTesterStatus(ConnectionTesterStatusDel);
-                //start it off
-                tester.Start();
+                //get the list of serial ports
+                foreach (String s in SerialPort.GetPortNames())
+                {
+                    // create a new tester
+                    ConnectionTester tester = new ConnectionTester(s); // specify the name of the port we're trying to detect
+                    //set the baud
+                    tester.m_baud = m_config.m_baud;
+                    //set up to listen to events
+                    tester.ConnectionTesterStatusEvent += new ConnectionTester.ConnectionTesterStatus(ConnectionTesterStatusDel);
+                    //start it off
+                    tester.Start();
+                }
+                //for each serial port, create a new serial port tester
+                while (m_running)
+                {
+                    //check for timeout
+                    Thread.Sleep(0);
+                }
             }
-            //for each serial port, create a new serial port tester
-            while (m_running) 
+            catch (Exception ex) 
             {
-                //check for timeout
-                Thread.Sleep(0); 
+                DebugLogger.Instance().LogError(ex);
             }
         }
 

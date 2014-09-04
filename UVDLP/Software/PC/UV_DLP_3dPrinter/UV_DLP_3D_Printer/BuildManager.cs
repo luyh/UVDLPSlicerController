@@ -516,7 +516,7 @@ namespace UV_DLP_3D_Printer
                     return;
                 }
                 // get the monitor ID
-                if (monname.Equals("All"))
+                if (monname.ToUpper().Equals("ALL"))
                 {
                     //iterate through all configured monitors in machine monitor list
                     foreach (MonitorConfig mc in UVDLPApp.Instance().m_printerinfo.m_lstMonitorconfigs) 

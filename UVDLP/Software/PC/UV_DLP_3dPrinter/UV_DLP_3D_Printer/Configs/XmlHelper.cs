@@ -232,7 +232,13 @@ namespace UV_DLP_3D_Printer.Configs
             }
             return result;
         }
-
+        /// <summary>
+        
+        /// </summary>
+        /// <param name="parentNode"></param>
+        /// <param name="id"></param>
+        /// <param name="default_val"></param>
+        /// <returns></returns>
         public int GetInt(XmlNode parentNode, String id, int default_val)
         {
             XmlNode nd = FindChildElement(parentNode, id);
@@ -244,7 +250,18 @@ namespace UV_DLP_3D_Printer.Configs
             }
             try
             {
-                result = int.Parse(nd.InnerText);
+                // read from old file..
+                bool tmp;
+                bool success = bool.TryParse(nd.InnerText,out tmp);
+                if (success) // this was a boolean var (old bool)
+                {
+                    result = 0;
+                }
+                else // this came from the new style (new int)
+                {
+                    result = int.Parse(nd.InnerText);
+                }
+                
             }
             catch (Exception)
             {

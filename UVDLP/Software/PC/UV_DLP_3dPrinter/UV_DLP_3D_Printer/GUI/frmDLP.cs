@@ -147,9 +147,17 @@ namespace UV_DLP_3D_Printer
                 if (m_screenid.Contains("LASERSHARK"))
                 {
                     // create an object array to hold parameters
-                    object[] parms = new object[1];
+                    object[] parms = new object[2];
                     //set the first parameter to be the image
                     parms[0] = (object)cropped;
+                    if (layertype == BuildManager.SLICE_BLANK)
+                    {
+                        parms[1] = (bool)true; // parameter 2 is used to indicate that this is a blank image
+                    }
+                    else 
+                    {
+                        parms[1] = (bool)false;// not blank
+                    }
                     //call the plugin command
                     UVDLPApp.Instance().PerformPluginCommand("SendToLaserDisplay", parms, false);
                 }

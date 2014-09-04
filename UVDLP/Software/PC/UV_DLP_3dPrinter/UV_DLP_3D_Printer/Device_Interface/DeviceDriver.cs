@@ -60,6 +60,7 @@ namespace UV_DLP_3D_Printer.Drivers
             {
                 // if we're not windows, we need to poll for data
                 m_readthread = new Thread(new ThreadStart(Mono_Serial_ReadThread));
+                DebugLogger.Instance().LogInfo("Starting Separate Read thread for Mono");
                 m_readthreadrunning = true;
                 m_readthread.Start();
             }
@@ -70,11 +71,19 @@ namespace UV_DLP_3D_Printer.Drivers
             {
                 while (m_readthreadrunning) 
                 {
-                    // try to read from serial port,
-                    // if we have one or more bytes available, pass it off to the m_serialport_DataReceived function
+                    // try to read from serial port,                   
                     if (m_serialport.BytesToRead > 0) 
                     {
-                        m_serialport_DataReceived(null, null);
+                       // m_serialport_DataReceived(null, null);
+                        int read = m_serialport.BytesToRead;
+                        byte[] data = new byte[read];
+                        for (int cnt = 0; cnt < read; cnt++)
+                        {
+                            data[cnt] = (byte)m_serialport.ReadByte();
+                            Thread.Sleep(20);
+                        }
+                        Log(data, read);
+                        RaiseDataReceivedEvent(this, data, read);
                     }
                     Thread.Sleep(0); // yield the remainder of the timeslice      
                 }                          

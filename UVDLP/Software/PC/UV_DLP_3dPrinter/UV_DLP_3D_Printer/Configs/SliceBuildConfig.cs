@@ -321,7 +321,9 @@ namespace UV_DLP_3D_Printer
             blanktime_ms = xh.GetInt(sbc, "BlankTime", 2000); // 2 seconds blank
             plat_temp = xh.GetInt(sbc, "PlatformTemp", 75);
             //exportgcode = xh.GetBool(sbc, "ExportGCode"));
-            exportsvg = xh.GetInt(sbc, "ExportSVG", 0);
+
+            exportsvg = xh.GetInt(sbc, "ExportSVG", 0); // the problem is this was previously a boolean variable
+
             if ((exportsvg < 0) || (exportsvg > 2))
                 exportsvg = 0;
             export = xh.GetBool(sbc, "Export", false); ;
