@@ -224,7 +224,8 @@ namespace UV_DLP_3D_Printer
         /// <param name="zlev"></param>
         /// <param name="lstPoly"></param>
         /// <returns></returns>
-        public Bitmap SliceImmediate(float curz, List<PolyLine3d> lstPoly = null)
+        //public Bitmap SliceImmediate(float curz, List<PolyLine3d> lstPoly = null)
+        public Bitmap SliceImmediate(float curz, List<PolyLine3d> allIntersections)
         {
             try
             {
@@ -259,11 +260,13 @@ namespace UV_DLP_3D_Printer
                         Slice sl = new Slice();//create a new slice
                         sl.m_segments = lstintersections;// Set the list of intersections 
                         sl.RenderSlice(m_sf.m_config, ref bmp);
-                        if (lstPoly != null)
+                        /*if (vectorPath != null)
                         {
                             sl.Optimize();
                             lstPoly.AddRange(sl.m_opsegs);
-                        }
+                        }*/
+                        if (allIntersections != null)
+                            allIntersections.AddRange(lstintersections);
                         savebm = bmp;
                     }
                 }
@@ -292,6 +295,12 @@ namespace UV_DLP_3D_Printer
             }
 
         }
+
+        public Bitmap SliceImmediate(float curz)
+        {
+            return SliceImmediate(curz, null);
+        }
+
 
          private void slicefunc()
         {
@@ -325,10 +334,10 @@ namespace UV_DLP_3D_Printer
                 // if we're actually exporting something here, iterate through slices
                 for (c = 0; c < numslices; c++)
                 {
-                    List<PolyLine3d> lstPoly = null;
+                    List<PolyLine3d> lstintersections = null;
                     if (m_sf.m_config.exportsvg != 0)
-                        lstPoly = new List<PolyLine3d>();
-                    Bitmap savebm = SliceImmediate(curz, lstPoly);
+                        lstintersections = new List<PolyLine3d>();
+                    Bitmap savebm = SliceImmediate(curz, lstintersections);
                     if (m_cancel || (savebm == null))
                     {
                         isslicing = false;
@@ -340,7 +349,7 @@ namespace UV_DLP_3D_Printer
                     }
                     curz += (float)m_sf.m_config.ZThick;// move the slice for the next layer
                     //raise an event to say we've finished a slice
-                    LayerSliced(scenename, c, numslices, savebm, lstPoly);
+                    LayerSliced(scenename, c, numslices, savebm, lstintersections);
                 }
                 // restore the original
                 m_sf.m_config.CopyFrom(m_saved);
@@ -634,7 +643,7 @@ namespace UV_DLP_3D_Printer
         /// <param name="numslices"></param>
         /// <param name="bmp"></param>
         /// <param name="lstPoly"></param>
-        private void LayerSliced(string scenename, int layer, int numslices, Bitmap bmp, List<PolyLine3d> lstPoly = null) 
+        private void LayerSliced(string scenename, int layer, int numslices, Bitmap bmp, List<PolyLine3d> lstintersections) 
         {
             string path;
             try
@@ -663,11 +672,24 @@ namespace UV_DLP_3D_Printer
                         //imagename
                         bmp.Save(imagename);
                     }
-                    if (lstPoly != null)
+                    if (lstintersections != null)
                     {
+                        StreamWriter sw;
                         imname = Path.GetFileNameWithoutExtension(modelname) + String.Format("{0:0000}", layer) + ".svg";
                         imagename = path + UVDLPApp.m_pathsep + imname;
-                        StreamWriter sw = GenerateSVG(lstPoly, m_sf.m_config.exportsvg == 2);
+                        if (m_sf.m_config.exportsvg < 3)
+                        {
+                            Path2D vectorPath = new Path2D(lstintersections);
+                            sw = vectorPath.GenerateSVG(UVDLPApp.Instance().m_printerinfo.m_PlatXSize,
+                                UVDLPApp.Instance().m_printerinfo.m_PlatYSize, m_sf.m_config.exportsvg == 2);
+                        }
+                        else
+                        {
+                            Slice sl = new Slice();
+                            sl.m_segments = lstintersections;
+                            sl.Optimize();
+                            sw = GenerateSVG(sl.m_opsegs, m_sf.m_config.exportsvg == 4);
+                        }
                         if (!m_cancel)
                             SceneFile.Instance().AddVectorSlice((MemoryStream)sw.BaseStream, imname);
                         //StreamReader sr = new StreamReader(sw.BaseStream);
@@ -685,6 +707,11 @@ namespace UV_DLP_3D_Printer
                 string s = ex.StackTrace;
                 DebugLogger.Instance().LogError(ex.Message);
             }
+        }
+
+        private void LayerSliced(string scenename, int layer, int numslices, Bitmap bmp)
+        {
+            LayerSliced(scenename, layer, numslices, bmp, null);
         }
 
         private void SliceCompleted(string scenename, int layer, int numslices) 

@@ -756,7 +756,9 @@
             this.comboExportSvg.Items.AddRange(new object[] {
             "None",
             "Compound path",
-            "Filled polygons"});
+            "Filled polygons",
+            "Compound path (old)",
+            "Filled polygons (old)"});
             this.comboExportSvg.Location = new System.Drawing.Point(330, 411);
             this.comboExportSvg.Name = "comboExportSvg";
             this.comboExportSvg.Size = new System.Drawing.Size(142, 26);

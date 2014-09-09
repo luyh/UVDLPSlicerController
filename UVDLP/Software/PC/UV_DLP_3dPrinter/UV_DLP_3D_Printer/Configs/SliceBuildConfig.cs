@@ -324,7 +324,7 @@ namespace UV_DLP_3D_Printer
 
             exportsvg = xh.GetInt(sbc, "ExportSVG", 0); // the problem is this was previously a boolean variable
 
-            if ((exportsvg < 0) || (exportsvg > 2))
+            if ((exportsvg < 0) || (exportsvg > 4))
                 exportsvg = 0;
             export = xh.GetBool(sbc, "Export", false); ;
             exportpng = xh.GetBool(sbc, "ExportPNG", false); ;
