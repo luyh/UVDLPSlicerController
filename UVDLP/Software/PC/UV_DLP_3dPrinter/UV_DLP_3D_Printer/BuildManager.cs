@@ -467,7 +467,7 @@ namespace UV_DLP_3D_Printer
                 int bidx = line.IndexOf('>');
                 if (bidx == -1)
                 {
-                    DebugLogger.Instance().LogError("Improperly formated display command");
+                    DebugLogger.Instance().LogError("Improperly formated auxerillery command");
                     return;
                 }
                 string ss1 = line.Substring(bidx + 1);

@@ -480,7 +480,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         
         private void cmdCfgConMch_Click(object sender, EventArgs e)
         {
-            frmConnection frmconnect = new frmConnection(ref m_config.m_driverconfig.m_connection);
+            frmConnection frmconnect = new frmConnection(ref m_config.m_driverconfig.m_connection,true);
             frmconnect.ShowDialog();
             UpdateMainConnection();
         }

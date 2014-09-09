@@ -1,5 +1,70 @@
 ﻿
 ToDo:
+Pro Version:
+home hobbiest licience 
+	flat fee
+
+vendor licience 
+	per-site cost(unlimited) or per-machine license
+	
+Pro Features:
+-Background/theming color control
+	per control/button color control
+-overlays
+-controls on the 3d screen
+-add/remove buttons from toolbar
+-bind sequences to buttons
+-rearrange/remove controls
+-add controls/resources from plugins
+-run code from plugins
+	sequences
+	actual code
+	scripts
+Load multiple GUI Scripts into CW
+	- the 'pro' GUIconfig script loads up the controls for editing other guiconfigs and creating new guiconfigs
+
+-load/unload plugins (code/resources/guis,data,etc...)
+-execute sequences of script that can control machines such as gcode or binary interfaces (Generic ascii with binary passthrough)
+GUI Editor
+	gui editor is in the pro/vendor version
+	editor for gcode sequences
+	editor for controls/buttons/decals
+scripts have:
+	if/then/else
+	for/next
+	while loops
+	read variables from hardeware into $VARNAME
+	send commands to hardware
+	set arbitrary $VARNAME varaibles to expressions / numbers
+scripts can:
+	load/save variables and sequences into XML
+	execute other scripts
+	map onto program events such as:
+		connected
+		disconnected
+		printstarted
+		printstopped
+		paused
+		cancelled
+Common machine sequences:
+	Startup
+	Shutdown
+	Goto home position
+	Build/Print position 
+
+General GUI editor
+Ability to define sequences, 
+	sequences can:
+		send /receive data in sequence
+		receive data from devices
+		use a general-notation script to:
+			define variables (doubles)
+			perform arithmetic
+			perform and/or/xor...
+
+
+
+
 - In the gcode, add a passthrough command (eGeneric driver level) to allow any character/byte sequence to be passed through to the serial port
 	maybe an escape sequence?
 

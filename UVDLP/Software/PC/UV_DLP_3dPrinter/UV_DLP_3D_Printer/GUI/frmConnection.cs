@@ -15,9 +15,11 @@ namespace UV_DLP_3D_Printer.GUI
     public partial class frmConnection : Form
     {
         ConnectionConfig m_config;
-        public frmConnection(ref ConnectionConfig config)
+        bool m_addauto;
+        public frmConnection(ref ConnectionConfig config, bool addauto = false)
         {
             m_config = config;
+            m_addauto = addauto;
             InitializeComponent();
             SetData();
         }
@@ -44,6 +46,8 @@ namespace UV_DLP_3D_Printer.GUI
             cmbPorts.Items.Clear();
             //set all available port names
             //foreach (String s in SerialPort.GetPortNames()) 
+            if (m_addauto)
+                cmbPorts.Items.Add("AutoDetect");
             foreach (String s in DeviceDriver.GetPortNames()) 
             {
                 cmbPorts.Items.Add(s);
