@@ -11,6 +11,7 @@ using System.IO;
 using UV_DLP_3D_Printer.Slicing;
 using UV_DLP_3D_Printer._3DEngine;
 using UV_DLP_3D_Printer.Device_Interface;
+using UV_DLP_3D_Printer.Device_Interface.AutoDetect;
 
 namespace UV_DLP_3D_Printer.GUI
 {
@@ -698,21 +699,37 @@ namespace UV_DLP_3D_Printer.GUI
                     UVDLPApp.Instance().m_deviceinterface.Configure(UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_connection);
                     //get the name of the main serial interface
                     String com = UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_connection.comname;
+                    if (com.ToUpper().Equals("AUTODETECT")) 
+                    {
+                        com = SerialAutodetect.Instance().DeterminePort(UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_connection.speed);
+                        if (!com.Equals("invalid"))
+                        {
+                            UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_connection.comname = com;
+                        }
+                        else 
+                        {
+                            DebugLogger.Instance().LogError("Serial port not auto-detected");
+                            return;
+                        }
+                    }
                     DebugLogger.Instance().LogRecord("Connecting to Printer on " + com + " using " + UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_drivertype.ToString());
                     if (!UVDLPApp.Instance().m_deviceinterface.Connect())
                     {
                         DebugLogger.Instance().LogRecord("Cannot connect printer driver on " + com);
+                        //don't try to connect the monitor serial port unless the main machine connection is made first
+                        // this prevents the problem of having a connected serial port and no way to disconnect it
                     }
                     else
                     {                        
                         UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eMachineConnected, "Printer connected");
+                        // check to see if we're uv dlp
+                        // configure the projector
+                        if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
+                        {
+                            DisplayManager.Instance().ConnectMonitorSerials();
+                        }
                     }
-                    // check to see if we're uv dlp
-                    // configure the projector
-                    if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
-                    {
-                        DisplayManager.Instance().ConnectMonitorSerials();
-                    }
+                   
                 }
             }
             catch (Exception ex)

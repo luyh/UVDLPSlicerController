@@ -219,7 +219,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
     public class GuiConfig
     {
-        public enum EntityType { Buttons, Panels, Decals }
+       // public enum EntityType { Buttons, Panels, Decals } // not used
 
         //Dictionary<String, ctlUserPanel> Controls;
         Dictionary<String, Control> Controls;
@@ -228,7 +228,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         Dictionary<String, DecorItem> DecorItems;
         List<DecorItem> BgndDecorList;
         List<DecorItem> FgndDecorList;
-        ResourceManager Res;
+        ResourceManager Res; // the resource manager for the main CW application
         IPlugin Plugin;
         Control mTopLevelControl = null;
         public ControlStyle DefaultControlStyle; 
@@ -356,7 +356,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                         case "decals": HandleDecals(xnode); break;
                         case "buttons": HandleButtons(xnode); break; 
                         case "controls": HandleControls(xnode); break;
-                        case "sequences": HandleSequences(xnode); break;
+                        case "sequences": LoadSequences(xnode); break;
                     }
                 }
 
@@ -377,19 +377,23 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         // These sequences can be tied to a button onclick handler
         // this allows for creating a new button in the GUIConfig, and 
         //causing the click to send special sequences to the printer.
-        void HandleSequences(XmlNode seqnode) 
+        
+        void LoadSequences(XmlNode seqnode) 
         {
             foreach (XmlNode xnode in seqnode.ChildNodes)
             {
                 switch (xnode.Name.ToLower())
                 {
-                    case "sequence": HandleSequence(xnode); break;                    
+                    case "sequence": LoadSequence(xnode); break;                    
                 }
             }
 
         }
-
-        void HandleSequence(XmlNode seqnode) 
+        // sequences should be named with the prefix of where they came from, such as a namespace
+        // for example, if a sequence is loaded from the guiconfig of
+        // the plugin named plugPro, and the sequence name is goHome,
+        // then the name should be: plugPro.goHome
+        void LoadSequence(XmlNode seqnode) 
         {
             //get name
             string name = GetStrParam(seqnode, "name", "");
@@ -707,10 +711,15 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
             else if (action.Contains("hide")) // this handles hiding
             {
-                // hide this control
+                // hide this control, do not remove it from the parent
                 ct.Hide();
             }
-            else if (action.Contains("addto")) // this handles adding a new control to a parent control
+            else if (action.Contains("show")) // this handles showing
+            {
+                // show this control
+                ct.Show();
+            }
+            else if (action.Contains("addto")) // this handles adding a new/existing control to a parent control
             {
                 // Get the name of the parent
                 string parentname = GetStrParam(ctlnode, "parent", "");
@@ -720,7 +729,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 Control ctlParent = Controls[parentname];
                 if (ctlParent == null) 
                 {
-                    DebugLogger.Instance().LogWarning("Control parent now found: " + parentname);
+                    DebugLogger.Instance().LogWarning("Control parent not found: " + parentname);
                     return;
                 }
                 {

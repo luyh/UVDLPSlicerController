@@ -76,11 +76,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             //glControl1. = new GraphicsMode(GraphicsMode.Default.ColorFormat, GraphicsMode.Default.Depth, 8);
             gr2d = UVDLPApp.Instance().m_2d_graphics;
             ctlBgndList = new List<ctlBgnd>();
-            guiconf = UVDLPApp.Instance().m_gui_config;
+            guiconf = UVDLPApp.Instance().m_gui_config; // set from the main program GUIConfig
             guiconf.TopLevelControl = mainViewSplitContainer.Panel2;
             UpdateButtonList();
-            //guiconf.LoadConfiguration(global::UV_DLP_3D_Printer.Properties.Resources.GuiConfig);
-            RearrangeGui();
+            RearrangeGui(); // once the GUIConfig is loaded from the plugins and from the main GUIConfig, the screen is re-arranged
 
             // toplevel controls must point to this
 
@@ -1054,11 +1053,16 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         }
 
         #endregion 3d View controls
-
+        /// <summary>
+        /// This function iterates through all the plugins
+        /// and loads the configuration GUIConfig from each
+        /// there is no reason why this needs to be in the ctl3DView
+        /// this should go in the main UVDLPApp class
+        /// </summary>
         public void LoadPluginGui()
         {
             IPlugin plugin = null;
-            foreach (PluginEntry ip in UVDLPApp.Instance().m_plugins)
+            foreach (PluginEntry ip in UVDLPApp.Instance().m_plugins) 
             {
                 try
                 {
@@ -1071,7 +1075,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
 
                     if (!plugin.SupportFunctionality(PluginFuctionality.CustomGUI))
                         continue;
-
 
                     string guiconfname = null;
                     foreach (PluginItem pi in plugin.GetPluginItems)
@@ -1087,7 +1090,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                                 case ePlItemType.eGuiConfig:
                                     guiconfname = plugin.GetString(pi.m_name);
                                     break;
-
+                                    
                                 case ePlItemType.eControl:
                                     UserControl ctl = plugin.GetControl(pi.m_name);
                                     if ((ctl.GetType() == typeof(ctlImageButton)) || ctl.GetType().IsSubclassOf(typeof(ctlImageButton)))
@@ -1099,6 +1102,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                                         guiconf.AddControl(pi.m_name, ctl);
                                     }
                                     break;
+                                    
                             }
                         }
                         catch (Exception ex) 
@@ -1106,6 +1110,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                             DebugLogger.Instance().LogError(ex);
                         }
                     }
+                    //after all the resource have been loaded from the GUI
+                    // the 'script' xml layout portion of the GUI is loaded to do something with those resources
                     if (guiconf != null)
                     {
                         //gc.ClearLayout();

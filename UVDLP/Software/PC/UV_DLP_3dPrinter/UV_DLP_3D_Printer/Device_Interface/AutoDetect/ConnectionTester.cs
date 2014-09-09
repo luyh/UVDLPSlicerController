@@ -18,7 +18,8 @@ namespace UV_DLP_3D_Printer.Device_Interface.AutoDetect
         private bool m_running;
         private TestingState m_state;
         private const string QUERYSTRING = "M114\r\n";
-        private const int TIMEOUTVAL = 4000;
+        private const int TIMEOUTVAL = 3000;
+        private string m_strb;
         private enum TestingState 
         {
             eSendMessage,
@@ -42,6 +43,7 @@ namespace UV_DLP_3D_Printer.Device_Interface.AutoDetect
 
         public void Start() 
         {
+            m_strb = "";
             bool erroropen = false;
             m_thread = new Thread(new ThreadStart(run));
             m_serialport = new SerialPort();
@@ -89,8 +91,11 @@ namespace UV_DLP_3D_Printer.Device_Interface.AutoDetect
             int read = m_serialport.Read(buffer, 0, m_serialport.BytesToRead); // read the buffer
             // convert it to a string
             //try to parse it...
-            string str = System.Text.Encoding.UTF8.GetString(buffer);
-            ParseResults(str);
+
+            string str = System.Text.Encoding.UTF8.GetString(buffer); // need to put all the data into a buffer and wait for newline
+            m_strb += str;
+            if (m_strb.Contains("\r\n"))
+                ParseResults(m_strb);
         }
 
         void ParseResults(string data) 
@@ -100,6 +105,7 @@ namespace UV_DLP_3D_Printer.Device_Interface.AutoDetect
                 // we received the position, we're done here
                 if (ConnectionTesterStatusEvent != null)
                 {
+                    m_result = eConnTestStatus.eDeviceResponded;
                     ConnectionTesterStatusEvent(this, m_result);
                     m_state = TestingState.eExiting; // we're done here..
                 }  
@@ -115,44 +121,52 @@ namespace UV_DLP_3D_Printer.Device_Interface.AutoDetect
             int sendstarttime = 0;
             while (m_running) 
             {
-                Thread.Sleep(0);
-                // wait for response
-                switch (m_state)
+                try
                 {
-                    case TestingState.eSendMessage:
-                        sendstarttime = GetTimerValue(); // mark the time we sent the message
-                        try
-                        {
-                            m_serialport.WriteLine(QUERYSTRING); // send the query string
-                            m_state = TestingState.eWaitForReply; // go to the waiting state
-                        }
-                        catch (Exception) // check to see if the write failed
-                        {
-                            m_result = eConnTestStatus.eWriteError;
-                            if (ConnectionTesterStatusEvent != null)
+                    Thread.Sleep(0);
+                    // wait for response
+                    switch (m_state)
+                    {
+                        case TestingState.eSendMessage:
+                            sendstarttime = GetTimerValue(); // mark the time we sent the message
+                            try
+                            {                                
+                                m_serialport.Write(QUERYSTRING); // send the query string
+                                m_state = TestingState.eWaitForReply; // go to the waiting state
+                            }
+                            catch (Exception) // check to see if the write failed
                             {
-                                ConnectionTesterStatusEvent(this, m_result);
-                                m_state = TestingState.eExiting; // we're done here..
-                            }                             
-                        }                        
-                        break;
-                    case TestingState.eWaitForReply:
-                        //check for timeout
-                        if (GetTimerValue() > (sendstarttime + TIMEOUTVAL)) 
-                        {
-                            m_result = eConnTestStatus.eNoResponse; // we timed out
-                            if (ConnectionTesterStatusEvent != null) // raise the result
+                                m_result = eConnTestStatus.eWriteError;
+                                if (ConnectionTesterStatusEvent != null)
+                                {
+                                    ConnectionTesterStatusEvent(this, m_result);
+                                    m_state = TestingState.eExiting; // we're done here..
+                                }
+                            }
+                            break;
+                        case TestingState.eWaitForReply:
+                            //check for timeout
+                            if (GetTimerValue() > (sendstarttime + TIMEOUTVAL))
                             {
-                                ConnectionTesterStatusEvent(this, m_result);
-                                m_state = TestingState.eExiting; // we're done here..
-                            }                               
-                        }
-                        break;
-                    case TestingState.eExiting:
-                        m_running = false; // signal to exit this thread
-                        break;
+                                m_result = eConnTestStatus.eNoResponse; // we timed out
+                                if (ConnectionTesterStatusEvent != null) // raise the result
+                                {
+                                    ConnectionTesterStatusEvent(this, m_result);
+                                    m_state = TestingState.eExiting; // we're done here..
+                                }
+                            }
+                            break;
+                        case TestingState.eExiting:
+                            m_running = false; // signal to exit this thread
+                            if (m_serialport.IsOpen)
+                                m_serialport.Close();
+                            break;
+                    }
                 }
-
+                catch (Exception ex) 
+                {
+                    DebugLogger.Instance().LogError(ex);
+                }
             }
         }
     }
