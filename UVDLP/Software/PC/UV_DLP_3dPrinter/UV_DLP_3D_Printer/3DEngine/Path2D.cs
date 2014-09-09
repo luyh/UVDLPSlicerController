@@ -9,6 +9,7 @@ namespace Engine3D
     public class Point2D
     {
         public double x, y;
+        public double key; // for sorting
 
         public Point2D(double x, double y)
         {
@@ -193,6 +194,78 @@ namespace Engine3D
         }
     }
 
+    public class SegmentBin
+    {
+        double minx, maxx, miny, maxy;
+        double hgap, vgap, thgap, tvgap;
+        int nbins;
+        List<Segment2D>[] hbins;
+        List<Segment2D>[] vbins;
+
+        public SegmentBin(double minx, double miny, double maxx, double maxy, int nbins)
+        {
+            this.minx = minx;
+            this.miny = miny;
+            this.maxx = maxx;
+            this.maxy = maxy;
+            this.nbins = nbins;
+            hgap = (maxx - minx) / nbins;
+            vgap = (maxy - miny) / nbins;
+            thgap = hgap / 10.0;
+            tvgap = vgap / 10.0;
+            hbins = new List<Segment2D>[nbins+1];
+            vbins = new List<Segment2D> [nbins+1];
+            for (int i = 0; i <= nbins; i++)
+            {
+                hbins[i] = new List<Segment2D>();
+                vbins[i] = new List<Segment2D>();
+            }
+        }
+
+        public void Add(Segment2D seg)
+        {
+            // horizontal
+            if (Math.Abs(seg.p1.x - seg.p2.x) > Path2D.Epsilon)
+            {
+                int from = (int)((seg.pmin.x - minx - thgap) / hgap);
+                if (from < 0)
+                    from = 0;
+                int to = (int)((seg.pmax.x - minx + thgap) / hgap);
+                for (int i = from; i <= to; i++)
+                    hbins[i].Add(seg);
+            }
+
+            // vertical
+            if (Math.Abs(seg.p1.y - seg.p2.y) > Path2D.Epsilon)
+            {
+                int from = (int)((seg.pmin.y - miny - tvgap) / vgap);
+                if (from < 0)
+                    from = 0;
+                int  to = (int)((seg.pmax.y - miny + tvgap) / vgap);
+                for (int i = from; i <= to; i++)
+                    vbins[i].Add(seg);
+            }
+        }
+
+        public void Add(List<Segment2D> segs)
+        {
+            foreach (Segment2D seg in segs)
+                Add(seg);
+        }
+
+        public List<Segment2D> GetHbin(double x)
+        {
+            int pos = (int)((x - minx) / hgap);
+            return hbins[pos];
+        }
+
+        public List<Segment2D> GetVbin(double y)
+        {
+            int pos = (int)((y - miny) / vgap);
+            return vbins[pos];
+        }
+    }
+
     public class Path2D
     {
         List<Point2D> points;
@@ -200,15 +273,48 @@ namespace Engine3D
         public List<Polyline2D> polys;
         public static double Epsilon = 0.000001;
         public static double DEpsilon = 0.000000001;
+        public double minx, miny, maxx, maxy;
 
         public Point2D GetCreatePoint(double x, double y)
         {
-            foreach (Point2D pt in points)
-                if (pt.Matches(x, y))
-                    return pt;
+            double key = x * x + y * y;
+            double keyfrom = key * 0.99 - 2 * Epsilon;
+            double keyto = key * 1.01 + 2 * Epsilon;
+            int from = 0;
+            int to = points.Count;
+            int pos = 0;
+            while ((to - from) > 1)
+            {
+                pos = (to + from) / 2;
+                if (points[pos].key < keyfrom)
+                    from = pos;
+                else
+                    to = pos;
+            }
+            while ((from < points.Count) && (points[from].key < keyto))
+            {
+                if (points[from].Matches(x, y))
+                    return points[from];
+                from++;
+            }
+
+            while ((pos < points.Count) && (points[pos].key < key))
+                pos++;
+            
+            /*for (int i = 0; i < points.Count; i++ )
+                if (points[i].Matches(x, y))
+                    return points[i];*/
 
             Point2D npt = new Point2D(x, y);
-            points.Add(npt);
+            npt.key = key;
+            if (pos < points.Count)
+                points.Insert(pos, npt);
+            else
+                points.Add(npt);
+            if (minx > x) minx = x;
+            if (maxx < x) maxx = x;
+            if (miny > y) miny = y;
+            if (maxy < y) maxy = y;
             return npt;
         }
 
@@ -217,6 +323,11 @@ namespace Engine3D
             points = new List<Point2D>();
             segments = new List<Segment2D>();
             polys = new List<Polyline2D>();
+            minx = miny = Double.MaxValue;
+            maxx = maxy = Double.MinValue;
+            // create dummy points to help with sorting
+            GetCreatePoint(0, 0);
+            //GetCreatePoint(1000000, 1000000);
             foreach (PolyLine3d p3d in pls3d)
             {
                 Point2D pt1 = GetCreatePoint(p3d.m_points[0].x, p3d.m_points[0].y);
@@ -304,7 +415,8 @@ namespace Engine3D
         // side is in the object). These segments are now redundant so we remove them.
         public void RemoveRedundant()
         {
-            int i, j, n_nonhoriz; ;
+            int i, j, n_nonhoriz; 
+            List<Segment2D> lineSegs;
 
             // collect all horizontal segments and push them to the end, they will be processed in the vertical sweep
             n_nonhoriz = segments.Count;
@@ -318,6 +430,8 @@ namespace Engine3D
                     n_nonhoriz--;
                 }
             }
+            SegmentBin sbin = new SegmentBin(minx, minx, maxx, maxy, 100);
+            sbin.Add(segments);
 
             // horizontal sweep
             for (i = 0; i < n_nonhoriz; i++)
@@ -328,11 +442,17 @@ namespace Engine3D
                 double xpos = seg.p1.x + u * (seg.p2.x - seg.p1.x);
                 int rightCount = 0;
                 int leftCount = 0;
-                for (j = 0; j < n_nonhoriz; j++)
+                /*for (j = 0; j < n_nonhoriz; j++)
                 {
                     if (j == i)
                         continue;
                     UpdateYcrossing(y, xpos, segments[j], ref leftCount, ref rightCount);
+                }*/
+                lineSegs = sbin.GetVbin(y);
+                foreach (Segment2D seg1 in lineSegs)
+                {
+                    if (!Object.ReferenceEquals(seg,seg1))
+                        UpdateYcrossing(y, xpos, seg1, ref leftCount, ref rightCount);
                 }
                 // mark valid only the segments that one side count is zero and the other non zero
                 if (((leftCount == 0) && (rightCount != 0)) || ((leftCount != 0) && (rightCount == 0)))
@@ -348,12 +468,19 @@ namespace Engine3D
                 double ypos = seg.p1.y + u * (seg.p2.y - seg.p1.y);
                 int topCount = 0;
                 int botCount = 0;
-                for (j = 0; j < segments.Count; j++)
+                /*for (j = 0; j < segments.Count; j++)
                 {
                     if ((j == i) || (Math.Abs(segments[j].p1.x - segments[j].p2.x) <= Path2D.Epsilon)) // skip vertical lines
                         continue;
                     UpdateXcrossing(x, ypos, segments[j], ref botCount, ref topCount);
+                }*/
+                lineSegs = sbin.GetHbin(x);
+                foreach (Segment2D seg1 in lineSegs)
+                {
+                    if (!Object.ReferenceEquals(seg, seg1))
+                        UpdateXcrossing(x, ypos, seg1, ref botCount, ref topCount);
                 }
+
                 // mark valid only the segments that one side count is zero and the other non zero
                 if (((botCount == 0) && (topCount != 0)) || ((botCount != 0) && (topCount == 0)))
                     seg.isValid = true;
