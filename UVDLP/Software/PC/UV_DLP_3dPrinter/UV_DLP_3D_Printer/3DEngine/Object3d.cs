@@ -557,11 +557,10 @@ namespace Engine3D
                 td = (p.x - m_center.x) * (p.x - m_center.x);
                 td += (p.y - m_center.y) * (p.y - m_center.y);
                 td += (p.z - m_center.z) * (p.z - m_center.z);
-                td = (float)Math.Sqrt(td);
                 if (td >= maxdist)
                     maxdist = td;
             }
-            m_radius = maxdist;
+			m_radius = (float)Math.Sqrt(maxdist);
         }
 
         public Point3d CalcCenter() 
