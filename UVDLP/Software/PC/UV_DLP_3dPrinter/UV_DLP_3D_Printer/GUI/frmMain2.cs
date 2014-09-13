@@ -79,8 +79,9 @@ namespace UV_DLP_3D_Printer.GUI
                 pluginTesterToolStripMenuItem.Visible = false;
                 testToolStripMenuItem.Visible = false;
                 testMachineControlToolStripMenuItem.Visible = false;
+                loadGUIConfigToolStripMenuItem.Visible = false;
             #endif
-            SetTitle();
+                SetTitle();
             UVDLPApp.Instance().PerformPluginCommand("MainFormLoadedCommand", true);
         }
         /// <summary>
@@ -1057,6 +1058,26 @@ namespace UV_DLP_3D_Printer.GUI
                 UVDLPApp.Instance().m_slicer.m_slicemethod = Slicer.eSliceMethod.eNormalCount;
             else
                 UVDLPApp.Instance().m_slicer.m_slicemethod = Slicer.eSliceMethod.eEvenOdd;
+        }
+
+        private void loadGUIConfigToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // load a new GUIConfig file from disk
+                // this is a debug only function for now.
+                if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) 
+                {
+                    StreamReader streamReader = new StreamReader(openFileDialog1.FileName);
+                    string text = streamReader.ReadToEnd();
+                    streamReader.Close();
+                    UVDLPApp.Instance().m_gui_config.LoadConfiguration(text);
+                    //UVDLPApp.Instance().m_gui_config.LayoutGui(
+                }
+            }catch(Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
         }
     }
 }

@@ -123,14 +123,14 @@ namespace UV_DLP_3D_Printer.Drivers
                 {
                     string hexstr = line;
                     hexstr = hexstr.Replace(PASSTHROUGHMCODE, string.Empty); // get rid of the command
-                    line = line.Trim(); // trim off the proceeding space
+                    hexstr = hexstr.Trim(); // trim off the proceeding space
                     if (hexstr.StartsWith("T0")) 
                     {
                         hexstr = hexstr.Replace("T0", string.Empty);
                         hexstr = hexstr.Trim();
                         byte[] data = System.Text.Encoding.ASCII.GetBytes(hexstr);
                         Write(data, data.Length);
-
+                         
                     }
                     else if (hexstr.StartsWith("T1"))
                     {
