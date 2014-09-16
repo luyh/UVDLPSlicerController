@@ -78,7 +78,7 @@ namespace UV_DLP_3D_Printer
         Bitmap m_calibimage = null; // a calibration image to display
         private DateTime m_buildstarttime;
         private string estimatedbuildtime = "";
-
+        bool callbackinited = false;
         // the pause request and cancel request are used to ensure that
         // the build stops on a blank image, and not on exposing a slice
         private bool m_pause_request;
@@ -90,9 +90,10 @@ namespace UV_DLP_3D_Printer
             m_buildtimer.Elapsed += new ElapsedEventHandler(m_buildtimer_Elapsed);
             m_buildtimer.Interval = BUILD_TIMER_INTERVAL;
             m_pause_request = false;
+            callbackinited = false;
           //  m_cancel_request = false;
             //install the callback handler for the displaydone
-            UVDLPApp.Instance().m_callbackhandler.RegisterCallback("DisplayDone", DisplayDone, null, "Indicates when the display device is done with the current slice");
+           // UVDLPApp.Instance().m_callbackhandler.RegisterCallback("DisplayDone", DisplayDone, null, "Indicates when the display device is done with the current slice");
         }
         /// <summary>
         /// This is a display callback handler
@@ -163,7 +164,7 @@ namespace UV_DLP_3D_Printer
                 if (line.Length > 0)
                 {
                     // if the line is a comment, parse it to see if we need to take action
-                    if (line.Contains("<Delay> "))// get the delay
+                    if (line.ToLower().Contains("<delay> "))// get the delay
                     {
                         int delay = getvarfromline(line);
                         bt += delay;
@@ -343,6 +344,13 @@ namespace UV_DLP_3D_Printer
         // This function is called to start the print job
         public void StartPrint(SliceFile sf, GCodeFile gcode, bool snippet = false) 
         {
+
+            //late init of callback handler 
+            if (callbackinited == false)
+            {
+                UVDLPApp.Instance().m_callbackhandler.RegisterCallback("DisplayDone", DisplayDone, null, "Indicates when the display device is done with the current slice");
+                callbackinited = true;
+            }
             m_runningsnippet = snippet;
 
             if (m_printing)  // already printing
@@ -396,7 +404,7 @@ namespace UV_DLP_3D_Printer
                 line = line.Replace(';', ' '); // remove comments
                 line = line.Replace(')', ' ');
                 String[] lines = line.Split('>');
-                if (lines[1].Contains("Blank"))
+                if (lines[1].ToLower().Contains("blank"))
                 {
                     val = -1; // blank screen
                 }    
@@ -628,26 +636,26 @@ namespace UV_DLP_3D_Printer
 
                                 UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(line + "\r\n");
                                 // if the line is a comment, parse it to see if we need to take action
-                                if (line.Contains("<Delay> "))// get the delay
+                                if (line.ToLower().Contains("<delay> "))// get the delay
                                 {
                                     nextlayertime = GetTimerValue() + getvarfromline(line);
                                     //DebugLogger.Instance().LogInfo("Next Layer time: " + nextlayertime.ToString());
                                     m_state = STATE_WAITING_FOR_DELAY;
                                     continue;
                                 }
-                                else if (line.Contains("<DispCmd>"))  // display command
+                                else if (line.ToLower().Contains("<dispcmd>"))  // display command
                                 {
                                     PerformDisplayCommand(line);
                                 }
-                                else if (line.Contains("<WaitForDisplay>"))  // wait for display to be done
+                                else if (line.ToLower().Contains("<waitfordisplay>"))  // wait for display to be done
                                 {                                   
                                     m_state = BuildManager.STATE_WAIT_DISPLAY;
                                 }
-                                else if (line.Contains("<AuxCmd>")) //auxillary command to run a pre-defined sequence
+                                else if (line.ToLower().Contains("<auxcmd>")) //auxillary command to run a pre-defined sequence
                                 {
                                     PerformAuxCommand(line);
                                 }
-                                else if (line.Contains("<Slice> "))//get the slice number
+                                else if (line.ToLower().Contains("<slice> "))//get the slice number
                                 {
                                     int layer = getvarfromline(line);
                                     int curtype = BuildManager.SLICE_NORMAL; // assume it's a normal image to begin with
