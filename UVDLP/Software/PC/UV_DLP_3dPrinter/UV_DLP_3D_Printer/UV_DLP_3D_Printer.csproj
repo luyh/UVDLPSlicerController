@@ -358,6 +358,7 @@
       <DependentUpon>frmBmpSplash.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\CustomGUI\GuiConfig.cs" />
+    <Compile Include="GUI\CustomGUI\GuiConfigDB.cs" />
     <Compile Include="GUI\frmAbout.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -185,8 +185,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ApplyStyleRecurse(this, ct);
             if (ct.BackColor != ControlStyle.NullColor)
                 bgndPanel.col = ct.BackColor;
-            if (ct.BgndImageName != null)
-                bgndPanel.imageName = ct.BgndImageName;
+            if (ct.BackImage!= null)
+                bgndPanel.imageName = ct.BackImage;
         }
 
         public virtual void GLRedraw(C2DGraphics gr, int x, int y)
