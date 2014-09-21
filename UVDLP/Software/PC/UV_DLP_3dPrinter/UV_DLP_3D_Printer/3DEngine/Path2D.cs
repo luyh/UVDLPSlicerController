@@ -325,9 +325,9 @@ namespace Engine3D
             polys = new List<Polyline2D>();
             minx = miny = Double.MaxValue;
             maxx = maxy = Double.MinValue;
-            // create dummy points to help with sorting
-            GetCreatePoint(0, 0);
-            //GetCreatePoint(1000000, 1000000);
+            // create dummy points to initialize list
+            points.Add(new Point2D(0, 0));
+            points[0].key = 0;
             foreach (PolyLine3d p3d in pls3d)
             {
                 Point2D pt1 = GetCreatePoint(p3d.m_points[0].x, p3d.m_points[0].y);

@@ -137,7 +137,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public Color HoverColor;
         public float PressedSize;
         public float HoverSize;
-        public string BgndImageName;
+        //public string BgndImageName;
         String mCheckedImage;
         C2DImage mCheckedImageCach;
         public ControlPad PanelPad;
@@ -160,7 +160,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             DisabledColor = Color.FromArgb(60, 255, 255, 255);
             SubImgCount = 1;
             glMode = false;
-            BgndImageName = null;
+            //BgndImageName = null;
             PanelPad = new ControlPad();
             PanelPad.Left = PanelPad.Right = PanelPad.Top = PanelPad.Bottom = 10;
             applySubControls = true;
@@ -184,7 +184,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             HoverColor = sctl.HoverColor;
             PressedSize = sctl.PressedSize;
             HoverSize = sctl.HoverSize;
-            BgndImageName = sctl.BgndImageName;
+            //BgndImageName = sctl.BgndImageName;
             PanelPad = new ControlPad();
             PanelPad.Left = sctl.PanelPad.Left;
             PanelPad.Right = sctl.PanelPad.Right; 
@@ -216,6 +216,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         }
 
     }
+     
 
     public class GuiConfig
     {
@@ -907,12 +908,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ct.HoverColor = GetColorParam(xnode, "hovercolor", ct.HoverColor);
             ct.PressedColor = GetColorParam(xnode, "presscolor", ct.PressedColor);
             ct.SubImgCount = GetIntParam(xnode, "nimages", ct.SubImgCount);
-            ct.BackImage = GetStrParam(xnode, "backimage", ct.BackImage);
+            ct.BackImage = GetStrParam(xnode, "bgndimage", ct.BackImage);
             ct.CheckedImage = GetStrParam(xnode, "checkimage", ct.CheckedImage);
             ct.DisabledColor = GetColorParam(xnode, "disablecolor", ct.DisabledColor);
             ct.HoverSize = GetIntParam(xnode, "hoverscale", (int)ct.HoverSize);
             ct.PressedSize = GetIntParam(xnode, "pressscale", (int)ct.PressedSize);
-            ct.BgndImageName = GetStrParam(xnode, "bgndimage", ct.BgndImageName);
+            //ct.BgndImageName = GetStrParam(xnode, "bgndimage", ct.BgndImageName);
             ct.applySubControls = GetBoolParam(xnode, "applysubcontrols", ct.applySubControls);
             ct.applyWindowsControls = GetBoolParam(xnode, "applywincontrols", ct.applyWindowsControls);
             int[] sizes = GetIntArrayParam(xnode, "panelpad");

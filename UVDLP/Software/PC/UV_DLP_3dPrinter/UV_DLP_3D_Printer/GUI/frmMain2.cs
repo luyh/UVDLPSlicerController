@@ -69,6 +69,11 @@ namespace UV_DLP_3D_Printer.GUI
             ctl3DView1.Enable3dView(true);
             UVDLPApp.Instance().m_gui_config.LoadConfiguration(global::UV_DLP_3D_Printer.Properties.Resources.GuiConfig);
 
+            // test new guiconfig system:
+            GuiConfigDB newgui = new GuiConfigDB();
+            newgui.LoadConfiguration(global::UV_DLP_3D_Printer.Properties.Resources.GuiConfig);
+            newgui.SaveConfiguration("GuiConfigTest");
+
             //ctlSliceGCodePanel1.ctlSliceViewctl.DlpForm = m_frmdlp; // set the dlp form for direct control
             SetMainMessage("");
             SetTimeMessage("");
