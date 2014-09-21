@@ -189,9 +189,11 @@ namespace UV_DLP_3D_Printer
         /// <returns></returns>
         public void MakeBlank(int xres, int yres) 
         {
-            if (m_blankimage == null)  // blank image is null, create it
+           // if (m_blankimage == null )  // blank image is null, create it
             {
-                m_blankimage = UVDLPApp.Instance().GetPluginImage("Blank"); // try to load it from the plug-in
+                // try to load it from the plug-in
+                m_blankimage = UVDLPApp.Instance().GetPluginImage("Blank"); 
+                //otherwise, create a new one
                 if (m_blankimage == null)
                 {
                     m_blankimage = new Bitmap(xres, yres);
@@ -203,6 +205,7 @@ namespace UV_DLP_3D_Printer
                 }
             }            
         }
+        /*
         public Bitmap MakeCalibration(int xres, int yres, SliceBuildConfig sc)
         {
             // if (m_calibimage == null)  // blank image is null, create it
@@ -232,7 +235,13 @@ namespace UV_DLP_3D_Printer
             }
             return m_calibimage;
         }
-
+         * */
+        /// <summary>
+        /// Make and show a new calibration image
+        /// </summary>
+        /// <param name="xres"></param>
+        /// <param name="yres"></param>
+        /// <param name="sc"></param>
         public void ShowCalibration(int xres, int yres, SliceBuildConfig sc) 
         {
            // if (m_calibimage == null)  // blank image is null, create it
@@ -264,7 +273,7 @@ namespace UV_DLP_3D_Printer
         }
         public void ShowBlank(int xres, int yres) 
         {
-            if (m_blankimage == null)  // blank image is null, create it
+            //if (m_blankimage == null)  // blank image is null, create it
             {
                 MakeBlank(xres, yres);
             }
@@ -663,7 +672,7 @@ namespace UV_DLP_3D_Printer
 
                                     if (layer == SLICE_BLANK)
                                     {
-                                        if (m_blankimage == null)  // blank image is null, create it
+                                       // if (m_blankimage == null)  // blank image is null, create it
                                         {
                                             MakeBlank(m_sf.XRes, m_sf.YRes);
                                         }
@@ -683,7 +692,7 @@ namespace UV_DLP_3D_Printer
                                         bmp = UVDLPApp.Instance().GetPluginImage(special);
                                         if (bmp == null) // no special image, even though it's specified..
                                         {
-                                            if (m_blankimage == null)  // blank image is null, create it
+                                            //if (m_blankimage == null)  // blank image is null, create it
                                             {
                                                 MakeBlank(m_sf.XRes, m_sf.YRes);
                                             }

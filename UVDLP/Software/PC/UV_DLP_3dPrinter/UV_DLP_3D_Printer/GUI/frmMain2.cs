@@ -190,16 +190,6 @@ namespace UV_DLP_3D_Printer.GUI
             //make sure all the dlp screens are showing
             DisplayManager.Instance().ShowDLPScreens();
             UVDLPApp.Instance().m_buildparms.UpdateFrom(UVDLPApp.Instance().m_printerinfo); // make sure we get the right screen size 
-
-            /*
-            //UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay = true;
-            m_frmdlp.ShowDLPScreen();
-            Screen dlpscreen = m_frmdlp.GetDLPScreen();
-            if (dlpscreen != null)
-            {
-                UVDLPApp.Instance().m_buildmgr.ShowCalibration(dlpscreen.Bounds.Width, dlpscreen.Bounds.Height, UVDLPApp.Instance().m_buildparms);
-            }
-             * */
             UVDLPApp.Instance().m_buildmgr.ShowCalibration(UVDLPApp.Instance().m_buildparms.xres, UVDLPApp.Instance().m_buildparms.yres, UVDLPApp.Instance().m_buildparms);
         }
 
@@ -917,7 +907,7 @@ namespace UV_DLP_3D_Printer.GUI
                     if (filename.Contains(".cws"))
                     {
                         //scene file
-                        if (SceneFile.Instance().Load(filename))
+                        if (SceneFile.Instance().LoadSceneFile(filename))
                         {
                             //set up for newly loaded scene
                             //load gcode
@@ -1017,7 +1007,7 @@ namespace UV_DLP_3D_Printer.GUI
                     switch (saveFileDialog1.FilterIndex) // index starts at 1 instead of 0
                     {
                         case 1:
-                            SceneFile.Instance().Save(saveFileDialog1.FileName);
+                            SceneFile.Instance().SaveModelsIntoScene(saveFileDialog1.FileName);
                             break;
                         case 2:
                             //stl file
@@ -1034,7 +1024,7 @@ namespace UV_DLP_3D_Printer.GUI
         {
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                if (SceneFile.Instance().Load(openFileDialog1.FileName)) 
+                if (SceneFile.Instance().LoadSceneFile(openFileDialog1.FileName)) 
                 {
                     UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
                 }
