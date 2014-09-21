@@ -19,7 +19,7 @@ namespace Engine3D
         public Vector3d m_normal; // the plane normal
         public Point3d m_center; // the calculated center of the polygon
         public float m_radius; // the radius of the poly for sphere intersection testing
-        public Color m_color;
+        public Color m_color,m_colorsource;
         public Point3d[] m_points; // points in poly, also contained in parent objects points list 
         public MinMax m_minmax; // cached for slicing
         public bool m_hidden; // for hiding polygons during the manual support genetation step
@@ -32,7 +32,8 @@ namespace Engine3D
         {
             m_normal = new Vector3d();
             m_radius = 0.0f;
-            m_color = Color.Gray;
+            m_colorsource = Color.Gray;
+            m_color = m_colorsource;// Color.Gray;
             m_center = new Point3d();
             m_minmax = new MinMax(); // really should be bounding box
             m_hidden = false;
