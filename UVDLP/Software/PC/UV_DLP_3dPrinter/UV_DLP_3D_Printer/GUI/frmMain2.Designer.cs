@@ -81,6 +81,7 @@
             this.userManualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hardwareGuideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.loadGUIConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlTopIcons.SuspendLayout();
             this.pnl3dview.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -716,7 +717,8 @@
             this.testToolStripMenuItem,
             this.pluginTesterToolStripMenuItem,
             this.testMachineControlToolStripMenuItem,
-            this.testNewSlicerToolStripMenuItem});
+            this.testNewSlicerToolStripMenuItem,
+            this.loadGUIConfigToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
             this.fileToolStripMenuItem.Text = "File";
@@ -802,6 +804,13 @@
             this.hardwareGuideToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
             this.hardwareGuideToolStripMenuItem.Text = "Hardware Guide";
             this.hardwareGuideToolStripMenuItem.Click += new System.EventHandler(this.hardwareGuideToolStripMenuItem_Click);
+            // 
+            // loadGUIConfigToolStripMenuItem
+            // 
+            this.loadGUIConfigToolStripMenuItem.Name = "loadGUIConfigToolStripMenuItem";
+            this.loadGUIConfigToolStripMenuItem.Size = new System.Drawing.Size(218, 24);
+            this.loadGUIConfigToolStripMenuItem.Text = "Load GUIConfig";
+            this.loadGUIConfigToolStripMenuItem.Click += new System.EventHandler(this.loadGUIConfigToolStripMenuItem_Click);
             // 
             // frmMain2
             // 
@@ -891,5 +900,6 @@
         private System.Windows.Forms.Panel pnlTopIconsMain;
         private CustomGUI.ctlImageButton buttSaveScene;
         private System.Windows.Forms.ToolStripMenuItem testNewSlicerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadGUIConfigToolStripMenuItem;
     }
 }

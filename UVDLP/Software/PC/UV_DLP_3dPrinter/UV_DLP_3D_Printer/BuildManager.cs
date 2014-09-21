@@ -44,11 +44,12 @@ namespace UV_DLP_3D_Printer
     public class BuildManager
     {
         private  const int STATE_START                = 0;
-        private  const int STATE_DO_NEXT_LAYER        = 1;
-        private  const int STATE_WAITING_FOR_LAYER    = 2;
+        private  const int STATE_DO_NEXT_COMMAND      = 1;
+        private  const int STATE_WAITING_FOR_DELAY    = 2;
         private  const int STATE_CANCELLED            = 3;
         private  const int STATE_IDLE                 = 4;
         private  const int STATE_DONE                 = 5;
+        private  const int STATE_WAIT_DISPLAY         = 6; // waiting for the display to finish
 
         public const int SLICE_NORMAL                  =  0;
         public const int SLICE_BLANK                   = -1;
@@ -77,7 +78,7 @@ namespace UV_DLP_3D_Printer
         Bitmap m_calibimage = null; // a calibration image to display
         private DateTime m_buildstarttime;
         private string estimatedbuildtime = "";
-
+        bool callbackinited = false;
         // the pause request and cancel request are used to ensure that
         // the build stops on a blank image, and not on exposing a slice
         private bool m_pause_request;
@@ -89,7 +90,24 @@ namespace UV_DLP_3D_Printer
             m_buildtimer.Elapsed += new ElapsedEventHandler(m_buildtimer_Elapsed);
             m_buildtimer.Interval = BUILD_TIMER_INTERVAL;
             m_pause_request = false;
+            callbackinited = false;
           //  m_cancel_request = false;
+            //install the callback handler for the displaydone
+           // UVDLPApp.Instance().m_callbackhandler.RegisterCallback("DisplayDone", DisplayDone, null, "Indicates when the display device is done with the current slice");
+        }
+        /// <summary>
+        /// This is a display callback handler
+        /// it is used in circumstances where the display time may vary (like in the LaserSLA/SLS)
+        /// the display device can signal completion by calling this function.
+        /// This will cause the buildmanager to move onto the next build step 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="vars"></param>
+        void DisplayDone(Object sender, Object vars) 
+        {
+            //move to the next build state
+            m_state = BuildManager.STATE_DO_NEXT_COMMAND; // move onto next layer
+
         }
         private void StartBuildTimer() 
         {
@@ -146,7 +164,7 @@ namespace UV_DLP_3D_Printer
                 if (line.Length > 0)
                 {
                     // if the line is a comment, parse it to see if we need to take action
-                    if (line.Contains("<Delay> "))// get the delay
+                    if (line.ToLower().Contains("<delay> "))// get the delay
                     {
                         int delay = getvarfromline(line);
                         bt += delay;
@@ -307,26 +325,12 @@ namespace UV_DLP_3D_Printer
                 // for FDM or other printer types, we can stop immendiately
                 ImplementPause();
             }
-            /*
-            m_paused = true;
-            m_state = STATE_IDLE;
-            StopBuildTimer();
-            RaiseStatusEvent(eBuildStatus.eBuildPaused,"Print Paused");
-            // special coding for Elite Image Works
-            // in the future, this should be pulled from the machine config file
-            // special commands or something...
-            Drivers.DeviceDriver dr = UVDLPApp.Instance().m_deviceinterface.Driver;
-            string pausecmd = UVDLPApp.Instance().m_printerinfo.GetStringVar("PauseCommand");
-            if (pausecmd.Length > 0)
-            {
-                UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(pausecmd);
-            }
-             */ 
+
         }
         public void ResumePrint() 
         {
             m_paused = false;
-            m_state = BuildManager.STATE_DO_NEXT_LAYER;
+            m_state = BuildManager.STATE_DO_NEXT_COMMAND;
             StartBuildTimer();
             RaiseStatusEvent(eBuildStatus.eBuildResumed,"Next Layer");
             Drivers.DeviceDriver dr = UVDLPApp.Instance().m_deviceinterface.Driver;
@@ -340,6 +344,13 @@ namespace UV_DLP_3D_Printer
         // This function is called to start the print job
         public void StartPrint(SliceFile sf, GCodeFile gcode, bool snippet = false) 
         {
+
+            //late init of callback handler 
+            if (callbackinited == false)
+            {
+                UVDLPApp.Instance().m_callbackhandler.RegisterCallback("DisplayDone", DisplayDone, null, "Indicates when the display device is done with the current slice");
+                callbackinited = true;
+            }
             m_runningsnippet = snippet;
 
             if (m_printing)  // already printing
@@ -393,7 +404,7 @@ namespace UV_DLP_3D_Printer
                 line = line.Replace(';', ' '); // remove comments
                 line = line.Replace(')', ' ');
                 String[] lines = line.Split('>');
-                if (lines[1].Contains("Blank"))
+                if (lines[1].ToLower().Contains("blank"))
                 {
                     val = -1; // blank screen
                 }    
@@ -575,24 +586,29 @@ namespace UV_DLP_3D_Printer
                         case BuildManager.STATE_START:
                             //start things off, reset some variables
                             RaiseStatusEvent(eBuildStatus.eBuildStarted, "Build Started");
-                            m_state = BuildManager.STATE_DO_NEXT_LAYER; // go to the first layer
+                            m_state = BuildManager.STATE_DO_NEXT_COMMAND; // go to the first layer
                             m_gcodeline = 0; // set the start line
                             m_curlayer = 0;
                             m_printstarttime = new DateTime();
                             break;
-                        case BuildManager.STATE_WAITING_FOR_LAYER:
+                        case BuildManager.STATE_WAITING_FOR_DELAY: // general delay statement
                             //check time var
                             if (GetTimerValue() >= nextlayertime)
                             {
                              //   DebugLogger.Instance().LogInfo("elapsed Layer time: " + GetTimerValue().ToString());
                              //   DebugLogger.Instance().LogInfo("Diff = " + (GetTimerValue() - nextlayertime).ToString());
-                                m_state = BuildManager.STATE_DO_NEXT_LAYER; // move onto next layer
+                                m_state = BuildManager.STATE_DO_NEXT_COMMAND; // move onto next layer
                             }
                             break;
                         case BuildManager.STATE_IDLE:
                             // do nothing
                             break;
-                        case BuildManager.STATE_DO_NEXT_LAYER:
+                        case BuildManager.STATE_WAIT_DISPLAY: 
+                            // we're waiting on the display to tell us we're done
+                            // this is used in the LaserSLA plugin, the normal DLP mode uses just a simple <Delay> command
+                            //do nothing
+                            break;
+                        case BuildManager.STATE_DO_NEXT_COMMAND:
                             //check for done
                             if (m_gcodeline >= m_gcode.Lines.Length)
                             {
@@ -615,27 +631,31 @@ namespace UV_DLP_3D_Printer
                             line = line.Trim();
                             if (line.Length > 0) // if the line is not blank
                             {
-                                // send  the line, whether or not it's a comment
+                                // send  the line, whether or not it's a comment - this is for a reason....
                                 // should check to see if the firmware is ready for another line
 
                                 UVDLPApp.Instance().m_deviceinterface.SendCommandToDevice(line + "\r\n");
                                 // if the line is a comment, parse it to see if we need to take action
-                                if (line.Contains("<Delay> "))// get the delay
+                                if (line.ToLower().Contains("<delay> "))// get the delay
                                 {
                                     nextlayertime = GetTimerValue() + getvarfromline(line);
                                     //DebugLogger.Instance().LogInfo("Next Layer time: " + nextlayertime.ToString());
-                                    m_state = STATE_WAITING_FOR_LAYER;
+                                    m_state = STATE_WAITING_FOR_DELAY;
                                     continue;
                                 }
-                                else if (line.Contains("<DispCmd>"))  // display command
+                                else if (line.ToLower().Contains("<dispcmd>"))  // display command
                                 {
                                     PerformDisplayCommand(line);
                                 }
-                                else if (line.Contains("<AuxCmd>")) //auxillary command to run a pre-defined sequence
+                                else if (line.ToLower().Contains("<waitfordisplay>"))  // wait for display to be done
+                                {                                   
+                                    m_state = BuildManager.STATE_WAIT_DISPLAY;
+                                }
+                                else if (line.ToLower().Contains("<auxcmd>")) //auxillary command to run a pre-defined sequence
                                 {
                                     PerformAuxCommand(line);
                                 }
-                                else if (line.Contains("<Slice> "))//get the slice number
+                                else if (line.ToLower().Contains("<slice> "))//get the slice number
                                 {
                                     int layer = getvarfromline(line);
                                     int curtype = BuildManager.SLICE_NORMAL; // assume it's a normal image to begin with

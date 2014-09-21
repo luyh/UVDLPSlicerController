@@ -686,7 +686,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 return;
 
             //ctlUserPanel ctl = Controls[name];
-            Control ct = Controls[name];
+            Control ct = Controls[name]; // find the existing control
             if (ctlnode.Attributes.GetNamedItem("visible") != null)
                 ct.Visible = GetBoolParam(ctlnode, "visible", ct.Visible);
             ct.Width = GetIntParam(ctlnode, "w", ct.Width);

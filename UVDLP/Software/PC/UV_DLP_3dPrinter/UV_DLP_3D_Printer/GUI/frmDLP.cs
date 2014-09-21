@@ -43,6 +43,15 @@ namespace UV_DLP_3D_Printer
             m_tmr.Start();
             UVDLPApp.Instance().m_buildmgr.PrintLayer += new delPrinterLayer(PrintLayer);
         }
+        private bool fullscreen() 
+        {
+            if (m_rect.top == 0.0f &&
+                m_rect.left == 0.0f &&
+                m_rect.right == 1.0f &&
+                m_rect.bottom == 1.0f)
+                return true;
+            return false;
+        }
         /// <summary>
         /// This sets the screen identifier and display portion so this form knows which screen to display into
         /// </summary>
@@ -141,8 +150,19 @@ namespace UV_DLP_3D_Printer
                 int yh = (int)(m_rect.bottom * i.Height);
                 //
                 Rectangle srcRect = new Rectangle(xp, yp, xh - xp, yh - yp);
-                Bitmap b = (Bitmap)i;
-                Bitmap cropped = (Bitmap)b.Clone(srcRect, i.PixelFormat);                 
+                Bitmap b = null;
+                Bitmap cropped = null;
+                if (fullscreen())
+                {
+                    // no need to copy, just set a reference
+                    b = (Bitmap)i;
+                    cropped = b;
+                }
+                else
+                {
+                    b = (Bitmap)i;
+                    cropped = (Bitmap)b.Clone(srcRect, i.PixelFormat); // i think this clone bitmap function may be causing delays later down the line                 
+                }
                 //check screen ID for laser SLA
                 if (m_screenid.Contains("LASERSHARK"))
                 {
