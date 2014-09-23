@@ -535,7 +535,8 @@ namespace UV_DLP_3D_Printer
                         //store the gcode
                         MemoryStream stream = new MemoryStream(System.Text.Encoding.ASCII.GetBytes(m_gcode.RawGCode));
                         String gcn = Path.GetFileNameWithoutExtension(UVDLPApp.Instance().SceneFileName) + ".gcode";
-                        SceneFile.Instance().RemoveExistingGCode(UVDLPApp.Instance().SceneFileName);
+                        //SceneFile.Instance().RemoveExistingGCode(UVDLPApp.Instance().SceneFileName);
+                        SceneFile.Instance().RemoveResourcesFromFile(UVDLPApp.Instance().SceneFileName, "GCode", ".gcode");
                         SceneFile.Instance().AddGCodeToFile(UVDLPApp.Instance().SceneFileName, stream, gcn);
                     }
                     //save the slicer object for later too                    
@@ -556,11 +557,14 @@ namespace UV_DLP_3D_Printer
         /// </summary>
         public void PostLoadScene() 
         {
+            
+            /*
             m_gcode = SceneFile.Instance().LoadGCodeFromScene(SceneFileName);
             if (m_gcode == null) 
             {
                 m_gcode = new GCodeFile(""); // create empty file
             }
+             
             RaiseAppEvent(eAppEvent.eGCodeLoaded, "GCode Loaded ");
             SceneFile.Instance().LoadSliceProfileFromScene(SceneFileName);
             m_slicefile = new SliceFile(m_buildparms);
@@ -570,6 +574,7 @@ namespace UV_DLP_3D_Printer
             m_slicefile.NumSlices = m_slicer.GetNumberOfSlices(m_buildparms);
             RaiseAppEvent(eAppEvent.eSliceProfileChanged, "Slice Profile loaded");
             RaiseAppEvent(eAppEvent.eSlicedLoaded, "Slice Profile loaded");
+            */
         }
         public void LoadGCode(String filename)
         {

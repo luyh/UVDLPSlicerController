@@ -17,7 +17,7 @@ namespace UV_DLP_3D_Printer
      * and it contains 1 image / picture control
      * It listens to the build manager events to show images on the screen.
      */
-    public partial class frmDLP : Form
+    public partial class frmDLP : Form 
     {
         Screen m_dlpscreen = null;
         static int slcnt = 0; // slice / blank image counter
@@ -43,6 +43,14 @@ namespace UV_DLP_3D_Printer
             m_tmr.Start();
             UVDLPApp.Instance().m_buildmgr.PrintLayer += new delPrinterLayer(PrintLayer);
         }
+        
+        ~frmDLP()
+        {
+            // remember to remove the delegates
+            UVDLPApp.Instance().m_buildmgr.PrintLayer -= PrintLayer;
+            m_tmr.Tick -= m_tmr_Tick;
+        }
+
         private bool fullscreen() 
         {
             if (m_rect.top == 0.0f &&
@@ -160,7 +168,7 @@ namespace UV_DLP_3D_Printer
                 }
                 else
                 {
-                    b = (Bitmap)i;
+                    b = (Bitmap)i;                    
                     cropped = (Bitmap)b.Clone(srcRect, i.PixelFormat); // i think this clone bitmap function may be causing delays later down the line                 
                 }
                 //check screen ID for laser SLA
@@ -183,21 +191,38 @@ namespace UV_DLP_3D_Printer
                 }
                 else
                 {
+                    
+                    try
+                    {
+                        if (picDLP.Image != null)
+                        {
+                            //get rid of the old image to release memory, this will release the slices, the blanks, specials, calibration images, etc...
+                            picDLP.Image.Dispose();
+                            picDLP.Image = null;
+                        }
+                    }
+                    catch (Exception ex) 
+                    {
+                        DebugLogger.Instance().LogError(ex);
+                    }
+                    
                     if (m_monitorconfig.m_usemask == true && m_monitorconfig.m_mask != null && layertype != BuildManager.SLICE_BLANK)
                     {
                         //take the cropped bitmap
                         //subtract away the mask image                        
                         Bitmap result = ImageArithmetic.ExtBitmap.ArithmeticBlend(cropped, m_monitorconfig.m_mask, ColorCalculator.ColorCalculationType.SubtractLeft);
                         picDLP.Image = result;
+                        //result.Dispose(); // should the dispose be here?
                     }
                     else 
                     {
                         picDLP.Image = cropped;
+                        //cropped.Dispose(); // should I dispose of this after setting?
                     }
                     
                 }
                 
-
+                /*
                 if (layertype == BuildManager.SLICE_BLANK)
                 {
                     slcnt++; // increment the slice count (used for garbage collection)
@@ -206,6 +231,7 @@ namespace UV_DLP_3D_Printer
                         GC.Collect();
                     }
                 }
+                 */ 
             }
             catch (Exception ex) 
             {

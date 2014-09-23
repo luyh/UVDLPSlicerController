@@ -100,7 +100,7 @@ namespace UV_DLP_3D_Printer
                     catch (Exception) { }
                 }                
             }
-            catch (Exception ex) 
+            catch (Exception ) 
             {
                 //DebugLogger.Instance().LogError(ex);
                 // may want to silently fail here

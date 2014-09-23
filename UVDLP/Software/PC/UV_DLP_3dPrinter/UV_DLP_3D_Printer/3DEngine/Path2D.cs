@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using UV_DLP_3D_Printer;
 
 namespace Engine3D
 {
@@ -320,45 +321,59 @@ namespace Engine3D
 
         public Path2D(List<PolyLine3d> pls3d)
         {
-            points = new List<Point2D>();
-            segments = new List<Segment2D>();
-            polys = new List<Polyline2D>();
-            minx = miny = Double.MaxValue;
-            maxx = maxy = Double.MinValue;
-            // create dummy points to initialize list
-            points.Add(new Point2D(0, 0));
-            points[0].key = 0;
-            foreach (PolyLine3d p3d in pls3d)
+            try
             {
-                Point2D pt1 = GetCreatePoint(p3d.m_points[0].x, p3d.m_points[0].y);
-                Point2D pt2 = GetCreatePoint(p3d.m_points[1].x, p3d.m_points[1].y);
-                if (Object.ReferenceEquals(pt1, pt2)) // invalid segment
-                    continue;
-                Segment2D seg = new Segment2D(pt1, pt2, p3d.m_derived.m_normal.x, p3d.m_derived.m_normal.y);
-                segments.Add(seg);
+                points = new List<Point2D>();
+                segments = new List<Segment2D>();
+                polys = new List<Polyline2D>();
+                minx = miny = Double.MaxValue;
+                maxx = maxy = Double.MinValue;
+                // create dummy points to help with sorting
+                GetCreatePoint(0, 0);
+                //GetCreatePoint(1000000, 1000000);
+                foreach (PolyLine3d p3d in pls3d)
+                {
+                    Point2D pt1 = GetCreatePoint(p3d.m_points[0].x, p3d.m_points[0].y);
+                    Point2D pt2 = GetCreatePoint(p3d.m_points[1].x, p3d.m_points[1].y);
+                    if (Object.ReferenceEquals(pt1, pt2)) // invalid segment
+                        continue;
+                    Segment2D seg = new Segment2D(pt1, pt2, p3d.m_derived.m_normal.x, p3d.m_derived.m_normal.y);
+                    segments.Add(seg);
+                }
+                FindIntersections();
+                RemoveRedundant();
+                ConstructPolyLines();
             }
-            FindIntersections();
-            RemoveRedundant();
-            ConstructPolyLines();
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
         }
 
         // find all intersections and split segments at intersection points
         public void FindIntersections()
         {
-            for (int i = 0; i < segments.Count-1; i++)
+            try
             {
-                for (int j = i + 1; j < segments.Count; j++)
+                for (int i = 0; i < segments.Count - 1; i++)
                 {
-                    List<Segment2D> splits = segments[i].Intersect(segments[j], this);
-                    if (splits != null)
+                    for (int j = i + 1; j < segments.Count; j++)
                     {
-                        // splits must be >= 2
-                        segments[i] = splits[0];
-                        segments[j] = splits[1];
-                        for (int k = 2; k < splits.Count; k++)
-                            segments.Add(splits[k]);
+                        List<Segment2D> splits = segments[i].Intersect(segments[j], this);
+                        if (splits != null)
+                        {
+                            // splits must be >= 2
+                            segments[i] = splits[0];
+                            segments[j] = splits[1];
+                            for (int k = 2; k < splits.Count; k++)
+                                segments.Add(splits[k]);
+                        }
                     }
                 }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
             }
         }
 
@@ -417,124 +432,137 @@ namespace Engine3D
         {
             int i, j, n_nonhoriz; 
             List<Segment2D> lineSegs;
-
-            // collect all horizontal segments and push them to the end, they will be processed in the vertical sweep
-            n_nonhoriz = segments.Count;
-            for (i = 0; i < n_nonhoriz; i++)
+            try
             {
-                while ((i < n_nonhoriz) && (Math.Abs(segments[i].p1.y - segments[i].p2.y) <= Path2D.Epsilon))
+                // collect all horizontal segments and push them to the end, they will be processed in the vertical sweep
+                n_nonhoriz = segments.Count;
+                for (i = 0; i < n_nonhoriz; i++)
+                {
+                    while ((i < n_nonhoriz) && (Math.Abs(segments[i].p1.y - segments[i].p2.y) <= Path2D.Epsilon))
+                    {
+                        Segment2D seg = segments[i];
+                        segments.RemoveAt(i);
+                        segments.Add(seg);
+                        n_nonhoriz--;
+                    }
+                }
+                SegmentBin sbin = new SegmentBin(minx, minx, maxx, maxy, 100);
+                sbin.Add(segments);
+
+                // horizontal sweep
+                for (i = 0; i < n_nonhoriz; i++)
                 {
                     Segment2D seg = segments[i];
-                    segments.RemoveAt(i);
-                    segments.Add(seg);
-                    n_nonhoriz--;
+                    double y = seg.p1.y + 0.61263546 * (seg.p2.y - seg.p1.y); // arbitrary point between y1 and y2.
+                    double u = (y - seg.p1.y) / (seg.p2.y - seg.p1.y);
+                    double xpos = seg.p1.x + u * (seg.p2.x - seg.p1.x);
+                    int rightCount = 0;
+                    int leftCount = 0;
+                    /*for (j = 0; j < n_nonhoriz; j++)
+                    {
+                        if (j == i)
+                            continue;
+                        UpdateYcrossing(y, xpos, segments[j], ref leftCount, ref rightCount);
+                    }*/
+                    lineSegs = sbin.GetVbin(y);
+                    foreach (Segment2D seg1 in lineSegs)
+                    {
+                        if (!Object.ReferenceEquals(seg, seg1))
+                            UpdateYcrossing(y, xpos, seg1, ref leftCount, ref rightCount);
+                    }
+                    // mark valid only the segments that one side count is zero and the other non zero
+                    if (((leftCount == 0) && (rightCount != 0)) || ((leftCount != 0) && (rightCount == 0)))
+                        seg.isValid = true;
+                }
+
+                // vertical sweep
+                for (i = n_nonhoriz; i < segments.Count; i++)
+                {
+                    Segment2D seg = segments[i];
+                    double x = seg.p1.x + 0.61263546f * (seg.p2.x - seg.p1.x); // arbitrary point between y1 and y2.
+                    double u = (x - seg.p1.x) / (seg.p2.x - seg.p1.x);
+                    double ypos = seg.p1.y + u * (seg.p2.y - seg.p1.y);
+                    int topCount = 0;
+                    int botCount = 0;
+                    /*for (j = 0; j < segments.Count; j++)
+                    {
+                        if ((j == i) || (Math.Abs(segments[j].p1.x - segments[j].p2.x) <= Path2D.Epsilon)) // skip vertical lines
+                            continue;
+                        UpdateXcrossing(x, ypos, segments[j], ref botCount, ref topCount);
+                    }*/
+                    lineSegs = sbin.GetHbin(x);
+                    foreach (Segment2D seg1 in lineSegs)
+                    {
+                        if (!Object.ReferenceEquals(seg, seg1))
+                            UpdateXcrossing(x, ypos, seg1, ref botCount, ref topCount);
+                    }
+
+                    // mark valid only the segments that one side count is zero and the other non zero
+                    if (((botCount == 0) && (topCount != 0)) || ((botCount != 0) && (topCount == 0)))
+                        seg.isValid = true;
                 }
             }
-            SegmentBin sbin = new SegmentBin(minx, minx, maxx, maxy, 100);
-            sbin.Add(segments);
-
-            // horizontal sweep
-            for (i = 0; i < n_nonhoriz; i++)
+            catch (Exception ex) 
             {
-                Segment2D seg = segments[i];
-                double y = seg.p1.y + 0.61263546 * (seg.p2.y - seg.p1.y); // arbitrary point between y1 and y2.
-                double u = (y - seg.p1.y) / (seg.p2.y - seg.p1.y);
-                double xpos = seg.p1.x + u * (seg.p2.x - seg.p1.x);
-                int rightCount = 0;
-                int leftCount = 0;
-                /*for (j = 0; j < n_nonhoriz; j++)
-                {
-                    if (j == i)
-                        continue;
-                    UpdateYcrossing(y, xpos, segments[j], ref leftCount, ref rightCount);
-                }*/
-                lineSegs = sbin.GetVbin(y);
-                foreach (Segment2D seg1 in lineSegs)
-                {
-                    if (!Object.ReferenceEquals(seg,seg1))
-                        UpdateYcrossing(y, xpos, seg1, ref leftCount, ref rightCount);
-                }
-                // mark valid only the segments that one side count is zero and the other non zero
-                if (((leftCount == 0) && (rightCount != 0)) || ((leftCount != 0) && (rightCount == 0)))
-                    seg.isValid = true;
-            }
-
-            // vertical sweep
-            for (i = n_nonhoriz; i < segments.Count; i++)
-            {
-                Segment2D seg = segments[i];
-                double x = seg.p1.x + 0.61263546f * (seg.p2.x - seg.p1.x); // arbitrary point between y1 and y2.
-                double u = (x - seg.p1.x) / (seg.p2.x - seg.p1.x);
-                double ypos = seg.p1.y + u * (seg.p2.y - seg.p1.y);
-                int topCount = 0;
-                int botCount = 0;
-                /*for (j = 0; j < segments.Count; j++)
-                {
-                    if ((j == i) || (Math.Abs(segments[j].p1.x - segments[j].p2.x) <= Path2D.Epsilon)) // skip vertical lines
-                        continue;
-                    UpdateXcrossing(x, ypos, segments[j], ref botCount, ref topCount);
-                }*/
-                lineSegs = sbin.GetHbin(x);
-                foreach (Segment2D seg1 in lineSegs)
-                {
-                    if (!Object.ReferenceEquals(seg, seg1))
-                        UpdateXcrossing(x, ypos, seg1, ref botCount, ref topCount);
-                }
-
-                // mark valid only the segments that one side count is zero and the other non zero
-                if (((botCount == 0) && (topCount != 0)) || ((botCount != 0) && (topCount == 0)))
-                    seg.isValid = true;
+                DebugLogger.Instance().LogError(ex);
             }
         }
 
         public void ConstructPolyLines()
         {
-            while (segments.Count != 0)
+            try
             {
-                if (!segments[0].isValid)
+                while (segments.Count != 0)
                 {
-                    segments.RemoveAt(0);
-                    continue;
-                }
-                Polyline2D ply = new Polyline2D();
-                ply.Add(segments[0].p1);
-                Point2D curpt = segments[0].p2; 
-                ply.Add(curpt);
-                polys.Add(ply);
-                segments.RemoveAt(0);
-                bool segmentFound = true;
-                while (segmentFound)
-                {
-                    int i = 0;
-                    segmentFound = false;
-                    while (i < segments.Count)
+                    if (!segments[0].isValid)
                     {
-                        Segment2D seg = segments[i];
+                        segments.RemoveAt(0);
+                        continue;
+                    }
+                    Polyline2D ply = new Polyline2D();
+                    ply.Add(segments[0].p1);
+                    Point2D curpt = segments[0].p2;
+                    ply.Add(curpt);
+                    polys.Add(ply);
+                    segments.RemoveAt(0);
+                    bool segmentFound = true;
+                    while (segmentFound)
+                    {
+                        int i = 0;
+                        segmentFound = false;
+                        while (i < segments.Count)
+                        {
+                            Segment2D seg = segments[i];
 
-                        if (seg.isValid && Object.ReferenceEquals(seg.p1, curpt))
-                        {
-                            curpt = seg.p2;
-                            if (Object.ReferenceEquals(curpt, ply.points[0]))
+                            if (seg.isValid && Object.ReferenceEquals(seg.p1, curpt))
                             {
-                                ply.isClosed = true;
+                                curpt = seg.p2;
+                                if (Object.ReferenceEquals(curpt, ply.points[0]))
+                                {
+                                    ply.isClosed = true;
+                                    segments.RemoveAt(i);
+                                    segmentFound = false;
+                                    break;
+                                }
+                                ply.Add(curpt);
                                 segments.RemoveAt(i);
-                                segmentFound = false;
-                                break;
+                                segmentFound = true;
                             }
-                            ply.Add(curpt);
-                            segments.RemoveAt(i);
-                            segmentFound = true;
+                            else if (seg.isValid && Object.ReferenceEquals(seg.p2, ply.points[0]))
+                            {
+                                ply.points.Insert(0, seg.p1);
+                                segments.RemoveAt(i);
+                                segmentFound = true;
+                            }
+                            else
+                                i++;
                         }
-                        else if (seg.isValid && Object.ReferenceEquals(seg.p2, ply.points[0]))
-                        {
-                            ply.points.Insert(0, seg.p1);
-                            segments.RemoveAt(i);
-                            segmentFound = true;
-                        }
-                        else
-                            i++;
                     }
                 }
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
             }
         }
 

@@ -53,6 +53,7 @@ namespace UV_DLP_3D_Printer
         {
             m_cancel = true;
             isslicing = false;
+            /* // no need to close the scene file anymore, all operations are now atomic
             if (m_sf.m_config.export == true) // if we're exporting image slices
             {
                 //if (m_sf.m_config.m_exportopt.ToUpper().Contains("ZIP")) // into the scene cws file
@@ -60,6 +61,7 @@ namespace UV_DLP_3D_Printer
                     SceneFile.Instance().CloseSceneFile(true);
                 }
             }
+             * */
         }
         public void RaiseSliceEvent(eSliceEvent ev, int curlayer, int totallayers)
         {
@@ -518,9 +520,14 @@ namespace UV_DLP_3D_Printer
                 if (UVDLPApp.Instance().SceneFileName.Length != 0) // check again to make sure we've really got a name
                 {
                     //remove all the previous images first
-                    SceneFile.Instance().RemoveExistingSlices(UVDLPApp.Instance().SceneFileName);
+                   // SceneFile.Instance().RemoveExistingSlices(UVDLPApp.Instance().SceneFileName);
+                    //remove the png slices
+                    SceneFile.Instance().RemoveResourcesFromFile(UVDLPApp.Instance().SceneFileName, "Slices", ".png");
+                    //remove the vector slices
+                    SceneFile.Instance().RemoveResourcesFromFile(UVDLPApp.Instance().SceneFileName, "VectorSlices", ".svg");
                     //remove any slice profile in the scene file
-                    SceneFile.Instance().RemoveExistingSliceProfile(UVDLPApp.Instance().SceneFileName);
+                    //SceneFile.Instance().RemoveExistingSliceProfile(UVDLPApp.Instance().SceneFileName);
+                    SceneFile.Instance().RemoveResourcesFromFile(UVDLPApp.Instance().SceneFileName, "SliceProfile", ".slicing");
                     //create a memory stream to hold the slicing profile in memory
                     MemoryStream ms = new MemoryStream();
                     //serialize the slciing profile into the memory stream
@@ -530,7 +537,7 @@ namespace UV_DLP_3D_Printer
                     //save the stream to the scene cws zip file
                     SceneFile.Instance().AddSliceProfileToFile(UVDLPApp.Instance().SceneFileName, ms, sliceprofilename);
                     // if we've saved this scene before, then we can save the images into it. Open it up for add
-                    SceneFile.Instance().OpenSceneFile(UVDLPApp.Instance().SceneFileName);
+                   // SceneFile.Instance().OpenSceneFile(UVDLPApp.Instance().SceneFileName);
                 }
                 else 
                 {
@@ -664,7 +671,7 @@ namespace UV_DLP_3D_Printer
                         ms.Seek(0, SeekOrigin.Begin); // seek back to beginning
                         if (!m_cancel) // if we're not in the process of cancelling
                         {
-                            SceneFile.Instance().AddSlice(ms, imname);
+                            SceneFile.Instance().AddSlice(UVDLPApp.Instance().SceneFileName,ms, imname);
                         }
                     }
                     if (m_sf.m_config.exportpng) 
@@ -691,12 +698,9 @@ namespace UV_DLP_3D_Printer
                             sw = GenerateSVG(sl.m_opsegs, m_sf.m_config.exportsvg == 4);
                         }
                         if (!m_cancel)
-                            SceneFile.Instance().AddVectorSlice((MemoryStream)sw.BaseStream, imname);
-                        //StreamReader sr = new StreamReader(sw.BaseStream);
-                        //string gg = sr.ReadToEnd();
-                        //File.WriteAllText("test.txt", gg);
-                        //sw.Close();
-                        //sw.Dispose();
+                        {
+                            SceneFile.Instance().AddVectorSlice(UVDLPApp.Instance().SceneFileName,(MemoryStream)sw.BaseStream, imname);
+                        }
                     }
 
                     RaiseSliceEvent(eSliceEvent.eLayerSliced, layer, numslices);
@@ -716,6 +720,7 @@ namespace UV_DLP_3D_Printer
 
         private void SliceCompleted(string scenename, int layer, int numslices) 
         {
+            /* // no need to close scene file anymore, all operations are atomic
             if (m_sf.m_config.export == true) // if we're exporting image slices
             {
                 //if (m_sf.m_config.m_exportopt.ToUpper().Contains("ZIP"))
@@ -723,6 +728,7 @@ namespace UV_DLP_3D_Printer
                     SceneFile.Instance().CloseSceneFile(false);
                 }
             }
+             */ 
             RaiseSliceEvent(eSliceEvent.eSliceCompleted, layer, numslices);
         }
 
