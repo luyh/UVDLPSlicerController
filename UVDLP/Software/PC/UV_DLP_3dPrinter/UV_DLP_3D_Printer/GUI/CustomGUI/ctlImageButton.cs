@@ -184,6 +184,16 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 BackColor = ct.BackColor;
         }
 
+        public override void ApplyStyle(GuiControlStyle ct)
+        {
+            base.ApplyStyle(ct);
+
+            if (ct.ForeColor.IsValid())
+                ForeColor = ct.ForeColor;
+            if (ct.BackColor.IsValid())
+                BackColor = ct.BackColor;
+        }
+
         protected override void OnDoubleClick(EventArgs e)
         {
             OnClick(e);

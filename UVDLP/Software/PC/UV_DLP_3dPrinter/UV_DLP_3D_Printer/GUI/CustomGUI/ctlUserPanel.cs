@@ -24,6 +24,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         String mGLBackgroundImage;
         protected String mStyleName;
         protected ControlStyle mStyle;
+        protected GuiControlStyle mGuiStyle;
         protected int mGapx, mGapy;
         protected bool mGLVisible;
 
@@ -177,6 +178,21 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
         }
 
+        public void ApplyStyleRecurse(Control ctl, GuiControlStyle ct)
+        {
+            foreach (Control subctl in ctl.Controls)
+            {
+                if (subctl is ctlUserPanel)
+                {
+                    ((ctlUserPanel)subctl).ApplyStyle(ct);
+                }
+                else
+                {
+                    ApplyStyleRecurse(subctl, ct);
+                }
+            }
+        }
+
 
         public virtual void ApplyStyle(ControlStyle ct)
         {
@@ -185,7 +201,19 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ApplyStyleRecurse(this, ct);
             if (ct.BackColor != ControlStyle.NullColor)
                 bgndPanel.col = ct.BackColor;
-            if (ct.BackImage!= null)
+            if (ct.BackImage != null)
+                bgndPanel.imageName = ct.BackImage;
+        }
+
+        // new gui system -SHS
+        public virtual void ApplyStyle(GuiControlStyle ct)
+        {
+            mGuiStyle = ct;
+            mStyleName = ct.Name;
+            ApplyStyleRecurse(this, ct);
+            if (ct.BackColor.IsValid())
+                bgndPanel.col = ct.BackColor;
+            if (ct.BackImage.IsValid())
                 bgndPanel.imageName = ct.BackImage;
         }
 

@@ -63,6 +63,31 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 return defVal;
             return var;
         }
+
+        public bool IsValid()
+        {
+            return state != GuiParamState.Unset;
+        }
+
+        public bool IsExplicit()
+        {
+            return state == GuiParamState.Explicit;
+        }
+
+        public T GetIfValid(T defvar)
+        {
+            if (IsValid())
+                return GetVal();
+            return defvar;
+        }
+
+        public T GetIfExplicit(T defvar)
+        {
+            if (IsExplicit())
+                return var;
+            return defvar;
+        }
+
         public void Save(XmlDocument xd, XmlNode parent, string name)
         {
             if (state == GuiParamState.Explicit)
@@ -112,7 +137,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             get
             {
                 Color res = col;
-                if (opacity.state == GuiParamState.Explicit)
+                if (opacity.IsExplicit())
                     return Color.FromArgb(opacity * 255 / 100, res.R, res.G, res.B);
                 return res;
             }
@@ -124,8 +149,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 return;
             int iw = 0, ih = 0;
             g2d.GetImageDim(imgname, ref iw, ref ih);
-            int px = GuiConfig.GetPosition(0, w, iw, x, ((string)docking)[1]);
-            int py = GuiConfig.GetPosition(0, h, ih, y, ((string)docking)[0]);
+            int px = GuiConfigManager.GetPosition(0, w, iw, x, ((string)docking)[1]);
+            int py = GuiConfigManager.GetPosition(0, h, ih, y, ((string)docking)[0]);
             g2d.SetColor(color);
             g2d.Image(imgname, px, py);
         }
@@ -242,6 +267,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public GuiParam<int> HoverSize;
         //public GuiParam<string> BgndImageName;
         public GuiParam<String> mCheckedImage;
+        public GuiParam<String> BorderShape;
         C2DImage mCheckedImageCach;
         public GuiControlPad PanelPad;
 
@@ -266,6 +292,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             glMode = new GuiParam<bool>(false);
             BackImage = new GuiParam<string>();
             CheckedImage = new GuiParam<string>();
+            BorderShape = new GuiParam<string>();
             PanelPad = new GuiControlPad(10,10,10,10);
             applySubControls = new GuiParam<bool>(true);
             applyWindowsControls = new GuiParam<bool>(false);
@@ -298,6 +325,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             applySubControls = sctl.applySubControls;
             applyWindowsControls = sctl.applyWindowsControls;
             CheckedImage = sctl.CheckedImage;
+            BorderShape = sctl.BorderShape;
         }
  
         public void InheritFrom(GuiControlStyle sctl)
@@ -327,6 +355,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             applySubControls.InheritFrom(sctl.applySubControls);
             applyWindowsControls.InheritFrom(sctl.applyWindowsControls);
             CheckedImage.InheritFrom(sctl.CheckedImage);
+            BorderShape.InheritFrom(sctl.BorderShape);
         }
 
         public GuiParam<String> CheckedImage
@@ -361,6 +390,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public GuiParam<string> dock;
         public GuiParam<string> action;
         public GuiParam<string> parent;
+        public GuiParam<String> BorderShape;
 
         public GuiControl(string name)
         {
@@ -374,6 +404,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             h = new GuiParam<int>();
             dock = new GuiParam<string>();
             action = new GuiParam<string>();
+            BorderShape = new GuiParam<string>();
         }
     }
 
@@ -421,24 +452,24 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         Dictionary<String, Control> Controls;
         Dictionary<String, ctlImageButton> Buttons;
          */
-        Dictionary<String, GuiControlStyle> GuiControlStylesDict;
-        Dictionary<String, GuiDecorItem> GuiDecorItemsDict;
-        List<GuiControlStyle> GuiControlStyles;
-        List<GuiControlStyle> GuiButtonStyles;
-        Dictionary<String, GuiControl> GuiControlsDict;
-        Dictionary<String, GuiButton> GuiButtonsDict;
+        public Dictionary<String, GuiControlStyle> GuiControlStylesDict;
+        public Dictionary<String, GuiDecorItem> GuiDecorItemsDict;
+        public List<GuiControlStyle> GuiControlStyles;
+        public List<GuiControlStyle> GuiButtonStyles;
+        public Dictionary<String, GuiControl> GuiControlsDict;
+        public Dictionary<String, GuiButton> GuiButtonsDict;
         //List<GuiControl> GuiControls;
         //List<GuiButton> GuiButtons;
-        List<GuiDecorItem> BgndDecorList;
-        List<GuiDecorItem> FgndDecorList;
-        List<CommandSequence> CmdSequenceList;
+        public List<GuiDecorItem> BgndDecorList;
+        public List<GuiDecorItem> FgndDecorList;
+        public List<CommandSequence> CmdSequenceList;
         ResourceManager Res; // the resource manager for the main CW application
         IPlugin Plugin;
         Control mTopLevelControl = null;
         public GuiControlStyle DefaultControlStyle;
-        GuiParam<bool> HideAllButtons;
-        GuiParam<bool> HideAllControls;
-        GuiParam<bool> HideAllDecals;
+        public GuiParam<bool> HideAllButtons;
+        public GuiParam<bool> HideAllControls;
+        public GuiParam<bool> HideAllDecals;
 
 
         public GuiConfigDB()
@@ -536,7 +567,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             return GuiDecorItemsDict[name];
         }
 
-        public static int GetPosition(int refpos, int refwidth, int width, int gap, Char anchor)
+        /*public static int GetPosition(int refpos, int refwidth, int width, int gap, Char anchor)
         {
             int retval = 0;
             switch (anchor)
@@ -559,7 +590,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                     break;
             }
             return retval;
-        }
+        }*/
 
         public void LoadConfiguration(String xmlConf, IPlugin plugin)
         {
@@ -621,7 +652,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             //get name
             GuiParam<string> name = GetStrParam(seqnode, "name", "");
-            if (name.state != GuiParamState.Explicit)
+            if (!name.IsExplicit())
             {
                 DebugLogger.Instance().LogWarning("Sequence must have a name in GUIConfig");
                 return;
@@ -1013,6 +1044,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
              */
 
             ct.style = GetStrParam(ctlnode, "style", null);
+            ct.BorderShape = GetStrParam(ctlnode, "shape", null);
             /* move to manager
             String styleName = GetStrParam(ctlnode, "style", null);
             GuiControlStyle style = GetControlStyle(styleName);
@@ -1152,24 +1184,21 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             return res;
         }
 
-        /* move to manager
-        Image GetImageParam(XmlNode xnode, string paramName, Image defVal)
+        public Image GetImage(GuiParam<string> imageName, Image defVal)
         {
-            string imgname = GetStrParam(xnode, paramName, null);
-            if (imgname == null)
+            if (!imageName.IsExplicit())
                 return defVal;
             Image img = null;
             if (Plugin != null)
-                img = Plugin.GetImage(imgname);
+                img = Plugin.GetImage(imageName);
             if (img == null) // try to get from the 2d graphics first
-                img = UVDLPApp.Instance().m_2d_graphics.GetBitmap(imgname);
+                img = UVDLPApp.Instance().m_2d_graphics.GetBitmap(imageName);
             if (img == null)
-                img = (Image)Res.GetObject(imgname);
+                img = (Image)Res.GetObject(imageName);
             if (img == null)
                 return defVal;
             return img;
         }
-         * */
 
         string FixDockingVal(string origdock)
         {
@@ -1372,8 +1401,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             stl.PressedSize.Save(xd, xnode, "pressscale");
             stl.applySubControls.Save(xd, xnode, "applysubcontrols");
             stl.applyWindowsControls.Save(xd, xnode, "applywincontrols");
-            if (stl.PanelPad.Left.state == GuiParamState.Explicit && stl.PanelPad.Right.state == GuiParamState.Explicit
-                && stl.PanelPad.Top.state == GuiParamState.Explicit && stl.PanelPad.Bottom.state == GuiParamState.Explicit)
+            if (stl.PanelPad.Left.IsExplicit() && stl.PanelPad.Right.IsExplicit()
+                && stl.PanelPad.Top.IsExplicit() && stl.PanelPad.Bottom.IsExplicit())
             {
                 if ((int)stl.PanelPad.Left == (int)stl.PanelPad.Right && (int)stl.PanelPad.Left == (int)stl.PanelPad.Top
                     && (int)stl.PanelPad.Left == (int)stl.PanelPad.Bottom)
