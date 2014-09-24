@@ -498,6 +498,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             DefaultControlStyle = new GuiControlStyle("DefaultControl");
             DefaultControlStyle.SetDefault();
             GuiControlStylesDict[DefaultControlStyle.Name] = DefaultControlStyle;
+            HideAllButtons = new GuiParam<bool>();
+            HideAllControls = new GuiParam<bool>();
+            HideAllDecals = new GuiParam<bool>();
         }
 
         public Control TopLevelControl

@@ -1112,7 +1112,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     }
                     //after all the resource have been loaded from the GUI
                     // the 'script' xml layout portion of the GUI is loaded to do something with those resources
-                    if (guiconf != null)
+                    if ((guiconf != null) && (guiconfname != null))
                     {
                         //gc.ClearLayout();
                         guiconf.LoadConfiguration(guiconfname, plugin);
