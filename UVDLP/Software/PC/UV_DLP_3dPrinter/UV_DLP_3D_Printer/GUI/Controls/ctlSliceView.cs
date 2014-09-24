@@ -189,7 +189,9 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                         {
                             //DisplayManager.Instance().PreviewOnDisplays(bmp);
                             // make a copy because it can be disposed
-                            DisplayManager.Instance().PreviewOnDisplays(new Bitmap(bmp));
+                            Bitmap preview = new Bitmap(bmp);
+                            preview.Tag = BuildManager.SLICE_NORMAL; // mark it as normal
+                            DisplayManager.Instance().PreviewOnDisplays(preview);
                         }
                     }
                 });
