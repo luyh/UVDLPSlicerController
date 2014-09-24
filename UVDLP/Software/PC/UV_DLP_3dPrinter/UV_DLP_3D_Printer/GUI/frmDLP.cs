@@ -26,8 +26,12 @@ namespace UV_DLP_3D_Printer
         //float m_l, m_r, m_t, m_b;
         MonitorConfig m_monitorconfig;
         MonitorConfig.MRect m_rect;
+        Bitmap m_old;
+        static int mfcount;
+       // List<Bitmap> m_lstbmps;
         public frmDLP()
         {
+            mfcount = 0;
             InitializeComponent();
             m_screenid = "";
             m_rect = new MonitorConfig.MRect();
@@ -42,6 +46,8 @@ namespace UV_DLP_3D_Printer
             m_tmr.Tick += new EventHandler(m_tmr_Tick);
             m_tmr.Start();
             UVDLPApp.Instance().m_buildmgr.PrintLayer += new delPrinterLayer(PrintLayer);
+            m_old = null;
+           // m_lstbmps = new List<Bitmap>();
         }
         
         ~frmDLP()
@@ -50,7 +56,16 @@ namespace UV_DLP_3D_Printer
             UVDLPApp.Instance().m_buildmgr.PrintLayer -= PrintLayer;
             m_tmr.Tick -= m_tmr_Tick;
         }
+        private void SetDLPPic(Bitmap bmp) 
+        {
+            //get rid of the old one
+            if (m_old != null) 
+            {
+                m_old.Dispose();
+                m_old = null; 
+            }
 
+        }
         private bool fullscreen() 
         {
             if (m_rect.top == 0.0f &&
@@ -147,9 +162,23 @@ namespace UV_DLP_3D_Printer
          */
         public void ShowImage(Image i, int layertype) 
         {
-            
+            mfcount++;
             try
             {
+                int a = 0;
+                if (layertype == BuildManager.SLICE_NORMAL) 
+                {
+                    a = layertype;
+                }
+                else if (layertype == BuildManager.SLICE_BLANK)
+                {
+                    a = layertype;
+                }
+                else 
+                {
+                    a = layertype;
+                }
+                
                 // change this to show only the visible portion of the image based on the 
                 // scaling / display portion
                 int xp = (int)(m_rect.left * i.Width);
@@ -168,7 +197,7 @@ namespace UV_DLP_3D_Printer
                 }
                 else
                 {
-                    b = (Bitmap)i;                    
+                    b = (Bitmap)i;
                     cropped = (Bitmap)b.Clone(srcRect, i.PixelFormat); // i think this clone bitmap function may be causing delays later down the line                 
                 }
                 //check screen ID for laser SLA
@@ -182,7 +211,7 @@ namespace UV_DLP_3D_Printer
                     {
                         parms[1] = (bool)true; // parameter 2 is used to indicate that this is a blank image
                     }
-                    else 
+                    else
                     {
                         parms[1] = (bool)false;// not blank
                     }
@@ -191,47 +220,43 @@ namespace UV_DLP_3D_Printer
                 }
                 else
                 {
-                    
+
                     try
                     {
-                        if (picDLP.Image != null)
+                        //don't release the blank, calibration or special
+                        if (picDLP.Image != null  && (int)picDLP.Image.Tag == BuildManager.SLICE_NORMAL)
                         {
-                            //get rid of the old image to release memory, this will release the slices, the blanks, specials, calibration images, etc...
+                            //get rid of the old image to release memory, this will release the slices
                             picDLP.Image.Dispose();
                             picDLP.Image = null;
                         }
+                            
                     }
-                    catch (Exception ex) 
+                    catch (Exception ex)
                     {
                         DebugLogger.Instance().LogError(ex);
                     }
-                    
+
+                    //Check to see if we're adjusting the brightness of the mask image here
                     if (m_monitorconfig.m_usemask == true && m_monitorconfig.m_mask != null && layertype != BuildManager.SLICE_BLANK)
                     {
                         //take the cropped bitmap
-                        //subtract away the mask image                        
-                        Bitmap result = ImageArithmetic.ExtBitmap.ArithmeticBlend(cropped, m_monitorconfig.m_mask, ColorCalculator.ColorCalculationType.SubtractLeft);
-                        picDLP.Image = result;
-                        //result.Dispose(); // should the dispose be here?
+                        //multiply the mask image    
+
+                        Bitmap result = ImageArithmetic.ExtBitmap.ArithmeticBlend(cropped, m_monitorconfig.m_mask, ColorCalculator.ColorCalculationType.Multiply);
+                        //cropped.Dispose();
+                        //cropped = null;
+
+                        result.Tag = BuildManager.SLICE_NORMAL;
+                        picDLP.Image = result;                        
                     }
-                    else 
+                    else
                     {
                         picDLP.Image = cropped;
-                        //cropped.Dispose(); // should I dispose of this after setting?
                     }
-                    
+                    picDLP.Refresh(); // show it now
                 }
                 
-                /*
-                if (layertype == BuildManager.SLICE_BLANK)
-                {
-                    slcnt++; // increment the slice count (used for garbage collection)
-                    if (slcnt % 30 == 0)
-                    {
-                        GC.Collect();
-                    }
-                }
-                 */ 
             }
             catch (Exception ex) 
             {

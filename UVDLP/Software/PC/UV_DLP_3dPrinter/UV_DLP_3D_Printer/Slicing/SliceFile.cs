@@ -162,7 +162,7 @@ namespace UV_DLP_3D_Printer.Slicing
                         ZipEntry ze = m_zip[fname];
                         Stream stream = new MemoryStream();
                         ze.Extract(stream);
-                        Bitmap bmp = new Bitmap(stream);
+                        Bitmap bmp = new Bitmap(stream);                        
                         m_zip.Dispose();
                         return bmp;
                     }

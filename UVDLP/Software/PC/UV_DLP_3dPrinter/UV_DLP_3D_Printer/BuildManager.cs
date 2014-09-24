@@ -189,7 +189,7 @@ namespace UV_DLP_3D_Printer
         /// <returns></returns>
         public void MakeBlank(int xres, int yres) 
         {
-           // if (m_blankimage == null )  // blank image is null, create it
+            if (m_blankimage == null )  // blank image is null, create it
             {
                 // try to load it from the plug-in
                 m_blankimage = UVDLPApp.Instance().GetPluginImage("Blank"); 
@@ -202,6 +202,7 @@ namespace UV_DLP_3D_Printer
                     {
                         gfx.FillRectangle(brush, 0, 0, xres, yres);
                     }
+                    m_blankimage.Tag = BuildManager.SLICE_BLANK;
                 }
             }            
         }
@@ -247,6 +248,7 @@ namespace UV_DLP_3D_Printer
            // if (m_calibimage == null)  // blank image is null, create it
             {
                 m_calibimage = new Bitmap(xres,yres);
+                m_calibimage.Tag = BuildManager.SLICE_CALIBRATION;
                 // fill it with black
                 using (Graphics gfx = Graphics.FromImage(m_calibimage))
                 using (SolidBrush brush = new SolidBrush(Color.Black))
@@ -273,10 +275,7 @@ namespace UV_DLP_3D_Printer
         }
         public void ShowBlank(int xres, int yres) 
         {
-            //if (m_blankimage == null)  // blank image is null, create it
-            {
-                MakeBlank(xres, yres);
-            }
+            MakeBlank(xres, yres);
             PrintLayer(m_blankimage, SLICE_BLANK, SLICE_BLANK);            
         }
         /// <summary>
@@ -672,16 +671,13 @@ namespace UV_DLP_3D_Printer
 
                                     if (layer == SLICE_BLANK)
                                     {
-                                       // if (m_blankimage == null)  // blank image is null, create it
-                                        {
-                                            MakeBlank(m_sf.XRes, m_sf.YRes);
-                                        }
+                                        MakeBlank(m_sf.XRes, m_sf.YRes);
                                         bmp = m_blankimage;
                                         curtype = BuildManager.SLICE_BLANK;
                                         bltime = GetTimerValue();
                                         //DebugLogger.Instance().LogInfo("Showing Blank image at :" + bltime.ToString());
-                                        if (sltime != -1 && bltime != -1)
-                                            DebugLogger.Instance().LogInfo("Time between Blank and Slice :" + (bltime - sltime).ToString());
+                                        //if (sltime != -1 && bltime != -1)
+                                          //  DebugLogger.Instance().LogInfo("Time between Blank and Slice :" + (bltime - sltime).ToString());
 
 
                                     }
@@ -690,12 +686,10 @@ namespace UV_DLP_3D_Printer
                                         // get the special image from the plugin (no caching for now..)
                                         string special = GetSpecialName(line);
                                         bmp = UVDLPApp.Instance().GetPluginImage(special);
+                                        bmp.Tag = BuildManager.SLICE_SPECIAL;
                                         if (bmp == null) // no special image, even though it's specified..
                                         {
-                                            //if (m_blankimage == null)  // blank image is null, create it
-                                            {
-                                                MakeBlank(m_sf.XRes, m_sf.YRes);
-                                            }
+                                            MakeBlank(m_sf.XRes, m_sf.YRes);
                                             bmp = m_blankimage;
                                         }
                                         curtype = BuildManager.SLICE_BLANK;
@@ -705,10 +699,14 @@ namespace UV_DLP_3D_Printer
                                         m_curlayer = layer;
                                         if (m_sf != null)
                                         {
-                                            bmp = m_sf.GetSliceImage(m_curlayer); // get the rendered image slice or load it if already rendered                                    
+                                            bmp = m_sf.GetSliceImage(m_curlayer); // get the rendered image slice or load it if already rendered                                                                                
                                             if (bmp == null)
                                             {
                                                 DebugLogger.Instance().LogError("Buildmanager bitmap is null layer = " + m_curlayer + " ");
+                                            }
+                                            else // not null
+                                            {
+                                                bmp.Tag = BuildManager.SLICE_NORMAL;
                                             }
                                         }
                                         else
@@ -717,8 +715,8 @@ namespace UV_DLP_3D_Printer
                                         }
                                         sltime = GetTimerValue();
                                         //DebugLogger.Instance().LogInfo("Showing Slice image at :" + sltime.ToString());
-                                        if (sltime != -1 && bltime != -1)
-                                            DebugLogger.Instance().LogInfo("Time between slice and blank :" + (sltime - bltime).ToString());
+                                       // if (sltime != -1 && bltime != -1)
+                                         //   DebugLogger.Instance().LogInfo("Time between slice and blank :" + (sltime - bltime).ToString());
 
 
                                     }

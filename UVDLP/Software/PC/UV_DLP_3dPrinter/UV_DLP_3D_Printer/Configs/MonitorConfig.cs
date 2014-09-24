@@ -80,7 +80,14 @@ namespace UV_DLP_3D_Printer.Configs
             m_usemask = xh.GetBool(mdc, "UseMask", false);
             if (m_usemask == true) 
             {
-                m_mask = new Bitmap(m_brightmask_filename);
+                try
+                {
+                    m_mask = new Bitmap(m_brightmask_filename);
+                }
+                catch (Exception ex) 
+                {
+                    DebugLogger.Instance().LogError(ex);
+                }
             }
             return true;
         }        

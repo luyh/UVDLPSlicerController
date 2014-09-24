@@ -983,6 +983,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             bmp = UVDLPApp.Instance().m_slicefile.GetSliceImage(layer);
             if (bmp != null)
             {
+                bmp.Tag = BuildManager.SLICE_NORMAL; // set the tag for later
                 m_sliceW = bmp.Width;
                 m_sliceH = bmp.Height;
                 CalcSliceLocation();
