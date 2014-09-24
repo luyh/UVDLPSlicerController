@@ -446,7 +446,7 @@ namespace Engine3D
                         n_nonhoriz--;
                     }
                 }
-                SegmentBin sbin = new SegmentBin(minx, minx, maxx, maxy, 100);
+                SegmentBin sbin = new SegmentBin(minx, miny, maxx, maxy, 100);
                 sbin.Add(segments);
 
                 // horizontal sweep
