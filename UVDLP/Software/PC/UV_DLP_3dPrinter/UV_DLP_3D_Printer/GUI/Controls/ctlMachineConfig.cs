@@ -690,5 +690,18 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 }
             }
         }
+
+        private void cmdAdjust_Click(object sender, EventArgs e)
+        {
+            frmBuildSizeCalib bsc = new frmBuildSizeCalib();
+            bsc.setModelSize(2.0f, 2.0f);
+            bsc.setPlatformSize((float)m_config.m_PlatXSize, (float)m_config.m_PlatYSize);
+            if (bsc.ShowDialog() == DialogResult.OK) 
+            {
+                m_config.m_PlatXSize = bsc.calcplatoformsizeX;
+                m_config.m_PlatYSize = bsc.calcplatoformsizeY;
+                SetData();
+            }
+        }
     }
 }

@@ -13,7 +13,7 @@ Pro Features:
 -overlays
 -controls on the 3d screen
 -add/remove buttons from toolbar
--bind sequences to buttons
+-bind sequences/scripts to buttons
 -rearrange/remove controls
 -add controls/resources from plugins
 -run code from plugins
@@ -33,7 +33,7 @@ scripts have:
 	if/then/else
 	for/next
 	while loops
-	read variables from hardeware into $VARNAME
+	read variables from hardware into $VARNAME
 	send commands to hardware
 	set arbitrary $VARNAME varaibles to expressions / numbers
 scripts can:
@@ -63,11 +63,6 @@ Ability to define sequences,
 			perform and/or/xor...
 
 
-
-
-- In the gcode, add a passthrough command (eGeneric driver level) to allow any character/byte sequence to be passed through to the serial port
-	maybe an escape sequence?
-
 - Add the ability to save/load GCode snippets (strings) from XML docs - slicing profile / machine profile
 - Add ability for GUIConfig.txt to be loaded from file
 - Add the ability for a button in the GUI defined by the GUIConfig.txt file to call a GCode / Build script seqeunce
@@ -82,10 +77,7 @@ This script has a name, and can be called to execute by script.
 	load the guiconfig.txt file
 	load the splash
 	use the guiconfig xml configuration to configure various settings.
-- export images - put back
-- Flip the direction of the Debug window text from bottom-up to top-down
 - When I open the control tab, even though I have the manual control button checked, I cannot seem to get it to show up? <- projecter/gcode tab mixup?
-- CW fails to cleanly close - memory/resource issues
 - show which layer # is being exposed 
 - print up to a certain layer or %
 - start print on a specific layer
@@ -96,7 +88,7 @@ This script has a name, and can be called to execute by script.
 - AutoScroll for the GCode replies
 
 - fix php script to first look for matching machine GUID to update record, if no existing record, add new
-- serial port auto-detect
+
 - allow importing a set of images (png,bmp) along with a layer height. Generate a GCode file and allow printing from imported.
 - Model preview section / additional tab
 - Add class to launch/ wait for an external process 
@@ -159,6 +151,15 @@ This would give people the possibility to use Other slicers like "VISCam RP" an 
 
 
 Completed**********************************
+
+- Flip the direction of the Debug window text from bottom-up to top-down
+- CW fails to cleanly close - memory/resource issues
+09/14 - serial port auto-detect
+09/14 SVG export 
+09/14 better slicer
+09/14 In the gcode, add a passthrough command (eGeneric driver level) to allow any character/byte sequence to be passed through to the serial port
+	maybe an escape sequence?
+
 08/08/2014 - SMH - Pause will now stop on a blank screen 
 
  - Template that lets you print 10 versions of the same model where each one has a slightly different exposure time all in the same print job? 

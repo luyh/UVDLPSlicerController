@@ -47,6 +47,8 @@
             this.cmdCfgConMch = new System.Windows.Forms.Button();
             this.lblConMachine = new System.Windows.Forms.Label();
             this.grpPrjSerial = new System.Windows.Forms.GroupBox();
+            this.chkEnableMask = new System.Windows.Forms.CheckBox();
+            this.cmdConfigMask = new System.Windows.Forms.Button();
             this.checkConDispEnable = new System.Windows.Forms.CheckBox();
             this.label12 = new System.Windows.Forms.Label();
             this.lblConDisp = new System.Windows.Forms.Label();
@@ -75,9 +77,8 @@
             this.txtXRes = new System.Windows.Forms.TextBox();
             this.cmdCreate = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
             this.cmdRemove = new UV_DLP_3D_Printer.GUI.CustomGUI.ctlImageButton();
-            this.cmdConfigMask = new System.Windows.Forms.Button();
-            this.chkEnableMask = new System.Windows.Forms.CheckBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.cmdAdjust = new System.Windows.Forms.Button();
             this.Monitors.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -156,6 +157,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cmdAdjust);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.txtPlatTall);
             this.groupBox1.Controls.Add(this.label6);
@@ -305,6 +307,29 @@
             this.grpPrjSerial.TabIndex = 60;
             this.grpPrjSerial.TabStop = false;
             this.grpPrjSerial.Text = "Projector Control";
+            // 
+            // chkEnableMask
+            // 
+            this.chkEnableMask.AutoSize = true;
+            this.chkEnableMask.Location = new System.Drawing.Point(14, 108);
+            this.chkEnableMask.Margin = new System.Windows.Forms.Padding(4);
+            this.chkEnableMask.Name = "chkEnableMask";
+            this.chkEnableMask.Size = new System.Drawing.Size(116, 22);
+            this.chkEnableMask.TabIndex = 7;
+            this.chkEnableMask.Text = "Enable Mask";
+            this.chkEnableMask.UseVisualStyleBackColor = true;
+            this.chkEnableMask.CheckedChanged += new System.EventHandler(this.chkEnableMask_CheckedChanged);
+            // 
+            // cmdConfigMask
+            // 
+            this.cmdConfigMask.Location = new System.Drawing.Point(9, 137);
+            this.cmdConfigMask.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmdConfigMask.Name = "cmdConfigMask";
+            this.cmdConfigMask.Size = new System.Drawing.Size(145, 31);
+            this.cmdConfigMask.TabIndex = 6;
+            this.cmdConfigMask.Text = "Configure Mask";
+            this.cmdConfigMask.UseVisualStyleBackColor = true;
+            this.cmdConfigMask.Click += new System.EventHandler(this.cmdConfigMask_Click);
             // 
             // checkConDispEnable
             // 
@@ -658,32 +683,20 @@
             this.cmdRemove.VerticalAnchor = UV_DLP_3D_Printer.GUI.CustomGUI.ctlAnchorable.AnchorTypes.None;
             this.cmdRemove.Click += new System.EventHandler(this.cmdDelete_Click);
             // 
-            // cmdConfigMask
-            // 
-            this.cmdConfigMask.Location = new System.Drawing.Point(9, 137);
-            this.cmdConfigMask.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cmdConfigMask.Name = "cmdConfigMask";
-            this.cmdConfigMask.Size = new System.Drawing.Size(145, 31);
-            this.cmdConfigMask.TabIndex = 6;
-            this.cmdConfigMask.Text = "Configure Mask";
-            this.cmdConfigMask.UseVisualStyleBackColor = true;
-            this.cmdConfigMask.Click += new System.EventHandler(this.cmdConfigMask_Click);
-            // 
-            // chkEnableMask
-            // 
-            this.chkEnableMask.AutoSize = true;
-            this.chkEnableMask.Location = new System.Drawing.Point(14, 108);
-            this.chkEnableMask.Margin = new System.Windows.Forms.Padding(4);
-            this.chkEnableMask.Name = "chkEnableMask";
-            this.chkEnableMask.Size = new System.Drawing.Size(116, 22);
-            this.chkEnableMask.TabIndex = 7;
-            this.chkEnableMask.Text = "Enable Mask";
-            this.chkEnableMask.UseVisualStyleBackColor = true;
-            this.chkEnableMask.CheckedChanged += new System.EventHandler(this.chkEnableMask_CheckedChanged);
-            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // cmdAdjust
+            // 
+            this.cmdAdjust.Location = new System.Drawing.Point(110, 44);
+            this.cmdAdjust.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmdAdjust.Name = "cmdAdjust";
+            this.cmdAdjust.Size = new System.Drawing.Size(78, 31);
+            this.cmdAdjust.TabIndex = 6;
+            this.cmdAdjust.Text = "Adjust";
+            this.cmdAdjust.UseVisualStyleBackColor = true;
+            this.cmdAdjust.Click += new System.EventHandler(this.cmdAdjust_Click);
             // 
             // ctlMachineConfig
             // 
@@ -770,5 +783,6 @@
         private System.Windows.Forms.CheckBox chkEnableMask;
         private System.Windows.Forms.Button cmdConfigMask;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button cmdAdjust;
     }
 }
