@@ -24,11 +24,36 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 buttPreviewOnDisplay.Checked = UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay; // set the initial check state
                 UVDLPApp.Instance().m_slicer.Slice_Event += new Slicer.SliceEvent(SliceEv);
                 UVDLPApp.Instance().AppEvent += new AppEventDelegate(AppEventDel);
-
+                UVDLPApp.Instance().m_buildmgr.BuildStatus += new delBuildStatus(BuildStat);
             }
             catch (Exception ex) 
             {
                 DebugLogger.Instance().LogError(ex);
+            }
+        }
+        private void BuildStat(eBuildStatus status, string message, int code) 
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new MethodInvoker(delegate() { BuildStat(status,message,code); }));
+            }
+            else
+            {
+                switch (status)
+                {
+                    case eBuildStatus.eBuildStarted:
+                        buttPreviewOnDisplay.Enabled = false;
+                        numLayer.Enabled = false;
+                        break;
+                    case eBuildStatus.eBuildCancelled:
+                    case eBuildStatus.eBuildCompleted:
+                        buttPreviewOnDisplay.Enabled = true;
+                        numLayer.Enabled = true;
+                        break;
+                    case eBuildStatus.eBuildPaused:
+                    case eBuildStatus.eBuildResumed:
+                        break;
+                }
             }
         }
         private void AppEventDel(eAppEvent ev, String Message)
@@ -50,6 +75,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                             }
                            // DebugLogger.Instance().LogRecord(Message);
                             break;
+                        
                     }
                 }
             }
@@ -77,6 +103,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                             break;
                         case Slicer.eSliceEvent.eSliceCompleted:                            
                             SetNumLayers(totallayers);
+                            break;
+                        case Slicer.eSliceEvent.eSliceCancelled:
                             break;
                     }
                 }
@@ -128,6 +156,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         
         public void ViewLayer(int layer)
         {
+            
             try
             {
                 
@@ -135,20 +164,35 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 this.Invoke((MethodInvoker)delegate()
                 {                                    
                     //render the 2d slice
-                    Bitmap bmp = null;    
-                    bmp = UVDLPApp.Instance().m_slicefile.GetSliceImage(layer);
-                    if (bmp == null)                
+                    Bitmap bmp = null;
+                    if (UVDLPApp.Instance().m_slicefile != null)
                     {
-                        return;
-                    }
-                    // change the picture on this control
-                    picSlice.Image = bmp;//now show the 2d slice
-                    picSlice.Refresh();               
+                        bmp = UVDLPApp.Instance().m_slicefile.GetSliceImage(layer);                      
+                        if (bmp == null)
+                        {
+                            return;
+                        }
+                        bmp.Tag = BuildManager.SLICE_NORMAL;  
+                        // change the picture on this control
+                        if (picSlice.Image != null)
+                        {
+                            //get rid of the old one
+                            picSlice.Image.Dispose();
+                            picSlice.Image = null;
+                        }
+                         
+                        picSlice.Image = bmp;//now show the 2d slice
+                        picSlice.Refresh();
 
-                    //if we're printing, DO NOT show the preview slices on the frmDLP's
-                    if (UVDLPApp.Instance().m_buildmgr.IsPrinting != true && UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay == true)
-                    {
-                        DisplayManager.Instance().PreviewOnDisplays(bmp);
+                        //if we're printing, DO NOT show the preview slices on the frmDLP's
+                        if (UVDLPApp.Instance().m_buildmgr.IsPrinting != true && UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay == true)
+                        {
+                            //DisplayManager.Instance().PreviewOnDisplays(bmp);
+                            // make a copy because it can be disposed
+                            Bitmap preview = new Bitmap(bmp);
+                            preview.Tag = BuildManager.SLICE_NORMAL; // mark it as normal
+                            DisplayManager.Instance().PreviewOnDisplays(preview);
+                        }
                     }
                 });
             }
@@ -156,7 +200,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 DebugLogger.Instance().LogError(ex);
             }
-
+            
         }
         
         private void numLayer_ValueChanged(object sender, EventArgs e)

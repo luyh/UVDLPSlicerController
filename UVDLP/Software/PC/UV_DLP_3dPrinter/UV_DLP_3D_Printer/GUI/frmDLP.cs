@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using UV_DLP_3D_Printer.Configs;
 using ImageArithmetic;
+using System.Collections;
 
 namespace UV_DLP_3D_Printer
 {
@@ -19,6 +20,16 @@ namespace UV_DLP_3D_Printer
      */
     public partial class frmDLP : Form 
     {
+        private class bmi 
+        {
+            public bmi(Bitmap b, int l) 
+            {
+                bm = b;
+                layer = l;
+            }
+            public Bitmap bm;
+            public int layer;
+        }
         Screen m_dlpscreen = null;
         static int slcnt = 0; // slice / blank image counter
         private string m_screenid;
@@ -26,8 +37,13 @@ namespace UV_DLP_3D_Printer
         //float m_l, m_r, m_t, m_b;
         MonitorConfig m_monitorconfig;
         MonitorConfig.MRect m_rect;
+        Bitmap m_old;
+        static int mfcount;
+        List<bmi> m_lstbmps;
+
         public frmDLP()
         {
+            mfcount = 0;
             InitializeComponent();
             m_screenid = "";
             m_rect = new MonitorConfig.MRect();
@@ -42,6 +58,8 @@ namespace UV_DLP_3D_Printer
             m_tmr.Tick += new EventHandler(m_tmr_Tick);
             m_tmr.Start();
             UVDLPApp.Instance().m_buildmgr.PrintLayer += new delPrinterLayer(PrintLayer);
+            m_old = null;
+            m_lstbmps = new List<bmi>();
         }
         
         ~frmDLP()
@@ -51,6 +69,49 @@ namespace UV_DLP_3D_Printer
             m_tmr.Tick -= m_tmr_Tick;
         }
 
+        /// <summary>
+        /// We're keeping track of all images that get sent to the dlp
+        /// once we've moved on to the next layer, we can safely release 
+        /// images that come from other layers.
+        /// </summary>
+        /// <param name="bmp"></param>
+        /// <param name="layer"></param>
+        private void AddtoRemoveList(Bitmap bmp, int layer) 
+        {
+            // only add layer slices
+            if ((int)bmp.Tag != BuildManager.SLICE_NORMAL)
+                return;
+
+            foreach (bmi b in m_lstbmps) 
+            {
+                if (b.bm == bmp)// && layer == b.layer) 
+                {
+                    return; // already in list
+                }
+            }
+            m_lstbmps.Add(new bmi(bmp,layer));
+        }
+
+        private void UpdateRemoveList(int curlayer) 
+        {
+            List<bmi> mrmlst = new List<bmi>();
+            //iterate through all saved bitmaps
+            //compare to see if they come from this layer or not
+            foreach (bmi b in m_lstbmps)
+            {
+                if (curlayer != b.layer)
+                {
+                    mrmlst.Add(b);
+                }
+            }
+            //dispose and remove entries for bitmap that are not the current layer.
+            foreach (bmi b in mrmlst) 
+            {
+                b.bm.Dispose();
+                b.bm = null;
+                m_lstbmps.Remove(b);
+            }            
+        }
         private bool fullscreen() 
         {
             if (m_rect.top == 0.0f &&
@@ -113,7 +174,7 @@ namespace UV_DLP_3D_Printer
                     if (UVDLPApp.Instance().m_buildmgr.IsPrinting == true || UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay == true
                         || layertype == BuildManager.SLICE_BLANK || layertype == BuildManager.SLICE_CALIBRATION)
                     {
-                        ShowImage(bmp,layertype);
+                        ShowImage(bmp,layertype,layer);
                     }
                 }
             }
@@ -145,11 +206,25 @@ namespace UV_DLP_3D_Printer
         /*
          Shows the specified image on the picture control
          */
-        public void ShowImage(Image i, int layertype) 
+        public void ShowImage(Image i, int layertype, int layer) 
         {
-            
+            mfcount++;
             try
             {
+                int a = 0;
+                if (layertype == BuildManager.SLICE_NORMAL) 
+                {
+                    a = layertype;
+                }
+                else if (layertype == BuildManager.SLICE_BLANK)
+                {
+                    a = layertype;
+                }
+                else 
+                {
+                    a = layertype;
+                }
+                
                 // change this to show only the visible portion of the image based on the 
                 // scaling / display portion
                 int xp = (int)(m_rect.left * i.Width);
@@ -168,7 +243,7 @@ namespace UV_DLP_3D_Printer
                 }
                 else
                 {
-                    b = (Bitmap)i;                    
+                    b = (Bitmap)i;
                     cropped = (Bitmap)b.Clone(srcRect, i.PixelFormat); // i think this clone bitmap function may be causing delays later down the line                 
                 }
                 //check screen ID for laser SLA
@@ -182,7 +257,7 @@ namespace UV_DLP_3D_Printer
                     {
                         parms[1] = (bool)true; // parameter 2 is used to indicate that this is a blank image
                     }
-                    else 
+                    else
                     {
                         parms[1] = (bool)false;// not blank
                     }
@@ -191,47 +266,42 @@ namespace UV_DLP_3D_Printer
                 }
                 else
                 {
-                    
+
                     try
-                    {
-                        if (picDLP.Image != null)
+                    {  
+                        /*
+                        //don't release the blank, calibration or special
+                        if (picDLP.Image != null  && (int)picDLP.Image.Tag == BuildManager.SLICE_NORMAL)
                         {
-                            //get rid of the old image to release memory, this will release the slices, the blanks, specials, calibration images, etc...
+                            //get rid of the old image to release memory, this will release the slices
                             picDLP.Image.Dispose();
                             picDLP.Image = null;
                         }
+                          */  
                     }
-                    catch (Exception ex) 
+                    catch (Exception ex)
                     {
                         DebugLogger.Instance().LogError(ex);
                     }
-                    
+                    AddtoRemoveList(cropped, layer); // add the image to the remove list
+                    //Check to see if we're adjusting the brightness of the mask image here
                     if (m_monitorconfig.m_usemask == true && m_monitorconfig.m_mask != null && layertype != BuildManager.SLICE_BLANK)
                     {
                         //take the cropped bitmap
-                        //subtract away the mask image                        
-                        Bitmap result = ImageArithmetic.ExtBitmap.ArithmeticBlend(cropped, m_monitorconfig.m_mask, ColorCalculator.ColorCalculationType.SubtractLeft);
+                        //multiply the mask image    
+                        Bitmap result = ImageArithmetic.ExtBitmap.ArithmeticBlend(cropped, m_monitorconfig.m_mask, ColorCalculator.ColorCalculationType.Multiply);
+                        result.Tag = BuildManager.SLICE_NORMAL;
                         picDLP.Image = result;
-                        //result.Dispose(); // should the dispose be here?
+                        AddtoRemoveList(result, layer);                        
                     }
-                    else 
+                    else
                     {
                         picDLP.Image = cropped;
-                        //cropped.Dispose(); // should I dispose of this after setting?
                     }
-                    
+                    picDLP.Refresh(); // show it now
+                    UpdateRemoveList(layer);// free up old resources
                 }
                 
-                /*
-                if (layertype == BuildManager.SLICE_BLANK)
-                {
-                    slcnt++; // increment the slice count (used for garbage collection)
-                    if (slcnt % 30 == 0)
-                    {
-                        GC.Collect();
-                    }
-                }
-                 */ 
             }
             catch (Exception ex) 
             {

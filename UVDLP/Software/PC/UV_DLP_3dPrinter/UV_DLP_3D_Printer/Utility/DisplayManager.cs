@@ -119,7 +119,7 @@ namespace UV_DLP_3D_Printer
         {
             foreach (frmDLP frm in m_displays) 
             {
-                frm.ShowImage(image,BuildManager.SLICE_NORMAL);
+                frm.ShowImage(image,BuildManager.SLICE_NORMAL,-1); // use layer -1 to indicate this is a preview image
             }
         }
         /// <summary>

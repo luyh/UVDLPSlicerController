@@ -372,6 +372,12 @@
     <Compile Include="GUI\frmAmfSmoothing.Designer.cs">
       <DependentUpon>frmAmfSmoothing.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\frmBuildSizeCalib.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmBuildSizeCalib.Designer.cs">
+      <DependentUpon>frmBuildSizeCalib.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frmCalibResin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -590,6 +596,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmAmfSmoothing.resx">
       <DependentUpon>frmAmfSmoothing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmBuildSizeCalib.resx">
+      <DependentUpon>frmBuildSizeCalib.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmCalibResin.resx">
       <DependentUpon>frmCalibResin.cs</DependentUpon>
