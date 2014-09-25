@@ -23,8 +23,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         String mGuiAnchor;
         String mGLBackgroundImage;
         protected String mStyleName;
+#if (DEBUG) // DBG_GUICONFIG
+        protected GuiControlStyle mStyle;
+#else
         protected ControlStyle mStyle;
-        protected GuiControlStyle mGuiStyle;
+#endif
         protected int mGapx, mGapy;
         protected bool mGLVisible;
 
@@ -105,9 +108,14 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
         }
 
+#if (DEBUG) // DBG_GUICONFIG
+        public virtual GuiControlStyle Style
+#else
         public virtual ControlStyle Style
+#endif
         {
-            get {
+            get
+            {
                 if (mStyle == null)
                     mStyle = UVDLPApp.Instance().m_gui_config.GetControlStyle(mStyleName);
                 if (mStyle == null)
@@ -162,23 +170,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 c3d.Refresh();
         }
 
-
-        public void ApplyStyleRecurse(Control ctl, ControlStyle ct)
-        {
-            foreach (Control subctl in ctl.Controls)
-            {
-                if (subctl is ctlUserPanel)
-                {
-                    ((ctlUserPanel)subctl).ApplyStyle(ct);
-                }
-                else
-                {
-                    ApplyStyleRecurse(subctl, ct);
-                }
-            }
-        }
-
+#if (DEBUG) // DBG_GUICONFIG
         public void ApplyStyleRecurse(Control ctl, GuiControlStyle ct)
+#else
+        public void ApplyStyleRecurse(Control ctl, ControlStyle ct)
+#endif
         {
             foreach (Control subctl in ctl.Controls)
             {
@@ -194,6 +190,21 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         }
 
 
+#if (DEBUG) // DBG_GUICONFIG
+        // new gui system -SHS
+        public virtual void ApplyStyle(ControlStyle ct) { }  // dummy fuction to eliminate compilation errors 
+        public virtual void ApplyStyle(GuiControlStyle ct)
+        {
+            mStyle = ct;
+            mStyleName = ct.Name;
+            ApplyStyleRecurse(this, ct);
+            if (ct.BackColor.IsValid())
+                bgndPanel.col = ct.BackColor;
+            if (ct.BackImage.IsValid())
+                bgndPanel.imageName = ct.BackImage;
+        }
+#else
+        public virtual void ApplyStyle(GuiControlStyle ct) { }   // dummy fuction to eliminate compilation errors 
         public virtual void ApplyStyle(ControlStyle ct)
         {
             mStyle = ct;
@@ -204,18 +215,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (ct.BackImage != null)
                 bgndPanel.imageName = ct.BackImage;
         }
-
-        // new gui system -SHS
-        public virtual void ApplyStyle(GuiControlStyle ct)
-        {
-            mGuiStyle = ct;
-            mStyleName = ct.Name;
-            ApplyStyleRecurse(this, ct);
-            if (ct.BackColor.IsValid())
-                bgndPanel.col = ct.BackColor;
-            if (ct.BackImage.IsValid())
-                bgndPanel.imageName = ct.BackImage;
-        }
+#endif
 
         public virtual void GLRedraw(C2DGraphics gr, int x, int y)
         {

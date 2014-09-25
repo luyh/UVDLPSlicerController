@@ -174,16 +174,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             //base.OnPaint(pevent);
         }
 
-        public override void ApplyStyle(ControlStyle ct)
-        {
-            base.ApplyStyle(ct);
-
-            if (ct.ForeColor != ControlStyle.NullColor)
-                ForeColor = ct.ForeColor;
-            if (ct.BackColor != ControlStyle.NullColor)
-                BackColor = ct.BackColor;
-        }
-
+#if (DEBUG) // DBG_GUICONFIG
+        //public override void ApplyStyle(ControlStyle ct) { } // dummy fuction to eliminate compilation errors 
         public override void ApplyStyle(GuiControlStyle ct)
         {
             base.ApplyStyle(ct);
@@ -193,6 +185,18 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (ct.BackColor.IsValid())
                 BackColor = ct.BackColor;
         }
+#else
+        //public override void ApplyStyle(GuiControlStyle ct) { }  // dummy fuction to eliminate compilation errors 
+        public override void ApplyStyle(ControlStyle ct)
+        {
+            base.ApplyStyle(ct);
+
+            if (ct.ForeColor != ControlStyle.NullColor)
+                ForeColor = ct.ForeColor;
+            if (ct.BackColor != ControlStyle.NullColor)
+                BackColor = ct.BackColor;
+        }
+#endif
 
         protected override void OnDoubleClick(EventArgs e)
         {
@@ -252,7 +256,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
         }
 
+#if (DEBUG) // DBG_GUICONFIG
+        Color GetPaintColor(GuiControlStyle stl)
+#else
         Color GetPaintColor(ControlStyle stl)
+#endif
         {
             if (Enabled == false)
                 return stl.DisabledColor;
@@ -278,7 +286,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             return col;
         }
 
+#if (DEBUG) // DBG_GUICONFIG
+        void GLPaint1(C2DGraphics gr, GuiControlStyle stl)
+#else
         void GLPaint1(C2DGraphics gr, ControlStyle stl)
+#endif
         {
             gr.SetColor(GetPaintColor(stl));
 
@@ -313,7 +325,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                     return;
                 mSubImgWidth = mGLImageCach.w / Style.SubImgCount;
             }
+#if (DEBUG) // DBG_GUICONFIG
+            GuiControlStyle stl = Style;
+#else
             ControlStyle stl = Style;
+#endif
             if (stl.SubImgCount == 4)
                 GLPaint4(gr);
             if (stl.SubImgCount == 1)

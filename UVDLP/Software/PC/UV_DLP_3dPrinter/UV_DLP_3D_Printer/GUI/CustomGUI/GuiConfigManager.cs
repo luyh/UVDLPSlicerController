@@ -22,21 +22,30 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         //Dictionary<String, ctlUserPanel> Controls;
         Dictionary<String, Control> Controls;
         Dictionary<String, ctlImageButton> Buttons;
+        Dictionary<String, GuiControlStyle> GuiControlStylesDict;
         List<GuiDecorItem> BgndDecorList;
         List<GuiDecorItem> FgndDecorList;
         ResourceManager Res; // the resource manager for the main CW application
         IPlugin Plugin;
         Control mTopLevelControl = null;
+        public GuiControlStyle DefaultControlStyle;
+        public GuiControlStyle DefaultButtonStyle;
+        
 
 
         public GuiConfigManager()
         {
             Controls = new Dictionary<string, Control>();
             Buttons = new Dictionary<string, ctlImageButton>();
+            GuiControlStylesDict = new Dictionary<string, GuiControlStyle>();
             BgndDecorList = new List<GuiDecorItem>();
             FgndDecorList = new List<GuiDecorItem>();
             Res = global::UV_DLP_3D_Printer.Properties.Resources.ResourceManager;
             Plugin = null;
+            DefaultControlStyle = new GuiControlStyle("DefaultControl");
+            DefaultControlStyle.SetDefault();
+            DefaultButtonStyle = new GuiControlStyle("DefaultButton");
+            DefaultButtonStyle.SetDefault();
         }
 
         public Control TopLevelControl
@@ -73,6 +82,13 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             return Buttons[name];
         }
 
+        public GuiControlStyle GetControlStyle(string name)
+        {
+            if ((name == null) || !GuiControlStylesDict.ContainsKey(name))
+                return null;
+            return GuiControlStylesDict[name];
+        }
+        
         public static int GetPosition(int refpos, int refwidth, int width, int gap, Char anchor)
         {
             int retval = 0;
@@ -102,6 +118,10 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             try
             {
+                // read and store all styles
+                foreach (KeyValuePair<string, GuiControlStyle> pair in conf.GuiControlStylesDict)
+                    GuiControlStylesDict[pair.Key] = pair.Value;
+
                 HandleDecals(conf);
                 HandleButtons(conf);
                 HandleControls(conf);
@@ -155,6 +175,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             GuiControlStyle defstl = conf.GetControlStyle("DefaultButton");
             if (defstl != null)
             {
+                DefaultButtonStyle = defstl;
                 foreach (KeyValuePair<String, ctlImageButton> pair in Buttons)
                 {
                     ctlImageButton butt = pair.Value;
@@ -239,9 +260,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (conf.HideAllControls.IsExplicit() && conf.HideAllControls)
                 HideAllControls();
             // apply default style if exists
-            GuiControlStyle stl = conf.GetControlStyle("DefaultButton");
+            GuiControlStyle stl = conf.GetControlStyle("DefaultControl");
+            
             if (stl != null)
             {
+                DefaultControlStyle = stl;
                 foreach (KeyValuePair<String, Control> pair in Controls)
                 {
                     if (pair.Value is ctlUserPanel)
@@ -256,6 +279,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                     }
                 }
             }
+            
             foreach (KeyValuePair<string, GuiControl> pair in conf.GuiControlsDict)
                 HandleControl(conf, pair.Value);
         }
@@ -294,17 +318,19 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             if (!Controls.ContainsKey(gctl.name))
                 return;
-            Control ct = Controls[gctl.name]; // find the existing control
 
-            ct.Visible = gctl.visible.GetIfValid(ct.Visible);
-            ct.Width = gctl.w.GetIfValid(ct.Width);
-            ct.Height = gctl.h.GetIfValid(ct.Height);
+            Control ct = Controls[gctl.name]; // find the existing control
+            if (gctl.visible.IsExplicit())
+                ct.Visible = gctl.visible.GetVal();
+            ct.Width = gctl.w.GetIfExplicit(ct.Width);
+            ct.Height = gctl.h.GetIfExplicit(ct.Height);
             //load some control locations as well,
-            if (gctl.px.IsValid() || gctl.py.IsValid())
+
+            if (gctl.px.IsExplicit() || gctl.py.IsExplicit())
             {
                 int px, py;
-                px = gctl.px.GetIfValid(ct.Location.X);
-                py = gctl.py.GetIfValid(ct.Location.Y);
+                px = gctl.px.GetIfExplicit(ct.Location.X);
+                py = gctl.py.GetIfExplicit(ct.Location.Y);
                 Point pt = new Point(px, py);
                 ct.Location = pt;
             }
@@ -352,36 +378,36 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                         }
                     }
                 }
+            }
 
-                String styleName = gctl.style.GetIfValid(null);
-                GuiControlStyle style = conf.GetControlStyle(styleName);
-                if (ct is ctlUserPanel)
+            String styleName = gctl.style.GetIfValid(null);
+            GuiControlStyle style = conf.GetControlStyle(styleName);
+            if (ct is ctlUserPanel)
+            {
+                ctlUserPanel ctl = (ctlUserPanel)ct;
+                ctl.GuiAnchor = gctl.dock.GetIfExplicit(ctl.GuiAnchor);
+                ctl.Gapx = gctl.x.GetIfExplicit(ctl.Gapx);
+                ctl.Gapy = gctl.y.GetIfExplicit(ctl.Gapy);
+                if (styleName != null)
                 {
-                    ctlUserPanel ctl = (ctlUserPanel)ct;
-                    ctl.GuiAnchor = gctl.dock.GetIfValid(ctl.GuiAnchor);
-                    ctl.Gapx = gctl.x.GetIfValid(ctl.Gapx);
-                    ctl.Gapy = gctl.y.GetIfValid(ctl.Gapy);
-                    if (styleName != null)
-                    {
-                        ctl.StyleName = styleName;
-                        if (style != null)
-                        {
-                            ctl.GLVisible = style.glMode;
-                            ctl.ApplyStyle(style);
-                        }
-                    }
-                    //ctl.GLVisible = GetBoolParam(ctlnode, "gl", false);
-                    if (ctl.GLVisible)
-                        ctl.GLBackgroundImage = gctl.BorderShape.GetIfValid(ctl.GLBackgroundImage);
-                    else
-                        ctl.bgndPanel.imageName = gctl.BorderShape.GetIfValid(ctl.bgndPanel.imageName);
-                }
-                else
-                {
+                    ctl.StyleName = styleName;
                     if (style != null)
                     {
-                        ApplyStyleRecurse(ct, style);
+                        ctl.GLVisible = style.glMode;
+                        ctl.ApplyStyle(style);
                     }
+                }
+                //ctl.GLVisible = GetBoolParam(ctlnode, "gl", false);
+                if (ctl.GLVisible)
+                    ctl.GLBackgroundImage = gctl.BorderShape.GetIfExplicit(ctl.GLBackgroundImage);
+                else
+                    ctl.bgndPanel.imageName = gctl.BorderShape.GetIfExplicit(ctl.bgndPanel.imageName);
+            }
+            else
+            {
+                if (style != null)
+                {
+                    ApplyStyleRecurse(ct, style);
                 }
             }
         }

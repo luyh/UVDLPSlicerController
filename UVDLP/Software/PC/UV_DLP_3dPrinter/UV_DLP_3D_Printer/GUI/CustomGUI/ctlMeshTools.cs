@@ -1074,6 +1074,43 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             CSG.Instance().StartOp(CSG.eCSGOp.eSubtraction, UVDLPApp.Instance().SelectedObjectList[0], UVDLPApp.Instance().SelectedObjectList[1]);
         }
 
+#if (DEBUG) // DBG_GUICONFIG
+        public override void ApplyStyle(GuiControlStyle ct)
+        {
+            base.ApplyStyle(ct);
+            if (ct.ForeColor.IsValid())
+            {
+                cmdCreatePrim.ForeColor = ct.ForeColor;
+                label1.ForeColor = ct.ForeColor;
+                label2.ForeColor = ct.ForeColor;
+                label3.ForeColor = ct.ForeColor;
+                label4.ForeColor = ct.ForeColor;
+                label5.ForeColor = ct.ForeColor;
+                label6.ForeColor = ct.ForeColor;
+                label7.ForeColor = ct.ForeColor;
+                label8.ForeColor = ct.ForeColor;
+                label9.ForeColor = ct.ForeColor;
+                progressTitle.ForeColor = ct.ForeColor;
+            }
+            if (ct.BackColor.IsValid())
+            {
+                BackColor = ct.BackColor;
+                cmdCreatePrim.BackColor = ct.BackColor;
+                progressTitle.BackColor = ct.BackColor;
+            }
+            if (ct.FrameColor.IsValid())
+            {
+                flowLayoutPanel1.BackColor = ct.FrameColor;
+                flowLayoutPanel3.BackColor = ct.FrameColor;
+                flowLayoutPanel4.BackColor = ct.FrameColor;
+                pnlSphere.BackColor = ct.FrameColor;
+                pnlCone.BackColor = ct.FrameColor;
+                pnlCube.BackColor = ct.FrameColor;
+                pnlTorus.BackColor = ct.FrameColor;
+            }
+
+        }
+#else
         public override void ApplyStyle(ControlStyle ct)
         {
             base.ApplyStyle(ct);
@@ -1109,6 +1146,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
 
         }
-
+#endif
     }
 }

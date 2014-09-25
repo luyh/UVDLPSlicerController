@@ -87,6 +87,23 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             ctlMachineConfigView.Checked = false;
             ctlSliceProfileConfig.Checked = true;
         }
+
+#if (DEBUG) // DBG_GUICONFIG
+        public override void ApplyStyle(GuiControlStyle ct)
+        {
+            base.ApplyStyle(ct);
+            if (ct.BackColor.IsValid())
+                flowLayoutPanel1.BackColor = ct.BackColor;
+            if (ct.ForeColor.IsValid())
+                flowLayoutPanel1.ForeColor = ct.ForeColor;
+            //this.BackColor = Control.DefaultBackColor;
+            //this.ForeColor = Control.DefaultForeColor;
+            ctlMachineConfigView.ApplyStyle(ct);
+            ctlSliceProfileConfig.ApplyStyle(ct);
+            pnlMachineConfig.BackColor = Control.DefaultBackColor;
+            pnlMachineConfig.ForeColor = Control.DefaultForeColor;
+        }
+#else
         public override void ApplyStyle(ControlStyle ct)
         {
             base.ApplyStyle(ct);
@@ -105,5 +122,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             pnlMachineConfig.BackColor = Control.DefaultBackColor;
             pnlMachineConfig.ForeColor = Control.DefaultForeColor;
         }
+#endif
     }
 }

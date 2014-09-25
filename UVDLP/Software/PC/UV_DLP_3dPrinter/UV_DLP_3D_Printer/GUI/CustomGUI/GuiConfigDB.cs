@@ -495,9 +495,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
 
             Res = global::UV_DLP_3D_Printer.Properties.Resources.ResourceManager;
             Plugin = null;
-            DefaultControlStyle = new GuiControlStyle("DefaultControl");
+            /*DefaultControlStyle = new GuiControlStyle("DefaultControl");
             DefaultControlStyle.SetDefault();
             GuiControlStylesDict[DefaultControlStyle.Name] = DefaultControlStyle;
+            GuiControlStyles.Add(DefaultControlStyle);
+             * */
             HideAllButtons = new GuiParam<bool>();
             HideAllControls = new GuiParam<bool>();
             HideAllDecals = new GuiParam<bool>();
@@ -712,7 +714,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             string name = GetStrParam(barnode, "name", null);
             List<GuiDecorItem> dlist = GetListFromLevel(barnode);
             GuiDecorItem dcr = null;
-            if (GetStrParam(barnode, "color", null) == null)
+            if (!GetStrParam(barnode, "color", null).IsExplicit())
             {
                 Color coltl = GetColorParam(barnode, "tlcolor", Color.White);
                 Color coltr = GetColorParam(barnode, "trcolor", Color.White);
@@ -815,6 +817,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (!GuiButtonsDict.ContainsKey(name))
             {
                 butt = new GuiButton(name);
+                butt.name = name;
                 GuiButtonsDict[name] = butt;
             }
             else
@@ -980,6 +983,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (!GuiControlsDict.ContainsKey(name))
             {
                 ct = new GuiControl(name);
+                ct.name = name;
                 GuiControlsDict[name] = ct;
             }
             else
@@ -1236,7 +1240,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 ct.InheritFrom(copyFromStyle);
             ct.ForeColor = GetColorParam(xnode, "forecolor", ct.ForeColor);
             ct.BackColor = GetColorParam(xnode, "backcolor", ct.BackColor);
-            ct.FrameColor = GetColorParam(xnode, "framecolor", ct.BackColor);
+            ct.FrameColor = GetColorParam(xnode, "framecolor", ct.FrameColor);
             ct.glMode = GetBoolParam(xnode, "gl", ct.glMode);
             ct.CheckedColor = GetColorParam(xnode, "checkcolor", ct.CheckedColor);
             ct.HoverColor = GetColorParam(xnode, "hovercolor", ct.HoverColor);
@@ -1524,6 +1528,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             {
                 db.coltl.Save(xd, dbnode, "color");
             }
+            if (isBgnd)
+                AddParameter(xd, dbnode, "level", "background");
         }
 
         void SaveImage(XmlDocument xd, XmlNode parent, GuiDecorImage di, bool isBgnd)
@@ -1537,6 +1543,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             di.y.Save(xd, dinode, "y");
             di.col.Save(xd, dinode, "color");
             di.opacity.Save(xd, dinode, "opacity");
+            if (isBgnd)
+                AddParameter(xd, dinode, "level", "background");
         }
 
         void SaveDecals(XmlDocument xd, XmlNode parent)

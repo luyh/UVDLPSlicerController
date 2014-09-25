@@ -101,8 +101,11 @@ namespace UV_DLP_3D_Printer
         public SliceFile m_slicefile;
         public BuildManager m_buildmgr;
         public prjcmdlst m_proj_cmd_lst; // projector command list
-
+#if (DEBUG) // DBG_GUICONF
+        public GuiConfigManager m_gui_config;
+#else
         public GuiConfig m_gui_config;
+#endif
         public C2DGraphics m_2d_graphics;
 
         public static String m_appconfigname = "CreationConfig.xml";
@@ -150,7 +153,11 @@ namespace UV_DLP_3D_Printer
             m_pluginstates =  PluginStates.Instance(); // initialize the plugin state singleton           
             m_undoer = new Undoer();
             m_2d_graphics = new C2DGraphics();
+#if (DEBUG) // DBG_GUICONF
+            m_gui_config = new GuiConfigManager();
+#else
             m_gui_config = new GuiConfig();
+#endif
             m_AuxBuildCmds = AuxBuildCmds.Instance(); // make sure the singleton doesn't go away...
             m_sequencemanager = SequenceManager.Instance();
         }

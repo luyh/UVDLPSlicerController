@@ -28,7 +28,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             UVDLPApp.Instance().m_gui_config.AddControl("flowTop_manual_control", flowTop);
         }
 
+#if (DEBUG) // DBG_GUICONFIG
+        public override void ApplyStyle(GuiControlStyle ct)
+#else
         public override void ApplyStyle(ControlStyle ct)
+#endif
         {
             base.ApplyStyle(ct);
             flowTop.BackColor = ct.BackColor;

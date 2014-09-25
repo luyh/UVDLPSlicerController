@@ -67,12 +67,15 @@ namespace UV_DLP_3D_Printer.GUI
             AddControls();
             ctl3DView1.RearrangeGui();
             ctl3DView1.Enable3dView(true);
+#if (DEBUG) // DBG_GUICONF
+            // test new gui config system
+            GuiConfigDB gconfdb = new GuiConfigDB();
+            gconfdb.LoadConfiguration(global::UV_DLP_3D_Printer.Properties.Resources.GuiConfig);
+            UVDLPApp.Instance().m_gui_config.ApplyConfiguration(gconfdb);
+            gconfdb.SaveConfiguration("GuiConfigTest");
+#else
             UVDLPApp.Instance().m_gui_config.LoadConfiguration(global::UV_DLP_3D_Printer.Properties.Resources.GuiConfig);
-
-            // test new guiconfig system:
-            GuiConfigDB newgui = new GuiConfigDB();
-            newgui.LoadConfiguration(global::UV_DLP_3D_Printer.Properties.Resources.GuiConfig);
-            newgui.SaveConfiguration("GuiConfigTest");
+#endif
 
             //ctlSliceGCodePanel1.ctlSliceViewctl.DlpForm = m_frmdlp; // set the dlp form for direct control
             SetMainMessage("");
@@ -1066,7 +1069,15 @@ namespace UV_DLP_3D_Printer.GUI
                     StreamReader streamReader = new StreamReader(openFileDialog1.FileName);
                     string text = streamReader.ReadToEnd();
                     streamReader.Close();
+#if (DEBUG) // DBG_GUICONF
+                        // test new gui config system
+                    GuiConfigDB gconfdb = new GuiConfigDB();
+                    gconfdb.LoadConfiguration(text);
+                    UVDLPApp.Instance().m_gui_config.ApplyConfiguration(gconfdb);
+                    gconfdb.SaveConfiguration("GuiConfigMenuTest");
+#else
                     UVDLPApp.Instance().m_gui_config.LoadConfiguration(text);
+#endif
                     //UVDLPApp.Instance().m_gui_config.LayoutGui(
                 }
             }catch(Exception ex)

@@ -127,7 +127,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
         }
 
+#if (DEBUG) // DBG_GUICONFIG
+        public override void ApplyStyle(GuiControlStyle ct)
+#else
         public override void ApplyStyle(ControlStyle ct)
+#endif
         {
             base.ApplyStyle(ct);
             ForeColor = ct.ForeColor;
