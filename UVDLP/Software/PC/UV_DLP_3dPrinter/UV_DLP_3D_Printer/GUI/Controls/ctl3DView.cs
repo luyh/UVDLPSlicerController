@@ -1132,8 +1132,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                         gconfdb.SaveConfiguration("GuiConfigPlugin");
 #else
                         guiconf.LoadConfiguration(guiconfname, plugin);
-                        RearrangeGui();
 #endif
+                        RearrangeGui();
                     }
                 }
                 catch (Exception ex) 
