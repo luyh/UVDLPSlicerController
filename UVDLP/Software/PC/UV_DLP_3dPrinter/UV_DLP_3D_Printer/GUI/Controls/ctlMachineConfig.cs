@@ -53,8 +53,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 cmbMultiSel.SelectedItem = m_config.m_multimontype.ToString();
 
                 //list the drivers
-                txtPlatWidth.Text = "" + m_config.m_PlatXSize;
-                txtPlatHeight.Text = "" + m_config.m_PlatYSize;
+                txtPlatWidth.Text = "" + m_config.m_PlatXSize.ToString("0.00");
+                txtPlatHeight.Text = "" + m_config.m_PlatYSize.ToString("0.00"); 
                 txtPlatTall.Text = m_config.m_PlatZSize.ToString();
                 //projwidth.Text = "" + m_config.m_monitorconfig.XRes;
                 //projheight.Text = "" + m_config.m_monitorconfig.YRes;
@@ -698,8 +698,15 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             bsc.setPlatformSize((float)m_config.m_PlatXSize, (float)m_config.m_PlatYSize);
             if (bsc.ShowDialog() == DialogResult.OK) 
             {
-                m_config.m_PlatXSize = bsc.calcplatoformsizeX;
-                m_config.m_PlatYSize = bsc.calcplatoformsizeY;
+                try
+                {
+                    m_config.m_PlatXSize = bsc.calcplatoformsizeX;
+                    m_config.m_PlatYSize = bsc.calcplatoformsizeY;
+                }
+                catch (Exception ex)
+                {
+                
+                }
                 SetData();
             }
         }

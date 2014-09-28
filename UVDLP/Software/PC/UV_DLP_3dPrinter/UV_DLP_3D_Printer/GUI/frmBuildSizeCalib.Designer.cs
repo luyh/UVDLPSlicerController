@@ -30,10 +30,10 @@
         {
             this.cmdOK = new System.Windows.Forms.Button();
             this.txtmodelx = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.txtmodely = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.txtmeasuredy = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -75,23 +75,6 @@
             this.txtmodelx.TabStop = false;
             this.txtmodelx.Text = "Model Size (mm)";
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 33);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(48, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "X Size";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(72, 33);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 22);
-            this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "2.0";
-            // 
             // txtmodely
             // 
             this.txtmodely.Location = new System.Drawing.Point(72, 61);
@@ -108,6 +91,23 @@
             this.label2.Size = new System.Drawing.Size(48, 17);
             this.label2.TabIndex = 2;
             this.label2.Text = "Y Size";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(72, 33);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 22);
+            this.textBox1.TabIndex = 1;
+            this.textBox1.Text = "2.0";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 33);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(48, 17);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "X Size";
             // 
             // groupBox2
             // 
@@ -129,6 +129,7 @@
             this.txtmeasuredy.Size = new System.Drawing.Size(100, 22);
             this.txtmeasuredy.TabIndex = 3;
             this.txtmeasuredy.Text = "2.0";
+            this.txtmeasuredy.TextChanged += new System.EventHandler(this.txtmeasuredy_TextChanged);
             // 
             // label3
             // 
@@ -146,6 +147,7 @@
             this.txtmeasuredx.Size = new System.Drawing.Size(100, 22);
             this.txtmeasuredx.TabIndex = 1;
             this.txtmeasuredx.Text = "2.0";
+            this.txtmeasuredx.TextChanged += new System.EventHandler(this.txtmeasuredx_TextChanged);
             // 
             // label4
             // 
@@ -204,7 +206,7 @@
             this.groupBox3.Size = new System.Drawing.Size(203, 104);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Current Build Platform Size";
+            this.groupBox3.Text = "New Build Platform Size";
             // 
             // lblNewBuildSizeY
             // 

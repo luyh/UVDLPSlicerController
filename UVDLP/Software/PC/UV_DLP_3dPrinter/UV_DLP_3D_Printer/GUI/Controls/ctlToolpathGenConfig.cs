@@ -515,5 +515,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             frmCalib.ShowDialog();
         }
 
+        private void txtAAVal_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
