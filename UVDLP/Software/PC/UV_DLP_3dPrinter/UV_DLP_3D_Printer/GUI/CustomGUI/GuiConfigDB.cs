@@ -442,6 +442,62 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         }
     }
 
+    public class GuiLayout
+    {
+        public enum LayoutType
+        {
+            Layout,
+            Menu,
+            MenuItem,
+            Panel,
+            FlowPanel,
+            SplitPanel,
+            SplitPanel1,
+            SplitPanel2,
+            TabPanel,
+            TabItem,
+            Control
+        }
+        public string name;
+        public LayoutType type;
+        public List<GuiLayout> subLayouts;
+        public GuiParam<string> text;
+        public GuiParam<string> action;
+        public GuiParam<int> px;
+        public GuiParam<int> py;
+        public GuiParam<int> w;
+        public GuiParam<int> h;
+        public GuiParam<string> dock;
+        public GuiParam<string> control;
+        public GuiParam<bool> isCollapsed;
+        public GuiParam<bool> isSelected;
+        public GuiParam<string> image;
+        public GuiParam<string> orientation;
+        public GuiParam<string> direction;
+        public GuiParam<int> splitPos;
+
+        public GuiLayout(LayoutType type, string name)
+        {
+            this.type = type;
+            this.name = name;
+            subLayouts = new List<GuiLayout>();
+            text = new GuiParam<string>();
+            action = new GuiParam<string>();
+            px = new GuiParam<int>();
+            py = new GuiParam<int>();
+            w = new GuiParam<int>();
+            h = new GuiParam<int>();
+            dock = new GuiParam<string>();
+            control = new GuiParam<string>();
+            isCollapsed = new GuiParam<bool>();
+            isSelected = new GuiParam<bool>();
+            image = new GuiParam<string>();
+            orientation = new GuiParam<string>();
+            splitPos = new GuiParam<int>();
+            direction = new GuiParam<string>();
+        }
+   }
+
     public class GuiConfigDB
     {
         const int FILE_VERSION = 1;
@@ -456,6 +512,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public Dictionary<String, GuiDecorItem> GuiDecorItemsDict;
         public List<GuiControlStyle> GuiControlStyles;
         public List<GuiControlStyle> GuiButtonStyles;
+        public List<GuiLayout> GuiLayouts;
         public Dictionary<String, GuiControl> GuiControlsDict;
         public Dictionary<String, GuiButton> GuiButtonsDict;
         //List<GuiControl> GuiControls;
@@ -470,6 +527,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public GuiParam<bool> HideAllButtons;
         public GuiParam<bool> HideAllControls;
         public GuiParam<bool> HideAllDecals;
+        Dictionary<string, int> NameGenerator;
 
 
         public GuiConfigDB()
@@ -493,13 +551,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             FgndDecorList = new List<GuiDecorItem>();
             CmdSequenceList = new List<CommandSequence>();
 
+            GuiLayouts = new List<GuiLayout>();
+
+            NameGenerator = new Dictionary<string, int>();
+
             Res = global::UV_DLP_3D_Printer.Properties.Resources.ResourceManager;
             Plugin = null;
-            /*DefaultControlStyle = new GuiControlStyle("DefaultControl");
-            DefaultControlStyle.SetDefault();
-            GuiControlStylesDict[DefaultControlStyle.Name] = DefaultControlStyle;
-            GuiControlStyles.Add(DefaultControlStyle);
-             * */
             HideAllButtons = new GuiParam<bool>();
             HideAllControls = new GuiParam<bool>();
             HideAllDecals = new GuiParam<bool>();
@@ -510,29 +567,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             get { return mTopLevelControl; }
             set { mTopLevelControl = value; }
         }
-        /*
-        public void AddControl(string name, ctlUserPanel ctl)
-        {
-            Controls[name] = ctl;
-            if ((ctl.Parent == null) && (mTopLevelControl != null))
-                mTopLevelControl.Controls.Add(ctl);
-        }
-        */
-
-        /* move to manager
-        public void AddControl(string name, Control ctl)
-        {
-            Controls[name] = ctl;
-            if ((ctl.Parent == null) && (mTopLevelControl != null))
-                mTopLevelControl.Controls.Add(ctl);
-        }
-        public void AddButton(string name, ctlImageButton ctl)
-        {
-            Buttons[name] = ctl;
-            if ((ctl.Parent == null) && (mTopLevelControl != null))
-                mTopLevelControl.Controls.Add(ctl);
-        }
-        */
 
         public GuiControlStyle GetControlStyle(string name)
         {
@@ -541,29 +575,6 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             return GuiControlStylesDict[name];
         }
 
-        /*
-        public ctlUserPanel GetControl(string name)
-        {
-            if (!Controls.ContainsKey(name))
-                return null;
-            return Controls[name];
-        }
-        */
-
-        /* move to manager
-        public Control GetControl(string name)
-        {
-            if (!Controls.ContainsKey(name))
-                return null;
-            return Controls[name];
-        }
-        public ctlImageButton GetButton(string name)
-        {
-            if (!Buttons.ContainsKey(name))
-                return null;
-            return Buttons[name];
-        }
-        */
 
         public GuiDecorItem GetDecorItem(string name)
         {
@@ -572,30 +583,16 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             return GuiDecorItemsDict[name];
         }
 
-        /*public static int GetPosition(int refpos, int refwidth, int width, int gap, Char anchor)
+        public string GetUniqueName(string prefix)
         {
-            int retval = 0;
-            switch (anchor)
+            if (NameGenerator.ContainsKey(prefix))
             {
-                case 't':
-                case 'l':
-                    retval = refpos + gap;
-                    break;
-
-                case 'c':
-                    retval = refpos + (refwidth - width) / 2 + gap;
-                    break;
-
-                case 'r':
-                case 'b':
-                    retval = refpos + refwidth - width - gap;
-                    break;
-                default:
-                    retval = gap;
-                    break;
+                NameGenerator[prefix]++;
+                return prefix + NameGenerator[prefix].ToString();
             }
-            return retval;
-        }*/
+            NameGenerator[prefix] = 1;
+            return prefix + "1";
+        }
 
         public void LoadConfiguration(String xmlConf, IPlugin plugin)
         {
@@ -617,6 +614,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                         case "buttons": HandleButtons(xnode); break; 
                         case "controls": HandleControls(xnode); break;
                         case "sequences": LoadSequences(xnode); break;
+                        case "layouts": HandleLayouts(xnode); break;
                     }
                 }
 
@@ -1084,6 +1082,70 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 }
             }
              * */
+        }
+
+        #endregion
+
+        #region Layouts
+        void HandleLayouts(XmlNode lnode)
+        {
+            foreach (XmlNode xnode in lnode.ChildNodes)
+            {
+                switch (xnode.Name.ToLower())
+                {
+                    case "layout": HandleLayout(xnode); break;
+                }
+            }
+
+        }
+
+        void HandleLayout(XmlNode lnode)
+        {
+            GuiLayout gl = HandleLayoutRecurse(lnode);
+            if (gl != null)
+                GuiLayouts.Add(gl);
+        }
+
+        GuiLayout HandleLayoutRecurse(XmlNode lnode)
+        {
+            GuiLayout.LayoutType ltype;
+            try
+            {
+                ltype = (GuiLayout.LayoutType)Enum.Parse(typeof(GuiLayout.LayoutType), lnode.Name, true);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            string name;
+            GuiParam<string> gpname = GetStrParam(lnode, "name", null);
+            if (gpname.IsExplicit())
+                name = gpname;
+            else
+                name = GetUniqueName(ltype.ToString());
+            GuiLayout gl = new GuiLayout(ltype, name);
+            gl.text = GetStrParam(lnode, "text", null);
+            gl.action = GetStrParam(lnode, "action", null);
+            gl.dock = GetStrParam(lnode, "dock", null);
+            gl.control = GetStrParam(lnode, "control", null);
+            gl.image = GetStrParam(lnode, "image", null);
+            gl.orientation = GetStrParam(lnode, "orientation", null);
+            gl.direction = GetStrParam(lnode, "direction", null);
+            gl.px = GetIntParam(lnode, "px", 0);
+            gl.py = GetIntParam(lnode, "py", 0);
+            gl.w = GetIntParam(lnode, "w", 0);
+            gl.h = GetIntParam(lnode, "h", 0);
+            gl.splitPos = GetIntParam(lnode, "splitpos", 0);
+            gl.isCollapsed = GetBoolParam(lnode, "iscollapsed", false);
+            gl.isSelected = GetBoolParam(lnode, "isselected", false);
+            foreach (XmlNode subnode in lnode.ChildNodes)
+            {
+                GuiLayout subgl = HandleLayoutRecurse(subnode);
+                if (subgl != null)
+                    gl.subLayouts.Add(subgl);
+            }
+
+            return gl;
         }
 
         #endregion
@@ -1582,6 +1644,42 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 AddParameter(xd, csnode, "seqtype", cs.type.ToString());
             }
         }
+
+        void SaveLayouts(XmlDocument xd, XmlNode parent)
+        {
+            XmlNode lNode = xd.CreateElement("layouts");
+            parent.AppendChild(lNode);
+            foreach (GuiLayout gl in GuiLayouts)
+            {
+                SaveLayoutRecurse(xd, lNode, gl);
+            }
+        }
+
+        void SaveLayoutRecurse(XmlDocument xd, XmlNode parent, GuiLayout gl)
+        {
+            XmlNode glNode = xd.CreateElement(gl.type.ToString().ToLower());
+            parent.AppendChild(glNode);
+            AddParameter(xd, glNode, "name", gl.name);
+            gl.text.Save(xd, glNode, "text");
+            gl.action.Save(xd, glNode, "action");
+            gl.dock.Save(xd, glNode, "dock");
+            gl.control.Save(xd, glNode, "control");
+            gl.image.Save(xd, glNode, "image");
+            gl.orientation.Save(xd, glNode, "orientation");
+            gl.direction.Save(xd, glNode, "direction");
+            gl.px.Save(xd, glNode, "px");
+            gl.py.Save(xd, glNode, "py");
+            gl.w.Save(xd, glNode, "w");
+            gl.h.Save(xd, glNode, "h");
+            gl.splitPos.Save(xd, glNode, "splitpos");
+            gl.isCollapsed.Save(xd, glNode, "iscollapsed");
+            gl.isSelected.Save(xd, glNode, "isselected");
+            foreach (GuiLayout subgl in gl.subLayouts)
+            {
+                SaveLayoutRecurse(xd, glNode, subgl);
+            }
+        }
+
 
         public static void AddParameter(XmlDocument xd, XmlNode parent, string name, object data)
         {
