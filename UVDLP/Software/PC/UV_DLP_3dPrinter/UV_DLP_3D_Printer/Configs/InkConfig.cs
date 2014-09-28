@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using System.IO;
 using UV_DLP_3D_Printer.Configs;
+using System.Drawing;
 
 namespace UV_DLP_3D_Printer.Configs
 {
@@ -16,6 +17,8 @@ namespace UV_DLP_3D_Printer.Configs
         public int firstlayertime_ms; // first layer exposure time 
         public int numfirstlayers;
         public double resinprice; // per liter
+        public Color ForeColor; // foreground and background color makes much more sense to be in the ink config / slciing parameters.
+        public Color BackColor;
 
         public InkConfig(string name)
         {

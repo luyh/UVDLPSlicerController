@@ -19,11 +19,15 @@ namespace UV_DLP_3D_Printer.GUI
         {
             platoformsizeX = x;
             platoformsizeY = y;
+            SetData();
+            CalcNewSize();
         }
         public void setModelSize(float x, float y)
         {
             modelsizeX = x;
             modelsizeY = y;
+            SetData();
+            CalcNewSize();
         }
         public frmBuildSizeCalib()
         {
@@ -31,6 +35,7 @@ namespace UV_DLP_3D_Printer.GUI
             CalcNewSize();
             SetData();
         }
+       
         private void CalcNewSize() 
         {
             try
@@ -38,9 +43,16 @@ namespace UV_DLP_3D_Printer.GUI
                 GetData(); // get the current data
                 //make some calculations
                 //calcplatoformsizeX = measuredmodelsizeX / platoformsizeX;
-
+                // scale is measuredsize / modelsize
+                // scale is modelsize / measuredsize
+                //                float scaleX = modelsizeX / measuredmodelsizeX;
+                //                float scaleY = modelsizeY / measuredmodelsizeY;
                 
-
+                float scaleX = measuredmodelsizeX / modelsizeX;
+                float scaleY = measuredmodelsizeY / modelsizeY;
+                calcplatoformsizeX = scaleX * platoformsizeX;
+                calcplatoformsizeY = scaleY * platoformsizeY;
+                SetData();
             }
             catch (Exception ex) 
             {
@@ -65,7 +77,7 @@ namespace UV_DLP_3D_Printer.GUI
             }
             catch (Exception ex) 
             {
-                DebugLogger.Instance().LogError(ex);
+                //DebugLogger.Instance().LogError(ex);
             }
         }
         private void cmdOK_Click(object sender, EventArgs e)
@@ -79,6 +91,17 @@ namespace UV_DLP_3D_Printer.GUI
         {
             DialogResult = System.Windows.Forms.DialogResult.Cancel;
             Close();
+        }
+
+        private void txtmeasuredx_TextChanged(object sender, EventArgs e)
+        {
+            CalcNewSize();
+        }
+
+        private void txtmeasuredy_TextChanged(object sender, EventArgs e)
+        {
+            CalcNewSize();
+
         }
     }
 }
