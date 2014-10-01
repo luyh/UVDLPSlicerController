@@ -1,3 +1,12 @@
+==========================
+CreationWorkshop for Uncia
+==========================
+ This is my fork of the 3dDLPUVController, made by the brilliant Steve Hernandez.
+ 
+ This fork is meant to be tailored for use with the Uncia DLP 3D Printer, and all of its quirks.
+ 
+ Original readme.txt:
+ ====================
 This is the 3dDLPUVController project, also known as CreationWorkshop
 
 This software allows you to create cross-sectional image slices of 3d Binary STL models. 
