@@ -117,7 +117,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                         break;
                     case 'Z':
                         cMCZ.Visible = true;
-                       // cOnOffMotors.Visible = true;// turn off the motor on/off switch - smh 08/19/2014
+                        cOnOffMotors.Visible = true;// turn off the motor on/off switch - smh 08/19/2014
                         ctlParamZrate.Visible = true;
                         break;
                     case 'T':
