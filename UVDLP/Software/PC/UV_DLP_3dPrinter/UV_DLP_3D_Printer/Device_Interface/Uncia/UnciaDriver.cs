@@ -184,7 +184,7 @@ namespace UV_DLP_3D_Printer.Drivers
                             Write(cmd, 1); // write the direction byte
                             //
 
-                            cmd[0] = ( byte)'S';
+                            cmd[0] = (byte)'S';
 
                             for (int c = 0; c < (int)iZStep; c++) 
                             {
@@ -206,7 +206,16 @@ namespace UV_DLP_3D_Printer.Drivers
                         case -1:// error getting g/mcode
                             DebugLogger.Instance().LogError("Error getting G/M code: " + line);
                             break;
+                        
+                        case 17: // M17 Turn Motors On command
+                            cmd[0] = (byte)'E'; // enable the stepper motor
+                            Write(cmd, 1);
+                            break;
 
+                        case 18: // M18 Turn Motors Off command
+                            cmd[0] = (byte)'D'; // enable the stepper motor
+                            Write(cmd, 1);
+                            break;
                     }
                 }
                 return retval;
