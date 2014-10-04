@@ -144,7 +144,7 @@ namespace UV_DLP_3D_Printer
             d.DeviceStatus += new DeviceDriver.DeviceStatusEvent(DriverDeviceStatusEvent);
         }
         /*
-         R4emove a projector driver serial port
+         Remove a projector driver serial port
          */
         public void RemoveAllProjDrivers() 
         {

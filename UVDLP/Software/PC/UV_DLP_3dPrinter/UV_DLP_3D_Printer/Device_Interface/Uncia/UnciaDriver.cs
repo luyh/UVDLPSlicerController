@@ -20,7 +20,7 @@ namespace UV_DLP_3D_Printer.Drivers
          //   m_reqtimer = new Timer();
          //   m_reqtimer.Interval = s_interval;
          //   m_reqtimer.Elapsed += new ElapsedEventHandler(m_reqtimer_Elapsed);
-            UVDLPApp.Instance().m_deviceinterface.AlwaysReady = true; // don't looks for gcode responses, always assume we're ready for the next command.
+            UVDLPApp.Instance().m_deviceinterface.AlwaysReady = true; // don't look for gcode responses, always assume we're ready for the next command.
         }
 
         /// <summary>
@@ -34,6 +34,8 @@ namespace UV_DLP_3D_Printer.Drivers
             try
             {
                 ret = base.Connect();
+
+
                 return ret;
             }
             catch (Exception ex)
@@ -122,21 +124,9 @@ namespace UV_DLP_3D_Printer.Drivers
                 return 0.0;
             }
         }
-        /// <summary>
-        /// </summary>
-        /// <param name="mm"></param>
-        /// <returns></returns>
-        private byte CalcZSteps(double mm)
-        {
-            // the uncia printer moves 100 microns per 300 steps
 
-            double mm2inch = 0.0393701;
-            double conv = mm * mm2inch;// convert mm to inch
-            double val = conv / .0005;//divide inches by .0005
-            byte retval = (byte)Math.Round(val); // hopefully rounding won't be necessary if we've choosen slice height correctly
-            return retval;
 
-        }
+
         /// <summary>
         /// This interprets the gcode/mcode
         /// generates a command, and sends the data to the port
@@ -213,9 +203,16 @@ namespace UV_DLP_3D_Printer.Drivers
                             break;
 
                         case 18: // M18 Turn Motors Off command
-                            cmd[0] = (byte)'D'; // enable the stepper motor
+                            cmd[0] = (byte)'P'; // Disable the stepper motor
                             Write(cmd, 1);
                             break;
+
+
+                        //This case doesn't exist in GCode, but sending 'P' will 
+                            //ping the machine. The default firmware responds with
+                            //a DEC value of 68, which translates to the char 'D'.
+                            //We may be able to use this to determine if an Uncia
+                            //has a modified firmware.
                     }
                 }
                 return retval;
@@ -239,7 +236,12 @@ namespace UV_DLP_3D_Printer.Drivers
             for (int c = 0; c < read; c++)
             {
                 data[c] = m_buffer[c];
+                char c1 = (char)data[c];
+                System.Diagnostics.Debug.Write(c1.ToString());
+
             }
+            System.Diagnostics.Debug.WriteLine("");
+            
             Log(data, read);
             RaiseDataReceivedEvent(this, data, read);
             // we're also going to have to raise an event to the deviceinterface indicating that we're 
