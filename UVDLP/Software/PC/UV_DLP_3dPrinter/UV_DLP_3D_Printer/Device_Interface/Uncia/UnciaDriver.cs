@@ -38,15 +38,6 @@ namespace UV_DLP_3D_Printer.Drivers
             try
             {
                 ret = base.Connect();
-
-                if (ret)
-                { //this means that we've connected, and it's time to try to talk to our printer.
-                    bool pingStatus = pingUncia();
-                    if (pingStatus)
-                    { //this means that we've successfully sent the char 'P' to the Uncia
-
-                    }
-                }
                 return ret;
             }
             catch (Exception ex)
@@ -73,40 +64,6 @@ namespace UV_DLP_3D_Printer.Drivers
                 DebugLogger.Instance().LogRecord(ex.Message);
                 return false;
             }
-        }
-
-        /// <summary>
-        /// This class updates what the last char sent to the Uncia was. It assumes that 
-        /// you are only sending one char at a time! (i.e. cmd[].Length == 1)
-        /// </summary>
-        private void setLastCharSent(byte[] cmd)
-        {   //This method assumes that we are sending only 1 char at a time!
-            lastCharSent = (char)cmd[0];
-        }
-
-        /// <summary>
-        /// This is a class that will ping the Uncia printer by sending it
-        /// a specific pinging char.
-        /// </summary>
-        private bool pingUncia()
-        {
-            try
-            {
-                byte[] cmd;
-                cmd = new byte[1];
-                char pingChar = 'P';
-                cmd[0] = (byte)pingChar;  //Set our pinging char
-
-                Write(cmd, 1);            //Sending it
-                setLastCharSent(cmd);
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex);
-            }
-            return false;
         }
 
         /// <summary>
@@ -207,10 +164,10 @@ namespace UV_DLP_3D_Printer.Drivers
                             double zval = GetGCodeValDouble(line, 'Z');
                             cmd[0] = (byte)'E'; // enable the stepper motor
                             Write(cmd, 1);
-                            setLastCharSent(cmd);
+                        
                             //Thread.Sleep(delay); // add a delay between steps
 
-                            //convert that to steps - 90 steps per mm
+                            //convert that to steps - 87 steps per mm
                             double zsteps = zval * 87; // 3000 steps /mm ? // 9 steps = 100 microns = .1mm
                             int iZStep = (int)Math.Abs(zsteps); // get the ABS value
                             if (zval > 0)
@@ -222,7 +179,7 @@ namespace UV_DLP_3D_Printer.Drivers
                                 cmd[0] = (byte)'R';
                             }
                             Write(cmd, 1); // write the direction byte
-                            setLastCharSent(cmd);
+                        
                             //
 
                             cmd[0] = (byte)'S';
@@ -230,7 +187,7 @@ namespace UV_DLP_3D_Printer.Drivers
                             for (int c = 0; c < (int)iZStep; c++) 
                             {
                                 Write(cmd, 1);
-                                setLastCharSent(cmd);
+                                
                               //  Thread.Sleep(delay); // add a delay between steps
                             }
                                 
@@ -252,21 +209,12 @@ namespace UV_DLP_3D_Printer.Drivers
                         case 17: // M17 Turn Motors On command
                             cmd[0] = (byte)'E'; // enable the stepper motor
                             Write(cmd, 1);
-                            setLastCharSent(cmd);
                             break;
 
                         case 18: // M18 Turn Motors Off command
                             cmd[0] = (byte)'D'; // Disable the stepper motor
                             Write(cmd, 1);
-                            setLastCharSent(cmd);
                             break;
-
-
-                        //This case doesn't exist in GCode, but sending 'P' will 
-                            //ping the machine. The default firmware responds with
-                            //a DEC value of 68, which translates to the char 'D'.
-                            //We are able to use this to determine if an Uncia
-                            //has a modified firmware.
                     }
                 }
                 return retval;
@@ -290,82 +238,15 @@ namespace UV_DLP_3D_Printer.Drivers
             for (int c = 0; c < read; c++)
             {
                 data[c] = m_buffer[c];
-
-
-        //        char c1 = (char)data[c];
-        //        System.Diagnostics.Debug.Write(c1.ToString()); Used these commented lines to
-        //          listen in on the Uncia <--> CWS serial comms.
             }
-        //    System.Diagnostics.Debug.WriteLine("");
-
-            if (data.Length < 1)
-            {   //We received more than just one char, so it's an 'ok/r/n'
-                Log(data, read);
-                RaiseDataReceivedEvent(this, data, read);
-            }
-            else
-            {
-                char c1 = (char)data[0];
-                switch (c1)
-                {
-                    case 'C':// Aperture Closed
-                        UnciaDataReceived(data, read);
-                        break;
-                    case 'd':// Motors Disabled
-                        UnciaDataReceived(data, read);
-                        break;
-                    case 'e':// Motors Enabled
-                        UnciaDataReceived(data, read);
-                        break;
-                    case 'f':// Forward direction set
-                        UnciaDataReceived(data, read);
-                        break;
-                    case 'O':// Aperture Opened
-                        UnciaDataReceived(data, read);
-                        break;
-                    case 'r':// Reverse direction set
-                        UnciaDataReceived(data, read);
-                        break;
-                    case 's':// Motor stepped
-                        UnciaDataReceived(data, read);
-                        break;
-                    case 'D':// The firmware being used is stock
-                        if (lastCharSent == 'P')
-                        { //Did we ping the printer?
-                            stockUnciaFirmware = true; //The firmware returned the last char of 'Sedgewick3D'
-                            //   so we know it's running stock.
-                        }
-                        UnciaDataReceived(data, read);
-                        break;
-                    case 'N':// The firmware being used is modified!
-                        if (lastCharSent == 'P')
-                        { //Did we ping the printer?
-                            stockUnciaFirmware = false; //We know that it's using Pomeroy's modified firmware
-                        }
-
-                        UnciaDataReceived(data, read);
-                        break;
-                }
-            }    
+            Log(data, read);
+            RaiseDataReceivedEvent(this, data, read);
+       
             // we're also going to have to raise an event to the deviceinterface indicating that we're 
             // ready for the next command, because this is different than the standard
             // gcode implementation where the device interface looks for a 'ok',
             //we'll probably have to also raise a signal to the deviceinterface NOT to look for the ok
             // so it doen't keep adding up buffers. -- This is done by the AlwaysReady = true;
-        }
-
-
-        /// <summary>
-        /// This method sets CWS to "AlwaysReady" mode (So we can ignore 'ok' responses).
-        /// It then sends the data, and returns CWS to standard mode.
-        /// </summary>
-        private void UnciaDataReceived(byte[] data, int len)
-        { 
-            UVDLPApp.Instance().m_deviceinterface.AlwaysReady = true;
-            Log(data, len);
-            RaiseDataReceivedEvent(this, data, len);
-            UVDLPApp.Instance().m_deviceinterface.AlwaysReady = false;
-
         }
 
         public override int Write(String line)
@@ -380,17 +261,7 @@ namespace UV_DLP_3D_Printer.Drivers
                     if (line.Trim().Length > 0)
                     {
                         Log(line);
-                        if (stockUnciaFirmware)
-                        {  //if the Uncia is using the stock firmware, we need to send chars.
-                            sent = InterpretGCode(line);
-                        }
-                        else if (!DoPassthrough(line))
-                        {
-                        //If we aren't using stock Uncia firmware, we're going to assume that that
-                        //  firmware will then use normal GCode commands. We can just send the 
-                        //  commands as normal.
-                        m_serialport.Write(line);
-                        }
+                        sent = InterpretGCode(line);
                     }
                     return sent;
                 }
