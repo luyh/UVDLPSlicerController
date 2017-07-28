@@ -31,8 +31,9 @@ namespace UV_DLP_3D_Printer
         public int numfirstlayers;
         public int blanktime_ms; // blanking time between layers
         public int plat_temp; // desired platform temperature in celsius 
-        public bool exportsvg; // export the svg slices when building
+        public int exportsvg; // export the svg slices when building 0-none, 1-compound path, 2-filled polygons
         public bool export; // export image slices when building into cws file
+        public bool exportpng;// export png slices to disk
         public eBuildDirection direction;
         public double liftdistance; // distance to lift and retract
         public double slidetiltval; // a value used for slide / tilt 
@@ -168,6 +169,7 @@ namespace UV_DLP_3D_Printer
             // exportgcode = source.exportgcode; // export the gcode file when slicing
             exportsvg = source.exportsvg; // export the svg slices when building
             export = source.export; // export image slices when building
+            exportpng = source.exportpng;
             m_headercode = source.m_headercode; // inserted at beginning of file
             m_footercode = source.m_footercode; // inserted at end of file
             m_preslicecode = source.m_preslicecode; // inserted before each slice
@@ -246,8 +248,9 @@ namespace UV_DLP_3D_Printer
             YOffset = 0;
             numfirstlayers = 3;
             //exportgcode = true;
-            exportsvg = false;
+            exportsvg = 0;
             export = false;
+            exportpng = false;
             direction = eBuildDirection.Bottom_Up;
             liftdistance = 5.0;
             //raise_time_ms = 750;
@@ -318,8 +321,14 @@ namespace UV_DLP_3D_Printer
             blanktime_ms = xh.GetInt(sbc, "BlankTime", 2000); // 2 seconds blank
             plat_temp = xh.GetInt(sbc, "PlatformTemp", 75);
             //exportgcode = xh.GetBool(sbc, "ExportGCode"));
-            exportsvg = xh.GetBool(sbc, "ExportSVG", false);
+
+            exportsvg = xh.GetInt(sbc, "ExportSVG", 0); // the problem is this was previously a boolean variable
+
+            if ((exportsvg < 0) || (exportsvg > 4))
+                exportsvg = 0;
             export = xh.GetBool(sbc, "Export", false); ;
+            exportpng = xh.GetBool(sbc, "ExportPNG", false); ;
+
             XOffset = xh.GetInt(sbc, "XOffset", 0);
             YOffset = xh.GetInt(sbc, "YOffset", 0);
             //numfirstlayers = xh.GetInt(sbc, "NumberofBottomLayers", 3);
@@ -454,6 +463,8 @@ namespace UV_DLP_3D_Printer
             // xh.SetParameter(sbc, "ExportGCode", exportgcode);
             xh.SetParameter(sbc, "ExportSVG", exportsvg);
             xh.SetParameter(sbc, "Export", export);
+            xh.SetParameter(sbc, "ExportPNG", exportpng);
+            
             xh.SetParameter(sbc, "XOffset", XOffset);
             xh.SetParameter(sbc, "YOffset", YOffset);
             //xh.SetParameter(sbc, "NumberofBottomLayers", numfirstlayers);

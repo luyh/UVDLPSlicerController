@@ -42,13 +42,6 @@ namespace UV_DLP_3D_Printer
      * 
      * 
      * 
-     * The printer has the following features:
-     * Z axis stepper motor
-     * HBP 
-     * fluid pump
-     * z Min / z Max limit switches
-     * 
-     * 
      */
 
     public enum ePIStatus 
@@ -151,7 +144,7 @@ namespace UV_DLP_3D_Printer
             d.DeviceStatus += new DeviceDriver.DeviceStatusEvent(DriverDeviceStatusEvent);
         }
         /*
-         R4emove a projector driver serial port
+         Remove a projector driver serial port
          */
         public void RemoveAllProjDrivers() 
         {
@@ -180,61 +173,16 @@ namespace UV_DLP_3D_Printer
                 d.Disconnect();
             }
         }
-
-        /*
-        public void RemoveDriver(DeviceDriver d)
-        {
-            m_lstprojectors.Remove(d);
-            d.DataReceived -= new DeviceDriver.DataReceivedEvent(DriverDataReceivedEvent);
-            d.DeviceStatus -= new DeviceDriver.DeviceStatusEvent(DriverDeviceStatusEvent);
-        }
-         * */
-        
+       
         public DeviceDriver GetDriver(int i) 
         {
             return m_lstprojectors[i];
         }
         
-        /*
-        // get and set the printdriver
-        public DeviceDriver[] DriverProjector
-        {
-            get { return m_lstprojectors[]; }
-            set 
-            {
-                if (m_lstprojectors != null)
-                {
-                    DeviceDriver olddriver = m_lstprojectors;
-                    if(olddriver.Connected == true)
-                        olddriver.Disconnect(); // disconnect the old driver
-                    //remove the old device driver delegates
-                    olddriver.DataReceived -= new DeviceDriver.DataReceivedEvent(DriverDataReceivedEvent);
-                    olddriver.DeviceStatus -= new DeviceDriver.DeviceStatusEvent(DriverDeviceStatusEvent);
-                }
-                //set the new driver
-                m_lstprojectors = value; 
-                //and bind the delegates to listen to events
-                m_lstprojectors.DataReceived += new DeviceDriver.DataReceivedEvent(DriverDataReceivedEvent);
-                m_lstprojectors.DeviceStatus += new DeviceDriver.DeviceStatusEvent(DriverDeviceStatusEvent);
-            }
-        }
-        */
         public void Configure(ConnectionConfig cc) 
         {
             Driver.Configure(cc);
         }
-        /*
-        public void Configure(ConnectionConfig cc,int idx)
-        {
-            m_lstprojectors[idx].Configure(cc);
-        }
-         */ 
-        /*
-        public void ConfigureProjector(ConnectionConfig cc) 
-        {
-            DriverProjector.Configure(cc);
-        }
-        */
         public void DriverDeviceStatusEvent(DeviceDriver device, eDeviceStatus status) 
         {
             switch (status) 
@@ -459,26 +407,7 @@ namespace UV_DLP_3D_Printer
                 return false;
             }
         }
-        /*
-        public bool DisconnectProjector() 
-        {
-            //m_ready = false;
-            return m_lstprojectors.Disconnect();
-        }
-        public bool ConnectProjector()
-        {
-            try
-            {
-              //  m_ready = true;
-                return m_lstprojectors.Connect();
-            }
-            catch (Exception ex) 
-            {
-                DebugLogger.Instance().LogError(ex.Message);
-                return false;
-            }
-        }
-         * */
+
         /// <summary>
         /// This will be true if the device is ready for another command
         /// </summary>

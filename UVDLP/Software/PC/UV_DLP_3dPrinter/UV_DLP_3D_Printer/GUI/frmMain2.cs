@@ -11,6 +11,7 @@ using System.IO;
 using UV_DLP_3D_Printer.Slicing;
 using UV_DLP_3D_Printer._3DEngine;
 using UV_DLP_3D_Printer.Device_Interface;
+using UV_DLP_3D_Printer.Device_Interface.AutoDetect;
 
 namespace UV_DLP_3D_Printer.GUI
 {
@@ -31,9 +32,11 @@ namespace UV_DLP_3D_Printer.GUI
         frmSlice m_frmSlice = new frmSlice();
         public ManualControl m_manctl;
         int rightToolsWidth = 0;
+        StringBuilder m_logSB;
 
         public frmMain2()
         {
+            m_logSB = new StringBuilder();
             InitializeComponent();
             m_viewtype = eViewTypes.eNone;
             UVDLPApp.Instance().m_mainform = this;
@@ -56,14 +59,23 @@ namespace UV_DLP_3D_Printer.GUI
             // set up initial log data in form
             foreach (string lg in DebugLogger.Instance().GetLog())
             {
-                txtLog.Text = lg + "\r\n" + txtLog.Text;
+                //txtLog.Text = lg + "\r\n" + txtLog.Text;
+                AddtoLog(lg);
             }
             //RearrangeGui
             AddButtons();
             AddControls();
             ctl3DView1.RearrangeGui();
             ctl3DView1.Enable3dView(true);
+#if (DEBUG) // DBG_GUICONF
+            // test new gui config system
+            GuiConfigDB gconfdb = new GuiConfigDB();
+            gconfdb.LoadConfiguration(global::UV_DLP_3D_Printer.Properties.Resources.GuiConfig);
+            UVDLPApp.Instance().m_gui_config.ApplyConfiguration(gconfdb);
+            gconfdb.SaveConfiguration("GuiConfigTest");
+#else
             UVDLPApp.Instance().m_gui_config.LoadConfiguration(global::UV_DLP_3D_Printer.Properties.Resources.GuiConfig);
+#endif
 
             //ctlSliceGCodePanel1.ctlSliceViewctl.DlpForm = m_frmdlp; // set the dlp form for direct control
             SetMainMessage("");
@@ -75,8 +87,9 @@ namespace UV_DLP_3D_Printer.GUI
                 pluginTesterToolStripMenuItem.Visible = false;
                 testToolStripMenuItem.Visible = false;
                 testMachineControlToolStripMenuItem.Visible = false;
+                loadGUIConfigToolStripMenuItem.Visible = false;
             #endif
-            SetTitle();
+                SetTitle();
             UVDLPApp.Instance().PerformPluginCommand("MainFormLoadedCommand", true);
         }
         /// <summary>
@@ -185,16 +198,6 @@ namespace UV_DLP_3D_Printer.GUI
             //make sure all the dlp screens are showing
             DisplayManager.Instance().ShowDLPScreens();
             UVDLPApp.Instance().m_buildparms.UpdateFrom(UVDLPApp.Instance().m_printerinfo); // make sure we get the right screen size 
-
-            /*
-            //UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay = true;
-            m_frmdlp.ShowDLPScreen();
-            Screen dlpscreen = m_frmdlp.GetDLPScreen();
-            if (dlpscreen != null)
-            {
-                UVDLPApp.Instance().m_buildmgr.ShowCalibration(dlpscreen.Bounds.Width, dlpscreen.Bounds.Height, UVDLPApp.Instance().m_buildparms);
-            }
-             * */
             UVDLPApp.Instance().m_buildmgr.ShowCalibration(UVDLPApp.Instance().m_buildparms.xres, UVDLPApp.Instance().m_buildparms.yres, UVDLPApp.Instance().m_buildparms);
         }
 
@@ -244,7 +247,7 @@ namespace UV_DLP_3D_Printer.GUI
                 }
                 else
                 {
-                    ctl3DView1.ViewLayer(layer); // set the 3d layer
+                    //ctl3DView1.ViewLayer(layer); // set the 3d layer
                     // display info only if it's a normal layer
                     if (layertype == BuildManager.SLICE_NORMAL)
                     {
@@ -379,10 +382,19 @@ namespace UV_DLP_3D_Printer.GUI
                 switch (status)
                 {
                     case eLogStatus.eLogWroteRecord:
-                        txtLog.Text = message + "\r\n" + txtLog.Text;
+                        AddtoLog(message);
                         break;
                 }
             }
+        }
+        private void AddtoLog(string message) 
+        {
+            m_logSB.Append(message);
+            m_logSB.Append("\r\n");
+            txtLog.Text = m_logSB.ToString();//message + "\r\n" + txtLog.Text;         
+            txtLog.SelectionStart = txtLog.Text.Length;
+            txtLog.ScrollToCaret();
+            txtLog.Refresh();
         }
         /*
           This handles specific events triggered by the app
@@ -686,21 +698,37 @@ namespace UV_DLP_3D_Printer.GUI
                     UVDLPApp.Instance().m_deviceinterface.Configure(UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_connection);
                     //get the name of the main serial interface
                     String com = UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_connection.comname;
+                    if (com.ToUpper().Equals("AUTODETECT")) 
+                    {
+                        com = SerialAutodetect.Instance().DeterminePort(UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_connection.speed);
+                        if (!com.Equals("invalid"))
+                        {
+                            UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_connection.comname = com;
+                        }
+                        else 
+                        {
+                            DebugLogger.Instance().LogError("Serial port not auto-detected");
+                            return;
+                        }
+                    }
                     DebugLogger.Instance().LogRecord("Connecting to Printer on " + com + " using " + UVDLPApp.Instance().m_printerinfo.m_driverconfig.m_drivertype.ToString());
                     if (!UVDLPApp.Instance().m_deviceinterface.Connect())
                     {
                         DebugLogger.Instance().LogRecord("Cannot connect printer driver on " + com);
+                        //don't try to connect the monitor serial port unless the main machine connection is made first
+                        // this prevents the problem of having a connected serial port and no way to disconnect it
                     }
                     else
                     {                        
                         UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eMachineConnected, "Printer connected");
+                        // check to see if we're uv dlp
+                        // configure the projector
+                        if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
+                        {
+                            DisplayManager.Instance().ConnectMonitorSerials();
+                        }
                     }
-                    // check to see if we're uv dlp
-                    // configure the projector
-                    if (UVDLPApp.Instance().m_printerinfo.m_machinetype == MachineConfig.eMachineType.UV_DLP)
-                    {
-                        DisplayManager.Instance().ConnectMonitorSerials();
-                    }
+                   
                 }
             }
             catch (Exception ex)
@@ -887,7 +915,7 @@ namespace UV_DLP_3D_Printer.GUI
                     if (filename.Contains(".cws"))
                     {
                         //scene file
-                        if (SceneFile.Instance().Load(filename))
+                        if (SceneFile.Instance().LoadSceneFile(filename))
                         {
                             //set up for newly loaded scene
                             //load gcode
@@ -987,7 +1015,7 @@ namespace UV_DLP_3D_Printer.GUI
                     switch (saveFileDialog1.FilterIndex) // index starts at 1 instead of 0
                     {
                         case 1:
-                            SceneFile.Instance().Save(saveFileDialog1.FileName);
+                            SceneFile.Instance().SaveModelsIntoScene(saveFileDialog1.FileName);
                             break;
                         case 2:
                             //stl file
@@ -1004,7 +1032,7 @@ namespace UV_DLP_3D_Printer.GUI
         {
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                if (SceneFile.Instance().Load(openFileDialog1.FileName)) 
+                if (SceneFile.Instance().LoadSceneFile(openFileDialog1.FileName)) 
                 {
                     UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eReDraw, "");
                 }
@@ -1028,6 +1056,34 @@ namespace UV_DLP_3D_Printer.GUI
                 UVDLPApp.Instance().m_slicer.m_slicemethod = Slicer.eSliceMethod.eNormalCount;
             else
                 UVDLPApp.Instance().m_slicer.m_slicemethod = Slicer.eSliceMethod.eEvenOdd;
+        }
+
+        private void loadGUIConfigToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // load a new GUIConfig file from disk
+                // this is a debug only function for now.
+                if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) 
+                {
+                    StreamReader streamReader = new StreamReader(openFileDialog1.FileName);
+                    string text = streamReader.ReadToEnd();
+                    streamReader.Close();
+#if (DEBUG) // DBG_GUICONF
+                        // test new gui config system
+                    GuiConfigDB gconfdb = new GuiConfigDB();
+                    gconfdb.LoadConfiguration(text);
+                    UVDLPApp.Instance().m_gui_config.ApplyConfiguration(gconfdb);
+                    gconfdb.SaveConfiguration("GuiConfigMenuTest");
+#else
+                    UVDLPApp.Instance().m_gui_config.LoadConfiguration(text);
+#endif
+                    //UVDLPApp.Instance().m_gui_config.LayoutGui(
+                }
+            }catch(Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
         }
     }
 }

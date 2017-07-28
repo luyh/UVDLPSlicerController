@@ -11,9 +11,11 @@ using System.IO;
 using System.Xml;
 using UV_DLP_3D_Printer._3DEngine;
 using UV_DLP_3D_Printer.Plugin;
+using UV_DLP_3D_Printer.Util.Sequence;
 
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
+   
     public abstract class DecorItem
     {
         public abstract void Show(C2DGraphics g2d, int w, int h);
@@ -135,7 +137,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         public Color HoverColor;
         public float PressedSize;
         public float HoverSize;
-        public string BgndImageName;
+        //public string BgndImageName;
         String mCheckedImage;
         C2DImage mCheckedImageCach;
         public ControlPad PanelPad;
@@ -158,7 +160,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             DisabledColor = Color.FromArgb(60, 255, 255, 255);
             SubImgCount = 1;
             glMode = false;
-            BgndImageName = null;
+            //BgndImageName = null;
             PanelPad = new ControlPad();
             PanelPad.Left = PanelPad.Right = PanelPad.Top = PanelPad.Bottom = 10;
             applySubControls = true;
@@ -182,7 +184,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             HoverColor = sctl.HoverColor;
             PressedSize = sctl.PressedSize;
             HoverSize = sctl.HoverSize;
-            BgndImageName = sctl.BgndImageName;
+            //BgndImageName = sctl.BgndImageName;
             PanelPad = new ControlPad();
             PanelPad.Left = sctl.PanelPad.Left;
             PanelPad.Right = sctl.PanelPad.Right; 
@@ -214,10 +216,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         }
 
     }
+     
 
     public class GuiConfig
     {
-        public enum EntityType { Buttons, Panels, Decals }
+       // public enum EntityType { Buttons, Panels, Decals } // not used
 
         //Dictionary<String, ctlUserPanel> Controls;
         Dictionary<String, Control> Controls;
@@ -226,7 +229,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         Dictionary<String, DecorItem> DecorItems;
         List<DecorItem> BgndDecorList;
         List<DecorItem> FgndDecorList;
-        ResourceManager Res;
+        ResourceManager Res; // the resource manager for the main CW application
         IPlugin Plugin;
         Control mTopLevelControl = null;
         public ControlStyle DefaultControlStyle; 
@@ -354,6 +357,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                         case "decals": HandleDecals(xnode); break;
                         case "buttons": HandleButtons(xnode); break; 
                         case "controls": HandleControls(xnode); break;
+                        case "sequences": LoadSequences(xnode); break;
                     }
                 }
 
@@ -368,6 +372,47 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             LoadConfiguration(xmlConf, null);
         }
+        #region Sequences
+        // sequences are command sequences that can be used
+        // to send gcode (or other) commmands.
+        // These sequences can be tied to a button onclick handler
+        // this allows for creating a new button in the GUIConfig, and 
+        //causing the click to send special sequences to the printer.
+        
+        void LoadSequences(XmlNode seqnode) 
+        {
+            foreach (XmlNode xnode in seqnode.ChildNodes)
+            {
+                switch (xnode.Name.ToLower())
+                {
+                    case "sequence": LoadSequence(xnode); break;                    
+                }
+            }
+
+        }
+        // sequences should be named with the prefix of where they came from, such as a namespace
+        // for example, if a sequence is loaded from the guiconfig of
+        // the plugin named plugPro, and the sequence name is goHome,
+        // then the name should be: plugPro.goHome
+        void LoadSequence(XmlNode seqnode) 
+        {
+            //get name
+            string name = GetStrParam(seqnode, "name", "");
+            //get sequence
+            string seq = GetStrParam(seqnode, "seqdata", "");
+            //get type
+            string seqtype = GetStrParam(seqnode, "seqtype", "");
+            if (seqtype.ToLower().Equals("gcode"))
+            {
+                GCodeSequence gcseq = new GCodeSequence(name, seq);
+                SequenceManager.Instance().Add(gcseq);
+            }
+            else
+            {
+                DebugLogger.Instance().LogWarning("Unknown sequence type " + seqtype + " in GUIConfig");
+            }
+        }
+        #endregion
 
         #region Decals
 
@@ -641,7 +686,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 return;
 
             //ctlUserPanel ctl = Controls[name];
-            Control ct = Controls[name];
+            Control ct = Controls[name]; // find the existing control
             if (ctlnode.Attributes.GetNamedItem("visible") != null)
                 ct.Visible = GetBoolParam(ctlnode, "visible", ct.Visible);
             ct.Width = GetIntParam(ctlnode, "w", ct.Width);
@@ -667,10 +712,15 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
             else if (action.Contains("hide")) // this handles hiding
             {
-                // hide this control
+                // hide this control, do not remove it from the parent
                 ct.Hide();
             }
-            else if (action.Contains("addto")) // this handles adding a new control to a parent control
+            else if (action.Contains("show")) // this handles showing
+            {
+                // show this control
+                ct.Show();
+            }
+            else if (action.Contains("addto")) // this handles adding a new/existing control to a parent control
             {
                 // Get the name of the parent
                 string parentname = GetStrParam(ctlnode, "parent", "");
@@ -680,7 +730,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 Control ctlParent = Controls[parentname];
                 if (ctlParent == null) 
                 {
-                    DebugLogger.Instance().LogWarning("Control parent now found: " + parentname);
+                    DebugLogger.Instance().LogWarning("Control parent not found: " + parentname);
                     return;
                 }
                 {
@@ -858,12 +908,12 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             ct.HoverColor = GetColorParam(xnode, "hovercolor", ct.HoverColor);
             ct.PressedColor = GetColorParam(xnode, "presscolor", ct.PressedColor);
             ct.SubImgCount = GetIntParam(xnode, "nimages", ct.SubImgCount);
-            ct.BackImage = GetStrParam(xnode, "backimage", ct.BackImage);
+            ct.BackImage = GetStrParam(xnode, "bgndimage", ct.BackImage);
             ct.CheckedImage = GetStrParam(xnode, "checkimage", ct.CheckedImage);
             ct.DisabledColor = GetColorParam(xnode, "disablecolor", ct.DisabledColor);
             ct.HoverSize = GetIntParam(xnode, "hoverscale", (int)ct.HoverSize);
             ct.PressedSize = GetIntParam(xnode, "pressscale", (int)ct.PressedSize);
-            ct.BgndImageName = GetStrParam(xnode, "bgndimage", ct.BgndImageName);
+            //ct.BgndImageName = GetStrParam(xnode, "bgndimage", ct.BgndImageName);
             ct.applySubControls = GetBoolParam(xnode, "applysubcontrols", ct.applySubControls);
             ct.applyWindowsControls = GetBoolParam(xnode, "applywincontrols", ct.applyWindowsControls);
             int[] sizes = GetIntArrayParam(xnode, "panelpad");

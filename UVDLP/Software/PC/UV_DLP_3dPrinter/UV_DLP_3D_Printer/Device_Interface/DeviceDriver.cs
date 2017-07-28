@@ -19,6 +19,7 @@ namespace UV_DLP_3D_Printer.Drivers
         eGENERIC, // whatever class of driver you call this, I've been using sailfish, and it seems to work great
         eRF_3DLPRINTER, // the Italian Robot Factory 3DLPrinter
         eEIW_DEEPIMAGER, // Elite Image works  - deep imager 5
+        eUNCIA,  //Uncia DLP 3D Printer
     }
     public enum eDeviceStatus 
     {
@@ -47,7 +48,35 @@ namespace UV_DLP_3D_Printer.Drivers
         private Thread m_readthread = null;
         private bool m_readthreadrunning = false;
         private Logger m_commlog;
+        /// <summary>
+        /// From http://stackoverflow.com/questions/434494/serial-port-rs232-in-mono-for-multiple-platforms
+        /// </summary>
+        /// <returns></returns>
+        public static string[] GetPortNames()
+        {
+            int p = (int)Environment.OSVersion.Platform;
+            List<string> serial_ports = new List<string>();
 
+            // Are we on Unix?
+            if (p == 4 || p == 128 || p == 6)
+            {
+                string[] ttys = System.IO.Directory.GetFiles("/dev/", "tty*");
+                foreach (string dev in ttys)
+                {
+                    //Arduino MEGAs show up as ttyACM due to their different USB<->RS232 chips
+                    if (dev.StartsWith("/dev/ttyS") || dev.StartsWith("/dev/ttyUSB") || dev.StartsWith("/dev/ttyACM"))
+                    {
+                        serial_ports.Add(dev);
+                    }
+                }
+            }
+            else
+            {
+                serial_ports.AddRange(SerialPort.GetPortNames());
+            }
+
+            return serial_ports.ToArray();
+        }
         protected DeviceDriver() 
         {
             m_serialport = new SerialPort();
@@ -59,28 +88,44 @@ namespace UV_DLP_3D_Printer.Drivers
             {
                 // if we're not windows, we need to poll for data
                 m_readthread = new Thread(new ThreadStart(Mono_Serial_ReadThread));
+                DebugLogger.Instance().LogInfo("Starting Separate Read thread for Mono");
                 m_readthreadrunning = true;
                 m_readthread.Start();
             }
         }
         private void Mono_Serial_ReadThread() 
         {
-            try
+            while (m_readthreadrunning)
             {
-                while (m_readthreadrunning) 
+                if ((UVDLPApp.Instance().m_mainform != null) && UVDLPApp.Instance().m_mainform.IsDisposed)
+                    return;
+                if (!m_serialport.IsOpen)
                 {
-                    // try to read from serial port,
-                    // if we have one or more bytes available, pass it off to the m_serialport_DataReceived function
-                    if (m_serialport.BytesToRead > 0) 
+                    Thread.Sleep(20);
+                    continue;
+                }
+                try
+                {
+                    // try to read from serial port,                   
+                    if (m_serialport.BytesToRead > 0)
                     {
-                        m_serialport_DataReceived(null, null);
+                        // m_serialport_DataReceived(null, null);
+                        int read = m_serialport.BytesToRead;
+                        byte[] data = new byte[read];
+                        for (int cnt = 0; cnt < read; cnt++)
+                        {
+                            data[cnt] = (byte)m_serialport.ReadByte();
+                            Thread.Sleep(20);
+                        }
+                        Log(data, read);
+                        RaiseDataReceivedEvent(this, data, read);
                     }
                     Thread.Sleep(0); // yield the remainder of the timeslice      
-                }                          
-            }
-            catch (Exception ex) 
-            {
-                DebugLogger.Instance().LogError(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    DebugLogger.Instance().LogError(ex.Message);
+                }
             }
         }
         /// <summary>

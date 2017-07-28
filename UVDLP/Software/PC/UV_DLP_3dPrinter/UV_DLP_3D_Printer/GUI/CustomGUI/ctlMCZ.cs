@@ -42,7 +42,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             mSteps = new Image[4];
             mStepsSel = new Image[4];
             mOffsets = new Rectangle[8];
-            mLevelVals = new float[] { 0.1f, 1, 10, 100 };
+            mLevelVals = new float[] { 0.1f, 1, 10, 50 };
             DoubleBuffered = true;
             mSelLevel = 0;
             mCtlHeight = 256;
@@ -217,7 +217,9 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (rad < 0)
                 return 0;
             level = (int)rad + 1;
-            if (level > 3)
+            //if (level > 3)
+            //    return 0;
+            if (level > 4) // allow the topmost level to be selected - SMH
                 return 0;
 
             int hw = mSteps[0].Width / 2;
@@ -274,7 +276,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             Invalidate();
         }
 
+#if (DEBUG) // DBG_GUICONFIG
+        public override void ApplyStyle(GuiControlStyle ct)
+#else
         public override void ApplyStyle(ControlStyle ct)
+#endif
         {
             base.ApplyStyle(ct);
             ForeColor = ct.ForeColor;

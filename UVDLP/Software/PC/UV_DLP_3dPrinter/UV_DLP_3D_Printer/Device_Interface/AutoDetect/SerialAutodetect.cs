@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.IO.Ports;
 using System.Collections;
+using UV_DLP_3D_Printer.Drivers;
 
 namespace UV_DLP_3D_Printer.Device_Interface.AutoDetect
 {
@@ -22,33 +23,26 @@ namespace UV_DLP_3D_Printer.Device_Interface.AutoDetect
     {
         public class SerialAutodetectConfig 
         {
-            public int m_baud;
+            public int m_baud; // we need to specify the baud at which we're auto-detecting...
         }
-        public enum eDetectStatus
-        {
-            eStarted,
-            eRunning,
-            eCompleted
-        }
-        public delegate void DetectionStatus(eDetectStatus status);
         private static SerialAutodetect m_instance = null;
-        private bool m_running;
-        private Thread m_thread;
         private List<ConnectionTester> m_list; // list of connectionTester objects we're spawning
-        private List<ConnectionTester> m_lstresults;
-        public event DetectionStatus DetectionStatusEvent;
-        private SerialAutodetectConfig m_config;
-        private const long TIMEOUTTIME = 10000; // ten seconds total 
+        private List<ConnectionTester> m_lstresults; // the results of the autodetect - 
+       // private SerialAutodetectConfig m_config;
+        private const long TIMEOUTTIME = 5000; // time out value
         private long m_starttime; // for timeout
+        private object m_lock = new object(); // for safe reading of the list
 
         private SerialAutodetect() 
         {
                     
         }
-        public bool Running 
+        private void Initialize() 
         {
-            get { return m_running; }
+            m_list = new List<ConnectionTester>();
+            m_lstresults = new List<ConnectionTester>();
         }
+
         public static SerialAutodetect Instance() 
         {
             if (m_instance == null) 
@@ -57,53 +51,69 @@ namespace UV_DLP_3D_Printer.Device_Interface.AutoDetect
             }
             return m_instance;
         }
-        public void Start(SerialAutodetectConfig config) 
+        /// <summary>
+        /// this function starts the serial port detection, waits for the results to return, and 
+        /// reports back the detect serial port name
+        /// </summary>
+        /// <returns></returns>
+        public string DeterminePort(int baud) 
         {
-            m_running = true;
-            m_thread = new Thread(new ThreadStart(run));
-            m_list = new List<ConnectionTester>();
-            m_lstresults = new List<ConnectionTester>();
-            m_thread.Start();
-        }
-
-        private void run() 
-        {
-
-            //get the list of serial ports
-            foreach (String s in SerialPort.GetPortNames())
+            Initialize();
+            string comport = "invalid";
+            bool done = false;
+            SerialAutodetectConfig config = new SerialAutodetectConfig();            
+            config.m_baud = baud;
+            //open and test all serial ports at once
+            foreach (String s in DeviceDriver.GetPortNames())
             {
-                // create a new tester
-                ConnectionTester tester = new ConnectionTester(s);
-                //set the baud
-                tester.m_baud = m_config.m_baud;
-                //set up to listen to events
-                tester.ConnectionTesterStatusEvent += new ConnectionTester.ConnectionTesterStatus(ConnectionTesterStatusDel);
-                //start it off
-                tester.Start();
+                if (s.Equals("COM113"))
+                {
+                    // create a new tester
+                    ConnectionTester tester = new ConnectionTester(s); // specify the name of the port we're trying to detect
+                    //set the baud
+                    tester.m_baud = config.m_baud;
+                    //set up to listen to events
+                    tester.ConnectionTesterStatusEvent += new ConnectionTester.ConnectionTesterStatus(ConnectionTesterStatusDel);
+                    //start it off
+                    tester.Start();
+                }
             }
-            //for each serial port, create a new serial port tester
-            while (m_running) 
+            m_starttime = Environment.TickCount;
+            while (!done) 
             {
-                //check for timeout
-                Thread.Sleep(0); 
+                try
+                {
+                    //check for timeout
+                    if (Environment.TickCount >= (m_starttime + TIMEOUTTIME))
+                        done = true;
+
+                    Thread.Sleep(0); // yield
+                    lock (m_lock)
+                    {
+                        // check the m_lstresults
+                        foreach (ConnectionTester con in m_lstresults)
+                        {
+                            if (con.m_result == ConnectionTester.eConnTestStatus.eDeviceResponded)
+                            {
+                                comport = con.m_portname;
+                                done = true;
+                                Initialize();
+                                break;
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex) 
+                {
+                    DebugLogger.Instance().LogError(ex);
+                }
             }
+            return comport;
         }
 
         void ConnectionTesterStatusDel(ConnectionTester obj,ConnectionTester.eConnTestStatus status) 
         {
-            //find obj in the list
-            //mark it's results
-            //check to see if we should return 
             m_lstresults.Add(obj);
-            if (m_lstresults.Count == m_list.Count) 
-            {
-                // all reported, we're done
-                m_running = false;
-                if (DetectionStatusEvent != null) 
-                {
-                    DetectionStatusEvent(eDetectStatus.eCompleted);
-                }
-            }
         }
     }
 }

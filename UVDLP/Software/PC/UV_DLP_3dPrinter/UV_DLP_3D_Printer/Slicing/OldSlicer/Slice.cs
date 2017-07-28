@@ -242,7 +242,8 @@ namespace UV_DLP_3D_Printer
                 // copy the list and clone the polyline segments 
                 foreach (PolyLine3d pl in m_segments)
                 {
-                    allseg.Add(new PolyLine3d(pl));
+                    if (!pl.m_points[0].Matches(pl.m_points[pl.m_points.Count - 1])) // discard sements with same beginning and end
+                        allseg.Add(new PolyLine3d(pl)); 
                 }
                 // gotta keep track of lines to remove
                 List<PolyLine3d> removelist = new List<PolyLine3d>();
@@ -266,7 +267,8 @@ namespace UV_DLP_3D_Printer
                             {
                                 //if ((curline.m_derived.SharesEdge(pl.m_derived)))
                                 {
-                                    curline.m_points.AddRange(pl.m_points);
+                                    for (int i = 1; i < pl.m_points.Count; i++)
+                                        curline.m_points.Add(pl.m_points[i]);
                                     removelist.Add(pl); // add the test line to the list of lines to remove, now that we've used it
                                     matchcount++;
                                 }
@@ -275,25 +277,30 @@ namespace UV_DLP_3D_Printer
                             {
                                 // && (curline.m_derived.SharesEdge(pl.m_derived))
                                 pl.m_points.Reverse();
-                                curline.m_points.AddRange(pl.m_points);
+                                for (int i = 1; i < pl.m_points.Count; i++)
+                                    curline.m_points.Add(pl.m_points[i]);
                                 removelist.Add(pl);
                                 matchcount++;
                             }
+                                /* -- SHS: case 1 and case 3 will change the first segment
+                                 *  I need it to calculate correct path direction
                             else if (curline.m_points[0].Matches(pl.m_points[pl.m_points.Count - 1])) //case 1
                             {
                                 curline.m_points.Reverse();
                                 pl.m_points.Reverse();
-                                curline.m_points.AddRange(pl.m_points);
+                                for (int i=1; i<pl.m_points.Count; i++)
+                                    curline.m_points.Add(pl.m_points[i]);
                                 removelist.Add(pl);
                                 matchcount++;
                             }
                             else if (curline.m_points[0].Matches(pl.m_points[0])) // case 3
                             {
                                 curline.m_points.Reverse();
-                                curline.m_points.AddRange(pl.m_points);
+                                for (int i = 1; i < pl.m_points.Count; i++)
+                                    curline.m_points.Add(pl.m_points[i]);
                                 removelist.Add(pl);
                                 matchcount++;
-                            }
+                            }*/
                         }
                     }
                     // now remove all the matched segments from all segment list
@@ -310,6 +317,15 @@ namespace UV_DLP_3D_Printer
                     else
                     {
                         // the current segment is not longer matching
+                        // match curve direction based on normal such that the right side is inside the object.
+                        double curveDir = Math.Atan2(curline.m_points[1].y - curline.m_points[0].y, curline.m_points[1].x - curline.m_points[0].x);
+                        double normalDir = Math.Atan2(curline.m_derived.m_normal.y, curline.m_derived.m_normal.x);
+                        double dirDiff = curveDir - normalDir;
+                        if (dirDiff < 0)
+                            dirDiff += 2 * Math.PI; // handle negative result
+                        if ((dirDiff > 0) && (dirDiff < Math.PI))
+                            curline.m_points.Reverse(); // reverse curve direction to match normal
+
                         // add it to the final list of optimized segments
                         m_opsegs.Add(curline);
                         //and remove it from the list of all segments

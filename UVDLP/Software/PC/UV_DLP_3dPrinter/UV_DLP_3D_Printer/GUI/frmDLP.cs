@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using UV_DLP_3D_Printer.Configs;
+using ImageArithmetic;
+using System.Collections;
 
 namespace UV_DLP_3D_Printer
 {
@@ -16,15 +18,32 @@ namespace UV_DLP_3D_Printer
      * and it contains 1 image / picture control
      * It listens to the build manager events to show images on the screen.
      */
-    public partial class frmDLP : Form
+    public partial class frmDLP : Form 
     {
+        private class bmi 
+        {
+            public bmi(Bitmap b, int l) 
+            {
+                bm = b;
+                layer = l;
+            }
+            public Bitmap bm;
+            public int layer;
+        }
         Screen m_dlpscreen = null;
+        static int slcnt = 0; // slice / blank image counter
         private string m_screenid;
         Timer m_tmr;
         //float m_l, m_r, m_t, m_b;
+        MonitorConfig m_monitorconfig;
         MonitorConfig.MRect m_rect;
+        Bitmap m_old;
+        static int mfcount;
+        List<bmi> m_lstbmps;
+
         public frmDLP()
         {
+            mfcount = 0;
             InitializeComponent();
             m_screenid = "";
             m_rect = new MonitorConfig.MRect();
@@ -39,15 +58,78 @@ namespace UV_DLP_3D_Printer
             m_tmr.Tick += new EventHandler(m_tmr_Tick);
             m_tmr.Start();
             UVDLPApp.Instance().m_buildmgr.PrintLayer += new delPrinterLayer(PrintLayer);
+            m_old = null;
+            m_lstbmps = new List<bmi>();
+        }
+        
+        ~frmDLP()
+        {
+            // remember to remove the delegates
+            UVDLPApp.Instance().m_buildmgr.PrintLayer -= PrintLayer;
+            m_tmr.Tick -= m_tmr_Tick;
+        }
+
+        /// <summary>
+        /// We're keeping track of all images that get sent to the dlp
+        /// once we've moved on to the next layer, we can safely release 
+        /// images that come from other layers.
+        /// </summary>
+        /// <param name="bmp"></param>
+        /// <param name="layer"></param>
+        private void AddtoRemoveList(Bitmap bmp, int layer) 
+        {
+            // only add layer slices
+            if ((int)bmp.Tag != BuildManager.SLICE_NORMAL)
+                return;
+
+            foreach (bmi b in m_lstbmps) 
+            {
+                if (b.bm == bmp)// && layer == b.layer) 
+                {
+                    return; // already in list
+                }
+            }
+            m_lstbmps.Add(new bmi(bmp,layer));
+        }
+
+        private void UpdateRemoveList(int curlayer) 
+        {
+            List<bmi> mrmlst = new List<bmi>();
+            //iterate through all saved bitmaps
+            //compare to see if they come from this layer or not
+            foreach (bmi b in m_lstbmps)
+            {
+                if (curlayer != b.layer)
+                {
+                    mrmlst.Add(b);
+                }
+            }
+            //dispose and remove entries for bitmap that are not the current layer.
+            foreach (bmi b in mrmlst) 
+            {
+                b.bm.Dispose();
+                b.bm = null;
+                m_lstbmps.Remove(b);
+            }            
+        }
+        private bool fullscreen() 
+        {
+            if (m_rect.top == 0.0f &&
+                m_rect.left == 0.0f &&
+                m_rect.right == 1.0f &&
+                m_rect.bottom == 1.0f)
+                return true;
+            return false;
         }
         /// <summary>
         /// This sets the screen identifier and display portion so this form knows which screen to display into
         /// </summary>
         /// 
-        public void Setup(string screenid, MonitorConfig.MRect rect) 
+        public void Setup(string screenid, MonitorConfig monitorconfig) 
         {
             m_screenid = screenid;
-            m_rect = rect;
+            m_monitorconfig = monitorconfig;
+            m_rect = monitorconfig.m_monitorrect;
         }
         
         //This delegate is called when the print manager is printing a new layer
@@ -92,7 +174,7 @@ namespace UV_DLP_3D_Printer
                     if (UVDLPApp.Instance().m_buildmgr.IsPrinting == true || UVDLPApp.Instance().m_appconfig.m_previewslicesbuilddisplay == true
                         || layertype == BuildManager.SLICE_BLANK || layertype == BuildManager.SLICE_CALIBRATION)
                     {
-                        ShowImage(bmp);
+                        ShowImage(bmp,layertype,layer);
                     }
                 }
             }
@@ -124,10 +206,25 @@ namespace UV_DLP_3D_Printer
         /*
          Shows the specified image on the picture control
          */
-        public void ShowImage(Image i) 
+        public void ShowImage(Image i, int layertype, int layer) 
         {
+            mfcount++;
             try
             {
+                int a = 0;
+                if (layertype == BuildManager.SLICE_NORMAL) 
+                {
+                    a = layertype;
+                }
+                else if (layertype == BuildManager.SLICE_BLANK)
+                {
+                    a = layertype;
+                }
+                else 
+                {
+                    a = layertype;
+                }
+                
                 // change this to show only the visible portion of the image based on the 
                 // scaling / display portion
                 int xp = (int)(m_rect.left * i.Width);
@@ -136,23 +233,75 @@ namespace UV_DLP_3D_Printer
                 int yh = (int)(m_rect.bottom * i.Height);
                 //
                 Rectangle srcRect = new Rectangle(xp, yp, xh - xp, yh - yp);
-                Bitmap b = (Bitmap)i;
-                Bitmap cropped = (Bitmap)b.Clone(srcRect, i.PixelFormat);                 
+                Bitmap b = null;
+                Bitmap cropped = null;
+                if (fullscreen())
+                {
+                    // no need to copy, just set a reference
+                    b = (Bitmap)i;
+                    cropped = b;
+                }
+                else
+                {
+                    b = (Bitmap)i;
+                    cropped = (Bitmap)b.Clone(srcRect, i.PixelFormat); // i think this clone bitmap function may be causing delays later down the line                 
+                }
                 //check screen ID for laser SLA
                 if (m_screenid.Contains("LASERSHARK"))
                 {
                     // create an object array to hold parameters
-                    object[] parms = new object[1];
+                    object[] parms = new object[2];
                     //set the first parameter to be the image
                     parms[0] = (object)cropped;
+                    if (layertype == BuildManager.SLICE_BLANK)
+                    {
+                        parms[1] = (bool)true; // parameter 2 is used to indicate that this is a blank image
+                    }
+                    else
+                    {
+                        parms[1] = (bool)false;// not blank
+                    }
                     //call the plugin command
                     UVDLPApp.Instance().PerformPluginCommand("SendToLaserDisplay", parms, false);
                 }
                 else
                 {
-                    picDLP.Image = cropped;
+
+                    try
+                    {  
+                        /*
+                        //don't release the blank, calibration or special
+                        if (picDLP.Image != null  && (int)picDLP.Image.Tag == BuildManager.SLICE_NORMAL)
+                        {
+                            //get rid of the old image to release memory, this will release the slices
+                            picDLP.Image.Dispose();
+                            picDLP.Image = null;
+                        }
+                          */  
+                    }
+                    catch (Exception ex)
+                    {
+                        DebugLogger.Instance().LogError(ex);
+                    }
+                    AddtoRemoveList(cropped, layer); // add the image to the remove list
+                    //Check to see if we're adjusting the brightness of the mask image here
+                    if (m_monitorconfig.m_usemask == true && m_monitorconfig.m_mask != null && layertype != BuildManager.SLICE_BLANK)
+                    {
+                        //take the cropped bitmap
+                        //multiply the mask image    
+                        Bitmap result = ImageArithmetic.ExtBitmap.ArithmeticBlend(cropped, m_monitorconfig.m_mask, ColorCalculator.ColorCalculationType.Multiply);
+                        result.Tag = BuildManager.SLICE_NORMAL;
+                        picDLP.Image = result;
+                        AddtoRemoveList(result, layer);                        
+                    }
+                    else
+                    {
+                        picDLP.Image = cropped;
+                    }
+                    picDLP.Refresh(); // show it now
+                    UpdateRemoveList(layer);// free up old resources
                 }
-                GC.Collect();
+                
             }
             catch (Exception ex) 
             {

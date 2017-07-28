@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using UV_DLP_3D_Printer._3DEngine;
-
+using UV_DLP_3D_Printer.Util.Sequence;
 namespace UV_DLP_3D_Printer.GUI.CustomGUI
 {
     public partial class ctlImageButton : ctlAnchorable
@@ -174,6 +174,19 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             //base.OnPaint(pevent);
         }
 
+#if (DEBUG) // DBG_GUICONFIG
+        //public override void ApplyStyle(ControlStyle ct) { } // dummy fuction to eliminate compilation errors 
+        public override void ApplyStyle(GuiControlStyle ct)
+        {
+            base.ApplyStyle(ct);
+
+            if (ct.ForeColor.IsValid())
+                ForeColor = ct.ForeColor;
+            if (ct.BackColor.IsValid())
+                BackColor = ct.BackColor;
+        }
+#else
+        //public override void ApplyStyle(GuiControlStyle ct) { }  // dummy fuction to eliminate compilation errors 
         public override void ApplyStyle(ControlStyle ct)
         {
             base.ApplyStyle(ct);
@@ -183,6 +196,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (ct.BackColor != ControlStyle.NullColor)
                 BackColor = ct.BackColor;
         }
+#endif
 
         protected override void OnDoubleClick(EventArgs e)
         {
@@ -198,7 +212,26 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             base.OnClick(e);
             if (mOnClickCallback == null)
                 return;
-            UVDLPApp.Instance().m_callbackhandler.Activate(mOnClickCallback, this);
+            Object retobj = UVDLPApp.Instance().m_callbackhandler.Activate(mOnClickCallback, this);
+            if(retobj != null)
+            {
+                //if the return object is null, then this was probably a successful call
+                //if the return object type is boolean, and the value is false,
+                //then this could be a sequence to execute
+                // I'm debating whether this code should get put into the CallbackHandler code
+                // as-is, only buttons can trigger sequences, this may change in the future.
+                try
+                {
+                    Boolean val = (System.Boolean)retobj;
+                    if (val == false) 
+                    {
+                        // try to execute it as a sequence
+                        SequenceManager.Instance().ExecuteSequence(mOnClickCallback); 
+                    }
+                }
+                catch (Exception) { }
+            }
+            
         }
 
         private void InitializeComponent()
@@ -223,7 +256,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
         }
 
+#if (DEBUG) // DBG_GUICONFIG
+        Color GetPaintColor(GuiControlStyle stl)
+#else
         Color GetPaintColor(ControlStyle stl)
+#endif
         {
             if (Enabled == false)
                 return stl.DisabledColor;
@@ -249,7 +286,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             return col;
         }
 
+#if (DEBUG) // DBG_GUICONFIG
+        void GLPaint1(C2DGraphics gr, GuiControlStyle stl)
+#else
         void GLPaint1(C2DGraphics gr, ControlStyle stl)
+#endif
         {
             gr.SetColor(GetPaintColor(stl));
 
@@ -284,7 +325,11 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                     return;
                 mSubImgWidth = mGLImageCach.w / Style.SubImgCount;
             }
+#if (DEBUG) // DBG_GUICONFIG
+            GuiControlStyle stl = Style;
+#else
             ControlStyle stl = Style;
+#endif
             if (stl.SubImgCount == 4)
                 GLPaint4(gr);
             if (stl.SubImgCount == 1)

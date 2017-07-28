@@ -43,6 +43,34 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             
         }
 
+#if (DEBUG) // DBG_GUICONFIG
+        public override void ApplyStyle(GuiControlStyle ct)
+        {
+            base.ApplyStyle(ct);
+            if (ct.ForeColor.IsValid())
+            {
+                ctlTitle1.ForeColor = ct.ForeColor;
+                treeScene.ForeColor = ct.ForeColor;
+                treeScene.LineColor = ct.ForeColor;
+                cmdCopy.ForeColor = ct.ForeColor;
+                cmdDelete.ForeColor = ct.ForeColor;
+            }
+            if (ct.BackColor.IsValid())
+            {
+                BackColor = ct.BackColor;
+                manipObject.BackColor = ct.BackColor;
+                cmdCopy.BackColor = ct.BackColor;
+                cmdDelete.BackColor = ct.BackColor;
+
+            }
+            if (ct.FrameColor.IsValid())
+            {
+                treeScene.BackColor = ct.FrameColor;
+                flowLayoutPanel1.BackColor = ct.FrameColor;
+            }
+
+        }
+#else
         public override void ApplyStyle(ControlStyle ct)
         {
             base.ApplyStyle(ct);
@@ -69,7 +97,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
 
         }
-
+#endif
 
         #region Scene tree
 

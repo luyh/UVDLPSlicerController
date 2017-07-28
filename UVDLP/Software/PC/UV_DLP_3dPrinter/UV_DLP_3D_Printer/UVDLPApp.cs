@@ -25,6 +25,8 @@ using UV_DLP_3D_Printer.Licensing;
 using CreationWorkshop.Licensing;
 using UV_DLP_3D_Printer.GUI.CustomGUI;
 using UV_DLP_3D_Printer.GUI;
+using UV_DLP_3D_Printer.Building;
+using UV_DLP_3D_Printer.Util.Sequence;
 
 namespace UV_DLP_3D_Printer
 {
@@ -88,6 +90,7 @@ namespace UV_DLP_3D_Printer
 
         public SupportConfig m_supportconfig;
         public SupportGenerator m_supportgenerator;
+        public SequenceManager m_sequencemanager;
         // the interface to the printer
         public DeviceInterface m_deviceinterface;// = new PrinterInterface();
         // the generated or loaded GCode File;
@@ -98,8 +101,11 @@ namespace UV_DLP_3D_Printer
         public SliceFile m_slicefile;
         public BuildManager m_buildmgr;
         public prjcmdlst m_proj_cmd_lst; // projector command list
-
+#if (DEBUG) // DBG_GUICONF
+        public GuiConfigManager m_gui_config;
+#else
         public GuiConfig m_gui_config;
+#endif
         public C2DGraphics m_2d_graphics;
 
         public static String m_appconfigname = "CreationConfig.xml";
@@ -112,6 +118,7 @@ namespace UV_DLP_3D_Printer
         public frmMain2 m_mainform; // reference to the main application form       
 
         private ServerContact m_sc;
+        public AuxBuildCmds m_AuxBuildCmds;
 
         public static UVDLPApp Instance() 
         {
@@ -146,7 +153,13 @@ namespace UV_DLP_3D_Printer
             m_pluginstates =  PluginStates.Instance(); // initialize the plugin state singleton           
             m_undoer = new Undoer();
             m_2d_graphics = new C2DGraphics();
-            m_gui_config = new GuiConfig();            
+#if (DEBUG) // DBG_GUICONF
+            m_gui_config = new GuiConfigManager();
+#else
+            m_gui_config = new GuiConfig();
+#endif
+            m_AuxBuildCmds = AuxBuildCmds.Instance(); // make sure the singleton doesn't go away...
+            m_sequencemanager = SequenceManager.Instance();
         }
 
         public enum Platform
@@ -529,7 +542,8 @@ namespace UV_DLP_3D_Printer
                         //store the gcode
                         MemoryStream stream = new MemoryStream(System.Text.Encoding.ASCII.GetBytes(m_gcode.RawGCode));
                         String gcn = Path.GetFileNameWithoutExtension(UVDLPApp.Instance().SceneFileName) + ".gcode";
-                        SceneFile.Instance().RemoveExistingGCode(UVDLPApp.Instance().SceneFileName);
+                        //SceneFile.Instance().RemoveExistingGCode(UVDLPApp.Instance().SceneFileName);
+                        SceneFile.Instance().RemoveResourcesFromFile(UVDLPApp.Instance().SceneFileName, "GCode", ".gcode");
                         SceneFile.Instance().AddGCodeToFile(UVDLPApp.Instance().SceneFileName, stream, gcn);
                     }
                     //save the slicer object for later too                    
@@ -550,11 +564,14 @@ namespace UV_DLP_3D_Printer
         /// </summary>
         public void PostLoadScene() 
         {
+            
+            /*
             m_gcode = SceneFile.Instance().LoadGCodeFromScene(SceneFileName);
             if (m_gcode == null) 
             {
                 m_gcode = new GCodeFile(""); // create empty file
             }
+             
             RaiseAppEvent(eAppEvent.eGCodeLoaded, "GCode Loaded ");
             SceneFile.Instance().LoadSliceProfileFromScene(SceneFileName);
             m_slicefile = new SliceFile(m_buildparms);
@@ -564,6 +581,7 @@ namespace UV_DLP_3D_Printer
             m_slicefile.NumSlices = m_slicer.GetNumberOfSlices(m_buildparms);
             RaiseAppEvent(eAppEvent.eSliceProfileChanged, "Slice Profile loaded");
             RaiseAppEvent(eAppEvent.eSlicedLoaded, "Slice Profile loaded");
+            */
         }
         public void LoadGCode(String filename)
         {

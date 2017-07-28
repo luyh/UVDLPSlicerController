@@ -557,11 +557,10 @@ namespace Engine3D
                 td = (p.x - m_center.x) * (p.x - m_center.x);
                 td += (p.y - m_center.y) * (p.y - m_center.y);
                 td += (p.z - m_center.z) * (p.z - m_center.z);
-                td = (float)Math.Sqrt(td);
                 if (td >= maxdist)
                     maxdist = td;
             }
-            m_radius = maxdist;
+			m_radius = (float)Math.Sqrt(maxdist);
         }
 
         public Point3d CalcCenter() 
@@ -612,7 +611,7 @@ namespace Engine3D
             foreach (Polygon p in this.m_lstpolys)
             {
                 p.tag = Polygon.TAG_REGULAR;
-                p.m_color = Color.Gray;
+                p.m_color = p.m_colorsource;// Color.Gray;
             }
             InvalidateList();
         }
@@ -914,7 +913,30 @@ namespace Engine3D
                         m_lstpoints.Add(pnt);
                         p.m_points[pc] = pnt;
                     }
-                    uint attr = br.ReadUInt16(); // not used attribute
+                    uint attr = br.ReadUInt16(); // attribute COULD be used for color 
+                    /*
+                    The VisCAM and SolidView software packages use the two "attribute byte count" bytes at the end of every triangle to store a 15-bit RGB color:
+
+                        bit 0 to 4 are the intensity level for blue (0 to 31),
+                        bits 5 to 9 are the intensity level for green (0 to 31),
+                        bits 10 to 14 are the intensity level for red (0 to 31),
+                        bit 15 is 1 if the color is valid, or 0 if the color is not valid (as with normal STL files).
+                     
+                     */
+                    //BBBBBGGGGGRRRRRV
+                    //VRRRRRGGGGGBBBBB
+                    byte R, G, B, used;
+                    B = (byte)((attr & 0x001f)<<3);
+                    G = (byte)((attr>>5 & 0x001f)<<3);
+                    R = (byte)((attr>>10 & 0x001f)<<3);
+
+                    used = (byte)(attr >> 15 & 0x0001);
+                    if (used != 0) 
+                    {
+                        p.m_colorsource = Color.FromArgb(255, R, G, B);
+                        p.m_color = p.m_colorsource;
+                    }
+
                 }
                 
                 Update(); // initial positions please...

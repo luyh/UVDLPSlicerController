@@ -18,6 +18,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
     {
         private eDriverType m_saved;
         private MachineConfig m_config = new MachineConfig(); // just so it's not blank
+        Configs.MonitorConfig curmc = null;
 
         public ctlMachineConfig()
         {
@@ -37,6 +38,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 grpMachineConfig.Text = m_config.m_name;
                 Monitors.Enabled = true;
                 grpPrjSerial.Enabled = true;
+                
                 //cmbMachineType.Items.Clear();
                 /*
                 foreach(String s in Enum.GetNames(typeof(MachineConfig.eMachineType)))
@@ -51,8 +53,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 cmbMultiSel.SelectedItem = m_config.m_multimontype.ToString();
 
                 //list the drivers
-                txtPlatWidth.Text = "" + m_config.m_PlatXSize;
-                txtPlatHeight.Text = "" + m_config.m_PlatYSize;
+                txtPlatWidth.Text = "" + m_config.m_PlatXSize.ToString("0.00");
+                txtPlatHeight.Text = "" + m_config.m_PlatYSize.ToString("0.00"); 
                 txtPlatTall.Text = m_config.m_PlatZSize.ToString();
                 //projwidth.Text = "" + m_config.m_monitorconfig.XRes;
                 //projheight.Text = "" + m_config.m_monitorconfig.YRes;
@@ -88,6 +90,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                     case 'B': checkMCBed.Checked = true; break;
                     case 'P': checkMCProjector.Checked = true; break;
                     case 'G': checkMCGCode.Checked = true; break;
+                    case 'D': checkMCMotorDisable.Checked = true; break;
                 }
             }
         }
@@ -106,13 +109,6 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             try
             {
-               // m_config.m_machinetype = MachineConfig.eMachineType.UV_DLP;
-                /*
-                if (cmbMachineType.SelectedIndex != -1) 
-                {
-                    m_config.m_machinetype = (MachineConfig.eMachineType)Enum.Parse(typeof(MachineConfig.eMachineType), cmbMachineType.SelectedItem.ToString());
-                }
-                 * */
                 if (cmbMultiSel.SelectedIndex != -1) 
                 {
                     m_config.m_multimontype = (MachineConfig.eMultiMonType)Enum.Parse(typeof(MachineConfig.eMultiMonType), cmbMultiSel.SelectedItem.ToString());
@@ -125,14 +121,17 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_config.m_PlatXSize = double.Parse(txtPlatWidth.Text);
                 m_config.m_PlatYSize = double.Parse(txtPlatHeight.Text);
                 m_config.m_PlatZSize = double.Parse(txtPlatTall.Text);
-                //m_config.m_monitorconfig.m_XDLPRes = double.Parse(projwidth.Text);
-                //m_config.m_monitorconfig.m_YDLPRes = double.Parse(projheight.Text);
-                //m_config.
                 m_config.XRenderSize = int.Parse(txtXRes.Text);
                 m_config.YRenderSize = int.Parse(txtYRes.Text);
                 m_config.CalcPixPerMM();
                 m_config.MachineControls = GetMachineControls();
                 labelPressApply.Visible = false;
+
+                if (lbConfigured.SelectedIndex != -1 && curmc !=null)
+                {
+                    //Configs.MonitorConfig mc = m_config.m_lstMonitorconfigs[lbConfigured.SelectedIndex];
+                    curmc.m_usemask = chkEnableMask.Checked;
+                }
                 return true;
             }
             catch (Exception ex) 
@@ -162,6 +161,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 res += "P";
             if (checkMCGCode.Checked)
                 res += "G";
+            if (checkMCMotorDisable.Checked)
+                res += "D";
             return res;
         }
 
@@ -480,7 +481,7 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         
         private void cmdCfgConMch_Click(object sender, EventArgs e)
         {
-            frmConnection frmconnect = new frmConnection(ref m_config.m_driverconfig.m_connection);
+            frmConnection frmconnect = new frmConnection(ref m_config.m_driverconfig.m_connection,true);
             frmconnect.ShowDialog();
             UpdateMainConnection();
         }
@@ -524,16 +525,17 @@ namespace UV_DLP_3D_Printer.GUI.Controls
             {
                 cmdRemoveConfigured.Enabled = false;
                 grpPrjSerial.Enabled = false;
+                curmc = null;
             }
             else 
             {
                 cmdRemoveConfigured.Enabled = true;
                 // show the resolution
-                Configs.MonitorConfig mc = m_config.m_lstMonitorconfigs[lbConfigured.SelectedIndex];
+                curmc = m_config.m_lstMonitorconfigs[lbConfigured.SelectedIndex];
                 grpPrjSerial.Enabled = true;
-                checkConDispEnable.Checked = mc.m_displayconnectionenabled;
-                lblConDisp.Text = mc.m_displayconnection.comname;
-                //show serial connection
+                checkConDispEnable.Checked = curmc.m_displayconnectionenabled;
+                lblConDisp.Text = curmc.m_displayconnection.comname;
+                chkEnableMask.Checked = curmc.m_usemask;                
 
             }
         }
@@ -667,6 +669,54 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         private void checkMCXXXX_CheckedChanged(object sender, EventArgs e)
         {
             labelPressApply.Visible = true;
+        }
+
+        private void chkEnableMask_CheckedChanged(object sender, EventArgs e)
+        {
+            // 
+            cmdConfigMask.Enabled = chkEnableMask.Checked;
+        }
+
+        private void cmdConfigMask_Click(object sender, EventArgs e)
+        {
+            if (curmc != null)
+            {
+                openFileDialog1.FileName = curmc.m_brightmask_filename;
+                if (openFileDialog1.ShowDialog() == DialogResult.OK) 
+                {
+                    string fname = openFileDialog1.FileName;
+                    //string abspath;
+                    //string relpath;
+                    curmc.m_brightmask_filename = fname;
+                    //now load the file
+                    curmc.m_mask = new Bitmap(curmc.m_brightmask_filename);
+                }
+            }
+        }
+
+        private void cmdAdjust_Click(object sender, EventArgs e)
+        {
+            frmBuildSizeCalib bsc = new frmBuildSizeCalib();
+            bsc.setModelSize(2.0f, 2.0f);
+            bsc.setPlatformSize((float)m_config.m_PlatXSize, (float)m_config.m_PlatYSize);
+            if (bsc.ShowDialog() == DialogResult.OK) 
+            {
+                try
+                {
+                    m_config.m_PlatXSize = bsc.calcplatoformsizeX;
+                    m_config.m_PlatYSize = bsc.calcplatoformsizeY;
+                }
+                catch (Exception ex)
+                {
+                
+                }
+                SetData();
+            }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

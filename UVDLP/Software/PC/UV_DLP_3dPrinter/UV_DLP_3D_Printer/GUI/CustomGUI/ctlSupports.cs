@@ -411,6 +411,48 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
         
         }
+#if (DEBUG) // DBG_GUICONFIG
+        public override void ApplyStyle(GuiControlStyle ct)
+        {
+            base.ApplyStyle(ct);
+            if (ct.ForeColor.IsValid())
+            {
+                ctlTitle1.ForeColor = ct.ForeColor;
+                label1.ForeColor = ct.ForeColor;
+                label2.ForeColor = ct.ForeColor;
+                label3.ForeColor = ct.ForeColor;
+                label4.ForeColor = ct.ForeColor;
+                labelAutoSup.ForeColor = ct.ForeColor;
+                label6.ForeColor = ct.ForeColor;
+                label7.ForeColor = ct.ForeColor;
+                label9.ForeColor = ct.ForeColor;
+                cmbSupType.ForeColor = ct.ForeColor;
+                lbSupports.ForeColor = ct.ForeColor;
+                cmdRemoveSupports.ForeColor = ct.ForeColor;
+                progressTitle.ForeColor = ct.ForeColor;
+            }
+            if (ct.BackColor.IsValid())
+            {
+                ctlTitle1.BackColor = ct.BackColor;
+                BackColor = ct.BackColor;
+                cmbSupType.BackColor = ct.BackColor;
+                //flowLayoutPanel2.BackColor = ct.BackColor;
+                progressTitle.BackColor = ct.BackColor;
+            }
+            if (ct.FrameColor.IsValid())
+            {
+                
+                flowLayoutPanel1.BackColor = ct.FrameColor;
+                panel1.BackColor = ct.FrameColor;
+                panel2.BackColor = ct.FrameColor;
+                panelSuppotShape.BackColor = ct.FrameColor;
+                panel3.BackColor = ct.FrameColor;
+                lbSupports.BackColor = ct.FrameColor;
+                cmdRemoveSupports.BackColor = ct.BackColor;
+            }
+
+        }
+#else
         public override void ApplyStyle(ControlStyle ct)
         {
             base.ApplyStyle(ct);
@@ -451,7 +493,7 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             }
 
         }
-
+#endif
         private void buttManualEdit_Click(object sender, EventArgs e)
         {
             // the manual edit of support button is clicked

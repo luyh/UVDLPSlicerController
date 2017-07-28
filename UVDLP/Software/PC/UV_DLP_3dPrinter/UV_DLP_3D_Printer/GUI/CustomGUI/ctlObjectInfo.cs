@@ -109,6 +109,24 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             tCost.DataText = string.Format("{0:0.000}", cost);
        }
 
+#if (DEBUG) // DBG_GUICONFIG
+        public override void ApplyStyle(GuiControlStyle ct)
+        {
+            base.ApplyStyle(ct);
+            if (ct.ForeColor.IsValid())
+            {
+                ctlTitle1.ForeColor = ct.ForeColor;
+                tName.ForeColor = ct.ForeColor;
+            }
+            if (ct.BackColor.IsValid())
+            {
+                BackColor = ct.BackColor;
+                layoutPanel.BackColor = ct.BackColor;
+                ctlTitle1.BackColor = ct.BackColor;
+                tName.BackColor = ct.BackColor;
+            }
+        }
+#else
         public override void ApplyStyle(ControlStyle ct)
         {
             base.ApplyStyle(ct);
@@ -124,8 +142,8 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
                 ctlTitle1.BackColor = ct.BackColor;
                 tName.BackColor = ct.BackColor;
             }
-
         }
+#endif
 
         private void ctlTitle1_Click(object sender, EventArgs e)
         {

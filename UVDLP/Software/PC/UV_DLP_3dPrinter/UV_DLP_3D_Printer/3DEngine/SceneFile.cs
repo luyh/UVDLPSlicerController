@@ -22,46 +22,175 @@ namespace UV_DLP_3D_Printer._3DEngine
     public class SceneFile
     {
         private static SceneFile m_instance = null;
-        private ZipFile mZip; // this handle is used for when we're slicing and adding entries
+      //  private ZipFile mZip; // this handle is used for when we're slicing and adding entries
         private XmlHelper mManifest; // this handle is used for when we're slicing and adding slice entries
         
         private SceneFile() 
         {
-            mZip = null;
+          //  mZip = null;
             mManifest = null;
         }
 
-        /// <summary>
-        /// Opens a file in preparation for writing a series of image entries
-        /// should load the manifest so we can add / remove entries from it
-        /// </summary>
-        /// <returns></returns>
-        public bool OpenSceneFile(string scenefilename) 
+        private bool FilePatternMatch(string filename,string filepatterns) 
         {
             try
             {
-                mZip = ZipFile.Read(scenefilename);
-                //open the manifest file                
-                string xmlname = "manifest.xml";
-                ZipEntry manifestentry = mZip[xmlname];
-                //get memory stream
-                MemoryStream manistream = new MemoryStream();
-                //extract the stream
-                manifestentry.Extract(manistream);
-                //read from stream
-                manistream.Seek(0, SeekOrigin.Begin); // rewind the stream for reading
-                //create a new XMLHelper to load the stream into
-                mManifest = new XmlHelper();
-                //load the stream
-                mManifest.LoadFromStream(manistream, "manifest");
-
-                return true;
+                filepatterns = filepatterns.ToLower();
+                filename = filename.ToLower();
+                string[] exts = filepatterns.Split('|');
+                foreach (string ext in exts)
+                {
+                    if (filename.EndsWith(ext))
+                    {
+                        return true;
+                    }
+                }
             }
             catch (Exception ex) 
             {
                 DebugLogger.Instance().LogError(ex);
             }
+
             return false;
+        }
+        /// <summary>
+        /// This will remove the specified file resources from the manifest and files from the 
+        /// zip file. This is a completely self-contained function that will ensure the disposal 
+        /// of the zip file object, we were previously having issues with the file not being completely closed
+        /// filepattern can be a list of file extensions patternslike so:
+        /// .png|.svg
+        /// </summary>
+        /// <param name="scenefilename"></param>
+        /// <returns></returns>
+        public bool RemoveResourcesFromFile(string scenefilename,string section, string filepattern) 
+        {
+            bool ret = true;
+            try
+            {
+                LoadManifest(scenefilename); // load the latest version of the manifest from the zip file
+                // open the zip file for read/write
+                // use the 'using' block to ensure resource disposal
+                using (ZipFile zip1 = ZipFile.Read(scenefilename)) 
+                {
+                    XmlNode rmnodes = mManifest.FindSection(mManifest.m_toplevel, section);
+                    if (rmnodes != null)
+                    {
+                        rmnodes.RemoveAll(); // remove all child nodes for this manifest entry
+                        List<ZipEntry> etr = new List<ZipEntry>(); // entries to remove
+                        foreach (ZipEntry ze in zip1) // create a list of entries to remove
+                        {
+                            if (FilePatternMatch(ze.FileName,filepattern))
+                            {
+                                etr.Add(ze);
+                            }
+                        }
+                        //and remove them
+                        zip1.RemoveEntries(etr);
+                    }
+                    zip1.Save(); // save it
+                }
+                //now update the changed manifest entries
+                UpdateManifest(scenefilename);
+            }
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+                ret = false;
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// This will open the zip file
+        /// load the manifest file into this object
+        /// and close the zip file
+        /// </summary>
+        /// <param name="scenefilename"></param>
+        /// <returns></returns>
+        public bool LoadManifest(string scenefilename) 
+        {
+            try
+            {
+                using (ZipFile tmpZip = ZipFile.Read(scenefilename))
+                {
+                    //open the manifest file                
+                    string xmlname = "manifest.xml";
+                    ZipEntry manifestentry = tmpZip[xmlname];
+                    //get memory stream
+                    MemoryStream manistream = new MemoryStream();
+                    //extract the stream
+                    manifestentry.Extract(manistream);
+                    //read from stream
+                    manistream.Seek(0, SeekOrigin.Begin); // rewind the stream for reading
+                    //create a new XMLHelper to load the stream into
+                    mManifest = new XmlHelper();
+                    //load the stream
+                    mManifest.LoadFromStream(manistream, "manifest");
+                } // the end of this using block should close the zip file
+                return true;
+            }
+            catch (Exception ex) 
+            {
+                mManifest = new XmlHelper();
+                mManifest.StartNew("", "manifest"); 
+                DebugLogger.Instance().LogError(ex);
+            }
+            return false;
+        }
+        /// <summary>
+        /// this function will tkae the manifest that is in this object and write it to the zip file
+        /// this is an atomic operation the zip file will not be held open
+        /// </summary>
+        /// <returns></returns>
+        public bool UpdateManifest(string scenefilename) 
+        {
+            try
+            {
+                using (ZipFile tmpzip = ZipFile.Read(scenefilename))
+                {
+                    string xmlname = "manifest.xml";
+                    //remove the old manifest entry
+                    try
+                    {
+                        tmpzip.RemoveEntry(xmlname);
+                    }
+                    catch (Exception) 
+                    {
+                        DebugLogger.Instance().LogInfo("Creating new manifest for scene file");
+                        // might not be in the file
+                    }
+                    //create a new memory stream to store the manifest file
+                    MemoryStream manifeststream = new MemoryStream();
+                    //store the modified manifest stream
+                    ZipEntry manifestentry = new ZipEntry();
+                    //save the XML document to memorystream
+                    if (mManifest != null)
+                    {
+                        //save the manifest file to a memory stream
+                        mManifest.Save(1, ref manifeststream);
+                        //rewind to the beginning
+                        manifeststream.Seek(0, SeekOrigin.Begin);
+                        //save the memorystream for the xml metadata manifest into the zip file
+                        tmpzip.AddEntry(xmlname, manifeststream);
+                        //save the file
+                        tmpzip.Save();
+                    }
+                    else 
+                    {
+                        //no existing manifest, start a new one
+                        mManifest = new XmlHelper();
+                        mManifest.StartNew("", "manifest");
+                        tmpzip.Save();
+                    }
+                } // end of using statement ensures closure of file
+                return true;
+            }
+            catch (Exception ex) 
+            {
+               // m
+                DebugLogger.Instance().LogError(ex);
+                return false;
+            }
         }
         /// <summary>
         /// Add a single image slice to the entry in the manifest and store in the zip
@@ -69,12 +198,18 @@ namespace UV_DLP_3D_Printer._3DEngine
         /// <param name="bmp"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public bool AddSlice(MemoryStream ms, string imname) 
+        public bool AddSlice(string scenefilename, MemoryStream ms, string imname)
         {
             try
             {
-                // store the slice file into the zip
-                mZip.AddEntry(imname, ms);
+                LoadManifest(scenefilename);
+                using (ZipFile mZip = ZipFile.Read(scenefilename))
+                {
+                    // store the slice file into the zip
+                    mZip.AddEntry(imname, ms);
+                    mZip.Save();
+                } // file should be closed here
+                //update the manifest
                 // find the slices node in the top level
                 XmlNode slicesnode = mManifest.FindSection(mManifest.m_toplevel, "Slices");
                 if (slicesnode == null)  // no slice node
@@ -84,51 +219,45 @@ namespace UV_DLP_3D_Printer._3DEngine
                 }
                 //add the slice file name into the manifest
                 XmlNode curslice = mManifest.AddSection(slicesnode, "Slice");
-                mManifest.SetParameter(curslice,"name",imname);                
+                mManifest.SetParameter(curslice, "name", imname);
+                UpdateManifest(scenefilename); // save the new manifest file out
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 DebugLogger.Instance().LogError(ex);
             }
             return false;
         }
-        /// <summary>
-        /// Slicing is finished (or cancelled) close the cws file
-        /// </summary>
-        public void CloseSceneFile(bool cancel) 
+
+        public bool AddVectorSlice(string scenefilename, MemoryStream ms, string imname)
         {
             try
             {
-                if (mZip != null && !cancel)
+                LoadManifest(scenefilename);
+                using (ZipFile mZip = ZipFile.Read(scenefilename))
                 {
-                    string xmlname = "manifest.xml";
-                    //remove the old manifest entry
-                    mZip.RemoveEntry(xmlname);
-                    //create a new memory stream to store the manifest file
-                    MemoryStream manifeststream = new MemoryStream();
-                    //store the modified manifest stream
-                    ZipEntry manifestentry = new ZipEntry();
-                    //save the XML document to memorystream
-                    if (mManifest != null)
-                    {
-                        mManifest.Save(1, ref manifeststream);
-                        manifeststream.Seek(0, SeekOrigin.Begin);
-                        //save the memorystream for the xml metadata manifest into the zip file
-                        mZip.AddEntry(xmlname, manifeststream);
-                        //save the file
-                        mZip.Save();
-                    }
+                    // store the slice file into the zip
+                    mZip.AddEntry(imname, ms);
+                    mZip.Save();
                 }
-                if (mZip != null) // could be null here...
+                //add to the manifest
+                // find the slices node in the top level
+                XmlNode slicesnode = mManifest.FindSection(mManifest.m_toplevel, "VectorSlices");
+                if (slicesnode == null)  // no slice node
                 {
-                    mZip.Dispose();
+                    //create one
+                    slicesnode = mManifest.AddSection(mManifest.m_toplevel, "VectorSlices");
                 }
-                mZip = null;// set it back to null;
+                //add the slice file name into the manifest
+                XmlNode curslice = mManifest.AddSection(slicesnode, "Slice");
+                mManifest.SetParameter(curslice, "name", imname);
+                UpdateManifest(scenefilename);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 DebugLogger.Instance().LogError(ex);
             }
+            return false;
         }
 
         public static SceneFile Instance() 
@@ -139,181 +268,34 @@ namespace UV_DLP_3D_Printer._3DEngine
             }
             return m_instance;
         }
-        /// <summary>
-        /// This removes any previous exsitng models from the scene file
-        /// and the manifest
-        /// </summary>
-        /// <param name="scenefilename"></param>
-        public void RemoveExistingModels(string scenefilename) 
-        {
-            try
-            {
-                // open the zip file
-                if (OpenSceneFile(scenefilename))
-                {
-                    //remove all *.stl files
-                    XmlNode models = mManifest.FindSection(mManifest.m_toplevel, "Models");
-                    if (models != null)
-                    {
-                        models.RemoveAll(); // remove all child nodes for this manifest entry
-                        List<ZipEntry> etr = new List<ZipEntry>(); // entries to remove
-                        foreach (ZipEntry ze in mZip) // create a list of entries to remove
-                        {
-                            if (ze.FileName.Contains(".stl"))
-                            {
-                                etr.Add(ze);
-                            }
-                        }
-                        //and remove them
-                        mZip.RemoveEntries(etr);
-                    }
-                    else
-                    {
-                        //slices does equal null, nothing to do...
-                    }
-                    CloseSceneFile(false);
-                }
-            }
-            catch (Exception ex) 
-            {
-                DebugLogger.Instance().LogError(ex);
-
-            }
-
-        }
-        // we might be able to do the slice add the same way as before,
-        // trap for the slice events and add them
-        public void RemoveExistingSlices(string scenefilename) 
-        {
-            try
-            {
-                // open the zip file
-                if (OpenSceneFile(scenefilename))
-                {
-                    //remove all *.png files
-                    //delete the slices node
-                    XmlNode slices = mManifest.FindSection(mManifest.m_toplevel, "Slices");
-                    if (slices != null)
-                    {
-                        slices.RemoveAll(); // remove all child nodes for this manifest entry
-                        List<ZipEntry> etr = new List<ZipEntry>(); // entries to remove
-                        foreach (ZipEntry ze in mZip) // create a list of entries to remove
-                        {
-                            if (ze.FileName.Contains(".png"))
-                            {
-                                etr.Add(ze);
-                            }
-                        }
-                        //and remove them
-                        mZip.RemoveEntries(etr);
-                    }
-                    else
-                    {
-                        //slices does equal null, nothing to do...
-                    }
-                    CloseSceneFile(false);
-                }
-            }
-            catch (Exception ex)             
-            {
-                DebugLogger.Instance().LogError(ex);
-            }
-        }
-        public bool RemoveExistingGCode(string scenefilename) 
-        {
-            try
-            {
-                // open the zip file
-                if (OpenSceneFile(scenefilename))
-                {
-                    //remove all *.gcode files
-                    //delete the Gcode node
-                    XmlNode gcodenode = mManifest.FindSection(mManifest.m_toplevel, "GCode");
-                    if (gcodenode != null)
-                    {
-                        gcodenode.RemoveAll(); // remove all child nodes for this manifest entry
-                        List<ZipEntry> etr = new List<ZipEntry>(); // entries to remove
-                        foreach (ZipEntry ze in mZip) // create a list of entries to remove
-                        {
-                            if (ze.FileName.Contains(".gcode"))
-                            {
-                                etr.Add(ze);
-                            }
-                        }
-                        //and remove them
-                        mZip.RemoveEntries(etr);
-                    }
-                    else
-                    {
-                        //slices does equal null, nothing to do...
-                    }
-                    CloseSceneFile(false);
-                }
-
-            }
-            catch (Exception ex) 
-            {
-                DebugLogger.Instance().LogError(ex);
-            }
-            return false;
-        }
-
-        public void RemoveExistingSliceProfile(string scenefilename) 
-        {
-            try
-            {
-                // open the zip file
-                if (OpenSceneFile(scenefilename))
-                {
-                    //remove all *.slicing files
-                    //delete the SliceProfile nodes
-                    XmlNode slicprofilenodes = mManifest.FindSection(mManifest.m_toplevel, "SliceProfile");
-                    if (slicprofilenodes != null)
-                    {
-                        slicprofilenodes.RemoveAll(); // remove all child nodes for this manifest entry
-                        List<ZipEntry> etr = new List<ZipEntry>(); // entries to remove
-                        foreach (ZipEntry ze in mZip) // create a list of entries to remove
-                        {
-                            if (ze.FileName.Contains(".slicing"))
-                            {
-                                etr.Add(ze);
-                            }
-                        }
-                        //and remove them
-                        mZip.RemoveEntries(etr);
-                    }
-                    CloseSceneFile(false);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex);
-            }        
-        }
-
         // add a slice to the cws / manifest file
         //add/replace gcode in a cws / manifest file
         public bool AddGCodeToFile(string scenefilename, MemoryStream ms, string gcname) 
         {
             try
             {
-                if (OpenSceneFile(scenefilename))
+                LoadManifest(scenefilename);
+                using (ZipFile mZip = ZipFile.Read(scenefilename))                
                 {
                     // store the slice file into the zip
+                    //add the entry
                     mZip.AddEntry(gcname, ms);
-                    // find the slices node in the top level
-                    XmlNode gcodenode = mManifest.FindSection(mManifest.m_toplevel, "GCode");
-                    if (gcodenode == null)  // no gcode node
-                    {
-                        //create one
-                        gcodenode = mManifest.AddSection(mManifest.m_toplevel, "GCode");
-                    }
-                    //add the gcode file name into the manifest
-                    mManifest.SetParameter(gcodenode, "name", gcname);
-                    CloseSceneFile(false);
-                    return true;
+                    //save the file
+                    mZip.Save();
+                } // the end of the using block should ensure it's closed
+
+                // now update the manifest
+                // find the slices node in the top level
+                XmlNode gcodenode = mManifest.FindSection(mManifest.m_toplevel, "GCode");
+                if (gcodenode == null)  // no gcode node
+                {
+                    //create one
+                    gcodenode = mManifest.AddSection(mManifest.m_toplevel, "GCode");
                 }
+                //add the gcode file name into the manifest
+                mManifest.SetParameter(gcodenode, "name", gcname);                                     
+                UpdateManifest(scenefilename);
+                return true;
             }
             catch (Exception ex) 
             {
@@ -325,22 +307,25 @@ namespace UV_DLP_3D_Printer._3DEngine
         {
             try
             {
-                if (OpenSceneFile(scenefilename))
+                //get the latest version of the manifest
+                LoadManifest(scenefilename); 
+                using (ZipFile mZip = ZipFile.Read(scenefilename))
                 {
                     // store the slice file into the zip
                     mZip.AddEntry(sliceprofilename, ms);
-                    // find the slices node in the top level
-                    XmlNode sliceprofilenode = mManifest.FindSection(mManifest.m_toplevel, "SliceProfile");
-                    if (sliceprofilenode == null)  // no gcode node
-                    {
-                        //create one
-                        sliceprofilenode = mManifest.AddSection(mManifest.m_toplevel, "SliceProfile");
-                    }
-                    //add the slice profile file name into the manifest
-                    mManifest.SetParameter(sliceprofilenode, "name", sliceprofilename);
-                    CloseSceneFile(false);
-                    return true;
+                    mZip.Save();
                 }
+                // find the slices node in the top level
+                XmlNode sliceprofilenode = mManifest.FindSection(mManifest.m_toplevel, "SliceProfile");
+                if (sliceprofilenode == null)  // no gcode node
+                {
+                    //create one
+                    sliceprofilenode = mManifest.AddSection(mManifest.m_toplevel, "SliceProfile");
+                }
+                //add the slice profile file name into the manifest
+                mManifest.SetParameter(sliceprofilenode, "name", sliceprofilename);
+                UpdateManifest(scenefilename);
+                return true;                
             }
             catch (Exception ex)
             {
@@ -351,39 +336,47 @@ namespace UV_DLP_3D_Printer._3DEngine
         
         public GCodeFile LoadGCodeFromScene(string scenefilename) 
         {
-            if (OpenSceneFile(scenefilename))
+            GCodeFile gcf = null;
+            try
             {
+                //load the latest version of the manifest
+                LoadManifest(scenefilename);
+                //find the gcode section
                 XmlNode gcn = mManifest.FindSection(mManifest.m_toplevel, "GCode");
+                //get the name of the gcode file
                 string gcodename = mManifest.GetString(gcn, "name", "none");
+                // if there is a gcode file, open the zip and load it
                 if (!gcodename.Equals("none"))
                 {
-                    try
+                    //open the zip
+                    using (ZipFile mZip = ZipFile.Read(scenefilename))
                     {
                         ZipEntry gcodeentry = mZip[gcodename];
                         MemoryStream gcstr = new MemoryStream();
                         gcodeentry.Extract(gcstr);
                         //rewind to beginning
                         gcstr.Seek(0, SeekOrigin.Begin);
-                        GCodeFile gcf = new GCodeFile(gcstr);
-                        return gcf;
-                    }
-                    catch (Exception ex)
-                    {
-                        DebugLogger.Instance().LogError(ex);
+                        gcf = new GCodeFile(gcstr);
                     }
                 }
             }
-            return null;
+            catch (Exception ex) 
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
+            return gcf;
         }
+
         public bool LoadSliceProfileFromScene(string scenefilename)
         {
-            if (OpenSceneFile(scenefilename))
+            try
             {
+                LoadManifest(scenefilename);
                 XmlNode gcn = mManifest.FindSection(mManifest.m_toplevel, "SliceProfile");
                 string sliceprofilename = mManifest.GetString(gcn, "name", "none");
                 if (!sliceprofilename.Equals("none"))
                 {
-                    try
+                    using (ZipFile mZip = ZipFile.Read(scenefilename))
                     {
                         ZipEntry gcodeentry = mZip[sliceprofilename];
                         MemoryStream gcstr = new MemoryStream();
@@ -393,85 +386,131 @@ namespace UV_DLP_3D_Printer._3DEngine
                         //GCodeFile gcf = new GCodeFile(gcstr);
                         UVDLPApp.Instance().m_buildparms = new SliceBuildConfig();
                         UVDLPApp.Instance().m_buildparms.Load(gcstr, sliceprofilename);
-                        return true;
-                    }
-                    catch (Exception ex)
-                    {
-                        DebugLogger.Instance().LogError(ex);
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                DebugLogger.Instance().LogError(ex);
+            }
+
             return false;
         }
         
-        public bool Load(string scenefilename) 
+        public bool LoadSceneFile(string scenefilename) 
         {
             try
             {
                 UVDLPApp.Instance().SceneFileName = scenefilename;
-
-                mZip = ZipFile.Read(scenefilename);
-                string xmlname = "manifest.xml";
-                OpenSceneFile(scenefilename);
-
-                //examine manifest
-                //find the node with models
-                XmlNode topnode = mManifest.m_toplevel;
-
-                XmlNode models = mManifest.FindSection(topnode, "Models");
-                List<XmlNode> modelnodes = mManifest.FindAllChildElement(models, "model");
-               // bool supportLoaded = false;
-                foreach (XmlNode nd in modelnodes) 
+                LoadManifest(scenefilename);
+                using (ZipFile mZip = ZipFile.Read(scenefilename))
                 {
-                    string name = mManifest.GetString(nd, "name", "noname");
-                    string modstlname = name + ".stl";
-                    int tag = mManifest.GetInt(nd, "tag", 0);
-                    ZipEntry modelentry = mZip[modstlname]; // the model name will have the _XXXX on the end with the stl extension
-                    MemoryStream modstr = new MemoryStream();
-                    modelentry.Extract(modstr);
-                    //rewind to beginning
-                    modstr.Seek(0, SeekOrigin.Begin);
-                    //fix the name
-                    name = name.Substring(0, name.Length - 5);// get rid of the _XXXX at the end
-                    string parentName = mManifest.GetString(nd, "parent", "noname");
-                    Object3d obj, tmpObj;
-                    switch (tag)
-                    {
-                        case Object3d.OBJ_SUPPORT:
-                        case Object3d.OBJ_SUPPORT_BASE:
-                            if (tag == Object3d.OBJ_SUPPORT)
-                                obj = (Object3d)(new Support());
-                            else
-                                obj = (Object3d)(new SupportBase());
-                            //load the model
-                            obj.LoadSTL_Binary(modstr, name);
-                            //add to the 3d engine
-                            UVDLPApp.Instance().m_engine3d.AddObject(obj);
-                            //set the tag
-                            obj.tag = tag;
-                            obj.SetColor(System.Drawing.Color.Yellow);
-                            //find and set the parent
-                            tmpObj = UVDLPApp.Instance().m_engine3d.Find(parentName);
-                            if (tmpObj != null)
-                            {
-                                tmpObj.AddSupport(obj);
-                            }
-                            //supportLoaded = true;
-                            break;
 
-                        default:
-                            //load as normal object
-                            obj = new Object3d();
-                            //load the model
-                            obj.LoadSTL_Binary((MemoryStream)modstr, name);
-                            //add to the 3d engine
-                            UVDLPApp.Instance().m_engine3d.AddObject(obj);
-                            //set the tag
-                            obj.tag = tag;
-                            break;
+                    //examine manifest
+                    //find the node with models
+                    XmlNode topnode = mManifest.m_toplevel;
+
+                    //load gcode if present
+                    XmlNode gcn = mManifest.FindSection(mManifest.m_toplevel, "GCode");
+                    //get the name of the gcode file
+                    string gcodename = mManifest.GetString(gcn, "name", "none");
+                    if (!gcodename.Equals("none"))
+                    {
+                        //open the zip
+                        ZipEntry gcodeentry = mZip[gcodename];
+                        MemoryStream gcstr = new MemoryStream();
+                        gcodeentry.Extract(gcstr);
+                        //rewind to beginning
+                        gcstr.Seek(0, SeekOrigin.Begin);
+                        GCodeFile gcf = new GCodeFile(gcstr);
+                        UVDLPApp.Instance().m_gcode = gcf;
+                        UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eGCodeLoaded, "GCode Loaded ");
+                    }
+                    else 
+                    {
+                        UVDLPApp.Instance().m_gcode = new GCodeFile(""); // empty
+                    }
+
+                    // load slice profile if present
+                    XmlNode spn = mManifest.FindSection(mManifest.m_toplevel, "SliceProfile");
+                    string sliceprofilename = mManifest.GetString(spn, "name", "none");
+                    if (!sliceprofilename.Equals("none"))
+                    {
+                        ZipEntry gcodeentry = mZip[sliceprofilename];
+                        MemoryStream gcstr = new MemoryStream();
+                        gcodeentry.Extract(gcstr);
+                        //rewind to beginning
+                        gcstr.Seek(0, SeekOrigin.Begin);
+                        //GCodeFile gcf = new GCodeFile(gcstr);
+                        UVDLPApp.Instance().m_buildparms = new SliceBuildConfig();
+                        UVDLPApp.Instance().m_buildparms.Load(gcstr, sliceprofilename);
+                        //create a new slice file based off of the build and slicing parameters
+                        UVDLPApp.Instance().m_slicefile = new SliceFile(UVDLPApp.Instance().m_buildparms);
+                        UVDLPApp.Instance().m_slicefile.m_mode = SliceFile.SFMode.eLoaded;
+                        UVDLPApp.Instance().m_slicer.SliceFile = UVDLPApp.Instance().m_slicefile;
+                        UVDLPApp.Instance().m_slicefile.NumSlices = UVDLPApp.Instance().m_slicer.GetNumberOfSlices(UVDLPApp.Instance().m_buildparms);
+                        //raise the event to indicate it's loaded
+                        UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eSliceProfileChanged, "Slice Profile loaded");
+                        UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eSlicedLoaded, "Slice Profile loaded");
+
+                    }
+
+                    // now load the models
+                    XmlNode models = mManifest.FindSection(topnode, "Models");
+                    List<XmlNode> modelnodes = mManifest.FindAllChildElement(models, "model");
+                    // bool supportLoaded = false;
+                    foreach (XmlNode nd in modelnodes)
+                    {
+                        string name = mManifest.GetString(nd, "name", "noname");
+                        string modstlname = name + ".stl";
+                        int tag = mManifest.GetInt(nd, "tag", 0);
+                        ZipEntry modelentry = mZip[modstlname]; // the model name will have the _XXXX on the end with the stl extension
+                        MemoryStream modstr = new MemoryStream();
+                        modelentry.Extract(modstr);
+                        //rewind to beginning
+                        modstr.Seek(0, SeekOrigin.Begin);
+                        //fix the name
+                        name = name.Substring(0, name.Length - 5);// get rid of the _XXXX at the end
+                        string parentName = mManifest.GetString(nd, "parent", "noname");
+                        Object3d obj, tmpObj;
+                        switch (tag)
+                        {
+                            case Object3d.OBJ_SUPPORT:
+                            case Object3d.OBJ_SUPPORT_BASE:
+                                if (tag == Object3d.OBJ_SUPPORT)
+                                    obj = (Object3d)(new Support());
+                                else
+                                    obj = (Object3d)(new SupportBase());
+                                //load the model
+                                obj.LoadSTL_Binary(modstr, name);
+                                //add to the 3d engine
+                                UVDLPApp.Instance().m_engine3d.AddObject(obj);
+                                //set the tag
+                                obj.tag = tag;
+                                obj.SetColor(System.Drawing.Color.Yellow);
+                                //find and set the parent
+                                tmpObj = UVDLPApp.Instance().m_engine3d.Find(parentName);
+                                if (tmpObj != null)
+                                {
+                                    tmpObj.AddSupport(obj);
+                                }
+                                //supportLoaded = true;
+                                break;
+
+                            default:
+                                //load as normal object
+                                obj = new Object3d();
+                                //load the model
+                                obj.LoadSTL_Binary((MemoryStream)modstr, name);
+                                //add to the 3d engine
+                                UVDLPApp.Instance().m_engine3d.AddObject(obj);
+                                //set the tag
+                                obj.tag = tag;
+                                break;
+                        }
                     }
                 }
-                CloseSceneFile(true);
+                
                 UVDLPApp.Instance().RaiseAppEvent(eAppEvent.eModelAdded, "Scene loaded");
                 return true;
             }
@@ -489,31 +528,31 @@ namespace UV_DLP_3D_Printer._3DEngine
         /// </summary>
         /// <param name="scenename"></param>
         /// <returns></returns>
-        public bool Save(string scenefilename)
+        public bool SaveModelsIntoScene(string scenefilename)
         {
             try
             {
                 // get the scene name
                 UVDLPApp.Instance().SceneFileName = scenefilename;
-                MemoryStream manifeststream = new MemoryStream(); ;
-                string xmlname = "manifest.xml";
+               // MemoryStream manifeststream = new MemoryStream(); ;
+                //string xmlname = "manifest.xml";
+                ZipFile mZip = null;
+                bool newfile = false;
                 //check to see if the file already exists
-                if (File.Exists(scenefilename))
+                if (File.Exists(scenefilename)) 
                 {
 
-                    RemoveExistingModels(scenefilename); // opens file, removes models out of file and manifest, and closes
-                    // open the existing file and open up the manifest,
-                    if (!OpenSceneFile(scenefilename)) 
-                    {
-                        DebugLogger.Instance().LogError("Could not open existing scene file for update");
-                        return false;
-                    }
+                    RemoveResourcesFromFile(scenefilename, "Models", ".stl|.obj|.amf|.dxf");
+                    LoadManifest(scenefilename); // reload the manifest
+                    mZip = ZipFile.Read(scenefilename);
                 }
                 else 
                 {                    
                     mManifest = new XmlHelper();
                     mManifest.StartNew("", "manifest");                    
                     mZip = new ZipFile();
+                    newfile = true;
+                    
                     
                 }
 
@@ -523,167 +562,64 @@ namespace UV_DLP_3D_Printer._3DEngine
                 if(mc == null)
                     mc = mManifest.AddSection(mManifest.m_toplevel, "Models");
 
-                //we need to make sure that only unique names are put in the zipentry
-                // cloned objects yield the same name
-                List<string> m_uniquenames = new List<string>();
-                // we can adda 4-5 digit code to the end here to make sure names are unique
-                int id = 0;
-                string idstr;
-                foreach (Object3d obj in UVDLPApp.Instance().m_engine3d.m_objects)
+                using (mZip)
                 {
-                    //create a unique id to post-fix item names
-                    id++;
-                    idstr = string.Format("{0:0000}", id);
-                    idstr = "_" + idstr;
-                    //create a new memory stream
-                    MemoryStream ms = new MemoryStream();
-                    //save the object to the memory stream
-                    obj.SaveSTL_Binary(ref ms);
-                    //rewind the stream to the beginning
-                    ms.Seek(0, SeekOrigin.Begin);
-                    //get the file name with no extension
-                    string objname = Path.GetFileNameWithoutExtension(obj.Name);
-                    //spaces cause this to blow up too
-                    objname = objname.Replace(' ', '_');
-                    // add a value to the end of the string to make sure it's a unique name
-                    objname = objname + idstr;
-                    string objnameNE = objname;
-                    objname += ".stl";  // stl file
-
-                    mZip.AddEntry(objname, ms);
-                    //create an entry for this object, using the object name with no extension
-                    //save anything special about it
-
-                    //XmlNode objnode = manifest.AddSection(mc, objnameNE);
-                    XmlNode objnode = mManifest.AddSection(mc, "model");
-                    mManifest.SetParameter(objnode, "name", objnameNE);
-                    mManifest.SetParameter(objnode, "tag", obj.tag);
-                    if (obj.tag != Object3d.OBJ_NORMAL && obj.m_parrent != null)
+                    //we need to make sure that only unique names are put in the zipentry
+                    // cloned objects yield the same name
+                    List<string> m_uniquenames = new List<string>();
+                    // we can adda 4-5 digit code to the end here to make sure names are unique
+                    int id = 0;
+                    string idstr;
+                    foreach (Object3d obj in UVDLPApp.Instance().m_engine3d.m_objects)
                     {
-                        // note it's parent name in the entry
-                        mManifest.SetParameter(objnode, "parent", Path.GetFileNameWithoutExtension(obj.m_parrent.Name));
-                    }
-                }
-                //save the gcode
+                        //create a unique id to post-fix item names
+                        id++;
+                        idstr = string.Format("{0:0000}", id);
+                        idstr = "_" + idstr;
+                        //create a new memory stream
+                        MemoryStream ms = new MemoryStream();
+                        //save the object to the memory stream
+                        obj.SaveSTL_Binary(ref ms);
+                        //rewind the stream to the beginning
+                        ms.Seek(0, SeekOrigin.Begin);
+                        //get the file name with no extension
+                        string objname = Path.GetFileNameWithoutExtension(obj.Name);
+                        //spaces cause this to blow up too
+                        objname = objname.Replace(' ', '_');
+                        // add a value to the end of the string to make sure it's a unique name
+                        objname = objname + idstr;
+                        string objnameNE = objname;
+                        objname += ".stl";  // stl file
 
-                //save the XML document to memorystream
-                mManifest.Save(1, ref manifeststream);
-                manifeststream.Seek(0, SeekOrigin.Begin);
-                //remove the old one if present
-                if (mZip[xmlname] != null) 
-                {
-                    mZip.RemoveEntry(xmlname);
-                }
-                //save the memorystream for the xml metadata manifest into the zip file
-                mZip.AddEntry(xmlname, manifeststream);
-                //save the zip file
-                mZip.Save(scenefilename);
-                mZip.Dispose();
-                mZip = null; 
+                        mZip.AddEntry(objname, ms);
+                        //create an entry for this object, using the object name with no extension
+                        //save anything special about it
+
+                        //XmlNode objnode = manifest.AddSection(mc, objnameNE);
+                        XmlNode objnode = mManifest.AddSection(mc, "model");
+                        mManifest.SetParameter(objnode, "name", objnameNE);
+                        mManifest.SetParameter(objnode, "tag", obj.tag);
+                        if (obj.tag != Object3d.OBJ_NORMAL && obj.m_parrent != null)
+                        {
+                            // note it's parent name in the entry
+                            mManifest.SetParameter(objnode, "parent", Path.GetFileNameWithoutExtension(obj.m_parrent.Name));
+                        }
+                    }
+                    if (newfile)
+                    {
+                        mZip.Save(scenefilename);
+                    }
+                    else
+                    {
+                        mZip.Save();
+                    }
+                } // end using block. mZip is still in scope, but should be closed here...
+
+                UpdateManifest(scenefilename);
+                DebugLogger.Instance().LogInfo("Saved scene into " + scenefilename);
                 return true;
             }
             catch (Exception ex)
-            {
-                DebugLogger.Instance().LogError(ex);
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Save the entire scene into a zip file with a manifest
-        /// This file will later be re-used to store png slicee, gcode & svg
-        /// </summary>
-        /// <param name="scenename"></param>
-        /// <returns></returns>
-        public bool SaveOld(string scenefilename) 
-        {
-            try
-            {
-                UVDLPApp.Instance().SceneFileName = scenefilename;
-                // open a zip file with the scenename
-                // iterate through all objects in engine
-                string xmlname = "manifest.xml";
-                XmlHelper manifest = new XmlHelper();
-                //start the doc with no filename, becasue we're saving to a memory stream
-                manifest.StartNew("", "manifest");
-                //start a new stream to store the manifest file
-                MemoryStream manifeststream = new MemoryStream();
-                //create a new zip file
-                ZipFile zip = new ZipFile();
-                //get the top-level node in the manifest
-                //XmlNode mc = manifest.m_toplevel;
-
-                // Add in a section for GCode if present
-                XmlNode gcn = manifest.AddSection(manifest.m_toplevel, "GCode");
-                if (UVDLPApp.Instance().m_gcode != null)
-                {
-                    //create the name of the gcode file
-                    String GCodeFileName = Path.GetFileNameWithoutExtension(scenefilename) + ".gcode";
-                    manifest.SetParameter(gcn, "filename", GCodeFileName);
-                    Stream gcs = new MemoryStream();
-                    //save to memory stream
-                    UVDLPApp.Instance().m_gcode.Save(gcs);
-                    //rewind
-                    gcs.Seek(0, SeekOrigin.Begin);
-                    //create new zip entry   
-                    zip.AddEntry(GCodeFileName, gcs);
-                }
-                XmlNode mc = manifest.AddSection(manifest.m_toplevel, "Models");
-                //we need to make sure that only unique names are put in the zipentry
-                // cloned objects yield the same name
-                List<string> m_uniquenames = new List<string>();
-                // we can adda 4-5 digit code to the end here to make sure names are unique
-                int id = 0;
-                string idstr;
-                foreach (Object3d obj in UVDLPApp.Instance().m_engine3d.m_objects)
-                {
-                    //create a unique id to post-fix item names
-                    id++;
-                    idstr = string.Format("{0:0000}", id);
-                    idstr = "_" + idstr;
-                    //create a new memory stream
-                    MemoryStream ms = new MemoryStream();
-                    //save the object to the memory stream
-                    obj.SaveSTL_Binary(ref ms);
-                    //rewind the stream to the beginning
-                    ms.Seek(0, SeekOrigin.Begin);
-                    //get the file name with no extension
-                    string objname = Path.GetFileNameWithoutExtension(obj.Name);
-                    //spaces cause this to blow up too
-                    objname = objname.Replace(' ', '_');
-                    // add a value to the end of the string to make sure it's a unique name
-                    objname = objname + idstr;
-                    string objnameNE = objname;
-                    objname += ".stl";  // stl file
-
-                    zip.AddEntry(objname, ms);
-                    //create an entry for this object, using the object name with no extension
-                    //save anything special about it
-
-                    //XmlNode objnode = manifest.AddSection(mc, objnameNE);
-                    XmlNode objnode = manifest.AddSection(mc, "model");
-                    manifest.SetParameter(objnode, "name", objnameNE);
-                    manifest.SetParameter(objnode, "tag", obj.tag);
-                    if (obj.tag != Object3d.OBJ_NORMAL && obj.m_parrent != null) 
-                    {
-                        // note it's parent name in the entry
-                        manifest.SetParameter(objnode, "parent", Path.GetFileNameWithoutExtension(obj.m_parrent.Name));
-                    }
-                }
-                //save the gcode
-
-                //save the XML document to memorystream
-                manifest.Save(1, ref manifeststream);
-                manifeststream.Seek(0, SeekOrigin.Begin);
-                //manifeststream.
-                //save the memorystream for the xml metadata manifest into the zip file
-                zip.AddEntry(xmlname, manifeststream);
-
-                //save the zip file
-                zip.Save(scenefilename);
-                return true;
-            }
-            catch (Exception ex) 
             {
                 DebugLogger.Instance().LogError(ex);
             }

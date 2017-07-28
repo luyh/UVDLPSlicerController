@@ -111,6 +111,10 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             lblProfName.Text = lstSliceProfiles.SelectedItem.ToString();
             chkExport.Checked = m_config.export;
+            comboExportSvg.Enabled = chkExport.Checked;
+            comboExportSvg.SelectedIndex = m_config.exportsvg;
+            chkExportPNG.Enabled = chkExport.Checked;
+            chkExportPNG.Checked = m_config.exportpng;
            // groupBox2.Enabled = chkExport.Checked;
            // chkgengcode.Checked = m_config.exportgcode;
            // chkExportSlices.Checked = m_config.exportimages;
@@ -205,6 +209,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
                 m_config.aaval = double.Parse(txtAAVal.Text);
                 m_config.direction = (SliceBuildConfig.eBuildDirection)Enum.Parse(typeof(SliceBuildConfig.eBuildDirection), cmbBuildDirection.SelectedItem.ToString());
                 m_config.export = chkExport.Checked;
+                m_config.exportsvg = comboExportSvg.SelectedIndex;
+                m_config.exportpng = chkExportPNG.Checked;
                 // resin
                 m_config.ZThick = Single.Parse(txtZThick.Text);
                 m_config.layertime_ms = int.Parse(txtLayerTime.Text);
@@ -451,6 +457,8 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         private void chkExport_CheckedChanged(object sender, EventArgs e)
         {
             //groupBox2.Enabled = chkExport.Checked;
+            comboExportSvg.Enabled = chkExport.Checked;
+            chkExportPNG.Enabled = chkExport.Checked;
         }
 
 
@@ -505,6 +513,11 @@ namespace UV_DLP_3D_Printer.GUI.Controls
         {
             frmCalibResin frmCalib = new frmCalibResin();
             frmCalib.ShowDialog();
+        }
+
+        private void txtAAVal_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
     }

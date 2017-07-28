@@ -15,6 +15,23 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             InitializeComponent();
         }
+#if (DEBUG) // DBG_GUICONFIG
+        public override void ApplyStyle(GuiControlStyle ct)
+        {
+            base.ApplyStyle(ct);
+            //Button.ApplyStyle(ct);
+            if (ct.ForeColor.IsValid())
+            {
+                ForeColor = ct.ForeColor;
+                lblTitle.ForeColor = ct.ForeColor;
+            }
+            if (ct.BackColor.IsValid())
+            {
+                BackColor = ct.BackColor;
+                lblTitle.BackColor = ct.BackColor;
+            }
+        }
+#else
         public override void ApplyStyle(ControlStyle ct)
         {
             base.ApplyStyle(ct);
@@ -22,14 +39,15 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
             if (ct.ForeColor != ControlStyle.NullColor)
             {
                 ForeColor = ct.ForeColor;
-                lblTitle.ForeColor =  ct.ForeColor;
+                lblTitle.ForeColor = ct.ForeColor;
             }
             if (ct.BackColor != ControlStyle.NullColor)
             {
                 BackColor = ct.BackColor;
-                lblTitle.BackColor  = ct.BackColor;
+                lblTitle.BackColor = ct.BackColor;
             }
         }
+#endif
         public ctlImageButton Button 
         {
             get { return ctlImageButton1; }
@@ -126,6 +144,5 @@ namespace UV_DLP_3D_Printer.GUI.CustomGUI
         {
             lblTitle.ForeColor = Style.HoverColor;
         }
-
     }
 }
